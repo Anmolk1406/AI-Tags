@@ -1,4 +1,5 @@
 import { categoryPath, type CategoryRef } from './categories';
+import { phoneProducts } from './phones';
 import img_n70211479v from '../assets/products/iphone-17-pro/card-n70211479v.webp';
 import img_n70211592v from '../assets/products/iphone-17-pro/card-n70211592v.webp';
 import img_n70211566v from '../assets/products/iphone-17-pro/card-n70211566v.webp';
@@ -28,6 +29,9 @@ import ip17Gallery4 from '../assets/products/iphone-17-pro/gallery-4.webp';
 import fbtCase from '../assets/products/iphone-17-pro/fbt-silicone-case.webp';
 import fbtAirpods from '../assets/products/iphone-17-pro/fbt-airpods-max-2.webp';
 import fbtSpigen from '../assets/products/iphone-17-pro/fbt-spigen-protector.webp';
+import homeAirpodsPro2 from '../assets/products/home-2025/airpods-pro-2.webp';
+import homeWhirlpool from '../assets/products/home-2025/whirlpool-7kg-magic-clean.webp';
+import homeMaynosMount from '../assets/products/home-2025/maynos-suction-mount.webp';
 
 /**
  * Shared demo catalogue used by every flow. Edit freely — add `image` URLs to
@@ -1340,7 +1344,8 @@ export const fbtFor: Record<string, string[]> = {
 // Append-only: existing indices (products[0…]) are unchanged; DemoStore / PLP / cart see the live items too.
 products.push(...liveProducts);
 
-export const productById = (id: string) => products.find((p) => p.id === id) ?? products[0];
+/** Also finds the PLP brand widget's phones (src/mocks/phones.ts), which stay out of `products` so other flows' rails don't change. */
+export const productById = (id: string) => products.find((p) => p.id === id) ?? phoneProducts.find((p) => p.id === id) ?? products[0];
 
 export const discountPct = (p: Product) => (p.was ? Math.round(((p.was - p.price) / p.was) * 100) : 0);
 
@@ -1370,3 +1375,63 @@ export const categories = [
   { id: 'books', name: 'Books', emoji: '📚' },
   { id: 'auto', name: 'Automotive', emoji: '🚗' },
 ];
+
+/**
+ * Homepage Revamp 2025 rail products (Figma iRE9RwO94eMAyW3j3XKNXW · 1337:5233 / 1337:5572 / 1337:6349): the three SKUs
+ * the Figma rails show, with their Figma cut-outs. Appended, so existing indices are unchanged.
+ */
+export const homeFeedProducts: Product[] = [
+  {
+    id: 'home-airpods-pro-2',
+    brand: 'Apple',
+    title: 'Apple Airpods Pro 2 Wireless Earbuds',
+    price: 899,
+    was: 1399,
+    rating: 4.3,
+    ratingCount: 2140,
+    emoji: '🎧',
+    tint: '#EEF2F8', // token-lint-ignore: mock catalog data (product tint / swatch)
+    image: homeAirpodsPro2,
+    express: true,
+    freeDelivery: true,
+    tag: 'Best Seller',
+    delivery: 'Get it <b>Today</b>',
+    category: 'Electronics',
+    seller: 'noon',
+  },
+  {
+    id: 'home-whirlpool-7kg',
+    brand: 'Whirlpool',
+    title: 'Whirlpool 7 kg Magic Clean',
+    price: 899,
+    was: 1399,
+    rating: 4.3,
+    ratingCount: 386,
+    emoji: '🧺',
+    tint: '#EEF2F8', // token-lint-ignore: mock catalog data (product tint / swatch)
+    image: homeWhirlpool,
+    express: true,
+    freeDelivery: true,
+    delivery: 'Get it <b>Tomorrow</b>',
+    category: 'Home Appliances',
+    seller: 'noon',
+  },
+  {
+    id: 'home-maynos-mount',
+    brand: 'MAYNOS',
+    title: 'MAYNOS Suction Phone Case Mount',
+    price: 899,
+    was: 1399,
+    rating: 4.3,
+    ratingCount: 912,
+    emoji: '📱',
+    tint: '#EEF2F8', // token-lint-ignore: mock catalog data (product tint / swatch)
+    image: homeMaynosMount,
+    express: true,
+    freeDelivery: true,
+    delivery: 'Get it <b>Today</b>',
+    category: 'Mobile Accessories',
+    seller: 'noon',
+  },
+];
+products.push(...homeFeedProducts);

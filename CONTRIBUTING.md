@@ -6,10 +6,10 @@ Thanks for helping. The kit is useful only while it stays **faithful to the real
 
 ```bash
 npm install
-npm run dev        # studio at http://localhost:5180 — every screen is a URL (/cart, /pdp, /checkout …)
+npm run dev        # phone preview at http://localhost:5180 — every screen is a URL (/cart, /pdp, /checkout …)
 ```
 
-Node ≥ 20. The studio (`src/app`) is not part of the package — it's the website around the phone and uses Lightweight UI; never import it from flows or components.
+Node ≥ 20. The dev preview (`src/app`) is not part of the package — it only renders the phone; never import it from flows or components.
 
 ## Layout
 
@@ -22,7 +22,7 @@ src/
 ├── mocks/         shared catalogue (products.ts), categories.ts
 ├── assets/        images · svg · lotties · fonts (optimised; see "Assets")
 ├── flows/<id>/    one folder per flow (see below) + flows/index.ts registry
-└── app/           studio only
+└── app/           dev preview only
 ```
 
 A flow folder:
@@ -91,6 +91,10 @@ npm run visual:diff -- /tmp/base /tmp/after
 ```
 
 Animated screens (Lotties, timers, carousels) show small run-to-run noise — open the PNGs to confirm. Screenshot a single screen with `node scripts/shot.mjs <route> out.png [--scroll y] [--click ".pg-stage >> <selector>"]`.
+
+## The AI skill
+
+`.claude/skills/` holds the Claude skills that build noon screens and flows with this kit: `noon-ui` (main skill: design system references in `references/`, flow catalogue, workflow, validation scripts) and the screen skills `home-page`, `search`, `cart`, `checkout`, `pdp` (each a `SKILL.md` plus a `spec.md`). When your PR adds or renames a component, token, transition, recipe, asset folder, flow or screen, or changes a flow a screen skill specifies, update the matching skill file and run `npm run skill:check` (CI runs it too). To add a screen skill, follow "Adding a screen skill" in `.claude/skills/noon-ui/SKILL.md`.
 
 ## Pull requests
 

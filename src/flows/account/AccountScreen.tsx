@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
-import { Pressable, Screen } from '../../components';
+import { useState } from 'react';
+import { NeedHelpButton, Pressable, Screen } from '../../components';
 import { useNav } from '../../kit/Navigator';
 import { currency, formatPrice, user } from '../../mocks/products';
 import { AccountFooter } from './components/AccountFooter';
@@ -23,8 +24,16 @@ const enter = (i: number) => ({
  */
 export function AccountScreen() {
   const nav = useNav();
+  // the floating "Need help?" pill folds into its icon once the page scrolls (Accounts Figma 8924:67388)
+  const [scrolled, setScrolled] = useState(false);
   return (
-    <Screen background="bgPage" withTabBar safeTop={false}>
+    <Screen
+      background="bgPage"
+      withTabBar
+      safeTop={false}
+      onScroll={(y) => setScrolled(y > 24)}
+      overlay={<NeedHelpButton collapsed={scrolled} onPress={() => nav.toast('Opening Customer happiness center')} />}
+    >
       <div className={styles.statusCover} />
       <div className={styles.page}>
         <motion.div {...enter(0)}>

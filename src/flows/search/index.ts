@@ -2,11 +2,13 @@ import { defineFlow } from '../../kit/registry';
 import { SearchScreen } from './SearchScreen';
 import { searchFlowTokens } from './tokens';
 
+const source = 'marketplaces/noon/screens/NoonSearchScreen, components/NoonSearchSuggestionRow, NoonRecentlySearchedModule; motion: github.com/saswata2002/Brand-Widget-PLP (app.js "Search suggestions — ProtoPie handoff motion")';
+
 export const searchFlow = defineFlow({
   id: 'search',
   title: 'Search',
   group: 'Discovery',
-  description: 'Search with presearch (recent searches, trending), live suggestions with staggered entry, and hand-off to the PLP.',
+  description: 'Search with presearch (recent searches, trending), live suggestions on the ProtoPie handoff motion (staggered fall-in, in-place crossfades, bottom-up exits), and an in-place hand-off to the PLP.',
   initial: 'search',
   tokens: searchFlowTokens,
   screens: [
@@ -14,9 +16,18 @@ export const searchFlow = defineFlow({
       id: 'search',
       title: 'Search',
       component: SearchScreen,
-      transition: 'push',
-      notes: 'Type "air" to see suggestion rows stagger in with the match in bold. Tap Edit on Recent Searches for the wobble/delete mode. Enter or tap a row → PLP.',
-      source: 'marketplaces/noon/screens/NoonSearchScreen, components/NoonSearchSuggestionRow, NoonRecentlySearchedModule',
+      transition: 'slide-left',
+      notes: 'Type "phone": the presearch sinks and suggestion rows fall in top → bottom; keep typing to watch changed rows crossfade. Clear the field: rows leave bottom → top, then presearch rises back. Tap a row: the field fills, rows leave fast and the PLP fades in under the same search bar. Tap Edit on Recent Searches for the wobble/delete mode.',
+      source,
+    },
+    {
+      id: 'suggestions',
+      title: 'Suggestions',
+      component: SearchScreen,
+      transition: 'slide-left',
+      defaultParams: { q: 'phone' },
+      notes: 'The search screen opened in the typing state ("phone"), for snapshots and deep links.',
+      source,
     },
   ],
 });

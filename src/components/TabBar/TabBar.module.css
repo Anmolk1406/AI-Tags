@@ -1,8 +1,15 @@
-/* Values: `tabBar` + `badge` token groups → var(--nk-tab-bar-*), var(--nk-badge-*) (src/foundations/tokens.ts). */
-.bar { position: absolute; left: 0; right: 0; bottom: 0; z-index: 50; display: flex; background: var(--nk-tab-bar-bg); box-shadow: var(--nk-tab-bar-shadow); padding-bottom: var(--nk-inset-bottom); }
-.tab { flex: 1; height: var(--nk-layout-tab-bar); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--nk-tab-bar-gap); border: 0; background: none; cursor: pointer; color: var(--nk-tab-bar-fg); padding: 0; }
+/* Values: `tabBar` + `badge` token groups → var(--nk-tab-bar-*), var(--nk-badge-*) (src/foundations/tokens.ts).
+   2025 bottom nav (Figma 1337:6801): indicator bar on top · 8 gap · 32 icon · 12/20 label. */
+.bar { position: absolute; left: 0; right: 0; bottom: 0; z-index: 50; display: flex; background: var(--nk-tab-bar-bg); box-shadow: var(--nk-tab-bar-bar-shadow); padding-bottom: var(--nk-inset-bottom); }
+.tab { flex: 1; height: var(--nk-tab-bar-height); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; border: 0; background: none; cursor: pointer; color: var(--nk-tab-bar-fg-inactive); padding: 0; }
 .tab[data-active] { color: var(--nk-tab-bar-fg-active); }
+.bar { isolation: isolate; }
+/* One indicator per bar, in a track one tab wide that slides to the active tab (TabBar.tsx). */
+.indicatorTrack { position: absolute; top: 0; left: 0; z-index: 1; display: flex; justify-content: center; pointer-events: none; }
+.indicator { width: var(--nk-tab-bar-indicator-width); height: var(--nk-tab-bar-indicator-height); border-radius: 0 0 var(--nk-tab-bar-indicator-radius) var(--nk-tab-bar-indicator-radius); background: var(--nk-tab-bar-indicator-bg); }
+.indicatorSpace { flex: none; height: var(--nk-tab-bar-indicator-height); margin-bottom: var(--nk-tab-bar-indicator-gap); }
 .iconWrap { position: relative; display: flex; align-items: center; justify-content: center; width: var(--nk-tab-bar-icon-box); height: var(--nk-tab-bar-icon-box); }
-.iconWrap img { display: block; }
-.label { font: var(--nk-tab-bar-font); }
+.icon { position: absolute; display: block; }
+.label { font: var(--nk-tab-bar-label-font); letter-spacing: var(--nk-tab-bar-label-tracking); white-space: nowrap; }
+.tab[data-active] .label { font: var(--nk-tab-bar-label-font-active); }
 .badge { position: absolute; top: var(--nk-tab-bar-badge-top); right: var(--nk-tab-bar-badge-end); min-width: var(--nk-badge-size); height: var(--nk-badge-size); padding: 0 var(--nk-badge-padding-x); border-radius: var(--nk-badge-radius); background: var(--nk-badge-bg); color: var(--nk-badge-fg); font: var(--nk-badge-font); text-align: center; border: var(--nk-badge-ring-width) solid var(--nk-badge-ring-color); }

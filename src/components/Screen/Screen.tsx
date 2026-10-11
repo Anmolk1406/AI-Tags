@@ -22,10 +22,12 @@ export interface ScreenLayoutProps {
   gap?: number;
   onScroll?: (y: number) => void;
   contentStyle?: CSSProperties;
+  /** floats over the content, above the footer (e.g. NeedHelpButton); the layer itself lets taps through */
+  overlay?: ReactNode;
 }
 
 export const Screen = forwardRef<HTMLDivElement, ScreenLayoutProps>(function Screen(
-  { header, footer, children, background = 'bgPage', safeTop = !header, overlayHeader, withTabBar, padded, gap, onScroll, contentStyle },
+  { header, footer, children, background = 'bgPage', safeTop = !header, overlayHeader, withTabBar, padded, gap, onScroll, contentStyle, overlay },
   ref,
 ) {
   const bg = /^[a-z][a-zA-Z0-9]*$/.test(background) ? `var(--nk-color-${background.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()})` : background;
@@ -49,6 +51,7 @@ export const Screen = forwardRef<HTMLDivElement, ScreenLayoutProps>(function Scr
         {children}
       </div>
       {footer && <div className={styles.footer}>{footer}</div>}
+      {overlay && <div className={styles.overlay}>{overlay}</div>}
     </div>
   );
 });

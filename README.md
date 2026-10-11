@@ -5,7 +5,7 @@ The noon app as a **React UI kit for clickable prototypes**: noon design tokens,
 Use it two ways:
 
 - **As a package** — drop a working noon phone (or any single screen, component or token) into your own React app.
-- **As a studio** — clone this repo, `npm run dev`, and edit / extend flows with live reload.
+- **As a repo** — clone it, `npm run dev`, and edit / extend flows with live reload.
 
 ```bash
 npm install @noon/flow-kit react react-dom
@@ -69,7 +69,7 @@ nav.push('plp', { query: 'iphone' });   // same as 'plp/listing'
 nav.push('checkout');                    // flow → its initial screen
 ```
 
-In the studio every page is a URL: `/homepage`, `/search`, `/plp?query=iphone`, `/pdp?productId=p2`, `/cart`, `/checkout`, `/order-confirmation`, `/addresses`, `/cards`, `/noon-one`, `/manage-membership`, `/returns?productId=p5` … Back from a page opened directly goes to its logical parent (`FlowDef.parent`).
+In the dev preview every page is a URL: `/homepage`, `/search`, `/plp?query=iphone`, `/pdp?productId=p2`, `/cart`, `/checkout`, `/order-confirmation`, `/addresses`, `/cards`, `/noon-one`, `/manage-membership`, `/returns?productId=p5` … Back from a page opened directly goes to its logical parent (`FlowDef.parent`).
 
 ### Theming
 
@@ -83,11 +83,28 @@ Fonts: Noontree (bundled) with the dirham sign (U+E001) used for all prices; Cai
 
 ---
 
+## AI skills
+
+`.claude/skills/` holds Claude Code skills that build noon screens and flows with this kit, from a prompt, a Figma link or a screenshot:
+
+| Skill | Use it for |
+|---|---|
+| `/noon-ui` | The main skill: any noon page or flow. Classifies the request, routes to a screen skill, and holds the design system references (tokens, components, assets, motion), flow catalogue, blueprints and validation. |
+| `/home-page` | Home feed and campaign / landing pages (Homepage Revamp 2025). |
+| `/search` | Search entry, suggestions, recent / trending, results with sort and filters. |
+| `/cart` | Cart 2.0: shipment groups, carousels, coupon, payment offers, states. |
+| `/checkout` | Checkout 2.0: sections, payment methods, slide to pay, placing and confirmation. |
+| `/pdp` | Product detail page, its sheets, out-of-stock and newer-model states. |
+
+Open the repo in Claude Code and either type the skill (`/home-page build a Ramadan campaign landing page`, `/checkout add a gift-wrap step`, `/search add voice search`) or just describe the page ("build a loyalty page", "update the PDP to this Figma: <link>"); Claude picks the matching skill from its description. Each screen skill has a `spec.md` (screens, sections, tokens, data, acceptance) and ends with visual validation: `node .claude/skills/noon-ui/scripts/snap.mjs <flow>` screenshots every screen of a flow for review.
+
+Keep the skills in step with the code: `npm run skill:check` validates every skill (frontmatter, file paths, `--nk-*` variables, `flow/screen` routes, and coverage of components, tokens, motion, assets and flows) and runs in CI.
+
 ## Develop / contribute
 
 ```bash
 npm install
-npm run dev            # studio → http://localhost:5180
+npm run dev            # phone preview → http://localhost:5180
 ```
 
 Read **[CONTRIBUTING.md](./CONTRIBUTING.md)** before opening a PR — it covers the folder layout, the porting process (analyse → map → implement), token and asset rules, and the checks every PR must pass:

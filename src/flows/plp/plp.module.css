@@ -1,8 +1,20 @@
-.header { padding-top: var(--nk-inset-top); background: var(--nk-palette-white-alpha95); box-shadow: 1px 1px 0 var(--nk-palette-black-alpha4); transition: box-shadow 200ms; }
+.header { padding-top: var(--nk-inset-top); background: var(--nk-color-bg-surface); box-shadow: 1px 1px 0 var(--nk-palette-black-alpha4); transition: box-shadow 200ms; }
 .header[data-scrolled] { box-shadow: 0 3px 6px var(--nk-palette-slate-gray-alpha12); }
-.topRow { display: flex; align-items: center; gap: 8px; padding: 4px 12px 8px; }
-.searchPill { flex: 1; min-width: 0; height: 40px; display: flex !important; align-items: center; gap: 8px; padding: 0 12px !important; border-radius: 12px; border: 1px solid var(--nk-color-border-input) !important; background: var(--nk-color-bg-surface) !important; color: var(--nk-color-text-primary); }
-.searchText { font: var(--nk-type-body-medium); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.meta { padding: 10px 12px 4px; }
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 6px 12px 50px; }
+/* the same spot as the search screen's bar (padding calc(inset + 4px) 16px …), so it never moves on the hand-off */
+.barRow { padding: 4px 16px 0; }
+
+/* marketplace strip (82:17411): 60h, tabs 96 wide, gap 12, padding 0 12 */
+.mps { gap: 12px; height: 60px; padding: 8px 12px 0; align-items: flex-start; }
+.mp { position: relative; flex: none; width: 96px; height: 52px; display: flex !important; flex-direction: column; align-items: center; gap: 2px; }
+.mpLogo { width: 96px; height: 22px; display: flex; align-items: center; justify-content: center; }
+.mpSub { position: relative; width: 90px; height: 16px; overflow: hidden; }
+.mpTick { position: absolute; left: 0; top: 0; width: 90px; display: flex; flex-direction: column; gap: 4px; font: var(--nk-type-plp-text11-medium-lh16); letter-spacing: -0.44px; text-align: center; white-space: nowrap; }
+.mpTick i { font-style: normal; display: block; height: 16px; }
+.mpBar { position: absolute; left: 0; bottom: 0; width: 96px; height: 3px; background: var(--nk-color-brand-ink); border-radius: 8px 8px 0 0; }
+
+.pills { gap: 8px; padding: 12px 15px 12px; align-items: center; }
+.meta { padding: 2px 16px 8px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 2px 12px 50px; }
+.tabSpace { height: calc(var(--nk-layout-tab-bar) + var(--nk-inset-bottom)); }
+.navDock { position: relative; height: 0; }
 .empty { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 48px 24px; text-align: center; }

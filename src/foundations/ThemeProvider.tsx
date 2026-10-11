@@ -19,7 +19,7 @@ const px = (v: unknown, key = '') =>
   typeof v !== 'number' ? String(v) : /(Scale|Opacity)$/.test(key) ? String(v) : /Duration$/.test(key) ? `${v}ms` : `${v}px`;
 
 /** groups whose values reference other tokens via var(); re-declared inside a TokenScope so flow overrides reach them */
-const ALIAS_GROUPS = ['button', 'iconButton', 'badge', 'pill', 'stepper', 'searchBar', 'tabBar', 'quickAdd'] as const;
+const ALIAS_GROUPS = ['button', 'iconButton', 'badge', 'pill', 'stepper', 'searchBar', 'tabBar', 'quickAdd', 'needHelp'] as const;
 
 /** Flattens a (partial) token tree into CSS custom properties. */
 export function tokensToCssVars(t: TokenOverrides | typeof tokens, rtl = false): Record<string, string> {

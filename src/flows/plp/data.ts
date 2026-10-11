@@ -1,4 +1,8 @@
-import { products, type Product } from '../../mocks/products';
+import { products as baseProducts, type Product } from '../../mocks/products';
+import { phoneProducts } from '../../mocks/phones';
+
+/** The PLP's catalogue: the shared demo products plus the brand widget's phones (src/mocks/phones.ts). */
+export const products: Product[] = [...baseProducts, ...phoneProducts];
 
 export type SortId = 'recommended' | 'priceAsc' | 'priceDesc' | 'rating' | 'new' | 'discount';
 
@@ -75,10 +79,23 @@ export function applySort(list: Product[], sort: SortId) {
   }
 }
 
+/** Generic phone searches ("phone", "mobiles", "smartphone"…) — they open the brand widget PLP. */
+export const isPhoneQuery = (query?: string) => /^(mobile\s*)?(phone|phones|mobile|mobiles|smartphone|smartphones)$/.test(query?.trim().toLowerCase() ?? '');
+
+/** One of each brand in turn (the Brand Widget PLP's "phone" mix), keeping each brand's own order. */
+function byBrandInTurn(list: Product[]) {
+  const groups = new Map<string, Product[]>();
+  list.forEach((p) => groups.set(p.brand, [...(groups.get(p.brand) ?? []), p]));
+  const out: Product[] = [];
+  for (let k = 0; out.length < list.length; k++) groups.forEach((g) => g[k] && out.push(g[k]));
+  return out;
+}
+
 /** Narrow the catalogue by query when it matches something, otherwise show everything (demo). */
 export function searchProducts(query?: string) {
   const q = query?.trim().toLowerCase();
   if (!q) return products;
+  if (isPhoneQuery(q)) return byBrandInTurn(products.filter((p) => p.category === 'Mobiles'));
   const hit = products.filter((p) => `${p.brand} ${p.title} ${p.category}`.toLowerCase().includes(q));
   return hit.length >= 2 ? hit : products;
 }

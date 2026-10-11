@@ -5,6 +5,7 @@ import type { TokenOverrides } from '../foundations/tokens';
 import { DemoStoreProvider } from './DemoStore';
 import { Navigator } from './Navigator';
 import { PhoneFrame } from './PhoneFrame';
+import { StatusBarCtx, type StatusBarTone } from './statusBar';
 import { createRegistry } from './registry';
 import type { FlowDef, Route, StackEntry } from './types';
 import '../foundations/global.css';
@@ -38,13 +39,29 @@ export interface NoonPrototypeProps {
 export function NoonPrototype({ flows, initialRoute, initialParams, frame = true, scale = 1, rtl, tokens, emptyCart, reducedMotion = 'never', onRouteChange, resetSignal }: NoonPrototypeProps) {
   const registry = useMemo(() => createRegistry(flows), [flows]);
   const start = initialRoute ?? `${flows[0].id}/${flows[0].initial}`;
-  const [statusBar, setStatusBar] = useState<'dark' | 'light'>('dark');
+  const [screenTone, setScreenTone] = useState<StatusBarTone>('dark');
+  const [topRoute, setTopRoute] = useState<Route>();
+  // runtime overrides per route (useStatusBar); they only apply while that route is the top screen
+  const [overrides, setOverrides] = useState<Record<string, StatusBarTone>>({});
+  const setOverride = useCallback(
+    (route: string, tone: StatusBarTone | undefined) =>
+      setOverrides((o) => {
+        if (o[route] === tone) return o;
+        const next = { ...o };
+        if (tone) next[route] = tone;
+        else delete next[route];
+        return next;
+      }),
+    [],
+  );
+  const statusBar = (topRoute && overrides[topRoute]) || screenTone;
 
   const onChange = useCallback(
     (stack: StackEntry[]) => {
       const top = [...stack].reverse().find((e) => e.presentation !== 'sheet') ?? stack.at(-1);
       if (top) {
-        setStatusBar(registry.resolve(top.route)?.screen.statusBar ?? 'dark');
+        setScreenTone(registry.resolve(top.route)?.screen.statusBar ?? 'dark');
+        setTopRoute(top.route);
         onRouteChange?.(stack.at(-1)!.route, stack);
       }
     },
@@ -56,7 +73,9 @@ export function NoonPrototype({ flows, initialRoute, initialParams, frame = true
       <MotionConfig reducedMotion={reducedMotion}>
         <DemoStoreProvider emptyCart={emptyCart}>
           <PhoneFrame frameless={!frame} scale={scale} statusBar={statusBar}>
-            <Navigator registry={registry} initialRoute={start} initialParams={initialParams} onChange={onChange} resetSignal={resetSignal} />
+            <StatusBarCtx.Provider value={setOverride}>
+              <Navigator registry={registry} initialRoute={start} initialParams={initialParams} onChange={onChange} resetSignal={resetSignal} />
+            </StatusBarCtx.Provider>
           </PhoneFrame>
         </DemoStoreProvider>
       </MotionConfig>

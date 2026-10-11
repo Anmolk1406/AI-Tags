@@ -1,5 +1,5 @@
 import { registerTransition } from '../transitions';
-import { easing, spring } from '../presets';
+import { easing, handoff, spring } from '../presets';
 
 /**
  * Put your own screen transitions here. They're registered on import (see src/index.ts)
@@ -24,10 +24,19 @@ registerTransition('scale-up', {
 });
 
 registerTransition('slide-left', {
-  // the noon search push: spring 280.6 / 27.14, underlying screen drifts 200/382 of the width
+  // the noon search push: handoff spring 280.6 / 27.14, underlying screen drifts 200/382 of the width
   initial: { x: '100%' },
   animate: { x: 0 },
   exit: { x: '100%' },
   under: { x: '-52%' },
-  transition: { type: 'spring', stiffness: 280.6, damping: 27.14, mass: 1 },
+  transition: handoff.spring,
+});
+
+registerTransition('results-fade', {
+  // search → results "in place": the PLP layer fades in over the search page (S-curve 300ms) while the
+  // search bar, drawn at the same spot on both screens, never moves; Back fades it out the same way
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
+  transition: { duration: handoff.fade.reveal, ease: handoff.easeInOut },
 });

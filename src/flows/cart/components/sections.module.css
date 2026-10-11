@@ -6,22 +6,6 @@
 .cardsSponsored { font: var(--nk-type-text12-medium-lh14); letter-spacing: -0.12px; color: var(--nk-palette-lighter-spanish-gray-color); white-space: nowrap; }
 .carouselRow { display: flex; gap: var(--nk-space-s12); padding: 0 var(--nk-space-s12); margin-top: var(--nk-space-s12); }
 
-.sku { flex-shrink: 0; width: 134px; display: flex; flex-direction: column; row-gap: var(--nk-space-s4); border-radius: var(--nk-radius-r8); cursor: pointer; }
-.skuMedia { position: relative; width: 134px; height: 174px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; background: var(--nk-color-border); border: 1px solid var(--nk-color-border-subtle); border-radius: var(--nk-radius-r10); overflow: hidden; }
-.skuMedia > div img { mix-blend-mode: multiply; }
-.skuTag { position: absolute; left: 0; top: 0; }
-.skuHeart { position: absolute; right: 3px; top: 3px; display: flex; align-items: center; justify-content: center; padding: var(--nk-space-s4); border: 0; border-radius: var(--nk-radius-full); background: var(--nk-color-cart-white-alpha20); cursor: pointer; }
-.skuHeart img { width: 16px; height: 16px; display: block; }
-.skuHeart[data-on] img { filter: hue-rotate(0deg); }
-.skuAdd { position: absolute; left: 95px; top: 135px; display: flex; align-items: center; padding: var(--nk-space-s4); background: var(--nk-color-bg-surface); border: 1.2px solid var(--nk-color-link); border-radius: var(--nk-radius-r8); cursor: pointer; }
-.skuAdd img { width: 24px; height: 24px; display: block; }
-.skuInfo { display: flex; flex-direction: column; align-items: flex-start; row-gap: var(--nk-space-s8); padding: var(--nk-space-s4); }
-.skuTitle { height: 36px; font: var(--nk-type-body-semibold); font-weight: 500; letter-spacing: -0.14px; color: var(--nk-color-text-product); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.skuPriceRow { display: flex; align-items: center; column-gap: 3px; }
-.skuPrice { font: var(--nk-type-text15-bold-lh20); letter-spacing: 0.07px; color: var(--nk-color-text-ink); white-space: nowrap; }
-.skuWas { font: var(--nk-type-text12-regular-lh14); letter-spacing: -0.12px; color: var(--nk-palette-gray); text-decoration: line-through; }
-.skuPct { font: var(--nk-type-text12-semibold-lh14); letter-spacing: -0.12px; color: var(--nk-color-best-price-ink); }
-.skuPill { display: block; }
 
 /* OOS style freebies */
 .gifts { margin: var(--nk-space-s12) var(--nk-space-s12) 0; border: 1px solid var(--nk-palette-neutral-black-hex12); border-radius: var(--nk-radius-r16); overflow: hidden; background: linear-gradient(179.28deg, var(--nk-palette-mint-cream) 12.22%, var(--nk-color-bg-surface) 19.54%); }

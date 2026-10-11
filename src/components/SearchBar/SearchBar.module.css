@@ -9,5 +9,16 @@
 .ticker { position: relative; display: inline-flex; height: var(--nk-search-bar-ticker-height); overflow: hidden; }
 .word { display: inline-block; }
 .divider { width: 1px; height: var(--nk-search-bar-divider-height); background: var(--nk-search-bar-border); margin: 0 var(--nk-search-bar-divider-gap); }
+.fieldWrap { position: relative; flex: 1; min-width: 0; display: flex; align-items: center; }
+.fillCopy { position: absolute; inset: 0; padding: 1px 2px; /* the input's own UA padding, so the copy lands on its text */ display: flex; align-items: center; white-space: pre; overflow: hidden; pointer-events: none; font: var(--nk-search-bar-field-font); color: var(--nk-search-bar-field-fg); }
 .field { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: var(--nk-search-bar-field-font); color: var(--nk-search-bar-field-fg); }
 .field::placeholder { color: var(--nk-search-bar-field-placeholder); }
+/* icon + placeholder group: transparent in the default bar, its own 4px-gap row in the 2025 variant */
+.lead { display: contents; }
+/* variant="2025" (Homepage Revamp 2025, Figma 1337:6727) — opt-in, defaults above unchanged */
+.v2025 { gap: var(--nk-space-s12); border-color: var(--nk-palette-gray400); }
+.v2025 .lead { display: flex; flex: 1; min-width: 0; align-items: center; gap: var(--nk-space-s4); }
+.v2025 .placeholder { height: 18px; font: var(--nk-type-text15-medium-lh18); letter-spacing: -0.3px; color: var(--nk-color-text-product); }
+.v2025 .ticker { height: 18px; }
+.dividerArt { display: flex; align-items: center; justify-content: center; flex: none; width: 0; height: 24px; }
+.dividerArt img { display: block; flex: none; max-width: none; transform: rotate(90deg); }

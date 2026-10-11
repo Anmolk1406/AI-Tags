@@ -55,6 +55,7 @@ export const palette = {
   calmIridescence: '#DFE2EB',
   catalogTagGradientEnd: '#000000',
   catalogTagGradientStart: '#666666',
+  charcoalAlpha12: 'rgba(34, 34, 34, 0.12)', // Accounts Figma 8924:67388 floating "Need help?" shadow
   charcoalGreyColor: '#404553',
   cleanPool: '#CCEADA',
   creekBend: '#928A86',
@@ -488,6 +489,10 @@ export const palette = {
   persianBlue100: '#CECFF8', // Persian-Blue/100
   // Figma noon DS variables (Checkout 2.0, zURu7GI7sq77fjdXKrouvo)
   grayA1000: '#0E0E0EEB', // Alpha/GrayA/1000 (carousel active dot)
+  // Figma noon DS variables / fills (Homepage Revamp 2025, iRE9RwO94eMAyW3j3XKNXW) — the "SKU" card
+  homeGreen800: '#008200', // Green/800 in the Homepage Revamp 2025 file (SKU "% off"; the kit green800 is #329537)
+  mintWhite97: '#F2F8F8', // SKU rating pill fill
+  cobaltAlpha4: 'rgba(7, 47, 143, 0.04)', // SKU image box tint (over white)
 } as const;
 
 export type PaletteToken = keyof typeof palette;

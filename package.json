@@ -1,7 +1,7 @@
 {
   "name": "@noon/flow-kit",
   "version": "0.1.0",
-  "description": "noon app UI kit for clickable prototypes: noon design tokens, a central React component library, a motion system and ready-made flows ported 1:1 from bappzaar (home, search, categories, PLP, PDP, cart, checkout, orders, returns, account, addresses, cards, noon One\u2026).",
+  "description": "noon app UI kit for clickable prototypes: noon design tokens, a central React component library, a motion system and ready-made flows ported 1:1 from bappzaar (home, search, categories, PLP, PDP, cart, checkout, orders, returns, account, addresses, cards, noon One…).",
   "keywords": [
     "noon",
     "design-system",
@@ -72,7 +72,10 @@
     "prepublishOnly": "npm run verify",
     "assets:optimize": "node scripts/optimize-assets.mjs",
     "assets:check": "node scripts/optimize-assets.mjs --check",
-    "assets:measure": "node scripts/optimize-assets.mjs --measure"
+    "assets:measure": "node scripts/optimize-assets.mjs --measure",
+    "skill:check": "node .claude/skills/noon-ui/scripts/validate.mjs",
+    "skill:snap": "node .claude/skills/noon-ui/scripts/snap.mjs",
+    "icons:import": "node scripts/import-origin-icons.mjs"
   },
   "peerDependencies": {
     "react": "^19.3.0",
@@ -84,19 +87,16 @@
     "motion": "^14.1.0"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^26.6.5",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.2",
-    "lightweight-ui": "github:ayaneshu/lightweight-ui-kit",
     "playwright": "^1.64.0",
     "postcss": "^8.5.29",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "sharp": "^0.35.5",
     "svgo": "^4.1.0",
-    "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
     "vite": "^8.3.4"
   }

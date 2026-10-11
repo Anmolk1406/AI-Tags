@@ -1,198 +1,82 @@
-import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
-import { ProductCard, Pressable, Screen, SearchBarButton, Text } from '../../components';
+import { NeedHelpButton, Screen, Text } from '../../components';
 import { useNav } from '../../kit/Navigator';
-import { products, user } from '../../mocks/products';
-import { easing } from '../../motion/presets';
-import chevronDownIcon from '../../assets/icons/noon-chevron-down.webp';
-import deliveryHomeIcon from '../../assets/icons/noon-delivery-home.webp';
-import wishlistIcon from '../../assets/icons/noon-wishlist-home-v2.webp';
-import { DealTimer } from './components/DealTimer';
-import { ExperienceSwitcher } from './components/ExperienceSwitcher';
-import { HeroCarousel } from './components/HeroCarousel';
-import { banners, offers, promoStrip, rotatingWords, savingsRows, spotlight, tileRows, type FeedItem } from './data';
-import { homeTokens, switcherMetrics } from './tokens';
-import styles from './home.module.css';
-import { ref } from '../../foundations/tokens';
-
-type Mode = 'noon' | 'supermall';
+import { useStatusBar } from '../../kit/statusBar';
+import { BrandAdModule } from './components/BrandAdModule';
+import { CategoryGrid } from './components/CategoryGrid';
+import { DepartmentTabs } from './components/DepartmentTabs';
+import type { HomeTabId } from './data.tabs';
+import { homeTabThemes, homeTabsTokens } from './tokens.tabs';
+import { HeroBanners } from './components/HeroBanners';
+import { HomeHeader } from './components/HomeHeader';
+import { KeepShopping } from './components/KeepShopping';
+import { LaunchModule } from './components/LaunchModule';
+import { OfferTickets } from './components/OfferTickets';
+import { ProductRail } from './components/ProductRail';
+import { PromoTicker } from './components/PromoTicker';
+import styles from './home2025.module.css';
 
 /**
- * Home (NoonHomeScreen → NoonHomeToggle). Header = CMS background + address row + search pill + toggle row.
- * Marketplace switcher sits above it (ExperienceSwitcherProvider). Past 100px scroll the switcher compacts and the
- * address & toggle rows collapse (300ms). Feed modules below are CMS in the app;
- * here they mirror the live noon.com mobile home (hero, promo strip, tile rows, offers, spotlight, savings, banners)
- * using its CMS creatives, followed by a deals carousel and recommended grid for add-to-cart demos.
+ * Home — Homepage Revamp 2025 (Figma iRE9RwO94eMAyW3j3XKNXW · 1337:5102). Custom header (switcher, address, search)
+ * that collapses past 100px, the department tabs + tab CMS widget right under it (DepartmentTabs, from ashbun/noon-app;
+ * it replaces "Recommended for you"), then the feed in Figma order, 28 apart. Titles are 17/22 Bold `new-black` at x=14.
+ * The previous bappzaar port lives on as `home/classic` (ClassicHomeScreen).
  */
 export function HomeScreen() {
   const nav = useNav();
-  const [mode, setMode] = useState<Mode>('noon');
   const [collapsed, setCollapsed] = useState(false);
-  const dark = mode === 'supermall';
-
-  // ScrollPositionProvider: switcher (and address/toggle rows) expand only while within 100px of the top.
-  const onScroll = (y: number) => setCollapsed(y >= 100);
-  const { itemHeight, collapsedItemHeight, bottomMargin, topOffset, duration } = switcherMetrics;
-
-  const collapse = {
-    initial: false,
-    animate: collapsed ? { height: 0, opacity: 0 } : { height: 'auto', opacity: 1 },
-    transition: { duration: 0.3, ease: easing.out },
-    style: { overflow: 'hidden' },
-  } as const;
-
-  const header = (
-    <motion.div
-      className={styles.header}
-      initial={false}
-      animate={{ paddingTop: `calc(var(--nk-inset-top) + ${topOffset + (collapsed ? collapsedItemHeight : itemHeight) + bottomMargin}px)` }}
-      transition={{ duration, ease: [0.5, 1, 0.89, 1] }}
-    >
-      <AnimatePresence initial={false}>
-        <motion.div key={mode} className={styles.headerBg} style={{ background: homeTokens.headerBg[mode] }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} />
-      </AnimatePresence>
-      <ExperienceSwitcher expanded={!collapsed} />
-      <div className={styles.headerContent} style={{ color: dark ? ref.color('textInverse') : undefined }}>
-        <motion.div {...collapse}>
-          <div className={styles.addressRow}>
-            <Pressable className={styles.address} onClick={() => nav.toast('Address picker — add your own sheet in flows/home')} scale={0.98}>
-              <span className={styles.addressLine1}>
-                <img src={deliveryHomeIcon} alt="" className={styles.addressIcon} data-dark={dark || undefined} />
-                <span className={styles.addressLabel}>{user.address.label}</span>
-                <img src={chevronDownIcon} alt="" className={styles.addressChevron} data-dark={dark || undefined} />
-              </span>
-              <span className={styles.addressLine2} style={{ color: dark ? ref.palette('whiteAlpha80') : undefined }}>
-                {user.address.line}
-              </span>
-            </Pressable>
-            <Pressable className={styles.wishlistButton} onClick={() => nav.push('wishlist/wishlist')} aria-label="Wishlist">
-              <img src={wishlistIcon} alt="" width={40} height={40} />
-            </Pressable>
-          </div>
-        </motion.div>
-        <div className={styles.searchRow}>
-          <SearchBarButton rotatingWords={rotatingWords} onPress={() => nav.push('search/search')} />
-        </div>
-        <motion.div {...collapse}>
-          <div className={styles.toggleRow}>
-            <Text variant="heading" color={dark ? 'textInverse' : 'textPrimary'}>
-              {dark ? 'Supermall · luxury & premium' : 'Everything you need, fast'}
-            </Text>
-            <ModeSwitch value={mode} onChange={setMode} />
-          </div>
-        </motion.div>
-      </div>
-    </motion.div>
-  );
-
+  const [scrolled, setScrolled] = useState(false); // folds the "Need help?" pill into its icon
+  // the department tab owns the skin above the fold: header and tab band share its gradient (noon-app tabThemes)
+  const [tab, setTab] = useState<HomeTabId>('all');
+  const theme = homeTabThemes[tab];
+  useStatusBar(theme.statusInk); // Electronics is dark up top; Fashion keeps dark ink (noon-app statusInk)
+  const skin = {
+    id: tab,
+    // "All" keeps the Figma header art and only blends its bottom into the band; other tabs paint their header gradient
+    gradient: tab === 'all' ? undefined : `linear-gradient(180deg, ${theme.header[0]} 0%, ${theme.header[1]} 70%, ${theme.layout[0]} 100%)`,
+    seam: theme.layout[0],
+    ink: theme.addressInk,
+    fade: homeTabsTokens.fade,
+  };
   return (
-    <Screen header={header} background="bgSurface" withTabBar onScroll={onScroll} safeTop={false}>
+    <Screen
+      header={<HomeHeader collapsed={collapsed} skin={skin} />}
+      background="bgSurface"
+      withTabBar
+      safeTop={false}
+      onScroll={(y) => (setCollapsed(y >= 100), setScrolled(y > 24))}
+      overlay={<NeedHelpButton collapsed={scrolled} onPress={() => nav.toast('Opening Customer happiness center')} />}
+    >
+      <DepartmentTabs active={tab} onChange={setTab} />
       <div className={styles.feed}>
-        <HeroCarousel onPress={(q) => nav.push('plp/listing', { query: q })} />
-
-        <Pressable className={styles.strip} onClick={() => nav.push('plp/listing', { query: promoStrip.query })} scale={0.98}>
-          <img src={promoStrip.image} alt="" />
-        </Pressable>
-
-        <div className={`${styles.tileRows} nk-hscroll`}>
-          {tileRows.map((row, r) => (
-            <div key={r} className={styles.tileRow}>
-              {row.map((t) => (
-                <Pressable key={t.image} className={styles.tile} onClick={() => nav.push('plp/listing', { query: t.query })} aria-label={t.query}>
-                  <img src={t.image} alt="" />
-                </Pressable>
-              ))}
-            </div>
-          ))}
-        </div>
-
-        <CardRail title="Offers for you" items={offers} width={147} height={192} />
-        <CardRail title="In the spotlight" items={spotlight} width={147} height={205} />
-        <section className={styles.module}>
-          <Text variant="section" color="textStrong" style={{ padding: '0 16px' }}>
-            Maximize your savings
-          </Text>
-          <div className={`${styles.tileRows} nk-hscroll`}>
-            {savingsRows.map((row, r) => (
-              <div key={r} className={styles.tileRow} style={{ gap: 10 }}>
-                {row.map((t) => (
-                  <Pressable key={t.image} className={styles.card} style={{ width: 102, height: 193 }} onClick={() => nav.push('plp/listing', { query: t.query })}>
-                    <img src={t.image} alt="" />
-                  </Pressable>
-                ))}
-              </div>
-            ))}
-          </div>
-        </section>
-        <CardRail items={banners} width={357} height={147} gap={15} />
-
-        <section className={styles.dealCard}>
-          <div className={styles.moduleHeader}>
-            <div>
-              <Text variant="bodyMedium" weight={700} color="textStrong">
-                Deals of the <span style={{ color: 'var(--nk-color-link)' }}>day</span>
-              </Text>
-              <div style={{ marginTop: 4 }}>
-                <DealTimer left="23% left" />
-              </div>
-            </div>
-            <Pressable onClick={() => nav.push('plp/listing', { query: 'Deals' })} style={{ font: ref.type('text14BoldLh1'), color: 'var(--nk-color-primary)' }}>
-              View all
-            </Pressable>
-          </div>
-          <div className="nk-hscroll" style={{ gap: 8, padding: '0 12px 12px' }}>
-            {products.slice(0, 6).map((p) => (
-              <ProductCard key={p.id} product={p} compact width={homeTokens.carouselCardWidth} />
-            ))}
-          </div>
-        </section>
-
-        <section className={styles.module}>
-          <Text variant="section" color="textStrong" style={{ padding: '0 12px' }}>
-            Recommended for you
-          </Text>
-          <div className={styles.grid}>
-            {products.map((p, i) => (
-              <motion.div key={p.id} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ type: 'spring', stiffness: 380, damping: 39, delay: (i % 2) * 0.035 }}>
-                <ProductCard product={p} />
-              </motion.div>
-            ))}
-          </div>
-        </section>
+        <PromoTicker />
+        <HeroBanners />
+        <Module title="Shop by category">
+          <CategoryGrid />
+        </Module>
+        <Module title="Offers for you" gap={13}>
+          <OfferTickets />
+        </Module>
+        <ProductRail title="Bestsellers" items="bestsellers" />
+        <Module title="Keep shopping for" gap={12}>
+          <KeepShopping />
+        </Module>
+        <BrandAdModule />
+        <ProductRail title="Selling out fast" items="sellingOutFast" />
+        <LaunchModule />
       </div>
     </Screen>
   );
 }
 
-/** Stand-in for the 56×32 Lottie switch. */
-function ModeSwitch({ value, onChange }: { value: Mode; onChange: (m: Mode) => void }) {
-  const on = value === 'supermall';
+/** A feed module with the 2025 section title (Figtree Bold 17/22, `new-black`, x=14); `gap` = title → content (Figma, default 8). */
+export function Module({ title, gap, children }: { title: string; gap?: number; children: React.ReactNode }) {
   return (
-    <button type="button" aria-label="Toggle Supermall" onClick={() => onChange(on ? 'noon' : 'supermall')} className={styles.switch} data-on={on || undefined}>
-      <motion.span className={styles.knob} animate={{ x: on ? 24 : 0 }} transition={{ type: 'spring', stiffness: 500, damping: 30 }}>
-        {on ? '✦' : 'n'}
-      </motion.span>
-    </button>
-  );
-}
-
-/** Horizontal rail of CMS creatives (offers, spotlight, banners). */
-function CardRail({ title, items, width, height, gap = 10 }: { title?: string; items: FeedItem[]; width: number; height: number; gap?: number }) {
-  const nav = useNav();
-  return (
-    <section className={styles.module}>
-      {title && (
-        <Text variant="section" color="textStrong" style={{ padding: '0 16px' }}>
-          {title}
-        </Text>
-      )}
-      <div className="nk-hscroll" style={{ gap, padding: '0 16px' }}>
-        {items.map((t) => (
-          <Pressable key={t.image} className={styles.card} style={{ width, height }} onClick={() => nav.push('plp/listing', { query: t.query })}>
-            <img src={t.image} alt="" />
-          </Pressable>
-        ))}
-      </div>
+    <section className={styles.module} style={gap === undefined ? undefined : { gap }}>
+      <Text variant="heading" as="h2" color="var(--nk-palette-new-black)" className={styles.title}>
+        {title}
+      </Text>
+      {children}
     </section>
   );
 }

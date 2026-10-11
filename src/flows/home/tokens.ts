@@ -1,4 +1,8 @@
 import type { TokenOverrides } from '../../foundations/tokens';
+import { homeHeaderFlowTokens } from './tokens.header';
+import { homeModulesFlowTokens } from './tokens.modules';
+import { homeRailsFlowTokens } from './tokens.rails';
+import { homeTabsFlowTokens } from './tokens.tabs';
 
 /**
  * Home-only tokens. Anything here is applied only to Home screens (via flow.tokens),
@@ -31,7 +35,14 @@ export const switcherMetrics = {
   duration: 0.3,
 } as const;
 
-export const homeFlowTokens: TokenOverrides = {
+/** Homepage Revamp 2025 values (Figma iRE9RwO94eMAyW3j3XKNXW · 1337:5102). */
+export const home2025 = {
+  moduleGap: 28, // every gap between feed modules
+  titleInset: 14, // section titles sit at x=14
+  gutter: 12, // rails, strips, cards
+} as const;
+
+const classicFlowTokens: TokenOverrides = {
   colors: { bgPage: '#FFFFFF' },
   // one-off type combos (token lint cleanup)
   type: {
@@ -39,3 +50,12 @@ export const homeFlowTokens: TokenOverrides = {
     homeText14ExtraboldLh1: { size: 14, line: '1', weight: 800 }, // switch knob
   },
 };
+
+/** Groups merged one level deep, so each area file can add its own `colors` / `type` / … keys. */
+function mergeTokens(...parts: TokenOverrides[]): TokenOverrides {
+  const out: Record<string, Record<string, unknown>> = {};
+  for (const part of parts) for (const [group, values] of Object.entries(part)) out[group] = { ...out[group], ...(values as Record<string, unknown>) };
+  return out as TokenOverrides;
+}
+
+export const homeFlowTokens: TokenOverrides = mergeTokens(classicFlowTokens, homeHeaderFlowTokens, homeRailsFlowTokens, homeModulesFlowTokens, homeTabsFlowTokens);

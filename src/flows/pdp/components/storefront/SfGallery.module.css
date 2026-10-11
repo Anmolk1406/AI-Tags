@@ -1,0 +1,54 @@
+/* Storefront PDP gallery — Figma 2ldJbjmQq4RkhnrNFCfXQB · 3499:75117 / 3499:75118 */
+/* starts 40 below the frame top: kit status-bar inset − 7 (Figma status bar is 47) */
+.section { padding-top: calc(var(--nk-inset-top) + var(--nk-layout-pdp-sfa-gallery-inset)); background: var(--nk-color-bg-surface); }
+.frame { position: relative; overflow: hidden; }
+.gallery { position: relative; width: 100%; background: var(--nk-color-bg-surface); touch-action: pan-y; transform-origin: center; }
+.track { display: flex; height: 100%; cursor: grab; }
+.track:active { cursor: grabbing; }
+.slide { position: relative; flex-shrink: 0; height: 100%; }
+
+/* Carousel Indicator 3499:75119: centred, 20 from the bottom */
+.indicator { position: absolute; left: 0; right: 0; bottom: var(--nk-layout-pdp-sfa-dots-bottom); display: flex; justify-content: center; pointer-events: none; z-index: 1; }
+.dotsViewport { overflow: hidden; pointer-events: auto; }
+.dotsRow { display: flex; align-items: center; }
+.dotBox { flex-shrink: 0; height: var(--nk-layout-pdp-sfa-dot); display: flex; align-items: center; justify-content: center; border: 0; padding: 0; background: none; cursor: pointer; }
+.dot { display: block; width: var(--nk-layout-pdp-sfa-dot); height: var(--nk-layout-pdp-sfa-dot); border-radius: var(--nk-radius-full); background: var(--nk-palette-black-alpha10); transition-property: width, background-color; transition-timing-function: ease-out; }
+.dot[data-active] { width: var(--nk-layout-pdp-sfa-dot-active); background: var(--nk-palette-black); }
+
+/* footer row 3499:75127: px 12, items bottom-aligned, space-between */
+.footer { position: absolute; left: 0; right: 0; bottom: var(--nk-layout-pdp-sfa-footer-bottom); display: flex; align-items: flex-end; justify-content: space-between; padding: 0 var(--nk-space-s12); pointer-events: none; z-index: 2; }
+.footer > * { pointer-events: auto; }
+
+/* catalog tag 3499:75128: 24h, r8, 1px #4C4C4C, #666 (54%) → black (113%) */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  height: var(--nk-layout-pdp-sfa-tag-height);
+  padding: 0 var(--nk-space-s8);
+  border: 1px solid var(--nk-palette-black-cow);
+  border-radius: var(--nk-radius-r8);
+  background: linear-gradient(90deg, var(--nk-palette-catalog-tag-gradient-start) 53.82%, var(--nk-palette-catalog-tag-gradient-end) 112.51%);
+}
+/* 14/600 text with the light gradient fill */
+.tagText {
+  font: var(--nk-type-pdp-text14-semibold);
+  white-space: nowrap;
+  background: var(--nk-color-pdp-sfa-exclusive-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Pill Button 3499:75129: 40, white, 1.1px navy 15%, full radius, 22px rotate glyph */
+.spin {
+  width: var(--nk-layout-pdp-sfa-icon-button);
+  height: var(--nk-layout-pdp-sfa-icon-button);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid var(--nk-color-pdp-sfa-border-navy15);
+  border-radius: var(--nk-radius-full);
+  background: var(--nk-color-bg-surface);
+  cursor: pointer;
+}

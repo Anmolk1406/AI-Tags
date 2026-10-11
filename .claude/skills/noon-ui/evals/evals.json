@@ -1,0 +1,29 @@
+{
+  "skill_name": "noon-ui",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I want to build a loyalty page for noon: a hub showing my points and tier, a list of rewards I can redeem, and a history of points earned. Make it clickable.",
+      "expected_output": "A new flow in src/flows/loyalty created with `npm run new-flow`, registered in src/flows/index.ts with a page URL (/loyalty) in src/kit/routes.ts. 3–5 screens (hub, rewards, reward detail as a sheet, history) each wrapped in Screen with Header/footer, built from central components (SectionCard, ListRow, Pill, Tag, Button, Price, Text) plus flow-local components on tokens only. Copy and mock data in data.ts, tier colours/gradient in tokens.ts. Motion via registered transitions, FadeIn/Stagger and CountUp for points. Every ScreenDef has title, notes and source. typecheck, lint:tokens (0 for the flow folder) and check:routes pass, and every screen was screenshotted with scripts/shot.mjs and the PNGs were read.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Update the orders list to match this reference screenshot from another shopping app (cards grouped by status with a progress bar and a big 'Track' button).",
+      "files": ["reference.png"],
+      "expected_output": "Before screenshots of orders/list taken first. A mapping table (reference element → kit piece → token → status) written in src/flows/orders/MAPPING.md. Changes made only in the orders flow's files; routes and screen ids unchanged. Reference colours, fonts and radii snapped to noon tokens, not copied; buttons are Button, labels are Tag/Pill, prices use Price with the dirham sign. Before, after and reference compared side by side; lint:tokens 0 for src/flows/orders; check:routes clean."
+    },
+    {
+      "id": 3,
+      "prompt": "Add a 'refer a friend' screen to the account flow with a share code, a how-it-works list and a share button that shows a toast.",
+      "expected_output": "One new ScreenDef in src/flows/account/index.ts with a path, reachable from the account screen via nav.push with a transition. Built with Screen, Header, SectionCard, ListRow, Button and a sticky footer that clears --nk-inset-bottom; the share button calls nav.toast. Tokens only, copy in data.ts. Screenshot read; check:routes clean.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Make me a new home page variant for a Ramadan campaign with a hero banner, deal carousels and category tiles.",
+      "expected_output": "Starts from the home flow (reads its HomeScreen, data.ts, tokens.ts and components) rather than inventing a layout. Either a new screen in the home flow or a new flow, with campaign colours as flow tokens, ProductCard carousels and category tiles reused from home/categories, Stagger/FadeIn motion, and real assets placed in src/assets/<flow>/ and optimised. Verified with screenshots at top and scrolled.",
+      "files": []
+    }
+  ]
+}

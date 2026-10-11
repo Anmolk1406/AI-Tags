@@ -1,0 +1,20 @@
+/* Storefront Bestseller row — Figma 3499:75632 (sits in the card stack: inset 12, 12 below) */
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s10);
+  width: calc(100% - 2 * var(--nk-space-s12));
+  margin: 0 var(--nk-space-s12) var(--nk-space-s12);
+  padding: var(--nk-space-s6) var(--nk-space-s8) var(--nk-space-s6) var(--nk-space-s12);
+  border: 1px solid var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r16);
+  background: var(--nk-color-pdp-sfc-bestseller-bg);
+  text-align: start; min-height: 62px; /* Figma frame 351 × 62 */ }
+:global([dir='rtl']) .row { background: linear-gradient(240.67deg, var(--nk-color-bg-surface) 14.816%, var(--nk-palette-mint-cyan-light) 141.32%); }
+.main { flex: 1; min-width: 0; display: flex; align-items: center; gap: var(--nk-space-s6); }
+.text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--nk-space-s2); }
+.headline { display: flex; align-items: center; gap: var(--nk-space-s4); white-space: nowrap; overflow: hidden; }
+.rank { font: var(--nk-type-body-bold); letter-spacing: -0.14px; font-feature-settings: 'case' 1; color: var(--nk-palette-dark-text-color); }
+.in { font: var(--nk-type-pdp-sfc-text14-lh16); font-style: italic; letter-spacing: -0.14px; color: var(--nk-palette-secondary-text-color); }
+.category { min-width: 0; overflow: hidden; text-overflow: ellipsis; font: var(--nk-type-body-semibold); letter-spacing: -0.14px; font-feature-settings: 'case' 1; color: var(--nk-color-best-seller-tag); }
+.sub { font: var(--nk-type-text12-regular-lh14); letter-spacing: -0.12px; font-feature-settings: 'case' 1; color: var(--nk-palette-secondary-text-color); }

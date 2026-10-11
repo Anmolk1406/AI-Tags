@@ -1,0 +1,12 @@
+/* Storefront PDP sponsored row "Ads" — Figma 2ldJbjmQq4RkhnrNFCfXQB · 3499:75228 */
+/* 351 × 35, white r8, clip; inset 12, 12 below Main-Info */
+.outer { display: flex; margin: 0 var(--nk-space-s12) var(--nk-space-s12); height: var(--nk-layout-pdp-sfa-ad-height); border-radius: var(--nk-radius-r8); background: var(--nk-color-bg-surface); overflow: hidden; }
+/* inner 3540:34853: 1px #F5F5F5, r6, space-between */
+.row { flex: 1 1 0; min-width: 0; display: flex; align-items: stretch; justify-content: space-between; padding: 0; border: 1px solid var(--nk-palette-border-primary); border-radius: var(--nk-radius-r6); background: var(--nk-color-bg-surface); overflow: hidden; cursor: pointer; text-align: start; }
+.start { flex-shrink: 0; width: var(--nk-layout-pdp-sfa-ad-start); display: flex; align-items: center; gap: var(--nk-space-s8); }
+/* thumb: 34 wide on blue-gray/50, image inset ≈2 and multiplied */
+.thumb { flex-shrink: 0; align-self: stretch; width: var(--nk-layout-pdp-sfa-ad-thumb); padding: var(--nk-space-s2); background: var(--nk-palette-blue-gray50); }
+.title { width: var(--nk-layout-pdp-sfa-ad-title); font: var(--nk-type-text12-regular-lh14); color: var(--nk-color-text-legacy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.end { flex: 1 1 0; min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: var(--nk-space-s4); }
+.priceGroup { display: flex; align-items: center; gap: var(--nk-space-s4); min-width: 0; }
+.price { font: var(--nk-type-text16-bold-lh20); color: var(--nk-color-text-legacy); white-space: nowrap; }

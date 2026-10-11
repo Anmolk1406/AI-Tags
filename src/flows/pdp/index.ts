@@ -1,6 +1,7 @@
 import { defineFlow } from '../../kit/registry';
 import { IPHONE_17_PRO_ID } from '../../mocks/products';
 import { AddedSheet } from './AddedSheet';
+import { DeliveryVariantsScreen } from './DeliveryVariantsScreen';
 import { DetailScreen } from './DetailScreen';
 import { pdpFlowTokens } from './tokens';
 import { VariantsSheet } from './VariantsSheet';
@@ -19,7 +20,16 @@ export const pdpFlow = defineFlow({
       component: DetailScreen,
       defaultParams: { productId: IPHONE_17_PRO_ID },
       notes: 'Default product is the LIVE noon iPhone 17 Pro 1TB Silver (N70211593V): real photos, coupons, delivery + rocket option, payment discounts, 4-row variant matrix (tap a colour / memory / model / version to open that SKU), FBT, AI review summary, More from Apple / Customers Also Viewed with rank nudges (see MAPPING.md → Live data mapping). ?productId=p2 etc. still opens the mock catalogue. Swipe the gallery; it stays pinned and shrinks as you scroll. Past 100px the header turns white and the search pill expands; past one screen height "Back to top" appears. Tap the title to expand, the rating to jump to reviews, colour / storage chips to select, accordions to open. QTY opens the quantity selector. Add to cart → grey loading + loader lottie → quick-cart sheet, and the yellow "added in your cart" strip appears. On a fashion product (productId p3) Add to cart without a size opens the variants sheet. Values: src/flows/pdp/MAPPING.md.',
-      source: 'marketplaces/noon/components/NoonProductDetails/NoonProductDetails.tsx (+ NoonGallery, NoonProductInfo, NoonFrequentlyBoughtTogether, NoonAiProductReviewsSummary, NoonCategoryBestSeller(Tag), NoonBuyingOption, NoonEstimatedDeliveryPdp, NoonPaymentsForYou, NoonSizeVariantSelection, NoonOptionsSelection, NoonPdpReinforcement, NoonProductOverview, NoonShippingInfo, NoonSeller, NoonOffers, NoonCustomerReviews, NoonRecommendations, NoonAddToCartQuantity, NoonExpandableSearch, NoonPDPHeaderRightContent)',
+      source: 'Figma 2ldJbjmQq4RkhnrNFCfXQB · 3499:75115 (Storefront PDP, in stock; see FIGMA-MAPPING.md) over marketplaces/noon/components/NoonProductDetails/NoonProductDetails.tsx (+ NoonGallery, NoonProductInfo, NoonFrequentlyBoughtTogether, NoonAiProductReviewsSummary, NoonCategoryBestSeller(Tag), NoonBuyingOption, NoonEstimatedDeliveryPdp, NoonPaymentsForYou, NoonSizeVariantSelection, NoonOptionsSelection, NoonPdpReinforcement, NoonProductOverview, NoonShippingInfo, NoonSeller, NoonOffers, NoonCustomerReviews, NoonRecommendations, NoonAddToCartQuantity, NoonExpandableSearch, NoonPDPHeaderRightContent)',
+    },
+    {
+      id: 'deliveryVariants',
+      title: 'Delivery information variants',
+      component: DeliveryVariantsScreen,
+      parent: 'pdp/detail',
+      defaultParams: { productId: IPHONE_17_PRO_ID },
+      notes: 'All five SfDeliveryCard variants (crossSell, noCrossSell, market, express, global) stacked for one product. On the PDP the variant follows the delivery data; force one with pdp/detail?delivery=global.',
+      source: 'Figma xPr9Ln37JGSBGvNtrsyD0y · 3583:109620 (PDP Redesign, Delivery information component set)',
     },
     {
       id: 'variants',

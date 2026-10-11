@@ -1,0 +1,53 @@
+/* Homepage Revamp 2025 header (Figma 1337:6688). Figma y is measured from the frame top incl. a 43pt status bar;
+   the kit status bar is var(--nk-inset-top), so the decor layer is shifted by (inset-top − 43). */
+.header {
+  position: relative; overflow: hidden; isolation: isolate;
+  border-radius: 0 0 var(--nk-radius-r12) var(--nk-radius-r12);
+  background: var(--nk-color-home-header-gradient);
+  padding-bottom: 18px; /* search bottom +18; padding-top follows switcherMetrics (set in TSX, as ClassicHomeScreen) */
+}
+
+/* 1337:6689 artwork layer: 375×266 at y −1 */
+.decor { position: absolute; z-index: -1; left: 0; right: 0; top: calc(var(--nk-inset-top) - 44px); height: 266px; pointer-events: none; }
+.decor img { display: block; max-width: none; width: 100%; height: 100%; }
+
+/* 1337:6690 cyan glow: blurred vector, rotated 48.74° and skewed 7.49° inside a size container */
+.glowBox { position: absolute; inset: -87.86% -38.66% -36.7% -1.07%; display: flex; align-items: center; justify-content: center; container-type: size; }
+.glowShape { flex: none; position: relative; width: hypot(37.7868cqw, 37.7868cqh); height: hypot(-62.2132cqw, 62.2132cqh); transform: rotate(48.74deg) skewX(7.49deg); }
+.glowPad { position: absolute; inset: -58.4% -96.15%; }
+
+/* 1337:6691 white swoosh (441×158.933 at −18/−11, svg padded by its blur) */
+.swoosh { position: absolute; left: -18px; top: -11px; width: 441px; height: 158.933px; }
+.swoosh img { position: absolute; inset: -27.68% -9.98% -29.69% -11.47%; width: auto; height: auto; }
+
+/* 1337:6716 star dots: 353×132 at 11/12 of the frame (= 13 inside the decor layer) */
+.decor .stars { position: absolute; left: 11px; top: 13px; width: 353px; height: 132px; }
+
+/* 1337:6715 white radial fade along the bottom: 416×184 at −10, bottom −18 */
+.fade { position: absolute; z-index: -1; left: -10px; right: -10px; bottom: -18px; height: 184px; background: var(--nk-color-home-header-fade); pointer-events: none; }
+
+.content { position: relative; }
+
+/* tab skin (DepartmentTabs): cross-fading layer over the artwork, under the content; square corners into the band */
+.skin { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.header[data-joined] { border-radius: 0; }
+.header[data-ink='light'] .address { color: var(--nk-color-text-inverse); }
+.header[data-ink='light'] .homeIcon, .header[data-ink='light'] .chevron { filter: brightness(0) invert(1); }
+.address, .homeIcon, .chevron { transition: color 220ms, filter 220ms; }
+
+/* address row 1337:6692 at x19, 16 under the switcher (8 of it is switcherMetrics.bottomMargin): address (276) · gap 24 · wishlist 36 */
+.addressRow { display: flex; align-items: center; justify-content: space-between; gap: var(--nk-space-s24); padding: var(--nk-space-s8) 20px 2px 19px; }
+.address { display: flex !important; flex-direction: column; align-items: flex-start; min-width: 0; width: 282px; height: 40px; justify-content: flex-end; color: var(--nk-palette-black); }
+.addressLine1 { display: flex; align-items: center; height: 21px; }
+.homeIcon { width: 15.246px; height: 13.912px; margin: 1.27px 5.46px 2.82px 1.38px; } /* group at 1.38/2.64 in an 18 box, label at x22.08 */
+.addressLabel { font: var(--nk-type-text16-semibold-lh20); line-height: 21px; letter-spacing: -0.3px; text-shadow: var(--nk-shadow-home-address-label); white-space: nowrap; }
+.chevron { width: 16.086px; height: 16.086px; margin-inline-start: 2px; }
+.addressLine2 {
+  display: block; width: 280px; margin: 0.57px 0 0 1.95px; font: var(--nk-type-body); letter-spacing: -0.3px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: start;
+}
+.wishlist { display: flex !important; align-items: center; justify-content: center; flex-shrink: 0; width: 36px; height: 36px; border-radius: var(--nk-radius-full); background: var(--nk-color-bg-surface); }
+.wishlist img { display: block; margin-top: 2px; }
+
+/* search 1337:6727 at x15 y194, 343×48 (stretches on the 390 device) */
+.searchRow { padding: var(--nk-space-s8) 16px 0 15px; }

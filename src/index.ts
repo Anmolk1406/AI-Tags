@@ -6,6 +6,7 @@
  */
 export { NoonPrototype, type NoonPrototypeProps } from './kit/NoonPrototype';
 export { Navigator, useNav, useParams, TAB_ROUTES, type NavApi } from './kit/Navigator';
+export { useStatusBar, type StatusBarTone } from './kit/statusBar';
 export { defineFlow, defineScreen, createRegistry } from './kit/registry';
 export { DemoStoreProvider, useDemoStore } from './kit/DemoStore';
 export { membershipStore, membershipActions, useMembership, type MembershipState, type MembershipPlan, type MembershipStatus, type FamilyMember } from './kit/membership';
@@ -14,13 +15,14 @@ export { PhoneFrame } from './kit/PhoneFrame';
 export type * from './kit/types';
 
 export { tokens, colors, spacing, radius, fontSize, fontFamily, fontWeight, type, shadow, layout, ref, kebab, type TokenOverrides } from './foundations/tokens';
-export { button as buttonTokens, iconButton as iconButtonTokens, badge as badgeTokens, pill as pillTokens, stepper as stepperTokens, searchBar as searchBarTokens, tabBar as tabBarTokens, quickAdd as quickAddTokens } from './foundations/tokens';
+export { button as buttonTokens, iconButton as iconButtonTokens, badge as badgeTokens, pill as pillTokens, stepper as stepperTokens, searchBar as searchBarTokens, tabBar as tabBarTokens, quickAdd as quickAddTokens, needHelp as needHelpTokens } from './foundations/tokens';
 export { palette } from './foundations/palette';
 export { NoonThemeProvider, TokenScope, tokensToCssVars } from './foundations/ThemeProvider';
 
 export * from './motion/presets';
 import './motion/custom';
 export * from './motion/recipes';
+export { haptics, haptic, type HapticKind } from './motion/haptics';
 export { registerTransition, getTransition, listTransitions, type ScreenTransition, type TransitionName } from './motion/transitions';
 
 export * from './components';

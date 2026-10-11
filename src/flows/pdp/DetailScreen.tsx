@@ -3,26 +3,43 @@ import { useMemo, useRef, useState } from 'react';
 import { Screen } from '../../components';
 import { useNav } from '../../kit/Navigator';
 import type { ScreenProps } from '../../kit/types';
-import { categoryPath, isInCategory } from '../../mocks/categories';
+import { categoryPath, isInCategory, leafName } from '../../mocks/categories';
 import { fbtFor, productById, products, type Product } from '../../mocks/products';
-import { AtcBar } from './components/AtcBar';
-import { Gallery } from './components/Gallery';
-import { PdpHeader } from './components/PdpHeader';
-import { ProductInfo } from './components/ProductInfo';
-import { Recommendations, ReviewsCard } from './components/Reviews';
-import { AdditionalInfoCard, CategoryBestSellerCta, DeliveryCard, FbtCard, OverviewCard, PaymentsCard, ReinforcementCard, SellerCard } from './components/Sections';
-import { VariantsCard, type VariantSelection } from './components/Variants';
+import type { VariantSelection } from './components/Variants';
+import { SfAdditionalInfo } from './components/storefront/SfAdditionalInfo';
+import { SfAtcBar } from './components/storefront/SfAtcBar';
+import { SfBestsellerRow } from './components/storefront/SfBestsellerRow';
+import { SfDeliveryCard, deliveryVariants, type DeliveryVariant } from './components/storefront/SfDeliveryCard';
+import { SfExtendedWarranty } from './components/storefront/SfExtendedWarranty';
+import { SfFbtCard } from './components/storefront/SfFbtCard';
+import { SfGallery } from './components/storefront/SfGallery';
+import { SfHeader } from './components/storefront/SfHeader';
+import { SfMainInfo } from './components/storefront/SfMainInfo';
+import { SfNewerModelCard } from './components/storefront/SfNewerModelCard';
+import { SfPaymentOffers } from './components/storefront/SfPaymentOffers';
+import { SfProductDetails } from './components/storefront/SfProductDetails';
+import { SfProductFeatures } from './components/storefront/SfProductFeatures';
+import { SfRecommendations } from './components/storefront/SfRecommendations';
+import { SfReviewsCard } from './components/storefront/SfReviewsCard';
+import { SfSellerCard } from './components/storefront/SfSellerCard';
+import { SfSponsoredBrandCard } from './components/storefront/SfSponsoredBrandCard';
+import { SfSponsoredRow } from './components/storefront/SfSponsoredRow';
+import { SfTrustCard } from './components/storefront/SfTrustCard';
+import { SfVariantsCard } from './components/storefront/SfVariantsCard';
 import { copy, pdpContent } from './data';
 import { pdpTokens } from './tokens';
 import styles from './pdp.module.css';
 
 /**
- * NoonProductDetails (bappzaar master). Render order = `renderContent()` compoundData with default flags:
- * gallery → product info → delivery → payments → variants → reinforcement → overview → additional info →
- * seller + offers → reviews → "More from {brand}" → "Customers Also Viewed"; sticky NoonAddToCartQuantity.
- * The header fades to white after 100px and the page background turns white with it (`whiteContainer`).
+ * Product detail page — Storefront PDP (Figma 2ldJbjmQq4RkhnrNFCfXQB · 3499:75115, in stock) over the
+ * NoonProductDetails (bappzaar master) behaviour: same data, sheets, variant switching (`nav.replace`), add to
+ * cart → `pdp/added`, size check, wishlist / share, accordions, reviews. Figma section order: gallery → main info →
+ * sponsored row → delivery → newer model → variants → trust markers → payment offers → product details →
+ * extended warranty → additional information → bestseller → seller → A+ features → sponsored brand → FBT →
+ * reviews → "Similar products" → "Top products in {category}"; footer = QTY + Add to cart over the tab bar.
+ * The header fades to white after 100px. Components: src/flows/pdp/components/storefront (FIGMA-MAPPING.md).
  */
-export function DetailScreen({ params }: ScreenProps<{ productId: string }>) {
+export function DetailScreen({ params }: ScreenProps<{ productId: string; delivery?: DeliveryVariant }>) {
   const nav = useNav();
   const product = productById(params.productId);
   const content = useMemo(() => pdpContent(product), [product]);
@@ -40,17 +57,18 @@ export function DetailScreen({ params }: ScreenProps<{ productId: string }>) {
 
   const { sameBrand, others } = recommendations(product);
   const needsSize = !!content.sizes && selection.size === undefined;
+  const category = leafName(product.categoryId) ?? product.category;
 
   return (
     <Screen
       ref={scrollRef}
-      header={<PdpHeader product={product} solid={solid} />}
+      header={<SfHeader product={product} solid={solid} />}
       overlayHeader
       background={solid ? 'bgSurface' : 'bgPage'}
       safeTop={false}
       contentStyle={{ paddingBottom: 0 }}
       footer={
-        <AtcBar
+        <SfAtcBar
           product={product}
           showBackToTop={showTop}
           onBackToTop={() => scrollRef.current?.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -59,11 +77,12 @@ export function DetailScreen({ params }: ScreenProps<{ productId: string }>) {
       }
     >
       <div className={styles.list}>
-        <Gallery product={product} scrollY={scrollY} />
-        <ProductInfo product={product} content={content} onReviews={() => reviewsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })} />
-        <DeliveryCard content={content} />
-        <PaymentsCard content={content} />
-        <VariantsCard
+        <SfGallery product={product} scrollY={scrollY} />
+        <SfMainInfo product={product} content={content} onReviews={() => reviewsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })} />
+        <SfSponsoredRow product={product} content={content} />
+        <SfDeliveryCard content={content} variant={deliveryVariants.includes(params.delivery as DeliveryVariant) ? params.delivery : undefined} />
+        <SfNewerModelCard product={product} />
+        <SfVariantsCard
           product={product}
           content={content}
           selection={selection}
@@ -75,17 +94,21 @@ export function DetailScreen({ params }: ScreenProps<{ productId: string }>) {
           onSizeGuide={() => nav.toast(copy.sizeGuide)}
           onLearnMore={() => nav.toast(copy.learnMore)}
         />
-        <ReinforcementCard content={content} />
-        <OverviewCard content={content} />
-        <AdditionalInfoCard content={content} />
-        <CategoryBestSellerCta content={content} />
-        <SellerCard content={content} onOffers={() => nav.toast(copy.moreOffers)} />
-        <FbtCard key={product.id} ids={content.fbt} />
+        <SfTrustCard content={content} />
+        <SfPaymentOffers content={content} />
+        <SfProductDetails content={content} />
+        <SfExtendedWarranty content={content} price={product.price} />
+        <SfAdditionalInfo content={content} />
+        <SfBestsellerRow content={content} />
+        <SfSellerCard content={content} onOffers={() => nav.toast(copy.moreOffers)} />
+        <SfProductFeatures content={content} product={product} />
+        <SfSponsoredBrandCard product={product} />
+        <SfFbtCard key={product.id} ids={content.fbt} />
         <div ref={reviewsRef}>
-          <ReviewsCard product={product} content={content} />
+          <SfReviewsCard product={product} content={content} />
         </div>
-        <Recommendations title={copy.moreFrom(product.brand)} items={sameBrand.slice(0, 12)} />
-        <Recommendations title={copy.customersAlsoViewed} items={others.slice(0, 8)} />
+        <SfRecommendations title="Similar products" items={others.slice(0, 8)} sponsored />
+        <SfRecommendations title={`Top products in ${category}`} items={sameBrand.slice(0, 12)} sponsored />
       </div>
     </Screen>
   );

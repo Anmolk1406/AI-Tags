@@ -17,7 +17,7 @@ import { palette } from './palette';
  *    shadow.card         → var(--nk-shadow-card)
  *    palette.blackAlpha8 → var(--nk-palette-black-alpha8)
  *    button.primaryBg    → var(--nk-button-primary-bg)   (component groups: button, iconButton,
- *                          badge, pill, stepper, searchBar, tabBar, quickAdd)
+ *                          badge, pill, stepper, searchBar, tabBar, quickAdd, needHelp)
  *  Numbers become px, except keys ending in Scale / Opacity (unitless) and Duration (ms).
  *  Component tokens reference the semantic ones through `ref.*` (CSS vars), so flow overrides of a
  *  colour reach every button / pill that uses it.
@@ -106,6 +106,11 @@ export const colors = {
   // overlays
   scrim: palette.primaryAlpha50, // rgba(14, 14, 14, 0.5)
   imageOverlay: palette.blackAlpha2, // rgba(0, 0, 0, 0.02)
+
+  // SKU card (src/components/SkuCard, Figma "SKU")
+  skuDiscount: palette.homeGreen800, // #008200 "33%"
+  skuRatingBg: palette.mintWhite97, // #F2F8F8 flat rating pill
+  skuMediaTint: palette.cobaltAlpha4, // rgba(7, 47, 143, 0.04) image box tint
 } as const;
 
 export const spacing = {
@@ -265,6 +270,8 @@ export const type = {
   text19BoldLh24: { size: 19, line: 24, weight: 700 },
   text20BoldLh24: { size: 20, line: 24, weight: 700 },
   text22BoldLh28: { size: 22, line: 28, weight: 700 },
+  text15BoldLh20: { size: 15, line: 20, weight: 700 }, // SKU price (Figma "SKU", cart + home)
+  text10RegularLh11: { size: 10, line: 11, weight: 400 }, // SKU "Ad" tag
 } as const;
 
 export const shadow = {
@@ -275,6 +282,7 @@ export const shadow = {
   tabBar: `0 -1px 4px ${palette.blackAlpha8}`,
   thumb: `0 1px 4px ${palette.blackAlpha6}`,
   bottomBar: `0 -2px 6px ${palette.blackAlpha8}`, // sticky footer (BottomBar)
+  floating: `0 -4px 32px ${palette.charcoalAlpha12}`, // floating action pill (NeedHelpButton)
 } as const;
 
 export const layout = {
@@ -284,7 +292,7 @@ export const layout = {
   screenSmoothing: 1, // Figma corner smoothing (0–1); 1 = 100%
   statusBar: 54,
   homeIndicator: 34,
-  tabBar: 56,
+  tabBar: 63, // bottom nav 2025 row: 4 indicator + 8 gap + 51 item (Figma 1337:6801)
   header: 56,
 } as const;
 
@@ -591,6 +599,19 @@ export const tabBar = {
   pressScale: 0.9,
   badgeTop: -2,
   badgeEnd: -8,
+  // Bottom nav 2025 (Figma iRE9RwO94eMAyW3j3XKNXW · 1337:6801): top indicator bar, 12/20 labels, 32 icons.
+  height: ref.layout('tabBar'), // 63, as the Figma row (4 indicator + 8 gap + 51 item)
+  barShadow: `0 -1px 1px ${ref.palette('blackAlpha5')}`,
+  fgInactive: ref.color('textMuted'), // #475067
+  labelFont: `500 12px/20px var(--nk-font-family)`,
+  labelFontActive: `700 12px/20px var(--nk-font-family)`,
+  labelTracking: -0.16,
+  indicatorWidth: 43,
+  indicatorHeight: 4,
+  indicatorRadius: ref.radius('r4'),
+  indicatorBg: ref.color('tabActive'),
+  indicatorGap: `calc(${ref.layout('tabBar')} - 55px)`, // 8 at the 63 row
+  iconSize: 32,
 } as const;
 
 /** <QuickAdd> on ProductCard (NoonProductBoxAddToCart). CSS: var(--nk-quick-add-<key>). */
@@ -609,7 +630,26 @@ export const quickAdd = {
   pressScale: 0.9,
 } as const;
 
-export const tokens = { colors, palette, spacing, radius, fontSize, fontFamily, fontWeight, type, shadow, layout, button, iconButton, badge, pill, stepper, searchBar, tabBar, quickAdd };
+/** <NeedHelpButton> floating help pill (Accounts Figma 4NvyqO60K7Xn4gRJrkWmzQ · 8924:67388). CSS: var(--nk-need-help-<key>). */
+export const needHelp = {
+  size: 48, // collapsed circle = expanded height (2 border + 12 padding + 20 icon + 12 + 2)
+  padding: 12,
+  gap: 8,
+  radius: ref.radius('full'),
+  borderWidth: 2,
+  border: ref.palette('lightBlue'), // blue/200 #BBDAFF
+  bg: ref.color('bgSurface'),
+  shadow: ref.shadow('floating'),
+  icon: ref.color('brandBlue'), // #0057FF
+  iconSize: 20,
+  fg: ref.color('textPrimary'), // blue-gray/900
+  font: ref.type('text16SemiboldLh20'), // Primary/Label2/Semibold
+  tracking: -0.16,
+  inset: 16, // from the screen edge / above the tab bar
+  pressScale: 0.96,
+} as const;
+
+export const tokens = { colors, palette, spacing, radius, fontSize, fontFamily, fontWeight, type, shadow, layout, button, iconButton, badge, pill, stepper, searchBar, tabBar, quickAdd, needHelp };
 export type Tokens = typeof tokens;
 
 type Widen<T> = { [K in keyof T]?: T[K] extends object ? Widen<T[K]> : string | number };

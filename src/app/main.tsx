@@ -1,40 +1,56 @@
-import { StrictMode, useEffect, useState } from 'react';
+import { StrictMode, useCallback, useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Playground } from './Playground';
-import { Landing } from './landing/Landing';
-import 'lightweight-ui/fonts.css';
-import './lui.css';
-import './app.css';
+import { allFlows } from '../flows';
+import { NoonPrototype } from '../kit/NoonPrototype';
+import { createRegistry } from '../kit/registry';
+import { parsePageUrl } from '../kit/routes';
+import type { Route, StackEntry } from '../kit/types';
 import '../motion/custom';
+import './preview.css';
 
 /**
- * A page URL opens the studio — `/homepage`, `/plp?query=x`, `/checkout/cards-select` (see kit/routes.ts) or the
- * legacy `#/flow/screen`. `/` with no hash (or an in-page anchor like `#install`) is the landing page.
+ * Dev preview: the phone on its own. Every page is a URL — `/homepage`, `/plp?query=x`, `/orders` (see kit/routes.ts)
+ * or the legacy `#/flow/screen`; `/` opens home. Not part of the package.
  */
-const isStudio = () => /^#\/./.test(window.location.hash) || !/^\/(index\.html)?$/.test(window.location.pathname);
+const registry = createRegistry(allFlows);
 
-function App() {
-  const [studio, setStudio] = useState(isStudio);
+// used by scripts/check-routes.mjs
+(window as unknown as { __NK_ROUTES__: string[] }).__NK_ROUTES__ = registry.all().map((r) => r.route);
+
+const readUrl = (): { route?: Route; params: Record<string, string> } => {
+  const { route, params } = parsePageUrl(window.location);
+  return { route: route ? registry.resolve(route)?.route : undefined, params };
+};
+
+function Preview() {
+  const [page, setPage] = useState(() => ({ ...readUrl(), nonce: 0 }));
+
   useEffect(() => {
-    const sync = () => {
-      const next = isStudio();
-      setStudio((prev) => {
-        if (prev !== next) window.scrollTo(0, 0);
-        return next;
-      });
-    };
-    window.addEventListener('hashchange', sync);
-    window.addEventListener('popstate', sync);
+    const onUrl = () => setPage((p) => ({ ...readUrl(), nonce: p.nonce + 1 }));
+    window.addEventListener('popstate', onUrl);
+    window.addEventListener('hashchange', onUrl);
     return () => {
-      window.removeEventListener('hashchange', sync);
-      window.removeEventListener('popstate', sync);
+      window.removeEventListener('popstate', onUrl);
+      window.removeEventListener('hashchange', onUrl);
     };
   }, []);
-  return studio ? <Playground /> : <Landing />;
+
+  // Keep the address bar on the page's clean URL, e.g. /homepage, /plp, /checkout/cards-select.
+  const onRouteChange = useCallback((r: Route, s: StackEntry[]) => {
+    const p = s.at(-1)?.params ?? {};
+    const query = new URLSearchParams(Object.entries(p).flatMap(([k, v]) => (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean' ? [[k, String(v)]] : []))).toString();
+    window.history.replaceState(null, '', `/${registry.pathFor(r)}${query ? `?${query}` : ''}`);
+  }, []);
+
+  return (
+    <div className="pg-stage">
+      <NoonPrototype key={page.nonce} flows={allFlows} initialRoute={page.route} initialParams={page.params} onRouteChange={onRouteChange} />
+    </div>
+  );
 }
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <Preview />
   </StrictMode>,
 );

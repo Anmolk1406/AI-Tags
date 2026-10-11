@@ -1,5 +1,10 @@
 import { palette } from '../../foundations/palette';
 import { layout, type TokenOverrides } from '../../foundations/tokens';
+import { pdpSfAFlowTokens } from './tokens.sfA';
+import { pdpSfBFlowTokens } from './tokens.sfB';
+import { pdpSfCFlowTokens } from './tokens.sfC';
+import { pdpSfDFlowTokens } from './tokens.sfD';
+import { pdpSfEFlowTokens } from './tokens.sfE';
 
 /**
  * PDP tokens, values from bappzaar master. See MAPPING.md for the component → value → token table.
@@ -55,7 +60,7 @@ export const pdpTokens = {
 /** RN Text without lineHeight → CSS `line-height: normal`. */
 const t = (size: number, weight: number, line: number | string = 'normal') => ({ size, line, weight });
 
-export const pdpFlowTokens: TokenOverrides = {
+const pdpBaseFlowTokens: TokenOverrides = {
   colors: {
     /** NoonProductDetails container: secondaryBackgroundColor */
     bgPage: palette.secondaryBackgroundColor,
@@ -211,3 +216,17 @@ export const pdpFlowTokens: TokenOverrides = {
     pdpBuyTogether: '1px 1px 3px rgba(150, 198, 255, 0.3)',
   },
 };
+
+function mergeTokens(...parts: TokenOverrides[]): TokenOverrides {
+  const out: Record<string, Record<string, unknown>> = {};
+  for (const part of parts) for (const [group, values] of Object.entries(part)) out[group] = { ...(out[group] ?? {}), ...(values as Record<string, unknown>) };
+  return out as TokenOverrides;
+}
+
+/**
+ * Exposed as CSS variables on every PDP screen: the bappzaar port's values plus the Storefront PDP restyle
+ * (Figma 2ldJbjmQq4RkhnrNFCfXQB · 3499:75115), one file per section group: tokens.sfA (header, gallery, main info,
+ * sponsored row) · sfB (delivery, newer model, variants) · sfC (trust, payment offers, details, warranty, additional
+ * info, bestseller) · sfD (seller, A+ features, sponsored brand, FBT) · sfE (reviews, rails, ATC bar).
+ */
+export const pdpFlowTokens: TokenOverrides = mergeTokens(pdpBaseFlowTokens, pdpSfAFlowTokens, pdpSfBFlowTokens, pdpSfCFlowTokens, pdpSfDFlowTokens, pdpSfEFlowTokens);

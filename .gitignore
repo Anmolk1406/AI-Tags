@@ -7,5 +7,3 @@ dist-lib
 playwright-report
 test-results
 
-# Studio Edit mode: local sessions and shared memory
-.studio

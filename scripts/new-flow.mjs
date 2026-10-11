@@ -92,7 +92,7 @@ export function ${Name}NextScreen() {
 `,
   [`${id}.module.css`]: `.hero { margin: 12px; padding: 24px 16px; border-radius: var(--nk-radius-r16); display: flex; flex-direction: column; gap: 6px; }
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.footer { background: var(--nk-color-bg-surface); padding: 12px 16px calc(var(--nk-inset-bottom) + 8px); box-shadow: 0 -2px 6px rgba(0,0,0,.06); }
+.footer { background: var(--nk-color-bg-surface); padding: 12px 16px calc(var(--nk-inset-bottom) + 8px); box-shadow: var(--nk-shadow-bottom-bar); }
 `,
   'index.ts': `import { defineFlow } from '../../kit/registry';
 import { ${Name}NextScreen, ${Name}Screen } from './${Name}Screen';
@@ -122,4 +122,4 @@ s = s.replace(/export \{ ([^}]*) \};/, (_, names) => `export { ${names.trim()}, 
 s = s.replace(/export const allFlows: FlowDef\[\] = \[([^\]]*)\];/, (_, names) => `export const allFlows: FlowDef[] = [${names.trim()}, ${id}Flow];`);
 writeFileSync(reg, s);
 
-console.log(`✔ Created src/flows/${id}  →  open http://localhost:5180/#/${id}/main`);
+console.log(`✔ Created src/flows/${id}  →  open http://localhost:5180/${id}/main`);

@@ -1,11 +1,14 @@
 // Central component library — import from '@kit/components' in any flow.
 export * from './Icon/Icon';
+export * from './Icon/OriginIcon';
+export { originIconNames, type OriginIconName } from './Icon/originIcons';
 export * from './Pressable/Pressable';
 export * from './Text/Text';
 export * from './Button/Button';
 export * from './Screen/Screen';
 export * from './Header/Header';
 export * from './SearchBar/SearchBar';
+export * from './NeedHelpButton/NeedHelpButton';
 export * from './Pill/Pill';
 export * from './Price/Price';
 export * from './Rating/Rating';
@@ -29,3 +32,4 @@ export * from './Checkbox/Checkbox';
 export * from './HtmlText/HtmlText';
 export * from './Toast/Toast';
 export * from './MaskIcon/MaskIcon';
+export * from './SkuCard/SkuCard';

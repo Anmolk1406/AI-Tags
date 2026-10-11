@@ -7,7 +7,7 @@
 //
 // Exit code is non-zero when the strict scope (src/components unless --strict is given) has any finding.
 // Ignored: comments, src/foundations/** (where tokens are defined), and lines carrying `token-lint-ignore`.
-// Literals inside a flow's own tokens.ts are reported separately ("in tokens.ts") and never fail the run —
+// Literals inside a flow's own tokens.ts (or tokens.<area>.ts) are reported separately ("in tokens.ts") and never fail the run —
 // that file is where flow-scoped tokens live. Replacement lookup: scripts/token-map.json (colors + type).
 import fs from 'node:fs';
 import path from 'node:path';
@@ -103,7 +103,7 @@ for (const f of files) {
   if (rel.startsWith('src/foundations/')) continue;
   const found = scan(f);
   if (!found.length) continue;
-  const inTokens = /^src\/flows\/[^/]+\/tokens\.ts$/.test(rel);
+  const inTokens = /^src\/flows\/[^/]+\/tokens(\.[\w-]+)?\.ts$/.test(rel); // tokens.ts or tokens.<area>.ts
   const g = groupOf(rel);
   const row = groups.get(g) ?? { hex: 0, rgba: 0, font: 0, tokensFile: 0 };
   for (const x of found) {
