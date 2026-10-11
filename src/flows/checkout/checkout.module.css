@@ -1,0 +1,79 @@
+/* NoonCheckoutScreen/styles.ts */
+.root {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+/* Figma Button Dock 14288:184318: white, drop-shadow 0 −4 3.5 rgba(0,0,0,.13), column gap 8, pt 12; Home bar → inset */
+.sticky {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  row-gap: var(--nk-space-s8);
+  padding: var(--nk-space-s12) var(--nk-space-s16) var(--nk-inset-bottom);
+  background: var(--nk-color-bg-surface);
+  box-shadow: var(--nk-shadow-chk-fig-dock);
+}
+.cta {
+  display: flex;
+  flex-direction: column;
+}
+/* Cart Summary: 338 wide (2.5px inside the 343 slider) */
+.overview {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 0 2.5px; /* Figma 18.5 vs 16 inset (geometry) */
+}
+/* Proxima Nova Bold 19/26.6 → Noontree — Gray Shades/Grey 1 */
+.itemsCount {
+  font: var(--nk-type-chk-fig-text19-bold-lh26p6);
+  color: var(--nk-palette-noon-grey1);
+  white-space: nowrap;
+}
+/* Total Container: gap 4 — Primary. Colors/noon Black */
+.totalPrice {
+  display: flex;
+  gap: var(--nk-space-s4);
+  font: var(--nk-type-chk-fig-text19-bold-lh26p6);
+  color: var(--nk-color-text-legacy);
+  white-space: nowrap;
+}
+/* Figma "Cards" 14288:184048: white r16, p12, gap 12 — Points & Vouchers · line · Pay With */
+.cards {
+  margin-top: var(--nk-space-s12);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s12);
+  padding: var(--nk-space-s12);
+  border-radius: var(--nk-radius-r16);
+  overflow: hidden;
+  background: var(--nk-color-bg-surface);
+}
+/* line: 1px Sementic/Border/secondary */
+.cardsLine {
+  display: block;
+  width: 100%;
+  height: 1px;
+}
+/* ApplePayButton height 48 (PKPaymentButton black / buy) */
+.applePay {
+  height: 48px;
+  border: 0;
+  border-radius: var(--nk-radius-r8);
+  background: var(--nk-palette-black);
+  color: var(--nk-color-text-inverse);
+  font: var(--nk-type-chk-text19-medium-lh1);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', var(--nk-font-family);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--nk-space-s2);
+  cursor: pointer;
+}
+.appleMark {
+  margin-left: var(--nk-space-s6);
+  font-size: 21px;
+}

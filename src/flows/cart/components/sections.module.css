@@ -1,0 +1,49 @@
+/* Figma Cart 2.0 lower sections: Product Carousel (10575:94169 / 10575:94308), OOS style freebies (11316:46017) */
+.carousel { margin: var(--nk-space-s12) var(--nk-space-s12) 0; padding: var(--nk-space-s12) 0; border-radius: var(--nk-radius-r16); background: var(--nk-color-bg-surface); overflow: hidden; }
+/* Cards Header: px 12, title Label2/Bold + "Sponsored" Label4/Medium Text/tertiary */
+.cardsHeader { display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s8); padding: 0 var(--nk-space-s12); }
+.cardsTitle { flex: 1; min-width: 0; margin: 0; font: var(--nk-type-text16-bold-lh20); letter-spacing: -0.16px; color: var(--nk-color-text-ink); }
+.cardsSponsored { font: var(--nk-type-text12-medium-lh14); letter-spacing: -0.12px; color: var(--nk-palette-lighter-spanish-gray-color); white-space: nowrap; }
+.carouselRow { display: flex; gap: var(--nk-space-s12); padding: 0 var(--nk-space-s12); margin-top: var(--nk-space-s12); }
+
+.sku { flex-shrink: 0; width: 134px; display: flex; flex-direction: column; row-gap: var(--nk-space-s4); border-radius: var(--nk-radius-r8); cursor: pointer; }
+.skuMedia { position: relative; width: 134px; height: 174px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; background: var(--nk-color-border); border: 1px solid var(--nk-color-border-subtle); border-radius: var(--nk-radius-r10); overflow: hidden; }
+.skuMedia > div img { mix-blend-mode: multiply; }
+.skuTag { position: absolute; left: 0; top: 0; }
+.skuHeart { position: absolute; right: 3px; top: 3px; display: flex; align-items: center; justify-content: center; padding: var(--nk-space-s4); border: 0; border-radius: var(--nk-radius-full); background: var(--nk-color-cart-white-alpha20); cursor: pointer; }
+.skuHeart img { width: 16px; height: 16px; display: block; }
+.skuHeart[data-on] img { filter: hue-rotate(0deg); }
+.skuAdd { position: absolute; left: 95px; top: 135px; display: flex; align-items: center; padding: var(--nk-space-s4); background: var(--nk-color-bg-surface); border: 1.2px solid var(--nk-color-link); border-radius: var(--nk-radius-r8); cursor: pointer; }
+.skuAdd img { width: 24px; height: 24px; display: block; }
+.skuInfo { display: flex; flex-direction: column; align-items: flex-start; row-gap: var(--nk-space-s8); padding: var(--nk-space-s4); }
+.skuTitle { height: 36px; font: var(--nk-type-body-semibold); font-weight: 500; letter-spacing: -0.14px; color: var(--nk-color-text-product); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.skuPriceRow { display: flex; align-items: center; column-gap: 3px; }
+.skuPrice { font: var(--nk-type-text15-bold-lh20); letter-spacing: 0.07px; color: var(--nk-color-text-ink); white-space: nowrap; }
+.skuWas { font: var(--nk-type-text12-regular-lh14); letter-spacing: -0.12px; color: var(--nk-palette-gray); text-decoration: line-through; }
+.skuPct { font: var(--nk-type-text12-semibold-lh14); letter-spacing: -0.12px; color: var(--nk-color-best-price-ink); }
+.skuPill { display: block; }
+
+/* OOS style freebies */
+.gifts { margin: var(--nk-space-s12) var(--nk-space-s12) 0; border: 1px solid var(--nk-palette-neutral-black-hex12); border-radius: var(--nk-radius-r16); overflow: hidden; background: linear-gradient(179.28deg, var(--nk-palette-mint-cream) 12.22%, var(--nk-color-bg-surface) 19.54%); }
+.giftsHeader { display: flex; align-items: center; column-gap: var(--nk-space-s8); padding: var(--nk-space-s12); background: linear-gradient(179.74deg, var(--nk-palette-mint-cream) 70.46%, var(--nk-color-bg-surface) 74.66%); }
+.giftsHeader img { width: 20px; height: 20px; display: block; }
+.giftsTitle { margin: 0; font: var(--nk-type-cart-gifts-title); font-family: 'Figtree', var(--nk-font-family); color: var(--nk-color-text-strong); }
+.giftsBody { display: flex; flex-direction: column; align-items: center; padding: var(--nk-space-s4) var(--nk-space-s12) var(--nk-space-s12); }
+.freebie { display: flex; align-items: center; column-gap: var(--nk-space-s12); width: 100%; }
+.freebieImage { position: relative; flex-shrink: 0; width: 80px; height: 109px; display: flex; align-items: center; justify-content: center; background: var(--nk-color-cart-freebie-image-bg); border-radius: var(--nk-radius-r12); }
+.freebieImage > div img { mix-blend-mode: multiply; }
+.freebieLock { position: absolute; left: calc(50% + 17px - 17px); top: calc(50% + 31.5px - 17px); }
+.freebieDetails { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; row-gap: var(--nk-space-s12); }
+.freebieTop { display: flex; flex-direction: column; row-gap: var(--nk-space-s4); }
+.freebieTitle { font: var(--nk-type-product-title); color: var(--nk-color-text-strong); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.freebiePriceRow { display: flex; align-items: flex-end; column-gap: var(--nk-space-s4); }
+.freebieFree { font: var(--nk-type-body-bold); letter-spacing: -0.14px; color: var(--nk-color-best-price-ink); }
+.freebieWas { padding-bottom: 1px; font: var(--nk-type-caption); color: var(--nk-color-text-secondary); text-decoration: line-through; }
+.freebieProgressRow { display: flex; align-items: center; column-gap: var(--nk-space-s8); }
+.freebieProgress { flex: 1; min-width: 0; display: flex; flex-direction: column; row-gap: var(--nk-space-s8); }
+.freebieLeft { font: var(--nk-type-text14-regular-lh1); line-height: 14px; letter-spacing: -0.12px; color: var(--nk-color-text-primary); }
+.freebieTrack { position: relative; display: block; height: 4px; border-radius: var(--nk-radius-r6); background: var(--nk-color-border); overflow: hidden; }
+.freebieFill { position: absolute; left: 0; top: 0; height: 4px; border-radius: var(--nk-radius-r2); background: var(--nk-color-best-price-ink); }
+/* shared 57×26 "+ Add" (Pre raman feedback all marketplaces add) */
+.addButton { display: flex; align-items: center; justify-content: center; column-gap: var(--nk-space-s2); flex-shrink: 0; width: 57px; height: 26px; box-sizing: border-box; padding: var(--nk-space-s4) var(--nk-space-s12) var(--nk-space-s4) var(--nk-space-s6); background: var(--nk-color-bg-surface); border: 1px solid var(--nk-palette-neutral-black-hex24); border-radius: var(--nk-radius-r6); font: var(--nk-type-body-semibold); letter-spacing: -0.14px; color: var(--nk-color-text-strong); cursor: pointer; }
+.addButton img { width: 16px; height: 16px; display: block; }

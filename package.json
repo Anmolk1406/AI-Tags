@@ -1,0 +1,103 @@
+{
+  "name": "@noon/flow-kit",
+  "version": "0.1.0",
+  "description": "noon app UI kit for clickable prototypes: noon design tokens, a central React component library, a motion system and ready-made flows ported 1:1 from bappzaar (home, search, categories, PLP, PDP, cart, checkout, orders, returns, account, addresses, cards, noon One\u2026).",
+  "keywords": [
+    "noon",
+    "design-system",
+    "ui-kit",
+    "react",
+    "prototype",
+    "tokens",
+    "flows"
+  ],
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "./dist-lib/index.js",
+  "module": "./dist-lib/index.js",
+  "types": "./dist-lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist-lib/index.d.ts",
+      "import": "./dist-lib/index.js"
+    },
+    "./components": {
+      "types": "./dist-lib/components/index.d.ts",
+      "import": "./dist-lib/components/index.js"
+    },
+    "./tokens": {
+      "types": "./dist-lib/foundations/tokens.d.ts",
+      "import": "./dist-lib/foundations/tokens.js"
+    },
+    "./flows": {
+      "types": "./dist-lib/flows/index.d.ts",
+      "import": "./dist-lib/flows/index.js"
+    },
+    "./flows/*": {
+      "types": "./dist-lib/flows/*/index.d.ts",
+      "import": "./dist-lib/flows/*/index.js"
+    },
+    "./style.css": "./dist-lib/noon-flow-kit.css",
+    "./package.json": "./package.json"
+  },
+  "sideEffects": [
+    "*.css",
+    "./dist-lib/motion/custom/index.js",
+    "./dist-lib/flows/*/transitions.js",
+    "./src/motion/custom/index.ts",
+    "./src/flows/*/transitions.ts"
+  ],
+  "files": [
+    "dist-lib",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -p tsconfig.json && vite build",
+    "build:lib": "vite build --config vite.lib.config.ts && tsc -p tsconfig.lib.json && node scripts/clean-dts.mjs",
+    "preview": "vite preview",
+    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.lib.json",
+    "new-flow": "node scripts/new-flow.mjs",
+    "shot": "node scripts/shot.mjs",
+    "lint:tokens": "node scripts/token-lint.mjs",
+    "check:routes": "node scripts/check-routes.mjs",
+    "visual:snap": "node scripts/visual-snap.mjs snap",
+    "visual:diff": "node scripts/visual-snap.mjs diff",
+    "verify": "npm run typecheck && npm run lint:tokens && npm run assets:check && npm run build:lib",
+    "pack:check": "npm pack --dry-run",
+    "prepublishOnly": "npm run verify",
+    "assets:optimize": "node scripts/optimize-assets.mjs",
+    "assets:check": "node scripts/optimize-assets.mjs --check",
+    "assets:measure": "node scripts/optimize-assets.mjs --measure"
+  },
+  "peerDependencies": {
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "dependencies": {
+    "@lottiefiles/dotlottie-react": "^0.20.0",
+    "lucide-react": "^1.55.0",
+    "motion": "^14.1.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "lightweight-ui": "github:ayaneshu/lightweight-ui-kit",
+    "playwright": "^1.64.0",
+    "postcss": "^8.5.29",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "sharp": "^0.35.5",
+    "svgo": "^4.1.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
+  }
+}

@@ -1,0 +1,8 @@
+/* Values: `tabBar` + `badge` token groups → var(--nk-tab-bar-*), var(--nk-badge-*) (src/foundations/tokens.ts). */
+.bar { position: absolute; left: 0; right: 0; bottom: 0; z-index: 50; display: flex; background: var(--nk-tab-bar-bg); box-shadow: var(--nk-tab-bar-shadow); padding-bottom: var(--nk-inset-bottom); }
+.tab { flex: 1; height: var(--nk-layout-tab-bar); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--nk-tab-bar-gap); border: 0; background: none; cursor: pointer; color: var(--nk-tab-bar-fg); padding: 0; }
+.tab[data-active] { color: var(--nk-tab-bar-fg-active); }
+.iconWrap { position: relative; display: flex; align-items: center; justify-content: center; width: var(--nk-tab-bar-icon-box); height: var(--nk-tab-bar-icon-box); }
+.iconWrap img { display: block; }
+.label { font: var(--nk-tab-bar-font); }
+.badge { position: absolute; top: var(--nk-tab-bar-badge-top); right: var(--nk-tab-bar-badge-end); min-width: var(--nk-badge-size); height: var(--nk-badge-size); padding: 0 var(--nk-badge-padding-x); border-radius: var(--nk-badge-radius); background: var(--nk-badge-bg); color: var(--nk-badge-fg); font: var(--nk-badge-font); text-align: center; border: var(--nk-badge-ring-width) solid var(--nk-badge-ring-color); }

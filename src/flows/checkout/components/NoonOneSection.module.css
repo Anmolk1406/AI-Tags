@@ -1,0 +1,24 @@
+/* marketplaces/noon/components/NoonCheckoutNoonOneSection/styles.ts (+ NoonCheckoutScreen styles.oneSection) */
+.outer { position: relative; margin-top: var(--nk-space-s12); border-radius: var(--nk-radius-chk-noon-one); overflow: hidden; }
+.gradient { position: absolute; inset: 0; pointer-events: none; transform-origin: 50% 50%;
+  background:
+    radial-gradient(ellipse 100% 10% at 50% 58%, var(--nk-color-chk-noon-one-gold22) 0%, var(--nk-color-chk-noon-one-gold12) 30%, var(--nk-color-chk-noon-one-gold0) 50%),
+    radial-gradient(circle closest-side at 50% 50%, var(--nk-color-chk-noon-one-ocean95) 0%, var(--nk-color-chk-noon-one-ocean) 70%, var(--nk-color-bg-muted) 100%);
+}
+.card { position: relative; background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-chk-noon-one); overflow: hidden; }
+.container { display: flex; flex-direction: column; gap: var(--nk-space-s14); padding: var(--nk-space-s14) var(--nk-space-s2) var(--nk-space-s2); }
+.enrolled { padding-top: var(--nk-space-s10); }
+.info { display: flex; flex-direction: column; gap: var(--nk-space-s4); padding: 0 var(--nk-space-s10); }
+.toggle { display: flex; flex-direction: row; gap: var(--nk-space-s8); justify-content: space-between; align-items: center; width: 100%; text-align: start; }
+.titleRow { display: flex; flex-direction: row; align-items: center; gap: var(--nk-space-s4); min-width: 0; }
+.titleText { flex-shrink: 1; }
+.icon { width: var(--nk-layout-chk-noon-one-icon-w); height: var(--nk-layout-chk-noon-one-icon-h); object-fit: contain; }
+.subtitle { padding-bottom: var(--nk-space-s12); }
+.cta { position: relative; padding: 7px var(--nk-space-s12); background: var(--nk-color-chk-noon-one-cta-bg); border-radius: 0 0 var(--nk-radius-r12) var(--nk-radius-r12); text-align: center; }
+.reveal { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; background: var(--nk-palette-anti-flash-white); } /* ctaRevealBackdrop: antiFlashWhite */
+.nudge { position: relative; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 8.5px var(--nk-space-s16); width: 100%; }
+.nudgeText { flex-shrink: 1; color: var(--nk-color-text-inverse); }
+.nudgeStrong { font: var(--nk-type-chk-noon-one-nudge); }
+.nudgePlan { font: var(--nk-type-chk-noon-one-plan); }
+.chevron { width: var(--nk-space-s12); height: var(--nk-space-s12); color: var(--nk-color-text-inverse); }
+[dir='rtl'] .chevron { transform: scaleX(-1); }

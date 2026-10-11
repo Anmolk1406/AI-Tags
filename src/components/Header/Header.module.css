@@ -1,0 +1,23 @@
+/* Values: semantic tokens + the `iconButton` / `badge` groups (src/foundations/tokens.ts). */
+.header { padding-top: var(--nk-inset-top); }
+.surface { background: var(--nk-color-bg-surface); }
+.page { background: var(--nk-color-bg-page); }
+.transparent { background: transparent; }
+.bordered { border-bottom: 1px solid var(--nk-color-border-subtle); }
+
+.row { display: flex; align-items: center; gap: var(--nk-space-s12); height: var(--nk-layout-header); padding: 0 var(--nk-space-s12); }
+.row[data-align='center'] .titleWrap { align-items: center; text-align: center; }
+.row[data-align='center'] .side { width: var(--nk-space-s88); }
+.row[data-align='left'] .side:empty { display: none; }
+.side { display: flex; align-items: center; gap: var(--nk-space-s8); flex-shrink: 0; }
+.right { justify-content: flex-end; }
+.titleWrap { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.title { font: var(--nk-type-section); color: var(--nk-color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.subtitle { font: var(--nk-type-caption); color: var(--nk-color-text-secondary); font-weight: var(--nk-font-weight-medium); }
+
+.iconBtn { position: relative; display: inline-flex; align-items: center; justify-content: center; border-radius: var(--nk-icon-button-radius); color: var(--nk-icon-button-fg); flex-shrink: 0; }
+.outline { background: var(--nk-icon-button-outline-bg); border: var(--nk-icon-button-border-width) solid var(--nk-icon-button-outline-border); }
+.glass { background: var(--nk-icon-button-glass-bg); border: var(--nk-icon-button-border-width) solid var(--nk-icon-button-glass-border); backdrop-filter: blur(var(--nk-icon-button-glass-blur)); }
+.subtle { background: var(--nk-icon-button-subtle-bg); border: var(--nk-icon-button-border-width) solid var(--nk-icon-button-subtle-border); }
+.plain { background: var(--nk-icon-button-plain-bg); }
+.badge { position: absolute; top: var(--nk-icon-button-badge-offset); right: var(--nk-icon-button-badge-offset); min-width: var(--nk-badge-size); height: var(--nk-badge-size); padding: 0 var(--nk-badge-padding-x); border-radius: var(--nk-badge-radius); background: var(--nk-badge-bg); color: var(--nk-badge-fg); font: var(--nk-badge-font); text-align: center; }

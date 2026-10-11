@@ -1,0 +1,84 @@
+/* Figma "🚧 Checkout 2.0" Swipe cart button 14288:184319 (+ NoonCheckoutSlideButton behaviour) */
+.track {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Figma: 48h, p 8, r12 */
+  height: 48px;
+  padding: var(--nk-space-s8);
+  border-radius: var(--nk-radius-r12);
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+}
+/* maskedView: flex row, flex 1 (inside the 8px padding) */
+.masked {
+  position: absolute;
+  inset: var(--nk-space-s8);
+}
+/* CVV Text: starts after the thumb (x 70 in the track → 62 in the masked view), 19/26.6 Bold, uppercase, centred */
+.label {
+  position: absolute;
+  left: 62px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: var(--nk-type-chk-fig-text19-bold-lh26p6);
+  text-transform: uppercase;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  white-space: nowrap;
+}
+/* Arrow: white, 54×32, r8, px 8 py 4, at the track padding (8, 8) */
+.thumb {
+  position: absolute;
+  left: var(--nk-space-s8);
+  top: 50%;
+  margin-top: -16px;
+  width: 54px;
+  height: 32px;
+  border-radius: var(--nk-radius-r8);
+  background: var(--nk-color-bg-surface);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+  cursor: grab;
+}
+.thumb:active {
+  cursor: grabbing;
+}
+.track[data-disabled] .thumb {
+  cursor: default;
+}
+/* arrow-to-checkmark Lottie (48 in the 38 thumb on master → 40 in the 32 Figma thumb) */
+.lottie {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+/* Arrow icon 24×24: glyph frame at inset 20.83% / 19.79% / 16.67% / 16.67%, the up-pointing svg turned to point right */
+.arrowBox {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+.arrow {
+  position: absolute;
+  left: 11.625px;
+  top: 12.5px;
+  display: block;
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+[dir='rtl'] .arrow {
+  transform: translate(-50%, -50%) rotate(-90deg);
+}

@@ -1,0 +1,26 @@
+/* Studio chrome layout that utilities can't express. Visual styling lives in lui.css (Lightweight UI). */
+html,
+body,
+#root {
+  height: 100%;
+}
+
+/* The canvas behind the phone: a faint dot grid in ink, so it works in both studio themes. */
+.pg-canvas {
+  background-color: var(--color-bg);
+  background-image: radial-gradient(color-mix(in oklab, var(--color-ink) 9%, transparent) 1px, transparent 1px);
+  background-size: 18px 18px;
+  padding-top: 12px;
+}
+.pg-stage {
+  display: flex;
+  justify-content: center;
+}
+.pg-thumb-device {
+  /* Flex-centre the 390pt phone so its top-centre scale lands inside the thumbnail (same as .pg-stage). */
+  display: flex;
+  justify-content: center;
+  width: calc(390px * 0.42);
+  height: calc(844px * 0.42);
+  overflow: hidden;
+}

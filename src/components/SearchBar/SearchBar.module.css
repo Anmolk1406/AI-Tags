@@ -1,0 +1,13 @@
+/* Values: `searchBar` token group → var(--nk-search-bar-*) (src/foundations/tokens.ts). */
+.bar {
+  display: flex; align-items: center; gap: var(--nk-search-bar-gap); width: 100%;
+  padding: 0 var(--nk-search-bar-padding-x); border-radius: var(--nk-search-bar-radius);
+  background: var(--nk-search-bar-bg); border: 1px solid var(--nk-search-bar-border);
+}
+.input { height: var(--nk-search-bar-height); border-color: var(--nk-search-bar-input-border); }
+.placeholder { flex: 1; display: flex; align-items: center; overflow: hidden; height: var(--nk-search-bar-ticker-height); font: var(--nk-search-bar-placeholder-font); letter-spacing: var(--nk-search-bar-placeholder-tracking); color: var(--nk-search-bar-placeholder-fg); text-align: start; white-space: nowrap; }
+.ticker { position: relative; display: inline-flex; height: var(--nk-search-bar-ticker-height); overflow: hidden; }
+.word { display: inline-block; }
+.divider { width: 1px; height: var(--nk-search-bar-divider-height); background: var(--nk-search-bar-border); margin: 0 var(--nk-search-bar-divider-gap); }
+.field { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: var(--nk-search-bar-field-font); color: var(--nk-search-bar-field-fg); }
+.field::placeholder { color: var(--nk-search-bar-field-placeholder); }

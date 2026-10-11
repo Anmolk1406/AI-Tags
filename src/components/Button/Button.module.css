@@ -1,0 +1,69 @@
+/* Every value comes from the `button` token group (src/foundations/tokens.ts) → var(--nk-button-*). */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--nk-button-gap);
+  white-space: nowrap;
+  border: var(--nk-button-border-width) solid transparent;
+  user-select: none;
+}
+.block { display: flex; width: 100%; }
+
+.sm { height: var(--nk-button-sm-height); padding: 0 var(--nk-button-sm-padding-x); border-radius: var(--nk-button-sm-radius); font: var(--nk-button-sm-font); }
+.md { height: var(--nk-button-md-height); padding: 0 var(--nk-button-md-padding-x); border-radius: var(--nk-button-md-radius); font: var(--nk-button-md-font); }
+.lg { min-height: var(--nk-button-lg-height); padding: 0 var(--nk-button-lg-padding-x); border-radius: var(--nk-button-lg-radius); font: var(--nk-button-lg-font); }
+
+.primary { background: var(--nk-button-primary-bg); color: var(--nk-button-primary-fg); border-color: var(--nk-button-primary-border); }
+.checkout { background: var(--nk-button-checkout-bg); color: var(--nk-button-checkout-fg); border-color: var(--nk-button-checkout-border); }
+.bright { background: var(--nk-button-bright-bg); color: var(--nk-button-bright-fg); border-color: var(--nk-button-bright-border); }
+.dark { background: var(--nk-button-dark-bg); color: var(--nk-button-dark-fg); border-color: var(--nk-button-dark-border); }
+.outline { background: var(--nk-button-outline-bg); color: var(--nk-button-outline-fg); border-color: var(--nk-button-outline-border); }
+.secondary { background: var(--nk-button-secondary-bg); color: var(--nk-button-secondary-fg); border-color: var(--nk-button-secondary-border); }
+.soft { background: var(--nk-button-soft-bg); color: var(--nk-button-soft-fg); border-color: var(--nk-button-soft-border); }
+.danger { background: var(--nk-button-danger-bg); color: var(--nk-button-danger-fg); border-color: var(--nk-button-danger-border); }
+.ghost { background: var(--nk-button-ghost-bg); color: var(--nk-button-ghost-fg); border-color: var(--nk-button-ghost-border); }
+
+.btn[data-disabled] { cursor: not-allowed; }
+.primary[data-disabled] { background: var(--nk-button-primary-bg-disabled); color: var(--nk-button-primary-fg-disabled); border-color: var(--nk-button-primary-border-disabled); }
+.checkout[data-disabled] { background: var(--nk-button-checkout-bg-disabled); color: var(--nk-button-checkout-fg-disabled); border-color: var(--nk-button-checkout-border-disabled); }
+.bright[data-disabled] { background: var(--nk-button-bright-bg-disabled); color: var(--nk-button-bright-fg-disabled); border-color: var(--nk-button-bright-border-disabled); }
+.dark[data-disabled] { background: var(--nk-button-dark-bg-disabled); color: var(--nk-button-dark-fg-disabled); border-color: var(--nk-button-dark-border-disabled); }
+.outline[data-disabled] { background: var(--nk-button-outline-bg-disabled); color: var(--nk-button-outline-fg-disabled); border-color: var(--nk-button-outline-border-disabled); }
+.secondary[data-disabled] { background: var(--nk-button-secondary-bg-disabled); color: var(--nk-button-secondary-fg-disabled); border-color: var(--nk-button-secondary-border-disabled); }
+.soft[data-disabled] { background: var(--nk-button-soft-bg-disabled); color: var(--nk-button-soft-fg-disabled); border-color: var(--nk-button-soft-border-disabled); }
+.danger[data-disabled] { background: var(--nk-button-danger-bg-disabled); color: var(--nk-button-danger-fg-disabled); border-color: var(--nk-button-danger-border-disabled); }
+.ghost[data-disabled] { background: var(--nk-button-ghost-bg-disabled); color: var(--nk-button-ghost-fg-disabled); border-color: var(--nk-button-ghost-border-disabled); }
+
+/* ── NoonButton presets (marketplaces/noon/components/NoonButton/styles.ts) ──
+   Specificity (0,0,2): above the global button/Pressable resets (≤ 0,0,1), below any caller className (0,1,0),
+   so flows can restyle metrics (padding, font, width…) regardless of stylesheet order. */
+:is(button, div):not(span):where(.noonBase) {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border: var(--nk-button-noon-border-width) solid transparent;
+  border-radius: var(--nk-button-noon-radius);
+  padding: var(--nk-button-noon-padding-y) var(--nk-button-noon-padding-x);
+  font: var(--nk-button-noon-font);
+  text-align: center;
+  cursor: pointer;
+}
+:is(button, div):not(span):where(.noonBase:disabled) { cursor: default; }
+:is(button, div):not(span):where(.noon) { background: var(--nk-button-noon-bg); color: var(--nk-button-noon-fg); }
+:is(button, div):not(span):where(.noon[data-disabled]) { background: var(--nk-button-noon-bg-disabled); color: var(--nk-button-noon-fg-disabled); }
+:is(button, div):not(span):where(.noonSecondary) { border-width: var(--nk-button-noon-secondary-border-width); border-color: var(--nk-button-noon-secondary-border); background: var(--nk-button-noon-secondary-bg); color: var(--nk-button-noon-secondary-fg); }
+:is(button, div):not(span):where(.noonSecondary[data-disabled]) { border-color: var(--nk-button-noon-secondary-border-disabled); background: var(--nk-button-noon-secondary-bg-disabled); color: var(--nk-button-noon-secondary-fg-disabled); }
+:is(button, div):not(span):where(.noonGhost, .noonGhostSecondary, .noonDotted) { padding: 0; background: transparent; }
+:is(button, div):not(span):where(.noonGhost) { color: var(--nk-button-noon-ghost-fg); }
+:is(button, div):not(span):where(.noonGhostSecondary) { color: var(--nk-button-noon-ghost-secondary-fg); }
+:is(button, div):not(span):where(.noonDotted) { color: var(--nk-button-noon-dotted-fg); }
+:is(button, div):not(span):where(.noonGhost[data-disabled]) { color: var(--nk-button-noon-ghost-fg-disabled); }
+:is(button, div):not(span):where(.noonGhostSecondary[data-disabled]) { color: var(--nk-button-noon-ghost-secondary-fg-disabled); }
+:is(button, div):not(span):where(.noonDotted[data-disabled]) { color: var(--nk-button-noon-dotted-fg-disabled); }
+.noonLabel { display: contents; } /* children lay out as direct items of the button; hidden (not removed) while loading */
+.noonDottedInner { display: flex; flex-direction: column; }
+.noonDottedLine { display: block; margin-top: var(--nk-button-noon-dotted-line-gap); overflow: visible; }
+.noonLoader { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }

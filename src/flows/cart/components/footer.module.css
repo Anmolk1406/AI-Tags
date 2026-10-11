@@ -1,0 +1,32 @@
+/* NoonCartScreen stickyBar / footer / invoice / footerSavings — Figma "Cart Sticky footer" 10984:103795 + savings "Color waves" 10984:103788 */
+.stickyBar { position: relative; z-index: 3; }
+.stickyBar[data-tab] { margin-bottom: calc(var(--nk-layout-tab-bar) + var(--nk-inset-bottom)); }
+.backdrop { position: absolute; left: 0; right: 0; bottom: 0; height: 2000px; background: var(--nk-palette-black); z-index: 0; }
+.stickyBar[data-tab] .backdrop { bottom: calc(-1 * (var(--nk-layout-tab-bar) + var(--nk-inset-bottom))); }
+
+/* savings tab: wave fill #E7FBF3, label at ml 12 / mt 4, px 4 py 2, r5; tucked 16px under the footer */
+.savings { position: absolute; left: var(--nk-space-s12); bottom: calc(100% - var(--nk-space-s16)); max-width: calc(100% - 70px); z-index: 1; display: flex; padding-bottom: var(--nk-space-s16); }
+[dir='rtl'] .savings { left: auto; right: var(--nk-space-s12); }
+.savingsPatch { position: absolute; left: -12px; top: 0; width: 50px; border-top-left-radius: var(--nk-radius-r16); z-index: -1; }
+[dir='rtl'] .savingsPatch { left: auto; right: -12px; border-top-left-radius: 0; border-top-right-radius: var(--nk-radius-r16); }
+.savingsCallout { display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s8); padding: 6px var(--nk-space-s4) var(--nk-space-s2); min-width: 0; }
+.savingsText { flex-shrink: 1; }
+.savingsWave { position: absolute; right: -58px; top: 0; z-index: -1; }
+[dir='rtl'] .savingsWave { right: auto; left: -58px; transform: scaleX(-1); }
+
+.invoiceAnchor { position: relative; height: 0; z-index: 2; }
+.invoice { position: absolute; left: 0; right: 0; bottom: 0; max-height: 400px; padding: var(--nk-space-s12) 0 var(--nk-space-s24); background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r20) var(--nk-radius-r20) 0 0; overflow: hidden; touch-action: none; }
+.invoiceScroll { max-height: 380px; overflow-y: auto; scrollbar-width: none; }
+
+/* footer: white, r12 top, h72, px 12 py 10, gap 12, drop shadow 0 -4 10 rgba(0,0,0,.08) */
+.footer { position: relative; z-index: 5; padding: 10px 0 calc(var(--nk-inset-bottom) + 10px); border-radius: var(--nk-radius-r12) var(--nk-radius-r12) 0 0; background: var(--nk-color-bg-surface); box-shadow: var(--nk-shadow-cart-footer); transition: box-shadow 0.3s; }
+.footer[data-open] { box-shadow: none; }
+.stickyBar[data-tab] .footer { padding-bottom: 10px; }
+.footerContent { display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s12); height: 52px; padding: 0 var(--nk-space-s12); }
+/* Total: w131, pl 4, col gap 4 */
+.nudges { flex-shrink: 0; min-width: 131px; display: flex; flex-direction: column; align-items: flex-start; row-gap: var(--nk-space-s4); padding: 0 0 0 var(--nk-space-s4); border: 0; background: none; cursor: pointer; text-align: start; }
+.totalLabel { font: var(--nk-type-text12-medium-lh14); letter-spacing: -0.12px; color: var(--nk-color-text-secondary); white-space: nowrap; }
+.totalPrice { font: var(--nk-type-text20-bold-lh24); letter-spacing: -0.2px; color: var(--nk-color-text-ink); white-space: nowrap; text-decoration: underline dotted; text-underline-position: from-font; }
+/* Button: Accent/700, h52, r12, px 16 py 12, Label-1 SemiBold 17/20 */
+.cta { flex: 1; display: flex; align-items: center; justify-content: center; min-width: 80px; height: 52px; padding: var(--nk-space-s12) var(--nk-space-s16); background: var(--nk-color-brand-blue); border-radius: var(--nk-radius-r12); border: 0; color: var(--nk-color-text-inverse); font: var(--nk-type-text17-semibold-lh20); letter-spacing: -0.26px; cursor: pointer; }
+.ctaDisabled { background: var(--nk-color-cart-qty-border); cursor: default; }

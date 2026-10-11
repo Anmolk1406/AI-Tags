@@ -1,0 +1,110 @@
+import { AnimatePresence, motion } from 'motion/react';
+import { useEffect, useState } from 'react';
+import { HtmlText, Lottie, Switch, type HtmlStylesheet } from '../../../components';
+import { useNav } from '../../../kit/Navigator';
+import { useIsNoonOneMember } from '../../../kit/membership';
+import { CURRENCY } from '../../noonone/data';
+import { integratedNoonone as data } from '../../noonone/data.entry';
+import { checkoutEnrollmentStore, useCheckoutEnrollment } from '../../noonone/components/entry/checkoutEnrollment';
+import { entryTokens } from '../../noonone/tokens';
+import { checkoutStore } from '../store';
+import noonOneIcon from '../../../assets/noonone/entry/noon-one.webp';
+import greenContainer from '../../../assets/noonone/entry/checkout-noon-one-green-container.lottie';
+import styles from './NoonOneSection.module.css';
+
+const { checkout: a } = entryTokens;
+const green = { color: 'var(--nk-color-best-price-ink)' };
+/** styles.ts titleStyle / subtitleStyle / ctaStyle */
+const titleStyle: HtmlStylesheet = { green, medium: { fontSize: 14 } };
+const subtitleStyle: HtmlStylesheet = { green, bluegray: { color: 'var(--nk-color-text-primary)' } };
+const ctaStyle: HtmlStylesheet = { green };
+const fade = { initial: { opacity: 0, y: -8 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -8 }, transition: { duration: a.ms / 1000 } };
+
+/**
+ * NoonCheckoutNoonOneSection (sectionsOrder `integrated_noonone`): white card with "Get FREE delivery with [one]" +
+ * toggle (react-native-switch 16/34/20, grass700 / lightGreyColor), green CTA strip ("Save AED 15 on this order",
+ * NoonOneCtaReveal lottie on first show). Toggling on (NoonCheckoutService.setOne → reloader) grows a radial green
+ * gradient behind the card (scale 0 → 6, 600ms), swaps the CTA for the savings subtitle and reveals the white
+ * discount nudge ("First month FREE, then AED 25/mo ›" → noon-one-all-plans). Hidden for members (server omits it).
+ */
+export function NoonOneSection() {
+  const nav = useNav();
+  const member = useIsNoonOneMember();
+  const enrolled = useCheckoutEnrollment((s) => s.enrolled);
+  const [revealing, setRevealing] = useState(!enrolled && !!data.animation);
+
+  useEffect(() => {
+    if (!revealing) return;
+    const id = setTimeout(() => setRevealing(false), a.revealLottieMs);
+    return () => clearTimeout(id);
+  }, [revealing]);
+
+  if (member) return null;
+
+  const toggle = () => checkoutStore.update({}).then(() => checkoutEnrollmentStore.patch({ enrolled: !enrolled }));
+  const radius = enrolled ? 'var(--nk-radius-chk-noon-one-on)' : 'var(--nk-radius-chk-noon-one)';
+
+  return (
+    <motion.div className={styles.outer} animate={{ borderRadius: radius, padding: enrolled ? '2px 2px 0' : '0px 0px 0' }} transition={{ duration: a.ms / 1000 }} layout>
+      <motion.div className={styles.gradient} initial={false} animate={{ scale: enrolled ? a.gradientScale : 0, opacity: enrolled ? 1 : 0 }} transition={{ duration: a.gradientMs / 1000 }} />
+      <motion.div className={styles.card} layout>
+        <div className={[styles.container, enrolled && styles.enrolled].filter(Boolean).join(' ')}>
+          <div className={styles.info}>
+            <button type="button" className={`nk-pressable ${styles.toggle}`} onClick={toggle}>
+              <span className={styles.titleRow}>
+                <HtmlText base value={data.title} stylesheet={titleStyle} className={styles.titleText} />
+                <img className={styles.icon} src={noonOneIcon} alt="noon One" />
+              </span>
+              <Switch as="span" value={enrolled} width={34} height={20} knob={16} inset={2} onColor="var(--nk-color-best-price-ink)" offColor="var(--nk-color-border)" />
+            </button>
+            <AnimatePresence initial={false}>
+              {enrolled && (
+                <motion.div key="sub" className={styles.subtitle} {...fade}>
+                  <HtmlText base value={data.subtitle} stylesheet={subtitleStyle} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+          <AnimatePresence initial={false}>
+            {!enrolled && (
+              <motion.div key="cta" className={styles.cta} {...fade}>
+                <HtmlText base value={data.cta} stylesheet={ctaStyle} />
+                <AnimatePresence>
+                  {revealing && (
+                    <motion.div key="reveal" className={styles.reveal} exit={{ opacity: 0 }} transition={{ duration: a.revealFadeMs / 1000 }}>
+                      <Lottie src={greenContainer} style={{ width: '100%', height: '100%' }} />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </motion.div>
+      <AnimatePresence initial={false}>
+        {enrolled && (
+          <motion.button
+            key="nudge"
+            type="button"
+            className={`nk-pressable ${styles.nudge}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: a.ms / 1000 }}
+            onClick={() => nav.push('noonone/plans', { source: '/checkout' })}
+          >
+            <span className={styles.nudgeText}>
+              <span className={styles.nudgeStrong}>{data.discountNudge}</span>
+              {/* !planDiscountPercentage && planTrialValid → noon_checkout_noon_one_plan_amount */}
+              {!data.planDiscountPercentage && <span className={styles.nudgePlan}>{`, then ${CURRENCY} ${data.planAmount}/mo`}</span>}
+            </span>
+            {/* NoonIcons.chevronThick (chevron-thick.svg) inline: a tiny SVG is inlined by Vite as an unquoted data URL, which breaks CSS masks */}
+            <svg className={styles.chevron} width={12} height={12} viewBox="0 0 17 16" fill="var(--nk-color-text-inverse)" stroke="var(--nk-color-text-inverse)" aria-hidden>
+              <path fillRule="evenodd" clipRule="evenodd" d="M9.20985 8.70574C9.60038 8.31522 9.60038 7.68205 9.20985 7.29153L6.06807 4.14975C5.83376 3.91543 5.83376 3.53553 6.06807 3.30122C6.30238 3.0669 6.68228 3.0669 6.9166 3.30122L10.9069 7.29153C11.2974 7.68205 11.2974 8.31522 10.9069 8.70574L6.9166 12.696C6.68228 12.9304 6.30238 12.9304 6.06807 12.696C5.83376 12.4617 5.83376 12.0818 6.06807 11.8475L9.20985 8.70574Z" />
+            </svg>
+          </motion.button>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
