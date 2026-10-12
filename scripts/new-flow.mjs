@@ -95,7 +95,11 @@ export function ${Name}NextScreen() {
 .footer { background: var(--nk-color-bg-surface); padding: 12px 16px calc(var(--nk-inset-bottom) + 8px); box-shadow: var(--nk-shadow-bottom-bar); }
 `,
   'index.ts': `import { defineFlow } from '../../kit/registry';
-import { ${Name}NextScreen, ${Name}Screen } from './${Name}Screen';
+import { lazyScreen } from '../../kit/lazyScreen';
+
+// screens load on demand (only what a page shows is in its first download)
+const ${Name}Screen = lazyScreen(() => import('./${Name}Screen'), '${Name}Screen');
+const ${Name}NextScreen = lazyScreen(() => import('./${Name}Screen'), '${Name}NextScreen');
 import { ${id}FlowTokens } from './tokens';
 
 export const ${id}Flow = defineFlow({

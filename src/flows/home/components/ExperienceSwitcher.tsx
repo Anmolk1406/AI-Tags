@@ -5,13 +5,13 @@ import { experiences, type Experience } from '../data';
 import { switcherMetrics } from '../tokens';
 import styles from '../home.module.css';
 
-const { itemWidth, itemHeight, collapsedItemHeight, itemPadding, collapsedItemPadding, duration } = switcherMetrics;
+const { itemWidth, itemHeight, collapsedItemHeight, itemPadding, collapsedItemPadding, itemRadius, collapsedItemRadius, duration } = switcherMetrics;
 const transition = { duration, ease: [0.5, 1, 0.89, 1] } as const; // Easing.out(Easing.quad)
 
 /**
  * ExperienceSwitcher (src/components/ExperienceSwitcher + ExperienceSwitcherItem + useExperienceSwitcher).
  * Horizontal row of marketplace tiles above the home header. Expanded: square tiles with the full logo.
- * Collapsed (scrolled ≥100): tiles shrink to width/2.2 with the compact logo, radius 20 → 0.
+ * Collapsed (scrolled ≥100): tiles shrink to width/2.2 with the compact logo, radius 20 → 12 (bappzaar useExperienceSwitcher).
  */
 export function ExperienceSwitcher({ expanded, selected = 'noon' }: { expanded: boolean; selected?: string }) {
   return (
@@ -37,7 +37,7 @@ function SwitcherItem({ experience: e, expanded, isSelected }: { experience: Exp
     >
       <motion.div
         initial={false}
-        animate={{ height: expanded ? itemHeight : collapsedItemHeight, borderRadius: expanded ? 20 : 0 }}
+        animate={{ height: expanded ? itemHeight : collapsedItemHeight, borderRadius: expanded ? itemRadius : collapsedItemRadius }}
         transition={transition}
         className={styles.switcherItemInner}
         style={isSelected ? { background: e.bkgColor } : undefined}

@@ -1,7 +1,9 @@
 import { defineFlow } from '../../kit/registry';
-import { EmptyWishlistScreen } from './EmptyWishlistScreen';
-import { WishlistScreen } from './WishlistScreen';
 import { wishlistFlowTokens } from './tokens';
+import { lazyScreen } from '../../kit/lazyScreen';
+
+const EmptyWishlistScreen = lazyScreen(() => import('./EmptyWishlistScreen'), 'EmptyWishlistScreen');
+const WishlistScreen = lazyScreen(() => import('./WishlistScreen'), 'WishlistScreen');
 
 export const wishlistFlow = defineFlow({
   id: 'wishlist',

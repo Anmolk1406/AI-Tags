@@ -1,10 +1,13 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { OriginIcon, Pressable } from '../../../../components';
 import { useNav } from '../../../../kit/Navigator';
 import { leafName } from '../../../../mocks/categories';
 import { formatPrice, type Product } from '../../../../mocks/products';
+import bestsellerBadge from '../../../../assets/pdp/new-pdp/bestseller-badge.svg';
+import comboIcon from '../../../../assets/pdp/new-pdp/bundle-combo.gif';
 import { discountPercent, money, showDiscount, type PdpContent } from '../../data';
+import { bestComboSaving, combosFor, npaCopy } from '../../data.npA';
 import { pdpTokens } from '../../tokens';
 import styles from './SfMainInfo.module.css';
 
@@ -14,7 +17,7 @@ const sfCopy = {
   reviews: (n: number) => `(${n} reviews)`,
   prepaidOnly: 'Prepaid Only',
   vat: '(incl. of VAT)',
-  pct: (n: number) => `${n}%`,
+  pct: (n: number) => `${n}% OFF`,
   lowestPrice: 'Lowest Price in 30 days',
   bestseller: 'Bestseller',
   in: 'in',
@@ -41,11 +44,14 @@ function couponsFor(product: Product, content: PdpContent): Coupon[] {
 const prepaidOnly = (p: Product) => p.price >= 3000;
 
 /**
- * Storefront PDP Main-Info (Figma 2ldJbjmQq4RkhnrNFCfXQB · 3499:75133): Accent/100 wrapper (r16, pt 10, gap 8) with the
+ * Main-Info — New PDP (Figma Af34gfmhQ1D0wstXUEHSIF · 64:5587), same component as Storefront 3499:75133: Accent/100 wrapper (r16, pt 10, gap 8) with the
  * brand strip (24px verified + brand 14/700, "Visit Store" 13/600 + chevron, both #0057FF) and the Info Card
  * (blue-gray/50 r16 clip; white content r-top-end 20, padding 12, gap 12): title 16/500/20 (2 lines) · rating pill +
  * "Prepaid Only" · price 22/700 + struck was + green % + "(incl. of VAT)" · deal tag + nudge · coupon rail ·
- * "Bestseller #n in {category}" row. Replaces ProductInfo: same props; Visit Store → plp/listing { query: brand },
+ * "Bestseller #n in {category}" row. New PDP adds, under the price: the "Saving Đ45 with Combo" banner (bappzaar
+ * NoonBundleBanner: lightSkyBlue → white, 32h r8, animated combo glyph, 14/500, info icon → bundle help) and the key
+ * highlights chip (NoonKeyHighlights: bg-subtle r4, px 6 py 4, 14/14, "A | B" with 12px #D0D4DD dividers; Figma "500ml |
+ * Đ2.35/ml"); the bestseller row gets the 16px numbered star badge. Replaces ProductInfo: same props; Visit Store → plp/listing { query: brand },
  * rating → onReviews, coupon → copies the code (toast), bestseller row → the category PLP.
  */
 export function SfMainInfo({ product, content, onReviews }: { product: Product; content: PdpContent; onReviews: () => void }) {
@@ -55,6 +61,7 @@ export function SfMainInfo({ product, content, onReviews }: { product: Product; 
   const hasDiscount = showDiscount(price, sale);
   const nudges = content.nudges.length ? content.nudges : product.was ? [sfCopy.lowestPrice] : [];
   const coupons = couponsFor(product, content);
+  const comboSaving = bestComboSaving(combosFor(product, content));
   const rank = content.bestSellerTag ? (product.rank ?? rankFromHtml(content.bestSellerTag.html)) : undefined;
   const rankCategory = content.bestSellerTag ? leafName(content.bestSellerTag.categoryId) : undefined;
 
@@ -68,7 +75,7 @@ export function SfMainInfo({ product, content, onReviews }: { product: Product; 
     <div className={styles.wrap}>
       <Pressable className={styles.strip} scale={1} onClick={() => nav.push('plp/listing', { query: content.brand })}>
         <span className={styles.brand}>
-          {content.officialStore && <OriginIcon name="verified" filled size={24} color="var(--nk-color-brand-blue)" />}
+          {content.officialStore && <OriginIcon name="verified" filled size={17} color="var(--nk-color-brand-blue)" />}
           <span className={styles.brandName}>{content.brand}</span>
         </span>
         <span className={styles.visit}>
@@ -84,9 +91,12 @@ export function SfMainInfo({ product, content, onReviews }: { product: Product; 
             <div className={styles.pills}>
               <button type="button" className={styles.pill} onClick={onReviews}>
                 <span className={styles.pillInner} data-rating>
-                  <OriginIcon name="star" filled size={16} color="var(--nk-palette-irish-green)" />
+                  <OriginIcon name="star" filled size={12} color="var(--nk-palette-irish-green)" />
                   <span className={styles.score}>{product.rating}</span>
-                  <span className={styles.count}>{sfCopy.reviews(product.ratingCount)}</span>
+                  <span className={styles.count}>
+                    <span className={styles.countParen}>(</span>
+                    {sfCopy.reviews(product.ratingCount).slice(1)}
+                  </span>
                 </span>
               </button>
               {prepaidOnly(product) && (
@@ -117,12 +127,35 @@ export function SfMainInfo({ product, content, onReviews }: { product: Product; 
               )}
             </div>
 
+            {comboSaving > 0 && (
+              <button type="button" className={styles.combo} onClick={() => nav.toast(npaCopy.comboHelp(comboSaving))}>
+                <span className={styles.comboStart}>
+                  <span className={styles.comboIconBox} aria-hidden>
+                    <img alt="" src={comboIcon} className={styles.comboIcon} />
+                  </span>
+                  <span className={styles.comboText}>{npaCopy.comboSaving(comboSaving)}</span>
+                </span>
+                <OriginIcon name="info-circle" size={16} color="var(--nk-color-text-body)" />
+              </button>
+            )}
+
+            {content.keyHighlights && content.keyHighlights.length > 0 && (
+              <span className={styles.highlights}>
+                {content.keyHighlights.map((h, idx) => (
+                  <Fragment key={h}>
+                    {idx > 0 && <span className={styles.hlDivider} aria-hidden />}
+                    <span className={styles.hlItem}>{h}</span>
+                  </Fragment>
+                ))}
+              </span>
+            )}
+
             {(content.dealTag || nudges.length > 0) && (
               <div className={styles.dealRow}>
                 {content.dealTag && <span className={styles.deal}>{content.dealTag}</span>}
                 {nudges.length > 0 && (
                   <span className={styles.nudge}>
-                    <OriginIcon name="arrow-down-square" filled size={16} color="var(--nk-color-pdp-sfa-low-price)" />
+                    <OriginIcon name="arrow-down-circle" filled size={14} color="var(--nk-color-pdp-sfa-low-price)" />
                     <NudgeTicker nudges={nudges} />
                   </span>
                 )}
@@ -134,12 +167,11 @@ export function SfMainInfo({ product, content, onReviews }: { product: Product; 
             <div className={styles.coupons}>
               {coupons.map((c, idx) => (
                 <Pressable key={`${c.title}${c.code ?? ''}${idx}`} className={styles.coupon} onClick={() => copyCode(c)}>
-                  <OriginIcon name="coupon-discount-star" filled size={24} color="var(--nk-palette-emerald-green700)" />
+                  <OriginIcon name="discount-star" filled size={24} color="var(--nk-palette-emerald-green700)" />
                   <span className={styles.couponText}>
-                    <span>{c.title}</span>
-                    {c.code && <span>{c.code}</span>}
+                    {c.code ? `${c.title.replace(/,?\s*$/, '')}, ${c.code}` : c.title}
                   </span>
-                  {c.code && <OriginIcon name="chevron-right" size={16} color="var(--nk-color-text-primary)" />}
+                  {c.code && <OriginIcon name="chevron-right" size={12} color="var(--nk-color-text-primary)" />}
                 </Pressable>
               ))}
             </div>
@@ -148,7 +180,10 @@ export function SfMainInfo({ product, content, onReviews }: { product: Product; 
           {content.bestSellerTag && (
             <Pressable className={styles.bestseller} scale={1} onClick={() => nav.push('plp/listing', { query: rankCategory })}>
               <span className={styles.bestsellerStart}>
-                <OriginIcon name="medal" filled size={24} color="var(--nk-color-best-seller-tag)" />
+                <span className={styles.rankBadge} aria-hidden>
+                  <img alt="" src={bestsellerBadge} className={styles.rankBadgeImg} />
+                  {rank !== undefined && <span className={styles.rankBadgeNum}>{rank}</span>}
+                </span>
                 <span className={styles.bestsellerText}>
                   {sfCopy.bestseller}
                   {rank !== undefined && ` #${rank}`} {sfCopy.in} <span className={styles.bestsellerCat}>{rankCategory}</span>

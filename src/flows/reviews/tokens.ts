@@ -29,6 +29,7 @@ export const reviewsTokens = {
   deckCard: { width: 286, image: 301 }, // past-order card
   photoThumb: { width: 72, height: 85 }, // Submitted photo thumbnails
   morphHeader: { nav: 56, expanded: 128 }, // NewReview MorphingHeader
+  aiSwitch: { width: 42, height: 24, knob: 20, inset: 2 }, // SpringToggle
 } as const;
 
 const baseFlowTokens: TokenOverrides = {

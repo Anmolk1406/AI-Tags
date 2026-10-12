@@ -40,6 +40,13 @@
         "src/assets/categories/sub-womens-fashion-07.webp"
       ],
       "reason": "CMS placeholder tile looked up by image name via import.meta.glob in src/flows/categories/data.ts (all under the 4 KB inline limit)"
+    },
+    {
+      "files": [
+        "src/assets/icons/origin/camera.svg",
+        "src/assets/returns/returns-camera.svg"
+      ],
+      "reason": "same glyph: the Origin icon library keeps its complete set (OriginIcon name=\"camera\"); the returns flow keeps its own bappzaar asset"
     }
   ],
   "maxEdge": {

@@ -1,0 +1,75 @@
+# Other flows: short briefs
+
+Flows whose code didn't change on this branch beyond moving to `lazyScreen`. Each has a full bappzaar port and a `MAPPING.md` where noted; routes are in `../screens.md`. Snapshot from 2026-10-13.
+
+## returns
+
+Bappzaar `features/afs/returns` @ `d481712d6d9`. Its MAPPING.md is the AFS metric conventions, global tokens vs `returns*` flow tokens.
+
+- Screens:
+  - `returns/history`
+  - `returns/returnable`
+  - `returns/submit` (default `{ orderId: 'o3', productId: 'p5' }`)
+  - `returns/summary`
+  - `returns/details` (alias `/returns`)
+- `returnsStore` holds `returns: ReturnRecord[]`, plus `recordFor` and `pickupAddress`.
+- Links to `orders/tracking` and `pdp/detail`. Overlays are in-screen (`ReturnsOverlay`), not sheets.
+
+## noonone (acquisition)
+
+Bappzaar `features/vip`. 22 screens, starting from `noonone/landing` (`/noon-one`, `/noonvip`).
+
+- Overlays use `{ presentation: 'modal', transition: 'noonone-overlay' }`.
+- `noononeStore` holds selectedPlan, paymentMethod, addedCards, voucherCode and pendingSuccess. Membership state itself is the kit `useMembership`.
+- With no flags, every flagged branch is off: plans = V3, and V1 isn't ported.
+- Managing a membership belongs to `membership`, not here.
+
+## membership (management)
+
+Bappzaar VIPManageMembershipV3. Entry `membership/manage` (`/manage-membership`) on transition `mb-modal`.
+
+- Overlays are modal + `mb-overlay`, with their own `VipOverlay` chrome.
+- Sub-areas: plans, cancel, family, perks. Perks has its own MAPPING.md in its folder.
+- Demo states come from `?state=`: active, trial, cancelled, familyOwner, and so on.
+- `useEnsureMembership(state?)` applies the state to the kit `membershipStore`.
+- Flags `vip_cancel_v2` and `vip_upgrade_v2` pick the V3/V2 screens.
+
+## wishlist
+
+NoonWishlistV2Screen. Screens `wishlist/wishlist` (`/wishlist`) and `wishlist/empty`.
+
+- Uses `useDemoStore` for the wishlist and the cart.
+- `WishlistAtc` morphs from add-to-cart into a stepper.
+- `WishlistHeader` swaps its title on scroll.
+- `EmptyState` uses floating hearts in place of the Lottie.
+
+## deals
+
+`deals/deals` (`/deals`, the tab root). CMS strips and heroes captured from noon.com in Oct 2026.
+
+- Every tile goes to `plp/listing`.
+- No store.
+
+## categories
+
+Tab root `categories/categories` (`/categories`), plus `categories/expanded` (`?open=mobiles-accessories`), `categories/loading` and `categories/error`.
+
+- Data is a live CMS snapshot in `data.live.ts`.
+- `CollapsibleBannerModule`: the tile slides down 15, and the sub-list opens over 300 ms.
+- Pushes `plp/listing`. "SD" in its MAPPING.md marks server-driven values.
+
+## cards
+
+Payment cards. `cards/cards` (`/cards`) is one component driven by defaultParams. `cards/actions`, `cards/delete`, `cards/empty` and `cards/many` are the same screen with different params.
+
+- `cards/add`, `cards/form`, `cards/success` (save_card Lottie).
+- `cardsStore` fakes the API with `API_DELAY = 450`.
+
+## address
+
+AddressV2. Entry `address/select` (`/addresses`).
+
+- Modals: `address/map` (`/add-address`), `address/create`, `address/update`, `address/search`, `address/locationOff`.
+- Sheets: `address/controls`, `address/locationAccess`.
+- `addressStore` holds addresses, the default id, location permission, the search → map hand-off and the locate request.
+- `StreetMap` is a fake map. The flow registers its own transitions.

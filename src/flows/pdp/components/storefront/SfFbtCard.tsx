@@ -1,5 +1,6 @@
 import { Fragment, useState } from 'react';
-import { ExpressBadge, OriginIcon, ProductImage } from '../../../../components';
+import { OriginIcon, ProductImage } from '../../../../components';
+import etaExpressToday from '../../../../assets/pdp/new-pdp/eta-express-today.svg';
 import { useDemoStore } from '../../../../kit/DemoStore';
 import { products, type Product } from '../../../../mocks/products';
 import { copy, money } from '../../data';
@@ -12,7 +13,7 @@ const sfCopy = { title: 'Frequently bought together', buyAll: (price: string) =>
 
 /**
  * Storefront Frequently bought together (Figma 3499:75702): 15/700 title; equal tiles (140-tall image r8, 1px blue-gray/200,
- * 24px check disc at top/end −5) joined by 24px "+" discs; title 12/500 (2 lines), price 12/700, express ETA;
+ * 24px check disc at top/end −5) joined by 24px "+" discs; title 12/500 (2 lines), price 12/700, "express Today" ETA pill;
  * full-width "Buy all for Đ{total}" (white, 1px sky blue, r8). Replaces FbtCard (same props, same behaviour):
  * tile tap toggles the item, the button adds every selected item via useDemoStore().addToCart and shows
  * "Added to cart" for pdpTokens.fbtAddedMs; nothing selected → disabled. < 2 products → null.
@@ -64,7 +65,8 @@ export function SfFbtCard({ ids }: { ids?: string[] }) {
                   <span className={styles.price}>{money(p.price)}</span>
                   {p.express && (
                     <span className={styles.eta}>
-                      <ExpressBadge height={15} />
+                      {/* New PDP 64:5732 "HP ETA": the express · Today pill (101.667 × 15) */}
+                      <img src={etaExpressToday} alt="express Today" className={styles.etaImg} />
                     </span>
                   )}
                 </div>

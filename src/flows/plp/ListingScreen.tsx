@@ -1,15 +1,14 @@
 import { motion } from 'motion/react';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Divider, MarketplaceTag, Pill, Pressable, ProductCard, Screen, SearchInput, TabBar, Text } from '../../components';
+import { Pressable, ProductBoxVertical, Screen, SearchInput, TabBar, Text } from '../../components';
 import { useNav, useParams } from '../../kit/Navigator';
 import { handoff } from '../../motion/presets';
 import { SkeletonReveal } from '../../motion/recipes';
-import { brandWidgetFor } from './brands';
-import { applyFilters, applySort, countFilters, facets, isPhoneQuery, searchProducts, sortOptions, type Filters } from './data';
-import { BrandWidget } from './components/BrandWidget';
+import { applyFilters, applySort, countFilters, searchProducts, sortOptions, type Filters } from './data';
 import { MarketplaceStrip, type MarketplaceId } from './components/MarketplaceStrip';
-import { RevealChip } from './components/NavPills';
+import { CatalogListHeader } from './components/CatalogListHeader';
 import { SkeletonCard } from './components/SkeletonCard';
+import { usePlpScrollStates } from './scrollStates';
 import { plpStore, usePlpStore } from './store';
 import { plpTokens } from './tokens';
 import styles from './plp.module.css';
@@ -24,10 +23,13 @@ const keyOf = (query: string, f: Filters) => `${query}|${JSON.stringify(f)}`;
  *   +224ms  bottom nav rises 88px on the handoff spring
  *   +480ms  chips drop 20px into place over their skeletons, 60ms apart
  *   +680ms  cards rise 16px out of their skeletons, 60ms apart; each skeleton fades 353ms after its card
- *   landed  "Shop phones by brand" opens between the chips and the grid (phone searches)
- * Filter / brand changes dissolve the cards back into skeletons and re-rise them (820ms); Sort reorders
+ * Filter changes dissolve the cards back into skeletons and re-rise them (820ms); Sort reorders
  * with a layout animation. Header: search bar (tap = back to editing) · marketplace strip · pills.
  */
+/** `results-fade` shows this layer at once; everything under the search bar fades in here instead (S-curve 300ms),
+ *  so the bar — at the same spot as the search page's — stays put and never cross-fades with it. */
+const belowBar = { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: handoff.fade.reveal, ease: handoff.easeInOut } } as const;
+
 export function ListingScreen() {
   const nav = useNav();
   const { query = 'Best sellers' } = useParams<{ query?: string }>();
@@ -35,25 +37,22 @@ export function ListingScreen() {
   // the store still holds the previous listing's sort / filters until the reset below: render as reset
   const ready = useRef(false);
   const { sort, filters } = ready.current ? store : { sort: 'recommended' as const, filters: {} as Filters };
-  const [scrolled, setScrolled] = useState(false);
-  const [landed, setLanded] = useState(false);
+  const scroller = useRef<HTMLDivElement>(null);
+  // bappzaar scroll states (MAPPING.md → "PLP scroll states"): tab bar slides off on scroll down, the strip + pills slide up
+  const isTop = nav.stack[nav.stack.length - 1]?.route === nav.route;
+  const scroll = usePlpScrollStates(scroller, isTop);
   const [searching, setSearching] = useState(true);
 
   useEffect(() => {
     plpStore.reset();
     plpStore.set({ query });
     ready.current = true;
-    setLanded(false);
     setSearching(true);
     const a = setTimeout(() => setSearching(false), T.cardsAt * 1000);
-    // the on-screen cards (rows 1–2) have risen into place: the brand widget keys off this
-    const b = setTimeout(() => setLanded(true), (T.cardsAt + 3 * handoff.stagger.in + 0.5) * 1000);
-    return () => (clearTimeout(a), clearTimeout(b));
+    return () => clearTimeout(a);
   }, [query]);
 
   const list = useMemo(() => applySort(applyFilters(searchProducts(query), filters), sort), [query, filters, sort]);
-  const widget = useMemo(() => brandWidgetFor(isPhoneQuery(query), searchProducts(query)), [query]);
-  const brand = filters.brand?.length === 1 && widget?.cards.some((c) => c.brand === filters.brand![0]) ? filters.brand[0] : undefined;
 
   // what the grid shows: a sort change reorders in place, a filter change swaps through the skeletons
   const [shown, setShown] = useState({ list, key: keyOf(query, filters), epoch: 0 });
@@ -75,11 +74,21 @@ export function ListingScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [list]);
 
+  // filter / sort apply: the list restarts at the top, the bar shows, the header snaps back (onContentResetToTop + dataChange)
+  const resetKey = `${keyOf(query, filters)}|${sort}`;
+  const lastReset = useRef(resetKey);
+  useEffect(() => {
+    if (lastReset.current === resetKey) return;
+    lastReset.current = resetKey;
+    scroll.resetToTop();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resetKey]);
+
   const nFilters = countFilters(filters);
-  const sortLabel = sort === 'recommended' ? 'Sort' : `Sort by : ${sortOptions.find((s) => s.id === sort)!.label}`;
+  // getCustomNavPills: `${sort_by} : ${name.replace(':', '')}`
+  const sortLabel = sort === 'recommended' ? 'Sort' : `Sort by : ${sortOptions.find((s) => s.id === sort)!.label.replace(':', '')}`;
   const express = !!filters.delivery?.includes('express');
   const setExpress = (on: boolean) => plpStore.set({ filters: { ...filters, delivery: on ? ['express'] : [] } });
-  const setBrand = (b?: string) => plpStore.set({ filters: { ...filters, brand: b ? [b] : [] } });
 
   // tapping the bar goes back to editing: pop to the search page it came from, or open one on this query
   const at = nav.stack.map((e) => e.route).lastIndexOf(nav.route);
@@ -89,93 +98,86 @@ export function ListingScreen() {
     else nav.toast(`${plpTokens.marketplaces[id].a} — not in this demo`);
   };
 
-  let chip = 0;
   const header = (
-    <div className={styles.header} data-scrolled={scrolled || undefined}>
-      <div className={styles.barRow}>
-        <SearchInput value={query} onChange={() => undefined} onBack={nav.back} onFieldPress={editQuery} />
+    <div className={styles.header}>
+      <div className={styles.barBlock}>
+        <div className={styles.barRow}>
+          <SearchInput value={query} onChange={() => undefined} onBack={nav.back} onFieldPress={editQuery} />
+        </div>
       </div>
-      <MarketplaceStrip active={express ? 'express' : 'noon'} onSelect={onMarketplace} />
-      <div className={`nk-hscroll ${styles.pills}`}>
-        <RevealChip index={chip++}>
-          <Pill icon="filter" selected={nFilters > 0} count={nFilters} onPress={() => nav.sheet('plp/filters')}>
-            Filter
-          </Pill>
-        </RevealChip>
-        <RevealChip index={chip++}>
-          <Pill icon="sort" selected={sort !== 'recommended'} onPress={() => nav.sheet('plp/sort')}>
-            {sortLabel}
-          </Pill>
-        </RevealChip>
-        <RevealChip index={chip++} skeleton={false}>
-          <Divider vertical length={24} margin="0 8px" color={plpTokens.pillDivider} />
-        </RevealChip>
-        <RevealChip index={chip++}>
-          <Pill selected={express} removable onPress={() => setExpress(!express)}>
-            <MarketplaceTag kind="express" height={16} />
-          </Pill>
-        </RevealChip>
-        {facets
-          .filter((f) => f.id !== 'delivery')
-          .map((f) => {
-            const n = filters[f.id]?.length ?? 0;
-            return (
-              <RevealChip key={f.id} index={chip++}>
-                <Pill dropdown selected={n > 0} count={n} onPress={() => nav.sheet('plp/filters', { facet: f.id })}>
-                  {f.label}
-                </Pill>
-              </RevealChip>
-            );
-          })}
+      {/* HidableView: hangs under the search bar over the list, clipped as it slides up */}
+      <div className={styles.hidable}>
+        <motion.div ref={scroll.headerRef} className={styles.hidableInner} style={{ '--plp-header-hide': scroll.headerHide } as never} {...belowBar}>
+        <MarketplaceStrip active={express ? 'express' : 'noon'} onSelect={onMarketplace} />
+        <CatalogListHeader
+          sortLabel={sortLabel}
+          sorted={sort !== 'recommended'}
+          nFilters={nFilters}
+          filters={filters}
+          results={searchProducts(query)}
+          onFilter={() => nav.sheet('plp/filters')}
+          onSort={() => nav.sheet('plp/sort')}
+          onFacet={(facet) => nav.sheet('plp/filters', { facet })}
+          onQuick={(facet, id) => {
+            const cur = filters[facet] ?? [];
+            plpStore.set({ filters: { ...filters, [facet]: cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id] } });
+          }}
+        />
+        </motion.div>
       </div>
     </div>
   );
 
   const footer = (
     <motion.div className={styles.navDock} initial={{ y: T.navRise }} animate={{ y: 0 }} transition={{ ...handoff.spring, delay: T.navAt }}>
-      <TabBar active="home" />
+      <motion.div className={styles.navHide} style={{ '--plp-tab-hide': scroll.tabHide } as never}>
+        <TabBar active="home" />
+      </motion.div>
     </motion.div>
   );
 
   const first = shown.epoch === 0;
   return (
-    <Screen header={header} footer={footer} background="bgSurface" onScroll={(y) => setScrolled(y > 4)}>
-      <div className={styles.meta}>
-        <Text variant="caption" color="textSecondary">
-          {searching ? 'Searching…' : `${list.length} results for`} <b style={{ color: 'var(--nk-color-text-primary)' }}>“{query}”</b>
-        </Text>
-      </div>
-      <BrandWidget key={query} config={widget} selected={brand} landed={landed} onSelect={setBrand} onClear={() => setBrand()}>
-        <div className={styles.grid}>
-          {shown.list.map((p, i) => {
-            const rises = i < T.animateFirst;
-            return (
-              <motion.div key={`${shown.epoch}-${p.id}`} layout="position" transition={{ layout: { duration: 0.36, ease: [0.4, 0, 0.2, 1] } }}>
-                <SkeletonReveal
-                  skeleton={<SkeletonCard />}
-                  animateIn={rises}
-                  loading={reloading && rises}
-                  delay={(first ? T.cardsAt : 0) + i * handoff.stagger.in}
-                  rise={T.cardRise}
-                  skeletonAfter={T.skeletonOutAfter}
-                >
-                  <ProductCard product={p} />
-                </SkeletonReveal>
-              </motion.div>
-            );
-          })}
+    <Screen ref={scroller} header={header} footer={footer} background="bgSurface" onScroll={scroll.onScroll}>
+      <div style={{ height: scroll.headerHeight }} aria-hidden />
+      <motion.div {...belowBar}>
+        <div className={styles.meta}>
+          <Text variant="caption" color="textSecondary">
+            {searching ? 'Searching…' : `${list.length} results for`} <b style={{ color: 'var(--nk-color-text-primary)' }}>“{query}”</b>
+          </Text>
         </div>
-        {!reloading && shown.list.length === 0 && (
-          <div className={styles.empty}>
-            <span style={{ fontSize: 48 }}>🔍</span>
-            <Text variant="section">No results match your filters</Text>
-            <Pressable onClick={() => plpStore.set({ filters: {} })} style={{ color: 'var(--nk-color-brand-blue)', font: 'var(--nk-type-body-semibold)' }}>
-              Clear all filters
-            </Pressable>
+        <>
+          <div className={styles.grid}>
+            {shown.list.map((p, i) => {
+              const rises = i < T.animateFirst;
+              return (
+                <motion.div key={`${shown.epoch}-${p.id}`} className={styles.cell} layout="position" transition={{ layout: { duration: 0.36, ease: [0.4, 0, 0.2, 1] } }}>
+                  <SkeletonReveal
+                    skeleton={<SkeletonCard />}
+                    animateIn={rises}
+                    loading={reloading && rises}
+                    delay={(first ? T.cardsAt : 0) + i * handoff.stagger.in}
+                    rise={T.cardRise}
+                    skeletonAfter={T.skeletonOutAfter}
+                  >
+                    <ProductBoxVertical product={p} />
+                  </SkeletonReveal>
+                </motion.div>
+              );
+            })}
           </div>
-        )}
-      </BrandWidget>
-      <div className={styles.tabSpace} />
+          {!reloading && shown.list.length === 0 && (
+            <div className={styles.empty}>
+              <span style={{ fontSize: 48 }}>🔍</span>
+              <Text variant="section">No results match your filters</Text>
+              <Pressable onClick={() => plpStore.set({ filters: {} })} style={{ color: 'var(--nk-color-brand-blue)', font: 'var(--nk-type-body-semibold)' }}>
+                Clear all filters
+              </Pressable>
+            </div>
+          )}
+        </>
+        <div className={styles.tabSpace} />
+      </motion.div>
     </Screen>
   );
 }

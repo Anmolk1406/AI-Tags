@@ -1,75 +1,90 @@
-import { useState } from 'react';
-import { NeedHelpButton, Screen, Text } from '../../components';
-import { useNav } from '../../kit/Navigator';
-import { useStatusBar } from '../../kit/statusBar';
-import { BrandAdModule } from './components/BrandAdModule';
-import { CategoryGrid } from './components/CategoryGrid';
-import { DepartmentTabs } from './components/DepartmentTabs';
-import type { HomeTabId } from './data.tabs';
-import { homeTabThemes, homeTabsTokens } from './tokens.tabs';
-import { HeroBanners } from './components/HeroBanners';
+import { memo, useCallback, useState } from 'react';
+import { Screen, Text } from '../../components';
+import { AdBannerModule } from './components/AdBannerModule';
+import { AdProductLedDisplay } from './components/AdProductLedDisplay';
+import { BannerCarousel, SnappedBannerCarousel } from './components/BannerCarousel';
+import { BannerScroller } from './components/BannerScroller';
+import { BzModuleWrapper } from './components/BzModuleWrapper';
+import { EasyBannerScroller } from './components/EasyBannerScroller';
+import { EidBanners } from './components/EidBanners';
 import { HomeHeader } from './components/HomeHeader';
-import { KeepShopping } from './components/KeepShopping';
-import { LaunchModule } from './components/LaunchModule';
-import { OfferTickets } from './components/OfferTickets';
-import { ProductRail } from './components/ProductRail';
-import { PromoTicker } from './components/PromoTicker';
+import { ItemCarousel } from './components/ItemCarousel';
+import { MegaDeals } from './components/MegaDeals';
+import { ProductCarousel } from './components/ProductCarousel';
+import { homeFeed, type BzModule } from './data.feed';
 import styles from './home2025.module.css';
 
 /**
- * Home — Homepage Revamp 2025 (Figma iRE9RwO94eMAyW3j3XKNXW · 1337:5102). Custom header (switcher, address, search)
- * that collapses past 100px, the department tabs + tab CMS widget right under it (DepartmentTabs, from ashbun/noon-app;
- * it replaces "Recommended for you"), then the feed in Figma order, 28 apart. Titles are 17/22 Bold `new-black` at x=14.
- * The previous bappzaar port lives on as `home/classic` (ClassicHomeScreen).
+ * Home — the noon app home feed 1:1 with bappzaar master (ba159e20): NoonHomeScreen → NoonHomeToggle header (kept as
+ * the kit's custom header: switcher, address, search; collapses past 100px) → NoonHomeToggleContent → StaticPage →
+ * Module / ModuleRenderer. The feed renders the live home CMS payload's modules in its order (`homeFeed` in
+ * data.feed.ts, one `switch`); spacing comes from each module's ModuleWrapper (innerPadding / bottomMargin), not a feed
+ * gap. Hero creatives are the Eid Figma's (Af34gfmhQ1D0wstXUEHSIF · 89:34722) at the live carousel geometry.
+ * Mapping: FIGMA-MAPPING.md → "Home feed · bappzaar modules". The previous bappzaar port is `home/classic`.
  */
 export function HomeScreen() {
-  const nav = useNav();
   const [collapsed, setCollapsed] = useState(false);
-  const [scrolled, setScrolled] = useState(false); // folds the "Need help?" pill into its icon
-  // the department tab owns the skin above the fold: header and tab band share its gradient (noon-app tabThemes)
-  const [tab, setTab] = useState<HomeTabId>('all');
-  const theme = homeTabThemes[tab];
-  useStatusBar(theme.statusInk); // Electronics is dark up top; Fashion keeps dark ink (noon-app statusInk)
-  const skin = {
-    id: tab,
-    // "All" keeps the Figma header art and only blends its bottom into the band; other tabs paint their header gradient
-    gradient: tab === 'all' ? undefined : `linear-gradient(180deg, ${theme.header[0]} 0%, ${theme.header[1]} 70%, ${theme.layout[0]} 100%)`,
-    seam: theme.layout[0],
-    ink: theme.addressInk,
-    fade: homeTabsTokens.fade,
-  };
+  // scroll only flips one boolean; the feed is memoised below, so a flip re-renders the header, not every rail
+  const onScroll = useCallback((y: number) => {
+    setCollapsed(y >= 100);
+  }, []);
   return (
     <Screen
-      header={<HomeHeader collapsed={collapsed} skin={skin} />}
+      header={<HomeHeader collapsed={collapsed} />}
       background="bgSurface"
       withTabBar
       safeTop={false}
-      onScroll={(y) => (setCollapsed(y >= 100), setScrolled(y > 24))}
-      overlay={<NeedHelpButton collapsed={scrolled} onPress={() => nav.toast('Opening Customer happiness center')} />}
+      onScroll={onScroll}
     >
-      <DepartmentTabs active={tab} onChange={setTab} />
-      <div className={styles.feed}>
-        <PromoTicker />
-        <HeroBanners />
-        <Module title="Shop by category">
-          <CategoryGrid />
-        </Module>
-        <Module title="Offers for you" gap={13}>
-          <OfferTickets />
-        </Module>
-        <ProductRail title="Bestsellers" items="bestsellers" />
-        <Module title="Keep shopping for" gap={12}>
-          <KeepShopping />
-        </Module>
-        <BrandAdModule />
-        <ProductRail title="Selling out fast" items="sellingOutFast" />
-        <LaunchModule />
-      </div>
+      <HomeFeed />
     </Screen>
   );
 }
 
-/** A feed module with the 2025 section title (Figtree Bold 17/22, `new-black`, x=14); `gap` = title → content (Figma, default 8). */
+/** Everything under the header; memoised so scroll-driven state in HomeScreen doesn't re-render it. */
+const HomeFeed = memo(function HomeFeed() {
+  return (
+    <div className={styles.feed}>
+      {homeFeed.map((m) => (
+        <FeedModule key={m.key} m={m} />
+      ))}
+    </div>
+  );
+});
+
+/** ModuleRenderer: CMS module type → component. */
+function FeedModule({ m }: { m: BzModule }) {
+  switch (m.type) {
+    case 'adBannerModuleCarousel':
+      return <SnappedBannerCarousel wrap={m.wrap} banners={m.banners} flat={m.flat} />;
+    case 'noonDynamicCarousel':
+      return (
+        <BzModuleWrapper wrap={m.wrap}>
+          <EidBanners />
+        </BzModuleWrapper>
+      );
+    case 'bannerModuleScroller':
+      return <BannerScroller wrap={m.wrap} header={m.header} rows={m.rows} numPerRow={m.numPerRow} banners={m.banners} />;
+    case 'adBannerModule':
+    case 'bannerModule':
+      return <AdBannerModule wrap={m.wrap} header={m.header} banner={m.banner} ad={m.ad} creativeAd={m.creativeAd} crop={m.crop} />;
+    case 'productCarousel':
+      return <ProductCarousel wrap={m.wrap} header={m.header} products={m.products} />;
+    case 'easyBannerScroller':
+    case 'adEasyBannerScroller':
+      return <EasyBannerScroller wrap={m.wrap} header={m.header} numPerView={m.numPerView} rows={m.rows} banners={m.banners} />;
+    case 'hpMegaDealModule':
+      return <MegaDeals wrap={m.wrap} header={m.header} />;
+    case 'adProductLedDisplayModule':
+      return <AdProductLedDisplay wrap={m.wrap} product={m.product} />;
+    case 'itemCarousel':
+      return <ItemCarousel wrap={m.wrap} header={m.header} />;
+    case 'bannerModuleCarousel':
+      return <BannerCarousel wrap={m.wrap} header={m.header} banners={m.banners} numPerView={m.numPerView} mediaHeader={m.mediaHeader} />;
+  }
+}
+
+/** A feed module with the 2025 section title (Figtree Bold 17/22, `new-black`, x=14); `gap` = title → content (Figma, default 8). Kept for the 2025 components. */
 export function Module({ title, gap, children }: { title: string; gap?: number; children: React.ReactNode }) {
   return (
     <section className={styles.module} style={gap === undefined ? undefined : { gap }}>

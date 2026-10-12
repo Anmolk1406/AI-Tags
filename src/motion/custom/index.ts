@@ -33,9 +33,10 @@ registerTransition('slide-left', {
 });
 
 registerTransition('results-fade', {
-  // search → results "in place": the PLP layer fades in over the search page (S-curve 300ms) while the
-  // search bar, drawn at the same spot on both screens, never moves; Back fades it out the same way
-  initial: { opacity: 0 },
+  // search → results "in place": the PLP layer appears at once (no layer fade, so the search bar — drawn at the
+  // same spot on both screens — never cross-fades with the one under it); the PLP fades in everything below its
+  // bar itself (S-curve 300ms, ListingScreen `belowBar`). Back fades the whole layer out.
+  initial: { opacity: 1 },
   animate: { opacity: 1 },
   exit: { opacity: 0 },
   transition: { duration: handoff.fade.reveal, ease: handoff.easeInOut },

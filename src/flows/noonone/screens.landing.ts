@@ -1,5 +1,7 @@
 import type { ScreenDef } from '../../kit/types';
-import { LandingScreen } from './screens/LandingScreen';
+import { lazyScreen } from '../../kit/lazyScreen';
+
+const LandingScreen = lazyScreen(() => import('./screens/LandingScreen'), 'LandingScreen');
 
 const V = 'features/vip';
 const SRC = `${V}/screens/VIPLandingScreen (+ ${V}/components/VIPModules/{VIPBannerModule, VIPMarketplaceBenefitsCarouselModule, VIPBenefitsModule, VIPFamilyPlanModule, VIPGuideStepsModule, VIPExpandableTextModule, VIPMembershipOverviewModule, VIPSavingsOverviewModule}, VIPSubscriptionButtonV2, VIPButton, VIPDashedBorder, VIPSlider, VIPPlanMembers, VIPStatusIndicator, VIPSkeletonLoader, VIPTransitionAnim)`;

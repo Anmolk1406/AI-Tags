@@ -1,20 +1,25 @@
 import { defineFlow } from '../../kit/registry';
-import { AccountScreen } from './AccountScreen';
-import { BirthdayPickerSheet } from './BirthdayPickerSheet';
-import { ChangeCountryScreen, ChangeLanguageScreen } from './ChangeLocaleScreen';
-import { ChangePasswordScreen } from './ChangePasswordScreen';
-import { CountrySheet } from './CountrySheet';
-import { DeletionScreen } from './DeletionScreen';
-import { EditProfileScreen } from './EditProfileScreen';
-import { DeletionReasonSheet, NationalitySheet } from './ListSheets';
-import { ManageDevicesScreen } from './ManageDevicesScreen';
-import { NotificationsSheet } from './NotificationsSheet';
-import { PoliciesSheet } from './PoliciesSheet';
-import { PreferencesSheet } from './PreferencesSheet';
-import { SecuritySheet } from './SecuritySheet';
-import { SignedOutScreen } from './SignedOutScreen';
-import { SignOutSheet } from './SignOutSheet';
 import { accountFlowTokens } from './tokens';
+import { lazyScreen } from '../../kit/lazyScreen';
+
+const AccountScreen = lazyScreen(() => import('./AccountScreen'), 'AccountScreen');
+const BirthdayPickerSheet = lazyScreen(() => import('./BirthdayPickerSheet'), 'BirthdayPickerSheet');
+const ChangePasswordScreen = lazyScreen(() => import('./ChangePasswordScreen'), 'ChangePasswordScreen');
+const CountrySheet = lazyScreen(() => import('./CountrySheet'), 'CountrySheet');
+const DeletionScreen = lazyScreen(() => import('./DeletionScreen'), 'DeletionScreen');
+const EditProfileScreen = lazyScreen(() => import('./EditProfileScreen'), 'EditProfileScreen');
+const ManageDevicesScreen = lazyScreen(() => import('./ManageDevicesScreen'), 'ManageDevicesScreen');
+const NotificationsSheet = lazyScreen(() => import('./NotificationsSheet'), 'NotificationsSheet');
+const PoliciesSheet = lazyScreen(() => import('./PoliciesSheet'), 'PoliciesSheet');
+const PreferencesSheet = lazyScreen(() => import('./PreferencesSheet'), 'PreferencesSheet');
+const SecuritySheet = lazyScreen(() => import('./SecuritySheet'), 'SecuritySheet');
+const SignOutSheet = lazyScreen(() => import('./SignOutSheet'), 'SignOutSheet');
+const SignedOutScreen = lazyScreen(() => import('./SignedOutScreen'), 'SignedOutScreen');
+
+const ChangeCountryScreen = lazyScreen(() => import('./ChangeLocaleScreen'), 'ChangeCountryScreen');
+const ChangeLanguageScreen = lazyScreen(() => import('./ChangeLocaleScreen'), 'ChangeLanguageScreen');
+const DeletionReasonSheet = lazyScreen(() => import('./ListSheets'), 'DeletionReasonSheet');
+const NationalitySheet = lazyScreen(() => import('./ListSheets'), 'NationalitySheet');
 
 const NA = 'marketplaces/noon/components/NoonAccount';
 const SHEET = 'in noon.NoonAccountBottomSheetScreen (AddressV2FloatingOverlay)';
@@ -34,8 +39,11 @@ export const accountFlow = defineFlow({
       title: 'Account',
       component: AccountScreen,
       notes:
-        'Every row navigates: profile card / edit ring → Edit profile; Addresses (modal) / Manage cards / Returns go to other flows; Warranty claims toasts. Language uses the inline switcher (slider 250ms → change-language lottie). Country, Preferences, Notifications, Account security, Sign out and the footer "Policies" open floating bottom sheets.',
-      source: 'marketplaces/noon/screens/NoonAccountScreen, NoonAccountSignedInState, NoonAccountSections/*, NoonAccountFooter',
+        'Profile card / edit ring → Edit profile (ring fills to the completion % after 1.1s, then the pencil returns); the noon One strip → noon One landing (members → Manage membership); My Orders / My Wishlist show up to 4 product tiles (?orders=none / ?wishlist=none → default icons). Every row navigates: Addresses (modal) / Manage cards / Returns go to other flows; Warranty claims toasts. Language uses the inline switcher (slider 250ms → change-language lottie). Country, Preferences, Notifications, Account security, Sign out and the footer "Policies" open floating bottom sheets.',
+      source:
+        'bappzaar master ba159e20381: marketplaces/noon/screens/NoonAccountScreen, ' +
+        `${NA}/NoonAccountSignedInState, ${NA}/NoonAccountProfileHeader, ${NA}/NoonAccountCircularProgressEdit, ${NA}/NoonAccountNoonOne/*, ` +
+        `${NA}/NoonAccountActionCard/* (NoonAccountMyOrdersActionCard, NoonAccountMyWishlistActionCard), ${NA}/NoonAccountSections/*, ${NA}/NoonAccountFooter — see MAPPING.md`,
     },
     {
       id: 'signedOut',

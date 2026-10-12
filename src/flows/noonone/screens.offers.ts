@@ -1,11 +1,13 @@
 import type { ScreenDef } from '../../kit/types';
-import { AcceptInviteErrorOverlayScreen } from './screens/AcceptInviteErrorOverlayScreen';
-import { AcceptInviteOverlayScreen } from './screens/AcceptInviteOverlayScreen';
-import { BundleScreen } from './screens/BundleScreen';
-import { ConfirmOfferPlanScreen } from './screens/ConfirmOfferPlanScreen';
-import { ConfirmVoucherPlanScreen } from './screens/ConfirmVoucherPlanScreen';
-import { OffersOverlayScreen } from './screens/OffersOverlayScreen';
-import { OffersV2Screen } from './screens/OffersV2Screen';
+import { lazyScreen } from '../../kit/lazyScreen';
+
+const AcceptInviteErrorOverlayScreen = lazyScreen(() => import('./screens/AcceptInviteErrorOverlayScreen'), 'AcceptInviteErrorOverlayScreen');
+const AcceptInviteOverlayScreen = lazyScreen(() => import('./screens/AcceptInviteOverlayScreen'), 'AcceptInviteOverlayScreen');
+const BundleScreen = lazyScreen(() => import('./screens/BundleScreen'), 'BundleScreen');
+const ConfirmOfferPlanScreen = lazyScreen(() => import('./screens/ConfirmOfferPlanScreen'), 'ConfirmOfferPlanScreen');
+const ConfirmVoucherPlanScreen = lazyScreen(() => import('./screens/ConfirmVoucherPlanScreen'), 'ConfirmVoucherPlanScreen');
+const OffersOverlayScreen = lazyScreen(() => import('./screens/OffersOverlayScreen'), 'OffersOverlayScreen');
+const OffersV2Screen = lazyScreen(() => import('./screens/OffersV2Screen'), 'OffersV2Screen');
 
 const V = 'features/vip';
 const overlay = { presentation: 'modal', transition: 'noonone-overlay' } as const;

@@ -28,26 +28,21 @@
 
 .content { position: relative; }
 
-/* tab skin (DepartmentTabs): cross-fading layer over the artwork, under the content; square corners into the band */
-.skin { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
-.header[data-joined] { border-radius: 0; }
-.header[data-ink='light'] .address { color: var(--nk-color-text-inverse); }
-.header[data-ink='light'] .homeIcon, .header[data-ink='light'] .chevron { filter: brightness(0) invert(1); }
-.address, .homeIcon, .chevron { transition: color 220ms, filter 220ms; }
-
-/* address row 1337:6692 at x19, 16 under the switcher (8 of it is switcherMetrics.bottomMargin): address (276) · gap 24 · wishlist 36 */
-.addressRow { display: flex; align-items: center; justify-content: space-between; gap: var(--nk-space-s24); padding: var(--nk-space-s8) 20px 2px 19px; }
-.address { display: flex !important; flex-direction: column; align-items: flex-start; min-width: 0; width: 282px; height: 40px; justify-content: flex-end; color: var(--nk-palette-black); }
-.addressLine1 { display: flex; align-items: center; height: 21px; }
-.homeIcon { width: 15.246px; height: 13.912px; margin: 1.27px 5.46px 2.82px 1.38px; } /* group at 1.38/2.64 in an 18 box, label at x22.08 */
-.addressLabel { font: var(--nk-type-text16-semibold-lh20); line-height: 21px; letter-spacing: -0.3px; text-shadow: var(--nk-shadow-home-address-label); white-space: nowrap; }
-.chevron { width: 16.086px; height: 16.086px; margin-inline-start: 2px; }
+/* address row: bappzaar NoonHomeToggle addressSelectorWrapper (row, gap 40, padding 0 16 12) → NoonAddressSelector + the
+   40 × 40 wishlist button (shown when signed in). Label 18 bold #1D2539 with the 20 delivery-home icon and the 16 chevron
+   (top 1), gap 4; address line 16 / 22 #343D54 in a 28-high box, paddingStart 4. */
+.addressRow { display: flex; align-items: center; gap: 40px; padding: 0 var(--nk-space-s16) var(--nk-space-s12); }
+.address { display: flex !important; flex: 1; flex-direction: column; align-items: flex-start; min-width: 0; color: var(--nk-color-text-primary); }
+.addressLine1 { display: flex; align-items: center; gap: var(--nk-space-s4); }
+.addressIcon { width: 20px; height: 20px; flex-shrink: 0; }
+.addressLabel { font: var(--nk-type-title-small); color: var(--nk-color-text-primary); white-space: nowrap; }
+.chevron { position: relative; top: 1px; width: 16px; height: 16px; flex-shrink: 0; }
 .addressLine2 {
-  display: block; width: 280px; margin: 0.57px 0 0 1.95px; font: var(--nk-type-body); letter-spacing: -0.3px;
+  display: flex; align-items: center; height: 28px; max-width: 100%; padding-inline-start: var(--nk-space-s4); font: var(--nk-type-body-large); color: var(--nk-color-text-body);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: start;
 }
-.wishlist { display: flex !important; align-items: center; justify-content: center; flex-shrink: 0; width: 36px; height: 36px; border-radius: var(--nk-radius-full); background: var(--nk-color-bg-surface); }
-.wishlist img { display: block; margin-top: 2px; }
+.addressLine2 > span { overflow: hidden; text-overflow: ellipsis; }
+.wishlistButton { display: flex !important; align-items: center; justify-content: center; flex-shrink: 0; }
 
 /* search 1337:6727 at x15 y194, 343×48 (stretches on the 390 device) */
-.searchRow { padding: var(--nk-space-s8) 16px 0 15px; }
+.searchRow { padding: 0 16px 0 15px; } /* the address row's 12 bottom padding is the gap */

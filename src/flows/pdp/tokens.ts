@@ -5,6 +5,11 @@ import { pdpSfBFlowTokens } from './tokens.sfB';
 import { pdpSfCFlowTokens } from './tokens.sfC';
 import { pdpSfDFlowTokens } from './tokens.sfD';
 import { pdpSfEFlowTokens } from './tokens.sfE';
+import { pdpNpAFlowTokens } from './tokens.npA';
+import { pdpNpBFlowTokens } from './tokens.npB';
+import { pdpNpCFlowTokens } from './tokens.npC';
+import { pdpNpDFlowTokens } from './tokens.npD';
+import { pdpNpEFlowTokens } from './tokens.npE';
 
 /**
  * PDP tokens, values from bappzaar master. See MAPPING.md for the component → value → token table.
@@ -227,6 +232,7 @@ function mergeTokens(...parts: TokenOverrides[]): TokenOverrides {
  * Exposed as CSS variables on every PDP screen: the bappzaar port's values plus the Storefront PDP restyle
  * (Figma 2ldJbjmQq4RkhnrNFCfXQB · 3499:75115), one file per section group: tokens.sfA (header, gallery, main info,
  * sponsored row) · sfB (delivery, newer model, variants) · sfC (trust, payment offers, details, warranty, additional
- * info, bestseller) · sfD (seller, A+ features, sponsored brand, FBT) · sfE (reviews, rails, ATC bar).
+ * info, bestseller) · sfD (seller, A+ features, sponsored brand, FBT) · sfE (reviews, rails, ATC bar); then the New PDP
+ * deltas (Figma Af34gfmhQ1D0wstXUEHSIF · 64:5571) per group in tokens.npA–npE.
  */
-export const pdpFlowTokens: TokenOverrides = mergeTokens(pdpBaseFlowTokens, pdpSfAFlowTokens, pdpSfBFlowTokens, pdpSfCFlowTokens, pdpSfDFlowTokens, pdpSfEFlowTokens);
+export const pdpFlowTokens: TokenOverrides = mergeTokens(pdpBaseFlowTokens, pdpSfAFlowTokens, pdpSfBFlowTokens, pdpSfCFlowTokens, pdpSfDFlowTokens, pdpSfEFlowTokens, pdpNpAFlowTokens, pdpNpBFlowTokens, pdpNpCFlowTokens, pdpNpDFlowTokens, pdpNpEFlowTokens);

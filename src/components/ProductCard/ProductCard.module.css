@@ -13,3 +13,8 @@
 .quickBtn { background: var(--nk-quick-add-bg); border: 1px solid var(--nk-quick-add-border); box-shadow: var(--nk-quick-add-shadow); }
 .quickFilled { background: var(--nk-quick-add-filled-bg); border: 0; }
 .qty { color: var(--nk-quick-add-count-fg); font: var(--nk-quick-add-count-font); }
+
+/* carousel variant (bappzaar NoonProductCard in the home productCarousel): r8, no border, info inset 4 */
+.card[data-carousel] { border: 0; border-radius: var(--nk-radius-r8); }
+.card[data-carousel] .info { padding: var(--nk-space-s4) var(--nk-space-s4) 0; }
+.card[data-carousel] .delivery { padding: 0 var(--nk-space-s4); margin-top: var(--nk-space-s4); }

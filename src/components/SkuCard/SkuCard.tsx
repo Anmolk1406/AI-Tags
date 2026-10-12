@@ -61,7 +61,7 @@ export function SkuCard({ product: p, look = 'feed', badge, sponsored, rating, d
     <motion.article className={styles.sku} data-look={look} whileTap={{ scale: 0.98 }} transition={spring.press} onClick={onPress ?? (() => nav.push('pdp/detail', { productId: p.id }))}>
       <div className={styles.media}>
         {p.image ? (
-          <img src={p.image} alt={p.title} className={styles.image} style={{ width: imageSize, height: imageSize }} />
+          <img src={p.image} alt={p.title} loading="lazy" decoding="async" className={styles.image} style={{ width: imageSize, height: imageSize }} />
         ) : (
           <ProductImage product={p} width={imageSize} height={imageSize} style={{ background: 'transparent' }} />
         )}

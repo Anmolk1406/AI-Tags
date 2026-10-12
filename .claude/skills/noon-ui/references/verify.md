@@ -11,11 +11,17 @@ Run from the repo root. The dev server must be running for the browser checks (`
 | `npm run typecheck` | App and library typecheck. Token names used through `ref.*` are typed, so typos fail here. |
 | `npm run lint:tokens` | Raw hex / rgba / font literals per folder. Must be 0 for `src/components`; keep the folders you touched at 0 (`npm run lint:tokens -- -v src/flows/<id>` lists findings). |
 | `npm run check:routes` | Every registered screen renders with no console errors and no placeholders. |
+| `npm run test:journeys` | Behaviour, not just rendering: `scripts/journeys.mjs` walks the core journeys (search → PLP hand-off with no empty frame and a still bar · PLP quick-pill filter on / off · Sort sheet reorders · PLP → PDP → Add to cart → Back keeps the results · cart summary open / close → Checkout, through the noon One push) and fails on any console error. Checkpoint screenshots in `test-results/journeys/<journey>/`. Starts its own Vite server unless `PORT` is set; `-- <name>` runs one. Add a journey when you build or change a flow's interactions (tap with `tap()` on animating chrome; match buttons by exact name). |
 | `node scripts/shot.mjs <flow>/<screen> /tmp/x.png` | Screenshot of one screen. Add `--scroll <y>` to see below the fold, `--click "<selector>"` to open a sheet or tap through, `--type "<text>"`, `--wait <ms>`. |
+| `npm run visual:ref` | **Reference fidelity** against external references in `visual/refs/` (Figma exports, real-app screenshots; `manifest.json` = route, selectors, viewport, crop, masks, threshold). Renders the route at the reference's width, captures the element at its scale, fails on a size mismatch (> `sizeTolerance` px) or a pixel diff above `threshold`, and lists the worst 24px regions; images in `test-results/visual-ref/<name>.{kit,ref,diff}.png`. Add a reference for every screen you map from Figma or bappzaar screenshots: export the frame (Figma `get_screenshot`), find the real top-left (exports carry shadow bleed), mask only data that legitimately differs (prices, counts), start at a 3–8% threshold. Never put a kit screenshot in `visual/refs/`. |
 | `npm run visual:snap -- <dir>` / `npm run visual:diff -- <a> <b>` | Pixel regression across every screen; use around any change to a shared component or token. |
 | `npm run assets:check` | No duplicate or oversized assets (after `npm run assets:optimize`). |
 | `npm run verify` | typecheck + token lint + asset check + library build; run before calling the work done. |
 | `npm run skill:check` | The skill's references still match the code (run after adding components, tokens, transitions or flows). |
+
+## Rendered is not approved
+
+A screen that renders without errors is not "done". It is done when (1) `npm run visual:ref -- <name>` passes for its references, or there is no reference and you compared your screenshot with the source side by side and listed every difference; (2) `npm run test:journeys` passes for the flows you touched; (3) its `ScreenDef.verified` date is set. If a reference fails and the cause is outside your change (another edit, a data difference), report it — don't raise the threshold or add a mask to make it pass.
 
 ## Screenshot review
 

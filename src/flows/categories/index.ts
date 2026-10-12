@@ -1,6 +1,9 @@
 import { defineFlow } from '../../kit/registry';
-import { CategoriesScreen, type CategoriesParams } from './CategoriesScreen';
+import { type CategoriesParams } from './CategoriesScreen';
 import { categoriesFlowTokens } from './tokens';
+import { lazyScreen } from '../../kit/lazyScreen';
+
+const CategoriesScreen = lazyScreen(() => import('./CategoriesScreen'), 'CategoriesScreen');
 
 const source =
   'marketplaces/noon/screens/NoonCategoriesScreen → src/screens/DynamicLoaderScreen (unstructured "/categories") → src/components/StaticPage, ' +

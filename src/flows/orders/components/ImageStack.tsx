@@ -1,45 +1,81 @@
 import { motion } from 'motion/react';
 import { useEffect, useState } from 'react';
-import { ProductImage } from '../../../components';
-import type { OrderItem } from '../data';
-import styles from '../orders.module.css';
+import { MarketplaceTag, OriginIcon } from '../../../components';
 import { ref } from '../../../foundations/tokens';
-import { palette } from '../../../foundations/palette';
+import { supermall } from '../../../motion/presets';
+import styles from '../orders.module.css';
+import { ordersTokens, ordersVar } from '../tokens';
 
-const slots = [
-  { w: 81, h: 108, top: 0, x: -40, z: 3, border: palette.white, radius: 10 },
-  { w: 69, h: 92, top: 8, x: 18, z: 2, border: palette.brightGreyColor, radius: 9 },
-  { w: 57, h: 76, top: 16, x: 66, z: 1, border: palette.grayColor, radius: 8 },
-];
+export interface StackCard {
+  image: string;
+  title: string;
+  qty?: number;
+  installation?: boolean;
+}
 
-/** O2DOrderTrackingHeroSection image stack — rotates every 1900ms, moves 520ms cubic-out. */
-export function ImageStack({ items, dim }: { items: OrderItem[]; dim?: boolean }) {
-  const pool = items.length >= 3 ? items : [...items, ...items, ...items].slice(0, 3);
-  const [offset, setOffset] = useState(0);
+const S = ordersTokens.stack;
+
+/** look of a card by its distance from the centre (PDS reference: borders, overlays and shadows step out) */
+const look = (d: number) => {
+  const a = Math.abs(d);
+  return {
+    border: a === 0 ? ref.color('bgSurface') : a === 1 ? ref.palette('brightGreyColor') : ref.palette('filterCheckboxBorder'),
+    shade: a === 0 ? 'transparent' : a === 1 ? ref.palette('blackAlpha8') : ref.palette('blackAlpha20'),
+    shadow: a <= 1 ? ordersVar.stackNear : ordersVar.stackFar,
+  };
+};
+
+/**
+ * Details hero image stack (PDS reference): a ring of 81×108 r10 cards in a 295×116 box, placed by their offset from
+ * the centre card (x 107 · ±46 · ±92 · ±127.5; scale 1 · .852 · .704 · .6 hidden), centre on top, express pill under it.
+ * `rotate` steps the ring every `ordersTokens.stackRotateMs` on `supermall.springs.return` (the reference's 700 ms
+ * critically damped move) — V2–V4; V1 holds still.
+ */
+export function ImageStack({ cards, centre = 0, rotate, express, dim }: { cards: StackCard[]; centre?: number; rotate?: boolean; express?: boolean; dim?: boolean }) {
+  const [shift, setShift] = useState(0);
+  const n = cards.length;
   useEffect(() => {
-    if (items.length < 2) return;
-    const t = setInterval(() => setOffset((o) => (o + 1) % pool.length), 1900);
-    return () => clearInterval(t);
-  }, [items.length, pool.length]);
-  const single = items.length === 1;
+    if (!rotate || n < 2) return;
+    const t = window.setInterval(() => setShift((s) => s + 1), ordersTokens.stackRotateMs);
+    return () => window.clearInterval(t);
+  }, [rotate, n]);
+  const c = (centre + shift) % Math.max(n, 1);
   return (
     <div className={styles.stack} style={{ opacity: dim ? 0.5 : 1 }}>
-      {pool.map((it, i) => {
-        const slot = single ? slots[0] : slots[(i - offset + pool.length) % pool.length];
-        if (single && i > 0) return null;
+      {cards.map((card, i) => {
+        // signed ring distance from the centre card, in −n/2 … n/2
+        let d = (((i - c) % n) + n) % n;
+        if (d > n / 2) d -= n;
+        const a = Math.min(Math.abs(d), 3);
+        const slot = S.slots[a];
+        const x = S.slots[0].x + Math.sign(d) * (a === 0 ? 0 : slot.x);
+        const l = look(a);
         return (
           <motion.div
-            key={i}
+            key={card.image + i}
             className={styles.stackCard}
             initial={false}
-            animate={{ width: slot.w, height: slot.h, top: slot.top, x: single ? -slot.w / 2 : slot.x - slot.w / 2, borderColor: slot.border, borderRadius: slot.radius, zIndex: slot.z }}
-            transition={{ duration: 0.52, ease: [0.215, 0.61, 0.355, 1] }}
-            style={{ boxShadow: `0 2px 8px ${ref.palette('blackAlpha6')}` }}
+            animate={{ x, scale: slot.s, opacity: a >= 3 ? 0 : 1, zIndex: 10 - a }}
+            transition={{ ...supermall.springs.return, zIndex: { duration: 0 } }}
+            style={{ boxShadow: l.shadow }}
           >
-            <ProductImage product={it.product} height="100%" emojiScale={0.5} />
+            <img src={card.image} alt={a === 0 ? card.title : ''} draggable={false} />
+            <span className={styles.stackShade} style={{ background: a === 0 ? ordersVar.imageTint : l.shade }} />
+            <span className={styles.stackRing} style={{ borderColor: l.border }} />
+            {card.installation && (
+              <span className={styles.installBadge}>
+                <OriginIcon name="installation-filled" size={12} color={ref.color('textInverse')} />
+              </span>
+            )}
+            {card.qty && card.qty > 1 ? <span className={styles.qtyBadge}>x{card.qty}</span> : null}
           </motion.div>
         );
       })}
+      {express && (
+        <span className={styles.stackTag} style={{ top: S.tagTop }}>
+          <MarketplaceTag kind="express" height={16} />
+        </span>
+      )}
     </div>
   );
 }

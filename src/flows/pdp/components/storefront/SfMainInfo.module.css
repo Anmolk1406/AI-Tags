@@ -1,4 +1,4 @@
-/* Storefront PDP Main-Info — Figma 2ldJbjmQq4RkhnrNFCfXQB · 3499:75133 */
+/* Main-Info — New PDP Af34gfmhQ1D0wstXUEHSIF · 64:5587 (= Storefront 2ldJbjmQq4RkhnrNFCfXQB · 3499:75133 + combo banner, key highlights) */
 /* wrapper: Accent/100, r16, pt 10, gap 8; 8 below the gallery, inset 12 */
 .wrap { position: relative; z-index: 1; display: flex; flex-direction: column; gap: var(--nk-space-s8); margin: var(--nk-space-s8) var(--nk-space-s12) var(--nk-space-s12); padding-top: var(--nk-space-s10); border-radius: var(--nk-radius-r16); background: var(--nk-palette-lavender); }
 
@@ -27,7 +27,9 @@
 .pillInner { display: inline-flex; align-items: center; gap: var(--nk-space-s4); height: var(--nk-layout-pdp-sfa-pill-inner); padding: var(--nk-space-s2) 0; border-radius: var(--nk-radius-r4); }
 .pillInner[data-rating] { background: var(--nk-color-bg-pill); }
 .score { font: var(--nk-type-pdp-sfa-text13-semibold-lh14); color: var(--nk-color-text-strong); }
-.count { font: var(--nk-type-pdp-sfa-text13-semibold-lh14); color: var(--nk-color-text-body); white-space: nowrap; }
+/* "(" 13/600 + "126 reviews)" 13/500, blue-gray/800 */
+.count { font: var(--nk-type-pdp-sfa-text13-medium-lh14); letter-spacing: -0.12px; color: var(--nk-color-text-body); white-space: nowrap; }
+.countParen { font-weight: var(--nk-font-weight-semibold); }
 .prepaid { font: var(--nk-type-pdp-sfa-text13-medium-lh14); color: var(--nk-color-text-strong); white-space: nowrap; }
 
 /* price block 3499:75166: gap 8 */
@@ -39,6 +41,20 @@
 .off { font: var(--nk-type-body-semibold); color: var(--nk-palette-irish-green); }
 .vat { font: var(--nk-type-body); color: var(--nk-color-text-secondary); }
 .priceInfo { display: flex; align-self: center; padding: 0; border: 0; background: none; cursor: pointer; }
+
+/* "Saving Đ45 with Combo" (NoonBundleBanner, 64:5587 › 4357:103967): 32h, r8, px 6, lightSkyBlue → white 51%, gap 4; 18px combo glyph in a 20 box; 14/500 blue-gray/800 −0.07; 16px info */
+.combo { display: flex; align-items: center; gap: var(--nk-space-s4); width: 100%; height: var(--nk-layout-pdp-npa-combo-height); padding: 0 var(--nk-space-s6); border: 0; border-radius: var(--nk-radius-r8); background: var(--nk-color-pdp-npa-combo-fill); cursor: pointer; text-align: start; overflow: hidden; }
+.combo:active { opacity: var(--nk-layout-pdp-press-opacity); }
+.comboStart { display: flex; align-items: center; gap: var(--nk-space-s4); min-width: 0; }
+.comboIconBox { flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; overflow: hidden; }
+.comboIcon { width: var(--nk-layout-pdp-npa-combo-icon); height: var(--nk-layout-pdp-npa-combo-icon); object-fit: cover; }
+.comboText { font: var(--nk-type-pdp-npa-text14-medium-lh18); letter-spacing: -0.07px; color: var(--nk-color-text-body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* key highlights (NoonKeyHighlights, Figma "Quantity" 4152:96028): bg-subtle r4, px 6 py 4, gap 6, 14/14 blue-gray/800 −0.12, 12px #D0D4DD dividers */
+.highlights { display: inline-flex; align-items: center; align-self: flex-start; gap: var(--nk-space-s6); max-width: 100%; padding: var(--nk-space-s4) var(--nk-space-s6); border-radius: var(--nk-radius-r4); background: var(--nk-color-bg-subtle); overflow: hidden; }
+.hlItem { font: var(--nk-type-pdp-npa-text14-lh14); letter-spacing: -0.12px; color: var(--nk-color-text-body); white-space: nowrap; }
+.hlItem:last-child { overflow: hidden; text-overflow: ellipsis; }
+.hlDivider { flex-shrink: 0; width: 1px; height: 12px; background: var(--nk-color-border-strong); }
 
 /* deal row 3499:75175: gap 6 */
 .dealRow { display: flex; align-items: stretch; gap: var(--nk-space-s6); flex-wrap: wrap; }
@@ -54,11 +70,14 @@
 .coupons::-webkit-scrollbar { display: none; }
 /* chip 3499:75194: #F6FEFD, 1px dashed emerald-700 40%, r8, pl 6 pr 8 py 6, gap 8 */
 .coupon { flex-shrink: 0; display: flex; align-items: center; gap: var(--nk-space-s8); height: var(--nk-layout-pdp-sfa-row-height); padding: var(--nk-space-s6) var(--nk-space-s8) var(--nk-space-s6) var(--nk-space-s6); border: 1px dashed var(--nk-palette-emerald-green700-alpha40); border-radius: var(--nk-radius-r8); background: var(--nk-palette-mint-cream); cursor: pointer; }
-.couponText { display: flex; align-items: center; gap: var(--nk-space-s2); font: var(--nk-type-body-semibold); color: var(--nk-color-text-ink); white-space: nowrap; }
+.couponText { font: var(--nk-type-body-semibold); letter-spacing: -0.14px; color: var(--nk-color-text-primary); white-space: nowrap; }
 
-/* bestseller row 3499:75210: blue-gray/100, r10, 36h, px 8 */
-.bestseller { display: flex; align-items: center; justify-content: space-between; width: 100%; height: var(--nk-layout-pdp-sfa-row-height); padding: 0 var(--nk-space-s8); border: 0; border-radius: var(--nk-radius-r10); background: var(--nk-color-bg-subtle); cursor: pointer; text-align: start; }
+/* bestseller row 64:5587 › 3430:4822: blue-gray/100, r10, 36h, pl 12 pr 8; 16px star badge (#0A4F4A) with the rank 10/12 bold white */
+.bestseller { display: flex; align-items: center; justify-content: space-between; width: 100%; height: var(--nk-layout-pdp-sfa-row-height); padding: 0 var(--nk-space-s8) 0 var(--nk-space-s12); border: 0; border-radius: var(--nk-radius-r10); background: var(--nk-color-bg-subtle); cursor: pointer; text-align: start; }
 .bestseller:active { opacity: var(--nk-layout-pdp-press-opacity); }
 .bestsellerStart { display: flex; align-items: center; gap: var(--nk-space-s8); min-width: 0; }
 .bestsellerText { font: var(--nk-type-pdp-sfa-text14-lh19); color: var(--nk-color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .bestsellerCat { font: var(--nk-type-pdp-sfa-text14-semibold-lh19); color: var(--nk-color-brand-blue); }
+.rankBadge { position: relative; flex-shrink: 0; display: flex; width: 16px; height: 16px; }
+.rankBadgeImg { width: 100%; height: 100%; }
+.rankBadgeNum { position: absolute; inset: -0.5px 1.7px 4.5px; display: flex; align-items: center; justify-content: center; font: var(--nk-type-pdp-npa-text10-bold-lh12); letter-spacing: -0.16px; color: var(--nk-color-text-inverse); }

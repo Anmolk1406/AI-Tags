@@ -14,6 +14,7 @@ export * from './Price/Price';
 export * from './Rating/Rating';
 export * from './ProductImage/ProductImage';
 export * from './ProductCard/ProductCard';
+export * from './ProductBoxVertical/ProductBoxVertical';
 export * from './WishlistHeart/WishlistHeart';
 export * from './QuantityStepper/QuantityStepper';
 export * from './Tag/Tag';

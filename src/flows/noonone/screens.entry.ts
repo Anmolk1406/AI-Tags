@@ -1,6 +1,8 @@
 import type { ScreenDef } from '../../kit/types';
-import { CartOverlayScreen } from './screens/CartOverlayScreen';
-import { OCOneOverlayScreen } from './screens/OCOneOverlayScreen';
+import { lazyScreen } from '../../kit/lazyScreen';
+
+const CartOverlayScreen = lazyScreen(() => import('./screens/CartOverlayScreen'), 'CartOverlayScreen');
+const OCOneOverlayScreen = lazyScreen(() => import('./screens/OCOneOverlayScreen'), 'OCOneOverlayScreen');
 
 const V = 'features/vip';
 

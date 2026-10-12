@@ -1,7 +1,8 @@
 import { Icon } from '../Icon/Icon';
 import { fontWeight, radius, ref, spacing } from '../../foundations/tokens';
 
-const starColor = (r: number) => ref.color(r < 2 ? 'starLow' : r < 3 ? 'starMid' : r < 4 ? 'starGood' : 'starGreat');
+/** NoonReviewUtil.noonReviewColorV2: ≤1.9 orange, ≤2.9 amber, ≤3.9 green, else dark green */
+export const starColor = (r: number) => ref.color(r < 2 ? 'starLow' : r < 3 ? 'starMid' : r < 4 ? 'starGood' : 'starGreat');
 export const compact = (n: number) => (n >= 1000 ? `${(n / 1000).toFixed(n >= 10000 ? 0 : 1)}K` : String(n));
 
 /** NoonProductRating pill: #F7F8FA, r6, star tinted by score, 12/600 score + (1.2K) count. */

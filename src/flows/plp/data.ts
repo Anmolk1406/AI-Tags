@@ -15,7 +15,7 @@ export const sortOptions: { id: SortId; label: string }[] = [
   { id: 'discount', label: 'Biggest Discount' },
 ];
 
-export type FacetId = 'category' | 'brand' | 'price' | 'rating' | 'delivery';
+export type FacetId = 'category' | 'brand' | 'price' | 'rating' | 'deals' | 'delivery';
 
 export interface Facet {
   id: FacetId;
@@ -45,6 +45,8 @@ export const facets: Facet[] = [
       { id: '4', label: '4 & above', test: (p) => p.rating >= 4 },
     ],
   },
+  // deal_tag facet (the live "Deals" nav pill): products on a deal = with a was-price
+  { id: 'deals', label: 'Deals', options: [{ id: 'sale', label: 'On sale', test: (p) => !!p.was && p.was > p.price }] },
   { id: 'delivery', label: 'Delivery Mode', options: [{ id: 'express', label: 'express', test: (p) => !!p.express }] },
 ];
 

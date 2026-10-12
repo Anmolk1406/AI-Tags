@@ -1,10 +1,12 @@
 import { defineFlow } from '../../kit/registry';
-import { ReturnableListScreen } from './ReturnableListScreen';
-import { ReturnDetailsScreen } from './ReturnDetailsScreen';
-import { ReturnsHistoryScreen } from './ReturnsHistoryScreen';
-import { ReturnSubmitScreen } from './ReturnSubmitScreen';
-import { ReturnSummaryScreen } from './ReturnSummaryScreen';
 import { returnsFlowTokens } from './tokens';
+import { lazyScreen } from '../../kit/lazyScreen';
+
+const ReturnDetailsScreen = lazyScreen(() => import('./ReturnDetailsScreen'), 'ReturnDetailsScreen');
+const ReturnSubmitScreen = lazyScreen(() => import('./ReturnSubmitScreen'), 'ReturnSubmitScreen');
+const ReturnSummaryScreen = lazyScreen(() => import('./ReturnSummaryScreen'), 'ReturnSummaryScreen');
+const ReturnableListScreen = lazyScreen(() => import('./ReturnableListScreen'), 'ReturnableListScreen');
+const ReturnsHistoryScreen = lazyScreen(() => import('./ReturnsHistoryScreen'), 'ReturnsHistoryScreen');
 
 /** bappzaar origin/master features/afs/returns — value mapping in MAPPING.md */
 export const returnsFlow = defineFlow({

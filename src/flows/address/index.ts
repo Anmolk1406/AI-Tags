@@ -1,13 +1,15 @@
 import { defineFlow } from '../../kit/registry';
 import './transitions';
-import { ControlsSheet } from './ControlsSheet';
-import { LocationAccessSheet } from './LocationAccessSheet';
-import { MapScreen } from './MapScreen';
-import { SearchScreen } from './SearchScreen';
-import { SelectScreen } from './SelectScreen';
-import { SuccessScreen } from './SuccessScreen';
 import { initialAddresses, singleLineAddress, t } from './data';
 import { addressFlowTokens } from './tokens';
+import { lazyScreen } from '../../kit/lazyScreen';
+
+const ControlsSheet = lazyScreen(() => import('./ControlsSheet'), 'ControlsSheet');
+const LocationAccessSheet = lazyScreen(() => import('./LocationAccessSheet'), 'LocationAccessSheet');
+const MapScreen = lazyScreen(() => import('./MapScreen'), 'MapScreen');
+const SearchScreen = lazyScreen(() => import('./SearchScreen'), 'SearchScreen');
+const SelectScreen = lazyScreen(() => import('./SelectScreen'), 'SelectScreen');
+const SuccessScreen = lazyScreen(() => import('./SuccessScreen'), 'SuccessScreen');
 
 const SRC = 'src/screens/AddressV2';
 

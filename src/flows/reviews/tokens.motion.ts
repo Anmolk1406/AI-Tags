@@ -58,6 +58,14 @@ export const reviewsMotion = {
   starPop: { from: 0.4 },
   /** read-only star rows pop in: scale .3 → 1, 70ms apart after 250ms (ReviewDraft A) / 60ms after 200ms (B) */
   starAppear: { from: 0.3, delay: 0.25, stagger: 0.07 },
+  /** ReviewDraftB StarRow timings */
+  starAppearB: { delay: 0.2, stagger: 0.06 },
+  /** Submitted photo thumbs: scale .7 → 1, spring.gentle with bounce .5, 150ms + 50ms apart */
+  photoPop: { from: 0.7, delay: 0.15, stagger: 0.05, spring: { type: 'spring', duration: 0.5, bounce: 0.5 } as Transition },
+  /** CraftingLines white sweep: x −130% → 130%, 1.2s linear loop, 120ms apart per line */
+  craftSweep: { from: '-130%', to: '130%', duration: 1.2, stagger: 0.12 },
+  /** skeleton sweep (ManualReview SkeletonBlock): x −120% → 120%, 1.1s linear loop */
+  skeletonSweep: { from: '-120%', to: '120%', duration: 1.1 },
   /** repo STAGGER (StaggerGroup / StaggerItem): 40ms delay, 50ms apart, y 12 on spring.gentle */
   stagger: { delay: 0.04, gap: 0.05, y: 12 },
   /** FadeRise: y 10, duration .3 ease.out → kit <FadeIn y={10}> (duration.medium, easing.out) */
@@ -84,7 +92,7 @@ export const reviewsMotion = {
     submittedAdvanceMs: 1500,
     /** NewReview: scroll the draft into view after craft */
     revealScrollMs: 90,
-    /** orders list: let the star pop land before pushing the review */
+    /** orders list: let the star pop land (≈220ms) before calling openReview — suggestion for the orders wiring */
     orderStarPushMs: 220,
   },
   /** past-order deck (PastOrderRatingScreen): behind cards peek above, 10% smaller each */

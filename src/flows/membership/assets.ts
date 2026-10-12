@@ -29,7 +29,7 @@ import chevronDownWebp from '../../assets/membership/chevron-down.webp';
 import chevronLeftRounded from '../../assets/vip/chevron-left-rounded.svg';
 import chevronUpRounded from '../../assets/vip/chevron-up-rounded.svg';
 import circleTick from '../../assets/membership/circle-tick.webp';
-import clearInput from '../../assets/membership/clear-input.webp';
+import clearInput from '../../assets/shared/search-bar/clear-input.webp';
 import clipboardDocument from '../../assets/membership/clipboard-document.svg';
 import closeModal from '../../assets/membership/close-modal.webp';
 import closeOverlayPopup from '../../assets/vip/close-overlay-popup.webp';

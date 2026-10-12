@@ -3,7 +3,7 @@
 
 Everything here is read from the code (`src/kit/*`, `src/flows/*`). When this file and the code disagree, the code wins; fix this file.
 
-Contents: 1. Anatomy of a flow · 2. Navigation API · 3. Catalogue (16 flows, 133 screens) · 4. Blueprints for common requests.
+Contents: 1. Anatomy of a flow · 2. Navigation API · 3. Catalogue (17 flows, 145 screens) · 4. Blueprints for common requests.
 
 ---
 
@@ -30,6 +30,8 @@ Big flows split by area: `noonone/` uses `screens.<area>.ts` (arrays of `ScreenD
 Scaffold: `npm run new-flow -- <id camelCase> "Title" "Sidebar group"` creates `index.ts`, `tokens.ts`, `data.ts`, `<Name>Screen.tsx` (with `main` + `next` screens), `<id>.module.css`, `components/`, and registers the flow in `src/flows/index.ts`. The generated CSS contains raw px/rgba (footer shadow) — replace with tokens before lint.
 
 ### `defineFlow(flow: FlowDef)` — `src/kit/registry.ts`, type in `src/kit/types.ts`
+
+Register screen components lazily so a page only downloads what it shows: `const DetailScreen = lazyScreen(() => import('./DetailScreen'), 'DetailScreen');` then `component: DetailScreen` (`src/kit/lazyScreen.ts`; the Navigator wraps screens in `<Suspense>` and `preloadScreens()` fetches the rest in idle time). The landing page (`home/home`) stays a static import. `npm run new-flow` generates this pattern.
 
 | Field | Type | Meaning |
 |---|---|---|
@@ -104,6 +106,8 @@ Screen `path`s: categories `all-categories`; returns `returns-history`, `returna
 ### `source` / `notes`
 
 Every `ScreenDef` gets both. `source` = where it came from (bappzaar path at master, `Figma <fileKey> · <node>`, or `reference: <what the user shared>`); flows often build it from consts (`const S = 'marketplaces/noon/screens'`). `notes` = imperative "what to try" (taps, params, timings): e.g. `'Try orderId o3 (delivered → Return item) or o5 (cancelled).'`
+
+`truth` (`'bappzaar' | 'figma' | 'mixed' | 'reference'`) = which reference wins when they disagree; omitted → inferred from `source` by `screenTruth()` (`src/kit/registry.ts`): Figma + bappzaar paths → `mixed`, Figma alone → `figma`, a shared link → `reference`, else `bappzaar`. `mixed` / `figma` screens need the flow's `FIGMA-MAPPING.md` (or `MAPPING.md`) to say which area follows which. `verified: 'YYYY-MM-DD'` = last side-by-side check against the reference. Example (`src/flows/cart/index.ts`): `source: 'marketplaces/noon/screens/NoonCartScreen; sticky footer + savings tab Figma Af34gfmhQ1D0wstXUEHSIF · 127:40209'`, `truth: 'mixed'`, `verified: '2026-10-12'`.
 
 ### MAPPING.md / FIGMA-MAPPING.md
 
@@ -214,11 +218,11 @@ Patterns: in-screen overlays (`returns` `ReturnsOverlay open onClosed`, cart inv
 Format per flow: id · group · initial · parent/tab. Screen rows: id · title · presentation/transition · path/defaultParams · what it shows.
 
 ### home · Discovery · `home` · tab `home`
-Files: `src/flows/home/HomeScreen.tsx` (Homepage Revamp 2025, Figma `iRE9RwO94eMAyW3j3XKNXW` · `1337:5102`) and `ClassicHomeScreen.tsx` (previous bappzaar port). Tokens: `tokens.ts` merges `tokens.header.ts`, `tokens.rails.ts`, `tokens.modules.ts`, `tokens.tabs.ts` (keys prefixed `home`); data in `data.header.ts`, `data.rails.ts`, `data.modules.ts`, `data.tabs.ts`.
+Files: `src/flows/home/HomeScreen.tsx` — the noon app home feed 1:1 with bappzaar master (`ba159e20`): the live app home CMS payload's modules in its order (`homeFeed` in `data.feed.ts`, one `switch`; tokens `tokens.feed.ts`, keys `homeBz*`), each spaced by its own `ModuleWrapper` (innerPadding / bottomMargin, no feed gap) — and `ClassicHomeScreen.tsx` (previous bappzaar port). Header and hero creatives as before (Figma `iRE9RwO94eMAyW3j3XKNXW` · `1337:5102` header, Eid `Af34gfmhQ1D0wstXUEHSIF` · `89:34398` creatives); mapping in `src/flows/home/FIGMA-MAPPING.md` → "Home feed · bappzaar modules". Tokens: `tokens.ts` merges `tokens.header.ts`, `tokens.rails.ts`, `tokens.modules.ts`, `tokens.tabs.ts`, `tokens.eid.ts`, `tokens.feed.ts` (keys prefixed `home`). bappzaar module components: `BzModuleWrapper` (+ `Sponsored`), `AdBannerModule`, `BannerCarousel` (+ `SnappedBannerCarousel`), `BannerScroller`, `EasyBannerScroller`, `ProductCarousel` (central `ProductCard carousel`), `MegaDeals`, `AdProductLedDisplay`, `ItemCarousel`; creatives in `src/assets/home/bz/`. The 2025 Figma modules (`PromoTicker`, `CategoryGrid`, `OfferTickets`, `ProductRail`, `KeepShopping`, `BrandAdModule`, `LaunchModule`, `HeroBanners`, `DepartmentTabs`, `EidAdBanner`) stay in `components/` but are not rendered.
 
 | id | title | path | shows |
 |---|---|---|---|
-| `home` | Home | `/homepage` | `HomeHeader` (gradient header r12, classic `ExperienceSwitcher`, address row + 36 wishlist circle, `SearchBarButton variant="2025"`; collapses past 100px, search stays) → `DepartmentTabs` (department tabs + tab CMS widget) → feed, gap 28: `PromoTicker` (rotating cashback ticket, n/5) → `HeroBanners` (330×150 r20, Ad badge, auto 4s) → "Shop by category" `CategoryGrid` (2 rows of 92×128 tiles, SALE ribbon) → "Offers for you" `OfferTickets` → `ProductRail` "Bestsellers" (`SkuCard`) → "Keep shopping for" `KeepShopping` → `BrandAdModule` (dark sponsored, video tile, `SkuCard` rail) → `ProductRail` "Selling out fast" → `LaunchModule` (dark inset, launch cards) |
+| `home` | Home | `/homepage` | `HomeHeader` (light-blue 2025 gradient header r12, classic `ExperienceSwitcher`, address row, `SearchBarButton variant="2025"`; collapses past 100px, search stays) → feed in live-payload order: homepage-toggle strip `SnappedBannerCarousel` (341×36.9, auto 3s) → `EidBanners` (noonDynamicCarousel at the CMS layout: 263.67×395.67 r16, gap 15; Nike / Areej / WHOOP) → category icons `BannerScroller` (2 rows, 86 wide) → top-fold-2 `AdBannerModule` (Soundcore 360×90 r20) → "Best picks for you" `ProductCarousel` (138 cards) → "Offers for you" `EasyBannerScroller` (135×176 marquee) → sfu ad (360×90 + Sponsored) → "Bestsellers for you" → "In the spotlight" → 2 coupon carousels → `MegaDeals` (countdown tab, 2×2) → `AdProductLedDisplay` → "Previously browsed products" → "Maximize your savings" (2-row brick marquee) → 2 coupon carousels → "Keep shopping for" `ItemCarousel` → strip-slider (341×140.8) → 2 carousels → category `BannerCarousel`s (Women's, Men's, Beauty, Home & kitchen; 94.29 wide) → "Explore More" (#f9f2a4) → dine-out carousel with media header → Electronics → "Kids' fashion" scroller → Emaar strip |
 | `classic` | Home (classic) | `/home-classic` | The previous home: yellow header, `ExperienceSwitcher`, Supermall toggle, `HeroCarousel` portrait cards, promo strip, tile rows, `CardRail`s (offers, spotlight, savings, banners), "Deals of the day" with `DealTimer`, "Recommended for you" `ProductCard` grid |
 
 Flow components: `HomeHeader`, `DepartmentTabs`, `PromoTicker`, `HeroBanners`, `CategoryGrid`, `RecommendedRail` (icon tabs + `SkuCard` rail; currently not on the screen), `ProductRail`, `OfferTickets`, `KeepShopping`, `BrandAdModule`, `LaunchModule`, `ExperienceSwitcher`, `HeroCarousel`, `DealTimer`. Section titles via the exported `Module` (`Text variant="heading"`, `new-black`, x=14, optional `gap`). Copy from here for: any CMS-style feed or campaign page, collapsing header on scroll, horizontal rails, dark sponsored modules.
@@ -259,18 +263,18 @@ Files: `ListingScreen.tsx`, `FiltersSheet.tsx`, `SortSheet.tsx`, `store.ts`, `br
 
 | id | title | presentation | params | shows |
 |---|---|---|---|---|
-| `listing` | Listing | screen | `{ query: 'Best sellers' }` | Opens in place from search (`results-fade`). Header: `SearchInput` at the search screen's spot (`onFieldPress` → back to editing) · `MarketplaceStrip` (noon / supermall / express / Global / Minutes, ticking subtitles; express = the delivery filter) · `nk-hscroll` pill row: Filter (count), Sort, divider, express toggle, facet dropdown pills, each dropping in over its skeleton (`RevealChip`). Meta "N results for “q”". Phone queries ("phone", "mobiles"…): `BrandWidget` "Shop phones by brand" opens once the cards land; "View {brand}" sets the brand filter and morphs to "{brand} selected" (Clear undoes). Grid: `ProductCard`s rising out of `SkeletonCard`s (`SkeletonReveal`, 60ms stagger, first 8), filter changes dissolve and re-rise, `layout` reorder on sort; empty "No results match your filters" + Clear all. Bottom `TabBar` rises 88px |
+| `listing` | Listing | screen | `{ query: 'Best sellers' }` | Opens in place from search (`results-fade`). Header: `SearchInput` at the search screen's spot (`onFieldPress` → back to editing) · `MarketplaceStrip` (bappzaar `NoonFulfillmentTabs`: noon "Wide assortment" / supermall / express / Global / Minutes, sliding 3px indicator; express = the delivery filter) · `CatalogListHeader` pill row (bappzaar `NoonCatalogListNavPill`): Filter (count, attention animation), Sort, divider, Deals / Brand / Price facet dropdowns, brand + category quick pills, each dropping in over its skeleton (`RevealChip`). Meta "N results for “q”". No brand widget (`BrandWidget` / `brands.ts` are kept for variants but not rendered). Grid: `ProductBoxVertical`s rising out of `SkeletonCard`s (`SkeletonReveal`, 60ms stagger, first 8), filter changes dissolve and re-rise, `layout` reorder on sort; empty "No results match your filters" + Clear all. Bottom `TabBar` rises 88px |
 | `filters` | Filters | sheet | `{ facet? }` | Left facet sidebar + option pills (`Pill variant="filter"`), "Search across filters", footer Clear All / Show N results (draft → commit to `plpStore`) |
 | `sort` | Sort | sheet | | Radio list; dot slides via `layoutId="sort-radio"`; pick → `plpStore.set` → `setTimeout(nav.back, 180)` |
 
 Copy from here for: any grid of products, filter/sort sheets sharing a store, skeleton → content.
 
 ### pdp · Shopping · `detail`
-Files: `DetailScreen.tsx` (Storefront PDP, Figma `3499:75115`: `components/storefront/{SfHeader,SfGallery,SfMainInfo,SfSponsoredRow,SfDeliveryCard,SfNewerModelCard,SfVariantsCard,SfTrustCard,SfPaymentOffers,SfProductDetails,SfExtendedWarranty,SfAdditionalInfo,SfBestsellerRow,SfSellerCard,SfProductFeatures,SfSponsoredBrandCard,SfFbtCard,SfReviewsCard,SfRecommendations,SfAtcBar}.tsx`, `FIGMA-MAPPING.md`, `tokens.sfA`–`sfE`), the port's `components/{Gallery,PdpHeader,ProductInfo,Sections,Variants,Reviews,AtcBar,RecoCard,VipPreference,Stars,Asset}.tsx`, `AddedSheet.tsx`, `VariantsSheet.tsx`, `data.ts` + `data.live.ts`, `MAPPING.md` (522 lines).
+Files: `DetailScreen.tsx` (Storefront PDP, Figma `3499:75115`: `components/storefront/{SfHeader,SfGallery,SfMainInfo,SfSponsoredRow,SfDeliveryCard,SfNewerModelCard,SfVariantsCard,SfTrustCard,SfPaymentOffers,SfProductDetails,SfExtendedWarranty,SfAdditionalInfo,SfBestsellerRow,SfSellerCard,SfProductFeatures,SfSponsoredBrandCard,SfFbtCard,SfReviewsCard,SfRecommendations,SfAtcBar}.tsx`, `FIGMA-MAPPING.md`, `tokens.sfA`–`sfE`), the port's `components/{Gallery,SfHeader,SfMainInfo,Sections,Variants,Reviews,SfAtcBar,RecoCard,VipPreference,Stars,Asset}.tsx`, `AddedSheet.tsx`, `VariantsSheet.tsx`, `data.ts` + `data.live.ts`, `MAPPING.md` (522 lines).
 
 | id | title | presentation | params | shows |
 |---|---|---|---|---|
-| `detail` | Product detail | screen, `overlayHeader` | `{ productId: IPHONE_17_PRO_ID }` | pinned shrinking `Gallery` → `ProductInfo` (title toggle, `PdpPrice`, nudge ticker, rating → scroll to reviews) → `DeliveryCard` → `PaymentsCard` → `VariantsCard` (chip groups; other SKU → `nav.replace`) → `ReinforcementCard` → `OverviewCard` (accordions) → `AdditionalInfoCard` → `CategoryBestSellerCta` → `SellerCard` → `FbtCard` → `ReviewsCard` (AI summary) → `Recommendations` "More from {brand}" / "Customers Also Viewed". Header turns white after 100px; "Back to top" past one screen. Footer `AtcBar`: QTY · Buy Now · Add to cart (loading lottie) → `nav.sheet('pdp/added')` |
+| `detail` | Product detail | screen, `overlayHeader` | `{ productId: IPHONE_17_PRO_ID }` | pinned shrinking `SfGallery` → `SfMainInfo` (title toggle, `PdpPrice`, nudge ticker, rating → scroll to reviews) → `DeliveryCard` → `PaymentsCard` → `VariantsCard` (chip groups; other SKU → `nav.replace`) → `ReinforcementCard` → `OverviewCard` (accordions) → `AdditionalInfoCard` → `CategoryBestSellerCta` → `SellerCard` → `FbtCard` → `ReviewsCard` (AI summary) → `Recommendations` "More from {brand}" / "Customers Also Viewed". Header turns white after 100px; "Back to top" past one screen. Footer `SfAtcBar`: QTY · Buy Now · Add to cart (loading lottie) → `nav.sheet('pdp/added')` |
 | `deliveryVariants` | Delivery information variants | screen | `{ productId }` | every `SfDeliveryCard` variant (crossSell, noCrossSell, market, express, global; PDP Redesign 3583:109620) stacked; `pdp/detail?delivery=<variant>` forces one on the PDP |
 | `variants` | Variants | sheet | `{ productId, sizeMissing? }` | size chips, QTY + ADD TO CART, warning + shake when size missing |
 | `added` | Added to cart | sheet | `{ productId, qty?, recsVariant? }` | `Lottie name="atcCheck"` over product image, row slides in, CONTINUE SHOPPING / VIEW CART |
@@ -323,15 +327,16 @@ Files: `CheckoutScreen.tsx` (272) + 20 screens, `components/` (CheckoutHeader, C
 Copy from here for: long forms of section cards, slide-to-confirm, loader → result with `replace`, success page, loyalty points UI (`BurnSection`, `RewardsPrimitives`, `data.rewards.ts`).
 
 ### orders · Post-order · `list` · parent `account/account`
-Files: `OrdersListScreen.tsx` (242), `OrderTrackingScreen.tsx` (221), `OrderCancelScreen.tsx` (105), `components/{Timeline,ImageStack,StatusTag,OrderThumbs}.tsx`, `data.ts` (`orders` o1…, `activeOrders`, `historyOrders`, `orderFilters`, `trackingSteps`, `cancelReasons`, `orderById`).
+List + tracking follow the PDS reference (pds-noon-as.vercel.app one-flows, measured — `MAPPING.md` "PDS reference"); cancel is the bappzaar port.
+Files: `OrdersListScreen.tsx` (107), `OrderTrackingScreen.tsx` (280), `OrderCancelScreen.tsx` (105), `components/{OrderCards,StatusHeader,Thumb,PinTiles,StarRating,ImageStack,Stepper,WindowPill,BillSummary}.tsx`, `assets.ts` (`src/assets/orders/pds/`), `motion.ts` (`reveal`, `pressDip`), `data.ts` (`orders` o1 active · o3/o4 delivered · o7 returned · o8 exchanged · o5 cancelled, `activeOrders`, `historyOrders`, `orderFilters` + `matchesFilter`, `trackingSteps`, `heroVariant`, `money2`, `cancelReasons`, `orderById`), `MAPPING.md`.
 
 | id | title | params | shows |
 |---|---|---|---|
-| `list` | My orders | | Header: back + "Search all orders" pill + `PillRow` filter pills; header bg/radius/shadow animate with `useTransform(scrollY)`; floating month pill. "Active" `ActiveOrderCard`s (status strip, thumbs, ETA, Track order / Need help, delivery code, alert + Verify) and "Order history" grouped by month with `StatusChip` returnable state and 5-star `RatingRow` (pop 1.25). Empty filter state |
-| `tracking` | Order tracking | `{ orderId: 'o1' }` | `overlayHeader` pinned header after 220px; hero `ImageStack` + status line + headline; status card with `Timeline`, rider code, Cancel items / Return item / Get help; blocks: Delivery information, Order summary (copy order no.), Bill summary, Quick actions |
+| `list` | My orders | | Header scrolls with the page: back circle + "Search all orders" pill; chips Filter ▾ · Delivered · Cancelled · Returns · supermall · express (tap toggles a filter, `supermall.press` dip). "Active" `ActiveOrderCard` (status strip + express pill, thumb, Arriving today / On time, Call / Chat rider, Delivery PIN tiles). "Order history" `HistoryOrderCard`s: delivered + exchanged (price, warranty chip, `StarRating` → `openReview` from `reviews/store`), return completed (refund chip, Track my refund → `returns/details`), cancelled (×2 thumb, Refund credited row). Collapsed `NeedHelpButton` FAB. Content reveals on `supermall.reveal` |
+| `tracking` | Order tracking | `{ orderId: 'o1', variant?: 1–4 }` | Header (back, order no. + copy, item count, ⋯), 8-card `ImageStack` ring + express pill, status line, 32/700 ETA, `WindowPill` (variant 1 white pill; 2 warm wash + glass pill + heat advice; 3 orange glowing pill; 4 warm glow behind the tracker — 2–4 rotate the stack); tracker card (`Stepper` fill + disc pops, rider row, Share delivery PIN, Reschedule / See all updates); Delivering to (address, receiver, checkbox tiles); Order summary (Cancel items → `orders/cancel`, return / warranty notes); `BillSummary` (Apple Pay, noon One strip → `noonone/landing`, coupon, total, savings footer, Download invoice); FAB |
 | `cancel` | Cancel items | `{ orderId: 'o1' }` | `Header variant="transparent"`; checkbox cards expanding reason pickers; footer refund banner + `Button variant="secondary"` / `variant="checkout"` |
 
-Copy from here for: card lists with status strips, timelines, info "blocks", footer with two buttons.
+Copy from here for: card lists with status strips, a horizontal stepper, PIN tiles, star rating rows, a bill summary with a savings footer, footer with two buttons.
 
 ### returns · Post-order · `history` · parent `account/account`
 Files: `ReturnsHistoryScreen.tsx`, `ReturnableListScreen.tsx`, `ReturnSubmitScreen.tsx` (376), `ReturnSummaryScreen.tsx`, `ReturnDetailsScreen.tsx`, `components/{AFSBackHeader,AFSButton,ReturnsOverlay,TrackingSteps,FeedbackWidget,CommentInput,SummaryButton,ProductDetails,Dashed}.tsx`, `components/sections/Sections.tsx`, `components/overlays/{SubmitOverlays,DetailsOverlays}.tsx`, `store.ts` (`returnsStore`), `MAPPING.md`.
@@ -346,12 +351,27 @@ Files: `ReturnsHistoryScreen.tsx`, `ReturnableListScreen.tsx`, `ReturnSubmitScre
 
 The README's "+13 sheets" are in-screen `ReturnsOverlay`s, not registered routes. Copy from here for: step-by-step forms, success header moving up, in-screen overlays.
 
+### reviews · Post-order · `rate` · parent `orders/list`
+R&R 2.0 (Figma `KzR8dy12uT8CtgBRHHY6Qx`, repo vbirla789/R-R-2.0-with-checkbox). All nine screens built, plus shared parts: `store.ts` (`reviewsStore`, `useReviews`, `reviewsActions`, `openReview(nav, { orderId?, rating, product?, variant? })`, `reviewsNav` graph helpers), `data.ts` (products, pools, `getAttributes`, drafts, `copy`), `tokens*.ts` (`reviewsMotion`), `components/` (`StarRatingInput`, `AttributeChips`, `ReviewProductHeader`, `AiToggle`, `DraftCard`, `AddPhotos`, `MockKeyboard`, `ReviewHeader`, `ReviewFooter`, `ReviewTextField`, `ReviewSheet` / `RewriteSheet` / `EditReviewSheet`, `PastOrderCard`), `README.md`, `MAPPING.md`. Alias `/reviews`.
+
+| id | title | presentation / path | shows |
+|---|---|---|---|
+| `rate` | Rate & pick | push · `rate-review` · `{ rating: 4, variant: 'A' }` | ManualReview: product + stars, Write with AI, checkbox picks, note → loader / draft |
+| `aiLoader` | AI writing | push · `review-ai-loader` | purple bloom sweep, Stop processing → replace with draft (fade) |
+| `draft` | Review draft | push · `review-draft` | draft A: polaroid top, show more / less, edit sheet |
+| `draftB` | Review draft (B) | push · `review-draft-b` | draft B: in-place edit, Save bar + keyboard |
+| `new` | Write a review | push · `new-review` · `{ product: 'bike' }` | single scroll: chips, inline AI draft, photos, edit patterns |
+| `pastOrders` | Rate your past orders | fade · `rate-past-orders` | product strip, per-product picks + draft |
+| `submitted` | Review submitted | fade · `review-submitted` | success Lottie, review card, auto-advance |
+| `deck` | Rate past orders (deck) | fade · `rate-orders-deck` | stacked swipe deck, one-tap stars |
+| `slider` | Rate past orders (slider) | fade · `rate-orders-slider` | horizontal strip variant |
+
 ### account · Profile · `account` · tab `account` (`account`, `signedOut`)
-Files: `AccountScreen.tsx`, `components/{ProfileCard,ActionCards,AccountSection,MenuGroup,AccountFooter,EditRing}.tsx`, sheets, `store.ts`, `data.ts` (`accountSection, settingsSection, securitySection, MenuItem { id, title, icon, route?, presentation?, toast? }`, `copy`).
+Files: `AccountScreen.tsx`, `components/{ProfileCard,ActionCards,AccountSection,MenuGroup,AccountFooter,EditRing}.tsx`, sheets, `store.ts`, `data.ts` (`accountSection, settingsSection, securitySection, MenuItem { id, title, icon, route?, presentation?, toast? }`, `copy`), `MAPPING.md` (bappzaar master → kit for the top blocks).
 
 | id | title | presentation / transition | shows |
 |---|---|---|---|
-| `account` | Account | screen | `ProfileCard` (name, completion ring, noon One strip), `ActionCards` (My Orders → `orders/list`, My Wishlist → `wishlist/wishlist`, 4 overlapping thumbs), noon Credits row, `MenuGroup`s (Addresses modal, Manage cards, Returns, Warranty toast, Language switcher, Country; Preferences, Notifications; Account security, Sign out), `AccountFooter`. Sections stagger in (spring, 50ms each) |
+| `account` | Account | screen | `ProfileCard` (name, completion ring → stays filled, noon One strip: Start Trial / Join Now, members see savings), `ActionCards` (title-only cards, My Orders → `orders/list`, My Wishlist → `wishlist/wishlist`, four 48×68 tiles overlapping by 10 — product photos, else the bappzaar default icons; `?orders=none` / `?wishlist=none`), noon Credits row, `MenuGroup`s (Addresses modal, Manage cards, Returns, Warranty toast, Language switcher, Country; Preferences, Notifications; Account security, Sign out), `AccountFooter`. Sections stagger in (spring, 50ms each) |
 | `signedOut` | Signed out | screen | slides + sign-in CTA |
 | `editProfile` | Edit profile | screen | floating-label fields, gender/tourist/nationality/diet chips, % badge, Save footer |
 | `birthday` | Birthday picker | sheet | date wheel |
@@ -492,13 +512,13 @@ Screen: `<Screen header background="bgSurface" withTabBar safeTop={false} onScro
 Start from `search/search`. Header `SearchInput` (with `fill`); presearch (recent + trending `Pill variant="tag"`) ↔ suggestion slots on the `handoff` motion (`searchTokens`); rows crossfade with `BlurSwap`. Every pick → `go()` → rows leave fast → `nav.push('plp/listing', { query }, { transition: 'results-fade' })`. Data: `recentSearches`, `trending`, `suggest(q)`.
 
 ### PLP / category listing
-Start from `plp/listing` (+ `filters`, `sort`, `store.ts`). Header `SearchInput onFieldPress` + `MarketplaceStrip` + `nk-hscroll` pills wrapped in `RevealChip`; meta line; optional `BrandWidget` wrapping the grid; 2-col grid `gap 12, padding 2px 12px`; cards in `SkeletonReveal` on `plpTokens.timeline` (first 8); filter swaps via `plpTokens.swap`; empty filter state; `TabBar` footer. Sheets read/write `plpStore`. Pass `categoryId` from categories.
+Start from `plp/listing` (+ `filters`, `sort`, `store.ts`). Header `SearchInput onFieldPress` + `MarketplaceStrip` + `nk-hscroll` pills wrapped in `RevealChip`; meta line; 2-col grid `gap 12, padding 2px 12px`; cards in `SkeletonReveal` on `plpTokens.timeline` (first 8); filter swaps via `plpTokens.swap`; empty filter state; `TabBar` footer. Sheets read/write `plpStore`. Pass `categoryId` from categories.
 
 ### PDP
 Start from `pdp/detail`. `<Screen ref overlayHeader safeTop={false} footer={<SfAtcBar/>}>` (QTY + Add to cart over the tab bar); white `Card` sections in the Storefront order (gallery → main info → sponsored row → delivery → newer model → variants → trust → payment offers → product details → extended warranty → additional info → bestseller → seller → A+ features → sponsored brand → FBT → reviews → similar / top products), all in `components/storefront`. Variant SKU switch with `nav.replace`. ATC → `addToCart` → `nav.sheet('pdp/added')`. Data: `pdpContent(product)`, `productById`.
 Design source: the newer Storefront Figma, analysed in `../../pdp/references/figma-storefront-pdp.md`; screen skill `/pdp` (`../../pdp/SKILL.md`).
 - Order: gallery (+ 360 button) → info (brand strip `--nk-palette-lavender` + "Visit Store") → sponsored product row ("Ad") → "Newer model available" card → delivery / variants / reinforcement / payment offers (in stock only) → Product Details accordions (Overview · Highlights · Specifications) → Bestseller → Seller → Product Features (A+, collapsed at 610 + View More) → sponsored brand carousel → Frequently bought together → Ratings & Reviews (photo reviews, bordered review cards) → Similar Products → Top products in {category}. Card titles 15/700/17.
-- States: out of stock / not available at location → no price block and no `AtcBar`; the footer is an OOS banner (top r16, red 12/600) + a successor chin that slides up (`spring.sheet`) once the in-page newer-model card leaves the viewport. The newer model opens with `nav.push('pdp/detail', { productId })`. In stock: QTY + full-width Add to cart.
+- States: out of stock / not available at location → no price block and no `SfAtcBar`; the footer is an OOS banner (top r16, red 12/600) + a successor chin that slides up (`spring.sheet`) once the in-page newer-model card leaves the viewport. The newer model opens with `nav.push('pdp/detail', { productId })`. In stock: QTY + full-width Add to cart.
 - Ask before restyling `pdp/detail` (a 1:1 bappzaar port); otherwise add new screens (e.g. `pdp/oos`).
 - Brand storefront: no design yet. "Visit Store" → `nav.push('plp/listing', { query: brand })`; ask for storefront frames before building one.
 
@@ -519,7 +539,7 @@ Design source: Figma Checkout 2.0, analysed in `../../checkout/references/figma-
 - Empty CVV disables the slider ("Enter CVV"); a press on the disabled slider scrolls to payment (`guideToPayment`).
 
 ### Orders & tracking
-Start from `orders/*`. List: scroll-reactive header (`useScroll({ container: scrollRef })` + `useTransform`), `PillRow` filters, sections "Active" / "Order history" with month labels, cards `whileTap scale 0.98`. Tracking: `overlayHeader` pinned on scroll, hero, status card + `Timeline`, info blocks (Delivery information · Order summary · Bill summary · Quick actions). Data: `orders` shape (`status, step 0..3, eta, items, pin, alert, paidWith, marketplace`).
+Start from `orders/*`. List: header in the scroll (no scroll reaction), chip row in `.nk-hscroll`, sections "Active" / "Order history", flow-local `OrderCards` (status strip, `Thumb`, `PinTiles`, `StarRating`). Tracking: `ImageStack` ring, `WindowPill`, tracker card with `Stepper`, info blocks (Delivering to · Order summary · `BillSummary`), `NeedHelpButton collapsed` as the chat FAB. Data: `orders` shape (`status, statusWord, step 0..3, stepDates, eta, items, itemCount, stack, pin, rider, address, receiver, bill, marketplace`).
 
 ### Returns
 Start from `returns/*`. History (search + chips + cards) → returnable list → submit (progressive sections, collapsed edit cards, in-screen overlays) → details/summary. Reuse `AFSBackHeader`, `AFSButton`, `ReturnsOverlay`, `TrackingSteps`.

@@ -13,6 +13,7 @@ import { cartFlow } from './cart';
 import { checkoutFlow } from './checkout';
 import { ordersFlow } from './orders';
 import { returnsFlow } from './returns';
+import { reviewsFlow } from './reviews';
 import { accountFlow } from './account';
 import { wishlistFlow } from './wishlist';
 import { addressFlow } from './address';
@@ -20,6 +21,6 @@ import { cardsFlow } from './cards';
 import { noononeFlow } from './noonone';
 import { membershipFlow } from './membership';
 
-export { homeFlow, searchFlow, categoriesFlow, dealsFlow, plpFlow, pdpFlow, cartFlow, checkoutFlow, ordersFlow, returnsFlow, accountFlow, addressFlow, cardsFlow, noononeFlow, membershipFlow, wishlistFlow };
+export { homeFlow, searchFlow, categoriesFlow, dealsFlow, plpFlow, pdpFlow, cartFlow, checkoutFlow, ordersFlow, returnsFlow, reviewsFlow, accountFlow, addressFlow, cardsFlow, noononeFlow, membershipFlow, wishlistFlow };
 
-export const allFlows: FlowDef[] = [homeFlow, searchFlow, categoriesFlow, dealsFlow, plpFlow, pdpFlow, cartFlow, checkoutFlow, ordersFlow, returnsFlow, accountFlow, addressFlow, cardsFlow, noononeFlow, membershipFlow, wishlistFlow];
+export const allFlows: FlowDef[] = [homeFlow, searchFlow, categoriesFlow, dealsFlow, plpFlow, pdpFlow, cartFlow, checkoutFlow, ordersFlow, returnsFlow, reviewsFlow, accountFlow, addressFlow, cardsFlow, noononeFlow, membershipFlow, wishlistFlow];

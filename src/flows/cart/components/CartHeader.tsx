@@ -19,11 +19,14 @@ export function CartHeader({ scrollY, hidden, showBackButton }: { scrollY: Motio
   const bg = useTransform(scrollY, [0, 50], ['var(--nk-color-bg-page)', 'var(--nk-color-bg-surface)']);
   const radius = useTransform(scrollY, [0, 50], [0, 12]);
   const shade = useTransform(scrollY, [50, 60], [0, 1]);
+  // The corner strip hangs 12px below the header; at rest it would cover the first section's top edge (the
+  // "cart's been updated" banner), so it only shows once the content has started to scroll under the header.
+  const corners = useTransform(scrollY, [0, 12], [0, 1]);
   const label = user.address.label;
   const icon = label === 'Home' ? addrHome : label === 'Work' ? deliveryWork : deliveryOther;
   return (
     <motion.div className={styles.container} style={{ background: bg, zIndex: hidden ? 0 : 4 }}>
-      <motion.div className={styles.cornerOverlay} style={{ background: bg, borderBottomLeftRadius: radius, borderBottomRightRadius: radius }} />
+      <motion.div className={styles.cornerOverlay} style={{ background: bg, borderBottomLeftRadius: radius, borderBottomRightRadius: radius, opacity: corners }} />
       <div className={styles.wrapper}>
         {showBackButton && (
           <Pressable className={styles.backButton} onClick={nav.back} aria-label="Back">

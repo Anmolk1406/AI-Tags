@@ -5,16 +5,16 @@ import { currency, formatPrice } from '../../../mocks/products';
 import { t } from '../data';
 import { buildDynamicInvoice } from '../invoice';
 import { cartTokens } from '../tokens';
-import { CartWave } from './CartWave';
+import { NoonOneLogo } from './NoonOneLogo';
+import savingsWave from '../../../assets/cart/footer/savings-wave.svg';
 import { DynamicInvoice } from './DynamicInvoice';
-import { HtmlText } from '../../../components';
-import html from './html.module.css';
 import styles from './footer.module.css';
 
 const INV = cartTokens.invoice;
 
 /**
- * NoonCartScreen sticky bar: footer savings tab (patch + callout + NoonCartWave) riding above the footer,
+ * NoonCartScreen sticky bar, styled to the Figma Cart Sticky footer (All flows Af34gfmhQ1D0wstXUEHSIF · 127:40209):
+ * the "Color waves" savings tab ("₫10 saved!" + noon One) overlapping the footer by 16,
  * the invoice sheet that slides from behind the footer (translateY 400 → 12, 300ms; backdrop 0 → .5 in 200ms;
  * swipe down > 50px closes), and the footer (r12 top, nudges on the left toggle the invoice, Checkout CTA).
  */
@@ -23,13 +23,13 @@ export function CartFooter({ totals, cart, isTabRoot, disabled, onCheckout, onHe
   const [locked, setLocked] = useState(false);
   const footerRef = useRef<HTMLDivElement>(null);
   const savingsRef = useRef<HTMLDivElement>(null);
-  const [savingsH, setSavingsH] = useState(0);
   const drag = useDragControls();
 
   useLayoutEffect(() => {
     const ro = new ResizeObserver(() => {
-      setSavingsH(savingsRef.current?.offsetHeight ?? 0);
-      onHeightChange?.((savingsRef.current?.offsetHeight ?? 0) + (footerRef.current?.offsetHeight ?? 0));
+      // the savings tab shows 32 of its 48 above the footer
+      const tab = savingsRef.current ? savingsRef.current.offsetHeight - 16 : 0;
+      onHeightChange?.(tab + (footerRef.current?.offsetHeight ?? 0));
     });
     if (footerRef.current) ro.observe(footerRef.current);
     if (savingsRef.current) ro.observe(savingsRef.current);
@@ -48,9 +48,6 @@ export function CartFooter({ totals, cart, isTabRoot, disabled, onCheckout, onHe
   };
 
   const sections = buildDynamicInvoice(totals, cart);
-  const savingsMsg = totals.totalSavings > 0 ? `You’re saving <b>${currency} ${formatPrice(totals.totalSavings)}</b> on this order` : null;
-  // Figma footer "Color waves 🌊" savings tab fill (#E7FBF3)
-  const savingsColor = 'var(--nk-color-cart-savings-wave)';
 
   return (
     <div className={styles.stickyBar} data-tab={isTabRoot || undefined}>
@@ -59,9 +56,9 @@ export function CartFooter({ totals, cart, isTabRoot, disabled, onCheckout, onHe
         {open && <motion.div className={styles.backdrop} initial={{ opacity: 0 }} animate={{ opacity: 0.5 }} exit={{ opacity: 0 }} transition={{ duration: INV.backdropMs / 1000 }} onClick={() => setOpen(false)} />}
       </AnimatePresence>
 
-      {/* footer savings */}
+      {/* footer savings — Figma "Color waves 🌊" (All flows 127:40210): 239 × 48 wave, "₫10 saved!" + noon One logo */}
       <AnimatePresence>
-        {savingsMsg && (
+        {totals.totalSavings > 0 && (
           <motion.div
             ref={savingsRef}
             className={styles.savings}
@@ -70,12 +67,16 @@ export function CartFooter({ totals, cart, isTabRoot, disabled, onCheckout, onHe
             exit={{ y: 20, opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <span className={styles.savingsPatch} style={{ background: savingsColor, height: savingsH + 16 }} />
-            <span className={styles.savingsCallout} style={{ background: savingsColor }}>
-              <HtmlText base value={savingsMsg} className={`${html.savings} ${styles.savingsText}`} />
-            </span>
-            <span className={styles.savingsWave}>
-              <CartWave color={savingsColor} height={savingsH + 16} />
+            <img src={savingsWave} alt="" width={239} height={48} className={styles.savingsWave} />
+            <span className={styles.savingsLabel}>
+              <span className={styles.savingsText}>
+                <b>
+                  {currency}
+                  {formatPrice(totals.totalSavings)}
+                </b>{' '}
+                saved!
+              </span>
+              <NoonOneLogo />
             </span>
           </motion.div>
         )}
@@ -105,8 +106,8 @@ export function CartFooter({ totals, cart, isTabRoot, disabled, onCheckout, onHe
       <motion.div ref={footerRef} className={styles.footer} data-open={open || undefined}>
         <div className={styles.footerContent}>
           <button type="button" className={styles.nudges} onClick={() => setOpen((v) => !v)} aria-expanded={open}>
-            <span className={styles.totalLabel}>{`${t.total} · ${totals.itemCount} ${totals.itemCount === 1 ? 'item' : 'items'}`}</span>
-            <span className={styles.totalPrice}>{`${currency} ${formatPrice(totals.total)}`}</span>
+            <span className={styles.totalLabel}>{t.total}</span>
+            <span className={styles.totalPrice}>{`${currency} ${totals.total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}</span>
           </button>
           <motion.button type="button" className={`${styles.cta} ${disabled ? styles.ctaDisabled : ''}`} whileTap={{ opacity: 0.6 }} onClick={press} disabled={disabled}>
             {t.checkout}

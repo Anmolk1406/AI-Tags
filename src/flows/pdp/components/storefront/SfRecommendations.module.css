@@ -1,7 +1,12 @@
-/* Storefront product rails (Figma 2ldJbjmQq4RkhnrNFCfXQB · 3499:75876 "Similar products", 3499:75877 "Top products in chargers"). Shell = Sections.tsx `Card`. */
+/* Product rails. Card look: Storefront 3499:75876 / 3499:75877 and New PDP 89:62855 (shell = Sections.tsx `Card`).
+   Bleed look: New PDP (All flows 64:5571) 89:62853 / 89:62854 — full-width white band. */
 .btnReset { appearance: none; border: 0; background: none; padding: 0; margin: 0; font: inherit; color: inherit; cursor: pointer; }
 
-.title { margin: 0; padding: 0 var(--nk-space-s2); font: var(--nk-type-pdp-sfe-title); color: var(--nk-color-text-strong); }
+.title { margin: 0; padding: 0 var(--nk-space-s2); font: var(--nk-type-pdp-sfe-title); letter-spacing: -0.28px; color: var(--nk-color-text-strong); }
+
+/* bleed: white band, py12, content inset 12 (title 12 + px2 = 14); stacked bleed rails share the band (12 white between) */
+.bleed { display: flex; flex-direction: column; padding: var(--nk-space-s12); margin-bottom: var(--nk-space-s12); background: var(--nk-color-bg-surface); }
+.bleed:has(+ .bleed) { margin-bottom: 0; padding-bottom: var(--nk-space-s24); }
 /* list: pt16, gap 12, runs to the card edge (the Figma row is 375 wide inside the 351 card) */
 .list { display: flex; align-items: flex-start; gap: var(--nk-space-s12); margin: 0 calc(-1 * var(--nk-space-s12)); padding: var(--nk-space-s16) var(--nk-space-s12) 0; overflow-x: auto; scrollbar-width: none; }
 .list::-webkit-scrollbar { display: none; }
@@ -35,7 +40,7 @@
 /* info: pt6 px6 pb8, gap 8 */
 .info { display: flex; flex-direction: column; align-items: flex-start; gap: var(--nk-space-s8); padding: var(--nk-space-s6) var(--nk-space-s6) var(--nk-space-s8); }
 .nameBlock { display: flex; flex-direction: column; align-items: flex-start; gap: var(--nk-space-s2); align-self: stretch; }
-.name { font: var(--nk-type-text13-medium-lh17); color: var(--nk-color-text-product); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.name { font: var(--nk-type-text13-medium-lh17); letter-spacing: -0.14px; color: var(--nk-color-text-product); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
 /* rating pill: 18h, px4 py2, r4, soft grey; 12 star + "4.3" 600 + "(128)" 400 Blue-Gray/600 */
 .rating { display: inline-flex; align-items: center; gap: var(--nk-space-s2); height: 18px; box-sizing: border-box; padding: var(--nk-space-s2) var(--nk-space-s4); border-radius: var(--nk-radius-r4); background: var(--nk-color-bg-pill); }
@@ -44,14 +49,14 @@
 
 .priceBlock { display: flex; flex-direction: column; align-items: flex-start; gap: var(--nk-space-s2); align-self: stretch; }
 .priceRow { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--nk-space-s2); }
-.price { font: var(--nk-type-pdp-sfe-price); color: var(--nk-color-text-primary); white-space: nowrap; }
-.was { font: var(--nk-type-text12-regular-lh14); color: var(--nk-color-text-tertiary); text-decoration: line-through; white-space: nowrap; }
-.pct { font: var(--nk-type-text12-semibold-lh14); color: var(--nk-palette-emerald-green); white-space: nowrap; }
+.price { font: var(--nk-type-pdp-sfe-price); letter-spacing: 0.07px; color: var(--nk-color-text-primary); white-space: nowrap; }
+.was { font: var(--nk-type-text12-regular-lh14); letter-spacing: -0.12px; color: var(--nk-color-text-tertiary); text-decoration: line-through; white-space: nowrap; }
+.pct { font: var(--nk-type-text12-semibold-lh14); letter-spacing: -0.12px; color: var(--nk-palette-emerald-green); white-space: nowrap; }
 
 /* nudge flipper: 16h clip, 14 icon + 12/16 Blue-Gray/700 */
 .nudge { position: relative; height: 16px; align-self: stretch; overflow: hidden; }
 .nudgeItem { display: flex; align-items: center; gap: var(--nk-space-s2); height: 16px; }
-.nudgeText { flex: 1; min-width: 0; font: var(--nk-type-caption); color: var(--nk-color-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nudgeText { flex: 1; min-width: 0; font: var(--nk-type-caption); letter-spacing: -0.12px; color: var(--nk-color-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-/* ETA "express Today" pill, 18 tall (Figma HP ETA) */
-.eta { display: block; height: 18px; width: auto; }
+/* ETA "express Today" pill, 122 × 18 (Figma HP ETA "Express today") */
+.eta { display: block; width: 122px; height: 18px; }

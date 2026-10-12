@@ -1,6 +1,6 @@
 ---
 name: noon-ui
-description: Build noon app screens and whole clickable flows with the @noon/flow-kit UI kit — noon design tokens, central components, assets, motion and 16 ready-made flows ported from the real noon app. Use this whenever someone asks to build, design, prototype, mock or restyle any noon page, screen or flow ("build a loyalty page", "make a referral screen", "new checkout step", "update orders to match this screenshot"), or shares a reference (Figma, screenshot, competitor app, sketch) to rebuild in noon's design language, even if they never say "flow kit". It routes to a screen skill (/home-page, /search, /cart, /checkout, /pdp) when one exists. Works inside the flow-kit repo (src/flows/<flow>).
+description: Build noon app screens and whole clickable flows with the @noon/flow-kit UI kit — noon design tokens, central components, assets, motion and 17 ready-made flows ported from the real noon app. Use this whenever someone asks to build, design, prototype, mock or restyle any noon page, screen or flow ("build a loyalty page", "make a referral screen", "new checkout step", "update orders to match this screenshot"), or shares a reference (Figma, screenshot, competitor app, sketch) to rebuild in noon's design language, even if they never say "flow kit". It routes to a screen skill (/home-page, /search, /cart, /checkout, /pdp) when one exists. Works inside the flow-kit repo (src/flows/<flow>).
 ---
 
 <!-- planned: pdp/oos, home/campaign -->
@@ -9,7 +9,7 @@ description: Build noon app screens and whole clickable flows with the @noon/flo
 
 This skill turns "I want to build a <flow> page" into a finished, clickable noon flow in this repo: every screen wrapped in `Screen`, styled only with `--nk-*` tokens, built from the central components and real assets, moving with the kit's transitions and recipes, registered at a URL in the dev preview, and checked visually. When the user shares a reference, you take its **structure and intent** and rebuild it in noon's language; you never copy its colours, fonts or spacing.
 
-The kit ships 16 flows and 133 screens ported 1:1 from bappzaar (the noon React Native app) and the noon Figma files. They are the quality bar and your first source: open the closest flow before you write anything.
+The kit ships 17 flows and 145 screens ported 1:1 from bappzaar (the noon React Native app) and the noon Figma files. They are the quality bar and your first source: open the closest flow before you write anything.
 
 ## How the skills fit together
 
@@ -85,6 +85,7 @@ Work in this order. Write the plan before any code; most of the quality is decid
 - **Tokens only** in components and flow CSS/TSX. `npm run lint:tokens` stays at 0 for `src/components` and the folders you touch; `scripts/token-map.json` maps literals to tokens. Geometry (SVG paths, aspect ratios, 1px hairlines) may stay literal with `// token-lint-ignore — <reason>`.
 - **Assets** in `src/assets/<flow>/` (shared ones in `src/assets/shared/`) at about 3× display size, then `npm run assets:optimize`; never hotlink temporary Figma URLs.
 - **Preserve 1:1 ports.** Flows ported from bappzaar are the reference implementation. Change one to a new design only when asked; otherwise add new screens (`pdp/oos`, `home/campaign`) next to it. Keep routes and screen ids stable.
+- **Source of truth per screen.** Every `ScreenDef` has `source`, and `truth` says which reference wins: `bappzaar` (master is the spec), `figma` (the frame in `source`), `mixed` (Figma look, bappzaar behaviour; the flow's FIGMA-MAPPING.md says which area follows which) or `reference`. Omitted, it's inferred from `source` (`screenTruth` in `src/kit/registry.ts`). Before changing a screen, read its `truth`. When the request, Figma and bappzaar disagree (a footer that is bappzaar in the code but Figma in the frame you were given), **say so and ask** which wins — don't silently pick. After a side-by-side check, set `verified: 'YYYY-MM-DD'` and, if precedence changed, update `truth`, `source` and the mapping file. `npm run skill:check` enforces the fields.
 - **Never touch the app shell** for a flow: `src/app/` is only the dev preview and is not part of the package.
 - **Keep the package stable**: exports in `src/index.ts` stay backward compatible; add a CHANGELOG line under Unreleased for anything a package user would notice.
 
@@ -96,6 +97,8 @@ npm run dev                                           # phone preview → http:/
 node scripts/shot.mjs cart/cart /tmp/cart.png         # one screen (--scroll y, --click "<selector>", --type, --wait)
 node .claude/skills/noon-ui/scripts/snap.mjs cart     # every screen of a flow → /tmp/noon-ui-snap/cart/*.png
 npm run check:routes                                  # every registered screen renders, no console errors
+npm run test:journeys                                 # core user journeys in a browser: routes, state, results, no console errors
+npm run visual:ref                                    # fidelity vs external references (visual/refs: Figma exports, app screenshots)
 npm run verify                                        # typecheck · token lint · assets · library build
 npm run skill:check                                   # the skills still match the code (paths, tokens, routes, coverage)
 ```
@@ -114,10 +117,17 @@ Design system (read as you need them):
 
 Flows and screens:
 
-- `references/flows.md`: anatomy of a flow (`defineFlow`, `ScreenDef`, routes, stores, mocks), the navigation API, the catalogue of all 16 flows with every screen, and blueprints for common requests.
+- `references/flows.md`: anatomy of a flow (`defineFlow`, `ScreenDef`, routes, stores, mocks), the navigation API, the catalogue of all 17 flows with every screen, and blueprints for common requests.
 - `references/screen-recipes.md`: canonical screen skeletons copied from real screens.
 - `references/from-reference.md`: turning a screenshot, Figma frame or competitor app into a noon flow, or restyling an existing one.
 - `references/verify.md`: the commands, the screenshot review checklist and the common faults.
+
+Branch resources (`.claude/resources/`, shared by every skill; read before opening a flow's code):
+
+- `.claude/resources/screens.md`: generated index of every route (URL, presentation, truth, verified, source) and each flow's docs, data / token files and local components.
+- `.claude/resources/patterns.md`: the shopping hand-off graph, where state goes, area token files vs param variants, scroll and tab bar, motion reuse.
+- `.claude/resources/tooling.md`: lazy screens, tab bar scroll, `screenTruth`, which check proves what, adding a journey or visual reference.
+- `.claude/resources/flows/`: one brief per flow (what it is now, pieces, state, recipes, gotchas, known drift). `.claude/resources/README.md` says which skill reads which.
 
 ## Adding a screen skill
 

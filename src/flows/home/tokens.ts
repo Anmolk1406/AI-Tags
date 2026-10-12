@@ -1,4 +1,6 @@
 import type { TokenOverrides } from '../../foundations/tokens';
+import { homeEidFlowTokens } from './tokens.eid';
+import { homeFeedFlowTokens } from './tokens.feed';
 import { homeHeaderFlowTokens } from './tokens.header';
 import { homeModulesFlowTokens } from './tokens.modules';
 import { homeRailsFlowTokens } from './tokens.rails';
@@ -29,6 +31,8 @@ export const switcherMetrics = {
   collapsedItemHeight: switcherItem / 2.2,
   itemPadding: 20,
   collapsedItemPadding: 12,
+  itemRadius: 20, // useExperienceSwitcher: borderRadius interpolates with the tile height, 20 expanded → 12 collapsed
+  collapsedItemRadius: 12,
   gap: 8,
   bottomMargin: 8,
   topOffset: 5, // homeSwitcherTopOffset: status bar + 5 (iOS)
@@ -58,4 +62,4 @@ function mergeTokens(...parts: TokenOverrides[]): TokenOverrides {
   return out as TokenOverrides;
 }
 
-export const homeFlowTokens: TokenOverrides = mergeTokens(classicFlowTokens, homeHeaderFlowTokens, homeRailsFlowTokens, homeModulesFlowTokens, homeTabsFlowTokens);
+export const homeFlowTokens: TokenOverrides = mergeTokens(classicFlowTokens, homeHeaderFlowTokens, homeRailsFlowTokens, homeModulesFlowTokens, homeTabsFlowTokens, homeEidFlowTokens, homeFeedFlowTokens);

@@ -1,14 +1,15 @@
-/* Storefront seller widget — Figma 2ldJbjmQq4RkhnrNFCfXQB · 3499:75647 (white r16, py 12, gap 16; sections px 12) */
-.root.root { padding: var(--nk-space-s12) 0; }
+/* Seller widget — New PDP Af34gfmhQ1D0wstXUEHSIF · 64:5728 / Storefront 3499:75647 (white r16, py 12, gap 16, shadow/sm; sections px 12) */
+.root.root { padding: var(--nk-space-s12) 0; box-shadow: var(--nk-shadow-pdp-npc-seller-card); }
 
 .top { display: flex; flex-direction: column; gap: var(--nk-space-s20); padding: 0 var(--nk-space-s12); }
 
 /* header: 48 logo box + name / pills (gap 8) */
 .head { /* button reset inline: a cross-file composes loads later and would wipe this rule's padding */ border: 0; background: none; padding: 0; margin: 0; cursor: pointer; font: inherit; color: inherit; text-align: inherit; display: flex; align-items: flex-start; gap: var(--nk-space-s8); width: 100%; min-width: 0; }
-.logo { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: var(--nk-layout-pdp-sfd-seller-logo); height: var(--nk-layout-pdp-sfd-seller-logo); border: 1px solid var(--nk-color-border-subtle); border-radius: var(--nk-radius-r10); }
+.logo { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: var(--nk-layout-pdp-sfd-seller-logo); height: var(--nk-layout-pdp-sfd-seller-logo); border: 1px solid var(--nk-palette-seller-logo-border); border-radius: var(--nk-radius-r10); overflow: hidden; }
+.logoImg { width: 100%; height: 100%; object-fit: cover; }
 .headText { display: flex; flex-direction: column; justify-content: center; gap: var(--nk-space-s6); min-width: 0; min-height: var(--nk-layout-pdp-sfd-seller-logo); }
 .nameRow { display: flex; align-items: center; gap: var(--nk-space-s2); min-width: 0; }
-.soldBy { flex-shrink: 0; font: var(--nk-type-body); color: var(--nk-palette-dark-navy-alpha92); white-space: nowrap; }
+.soldBy { flex-shrink: 0; font: var(--nk-type-body); color: var(--nk-palette-dark-navy-alpha92); white-space: pre; }
 .name { min-width: 0; font: var(--nk-type-body-bold); color: var(--nk-palette-dark-navy-alpha92); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .pills { display: flex; align-items: center; gap: var(--nk-space-s4); flex-wrap: wrap; }

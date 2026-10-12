@@ -11,6 +11,7 @@ Builds the noon PDP and every screen that speaks its card language. Load `../noo
 
 | Source | Where |
 |---|---|
+| Branch brief | `.claude/resources/flows/pdp.md` — section groups sfA–E / npA–E, render order, delivery variants, in-place SKU switch, gotchas |
 | Flow specification | `spec.md` (screens, section order, footer per state, data, navigation, motion, acceptance) |
 | Figma analysis | `references/figma-storefront-pdp.md` — Storefront, file `2ldJbjmQq4RkhnrNFCfXQB`, main node `930:259766` (Case 3 · out of stock), plus Case 1 in stock `2316:17084`, Case 2 not available at location `908:251666`, alt OOS `1644:39023`: every section with measurements, variables → tokens, components → kit, delta vs code |
 | Screenshot shared by the user | The whole Case 3 frame: gallery with "noon's exclusive" + 360, brand strip with Visit Store, title and rating, sponsored row, newer model card, Product Details accordions, bestseller, seller card, A+ features, OOS banner + newer-model footer, tab bar (described in the Figma analysis §1–2) |
@@ -23,7 +24,7 @@ Builds the noon PDP and every screen that speaks its card language. Load `../noo
    - *Storefront 2025 PDP*: a new screen `pdp/oos` beside `pdp/detail` (out of stock by default, the other cases by param). Default, because `pdp/detail` is the reference port.
    - *Restyle the port*: only when the user explicitly asks to change `pdp/detail` itself. Ask first; keep the route `pdp/detail`, its params and its sheets.
    - *A PDP sheet or state*: a new `ScreenDef` in `src/flows/pdp/index.ts` (`presentation: 'sheet'` for sheets), opened from `DetailScreen`.
-2. **Read** `spec.md`, then `references/figma-storefront-pdp.md` §2 (anatomy), §6 (delta) and §7 (build guidance), then `src/flows/pdp/DetailScreen.tsx`, `data.ts`, `tokens.ts`, `MAPPING.md` and the components you will reuse (`Card`, `OverviewCard`, `SellerCard` and `CategoryBestSellerCta` in `components/Sections.tsx`; `Gallery`, `ProductInfo`, `AtcBar`, `ReviewsCard`, `Recommendations`).
+2. **Read** `spec.md`, then `references/figma-storefront-pdp.md` §2 (anatomy), §6 (delta) and §7 (build guidance), then `src/flows/pdp/DetailScreen.tsx`, `data.ts`, `tokens.ts`, `MAPPING.md` and the components you will reuse (`Card`, `OverviewCard`, `SellerCard` and `CategoryBestSellerCta` in `components/Sections.tsx`; `SfGallery`, `SfMainInfo`, `SfAtcBar`, `ReviewsCard`, `Recommendations`).
 3. **Plan the sections** in the order of `spec.md` → Sections, one card per section, and decide the footer from `spec.md` → Footer per state. Reuse `DetailScreen`'s shell (`Screen ref overlayHeader safeTop={false}`, `useScroll({ container })`).
 4. **Build** each section from the kit column: reuse the pdp components, pass new props instead of forking them, and add the missing pieces (`NewerModelCard`, `SponsoredProductRow`, `ProductFeaturesCard`, `SponsoredBrandCard`, `OosBanner`, `SuccessorChin`) in `src/flows/pdp/components/`. Promote `SkuCard` (`src/flows/cart/components/CartCarousel.tsx`) to `src/components` before the PDP rails use it.
 5. **Tokens**: card titles `var(--nk-color-text-strong)`; snap every Figma value with the table in the Figma analysis §3; values with no token become `pdp*` keys in `src/flows/pdp/tokens.ts` (`pdpSectionTitle` 15/700/17, `pdpNewerImageW`, …). Never change central tokens, and don't change `pdpTokens.galleryRatio` or the `bgPage` override without asking: both change every PDP.
@@ -34,9 +35,9 @@ Builds the noon PDP and every screen that speaks its card language. Load `../noo
 ## Rules specific to pdp
 
 - Every section is a white r16 card inset 12 (`Card` in `src/flows/pdp/components/Sections.tsx`: `--nk-color-bg-surface`, `--nk-radius-r16`, padding and margin `--nk-space-s12`), stacked 12 apart in the master order of `spec.md`. No full-bleed sections except the gallery.
-- A variant that is another SKU switches with `nav.replace('pdp/detail', { productId })` (`fade`), never `push`: the back stack keeps one entry per product.
-- Add to cart goes through `AtcBar`: `addToCart` from `useDemoStore()` → `nav.sheet('pdp/added', { productId, qty })`. A fashion product without a size opens `pdp/variants` with `sizeMissing` instead. Don't hand-roll a second ATC button.
-- Out of stock and not available at location have **no `AtcBar`** and no price block: the footer is the OOS banner + successor chin.
+- Variant selection follows bappzaar master (`src/flows/pdp/MAPPING.md` → Variant selection behaviour): first in-stock size preselected; a size tap switches locally; an option tap shows the options loader and switches the product in place (no navigation, scroll kept), never `push`.
+- Add to cart goes through `SfAtcBar`: `addToCart` from `useDemoStore()` → `nav.sheet('pdp/added', { productId, qty })`. `pdp/variants` is the size flyout a product card + opens for a sized product (no preselect, warning + shake on ATC without a size). Don't hand-roll a second ATC button.
+- Out of stock and not available at location have **no `SfAtcBar`** and no price block: the footer is the OOS banner + successor chin.
 - The newer-model card and the chin open the successor with `nav.push('pdp/detail', { productId })` (`push`, not `replace`), so the user can go back to the old model.
 - Ask before restyling the bappzaar port `pdp/detail`. New designs go to new screens in the same flow (e.g. `pdp/oos`); route ids and params of existing screens stay stable.
 - Every sponsored element carries a `Badge` "Ad" (`bg="var(--nk-palette-border-color)"`, colour `var(--nk-color-price-old)`). Prices go through `Price` / `Money` or `money()` in `data.ts` (dirham sign, never "AED").

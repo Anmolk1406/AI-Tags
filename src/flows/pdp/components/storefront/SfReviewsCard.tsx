@@ -5,6 +5,7 @@ import { useNav } from '../../../../kit/Navigator';
 import type { Product } from '../../../../mocks/products';
 import { spring } from '../../../../motion/presets';
 import { abbreviate, colorName, copy, score, type PdpContent } from '../../data';
+import { npdCopy } from '../../data.npD';
 import { Asset } from '../Asset';
 import { Card } from '../Sections';
 import styles from './SfReviewsCard.module.css';
@@ -15,7 +16,6 @@ type Review = PdpContent['reviews'][number];
 const sfCopy = {
   avgRating: (count: string) => `Avg. rating based on ${count} reviews from trusted sources`,
   aiTitle: (count: string) => `${count} reviews,`,
-  aiSuffix: 'summary by noon AI',
   photoReviews: (n: number) => `Photo Reviews (${n})`,
   topReviews: (n: string) => `Top Reviews (${n})`,
   verifiedBuy: 'Verified Buy',
@@ -114,10 +114,13 @@ function SfAiSummary({ items, count }: { items: string[]; count: string }) {
       <span className={styles.aiHead}>
         <span className={styles.aiTitle}>
           <span className={styles.aiText}>{sfCopy.aiTitle(count)}</span>
-          <span className={styles.aiText}>{sfCopy.aiSuffix}</span>
+          {/* New PDP 64:5733: "summarised by" in solid indigo 92%, " noon AI" in the gradient; no chevron (the row still toggles) */}
+          <span className={styles.aiText}>
+            <span className={styles.aiBy}>{npdCopy.aiSummarisedBy}</span>
+            {npdCopy.aiNoonAi}
+          </span>
           <Asset name="aiSummarySparkle" size={12} />
         </span>
-        <OriginIcon name={open ? 'chevron-up' : 'chevron-down'} size={14} color="var(--nk-color-text-primary)" />
       </span>
       <AnimatePresence initial={false}>
         {open && (
@@ -176,7 +179,7 @@ function SfReviewItem({ review, fallbackChips = [] }: { review: Review; fallback
         </div>
         {review.verified && (
           <span className={styles.verified}>
-            <OriginIcon name="verified" filled size={14} color="var(--nk-palette-emerald-green)" />
+            <OriginIcon name="verified" filled size={12} color="var(--nk-palette-emerald-green)" />
             {sfCopy.verifiedBuy}
           </span>
         )}
@@ -207,15 +210,15 @@ function SfReviewItem({ review, fallbackChips = [] }: { review: Review; fallback
                 <>
                   {' '}
                   <button type="button" className={styles.more} onClick={() => setOpen(false)}>
-                    {copy.showLess}
+                    {npdCopy.less}
                   </button>
                 </>
               )}
             </p>
             {overflows && !open && (
               <button type="button" className={`${styles.more} ${styles.moreInline}`} onClick={() => setOpen(true)}>
-                <span className={styles.ellipsis}>… </span>
-                {copy.showMore}
+                <span className={styles.ellipsis}>.. </span>
+                {npdCopy.more}
               </button>
             )}
           </div>
@@ -236,7 +239,8 @@ function SfReviewItem({ review, fallbackChips = [] }: { review: Review; fallback
 
       <div>
         <motion.button type="button" className={styles.helpful} data-voted={voted || undefined} whileTap={{ scale: 0.95 }} transition={spring.press} onClick={() => setVoted((v) => !v)} aria-pressed={voted}>
-          <OriginIcon name="thumbs-up" filled size={16} color={voted ? 'var(--nk-color-brand-blue)' : 'var(--nk-color-text-strong)'} />
+          {/* New PDP 64:4354 / 64:4357: 12px thumb, outline by default, filled once voted; label stays Blue-Gray/1000 */}
+          <OriginIcon name="thumbs-up" filled={voted} size={12} color="var(--nk-color-text-strong)" />
           {`${copy.helpful}${helpful ? ` (${helpful})` : ''}`}
         </motion.button>
       </div>

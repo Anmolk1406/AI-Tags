@@ -1,9 +1,10 @@
 import { AnimatePresence, motion, useDragControls, type PanInfo } from 'motion/react';
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { createContext, Suspense, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { getTransition, type TransitionName } from '../motion/transitions';
 import { spring } from '../motion/presets';
 import { TokenScope } from '../foundations/ThemeProvider';
 import { TabBar } from '../components/TabBar/TabBar';
+import { preloadScreens } from './lazyScreen';
 import type { Registry } from './registry';
 import type { NavigateOptions, Route, StackEntry, TabId, ToastOptions } from './types';
 import styles from './Navigator.module.css';
@@ -119,6 +120,8 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
   stackRef.current = stack;
 
   useEffect(() => onChange?.(stack), [stack, onChange]);
+  // after the first screen is up, fetch the other lazy screens in idle time so pushes don't wait on a download
+  useEffect(() => preloadScreens(), []);
 
   const currentFlow = () => stackRef.current.at(-1)?.route.split('/')[0];
 
@@ -227,7 +230,10 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
             const content = (
               <EntryCtx.Provider value={entry}>
                 <TokenScope overrides={resolved.flow.tokens}>
-                  <Screen params={entry.params} />
+                  {/* screens load on demand (lazyScreen); the rest are preloaded in idle time after the first paint */}
+                  <Suspense fallback={null}>
+                    <Screen params={entry.params} />
+                  </Suspense>
                 </TokenScope>
               </EntryCtx.Provider>
             );

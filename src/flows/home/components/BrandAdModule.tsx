@@ -33,14 +33,14 @@ export function BrandAdModule() {
             {brandAd.sub}
           </Text>
         </span>
-        <img className={styles.logo} src={brandAd.logo} alt={brandAd.logoAlt} width={56} height={20} />
+        <img loading="lazy" decoding="async" className={styles.logo} src={brandAd.logo} alt={brandAd.logoAlt} width={56} height={20} />
       </Pressable>
       <div className={styles.row}>
         <Pressable className={styles.video} onClick={openBrand} scale={0.98} aria-label={`${brandAd.logoAlt} video`}>
           {brandAd.video ? (
             <video className={styles.media} src={brandAd.video} poster={brandAd.poster} muted={muted} autoPlay loop playsInline />
           ) : (
-            <img className={styles.media} src={brandAd.poster} alt="" draggable={false} />
+            <img loading="lazy" decoding="async" className={styles.media} src={brandAd.poster} alt="" draggable={false} />
           )}
         </Pressable>
         <button

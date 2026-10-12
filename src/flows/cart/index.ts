@@ -1,11 +1,13 @@
 import { defineFlow } from '../../kit/registry';
-import { CartScreen } from './CartScreen';
-import { CustomizeSheet } from './CustomizeSheet';
-import { DiscountDetailsSheet } from './DiscountDetailsSheet';
 import { cartFlowTokens } from './tokens';
-import { UpdatesSheet } from './UpdatesSheet';
-import { VariantsSheet } from './VariantsSheet';
-import { VirtualBundlesSheet } from './VirtualBundlesSheet';
+import { lazyScreen } from '../../kit/lazyScreen';
+
+const CartScreen = lazyScreen(() => import('./CartScreen'), 'CartScreen');
+const CustomizeSheet = lazyScreen(() => import('./CustomizeSheet'), 'CustomizeSheet');
+const DiscountDetailsSheet = lazyScreen(() => import('./DiscountDetailsSheet'), 'DiscountDetailsSheet');
+const UpdatesSheet = lazyScreen(() => import('./UpdatesSheet'), 'UpdatesSheet');
+const VariantsSheet = lazyScreen(() => import('./VariantsSheet'), 'VariantsSheet');
+const VirtualBundlesSheet = lazyScreen(() => import('./VirtualBundlesSheet'), 'VirtualBundlesSheet');
 
 export const cartFlow = defineFlow({
   id: 'cart',
@@ -21,7 +23,9 @@ export const cartFlow = defineFlow({
       title: 'Cart',
       component: CartScreen,
       notes: 'Loader flashes first (FeedbackView). Qty stepper: +/- update instantly, commit after the 1.2s debounce (loader) → group progress bar, savings tab, footer total and invoice update; trash at qty 1 removes the item (no confirm on master). Heart = move to wishlist + snackbar. Chips: \"Size\" → variants sheet, discount tags → discount sheet, \"Bundle & save\" → bundle sheet, \"Text … Edit\" → customize, \"Tap to review\" → cart updates; \"Protect it… Add\" adds a warranty (× removes). Foupon checkbox, coupon NOON10 / SAVE50 (≥ AED 300) apply, anything else = invalid. Tap the footer total to slide the invoice up (backdrop / swipe down closes). Checkout → checkout/checkout. Global group starts under the AED 100 free-delivery threshold — bump the cable to 3.',
-      source: 'marketplaces/noon/screens/NoonCartScreen',
+      source: 'marketplaces/noon/screens/NoonCartScreen; sticky footer + savings tab Figma Af34gfmhQ1D0wstXUEHSIF · 127:40209 (see FIGMA-MAPPING.md)',
+      truth: 'mixed',
+      verified: '2026-10-12',
     },
     {
       id: 'empty',

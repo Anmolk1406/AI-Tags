@@ -8,18 +8,21 @@ import { useNav } from '../../../../kit/Navigator';
 import type { Product } from '../../../../mocks/products';
 import { spring } from '../../../../motion/presets';
 import { copy } from '../../data';
+import { npaCopy } from '../../data.npA';
 import { pdpTokens } from '../../tokens';
 import pdpStyles from '../../pdp.module.css';
 import styles from './SfAtcBar.module.css';
 
 /**
- * Storefront "Bottom Nav" (3499:75904): white, top r16, shadow 0 −2 4 black 5% —
- * in-cart strip (hidden "Content" row, 36h yellow) · ATC row 72h p12 gap 8: QTY box 48×48 r12 + full-width
- * "Add to cart" (accentColor, r10) · the 5-tab bar (kit TabBar, Home active) over the home-indicator inset.
+ * "Bottom Nav" — New PDP (Af34gfmhQ1D0wstXUEHSIF · 104:20387; Storefront 3499:75904): white, top r16, shadow 0 −2 4 black 5% —
+ * in-cart strip (hidden "Content" row, 36h yellow) · ATC row 72h p12 gap 8: QTY box 48×48 r12 + "Buy now" (#041F62, 47h,
+ * r10, 14/700/20 white) + "Add to cart" (accentColor, r10), the two buttons sharing the width · the 5-tab bar (kit TabBar,
+ * Home active) over the home-indicator inset. Buy now = bappzaar NoonAddToCartQuantity.onBuyNowPress (the Buy Now
+ * overlay checkout): adds the chosen quantity and goes straight to checkout; `buyNow={false}` hides it.
  * "Back to top" (Pill Button 3499:75878) floats 48 above. Replaces AtcBar (same props): add → loader →
  * addToCart → `pdp/added` sheet; `interceptAdd` (size missing) wins; QTY opens the quantity chips.
  */
-export function SfAtcBar({ product, showBackToTop, onBackToTop, interceptAdd }: { product: Product; showBackToTop: boolean; onBackToTop: () => void; /** e.g. size not picked yet → open the variants sheet instead */ interceptAdd?: () => void }) {
+export function SfAtcBar({ product, showBackToTop, onBackToTop, interceptAdd, buyNow = true }: { product: Product; showBackToTop: boolean; onBackToTop: () => void; /** e.g. size not picked yet → open the variants sheet instead */ interceptAdd?: () => void; /** offer.is_buy_now_enabled */ buyNow?: boolean }) {
   const nav = useNav();
   const { cart, addToCart } = useDemoStore();
   const [qty, setQty] = useState(1);
@@ -40,11 +43,20 @@ export function SfAtcBar({ product, showBackToTop, onBackToTop, interceptAdd }: 
     }, pdpTokens.atcLoadingMs);
   };
 
+  const buy = () => {
+    if (loading) return;
+    setSelectorOpen(false);
+    if (interceptAdd) return interceptAdd();
+    if (!inCart) addToCart(product.id, qty);
+    setQty(1);
+    nav.push('checkout');
+  };
+
   return (
     <div className={styles.sticky}>
       <AnimatePresence>
         {showBackToTop && !selectorOpen && (
-          <motion.div key="btt" className={styles.backToTopWrap} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 12 }} transition={spring.press}>
+          <motion.div key="btt" className={styles.backToTopWrap} initial={false} exit={{ opacity: 0, transition: { duration: 0 } }}>
             <motion.button type="button" className={styles.backToTop} onClick={onBackToTop} whileTap={{ scale: 0.95 }} transition={spring.press}>
               <OriginIcon name="chevron-up" size={16} color="var(--nk-color-text-inverse)" />
               {copy.backToTop}
@@ -77,6 +89,11 @@ export function SfAtcBar({ product, showBackToTop, onBackToTop, interceptAdd }: 
             <span className={styles.qtyLabel}>{copy.qty}</span>
             <span className={styles.qtyValue}>{qty}</span>
           </button>
+          {buyNow && (
+            <button type="button" className={styles.buyNow} onClick={buy}>
+              {npaCopy.buyNow}
+            </button>
+          )}
           <button type="button" className={styles.atc} data-loading={loading || undefined} onClick={add}>
             <span className={loading ? styles.hidden : undefined}>{copy.addToCart}</span>
             {loading && (

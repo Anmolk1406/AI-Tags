@@ -1,6 +1,8 @@
 import { defineFlow } from '../../kit/registry';
-import { SearchScreen } from './SearchScreen';
 import { searchFlowTokens } from './tokens';
+import { lazyScreen } from '../../kit/lazyScreen';
+
+const SearchScreen = lazyScreen(() => import('./SearchScreen'), 'SearchScreen');
 
 const source = 'marketplaces/noon/screens/NoonSearchScreen, components/NoonSearchSuggestionRow, NoonRecentlySearchedModule; motion: github.com/saswata2002/Brand-Widget-PLP (app.js "Search suggestions — ProtoPie handoff motion")';
 
@@ -19,6 +21,8 @@ export const searchFlow = defineFlow({
       transition: 'slide-left',
       notes: 'Type "phone": the presearch sinks and suggestion rows fall in top → bottom; keep typing to watch changed rows crossfade. Clear the field: rows leave bottom → top, then presearch rises back. Tap a row: the field fills, rows leave fast and the PLP fades in under the same search bar. Tap Edit on Recent Searches for the wobble/delete mode.',
       source,
+      truth: 'bappzaar',
+      verified: '2026-10-12',
     },
     {
       id: 'suggestions',

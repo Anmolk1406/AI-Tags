@@ -21,6 +21,7 @@
 .aiHead { display: flex; align-items: center; gap: var(--nk-space-s12); height: 42px; box-sizing: border-box; padding: var(--nk-space-s12); }
 .aiTitle { flex: 1; min-width: 0; display: flex; align-items: center; gap: var(--nk-space-s4); }
 .aiText { font: var(--nk-type-body-semibold); white-space: nowrap; color: transparent; -webkit-background-clip: text; background-clip: text; background-image: linear-gradient(90deg, var(--nk-palette-title-gradient-indigo), var(--nk-palette-title-gradient-violet)); }
+.aiBy { color: var(--nk-palette-title-gradient-indigo); -webkit-text-fill-color: var(--nk-palette-title-gradient-indigo); }
 .aiBodyWrap { display: block; overflow: hidden; }
 .aiBody { display: flex; flex-direction: column; gap: var(--nk-space-s8); padding: var(--nk-space-s12); }
 .aiItem { display: flex; align-items: flex-start; gap: 7px; font: var(--nk-type-body); color: var(--nk-color-text-primary); }
@@ -51,12 +52,13 @@
 .reviewText { display: flex; flex-direction: column; align-items: flex-start; gap: var(--nk-space-s4); }
 .reviewTitle { font: var(--nk-type-body-semibold); color: var(--nk-color-text-primary); }
 .feedback { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: var(--nk-space-s2); align-self: stretch; }
-/* "… more" over the end of the clamped second line, fading the text under it */
+/* ".. More" over the end of the clamped second line, fading the text under it */
 .moreInline { position: absolute; right: 0; bottom: 0; padding-inline-start: var(--nk-space-s8) !important; background: linear-gradient(90deg, transparent 0, var(--nk-color-bg-surface) var(--nk-space-s6)) !important; line-height: 18px; }
-.ellipsis { color: var(--nk-color-text-muted); font-weight: var(--nk-font-weight-regular); }
+.ellipsis { font: var(--nk-type-body); color: var(--nk-color-text-muted); }
 .comment { margin: 0; font: var(--nk-type-body); color: var(--nk-color-text-muted); }
 .comment[data-clamped] { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.more { composes: btnReset; font: var(--nk-type-product-title); color: var(--nk-color-text-strong); }
+/* New PDP: "More" / "Less" 12/14 500 Blue/700 */
+.more { composes: btnReset; font: var(--nk-type-text12-medium-lh14); letter-spacing: -0.12px; color: var(--nk-color-brand-blue); }
 .translate { composes: btnReset; font: var(--nk-type-text12-medium-lh14); color: var(--nk-color-brand-blue); }
 
 .reviewPhotos { display: flex; gap: var(--nk-space-s10); overflow-x: auto; scrollbar-width: none; }
@@ -65,7 +67,6 @@
 
 /* Helpful: 24h, px8, Blue-Gray/50 + 1px border, r6, 12 thumb + 12/14 500 */
 .helpful { composes: btnReset; display: inline-flex; align-items: center; justify-content: center; gap: var(--nk-space-s4); height: 24px; box-sizing: border-box; padding: 0 var(--nk-space-s8); border: 1px solid var(--nk-color-border); border-radius: var(--nk-radius-r6); background: var(--nk-palette-blue-gray50); font: var(--nk-type-text12-medium-lh14); color: var(--nk-color-text-strong); }
-.helpful[data-voted] { color: var(--nk-color-brand-blue); }
 
 /* divider + "All customer reviews" (13/15 600 → text13 semibold lh16) + 12 chevron */
 .allReviews { display: flex; flex-direction: column; align-items: center; gap: var(--nk-space-s8); padding: var(--nk-space-s4) 0; align-self: stretch; }

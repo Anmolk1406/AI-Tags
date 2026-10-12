@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { NeedHelpButton, Pressable, Screen } from '../../components';
 import { useNav } from '../../kit/Navigator';
 import { currency, formatPrice, user } from '../../mocks/products';
@@ -26,14 +26,25 @@ export function AccountScreen() {
   const nav = useNav();
   // the floating "Need help?" pill folds into its icon once the page scrolls (Accounts Figma 8924:67388)
   const [scrolled, setScrolled] = useState(false);
+  const onScroll = useCallback((y: number) => setScrolled(y > 24), []);
   return (
     <Screen
       background="bgPage"
       withTabBar
       safeTop={false}
-      onScroll={(y) => setScrolled(y > 24)}
+      onScroll={onScroll}
       overlay={<NeedHelpButton collapsed={scrolled} onPress={() => nav.toast('Opening Customer happiness center')} />}
     >
+      <AccountBody />
+    </Screen>
+  );
+}
+
+/** The page under the pill; memoised so the scroll flag doesn't re-render (and re-animate) every section. */
+const AccountBody = memo(function AccountBody() {
+  const nav = useNav();
+  return (
+    <>
       <div className={styles.statusCover} />
       <div className={styles.page}>
         <motion.div {...enter(0)}>
@@ -70,6 +81,6 @@ export function AccountScreen() {
           <AccountFooter />
         </motion.div>
       </div>
-    </Screen>
+    </>
   );
-}
+});

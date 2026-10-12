@@ -1,8 +1,10 @@
 import { defineFlow } from '../../kit/registry';
-import { AddCardScreen } from './AddCardScreen';
-import { AddCardSuccessScreen } from './AddCardSuccessScreen';
-import { CardsScreen } from './CardsScreen';
 import { cardsFlowTokens } from './tokens';
+import { lazyScreen } from '../../kit/lazyScreen';
+
+const AddCardScreen = lazyScreen(() => import('./AddCardScreen'), 'AddCardScreen');
+const AddCardSuccessScreen = lazyScreen(() => import('./AddCardSuccessScreen'), 'AddCardSuccessScreen');
+const CardsScreen = lazyScreen(() => import('./CardsScreen'), 'CardsScreen');
 
 const SRC = 'features/payment';
 

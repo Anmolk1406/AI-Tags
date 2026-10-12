@@ -1,6 +1,6 @@
 # @noon/flow-kit
 
-The noon app as a **React UI kit for clickable prototypes**: noon design tokens, a central component library, a motion system and **17 ready-made flows (133 screens)** ported 1:1 from **bappzaar** (the noon React Native app) and the noon Figma files.
+The noon app as a **React UI kit for clickable prototypes**: noon design tokens, a central component library, a motion system and **17 ready-made flows (145 screens)** ported 1:1 from **bappzaar** (the noon React Native app) and the noon Figma files.
 
 Use it two ways:
 

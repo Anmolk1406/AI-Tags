@@ -13,6 +13,7 @@ export function Price({
   showCurrency = true,
   showDiscount = true,
   free,
+  offSuffix = true,
 }: {
   price: number;
   was?: number;
@@ -20,6 +21,8 @@ export function Price({
   showCurrency?: boolean;
   showDiscount?: boolean;
   free?: boolean;
+  /** "n% OFF" (PLP) vs "n%" (bappzaar carousels, Discount + discountPLP) */
+  offSuffix?: boolean;
 }) {
   const pct = was ? Math.round(((was - price) / was) * 100) : 0;
   return (
@@ -33,7 +36,7 @@ export function Price({
         </span>
       )}
       {was && was > price && <span className={styles.was}>{formatPrice(was)}</span>}
-      {showDiscount && pct > 0 && <span className={styles.off}>{pct}% OFF</span>}
+      {showDiscount && pct > 0 && <span className={styles.off}>{offSuffix ? `${pct}% OFF` : `${pct}%`}</span>}
     </span>
   );
 }

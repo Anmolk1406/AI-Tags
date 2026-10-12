@@ -7,7 +7,7 @@
 export { NoonPrototype, type NoonPrototypeProps } from './kit/NoonPrototype';
 export { Navigator, useNav, useParams, TAB_ROUTES, type NavApi } from './kit/Navigator';
 export { useStatusBar, type StatusBarTone } from './kit/statusBar';
-export { defineFlow, defineScreen, createRegistry } from './kit/registry';
+export { defineFlow, defineScreen, createRegistry, screenTruth } from './kit/registry';
 export { DemoStoreProvider, useDemoStore } from './kit/DemoStore';
 export { membershipStore, membershipActions, useMembership, type MembershipState, type MembershipPlan, type MembershipStatus, type FamilyMember } from './kit/membership';
 export { createStore, type Store } from './kit/createStore';

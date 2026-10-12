@@ -22,6 +22,7 @@
 .itemTitle { font: var(--nk-type-text12-medium-lh15); color: var(--nk-color-text-product); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .price { font: var(--nk-type-text12-bold-lh16); color: var(--nk-color-text-primary); }
 .eta { display: flex; height: var(--nk-layout-pdp-sfd-eta); }
+.etaImg { display: block; height: var(--nk-layout-pdp-sfd-eta); width: auto; }
 
 /* "+" column: 24 wide, disc at pt 64 (white, 1px #F4F5FB → border-subtle, p 4, 16 glyph) */
 .plusCol { position: relative; z-index: 1; flex: 0 0 auto; width: var(--nk-layout-pdp-icon24); padding-top: var(--nk-layout-pdp-sfd-fbt-plus-top); display: flex; }

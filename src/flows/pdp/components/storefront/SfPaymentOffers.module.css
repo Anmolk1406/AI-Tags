@@ -34,6 +34,9 @@
   overflow: hidden;
 }
 .logo img { width: 100%; height: 100%; object-fit: contain; }
+/* ENBD card (New PDP 64:5693): r6 box, 63 × 42 image, cover, 1px below centre */
+.logo[data-cover] { position: relative; border-radius: var(--nk-radius-r6); }
+.logo[data-cover] img { position: absolute; left: 50%; top: calc(50% + 1px); width: var(--nk-layout-pdp-npc-enbd-w); height: var(--nk-layout-pdp-npc-enbd-h); max-width: none; object-fit: cover; transform: translate(-50%, -50%); }
 .text {
   flex: 1;
   min-width: 0;
