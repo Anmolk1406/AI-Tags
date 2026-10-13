@@ -279,7 +279,7 @@ export const shadow = {
   card: `0 1px 2px ${palette.blackAlpha4}`, // NoonStyles.shadow()
   raised: `0 3px 6px ${palette.darkGrayColorAlpha10}`, // shadow2
   lg: `0 7px 16px ${palette.blackAlpha18}`, // shadow3 (softened for web)
-  tabBar: `0 -1px 4px ${palette.blackAlpha8}`,
+  tabBar: `0 -3px 4px ${palette.blackAlpha8}`, // NoonApp.getTabOptions iOS shadow: opacity 0.08, radius 4 (UIKit offset 0, -3)
   thumb: `0 1px 4px ${palette.blackAlpha6}`,
   bottomBar: `0 -2px 6px ${palette.blackAlpha8}`, // sticky footer (BottomBar)
   floating: `0 -4px 32px ${palette.charcoalAlpha12}`, // floating action pill (NeedHelpButton)
@@ -292,7 +292,7 @@ export const layout = {
   screenSmoothing: 1, // Figma corner smoothing (0–1); 1 = 100%
   statusBar: 54,
   homeIndicator: 34,
-  tabBar: 63, // bottom nav 2025 row: 4 indicator + 8 gap + 51 item (Figma 1337:6801)
+  tabBar: 49, // bappzaar native bottom tabs (UITabBar, stacked): 49pt above the home-indicator inset
   header: 56,
 } as const;
 
@@ -589,29 +589,30 @@ export const searchBar = {
 
 /** <TabBar> (NoonApp.getTabScreens). CSS: var(--nk-tab-bar-<key>). */
 export const tabBar = {
+  // bappzaar native bottom tabs (NoonApp.getTab / getTabOptions → react-native-navigation UITabBar): opaque white,
+  // shadow 0.08 / 4, no indicator; labels primaryFont semibold 14 in both states, charcoalGreyColor → sapphire;
+  // icons the tabbar webps at native size, iconInsets top 3; badge = the native badge in accentColor.
   bg: ref.color('bgSurface'),
   shadow: ref.shadow('tabBar'),
-  fg: ref.color('tabInactive'),
-  fgActive: ref.color('tabActive'),
+  barShadow: ref.shadow('tabBar'),
+  fg: ref.palette('charcoalGreyColor'),
+  fgInactive: ref.palette('charcoalGreyColor'), // #404553
+  fgActive: ref.palette('sapphire'), // #1155CB
   iconBox: 32,
-  gap: 1,
+  iconSize: 32,
+  iconInsetTop: 3,
+  gap: 0,
   font: ref.type('tab'),
-  pressScale: 0.9,
+  labelFont: `600 14px/14px var(--nk-font-family)`,
+  labelFontActive: `600 14px/14px var(--nk-font-family)`,
+  labelTracking: 0,
+  pressScale: 1,
+  height: ref.layout('tabBar'),
+  // UITabBarItem badge: 18 high capsule, min 18 wide, 13pt system text, top-right of the icon
   badgeTop: -2,
   badgeEnd: -8,
-  // Bottom nav 2025 (Figma iRE9RwO94eMAyW3j3XKNXW · 1337:6801): top indicator bar, 12/20 labels, 32 icons.
-  height: ref.layout('tabBar'), // 63, as the Figma row (4 indicator + 8 gap + 51 item)
-  barShadow: `0 -1px 1px ${ref.palette('blackAlpha5')}`,
-  fgInactive: ref.color('textMuted'), // #475067
-  labelFont: `500 12px/20px var(--nk-font-family)`,
-  labelFontActive: `700 12px/20px var(--nk-font-family)`,
-  labelTracking: -0.16,
-  indicatorWidth: 43,
-  indicatorHeight: 4,
-  indicatorRadius: ref.radius('r4'),
-  indicatorBg: ref.color('tabActive'),
-  indicatorGap: `calc(${ref.layout('tabBar')} - 55px)`, // 8 at the 63 row
-  iconSize: 32,
+  badgeLeft: 'calc(50% + 6px)',
+  badgeFont: `400 13px/18px -apple-system, BlinkMacSystemFont, system-ui, sans-serif`,
 } as const;
 
 /** <QuickAdd> on ProductCard (NoonProductBoxAddToCart). CSS: var(--nk-quick-add-<key>). */

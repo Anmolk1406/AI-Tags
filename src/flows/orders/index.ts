@@ -1,14 +1,16 @@
 import { defineFlow } from '../../kit/registry';
-import { OrderCancelScreen } from './OrderCancelScreen';
-import { OrdersListScreen } from './OrdersListScreen';
-import { OrderTrackingScreen } from './OrderTrackingScreen';
 import { ordersFlowTokens } from './tokens';
+import { lazyScreen } from '../../kit/lazyScreen';
+
+const OrderCancelScreen = lazyScreen(() => import('./OrderCancelScreen'), 'OrderCancelScreen');
+const OrderTrackingScreen = lazyScreen(() => import('./OrderTrackingScreen'), 'OrderTrackingScreen');
+const OrdersListScreen = lazyScreen(() => import('./OrdersListScreen'), 'OrdersListScreen');
 
 export const ordersFlow = defineFlow({
   id: 'orders',
   title: 'Orders',
   group: 'Post-order',
-  description: 'Order list (active + history), order tracking with animated timeline, and cancel items.',
+  description: 'Order list (active + history) and order details / tracking from the PDS one-flows reference (V1–V4 hero variants), and cancel items.',
   initial: 'list',
   parent: 'account/account', // Back target when opened directly (no history)
   tokens: ordersFlowTokens,
@@ -17,16 +19,18 @@ export const ordersFlow = defineFlow({
       id: 'list',
       title: 'My orders',
       component: OrdersListScreen,
-      notes: 'Scroll: header turns white with radius + shadow and a month pill floats in. Tap stars to rate (1.25 pop). Filter chips switch sections. Tap a card to track.',
-      source: 'features/o2d/screens/O2DOrdersV2Screen',
+      notes: 'PDS reference listing. Filter chips (Delivered, Cancelled, Returns, supermall, express) filter the cards — tap again to clear. Tap the active card to track it; Call / Chat rider toast; PIN tiles rise in. Stars pop (haptic tick) and open the review (openReview: o3 → bike, o4 → iPhone 16 Pro, o8 exchanged → iPhone 16). Track my refund → returns/details. Chat FAB bottom-right.',
+      source: 'reference: pds-noon-as.vercel.app/one-flows?screen=orderlisting (My Orders); bappzaar features/o2d/screens/O2DOrdersV2Screen',
+      truth: 'reference', // PDS was measured (MAPPING.md); bappzaar only for data and behaviour
     },
     {
       id: 'tracking',
       title: 'Order tracking',
       component: OrderTrackingScreen,
       defaultParams: { orderId: 'o1' },
-      notes: 'Image stack rotates every 1.9s for multi-item orders. Timeline progress animates in and the active segment pulses. Try orderId o3 (delivered → Return item) or o5 (cancelled).',
-      source: 'features/o2d/screens/O2DOrderTrackingScreen, sections/O2DOrderTrackingHeroSection',
+      notes: 'PDS reference details. ?variant=1 (default) calm hero · 2 hot-afternoon wash + glass pill + advice · 3 orange glowing pill · 4 warm glow behind the tracker. V2–V4 rotate the image stack. Stepper fill grows and discs pop; Cancel items → orders/cancel; noon One strip → noonone. Other ids: o3/o4 delivered, o7 returned, o8 exchanged, o5 cancelled.',
+      source: 'reference: pds-noon-as.vercel.app/one-flows (My Orders → Arriving today, tabs V1–V4); bappzaar features/o2d/screens/O2DOrderTrackingScreen',
+      truth: 'reference',
     },
     {
       id: 'cancel',

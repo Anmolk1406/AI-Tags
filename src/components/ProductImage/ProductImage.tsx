@@ -15,6 +15,7 @@ export function ProductImage({
   emojiScale = 0.42,
   style,
   dim,
+  fit = 'contain',
 }: {
   product: Pick<Product, 'emoji' | 'tint' | 'image' | 'title'>;
   width?: number | string;
@@ -25,6 +26,8 @@ export function ProductImage({
   emojiScale?: number;
   style?: CSSProperties;
   dim?: boolean;
+  /** object-fit of `product.image` (bappzaar `resizeMode`); default `contain` */
+  fit?: 'contain' | 'cover';
 }) {
   return (
     <div
@@ -46,7 +49,7 @@ export function ProductImage({
       }}
     >
       {product.image ? (
-        <img src={product.image} alt={product.title} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+        <img src={product.image} alt={product.title} loading="lazy" decoding="async" style={{ width: '100%', height: '100%', objectFit: fit }} />
       ) : (
         <span style={{ fontSize: `min(${Math.round(emojiScale * 100)}cqh, ${Math.round(emojiScale * 110)}cqw)`, lineHeight: 1, filter: `drop-shadow(0 8px 10px ${ref.palette('blackAlpha12')})` }} role="img" aria-label={product.title}>
           {product.emoji}

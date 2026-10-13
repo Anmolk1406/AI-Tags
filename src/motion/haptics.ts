@@ -29,6 +29,9 @@ export type HapticKind = keyof typeof haptics;
 /** Play a haptic if the device supports it (no-op otherwise). */
 export function haptic(kind: HapticKind) {
   try {
+    // Browsers block (and log) vibrate() before the user has interacted with the page, e.g. a timed beat on load.
+    const activation = (navigator as Navigator & { userActivation?: { hasBeenActive: boolean } }).userActivation;
+    if (activation && !activation.hasBeenActive) return;
     navigator.vibrate?.([...haptics[kind].vibrate]);
   } catch {
     // unsupported — haptics are an enhancement only

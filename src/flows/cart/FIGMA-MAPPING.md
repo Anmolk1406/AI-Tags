@@ -158,3 +158,20 @@ shared Figma card treatment (white r16, Cards Header title style). Callout inter
 - `src/components/TabBar`: Figma tab bar (Home / Categories / Deals / Account / Cart, active Cart #0076FF with a top indicator) differs slightly from the kit tab bar.
 - `src/components/Tag/MarketplaceTag`: could gain a "logo only" variant (`express`, Global icon + wordmark, market store + wordmark) matching the Figma fulfilment-type logos.
 - `src/components/ProductCard`: a "SKU 134" compact variant (grey image box, outlined blue +) would let PLP / home carousels share `CartCarousel`'s card.
+
+### Sticky footer — remapped to bappzaar 1:1 (Oct 2026)
+
+`components/CartFooter.tsx` + `footer.module.css` now follow bappzaar `NoonCartScreen` `renderFooterSavings` / `renderInvoice` / `renderFooter` and its `styles.ts` instead of the Figma rows above:
+- footer: paddingTop 10, paddingBottom = safe-area inset (10 without one / above the tab bar), r12 top; shadow 0 7 8 black at 0.3, off while the invoice is open; content row px 12, space-between.
+- nudges (left): no min width or left padding, marginRight 32, rows 4 apart; message colours p #0E0E0E, steel 500 slateGray; total not underlined.
+- Checkout: flexGrow, min 148 × 52, accentBlue #0057FF, r12, 17 semibold white, pressed opacity 0.6.
+- savings tab: bottom on the footer top (translateY −footerHeight), left 12, max width screen − 55, shadow3 0 7 8 black 0.4; callout py 8 px 0, gap 4; patch 50 wide, 120% + 16 high; wave height = tab height + 2.
+- invoice sheet unchanged (already NoonCartScreen invoiceContainer: max 400, pt 12, pb 24, r20 top; 300ms slide, 0.5 backdrop in 200ms, swipe down > 50 closes).
+
+### Sticky footer — back to the Figma (All flows Af34gfmhQ1D0wstXUEHSIF · 127:40209)
+
+Supersedes the bappzaar remap above for the visuals (behaviour unchanged):
+- savings: "Color waves 🌊" 239 × 48 #E7FBF3 wave (`src/assets/cart/footer/savings-wave.svg`), overlapping the footer by 16; label at ml 12 mt 4, px 4 py 2, gap 8 — "₫{savings}" SemiBold + " saved!" Regular, Label3 14/18 −0.14 Emerald/700, then the 20px noon One logo (`NoonOneLogo`).
+- footer: white, r12 top, 72 high (py 10), px 12, gap 12, drop shadow 0 −4 10 black 8%.
+- Total: 131 wide, pl 4; "Total" Label4 12/14 Medium #666D85; price H4 20/24 Bold #0E0E0E −0.2 with a dotted underline, two decimals.
+- Button: flex 1, 52 high, px 16 py 12, Accent/700 #0057FF, r12, Label-1 SemiBold 17/20 −0.26 white.

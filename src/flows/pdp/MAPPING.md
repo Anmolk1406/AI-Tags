@@ -69,6 +69,24 @@ List content padding bottom 64 (`compoundFlatListContentContainerStyle`) → `--
 
 Copy: `noon_search` "Search".
 
+## PDP scroll (bappzaar master `cae2f69afbb`, NoonProductDetails · NoonScreenWithDrawBehindHeader · NoonProductUtil)
+
+| Master | Behaviour | Kit |
+|---|---|---|
+| `CompoundFlatList onScroll` → `NativeAnimated.event` (native driver) | One scroll position drives everything below; nothing re-renders per frame | `useScroll` MotionValue + `<Screen onScroll>`; state only flips on thresholds |
+| `NoonProductUtil.translateYGallery` `[0, 1, h] → [0, 1, h]` clamp | The gallery stays put for one image height while the cards scroll over it, then leaves with the page | `SfGallery` `.pin` / sticky `.section` (compositor, no per-frame JS translate) |
+| `NoonProductUtil.scaleGallery` `[−50, 0, h/4, h/2, h] → [1.1, 1, 0.95, 0.9, 0.9]` | Pull-down zooms to 1.1; scrolling shrinks to 0.9 by half the image; section is transparent so the page grey shows round it | `useTransform(scrollY, …)`, `pdpTokens.parallax`, transparent `.section` |
+| `NoonScreenWithDrawBehindHeader` `headerChangeAfter = pdpHeaderChangeAfter()` (150) − header height | Past it the header background fades transparent → white (200ms, `Easing.inOut(Easing.ease)`), a 1px `$borderColor` bottom border appears, status bar goes dark; back up restores it | `DetailScreen` `solid` (150 − 50) → `SfHeader` (`headerFadeMs`, `headerEase`, `[data-solid]` hairline) |
+| `bottomWrapper` (marginTop −20) + `galleryBottomBackground` (absolute fill, #F9F9FB, translateY = image height) | Everything after the gallery starts 20 above its bottom edge and slides up as one opaque page-grey sheet from that edge down, so the pinned image is only visible above the content, never between cards; the gallery itself ends in a 10px transparent → #F9F9FB fade (`fadeWrapper`) | `DetailScreen` `.rest` (−(20 + the first card's 8)), `.rest::before` grey layer, `SfGallery .fade` |
+| `NoonExpandableSearch shouldExpand={!isHeaderTransparent}` | The search button springs open to the full width when the header turns white (damping 30, stiffness 400, mass 1) | `SfHeader` `ExpandableSearch` (`pdpTokens.searchSpring`) |
+| `onScroll`: `currentYOffset > screenHeight` → `showBackToTop` | "Back to top" shows after one screen height, hidden while the qty selector is open; it mounts and unmounts with no transition; tap → `scrollToOffset(0, animated)` | `showTop` (`backToTopAfter = deviceHeight`) → `SfAtcBar`, no enter/exit animation; tap reveals the tab bar and smooth-scrolls to 0 |
+| `BottomTabScrollVisibilityProvider` (`onScroll`, `onScrollEndDrag`, `onMomentumScrollEnd`) | Same rules as the PLP: shown above 150 / at the top, hides after 64 of continuous scroll down, shows after 24 up, dead zone 4, flick ±2 pt/ms, never within 20 of the end; native hide 0.15s ease-out | `src/kit/tabBarScroll.ts` `useTabBarScrollHide` (shared with the PLP) |
+| `NoonNativeStickyBar placement="embedded"`, `ScreenView bottomOffset` | The QTY · Buy now · Add to cart bar floats over the list and follows the tab bar down when it hides | `Screen overlay` `.stickyBar` translateY(`--pdp-tab-hide` × tab height); list padded by the measured bar height |
+| `scrollAfterAccordionOpen` (NoonProductOverview `onAccordionOpen`) | Opening an overview accordion scrolls the page +120 over 150ms | `SfProductDetails onAccordionOpen` → `scrollBy` in `DetailScreen` |
+| `scrollToNewerModelBanner` (offset − 70), `scrollToInstallationService` | Anchor scrolls for OOS newer-model / installation banners | not ported (no such entry points in the kit PDP) |
+
+Not ported: pull-to-refresh (`refreshControl`), `scrollToTopListener` (tab re-tap), iOS bounce.
+
 ## 2. Gallery (`NoonGallery`)
 
 | bappzaar | Property | Master | Kit token |
@@ -209,6 +227,22 @@ SD: `payment_offers.title` + items (demo "Payments for you", tabby/tamara messag
 | colours | bg / fold / text | azureBlue / azureBlueDark / white | `--nk-color-primary-bright` / `--nk-palette-azure-blue-dark` / `--nk-color-text-inverse` · fold + tip SVG paths copied verbatim (geometry) |
 
 SD: `groups` (p2 "Colour Name" images + "Internal Memory" with prices; 512 GB tagged "Best value"), `variants` (fashion sizes). Copy `noon_size`, `noon_size_guide`, `noon_learn_more`, `noon_out_of_stock_item`, `off`.
+
+### Variant selection behaviour (bappzaar master `cae2f69afbb`)
+
+| Master | Behaviour | Kit |
+|---|---|---|
+| `NoonProductUtil.getVariant` / `findInitialVariantAndOffer` | PDP opens with the **first in-stock size** selected; there is no "select a size" step on the PDP | `initialSelection()` in `DetailScreen.tsx` |
+| `NoonSizeVariantSelection` → `onSelectVariant(sku)` → `setProductData(content, '', sku)` | Size tap switches the variant locally: no fetch, no loader; offer (price, delivery, stock) follows; qty clamped to stock | `onSelect('size', i)` → `setSelection` |
+| `NoonOptionsSelection` → `onSelectOption(sku, offerCode)` → `CatalogService.getProductBySKU` | Option tap (colour / memory / model / version) refetches that SKU; `isSelectOptionLoading` lays `loaderWrapper` (absolute fill, white, opacity .8, `Loader`) over the option groups only; then the **same page updates in place** (no navigation, scroll kept), reviews reload, the previously selected size is kept when the new SKU has it | `optionsLoading` + `SfVariantsCard loading` (`.options` / `.loader`, 600ms mock latency); `setProductId` in place; option prices drive the price block (`shown`) |
+| (kit) in-place switch, scroll position | The sections above the picker differ in height between SKUs, so a plain re-render moves the picker on screen | `DetailScreen` records the picker's screen top before `setProductId` and corrects `scrollTop` in a layout effect (no visible jump); the tab bar controller is rebased so the correction doesn't show / hide the bars |
+| `NoonSelectionItem` `disabled={isDisabled \|\| isSelected}` | Selected and out-of-stock tiles aren't tappable; an OOS tile that is the current SKU keeps a solid border (`itemSelected` needs `!isDisabled`, `itemDisabled` needs `!isSelected`) | `Tile` `disabled`, `data-state="current-disabled"` |
+| `OptionGroup` `availableOptions.length === 0` | A group with no available option is hidden | `Group` returns null |
+| `HorizontalScrollView selectedIndex` (no `scrollOnSelectedIndexChange`) | Each row scrolls its selected tile into view once it has laid out, not on later taps | `Group` `useLayoutEffect` on `options` |
+| `useCart.handleIncreaseQuantity` (`variant_overlay_url`) → `showVariantsFlyout` | A product box "+" for a sized product opens the variants overlay instead of adding | `QuickAdd` → `nav.sheet('pdp/variants')` for Fashion with sizes |
+| `NoonVariantsOverlayScreen` (`useVariantOverlay shouldPreselectVariant: false`) | No size preselected; OOS sizes dashed and untappable; ATC without a size → title "Please select the size" (errorMessageColor, uppercase) + `NoonShakingWrapper` (−10, 10, −8, 8, −5, 5, 0 · 50ms each); picking a size clears it; success closes the overlay and shows the "Added to cart" snackbar (3s) | `VariantsSheet.tsx`: `size = -1`, `data-disabled`, shake keyframes over 0.35s, `nav.back()` + `nav.toast(copy.addedToCart)` |
+
+Not ported: analytics (`sku_variant_click`, `vs`, `atc_sz_miss`), the sizing-guide web view (toast), stock-based qty clamping (mock products have no stock), the URL keeps the first product id after an in-place switch.
 
 ## 7. PDP reinforcement (`NoonPdpReinforcement`)
 
@@ -450,7 +484,7 @@ The default `pdp/detail` (and `/pdp`) is now this live product (`IPHONE_17_PRO_I
 | "or GET IN 1 HR 22 MINS · 6549.00 ↗" | NoonAccordion "Other Delivery Options" + NoonBuyingOptionItem (rocket logo, price, arrowUpRight) | `PdpContent.buyingOptions[{code:'rocket'}]` |
 | noon One / Mashreq cashback 327.45, split in 6, installments | NoonPaymentsForYou (title SD "Payment Discount") | `PdpContent.payments` (+ 3 mpcms icons) |
 | 6 reinforcement badges | NoonPdpReinforcement (≥4 → 3.5 visible) | `PdpContent.offerBadges` (icons inferred from master assets) |
-| Color / Internal Memory / Model Name / Version (+ Learn more) | NoonOptionsSelection: 4 groups, "Name: selected", image tiles for colour, prices where the exact SKU is known, Physical Dual SIM = out of stock | `variantFamilies['iphone-17-pro']` + `Product.attributes` → `familyGroups()`; tap → `nav.replace('pdp/detail', {productId})` |
+| Color / Internal Memory / Model Name / Version (+ Learn more) | NoonOptionsSelection: 4 groups, "Name: selected", image tiles for colour, every option priced by the SKU a tap switches to (exact match, else the closest member), Physical Dual SIM = out of stock | `variantFamilies['iphone-17-pro']` + `Product.attributes` → `familyGroups()`; tap → options loader, then the page switches to that product in place (see Variant selection behaviour) |
 | Frequently Bought Together (case 24.94, AirPods Max 2 1729, Spigen 109.99) | NoonFrequentlyBoughtTogether (current product first, all selected, "Buy 4 items together"). Master's button text has no total, so the web's "for 8412.93" is not shown | `fbtFor[IPHONE_17_PRO_ID]` → `PdpContent.fbt` |
 | Seller KKGSM 4.9 (171), 98% positive, item as shown 100%, partner 2+ yrs, low return | NoonSeller + metrics | `Product.seller`, `Product.sellerRating`, `PdpContent.seller` |
 | "Explore other bestsellers in Smartphones" | NoonCategoryBestSeller (bottom CTA, before seller) | `PdpContent.bestSellerCta` from `Product.categoryId` leaf name |

@@ -24,6 +24,25 @@ export const plpTokens = {
     /** only the first cards play the rise; the rest are below the fold */
     animateFirst: 8,
   },
+  /** scroll states (bappzaar master, see MAPPING.md → "PLP scroll states") */
+  scroll: {
+    /** src/utils/BottomTabs/ScrollVisibilityProvider.ts: TOP_THRESHOLD, TAB_HIDE_ACTIVATION_OFFSET, SCROLL_DEAD_ZONE,
+     *  TAB_HIDE_DISTANCE, TAB_SHOW_DISTANCE, TAB_HIDE/SHOW_VELOCITY_Y (pt/ms), END_REACH_THRESHOLD */
+    tab: {
+      top: 10,
+      activation: 150,
+      deadZone: 4,
+      hideAfter: 64,
+      showAfter: 24,
+      flickVelocity: 2,
+      endReach: 20,
+      /** react-native-navigation UITabBarController+RNNOptions hide/showTabBar: 0.15s (= duration.fast), UIViewAnimationOptionCurveEaseOut */
+      ease: [0, 0, 0.58, 1] as [number, number, number, number],
+    },
+    /** src/components/HidableView: initial height FULFILLMENT_TABS_INITIAL_HEIGHT 63 + CATALOG_NAV_PILLS_INITIAL_HEIGHT 56 (then measured);
+     *  Animated.timing 300ms (= duration.medium) on the default Easing.inOut(Easing.ease) — the function lives in scrollStates.ts */
+    header: { initialHeight: 63 + 56 },
+  },
   /** a filter / brand change: cards dissolve into skeletons, hold ~half a shimmer pass, then rise again */
   swap: { outS: 0.18, revealAt: 0.82 },
   /** marketplace strip ticker (A → B → A every 7.2s, 140ms apart per tab, from 1.2s) */
@@ -63,7 +82,11 @@ export const plpTokens = {
 } as const;
 
 export const plpFlowTokens: TokenOverrides = {
-  colors: { bgPage: '#FFFFFF' },
+  colors: {
+    bgPage: '#FFFFFF',
+    // NoonFilterPillBackAnimation GLASS_GRADIENT_COLORS, (0, 0) → (75, 30), stops 0 / 0.34 / 0.68 / 1
+    plpFilterGlass: 'linear-gradient(to bottom right, rgba(238, 240, 244, 0.72) 0%, rgba(255, 255, 255, 0.98) 34%, rgba(231, 234, 240, 0.58) 68%, rgba(255, 255, 255, 0.9) 100%)',
+  },
   // one-off type combos (token lint cleanup)
   type: {
     plpText18SemiboldLh1: { size: 18, line: '1', weight: 600 }, // filters Clear / Show
@@ -71,5 +94,6 @@ export const plpFlowTokens: TokenOverrides = {
     plpText11SemiboldLh14: { size: 11, line: 14, weight: 600 }, // brand card "% off"
     plpText8BoldLh11: { size: 8, line: 11, weight: 700 }, // brand letter badge
     plpText11MediumLh16: { size: 11, line: 16, weight: 500 }, // marketplace ticker
+    plpText13BoldLh20: { size: 13, line: 20, weight: 700 }, // nav pill count bubble (customFilterCountText)
   },
 };

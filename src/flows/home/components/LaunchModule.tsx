@@ -28,7 +28,7 @@ function LaunchCard({ item: it, onPress }: { item: LaunchItem; onPress: () => vo
   return (
     <div className={styles.card}>
       <Pressable className={styles.cardBody} onClick={onPress} scale={0.98} aria-label={it.title}>
-        <img className={styles.image} src={it.image} alt="" width={187} height={187} draggable={false} />
+        <img loading="lazy" decoding="async" className={styles.image} src={it.image} alt="" width={187} height={187} draggable={false} />
         <span className={styles.copy}>
           <Text variant="text16SemiboldLh20" color="textStrong" className={styles.cardTitle} lines={1}>
             {it.title}

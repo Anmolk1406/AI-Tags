@@ -11,6 +11,7 @@ Builds the noon checkout and any step that lives inside it. Load `../noon-ui/SKI
 
 | Source | Where |
 |---|---|
+| Branch brief | `.claude/resources/flows/checkout.md` — sections, the three stores and `update()`, order placement and failure, gotchas |
 | Flow specification | `spec.md` (screens, section order, payment methods, dock, data, navigation, states, acceptance) |
 | Figma analysis | `references/figma-cart-checkout.md` — Checkout 2.0, file `zURu7GI7sq77fjdXKrouvo`, frame `14288:183972`: §2.3 anatomy, §5 motion cues, §6 delta, §7 build guidance (shared with Cart 2.0) |
 | Node-by-node mapping | `src/flows/checkout/FIGMA-MAPPING.md` (Figma variables → tokens, every section and the dock); bappzaar master port in `src/flows/checkout/MAPPING.md` |

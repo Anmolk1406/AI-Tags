@@ -29,7 +29,8 @@ System icon from a noon / Figma design → `OriginIcon` (catalogue in `icons.md`
 | Rating score pill on a product | `RatingPill` |
 | Row of 5 stars (read-only or tappable) | `Stars` |
 | Product picture (or emoji placeholder) | `ProductImage` |
-| PLP / carousel product tile | `ProductCard` |
+| PLP / search results grid card (bappzaar 1:1, `isPLP`) | `ProductBoxVertical` |
+| Carousel / other product tile | `ProductCard` |
 | Figma "SKU" rail card (134 wide, 134×174 image box, 1.2px blue "+", 15/20 price; Homepage 2025, Cart 2.0) | `SkuCard`, local and not exported in `src/flows/cart/components/CartCarousel.tsx`. Promote it to `src/components` before a second flow uses it; don't use `ProductCard` for these rails |
 | Quick add-to-cart "+" that expands into a stepper | `QuickAdd` |
 | Wishlist heart toggle | `WishlistHeart` |
@@ -408,6 +409,8 @@ Gotcha: `size` only changes the `nav` variant (`sm` height, `lg` height/padding/
 
 ## Price and Money
 
+`Price` takes `offSuffix` (default `true`: "n% OFF"; `false`: "n%" as bappzaar carousels show it).
+
 `src/components/Price/Price.tsx`. PriceDiscounted: sale price with the dirham sign (`currency`, U+E001, drawn by Noontree), struck "was" price and computed "{n}% OFF".
 
 | `Price` prop | Type | Default |
@@ -465,6 +468,7 @@ Gotcha: `src/flows/pdp/components/Stars.tsx` is a different, flow-local `Stars` 
 | `emojiScale` | `number` | `0.42` |
 | `style` | `CSSProperties` | — |
 | `dim` | `boolean` (opacity 0.6, e.g. out of stock) | — |
+| `fit` | `'contain' \| 'cover'` (object-fit of `product.image`, bappzaar `resizeMode`) | `'contain'` |
 
 ```tsx
 // src/flows/cart/VariantsSheet.tsx
@@ -474,6 +478,10 @@ Gotcha: `src/flows/pdp/components/Stars.tsx` is a different, flow-local `Stars` 
 ```
 
 Gotcha: always give it a width plus `height` or `aspect`, otherwise it has no height. Use it for every product picture instead of a bare `<img>`.
+
+## ProductBoxVertical (PLP)
+
+`src/components/ProductBoxVertical/ProductBoxVertical.tsx`. bappzaar `NoonProductBoxVertical` with `isPLP`, values resolved from its `styles.ts` + NoonTokens / NoonMetrics: white card, 0.5 lightGray hairline (drawn as an overlay so the image keeps the full width), r12, padding-bottom 10 · image box 177 × 241 at 390 (`aspect-ratio: 177 / 241`, contain, 2% black overlay; > 1 `product.images` → paged slider with the PillPager) · `CatalogTag` top-start · `WishlistHeart` 24 at 4 / 4 · `QuickAdd` 36 bottom-end · "{brand} {title}" 14/500 18 inkBlack, 2 lines · rating pill star-first (softGray r6) · price row (sale 16 bold neutralBlack, struck was 12 steelColor without currency, "n% OFF" 12/600 greenOff; PLP precision: ≥ 999.99 no decimals) · `NoonNudgeTag` ticker (13/16 slateBlueGray, enter 300 / hold 1000 / exit 450 ms) · coupon tag · express flag 60 × 18 + delivery 12/14 charcoalNavy in a 20-high row. No press feedback. In a 2-column grid the cell must stretch so both boxes in a row share the taller height (`.cell` in `src/flows/plp/plp.module.css`).
 
 ## ProductCard and QuickAdd
 
@@ -486,6 +494,7 @@ Gotcha: always give it a width plus `height` or `aspect`, otherwise it has no he
 | `quickAdd` | `boolean` | `true` |
 | `compact` | `boolean` (carousel: no coupon / delivery rows) | — |
 | `width` | `number \| string` (fixed width, `flexShrink: 0`, for carousels) | — |
+| `carousel` | `boolean` — bappzaar home `productCarousel` box (NoonProductCard): r8, no hairline, image `width × round((width − 14) · 1.361)` (138 × 169), info inset 4, express flag only, discount "n%"; needs a numeric `width` | — |
 
 `QuickAdd`: 36×36 "+" that adds 1 to the DemoStore cart (with a toast), expands into a filled `QuantityStepper`, and collapses to a count badge after 2.5s. Props: `productId: string` (required).
 
@@ -726,7 +735,7 @@ You don't render it yourself: `src/kit/Navigator.tsx` renders `<TabBar active={t
 
 Gotchas:
 - Tab labels and icons are fixed in `TabBar.tsx` (dynamic tab falls back to "Deals").
-- The 2025 Figma bottom nav (home, cart, PDP) has a 43×4 top indicator in `tabActive` and 12/20 labels (active 700, inactive 500 `textMuted`). The kit `TabBar` has none of these yet; it is shared by every tab flow, so change it behind a token, not in the defaults.
+- The look is bappzaar's native bar 1:1 (NoonApp.getTab / getTabOptions → react-native-navigation UITabBar): 49pt row, opaque white, shadow 0 −3 4 at 0.08, no indicator; icons at native size (32, deals 25) with iconInsets top 3; labels semibold 14 in both states, `charcoalGreyColor` #404553 → `sapphire` #1155CB; cart badge = the native badge, an 18-high `accentColor` capsule with 13pt white system text (no ring) at the icon's top-right. Tabs switch instantly. The 2025 Figma nav (43×4 indicator, 12/20 labels) is not used.
 - `.bar` is `position: absolute; bottom: 0`. To show it under a pushed screen's footer (Figma PDP), wrap `<TabBar active="home" />` in a `position: relative` box of height `calc(var(--nk-layout-tab-bar) + var(--nk-inset-bottom))`.
 
 ## Skeleton

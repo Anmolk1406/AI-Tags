@@ -49,9 +49,10 @@ export function warrantyPlans(price?: number): Plan[] {
       lines: ['Accidental Damage &', 'Extended Warranty'],
       creative: extendedCreative,
       usps: [
-        { icon: 'check-shield', text: 'Active from date of purchase' },
+        // New PDP 64:5731: same Date / Delivery icons as plan 1, the accident glyph in the middle
+        { icon: 'calendar-check', text: 'Active from date of purchase' },
         { icon: 'warning-triangle', text: 'Covers all accidental damages' },
-        { icon: 'infinity', text: 'Free pickup & delivery' },
+        { icon: 'truck-noon', text: 'Free pickup & delivery' },
       ],
       price: at(b),
     },

@@ -11,6 +11,7 @@ Builds the noon cart and any change to it. Load `../noon-ui/SKILL.md` first if i
 
 | Source | Where |
 |---|---|
+| Branch brief | `.claude/resources/flows/cart.md` — DemoStore state, section anatomy, footer, hand-off to checkout |
 | Flow specification | `spec.md` (screens, section order, group theming, footer, data, navigation, motion, states, acceptance) |
 | Figma analysis | `../checkout/references/figma-cart-checkout.md` — Cart 2.0, file `BaWAAGW7zmdSTkXNXqPcAJ`: `10575:94058` Phase I default, `14812:276687` Best price, `12112:209179` Error. §2.1–2.2 anatomy with measurements, §3 variables → tokens, §4 components → kit, §5 motion, §6 delta vs code, §7 build guidance |
 | Current implementation | `src/flows/cart/` — `index.ts`, `CartScreen.tsx` (`SECTIONS`, `GROUP_ORDER`, `EmptyCart`, `CartLoading`), `tokens.ts` (`cartTokens`, `cartFigmaColors`, `cartFlowTokens`, `groupTheme`), `data.ts`, `components/`, `FIGMA-MAPPING.md` (bappzaar 1:1 port restyled to Cart 2.0, route `cart/cart`, page `/cart`) |

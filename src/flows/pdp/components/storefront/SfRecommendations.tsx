@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useState } from 'react';
-import pillExpressToday from '../../../../assets/shared/sku/pill-express-today.svg';
+import etaExpressToday from '../../../../assets/pdp/new-pdp/eta-express-today.svg';
 import { OriginIcon, ProductImage, type OriginIconName } from '../../../../components';
 import { ref } from '../../../../foundations/tokens';
 import { useDemoStore } from '../../../../kit/DemoStore';
@@ -14,32 +14,38 @@ import styles from './SfRecommendations.module.css';
 
 /** Nudge kind → Origin icon + tint (Figma "Nudges - HP": solid/arrow-down-circle, solid/truck, solid/bolt, solid/shopping-cart, solid/check-badge). */
 const nudgeIcon: Record<ProductNudge['kind'], { name: OriginIconName; color: string }> = {
-  lowestPrice: { name: 'arrow-down-circle-filled', color: 'var(--nk-palette-emerald-green)' },
+  lowestPrice: { name: 'arrow-down-circle-filled', color: 'var(--nk-color-danger)' },
   freeDelivery: { name: 'truck-filled', color: 'var(--nk-palette-emerald-green)' },
-  sellingFast: { name: 'flash-thunder', color: 'var(--nk-color-danger)' },
-  lowStock: { name: 'flash-thunder', color: 'var(--nk-color-danger)' },
-  soldRecently: { name: 'cart-check-filled', color: 'var(--nk-color-text-secondary)' },
+  sellingFast: { name: 'flash-thunder', color: 'var(--nk-color-pdp-npe-nudge-urgent)' },
+  lowStock: { name: 'flash-thunder', color: 'var(--nk-color-pdp-npe-nudge-urgent)' },
+  soldRecently: { name: 'cart-check-filled', color: 'var(--nk-palette-emerald-green)' },
   rank: { name: 'verified-filled', color: 'var(--nk-palette-emerald-green)' },
   info: { name: 'info-circle-filled', color: 'var(--nk-color-text-muted)' },
 };
 
 /**
- * Storefront product rail ("Similar products" 3499:75876 / "Top products in chargers" 3499:75877): white r16 card,
- * p12, 15/700 title (px2), cards 134 wide 12 apart from pt16, scrolling to the card edge. Replaces Recommendations
- * (same props; `sponsored` adds the "Ad" tag the Figma shows on every card).
+ * Product rail, two looks (New PDP, All flows Af34gfmhQ1D0wstXUEHSIF · 64:5571):
+ * - `card` (default; "Products related to this" 89:62855, Storefront 3499:75876 / 3499:75877): white r16 card, p12,
+ *   15/700 title (px2), cards 134 wide 12 apart from pt16, scrolling to the card edge.
+ * - `bleed` ("More from Apple" 89:62853 / "Customer also viewed" 89:62854): a full-width white band, py12, title 14 from
+ *   the screen edge, cards from 12 scrolling to the screen edge. Consecutive bleed rails join into one band 12 apart.
+ * `sponsored` adds the "Ad" tag the Figma shows on every card. bappzaar: NoonRecommendations (same_brand "More from
+ * {{brandName}}", other_brands "Customers Also Viewed", sponsored "Products related to this").
  */
-export function SfRecommendations({ title, items, sponsored }: { title: string; items: Product[]; sponsored?: boolean }) {
+export function SfRecommendations({ title, items, sponsored, variant = 'card' }: { title: string; items: Product[]; sponsored?: boolean; variant?: 'card' | 'bleed' }) {
   if (items.length === 0) return null;
-  return (
-    <Card>
+  const rail = (
+    <>
       <h3 className={styles.title}>{title}</h3>
       <div className={styles.list}>
         {items.map((p) => (
           <SfRecoCard key={p.id} product={p} sponsored={sponsored} />
         ))}
       </div>
-    </Card>
+    </>
   );
+  if (variant === 'bleed') return <section className={styles.bleed}>{rail}</section>;
+  return <Card>{rail}</Card>;
 }
 
 /**
@@ -119,7 +125,7 @@ export function SfRecoCard({ product: p, sponsored }: { product: Product; sponso
           </span>
           {nudges.length > 0 && <SfNudges nudges={nudges} />}
         </div>
-        {p.express && <img src={pillExpressToday} alt="express Today" className={styles.eta} />}
+        {p.express && <img src={etaExpressToday} alt="express Today" className={styles.eta} />}
       </div>
     </motion.article>
   );

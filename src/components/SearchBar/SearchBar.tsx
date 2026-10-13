@@ -1,10 +1,12 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useState, type ReactNode } from 'react';
 import { easing, handoff } from '../../motion/presets';
-import { Icon } from '../Icon/Icon';
 import { Pressable } from '../Pressable/Pressable';
 import searchIcon from '../../assets/icons/noon-search-bar.webp';
 import cameraIcon from '../../assets/icons/noon-search-bar-camera.webp';
+// bappzaar NoonThemeManager.icons.back() / ThemeManager.icons.clearInput() (@3x)
+import backIcon from '../../assets/shared/search-bar/back.webp';
+import clearIcon from '../../assets/shared/search-bar/clear-input.webp';
 import { searchBar as t } from '../../foundations/tokens';
 import styles from './SearchBar.module.css';
 
@@ -36,8 +38,10 @@ export function SearchBarButton({
   icons?: { search?: string; camera?: string; divider?: string };
 }) {
   const v2025 = variant === '2025';
-  const iconSize = v2025 ? 18 : t.iconSize;
-  const cameraSize = v2025 ? 20 : t.cameraSize;
+  // NoonSearchBarButton: 20 × 20 search-bar.webp, 24 × 24 search-bar-camera.webp. The 2025 variant keeps those
+  // sizes when it shows the bappzaar artwork; Figma artwork passed through `icons` renders at the Figma 18 / 20.
+  const iconSize = v2025 && icons?.search ? 18 : t.iconSize;
+  const cameraSize = v2025 && icons?.camera ? 20 : t.cameraSize;
   const [i, setI] = useState(0);
   useEffect(() => {
     if (!rotatingWords?.length) return;
@@ -129,7 +133,8 @@ export function SearchInput({
     <div className={`${styles.bar} ${styles.input}`}>
       {onBack && (
         <Pressable onClick={onBack} aria-label="Back" style={{ display: 'flex' }}>
-          <Icon name="arrowLeft" size={t.iconSize} flipRtl />
+          {/* NoonSearchBarBackButton: back.webp at 20 × 20 */}
+          <img src={backIcon} alt="" width={20} height={20} className={styles.flipRtl} />
         </Pressable>
       )}
       <span className={styles.fieldWrap}>
@@ -155,10 +160,12 @@ export function SearchInput({
       </span>
       {showClear ? (
         <Pressable onClick={() => onChange('')} aria-label="Clear" style={{ display: 'flex' }}>
-          <Icon name="close" size={t.clearIconSize} color={t.fieldPlaceholder} />
+          {/* NoonSearchBar clearIcon: clear-input.webp at its 18 × 18 size */}
+          <img src={clearIcon} alt="" width={18} height={18} />
         </Pressable>
       ) : (
-        right ?? <Icon name="camera" size={t.iconSize} />
+        // NoonSearchBarImageSearchButton: search-bar-camera.webp at 24 × 24
+        right ?? <img src={cameraIcon} alt="" width={24} height={24} />
       )}
     </div>
   );

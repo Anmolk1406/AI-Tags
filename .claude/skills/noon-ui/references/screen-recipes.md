@@ -199,8 +199,8 @@ const { scrollY } = useScroll({ container: scrollRef });
 const [solid, setSolid] = useState(false);
 useMotionValueEvent(scrollY, 'change', (v) => setSolid(v > pdpTokens.headerChangeAfter - pdpTokens.headerInnerHeight));
 
-<Screen ref={scrollRef} header={<PdpHeader product={product} solid={solid} />} overlayHeader
-  background={solid ? 'bgSurface' : 'bgPage'} safeTop={false} contentStyle={{ paddingBottom: 0 }} footer={<AtcBar … />}>
+<Screen ref={scrollRef} header={<SfHeader product={product} solid={solid} />} overlayHeader
+  background={solid ? 'bgSurface' : 'bgPage'} safeTop={false} contentStyle={{ paddingBottom: 0 }} footer={<SfAtcBar … />}>
 ```
 
 Continuous (`src/flows/orders/OrdersListScreen.tsx`):
@@ -214,7 +214,7 @@ const headerRadius = useTransform(scrollY, [0, 16], [0, 10]);
   header={<motion.div className={styles.listHeader} style={{ background: headerBg, borderBottomLeftRadius: headerRadius, borderBottomRightRadius: headerRadius }}>…</motion.div>}
   contentStyle={{ padding: '0 15px calc(var(--nk-inset-bottom) + 24px)' }}>
 ```
-Lighter alternative: `onScroll={(y) => setScrolled(y > 4)}` + `data-scrolled` attribute driving a CSS shadow (`plp.module.css .header[data-scrolled]`). Pinned compact header after a hero: `overlayHeader` + `AnimatePresence` on `y > 220` (`orders/OrderTrackingScreen.tsx`). Collapsing rows: `motion.div animate={collapsed ? { height: 0, opacity: 0 } : { height: 'auto', opacity: 1 }}` with `overflow: hidden` (`home/HomeScreen.tsx`, `y >= 100`).
+Lighter alternative: `onScroll={(y) => setScrolled(y > 4)}` + a `data-scrolled` attribute driving a CSS shadow. Hide-on-scroll tab bar + header (bappzaar ScrollVisibilityProvider / HidableView): `usePlpScrollStates` (`src/flows/plp/scrollStates.ts`, used by `plp/ListingScreen.tsx`); tab bar alone: `useTabBarScrollHide` (`src/kit/tabBarScroll.ts`, used by `pdp/DetailScreen.tsx`, footer floated in `Screen overlay`). Pinned compact header after a hero: `overlayHeader` + `AnimatePresence` on `y > 220` (`orders/OrderTrackingScreen.tsx`). Collapsing rows: `motion.div animate={collapsed ? { height: 0, opacity: 0 } : { height: 'auto', opacity: 1 }}` with `overflow: hidden` (`home/HomeScreen.tsx`, `y >= 100`).
 
 ---
 

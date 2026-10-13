@@ -1,5 +1,5 @@
 import { pageAliases } from './routes';
-import type { FlowDef, Route, ScreenDef } from './types';
+import type { FlowDef, Route, ScreenDef, ScreenTruth } from './types';
 
 export function defineFlow(flow: FlowDef): FlowDef {
   return flow;
@@ -7,6 +7,20 @@ export function defineFlow(flow: FlowDef): FlowDef {
 
 export function defineScreen<P>(screen: ScreenDef<P>): ScreenDef<P> {
   return screen;
+}
+
+/**
+ * Which reference is the spec for a screen: its explicit `truth`, else inferred from `source` — a Figma frame
+ * plus bappzaar paths → `mixed`, a Figma frame alone → `figma`, a shared link / screenshot → `reference`,
+ * anything else (bappzaar master paths) → `bappzaar`.
+ */
+export function screenTruth(screen: Pick<ScreenDef, 'truth' | 'source'>): ScreenTruth {
+  if (screen.truth) return screen.truth;
+  const src = screen.source ?? '';
+  const bappzaar = /marketplaces\/|src\/|screens\/|components\/|Noon[A-Z]/.test(src);
+  if (/figma/i.test(src)) return bappzaar ? 'mixed' : 'figma';
+  if (/^reference:|github\.com|vercel\.app|https?:/i.test(src) && !bappzaar) return 'reference';
+  return 'bappzaar';
 }
 
 export interface ResolvedScreen {

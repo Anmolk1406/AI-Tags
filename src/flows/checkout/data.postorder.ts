@@ -2,7 +2,7 @@ import type { PaymentCode } from './data';
 
 import iconShipmentTick from '../../assets/checkout/postorder-shipment-tick.webp';
 import iconChevronLeft from '../../assets/checkout/postorder-chevron-left.webp';
-import iconBack from '../../assets/checkout/postorder-back.webp';
+import iconBack from '../../assets/shared/search-bar/back.webp';
 import iconFailureError from '../../assets/checkout/postorder-payment-failure-error.webp';
 import iconFailureInstructions from '../../assets/checkout/postorder-payment-failure-instructions.webp';
 import iconCopy from '../../assets/checkout/postorder-copy.svg';

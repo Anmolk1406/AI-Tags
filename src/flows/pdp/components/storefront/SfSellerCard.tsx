@@ -1,8 +1,15 @@
-import { DashedDivider, OriginIcon, type OriginIconName } from '../../../../components';
+import { DashedDivider, MaskIcon } from '../../../../components';
+import salesReturn16 from '../../../../assets/pdp/new-pdp/icons/sales-return-filled-16.svg';
+import solidStar16 from '../../../../assets/pdp/new-pdp/icons/solid-star-16.svg';
+import ratingStar from '../../../../assets/pdp/new-pdp/icons/rating-star-12.svg';
+import microTag from '../../../../assets/pdp/new-pdp/icons/micro-tag-16.svg';
+import chevron16 from '../../../../assets/pdp/new-pdp/icons/mini-chevron-right-16.svg';
+import chevron20 from '../../../../assets/pdp/new-pdp/icons/mini-chevron-right-20.svg';
+import appleSellerLogo from '../../../../assets/pdp/new-pdp/seller-logo-apple.png';
 import { useNav } from '../../../../kit/Navigator';
 import { copy, money, type PdpContent } from '../../data';
+import { assets as assetsUrl } from '../Asset';
 import { Card } from '../Sections';
-import { starTint } from '../Stars';
 import styles from './SfSellerCard.module.css';
 
 type Seller = PdpContent['seller'];
@@ -16,14 +23,18 @@ const sfCopy = {
   offersFrom: (n: number) => `${n} ${n === 1 ? 'offer' : 'offers'} from other sellers from`,
 } as const;
 
-/** Trust-chip glyph by metric (Figma layers "returns low", "Group 1686557364" thumb, "Partner", "Product as described"). */
-function metricIcon(m: Metric): OriginIconName {
-  if (m.kind === 'years') return 'partners';
-  if (/return/i.test(m.title)) return 'delivery-box-return';
-  if (/rating/i.test(m.title)) return 'thumbs-up';
-  if (m.kind === 'percent' || /described|shown/i.test(m.title)) return 'delivery-box-check-circle';
-  return 'verified';
-}
+type ChipKind = 'returns' | 'ratings' | 'partner' | 'described' | 'other';
+const chipKind = (m: Metric): ChipKind =>
+  m.kind === 'years' ? 'partner' : /return/i.test(m.title) ? 'returns' : /rating/i.test(m.title) ? 'ratings' : m.kind === 'percent' || /described|shown/i.test(m.title) ? 'described' : 'other';
+
+/** Trust-chip glyph, the exact New PDP 64:5728 vectors: lsicon:sales-return-filled for low returns, solid/star for the others. */
+const chipIcons: Record<ChipKind, string> = { returns: salesReturn16, ratings: solidStar16, partner: solidStar16, described: solidStar16, other: solidStar16 };
+const metricIcon = (m: Metric): string => chipIcons[chipKind(m)];
+/** Seller logo: the Figma 64:5728 image (Apple mark) for an official Apple store, else NoonSeller's default shop glyph. */
+const sellerLogoFor = (content: PdpContent) => (content.officialStore && content.brand === 'Apple' ? appleSellerLogo : assetsUrl.sellerLogo);
+
+/** Figma chip order: low returns · recent ratings · partner since · item as described. */
+const chipOrder = (m: Metric) => ['returns', 'ratings', 'partner', 'described', 'other'].indexOf(chipKind(m));
 
 /** "{n} offers from other sellers from Đ{min}": seller.offerCount / offerFrom, else the buying options; null → generic copy. */
 function offersSummary(content: PdpContent): { count: number; from: number } | null {
@@ -35,8 +46,9 @@ function offersSummary(content: PdpContent): { count: number; from: number } | n
 }
 
 /**
- * Storefront seller widget (Figma 3499:75647): 48px store box + "Sold by {name}" ›, rating pill "4.3 (128)" and
- * "74% Positive Seller Ratings"; wrapping trust chips (r18); brand subtitle row; dashed divider; alice-blue offers row.
+ * Seller widget (New PDP 64:5728 / Storefront 3499:75647): white r16 card with shadow/sm; 48px seller logo (NoonSeller
+ * `seller-logo.webp`, 1px #F3F5F7 r10) + "Sold by {name}" ›, rating pill "4.3 (128)" and "74% Positive Seller Ratings";
+ * wrapping trust chips (r18); brand subtitle row; dashed divider; alice-blue offers row with the tag glyph.
  * Replaces SellerCard (same props): the seller block toasts the seller name, the offers row calls `onOffers`.
  */
 export function SfSellerCard({ content, onOffers }: { content: PdpContent; onOffers: () => void }) {
@@ -49,25 +61,27 @@ export function SfSellerCard({ content, onOffers }: { content: PdpContent; onOff
       <div className={styles.top}>
         <button type="button" className={styles.head} onClick={() => nav.toast(`${copy.soldBy} ${s.name}`)}>
           <span className={styles.logo}>
-            <OriginIcon name="shop" filled size={30} color="var(--nk-color-text-body)" />
+            <img alt="" src={sellerLogoFor(content)} className={styles.logoImg} />
           </span>
           <span className={styles.headText}>
             <span className={styles.nameRow}>
-              <span className={styles.soldBy}>{copy.soldBy}</span>
+              {/* flex drops the space between items: keep it inside the label (Figma "Sold by Anker UAE Inc.") */}
+              <span className={styles.soldBy}>{`${copy.soldBy} `}</span>
               <span className={styles.name}>{s.name}</span>
-              <OriginIcon name="chevron-right" size={16} color="var(--nk-color-text-primary)" />
+              <MaskIcon src={chevron16} size={16} color="var(--nk-color-text-primary)" />
             </span>
             <span className={styles.pills}>
               <span className={styles.rating}>
-                <OriginIcon name="star" filled size={12} color={starTint(s.rating)} />
+                <MaskIcon src={ratingStar} width={12} height={11.5} color="var(--nk-palette-emerald-green)" />
                 <span className={styles.ratingText}>
                   <span className={styles.ratingScore}>{s.rating.toFixed(1)}</span>
                   {s.ratingCount !== undefined && <span className={styles.ratingCount}> ({s.ratingCount})</span>}
                 </span>
               </span>
               <span className={styles.positive}>
-                <span className={styles.positivePct}>{copy.percent(s.positive)}</span>{' '}
-                <span className={styles.positiveWord}>{sfCopy.positiveLabel}</span> {copy.sellerRatings}
+                <span>
+                  <span className={styles.positivePct}>{copy.percent(s.positive)}</span> <span className={styles.positiveWord}>{sfCopy.positiveLabel}</span> {copy.sellerRatings}
+                </span>
               </span>
             </span>
           </span>
@@ -75,9 +89,9 @@ export function SfSellerCard({ content, onOffers }: { content: PdpContent; onOff
         <div className={styles.trust}>
           {s.metrics.length > 0 && (
             <div className={styles.chips}>
-              {s.metrics.map((m) => (
+              {[...s.metrics].sort((a, b) => chipOrder(a) - chipOrder(b)).map((m) => (
                 <span key={m.title} className={styles.chip}>
-                  <OriginIcon name={metricIcon(m)} filled size={16} color="var(--nk-color-text-muted)" />
+                  <MaskIcon src={metricIcon(m)} size={16} color="var(--nk-color-text-muted)" />
                   <span className={styles.chipText}>
                     {m.title}
                     {m.kind === 'years' && m.value !== undefined && <> {copy.partnerSince(m.value)}</>}
@@ -102,7 +116,7 @@ export function SfSellerCard({ content, onOffers }: { content: PdpContent; onOff
       <DashedDivider inset={0} color="var(--nk-color-border-subtle)" />
       <div className={styles.offersWrap}>
         <button type="button" className={styles.offers} onClick={onOffers}>
-          <OriginIcon name="shop" filled size={16} color="var(--nk-color-text-body)" />
+          <MaskIcon src={microTag} size={16} color="var(--nk-color-text-muted)" style={{ transform: 'scaleX(-1)' }} />
           <span className={styles.offersText}>
             {offers ? (
               <>
@@ -112,7 +126,7 @@ export function SfSellerCard({ content, onOffers }: { content: PdpContent; onOff
               copy.moreOffers
             )}
           </span>
-          <OriginIcon name="chevron-right" size={20} color="var(--nk-color-text-primary)" />
+          <MaskIcon src={chevron20} size={20} color="var(--nk-color-text-primary)" />
         </button>
       </div>
     </Card>

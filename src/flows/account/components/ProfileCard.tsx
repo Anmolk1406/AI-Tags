@@ -30,12 +30,10 @@ export function ProfileCard({ noonOne: noonOneProp }: { noonOne?: boolean }) {
 
   return (
     <div className={styles.profileCard}>
-      <Pressable asDiv className={styles.profileRow} scale={0.99} onClick={() => nav.push('account/editProfile')}>
-        <span
-          className={styles.avatar}
-          style={noonOne ? { background: `linear-gradient(135deg, ${avatar.noonOneFrom}, ${avatar.noonOneTo})`, color: avatar.noonOneInk, borderRadius: 26 } : undefined}
-        >
-          {initials}
+      {/* the whole header is a plain RN Pressable (no press visual) → openEditProfile */}
+      <Pressable asDiv className={styles.profileRow} scale={1} onClick={() => nav.push('account/editProfile')}>
+        <span className={`${styles.avatar} ${noonOne ? styles.avatarNoonOne : ''}`} style={noonOne ? { background: avatar.noonOneGradient, color: avatar.noonOneInk } : undefined}>
+          {noonOne ? initials : initials.toUpperCase()}
         </span>
         <span className={styles.profileText}>
           <span className={styles.profileName}>Hala {profile.firstName}</span>

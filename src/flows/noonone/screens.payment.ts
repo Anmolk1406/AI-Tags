@@ -1,10 +1,12 @@
 import type { ScreenDef } from '../../kit/types';
-import { AddCardOverlayScreen } from './screens/AddCardOverlayScreen';
-import { AddCvvOverlayScreen } from './screens/AddCvvOverlayScreen';
-import { GenericOverlayScreen } from './screens/GenericOverlayScreen';
-import { InfoOverlayScreen } from './screens/InfoOverlayScreen';
-import { MobilePayOverlayScreen } from './screens/MobilePayOverlayScreen';
-import { PaymentScreen } from './screens/PaymentScreen';
+import { lazyScreen } from '../../kit/lazyScreen';
+
+const AddCardOverlayScreen = lazyScreen(() => import('./screens/AddCardOverlayScreen'), 'AddCardOverlayScreen');
+const AddCvvOverlayScreen = lazyScreen(() => import('./screens/AddCvvOverlayScreen'), 'AddCvvOverlayScreen');
+const GenericOverlayScreen = lazyScreen(() => import('./screens/GenericOverlayScreen'), 'GenericOverlayScreen');
+const InfoOverlayScreen = lazyScreen(() => import('./screens/InfoOverlayScreen'), 'InfoOverlayScreen');
+const MobilePayOverlayScreen = lazyScreen(() => import('./screens/MobilePayOverlayScreen'), 'MobilePayOverlayScreen');
+const PaymentScreen = lazyScreen(() => import('./screens/PaymentScreen'), 'PaymentScreen');
 
 const S = 'features/vip/screens';
 const overlay = { presentation: 'modal', transition: 'noonone-overlay' } as const;

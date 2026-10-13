@@ -137,8 +137,10 @@ export function familyGroups(p: Product): VariantGroup[] {
         name: value,
         productId: closest?.id,
         image: dim.key === 'color' ? (swatches[value] ?? closest?.image) : undefined,
-        salePrice: exact ? exact.price : undefined,
-        price: exact?.was,
+        // NoonOptionsSelection: every option is a SKU with its own price, so show the price of the SKU a tap switches to
+        // (exact match, else the closest member) — the tiles keep their content whatever else is selected
+        salePrice: closest?.price,
+        price: closest?.was,
         available: !!closest,
       };
     });

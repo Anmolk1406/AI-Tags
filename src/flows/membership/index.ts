@@ -1,11 +1,13 @@
 import { defineFlow } from '../../kit/registry';
 import './transitions';
-import { ManageMembershipScreen } from './ManageMembershipScreen';
 import { cancelScreens } from './cancel/screens';
 import { familyScreens } from './family/screens';
 import { perksScreens } from './perks/screens';
 import { plansScreens } from './plans/screens';
 import { membershipFlowTokens } from './tokens';
+import { lazyScreen } from '../../kit/lazyScreen';
+
+const ManageMembershipScreen = lazyScreen(() => import('./ManageMembershipScreen'), 'ManageMembershipScreen');
 
 /**
  * noon One membership management — bappzaar features/vip (master). Live variants: VIPManageMembershipV3Screen

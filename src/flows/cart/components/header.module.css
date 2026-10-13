@@ -1,6 +1,6 @@
 /* NoonSalesAnimatedHeader/styles.ts + NoonCartAddressSelectorV2 — restyled to Figma "Nav Header" 10575:94722 */
 .container { position: relative; padding-top: calc(var(--nk-inset-top) + var(--nk-space-s4)); }
-.cornerOverlay { position: absolute; bottom: -12px; left: 0; right: 0; height: 24px; z-index: -1; }
+.cornerOverlay { position: absolute; bottom: -12px; left: 0; right: 0; height: 24px; z-index: -1; pointer-events: none; }
 .gradient { position: absolute; left: 0; right: 0; bottom: -22px; height: 24px; z-index: -2; background: linear-gradient(180deg, var(--nk-palette-black-alpha10) 20%, var(--nk-palette-black-alpha0) 100%); pointer-events: none; }
 /* Frame 2147238880: row, gap 24, padding 0 12 8 */
 .wrapper { display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s24); padding: 0 var(--nk-space-s12) var(--nk-space-s8); position: relative; }

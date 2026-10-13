@@ -29,9 +29,10 @@ const mentions = (doc, word) => new RegExp(`(^|[^\\w-])${word.replace(/[.*+?^${}
 // ── Load the real registry and tokens through Vite (screens and tokens live in TS modules).
 const { createServer } = await import(join(root, 'node_modules/vite/dist/node/index.js'));
 const vite = await createServer({ root, configFile: false, logLevel: 'error', server: { middlewareMode: true }, appType: 'custom', assetsInclude: ['**/*.lottie'] });
-let allFlows, tokens, tokensToCssVars;
+let allFlows, tokens, tokensToCssVars, screenTruth;
 try {
   ({ allFlows } = await vite.ssrLoadModule('/src/flows/index.ts'));
+  ({ screenTruth } = await vite.ssrLoadModule('/src/kit/registry.ts'));
   ({ tokens } = await vite.ssrLoadModule('/src/foundations/tokens.ts'));
   ({ tokensToCssVars } = await vite.ssrLoadModule('/src/foundations/ThemeProvider.tsx'));
 } finally {
@@ -60,6 +61,9 @@ const mdFiles = [];
     else if (e.name.endsWith('.md')) mdFiles.push(p);
   }
 })(skillsRoot);
+// Shared resources the skills load on demand (.claude/resources): checked like skill files, never a skill themselves.
+const resourcesRoot = join(root, '.claude/resources');
+if (existsSync(resourcesRoot)) for (const f of readdirSync(resourcesRoot, { recursive: true })) if (f.endsWith('.md')) mdFiles.push(join(resourcesRoot, f));
 const planned = new Set(mdFiles.flatMap((f) => [...readFileSync(f, 'utf8').matchAll(/<!--\s*(?:planned|external):([^>]*)-->/g)].flatMap((m) => m[1].split(',').map((s) => s.trim()).filter(Boolean))));
 
 // ── 1. Structure.
@@ -107,7 +111,8 @@ for (const file of mdFiles) {
       const p = candidate.replace(/[),.;:]+$/, '').replace(/#.*$/, '').replace(/:\d+$/, '');
       if (!pathLike.test(p) || /[*<>{}]/.test(p)) continue;
       // Relative links resolve from their own file only; other paths from the repo root, the skill or the file.
-      const bases = /^\.\.?\//.test(p) ? [dirname(file)] : [root, join(skillsRoot, where.split('/')[2]), dirname(file)];
+      const home = file.startsWith(resourcesRoot) ? resourcesRoot : join(skillsRoot, where.split('/')[2]);
+      const bases = /^\.\.?\//.test(p) ? [dirname(file)] : [root, home, dirname(file)];
       if (!planned.has(p) && !exists(bases, p)) badPaths.add(p);
     }
   }
@@ -181,7 +186,50 @@ for (const flow of allFlows) {
   else ok(`flows.md: ${flow.id} (${flow.screens.length} screens)`);
 }
 
-const summary = `${skills.length} skills · ${mdFiles.length} files · ${routes.size} routes · ${cssVars.size} CSS variables`;
+// ── 5b. Source of truth per screen: every screen names its reference; `figma` / `mixed` screens need the flow's
+//        FIGMA-MAPPING.md (or MAPPING.md) to say which area follows which; `verified` is a YYYY-MM-DD date.
+const truthCount = {};
+let verifiedCount = 0;
+for (const f of allFlows) {
+  for (const sc of f.screens) {
+    const r = `${f.id}/${sc.id}`;
+    if (!sc.source) problems.push(`${r}: no \`source\` (bappzaar path, Figma <fileKey> · <node>, or reference: …)`);
+    const t = screenTruth(sc);
+    truthCount[t] = (truthCount[t] ?? 0) + 1;
+    if (sc.verified !== undefined) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(sc.verified)) problems.push(`${r}: \`verified\` must be YYYY-MM-DD (got "${sc.verified}")`);
+      else verifiedCount++;
+    }
+    if ((t === 'figma' || t === 'mixed') && sc.truth && !['FIGMA-MAPPING.md', 'MAPPING.md'].some((m) => existsSync(join(root, 'src/flows', f.id, m)))) {
+      problems.push(`${r}: truth "${t}" but src/flows/${f.id} has no FIGMA-MAPPING.md / MAPPING.md saying which area follows which reference`);
+    }
+  }
+}
+ok(`source of truth: ${Object.entries(truthCount).map(([k, v]) => `${v} ${k}`).join(' · ')}; ${verifiedCount} verified`);
+const truthSummary = `${Object.entries(truthCount).map(([k, v]) => `${v} ${k}`).join(' / ')} · ${verifiedCount} verified`;
+
+// ── 6. Flow / screen counts quoted in prose ("17 flows", "145 screens") must match the registry.
+const nFlows = allFlows.length;
+const nScreens = routes.size;
+// a flow's own screen count ("noonone … 22 screens") is not a total: only numbers above the largest flow are checked
+const maxFlow = Math.max(...allFlows.map((f) => f.screens.length));
+for (const [file, text] of [['README.md', read('README.md')], ...mdFiles.map((f) => [rel(f), readFileSync(f, 'utf8')])]) {
+  const bad = [];
+  for (const m of text.matchAll(/\b(\d+) (?:ready-made )?flows\b/g)) if (+m[1] !== nFlows && +m[1] > 5) bad.push(`"${m[0]}" (registry: ${nFlows})`);
+  for (const m of text.matchAll(/\b(\d+) screens\b/g)) if (+m[1] !== nScreens && +m[1] > maxFlow) bad.push(`"${m[0]}" (registry: ${nScreens})`);
+  if (bad.length) problems.push(`${file}: counts out of date: ${[...new Set(bad)].join(', ')}`);
+}
+ok(`counts: ${nFlows} flows, ${nScreens} screens`);
+
+// ── 7. The generated screen index in .claude/resources is current.
+if (existsSync(join(resourcesRoot, 'scripts/build.mjs'))) {
+  const { spawnSync } = await import('node:child_process');
+  const r = spawnSync(process.execPath, [join(resourcesRoot, 'scripts/build.mjs'), '--check'], { encoding: 'utf8' });
+  if (r.status !== 0) problems.push('.claude/resources/screens.md is out of date: run npm run resources:build');
+  else ok('resources: screens.md current');
+}
+
+const summary = `${skills.length} skills · ${mdFiles.length} files · ${routes.size} routes · ${cssVars.size} CSS variables · truth ${truthSummary}`;
 if (problems.length) {
   console.log(`✗ skills are out of date (${problems.length} problems; ${summary}):\n`);
   for (const p of problems) console.log(`  - ${p}`);

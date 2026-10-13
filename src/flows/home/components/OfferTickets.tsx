@@ -26,7 +26,7 @@ function Ticket({ ticket: t, onPress }: { ticket: OfferTicket; onPress: () => vo
   return (
     <Pressable className={styles.ticket} style={{ '--home-ticket-border': t.border } as CSSProperties} onClick={onPress} scale={0.97} aria-label={`${t.title}, ${t.cta}`}>
       <span className={styles.panel}>
-        <img className={styles.art} src={t.art} alt="" draggable={false} />
+        <img loading="lazy" decoding="async" className={styles.art} src={t.art} alt="" draggable={false} />
         <span className={styles.copy}>
           <Text variant="bodyBold" color="textInverse" className={styles.title}>
             {t.title}
@@ -44,7 +44,7 @@ function Ticket({ ticket: t, onPress }: { ticket: OfferTicket; onPress: () => vo
         </span>
         <span className={styles.cta}>
           {t.cta}
-          <img src={chevron} alt="" width={12} height={12} className="nk-flip-rtl" />
+          <img loading="lazy" decoding="async" src={chevron} alt="" width={12} height={12} className="nk-flip-rtl" />
         </span>
       </span>
       <span className={`${styles.notch} ${styles.notchStart}`} />

@@ -1,6 +1,7 @@
 import { motion, type Variants } from 'motion/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Pill, Screen, SearchInput, Text } from '../../components';
+import { preloadRoutes } from '../../kit/lazyScreen';
 import { useNav, useParams } from '../../kit/Navigator';
 import { handoff } from '../../motion/presets';
 import { BlurSwap } from '../../motion/recipes';
@@ -114,6 +115,8 @@ export function SearchScreen() {
     [commit],
   );
   useEffect(() => update(q), [q, update]);
+  // the results page and the PDP are lazy chunks: fetch them now so the in-place hand-off never shows an empty frame
+  useEffect(() => preloadRoutes(() => import('../plp/ListingScreen'), () => import('../pdp/DetailScreen')), []);
 
   // back from results: the rows spring back in and the field is editable again
   const isTop = nav.stack[nav.stack.length - 1]?.route === nav.route;

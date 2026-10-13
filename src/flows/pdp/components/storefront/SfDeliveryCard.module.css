@@ -8,17 +8,35 @@
 /* Express box: white, 1px blue-gray/200, r12, pt 12, gap 12 */
 .express { display: flex; flex-direction: column; gap: var(--nk-space-s12); padding-top: var(--nk-space-s12); border: 1px solid var(--nk-color-border-subtle); border-radius: var(--nk-radius-r12); background: var(--nk-color-bg-surface); overflow: hidden; }
 .expressBody { display: flex; flex-direction: column; gap: var(--nk-space-s10); padding: 0 var(--nk-space-s12); }
-.expressRow { display: flex; flex-wrap: wrap; align-items: center; gap: var(--nk-space-s4); }
+.expressRow { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--nk-space-s4); }
+.estimate { flex: 1 1 auto; }
 .expressLogo { width: var(--nk-layout-pdp-sfb-express-w); height: var(--nk-layout-pdp-icon20); }
 .estimate { font: var(--nk-type-pdp-sfb-text14-lh17); color: var(--nk-color-text-primary); }
-.estimate b { font-weight: inherit; }
+.estimate b { font-weight: var(--nk-font-weight-semibold); }
 .countdown { font: var(--nk-type-text12-regular-lh18); color: var(--nk-color-text-secondary); }
 .countdown b { font-weight: var(--nk-font-weight-semibold); color: var(--nk-color-text-primary); }
 /* no faster options: the box keeps a 12 bottom padding */
 .express[data-no-foot] { padding-bottom: var(--nk-space-s12); }
 
-/* "Faster Delivery Options": grey foot of the express box (1px blue-gray/200 top, rounded bottom 12) */
-.foot { background: var(--nk-color-bg-subtle); border-top: 1px solid var(--nk-color-border-subtle); }
+/* "Faster Delivery Options": grey foot of the express box (1px blue-gray/200, rounded bottom 12, pt 12, gap 12; New PDP 64:5590) */
+.foot { background: var(--nk-color-bg-subtle); border-top: 1px solid var(--nk-color-border-subtle); border-radius: 0 0 var(--nk-radius-r12) var(--nk-radius-r12); }
+.foot .accHead { padding: var(--nk-space-s12) var(--nk-space-s12) 0; }
+.footBody { display: flex; flex-direction: column; gap: var(--nk-space-s8); padding-top: var(--nk-space-s12); }
+/* lanes: px 12, gap 10: rule, then 20-high rows */
+.lanes { display: flex; flex-direction: column; gap: var(--nk-space-s10); padding: 0 var(--nk-space-s12); }
+.lanesRule { height: 0; border-top: 1px solid var(--nk-color-border-subtle); }
+.lane { display: flex; align-items: center; justify-content: space-between; gap: var(--nk-space-s8); height: 20px; }
+.lane[role='button'] { cursor: pointer; }
+/* "Get it" 14 regular #0E0E0E + day 14/600 #1D2539 + note 13 light ink 80% */
+.laneText { font: var(--nk-type-pdp-sfb-text14-lh17); letter-spacing: -0.112px; color: var(--nk-palette-neutral-black); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.laneText b { font-weight: var(--nk-font-weight-semibold); color: var(--nk-color-text-primary); }
+.laneNote { font: var(--nk-type-pdp-npb-text13-light-lh16); color: var(--nk-color-pdp-npb-slot-note); }
+/* "+ ₳ 14.00" 12/600/18 #101628 −0.12 (currency glyph regular) */
+.lanePrice { flex-shrink: 0; font: var(--nk-type-pdp-npb-text12-semibold-lh18); letter-spacing: -0.12px; color: var(--nk-color-text-strong); white-space: nowrap; }
+.laneCurrency { font-weight: var(--nk-font-weight-regular); }
+/* Alerts: white, pt 10 pb 12 px 12, gap 4, rounded bottom 10; info 16 + 13/500/14 slate grey */
+.callout { display: flex; align-items: center; gap: var(--nk-space-s4); padding: var(--nk-space-s10) var(--nk-space-s12) var(--nk-space-s12); border-radius: 0 0 var(--nk-radius-r10) var(--nk-radius-r10); background: var(--nk-color-bg-surface); }
+.calloutText { padding: var(--nk-space-s2) 0; font: var(--nk-type-pdp-sfb-text13-medium-lh14); letter-spacing: -0.12px; color: var(--nk-color-text-secondary); }
 /* "Other Delivery Options": blue-gray/100 r12 box */
 .box { background: var(--nk-color-bg-subtle); border-radius: var(--nk-radius-r12); }
 

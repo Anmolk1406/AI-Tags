@@ -2,38 +2,24 @@ import { animate, motion, useMotionValue } from 'motion/react';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import shimmerLottie from '../../../assets/vip/vip-loading-shimmer.lottie';
 import greenCheck from '../../../assets/vip/one-green-check.webp';
-import { HtmlText, Screen } from '../../../components';
+import { Screen } from '../../../components';
 import { membershipStore, noonOneJourneyActions, useIsNoonOneMember, useMembership, useMembershipEligibility } from '../../../kit/membership';
 import { useNav } from '../../../kit/Navigator';
-import { defaultPlan, findPlan, successMessage, toMembershipPlan, withEligibility } from '../data';
+import { CURRENCY, defaultPlan, findPlan, successMessage, toMembershipPlan, withEligibility } from '../data';
 import {
   benefitsModule,
   faqModule,
-  familyPlanModule,
   fmtDate,
-  guideStepsModule,
-  heroBanner,
   landingCopy,
   membershipOverview,
-  mpBenefits,
+  npLanding,
   savingsModule,
-  stickyButtons,
 } from '../data.landing';
 import { completeSubscription, noononeStore, useNoonone } from '../store';
 import { landingTokens as T } from '../tokens';
 import { LandingHeader } from '../components/landing/LandingHeader';
-import {
-  BannerModule,
-  BenefitsModule,
-  FaqModule,
-  FamilyPlanModule,
-  GuideStepsModule,
-  LottieBox,
-  MembershipOverviewModule,
-  MpBenefitsCarousel,
-  SavingsOverviewModule,
-} from '../components/landing/modules';
-import { StickyFooter } from '../components/landing/StickyFooter';
+import { BenefitsModule, FaqModule, LottieBox, MembershipOverviewModule, SavingsOverviewModule } from '../components/landing/modules';
+import { NpModuleRenderer, NpStickyFooter } from '../components/landing/npModules';
 import { TransitionAnim } from '../components/landing/TransitionAnim';
 import styles from '../components/landing/landing.module.css';
 
@@ -148,8 +134,8 @@ export function LandingScreen() {
         statusHtml: trial ? membershipOverview.status.trial : membershipOverview.status.active,
         statusColor: membershipOverview.status.highlightColor,
         billingHtml: trial
-          ? `<p>Free until <b>${fmtDate(membership.renewsOn)}</b>, then AED ${memberPlan.price}/${memberPlan.period === 'yearly' ? 'year' : 'month'}</p>`
-          : `<p>Renews on <b>${fmtDate(membership.renewsOn)}</b> · AED ${memberPlan.price}/${memberPlan.period === 'yearly' ? 'year' : 'month'}</p>`,
+          ? `<p>Free until <b>${fmtDate(membership.renewsOn)}</b>, then ${CURRENCY} ${memberPlan.price}/${memberPlan.period === 'yearly' ? 'year' : 'month'}</p>`
+          : `<p>Renews on <b>${fmtDate(membership.renewsOn)}</b> · ${CURRENCY} ${memberPlan.price}/${memberPlan.period === 'yearly' ? 'year' : 'month'}</p>`,
         members: [{ name: membershipOverview.name }, ...membership.family.filter((f) => f.status === 'joined')],
         maxNumMembers: memberPlan.seats,
       }
@@ -160,10 +146,10 @@ export function LandingScreen() {
       <motion.div className={styles.animated} style={{ y: contentY, opacity: contentOpacity }}>
         <Screen
           ref={scrollRef}
-          background="bgPage"
+          background={isMember ? 'bgPage' : 'vipNpPage'}
           safeTop={false}
           overlayHeader
-          header={<LandingHeader scrollY={scrollY} onBack={() => nav.back()} />}
+          header={<LandingHeader scrollY={scrollY} onBack={() => nav.back()} variant={isMember ? undefined : 'np'} />}
           onScroll={(y) => scrollY.set(y)}
           contentStyle={{ paddingBottom: `${stickyHeight + 26}px` }}
         >
@@ -186,27 +172,8 @@ export function LandingScreen() {
               </div>
             </>
           ) : (
-            <>
-              <div className={styles.spacer} />
-              <BannerModule lottieUrl={heroBanner.lottieUrl} ratio={heroBanner.ratio} />
-              <MpBenefitsCarousel items={mpBenefits} />
-              <BenefitsModule title={benefitsModule.moduleHeader.title} benefits={benefitsModule.benefits} />
-              <FamilyPlanModule
-                title={familyPlanModule.title}
-                subtitle={familyPlanModule.subtitle}
-                members={familyPlanModule.members}
-                maxNumMembers={familyPlanModule.maxNumMembers}
-                tags={familyPlanModule.tags}
-                buttonText={familyPlanModule.button.text}
-                onPress={() => nav.push('noonone/familyPlans', { playIntroAnimation: true })}
-              />
-              <GuideStepsModule title={guideStepsModule.moduleHeader.title} stepUnit={guideStepsModule.stepUnit} rows={guideStepsModule.rows} />
-              <FaqModule title={faqModule.title} rows={faqModule.rows} />
-              {/* paymentTerms (!isLoyalCustomer && !showImageBg) */}
-              <div className={styles.terms}>
-                <HtmlText value={plan.paymentTerms} className={styles.termsText} />
-              </div>
-            </>
+            // non-member: prod landing (Figma Af34gfmhQ1D0wstXUEHSIF · 24:2604) as an ordered landingV2 module list
+            <NpModuleRenderer modules={npLanding.modules} onCreate={onCreate} />
           )}
         </Screen>
       </motion.div>
@@ -219,18 +186,15 @@ export function LandingScreen() {
           animate={{ y: hideContent ? `calc(100% + ${T.sticky.extra}px)` : 0 }}
           transition={{ duration: T.sticky.ms / 1000, ease: T.sticky.ease }}
         >
-          <StickyFooter
-            showFlyout
+          <NpStickyFooter
             subscription={{
-              title: plan.buttonText,
+              title: plan.isTrialValid ? npLanding.buttonText : plan.buttonText,
               showPayment,
               payment: paymentMethod,
               isLoading: paying,
               onPress: onCreate,
               onPaymentPress: () => nav.push('noonone/payment', { planCode: plan.planCode, source: '/noonone' }),
             }}
-            viewPlansTitle={stickyButtons.viewPlans.title}
-            onViewPlans={() => nav.push('noonone/plans', { source: '/noon-one-landingV2' })}
           />
         </motion.div>
       )}

@@ -1,6 +1,8 @@
 import { defineFlow } from '../../kit/registry';
-import { DealsScreen } from './DealsScreen';
 import { dealsFlowTokens } from './tokens';
+import { lazyScreen } from '../../kit/lazyScreen';
+
+const DealsScreen = lazyScreen(() => import('./DealsScreen'), 'DealsScreen');
 
 export const dealsFlow = defineFlow({
   id: 'deals',

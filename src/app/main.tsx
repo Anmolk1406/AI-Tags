@@ -38,6 +38,8 @@ function Preview() {
   // Keep the address bar on the page's clean URL, e.g. /homepage, /plp, /checkout/cards-select.
   const onRouteChange = useCallback((r: Route, s: StackEntry[]) => {
     const p = s.at(-1)?.params ?? {};
+    // used by scripts/journeys.mjs: the current route and stack
+    (window as unknown as { __NK_NAV__: unknown }).__NK_NAV__ = { route: r, stack: s.map((e) => e.route), params: p };
     const query = new URLSearchParams(Object.entries(p).flatMap(([k, v]) => (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean' ? [[k, String(v)]] : []))).toString();
     window.history.replaceState(null, '', `/${registry.pathFor(r)}${query ? `?${query}` : ''}`);
   }, []);

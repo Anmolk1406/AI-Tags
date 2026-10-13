@@ -117,7 +117,7 @@ export const cartFlowTokens: TokenOverrides = {
   },
   shadow: {
     cartHeaderLabel: '0 8.043px 16.086px var(--nk-color-cart-header-text-shadow)',
-    cartFooter: '0 -4px 10px var(--nk-palette-black-alpha8)', // Cart Sticky footer drop shadow
+    cartFooter: '0 -4px 10px var(--nk-palette-black-alpha8)', // Figma Cart Sticky footer drop shadow (All flows 127:40220)
   },
 };
 

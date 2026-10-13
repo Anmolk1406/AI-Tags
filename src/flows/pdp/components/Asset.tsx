@@ -7,7 +7,7 @@ import checkboxGrey from '../../../assets/pdp/checkbox-grey.webp';
 import frequentlyBoughtPlus from '../../../assets/pdp/frequently-bought-plus.webp';
 import rocketPdp from '../../../assets/pdp/rocket-pdp-en.webp';
 import arrowUpTray from '../../../assets/pdp/arrow-up-tray.webp';
-import back from '../../../assets/checkout/postorder-back.webp';
+import back from '../../../assets/shared/search-bar/back.webp';
 import chevronDown from '../../../assets/icons/noon-chevron-down.webp';
 import chevronUpWhite from '../../../assets/pdp/chevron-up-white.webp';
 import circlePoint from '../../../assets/pdp/circle-point.webp';

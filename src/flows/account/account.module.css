@@ -5,8 +5,10 @@
 .profileRow { display: flex; align-items: center; width: 100%; padding: 18px 12px !important; }
 .avatar { width: 51px; height: 51px; border-radius: 40px; background: var(--nk-palette-white-smoke); border: 1px solid var(--nk-palette-white); display: flex; align-items: center; justify-content: center; font: var(--nk-type-acct-text24-bold-lh1); color: var(--nk-palette-black); flex-shrink: 0; }
 .profileText { flex: 1; min-width: 0; margin: 0 8px; display: flex; flex-direction: column; gap: 2px; }
-.profileName { font: var(--nk-type-heading); color: var(--nk-color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.profileEmail { font: var(--nk-type-caption); color: var(--nk-color-text-secondary); }
+.profileName { font: var(--nk-type-acct-profile-name); color: var(--nk-color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.profileEmail { font: var(--nk-type-acct-profile-email); color: var(--nk-color-text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* noonOneAvatarInner: radius 26, no border, cocoaBrown initials */
+.avatarNoonOne { border: 0; border-radius: 26px; }
 
 /* noon One strip — NoonAccountNoonOneLayout (+ NotSubscribed / Subscribed styles) */
 .noonOne { position: relative; display: flex; align-items: center; width: calc(100% - 2 * var(--nk-space-s2)); margin: var(--nk-space-s2) !important; padding: 5px var(--nk-space-s12) !important; border-radius: 0 0 var(--nk-radius-acct-noon-one) var(--nk-radius-acct-noon-one) !important; background: var(--nk-color-noon-one-surface) !important; overflow: hidden; text-align: start; }
@@ -21,13 +23,18 @@
 .noonOneChevron { display: flex; }
 [dir='rtl'] .noonOneChevron img { transform: scaleX(-1); }
 
-/* action cards */
-.actionRow { display: flex; gap: 12px; padding: 0 15px; }
-.actionCard { flex: 1; display: flex; flex-direction: column; background: var(--nk-color-bg-surface) !important; border: 1px solid var(--nk-palette-white) !important; border-radius: 12px !important; padding: 10px 10px 0 !important; min-width: 0; }
-.actionTitle { font: var(--nk-type-section); color: var(--nk-color-text-primary); }
-.thumbs { display: flex; justify-content: center; padding: 16px 5px 10px; }
-.thumb { position: relative; width: 48px; height: 68px; margin: 0 -5px; border-radius: 9px; background: var(--nk-color-bg-page); border: 2px solid var(--nk-palette-white); overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.thumb::after { content: ''; position: absolute; inset: 0; background: var(--nk-palette-black-alpha4); }
+/* action cards — NoonSignedInState actionCardContainer (row, paddingH 15, gap 12) */
+.actionRow { display: flex; gap: var(--nk-space-s12); padding: 0 15px; }
+/* NoonAccountActionCard container: white, 1px white border, r12, paddingTop 10, paddingH 10 (height from content: 128) */
+.actionCard { flex: 1; min-width: 0; display: flex !important; flex-direction: column; align-items: stretch; padding: var(--nk-space-s10) var(--nk-space-s10) 0 !important; border: 1px solid var(--nk-palette-white) !important; border-radius: var(--nk-radius-r12) !important; background: var(--nk-color-bg-surface) !important; overflow: hidden; text-align: start; }
+.actionTitle { font: var(--nk-type-acct-action-title); color: var(--nk-color-text-primary); }
+/* imagesContainer: row, centred, paddingTop 16, paddingBottom 10 */
+.tiles { display: flex; align-items: center; justify-content: center; padding: var(--nk-space-s16) 0 var(--nk-space-s10); }
+/* imageWrapperOuter marginH −5 · imageWrapper 48×68 r9 antiFlashWhite, white border 2 (default icons) / 3 (images) */
+.tile { position: relative; flex-shrink: 0; box-sizing: border-box; width: var(--nk-layout-acct-tile-w); height: var(--nk-layout-acct-tile-h); margin: 0 var(--nk-layout-acct-tile-overlap); display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2px solid var(--nk-palette-white); border-radius: var(--nk-radius-acct-tile); background: var(--nk-palette-anti-flash-white); }
+.tileImages { border-width: 3px; }
+/* imageOverlay black 0.04 — ProductImage already lays 0.02, this adds the rest */
+.tileOverlay { position: absolute; inset: 0; background: var(--nk-palette-black-alpha2); pointer-events: none; }
 
 /* credits */
 .creditsRow { display: flex; align-items: center; width: calc(100% - 30px); margin: 0 15px !important; background: var(--nk-color-bg-surface) !important; border-radius: 16px !important; padding: 14px 10px 14px 16px !important; }

@@ -5,7 +5,9 @@ import globalMap from '../../../../assets/pdp/storefront/b/global-map.webp';
 import { useNav } from '../../../../kit/Navigator';
 import { useIsNoonOneMember } from '../../../../kit/membership';
 import { tween } from '../../../../motion/presets';
+import { currency } from '../../../../mocks/products';
 import { copy, money, type PdpContent } from '../../data';
+import { fasterLanesFor, npbCopy, type FasterLane } from '../../data.npB';
 import { Asset } from '../Asset';
 import { Card } from '../Sections';
 import styles from './SfDeliveryCard.module.css';
@@ -30,11 +32,14 @@ type BuyingOption = NonNullable<PdpContent['buyingOptions']>[number];
 export type DeliveryVariant = 'crossSell' | 'noCrossSell' | 'market' | 'express' | 'global';
 export const deliveryVariants: DeliveryVariant[] = ['crossSell', 'noCrossSell', 'market', 'express', 'global'];
 
-/** The variant a product's data calls for: other-marketplace options → crossSell, faster options only → noCrossSell, else the single lane. */
+/**
+ * The variant a product's data calls for: other-marketplace options → crossSell; faster lanes (rocket options, or the
+ * express lane's Today / Tomorrow upgrades — New PDP 64:5590) → noCrossSell; else the single compact lane.
+ */
 export function deliveryVariantFor(content: PdpContent): DeliveryVariant {
   const options = content.buyingOptions ?? [];
   if (options.some((o) => o.code !== 'rocket')) return 'crossSell';
-  if (options.length) return 'noCrossSell';
+  if (fasterLanesFor(content).length) return 'noCrossSell';
   return content.deliveryLogo === 'rocket' || content.deliveryLogo === 'express' ? 'express' : 'market';
 }
 
@@ -50,7 +55,7 @@ export function SfDeliveryCard({ content, variant = deliveryVariantFor(content),
   const isMember = useIsNoonOneMember();
   const nav = useNav();
   const options = content.buyingOptions ?? [];
-  const faster = options.filter((o) => o.code === 'rocket');
+  const faster = fasterLanesFor(content);
   const other = options.filter((o) => o.code !== 'rocket');
   const crossSell = variant === 'crossSell' || variant === 'noCrossSell';
   const chip = orderIn(content.orderWithinMin);
@@ -77,14 +82,13 @@ export function SfDeliveryCard({ content, variant = deliveryVariantFor(content),
                 ) : (
                   <Asset name="expressPdp" className={styles.expressLogo} />
                 )}
-                <HtmlText value={content.delivery} className={styles.estimate} />
-                {/* kept from the port: the order cut-off countdown (not drawn in this variant) */}
+                <HtmlText value={content.delivery.replace(/^Get it( by)?/i, npbCopy.getBy)} className={styles.estimate} />
                 {chip && <span className={`${styles.chip} ${styles.chipEnd}`}>{chip}</span>}
               </div>
             </div>
             {faster.length > 0 && (
-              <Accordion title={sfCopy.fasterDeliveryOptions} variant="foot">
-                <OptionRows options={faster} />
+              <Accordion title={sfCopy.fasterDeliveryOptions} variant="foot" defaultOpen>
+                <FasterRows lanes={faster} />
               </Accordion>
             )}
           </div>
@@ -156,9 +160,47 @@ function OptionRows({ options }: { options: BuyingOption[] }) {
   );
 }
 
-/** Collapsible (motion.md "Collapsibles"): chevron rotates 180°, body height 0 → auto with opacity. Starts closed (Figma). */
-function Accordion({ title, variant, children }: { title: string; variant: 'foot' | 'box'; children: ReactNode }) {
-  const [open, setOpen] = useState(false);
+/**
+ * "Faster Delivery Options" body (New PDP 64:5590): a rule, then "Get it **Today**" / "Get it **Tomorrow** [before 12pm]"
+ * rows (20 high, gap 10) with "+ ₳ 14.00" at the end, and a white "Select these options on checkout" callout. The lanes are
+ * chosen at checkout; a lane that is another offer (bappzaar buying option) still switches to it (`nav.replace`).
+ */
+function FasterRows({ lanes }: { lanes: FasterLane[] }) {
+  const nav = useNav();
+  return (
+    <>
+      <div className={styles.lanes}>
+        <span className={styles.lanesRule} aria-hidden />
+        {lanes.map((l) => (
+          <div
+            key={l.day + (l.note ?? '')}
+            className={styles.lane}
+            role={l.productId ? 'button' : undefined}
+            tabIndex={l.productId ? 0 : undefined}
+            onClick={l.productId ? () => nav.replace('pdp/detail', { productId: l.productId! }) : undefined}
+          >
+            <span className={styles.laneText}>
+              {l.offer ? 'Get' : 'Get it'} <b>{l.day}</b>
+              {l.note && <span className={styles.laneNote}> {l.note}</span>}
+            </span>
+            <span className={styles.lanePrice}>
+              {!l.offer && '+ '}
+              <span className={styles.laneCurrency}>{currency}</span> {l.price.toFixed(2)}
+            </span>
+          </div>
+        ))}
+      </div>
+      <div className={styles.callout}>
+        <OriginIcon name="info-circle" size={16} color="var(--nk-color-text-secondary)" />
+        <span className={styles.calloutText}>{npbCopy.selectOnCheckout}</span>
+      </div>
+    </>
+  );
+}
+
+/** Collapsible (motion.md "Collapsibles"): chevron rotates 180°, body height 0 → auto with opacity. "Faster Delivery Options" starts open (New PDP). */
+function Accordion({ title, variant, defaultOpen = false, children }: { title: string; variant: 'foot' | 'box'; defaultOpen?: boolean; children: ReactNode }) {
+  const [open, setOpen] = useState(defaultOpen);
   const t = tween('fast', 'out');
   return (
     <div className={variant === 'foot' ? styles.foot : styles.box}>
@@ -171,7 +213,7 @@ function Accordion({ title, variant, children }: { title: string; variant: 'foot
       <AnimatePresence initial={false}>
         {open && (
           <motion.div key="body" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={t} style={{ overflow: 'hidden' }}>
-            <div className={styles.accBody}>{children}</div>
+            <div className={variant === 'foot' ? styles.footBody : styles.accBody}>{children}</div>
           </motion.div>
         )}
       </AnimatePresence>

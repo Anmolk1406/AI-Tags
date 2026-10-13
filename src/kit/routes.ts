@@ -24,6 +24,7 @@ export const pageAliases: Record<string, Route> = {
   orders: 'orders/list',
   'order-tracking': 'orders/tracking',
   returns: 'returns/details',
+  reviews: 'reviews/rate',
   account: 'account/account',
   'edit-profile': 'account/editProfile',
   'account-security': 'account/security',

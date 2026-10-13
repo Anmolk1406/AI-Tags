@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
 import { useDemoStore } from '../../kit/DemoStore';
 import { useNav } from '../../kit/Navigator';
-import type { Product } from '../../mocks/products';
+import { productById, type Product } from '../../mocks/products';
 import { spring } from '../../motion/presets';
 import { Icon } from '../Icon/Icon';
 import { Price } from '../Price/Price';
@@ -25,6 +25,7 @@ export function ProductCard({
   onPress,
   quickAdd = true,
   compact,
+  carousel,
   width,
 }: {
   product: Product;
@@ -32,14 +33,19 @@ export function ProductCard({
   quickAdd?: boolean;
   /** carousel variant: no coupon / delivery rows */
   compact?: boolean;
+  /**
+   * bappzaar home productCarousel box (NoonProductCard in NoonOptimizedProductCarousel): r8, no hairline, image
+   * 138 × 169 at 390 (`round((w − 14) · 1.361)`), info inset 4, express flag only (delivery text hidden). Implies `compact`.
+   */
+  carousel?: boolean;
   width?: number | string;
 }) {
   const nav = useNav();
   const open = onPress ?? (() => nav.push('pdp/detail', { productId: product.id }));
   return (
-    <motion.article className={styles.card} style={{ width, flexShrink: width !== undefined ? 0 : undefined }} onClick={open} whileTap={{ scale: 0.98 }} transition={spring.press}>
+    <motion.article className={styles.card} data-carousel={carousel || undefined} style={{ width, flexShrink: width !== undefined ? 0 : undefined }} onClick={open} whileTap={{ scale: 0.98 }} transition={spring.press}>
       <div className={styles.media}>
-        <ProductImage product={product} aspect={0.8} />
+        <ProductImage product={product} aspect={carousel && typeof width === 'number' ? width / Math.round((width - 14) * 1.361) : 0.8} />
         {product.tag && (
           <span className={styles.tag}>
             <CatalogTag>{product.tag}</CatalogTag>
@@ -59,10 +65,15 @@ export function ProductCard({
           {product.title}
         </Text>
         <RatingPill rating={product.rating} count={product.ratingCount} />
-        <Price price={product.price} was={product.was} />
-        {!compact && product.coupon && <CouponTag>{product.coupon}</CouponTag>}
+        <Price price={product.price} was={product.was} offSuffix={!carousel} />
+        {!compact && !carousel && product.coupon && <CouponTag>{product.coupon}</CouponTag>}
       </div>
-      {!compact && (
+      {carousel && product.express && (
+        <div className={styles.delivery}>
+          <ExpressBadge />
+        </div>
+      )}
+      {!compact && !carousel && (
         <div className={styles.delivery}>
           {product.express && <ExpressBadge />}
           <Text variant="caption" color="textStrong" lines={1} html={product.delivery} />
@@ -74,7 +85,8 @@ export function ProductCard({
 
 /**
  * NoonProductBoxAddToCart: 36×36 white "+" → (tap) adds 1 and expands into a 76×36 #3866DF stepper
- * → collapses to a filled count badge after 2.5s idle.
+ * → collapses to a filled count badge after 2.5s idle. A product with sizes (`variant_overlay_url`) opens the
+ * variants sheet instead (useCart → showVariantsFlyout), which adds and shows the snackbar itself.
  */
 export function QuickAdd({ productId }: { productId: string }) {
   const { cart, addToCart, setQty } = useDemoStore();
@@ -114,6 +126,7 @@ export function QuickAdd({ productId }: { productId: string }) {
             whileTap={{ scale: t.pressScale }}
             transition={spring.bouncy}
             onClick={() => {
+              if (!qty && hasSizeOverlay(productId)) return nav.sheet('pdp/variants', { productId });
               if (!qty) {
                 addToCart(productId);
                 nav.toast('Added to cart', { icon: <Icon name="checkCircle" size={20} />, tone: 'default' });
@@ -129,3 +142,9 @@ export function QuickAdd({ productId }: { productId: string }) {
     </div>
   );
 }
+
+/** Fashion products pick a size first (bappzaar product boxes carry `variant_overlay_url`). */
+const hasSizeOverlay = (id: string) => {
+  const p = productById(id);
+  return p.category === 'Fashion' && !!p.sizes?.length;
+};

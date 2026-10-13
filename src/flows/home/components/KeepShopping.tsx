@@ -30,12 +30,12 @@ function RecentCard({ item: it, onPress }: { item: RecentItem; onPress: () => vo
   return (
     <Pressable className={styles.card} style={{ width: it.kind === 'collection' ? it.box.width : undefined }} onClick={onPress} scale={0.97} aria-label={`${it.label}, ${it.chip}`}>
       <span className={`${styles.box} ${boxClass}`} style={{ width: it.box.width, height: it.box.height }}>
-        <img className={styles.img} src={it.image} alt="" style={imgStyle} draggable={false} />
+        <img loading="lazy" decoding="async" className={styles.img} src={it.image} alt="" style={imgStyle} draggable={false} />
         {it.tag && <span className={`${styles.tag} ${it.kind === 'collection' ? styles.tagSoft : ''}`}>{it.tag}</span>}
       </span>
       <span className={`${styles.text} ${it.kind === 'collection' ? '' : styles.textInset}`}>
         <span className={styles.nameRow}>
-          {it.kind === 'search' && <img src={searchIcon} alt="" width={14} height={14} />}
+          {it.kind === 'search' && <img loading="lazy" decoding="async" src={searchIcon} alt="" width={14} height={14} />}
           <Text variant="text13SemiboldLh16" color="var(--nk-palette-dark-navy-alpha92)" className={styles.name} style={it.kind === 'collection' ? undefined : { font: 'var(--nk-type-home-text14-medium-lh16)' }} lines={1}>
             {it.label}
           </Text>

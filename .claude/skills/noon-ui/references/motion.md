@@ -186,7 +186,7 @@ A `ScreenTransition` is `{ initial, animate, exit, under?, transition }`. `under
 | `card-flip` | `src/motion/custom/index.ts` | `rotateY: 90` to 0, `transformPerspective: 1200`, exit `rotateY: -90`; under opacity 0.6 | 0.5s `easing.inOut` |
 | `scale-up` | `src/motion/custom/index.ts` | `scale: 0.85, borderRadius: 40` to 1/0; under `scale 0.96, brightness(0.9)` | `spring.gentle` |
 | `slide-left` | `src/motion/custom/index.ts` | like `push`, under `x: '-52%'` ("the noon search push"); `search/search` and `search/suggestions` use it | `handoff.spring` (280.6 / 27.14 / mass 1) |
-| `results-fade` | `src/motion/custom/index.ts` | opacity only, nothing underneath moves: search → `plp/listing` "in place" (both screens draw the search bar at the same spot) | 0.3s `handoff.easeInOut` (exit uses the same) |
+| `results-fade` | `src/motion/custom/index.ts` | search → `plp/listing` "in place": the layer appears at once (no layer fade, so the search bar drawn at the same spot on both screens never cross-fades); the PLP fades in only what sits under its bar (`belowBar` in `ListingScreen.tsx`). Preload the target's lazy chunk first (`preloadRoutes`, `src/kit/lazyScreen.ts`) or the hand-off shows an empty Suspense frame | enter instant + 0.3s `handoff.easeInOut` content fade; exit fades the layer 0.3s |
 | `checkout-alpha` | `src/flows/checkout/transitions.ts` | opacity only (NoonPostOrderLoader to OrderConfirmationV3) | 0.25s `easing.standard` |
 | `noonone-overlay` | `src/flows/noonone/transitions.ts` | transparent, static layer; exit fades | 0.2s |
 | `noonone-instant` | `src/flows/noonone/transitions.ts` | no entry animation; exit fades (`animations.push.enabled: false`) | 0 |
@@ -404,13 +404,13 @@ Exact timelines from the spec (ms from the trigger). Reuse them as the template 
   <motion.span key={value} initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.5, opacity: 0 }} transition={{ duration: 0.12 }}>{value}</motion.span>
 </AnimatePresence>
 ```
-- Cart badge re-pops by keying on the count: `key={cartCount} initial={{ scale: 0.4 }}` spring 500/14 (`src/components/TabBar/TabBar.tsx`).
+- Cart badge: the native UITabBarItem badge, no animation (`src/components/TabBar/TabBar.tsx`).
 - `mode="popLayout"` for swaps is also used in `src/flows/wishlist/components/WishlistHeader.tsx`, `src/flows/cart/components/CartItem.tsx`, `src/flows/categories/components/CollapsibleBannerModule.tsx`.
 - Free-delivery progress: spring width fill + a skewed shimmer sweep (`src/flows/cart/components/GroupProgressBar.tsx`, values in `cartTokens.progress`). Free-gift bar: width 0 → pct over 0.6s (`src/flows/cart/components/FreeGifts.tsx`).
 - Error shake: `animate={{ x: [0, -6, 6, -4, 4, 0] }}` over 0.35s, keyed so it replays (`src/flows/cart/components/CouponInput.tsx`).
 
 ### Rotating strips and autoplay media
-- Rotating promo strip with an "n/N" pager (Homepage 2025 cashback ticker): swap the message with `AnimatePresence mode="popLayout"` (`y` 8 → 0, exit −8, `tween('fast', 'out')`) on an interval kept in the flow's plain TS tokens; the active dot widens like `PageController` in `src/flows/pdp/components/Gallery.tsx`.
+- Rotating promo strip with an "n/N" pager (Homepage 2025 cashback ticker): swap the message with `AnimatePresence mode="popLayout"` (`y` 8 → 0, exit −8, `tween('fast', 'out')`) on an interval kept in the flow's plain TS tokens; the active dot widens like `PageController` in `src/flows/pdp/components/storefront/SfGallery.tsx`.
 - Sponsored video tile: native `<video muted autoPlay loop playsInline>`; swap the mute icon with `Pop`.
 
 ### Collapsibles and expanders
@@ -420,7 +420,7 @@ Exact timelines from the spec (ms from the trigger). Reuse them as the template 
 ### Tab switches / selection indicators
 - Shared element: `layoutId` (`src/components/Segmented/Segmented.tsx`: `layoutId={\`seg-${id}\`}`, `duration.base`, `easing.out`; `src/flows/plp/SortSheet.tsx`: `layoutId="sort-radio"`).
 - Sliding pill: `animate={{ x: selected * tabWidth }}` 0.3s `[0.215, 0.61, 0.355, 1]` (= `easing.out`) (`src/flows/address/components/select.tsx` `TabSwitcher`); pane slider `animate={{ x: -tab * TAB_PANE_WIDTH }}` (`src/flows/address/SelectScreen.tsx`); `src/flows/noonone/screens/PlanSelectScreen.tsx` (`initial={false}`, `easing.out`).
-- Bottom tabs (`src/components/TabBar/TabBar.tsx`): `nav.switchTab()` swaps screens with no transition, and each tab screen mounts its own bar, so the bar remembers the previous tab (module-level `lastActive`) and animates from it: one indicator in a one-tab-wide track slides with `animate={{ x: `${index * 100}%` }}` on `tween('base', 'out')`; the new tab's selected icon cross-fades in (`tween('fast', 'out')`, both webps stacked) with a `spring.bouncy` pop (scale 0.8 → 1); its label lifts in (y 3 → 0); the previous tab cross-fades back to its unselected icon; the cart badge pops on `spring.bouncy`; press `tabBar.pressScale` 0.9. First load animates nothing. Use the same remember-and-animate-from pattern for any selection UI that remounts.
+- Bottom tabs (`src/components/TabBar/TabBar.tsx`): `nav.switchTab()` swaps screens with no transition and, like bappzaar's native UITabBar, the bar just swaps the selected icon file and label colour — no indicator, no press scale, no pop.
 - Icon tab strip over a rail (Homepage 2025 "Recommended for you"): underline as a `layoutId` with `duration.base` + `easing.out`; swap the rail with `AnimatePresence mode="wait"` (opacity, `duration.fast`) and re-enter the cards with `Stagger`. The strip sticks with CSS `position: sticky` inside `.nk-scroll`, no JS.
 - Selection swaps (checkout payment rows, delivery-instruction cards) are instant fill / border changes with no layout animation; the credits `Switch` knob uses `spring.press` (`src/flows/checkout/components/PaymentMethods.tsx`).
 
@@ -437,7 +437,8 @@ const bg = useTransform(scrollY, [0, 50], [checkoutJs.headerFrom, checkoutJs.hea
 const radius = useTransform(scrollY, [0, 50], [0, 12]);
 <motion.div style={{ backgroundColor: bg }} />
 ```
-- Threshold boolean: `src/flows/home/HomeScreen.tsx` (`setCollapsed(y >= 100)`, collapse `height: 0` 0.3s `easing.out`), `src/flows/plp/ListingScreen.tsx` (`setScrolled(y > 4)`).
+- Threshold boolean: `src/flows/home/HomeScreen.tsx` (`setCollapsed(y >= 100)`, collapse `height: 0` 0.3s `easing.out`).
+- Hide on scroll down / show on scroll up (bappzaar `ScrollVisibilityProvider` for the bottom tab bar + `HidableView` for a header block): `usePlpScrollStates(scrollRef, isTop)` in `src/flows/plp/scrollStates.ts` (`src/flows/plp/ListingScreen.tsx`). Pass `<Screen ref onScroll={states.onScroll}>`; it writes 0 → 1 motion values that CSS turns into transforms (`style={{ '--plp-tab-hide': states.tabHide }}` → `translateY(calc(var(--plp-tab-hide) * (tab bar + inset)))`; the header layer hangs `top: 100%` under the fixed bar with `overflow: hidden` and slides `-100%`). Tab bar 0.15s `duration.fast` ease-out [0, 0, 0.58, 1]; header 0.3s `duration.medium` RN `inOut(ease)`; thresholds in `plpTokens.scroll`, the mapping in `src/flows/plp/MAPPING.md`. Tab bar only (any screen with its own tab bar, e.g. the PDP): `useTabBarScrollHide(scrollRef, isTop)` from `src/kit/tabBarScroll.ts` (same controller and `tabBarScroll` values) → `{ tabHide, onScroll, reveal }`; a sticky footer that sits on the tab bar follows it (`src/flows/pdp/pdp.module.css` `.stickyBar`). PDP scroll mapping (gallery pin + shrink, header fade, back to top, accordion +120): `src/flows/pdp/MAPPING.md` → PDP scroll.
 - Threshold from a motion value: `useMotionValueEvent(scrollY, 'change', ...)` (`src/flows/checkout/ConfirmationScreen.tsx`).
 - Footer that appears once an in-page element scrolls away (PDP successor chin under the out-of-stock banner): watch the element with `useInView(ref, { root: scrollRef })`, or use `useMotionValueEvent(scrollY, 'change', …)` as `src/flows/pdp/DetailScreen.tsx` does for `showTop`; animate the footer with `AnimatePresence` + `y: '100%'` → 0 on `spring.sheet`.
 - Own scroll container: `useScroll({ container: scrollRef })` + `useTransform(..., { clamp: true })` (`src/flows/noonone/screens/BundleScreen.tsx`); clamped maps in `src/flows/cards/components/Headers.tsx`.
@@ -462,5 +463,6 @@ Chain `setTimeout`s in one effect, clear them on unmount, then navigate (`src/fl
 - Use `AnimatePresence initial={false}` for values that change after mount (counters, swaps) so the first render does not animate; key the animated child by the value.
 - Stagger only the first visible items (PLP: 8) and keep stagger gaps 35-60ms.
 - Search, suggestions, results and anything that should feel like them use `handoff` (one spring + the recorded fades) and its recipes; don't mix `easing.*` tweens into that choreography.
+- Scroll-driven state (header collapse, floating pills) lives at the screen level; memoise the feed under it so a threshold flip re-renders only what depends on it (`HomeFeed`, `AccountBody`). Never promote many items to their own layers (`will-change` on every tile measured slower); `Screen`'s scroll content already has `contain: paint` + `isolation: isolate`. Below-the-fold images: `loading="lazy" decoding="async"`.
 - Animate a list that pushes content down with a transform on an opaque layer (`BrandWidget` `pushGrid`), not a height animation that re-lays out the cards.
 - Clean up timers and `animate()` controls in effect cleanups.

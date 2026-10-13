@@ -4,6 +4,7 @@ import { OriginIcon } from '../../../../components';
 import type { Product } from '../../../../mocks/products';
 import { tween } from '../../../../motion/presets';
 import type { PdpContent } from '../../data';
+import { demoAplusImages } from '../../data.npD';
 import { Card } from '../Sections';
 import styles from './SfProductFeatures.module.css';
 
@@ -23,12 +24,14 @@ const COLLAPSED_BODY = 610 - 12 * 2 - 17 - 12;
  * Storefront Product Features / A+ content (Figma 3499:75700): 15/700 title, full-width brand banners (r8), capped at
  * 610 with a white fade and a centred "View More ⌄" (13/600 brand blue). Tap expands to the full height
  * (height → 'auto', tween medium/out) and fades the gradient out; "View Less" collapses again.
- * Content: `content.aplusImages` → else the product photos (`content.images` / `product.images` / `product.image`),
- * then the description and feature bullets. Nothing to show → null. Short content → no cap, fade or button.
+ * Content: `content.aplusImages` → else the demo A+ creatives (`demoAplusImages`, New PDP 64:5729), then the description
+ * and feature bullets. Nothing to show → null. Short content → no cap, fade or button.
  */
-export function SfProductFeatures({ content, product }: { content: PdpContent; product: Product }) {
+/** `product` stays in the props for callers; the creatives are content, not product photos. */
+export function SfProductFeatures({ content }: { content: PdpContent; product?: Product }) {
   const aplus = (content as PdpContent & SfAplus).aplusImages;
-  const images = aplus?.length ? aplus : content.images.length ? content.images : (product.images ?? (product.image ? [product.image] : []));
+  // New PDP 64:5729: the card is A+ brand creatives; without the product's own, the demo creatives (not its gallery photos)
+  const images = aplus?.length ? aplus : demoAplusImages;
   const bullets = content.featureBullets;
   const description = content.description;
 

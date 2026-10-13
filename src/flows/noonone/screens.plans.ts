@@ -1,9 +1,11 @@
 import type { ScreenDef } from '../../kit/types';
-import { FamilyPlansScreen } from './screens/FamilyPlansScreen';
-import { PlanDetailsOverlayScreen } from './screens/PlanDetailsOverlayScreen';
-import { PlanOptionOverlayScreen } from './screens/PlanOptionOverlayScreen';
-import { PlanSelectScreen } from './screens/PlanSelectScreen';
-import { TrialGuideOverlayScreen } from './screens/TrialGuideOverlayScreen';
+import { lazyScreen } from '../../kit/lazyScreen';
+
+const FamilyPlansScreen = lazyScreen(() => import('./screens/FamilyPlansScreen'), 'FamilyPlansScreen');
+const PlanDetailsOverlayScreen = lazyScreen(() => import('./screens/PlanDetailsOverlayScreen'), 'PlanDetailsOverlayScreen');
+const PlanOptionOverlayScreen = lazyScreen(() => import('./screens/PlanOptionOverlayScreen'), 'PlanOptionOverlayScreen');
+const PlanSelectScreen = lazyScreen(() => import('./screens/PlanSelectScreen'), 'PlanSelectScreen');
+const TrialGuideOverlayScreen = lazyScreen(() => import('./screens/TrialGuideOverlayScreen'), 'TrialGuideOverlayScreen');
 
 const V = 'features/vip';
 

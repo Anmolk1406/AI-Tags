@@ -11,7 +11,8 @@ export const accountTokens = {
   sectionGap: 12,
   cardRadius: 16,
   menuRadius: 14,
-  avatar: { size: 51, bg: '#F2F2F2', noonOneFrom: '#FFF3C0', noonOneTo: 'rgba(255,168,45,0.3)', noonOneInk: '#794000' },
+  /** NoonAccountProfileHeader: noon One avatar = LinearGradient [paleYellow, noonOneBannerAmber(0.3)] {0,1}→{1,2} — on the 135° line the box spans 50%…150% */
+  avatar: { size: 51, bg: '#F2F2F2', noonOneFrom: '#FFF3C0', noonOneTo: 'rgba(255,168,45,0.3)', noonOneInk: '#794000', noonOneGradient: 'linear-gradient(135deg, #FFF3C0 50%, rgba(255,168,45,0.3) 150%)' },
   ring: { bg: '#FFF1E0', border: '#FEDBB4', fill: '#FF9741', idle: '#666D85', counter: '#E5641A' },
   noonOne: { surface: '#FFF3C0', from: '#FEDEA9', to: '#FEF8EC' },
   heroBlue: 'linear-gradient(160deg, #0F61FF 0%, #3D7BFF 55%, #7CA8FF 100%)',
@@ -51,6 +52,11 @@ export const accountFlowTokens: TokenOverrides = {
   type: {
     acctNoonOneTitle: { size: 15, line: 'normal', weight: 700 }, // NotSubscribed title
     acctNoonOneCta: { size: 14, line: 'normal', weight: 700 }, // joinButtonText / Subscribed title
+    // NoonAccountProfileHeader name / email (no lineHeight → normal)
+    acctProfileName: { size: 17, line: 'normal', weight: 700 },
+    acctProfileEmail: { size: 12, line: 'normal', weight: 400 },
+    // NoonAccountActionCard title
+    acctActionTitle: { size: 16, line: 22, weight: 700 },
     // one-off master styles (token lint cleanup)
     acctText24BoldLh1: { size: 24, line: '1', weight: 700 },
     acctText15MediumLh25: { size: 15, line: 25, weight: 500 },
@@ -66,11 +72,16 @@ export const accountFlowTokens: TokenOverrides = {
   },
   radius: {
     acctNoonOne: 16, // NoonAccountNoonOneLayout bannerContainer borderBottom radii
+    acctTile: 9, // NoonAccountActionCard imageWrapper
   },
   layout: {
     acctNoonOneLogoW: 48,
     acctNoonOneLogoH: 36,
     acctNoonOneChevronW: 6,
     acctNoonOneChevronH: 11,
+    // NoonAccountActionCard imageWrapper 48×68, imageWrapperOuter marginHorizontal −5
+    acctTileW: 48,
+    acctTileH: 68,
+    acctTileOverlap: -5,
   },
 };

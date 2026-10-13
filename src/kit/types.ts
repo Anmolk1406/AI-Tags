@@ -17,6 +17,8 @@ export interface ScreenProps<P = Record<string, unknown>> {
   params: P;
 }
 
+export type ScreenTruth = 'bappzaar' | 'figma' | 'mixed' | 'reference';
+
 export interface ScreenDef<P = any> {
   id: string;
   title: string;
@@ -30,8 +32,17 @@ export interface ScreenDef<P = any> {
   defaultParams?: P;
   /** shown in the playground notes panel — what this screen demonstrates */
   notes?: string;
-  /** where this was ported from in bappzaar */
+  /** where this was ported from: bappzaar master path(s), `Figma <fileKey> · <node>`, or `reference: <what the user shared>` */
   source?: string;
+  /**
+   * Which reference wins when they disagree. `bappzaar` = the RN app on master is the spec (layout, values, behaviour);
+   * `figma` = the Figma frame in `source` is the spec; `mixed` = Figma for the look, bappzaar for behaviour (spell out
+   * per area in the flow's MAPPING.md / FIGMA-MAPPING.md); `reference` = something the user shared. Omitted → inferred
+   * from `source` (see `screenTruth` in kit/registry.ts). On a conflict the agent asks; it never silently picks.
+   */
+  truth?: ScreenTruth;
+  /** last date (YYYY-MM-DD) the screen was compared against its reference, side by side */
+  verified?: string;
   /** where Back goes when this screen is the only one in the stack (opened directly / by URL); overrides FlowDef.parent */
   parent?: Route;
   /** extra URL names for this screen, e.g. `['homepage']` → open it at `/homepage` (see kit/routes.ts) */

@@ -16,7 +16,7 @@ export function RevealChip({ index, children, skeleton = true }: { index: number
   return (
     <span style={{ position: 'relative', display: 'inline-flex', flexShrink: 0 }}>
       {skeleton && (
-        <motion.span aria-hidden style={{ position: 'absolute', inset: 0, display: 'flex' }} initial={{ opacity: 1 }} animate={{ opacity: 0 }} transition={fade}>
+        <motion.span aria-hidden style={{ position: 'absolute', inset: 0, display: 'flex', pointerEvents: 'none' }} initial={{ opacity: 1 }} animate={{ opacity: 0 }} transition={fade}>
           <Skeleton height="100%" radius={8} style={{ borderRadius: 'var(--nk-pill-nav-radius)' }} />
         </motion.span>
       )}

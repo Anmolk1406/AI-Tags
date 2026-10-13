@@ -122,13 +122,13 @@ Italics: the Figma uses Figtree *Italic* for meta text (Ad labels, "in", dates, 
 
 | Figma component / block | Kit piece | Status |
 |---|---|---|
-| Icon Button (40, soft neutral) | `.iconBtn` in `src/flows/pdp/pdp.module.css` (used by `PdpHeader`); central `IconButton variant="glass"` (`src/components/Header/Header.tsx`) | exists |
-| Header search icon button | `PdpHeader` renders an expandable search pill instead | differs (§6) |
-| product-image + Carousel Indicator | `Gallery` + `PageController` (`src/flows/pdp/components/Gallery.tsx`) | exists |
-| "noon's exclusive" tag | `.galleryTag` (catalog tag gradient) in `Gallery` | exists |
-| 360 Pill Button | none | **missing**: add a 40px round button to `Gallery`'s footer row (flow-local) |
-| Main-Info (store strip + Info Card) | `ProductInfo` (`src/flows/pdp/components/ProductInfo.tsx`) | exists; strip differs |
-| Rating (info pill) | `.rating` in `ProductInfo`; central `RatingPill size="lg"` | exists |
+| Icon Button (40, soft neutral) | `.iconBtn` in `src/flows/pdp/pdp.module.css` (used by `SfHeader`); central `IconButton variant="glass"` (`src/components/Header/Header.tsx`) | exists |
+| Header search icon button | `SfHeader` renders an expandable search pill instead | differs (§6) |
+| product-image + Carousel Indicator | `SfGallery` + `PageController` (`src/flows/pdp/components/storefront/SfGallery.tsx`) | exists |
+| "noon's exclusive" tag | `.galleryTag` (catalog tag gradient) in `SfGallery` | exists |
+| 360 Pill Button | none | **missing**: add a 40px round button to `SfGallery`'s footer row (flow-local) |
+| Main-Info (store strip + Info Card) | `SfMainInfo` (`src/flows/pdp/components/storefront/SfMainInfo.tsx`) | exists; strip differs |
+| Rating (info pill) | `.rating` in `SfMainInfo`; central `RatingPill size="lg"` | exists |
 | Ads (sponsored product row) | none | **missing**: proposed `SponsoredProductRow` in `src/flows/pdp/components/Sections.tsx`, using `ProductImage`, `Money`, `ExpressBadge`, `Badge` ("Ad") |
 | OrderHistoryItems "Newer model available" | none | **missing**: proposed `NewerModelCard` in `src/flows/pdp/components/NewerModel.tsx`, using `ProductImage`, `Money`, `Icon name="zap"`, `IconButton` / `Pressable` |
 | Product Overview "Product Details" (Highlights ×3) | `OverviewCard` + local `Accordion` (`Sections.tsx`) | exists; copy and metrics differ |
@@ -138,15 +138,15 @@ Italics: the Figma uses Figtree *Italic* for meta text (Ad labels, "in", dates, 
 | Product features (A+) | none | **missing**: proposed `ProductFeaturesCard` in `Sections.tsx`: `Card` + images + bottom fade + `Button variant="noonGhost"` "View More" |
 | Sponsored brand carousel ("Top quality products · Shop TECV · Ad") | closest: `CartCarousel` (`src/flows/cart/components/CartCarousel.tsx`, has `sponsored`) | **missing** in the PDP: proposed `SponsoredBrandCard` in `Sections.tsx`; promote to `src/components` if cart and PDP share it |
 | Frequently bought together | `FbtCard` (`Sections.tsx`) | exists; copy and metrics differ |
-| Ratings & Reviews: overview, AI summary | `ReviewsCard`, `AiSummary` (`src/flows/pdp/components/Reviews.tsx`) | exists |
+| Ratings & Reviews: overview, AI summary | `ReviewsCard`, `AiSummary` (`src/flows/pdp/components/storefront/SfReviewsCard.tsx`) | exists |
 | Photo Reviews strip | none | **missing**: add to `ReviewsCard` |
-| Review Card (bordered) | `ReviewItem` (`Reviews.tsx`, separated list) | differs |
+| Review Card (bordered) | `ReviewItem` (`SfReviewsCard.tsx`, separated list) | differs |
 | Verified Tag, Helpful Button | `.verified`, Helpful in `ReviewItem` | exists |
-| Similar products / Top products in … | `Recommendations` + `RecoCard` (`Reviews.tsx`, `RecoCard.tsx`); 134px cards match `CartCarousel`'s `SkuCard` | exists; title style and width differ |
-| OOS banner (`Not eligible for return` + text) | none | **missing**: proposed `OosBanner` in `src/flows/pdp/components/AtcBar.tsx` (or `OosFooter.tsx`) |
+| Similar products / Top products in … | `Recommendations` + `RecoCard` (`SfReviewsCard.tsx`, `RecoCard.tsx`); 134px cards match `CartCarousel`'s `SkuCard` | exists; title style and width differ |
+| OOS banner (`Not eligible for return` + text) | none | **missing**: proposed `OosBanner` in `src/flows/pdp/components/storefront/SfAtcBar.tsx` (or `OosFooter.tsx`) |
 | Successor chin | none | **missing**: proposed `SuccessorChin` (same file), shares its layout with `NewerModelCard` (`compact` prop) |
 | Bottom nav (tab bar) | central `TabBar` (`src/components/TabBar/TabBar.tsx`) | exists, but the Navigator shows it only on tab roots (§7) |
-| QTY + Add to cart (Case 1) | `AtcBar` | exists (adds Buy Now by default) |
+| QTY + Add to cart (Case 1) | `SfAtcBar` | exists (adds Buy Now by default) |
 | HP ETA / express artwork | `ExpressBadge` / `MarketplaceTag kind="express"`; PDP `Asset name="expressPdp"` | exists |
 | Best Seller corner tag | `CatalogTag` | exists |
 | Wishlist / ATC on cards | `WishlistHeart`, `QuickAdd` | exists |
@@ -155,10 +155,10 @@ Italics: the Figma uses Figtree *Italic* for meta text (Ad labels, "in", dates, 
 
 | Cue in the design | Kit expression |
 |---|---|
-| Successor chin appears "as the first entry point goes out of the view" | Watch the in-page `NewerModelCard` with `useInView` (motion/react) on the PDP scroll ref, or `useMotionValueEvent(scrollY, 'change', …)` the way `DetailScreen` already sets `showTop`. Animate the chin with `AnimatePresence` + `initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}` on `spring.sheet` (like the `AtcBar` back-to-top and in-cart strip, which use `spring.press` / `spring.gentle`). The OOS banner stays put. |
+| Successor chin appears "as the first entry point goes out of the view" | Watch the in-page `NewerModelCard` with `useInView` (motion/react) on the PDP scroll ref, or `useMotionValueEvent(scrollY, 'change', …)` the way `DetailScreen` already sets `showTop`. Animate the chin with `AnimatePresence` + `initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}` on `spring.sheet` (like the `SfAtcBar` back-to-top and in-cart strip, which use `spring.press` / `spring.gentle`). The OOS banner stays put. |
 | Accordions open / close | Existing local `Accordion`: height auto + chevron rotate 180°, `pdpTokens.accordionMs` (150ms) |
 | A+ "View More" expands | Animate height from the 610 cap to `auto` with `tween('medium', 'out')` (`src/motion/presets.ts`) and fade the white gradient out |
-| Gallery swipe and dots | Existing `Gallery` drag + spring 300/34 and `PageController` (150ms ease-out) |
+| Gallery swipe and dots | Existing `SfGallery` drag + spring 300/34 and `PageController` (150ms ease-out) |
 | Tap on the newer-model card or chin | `Pressable` (`spring.press`), then `nav.push('pdp/detail', { productId })` with the default `push` transition. Use `push`, not `replace`: the user should be able to go back to the old model. |
 | Variant chip in Case 1 | Existing `VariantsCard` → `nav.replace('pdp/detail', …)` (`fade`) |
 | Header buttons | `.iconBtn:active` opacity (`--nk-layout-pdp-press-default-opacity`), or `IconButton` (Pressable) |
@@ -175,17 +175,17 @@ Already matches: the overlay header with 40px whiteAlpha90 buttons; the swipeabl
 |---|---|
 | `src/flows/pdp/tokens.ts` | `colors.bgPage` is `secondaryBackgroundColor #F9F9FB`; the design page is `#F2F3F7` (central default). Under this design, drop the override or set it to `palette.antiFlashWhite`. Add `type`: `pdpSectionTitle {15, 700, 17}`, `pdpText14MediumLh20 {14, 500, 20}`, `pdpText11SemiboldLh14 {11, 600, 14}`, `pdpScore {22, 800, 24}`. Add `colors.pdpStoreStrip: 'var(--nk-palette-lavender)'` and `colors.pdpNewerModel: 'var(--nk-palette-deep-purple)'`. Add `layout`: `pdpNewerImageW 55`, `pdpNewerImageH 68`, `pdpChinImageH 70`, `pdpRoundBtn 34`, `pdpAplusCollapsed 610`, `pdpAplusFade 229`, `pdpSponsoredCardW 216`, `pdpAdRowH 35`. `galleryRatio` 1.2 → the design is 512/375 ≈ 1.365. Confirm with the user before changing it, because it changes every PDP. |
 | `src/flows/pdp/pdp.module.css` `.cardTitle` | `--nk-type-pdp-text16-bold` → `var(--nk-type-pdp-section-title)` (15/700/17). `.recsTitle` (18/700 `textLegacy`, outside a card) → the recommendation carousels become white r16 cards with the same 15/700/17 title. |
-| `ProductInfo.tsx` + `.info` / `.store` / `.storeBrand` | Strip bg `--nk-color-bg-store-strip` (`#E8F1FF`) → `--nk-color-pdp-store-strip` (`#E1EFFF`); padding 12 → pt 10, gap 8; brand 16/700 → `--nk-type-body-bold`; 17px tick → 24px verified badge; add the **"Visit Store" text** (13/600) before the chevron. Rating count copy "(3.2K ratings)" → "(34244 reviews)", unabbreviated, 13/600. Score 14/700 → 13/600. **Hide the price block, deal tags and coupons when out of stock.** `.info` margin-top `--nk-layout-pdp-info-overlap` (−20): the design has no overlap (8px gap under the gallery). |
-| `PdpHeader.tsx` | The design has a search **icon** button (40px) next to wishlist and share, not the expanding search pill, and a white → transparent top gradient instead of a transparent bar. Keep the pill if the bappzaar behaviour must stay; otherwise render `IconButton`-style buttons for search, heart and share. |
-| `Gallery.tsx` | Add the **360 button** at the footer end; the footer row sits 12 from the edges (`.galleryFooter` uses `s20`) and the dots sit 20 from the bottom (`--nk-layout-pdp-gallery-footer-bottom` is 30). |
+| `SfMainInfo.tsx` + `.info` / `.store` / `.storeBrand` | Strip bg `--nk-color-bg-store-strip` (`#E8F1FF`) → `--nk-color-pdp-store-strip` (`#E1EFFF`); padding 12 → pt 10, gap 8; brand 16/700 → `--nk-type-body-bold`; 17px tick → 24px verified badge; add the **"Visit Store" text** (13/600) before the chevron. Rating count copy "(3.2K ratings)" → "(34244 reviews)", unabbreviated, 13/600. Score 14/700 → 13/600. **Hide the price block, deal tags and coupons when out of stock.** `.info` margin-top `--nk-layout-pdp-info-overlap` (−20): the design has no overlap (8px gap under the gallery). |
+| `SfHeader.tsx` | The design has a search **icon** button (40px) next to wishlist and share, not the expanding search pill, and a white → transparent top gradient instead of a transparent bar. Keep the pill if the bappzaar behaviour must stay; otherwise render `IconButton`-style buttons for search, heart and share. |
+| `SfGallery.tsx` | Add the **360 button** at the footer end; the footer row sits 12 from the edges (`.galleryFooter` uses `s20`) and the dots sit 20 from the bottom (`--nk-layout-pdp-gallery-footer-bottom` is 30). |
 | `Sections.tsx` `OverviewCard` | Title `copy.productOverview` "Product Overview" → "Product Details"; first accordion `copy.description` "Description" → "Overview". Card padding → 16·12. `.accordionHead` padding 16·12 → fixed 44h with 12 padding; chevron 16 → 20. |
 | `Sections.tsx` `SellerCard` + CSS | Logo 54 image → 48 box (r10, 1px `--nk-color-border-subtle`, p12) with a store glyph (`Icon name="store"`, or the seller logo); "Sold by" 16 → 14 (`--nk-type-body`, name `--nk-type-body-bold`); rating pill shows "4.3 (128)" at 12px; positive pill 12px (`--nk-type-text12-semibold-lh14`, `--nk-palette-emerald-green`); metric chips 14 → 12 (`--nk-type-text12-regular-lh14`), gap 6 → 8, border `--nk-palette-border-primary`; **add the brand subtitle row**; offers copy "More offers from other sellers" → "{n} offers from other sellers from {Đ min}" with the price in 14/600 `--nk-color-text-primary`; offers row r8 → r10, 36h, inside a px-12 wrapper. |
 | `Sections.tsx` `CategoryBestSellerCta` | Icon 32 (+10 padding) → 40; gradient 90° → 119° (keep the RTL flip); "#1" bold in `--nk-palette-dark-text-color`. |
 | `Sections.tsx` `FbtCard` | Title "Frequently Bought Together" → "Frequently bought together" (sentence case); button `copy.buyTogether(n)` → "Buy all for {Đ total}"; check 28 at −8 → 24 at −5; tiles stretch to equal widths (`pdpFbtW 100` fixed); add the express ETA under the price. |
-| `Reviews.tsx` `ReviewsCard` / `ReviewItem` | Each review in a bordered r16 card (1px `--nk-color-border`, pt 14 px 12 pb 12) instead of `.reviewSep` lines; add **Photo Reviews** and "Top reviews" sub-headers; add the "View product" chip and "Translate to عربي"; score 24/800 → `pdpScore` 22/800; "Verified Purchase" → "Verified Buy" (10/600). |
-| `Reviews.tsx` `Recommendations` + `RecoCard.tsx` | Wrap in a white r16 card (p12, row pt 16, gap 12); card width `pdpTokens.recoCardWidth` (≈144) → 134; add the "Ad" tag on sponsored cards; titles "Similar Products" and "Top products in {leaf category}". |
+| `SfReviewsCard.tsx` `ReviewsCard` / `ReviewItem` | Each review in a bordered r16 card (1px `--nk-color-border`, pt 14 px 12 pb 12) instead of `.reviewSep` lines; add **Photo Reviews** and "Top reviews" sub-headers; add the "View product" chip and "Translate to عربي"; score 24/800 → `pdpScore` 22/800; "Verified Purchase" → "Verified Buy" (10/600). |
+| `SfReviewsCard.tsx` `Recommendations` + `RecoCard.tsx` | Wrap in a white r16 card (p12, row pt 16, gap 12); card width `pdpTokens.recoCardWidth` (≈144) → 134; add the "Ad" tag on sponsored cards; titles "Similar Products" and "Top products in {leaf category}". |
 | `DetailScreen.tsx` order | The design order is gallery → info → sponsored row → **newer model** → (Case 1/2: delivery → variants → reinforcement → payment offers) → Product Details → Bestseller → seller → **Product Features (A+)** → **sponsored brand carousel** → FBT → reviews → Similar products → Top products in {category}. Current order: delivery and payments sit before variants, `AdditionalInfoCard` has no counterpart in the design, and FBT comes after seller. |
-| `AtcBar.tsx` / `DetailScreen` footer | **Missing OOS state**: when `content.outOfStock` (new field), render `OosBanner` + `SuccessorChin` instead of the ATC row. Case 1 drops Buy Now (QTY + full-width Add to cart). The design shows the tab bar under the footer. |
+| `SfAtcBar.tsx` / `DetailScreen` footer | **Missing OOS state**: when `content.outOfStock` (new field), render `OosBanner` + `SuccessorChin` instead of the ATC row. Case 1 drops Buy Now (QTY + full-width Add to cart). The design shows the tab bar under the footer. |
 | `data.ts` | Add `PdpContent` fields: `outOfStock?: boolean`, `unavailableAtLocation?: boolean`, `successor?: { productId: string; title: string; price: number }`, `sponsoredRow?: { productId: string }`, `aplusImages?: string[]`, `sponsoredBrand?: { name: string; tagline: string; productIds: string[] }`, `seller.subtitle?`, `seller.offerCount` / `seller.offerFrom`. Add copy: `productDetails: 'Product Details'`, `overview: 'Overview'`, `visitStore: 'Visit Store'`, `newerModel: 'Newer model available'`, `outOfStockBanner: 'This item is currently out of stock'`, `notAvailableHere: 'This item is not available at your current location'`, `productFeatures: 'Product Features'`, `viewMore: 'View More'`, `ad: 'Ad'`, `buyAll: (p) => \`Buy all for ${p}\``, `offersFrom: (n, p) => \`${n} offers from other sellers from ${p}\``, `similarProducts: 'Similar Products'`, `topProductsIn: (c) => \`Top products in ${c}\``, `photoReviews: 'Photo Reviews'`, `topReviews: 'Top reviews'`. Prices go through `money()`. The Figma shows "AED 5099" for the struck price; render it with the dirham sign like every other price. |
 | `index.ts` | Add `ScreenDef` notes for the OOS case (e.g. `defaultParams` variant `?productId=<oos id>`) and put `source: 'Figma 2ldJbjmQq4RkhnrNFCfXQB 930:259766 (Case 3 OOS)'` next to the bappzaar source. |
 | `MAPPING.md` | Add a `FIGMA-MAPPING.md` (from-reference.md format) for the sections above before changing code. |
@@ -196,13 +196,13 @@ Already matches: the overlay header with 40px whiteAlpha90 buttons; the swipeabl
 
 **Skeleton** (reuse `DetailScreen`'s shell):
 ```tsx
-<Screen ref={scrollRef} header={<PdpHeader … />} overlayHeader safeTop={false} background="bgPage"
+<Screen ref={scrollRef} header={<SfHeader … />} overlayHeader safeTop={false} background="bgPage"
   contentStyle={{ paddingBottom: 0 }}
   footer={content.outOfStock || content.unavailableAtLocation
     ? <OosFooter content={content} showChin={!newerInView} />   // banner + SuccessorChin
-    : <AtcBar product={product} … />}>
-  <Gallery …/>            {/* + 360 button */}
-  <ProductInfo …/>        {/* price block hidden when OOS */}
+    : <SfAtcBar product={product} … />}>
+  <SfGallery …/>            {/* + 360 button */}
+  <SfMainInfo …/>        {/* price block hidden when OOS */}
   <SponsoredProductRow …/>
   <div ref={newerRef}><NewerModelCard …/></div>
   {!oos && <><DeliveryCard/><VariantsCard/><ReinforcementCard/><PaymentsCard/></>}
@@ -221,4 +221,4 @@ Already matches: the overlay header with 40px whiteAlpha90 buttons; the swipeabl
 - Copy: sentence case ("Frequently bought together", "View More" as drawn); dirham sign everywhere; counts are not abbreviated in "(34244 reviews)".
 - Verify with `node scripts/shot.mjs pdp/detail` and compare against `scratchpad/figma/pdp/full.png` (Case 3) and `case1_*.png` (Case 1).
 
-**Storefront.** The design has no brand-storefront page. "Visit Store" keeps today's behaviour (`nav.push('plp/listing', { query: content.brand })`, as `ProductInfo`'s store button does) until a storefront design exists. Do not invent a storefront flow from this node; ask for the storefront frames first.
+**Storefront.** The design has no brand-storefront page. "Visit Store" keeps today's behaviour (`nav.push('plp/listing', { query: content.brand })`, as `SfMainInfo`'s store button does) until a storefront design exists. Do not invent a storefront flow from this node; ask for the storefront frames first.

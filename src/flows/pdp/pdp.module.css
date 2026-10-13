@@ -18,6 +18,16 @@
 .gap24 { gap: var(--nk-space-s24); }
 .col8 { display: flex; flex-direction: column; gap: var(--nk-space-s8); }
 .list { padding-bottom: var(--nk-layout-pdp-list-bottom); background: var(--nk-color-bg-page); }
+/* NoonNativeStickyBar (placement embedded): floats at the bottom and follows the tab bar — slides down by the tab
+   height when ScrollVisibilityProvider hides the bar (--pdp-tab-hide 0 → 1, 0.15s ease-out); the tab bar itself also
+   drops the home-indicator inset (SfAtcBar .tabs) */
+.stickyBar { position: absolute; left: 0; right: 0; bottom: 0; transform: translateY(calc(var(--pdp-tab-hide, 0) * var(--nk-layout-tab-bar))); }
+/* sections scroll over the pinned gallery (SfGallery .pin is z-index 0) */
+.list > * { position: relative; z-index: 1; }
+/* bappzaar bottomWrapper: content starts 20 above the gallery bottom (the first card's own 8 top margin included), and
+   galleryBottomBackground: an opaque page-grey layer from the gallery's bottom edge down that scrolls with the content */
+.rest { margin-top: calc(-1 * (var(--nk-space-s20) + var(--nk-space-s8))); isolation: isolate; }
+.rest::before { content: ''; position: absolute; inset: calc(var(--nk-space-s20) + var(--nk-space-s8)) 0 0; z-index: -1; background: var(--nk-color-bg-page); }
 .content { position: relative; z-index: 1; }
 
 /* ── Header (NoonScreenWithDrawBehindHeader + NoonExpandableSearch + NoonPDPHeaderRightContent) ── */

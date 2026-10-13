@@ -1,7 +1,7 @@
 {
   "name": "@noon/flow-kit",
   "version": "0.1.0",
-  "description": "noon app UI kit for clickable prototypes: noon design tokens, a central React component library, a motion system and ready-made flows ported 1:1 from bappzaar (home, search, categories, PLP, PDP, cart, checkout, orders, returns, account, addresses, cards, noon One…).",
+  "description": "noon app UI kit for clickable prototypes: noon design tokens, a central React component library, a motion system and ready-made flows ported 1:1 from bappzaar (home, search, categories, PLP, PDP, cart, checkout, orders, returns, account, addresses, cards, noon One\u2026).",
   "keywords": [
     "noon",
     "design-system",
@@ -75,7 +75,10 @@
     "assets:measure": "node scripts/optimize-assets.mjs --measure",
     "skill:check": "node .claude/skills/noon-ui/scripts/validate.mjs",
     "skill:snap": "node .claude/skills/noon-ui/scripts/snap.mjs",
-    "icons:import": "node scripts/import-origin-icons.mjs"
+    "resources:build": "node .claude/resources/scripts/build.mjs",
+    "icons:import": "node scripts/import-origin-icons.mjs",
+    "test:journeys": "node scripts/journeys.mjs",
+    "visual:ref": "node scripts/visual-ref.mjs"
   },
   "peerDependencies": {
     "react": "^19.3.0",

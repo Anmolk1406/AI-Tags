@@ -11,6 +11,7 @@ Builds the noon home feed and any page that speaks its module language. Load `..
 
 | Source | Where |
 |---|---|
+| Branch brief | `.claude/resources/flows/home.md` — what `home/home` renders now (bappzaar CMS feed + 2025 header + Eid hero), area token files, how to add a feed module, gotchas |
 | Flow specification | `spec.md` (screens, module catalogue, ordering rules, data, acceptance) |
 | Figma analysis | `references/figma-homepage-2025.md` — Homepage Revamp 2025, file `iRE9RwO94eMAyW3j3XKNXW`, screen `1337:5102` (wrapper `1337:7139`): every section with measurements, variables → tokens, components → kit, delta vs code |
 | Current implementation | `src/flows/home/` — `HomeScreen.tsx`, `data.ts`, `tokens.ts`, `components/` (bappzaar 1:1 port, route `home/home`, page `/homepage`) |

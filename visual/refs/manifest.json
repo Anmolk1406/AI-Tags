@@ -1,0 +1,61 @@
+{
+  "_readme": "External references for `npm run visual:ref` (scripts/visual-ref.mjs). Each entry: name, file (PNG in this folder, exported from Figma or captured from the real app \u2014 never from the kit), source (where it came from + date), route (+ params) and select (CSS selectors whose union box is captured), viewport (the reference's screen width), scale (px per CSS px of the PNG), optional refCrop [x, y, w, h] and masks [[x, y, w, h], \u2026] in reference CSS px (data that legitimately differs: prices, counts), threshold (max share of differing pixels) and sizeTolerance (px).",
+  "refs": [
+    {
+      "name": "account-action-cards-empty",
+      "file": "account-action-cards-empty.png",
+      "source": "Figma 4NvyqO60K7Xn4gRJrkWmzQ \u00b7 8886:66691 (Accounts, My Orders / My Wishlist), exported 2026-10-13",
+      "route": "account/account?orders=none&wishlist=none",
+      "select": [
+        "[class*=actionCard]:first-child",
+        "[class*=actionCard]:last-child"
+      ],
+      "viewport": 375,
+      "scale": 1,
+      "masks": [],
+      "threshold": 0.08,
+      "sizeTolerance": 2
+    },
+    {
+      "name": "cart-sticky-footer",
+      "file": "cart-sticky-footer.png",
+      "source": "Figma Af34gfmhQ1D0wstXUEHSIF \u00b7 127:40209 (All flows, Cart sticky footer + savings wave), exported 2026-10-13",
+      "route": "cart/cart",
+      "select": [
+        "[class*=savings]:not([class*=savingsWave]):not([class*=savingsLabel]):not([class*=savingsText])",
+        "[class*=footer][data-open], [class*=stickyBar] > [class*=footer]"
+      ],
+      "viewport": 375,
+      "scale": 1,
+      "refCrop": [
+        0,
+        24,
+        375,
+        104
+      ],
+      "masks": [
+        [
+          14,
+          4,
+          112,
+          24
+        ],
+        [
+          150,
+          0,
+          225,
+          32
+        ],
+        [
+          14,
+          62,
+          130,
+          30
+        ]
+      ],
+      "threshold": 0.03,
+      "sizeTolerance": 2,
+      "_note": "Figma exports this frame with shadow bleed (24px above, 16 below): crop y 24..128 (the wave's first #E7FBF3 row; the footer starts 32 below it, as designed). Masked: the savings amount and price (mock data differs) and the strip right of the wave, which shows whatever scrolls behind the footer. The savings mask includes the noon One logo, which moves with the amount's width."
+    }
+  ]
+}

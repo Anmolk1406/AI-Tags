@@ -11,6 +11,7 @@ Builds the noon search entry and the results listing it hands off to. Load `../n
 
 | Source | Where |
 |---|---|
+| Branch briefs | `.claude/resources/flows/search.md` and `.claude/resources/flows/plp.md` — phase machine, results hand-off, PLP scroll states, pill row, grid swap |
 | Flow specification | `spec.md` (screens, sections, data, navigation, motion, states, acceptance) |
 | Figma analysis | None: there is no Figma for search. The code is the spec — `src/flows/search` and `src/flows/plp` are bappzaar 1:1 ports (`NoonSearchScreen`, `NoonSearchSuggestionRow`, `NoonRecentlySearchedModule`, `ListingScreen` → `NoonCatalogList`, `NoonFiltersScreenV2`) with the UI and motion of github.com/saswata2002/Brand-Widget-PLP (marketplace strip, brand widget, ProtoPie handoff timings in `handoff` + their `tokens.ts`) |
 | Current implementation | `src/flows/search/` — `SearchScreen.tsx`, `data.ts`, `tokens.ts`, `components/` (`RecentSearches`, `SuggestionRow`); routes `search/search` (page `/search`), `search/suggestions` |

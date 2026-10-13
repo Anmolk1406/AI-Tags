@@ -107,8 +107,26 @@ const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
  * VIPSlider (features/vip/components/VIPSlider): infinite ring, centre slide scale 1, neighbours scale .5 pushed out by
  * (w − w·s)/2; labels stacked vertically and cross-faded over ±h/3. 400ms ease-in-out per step, autoplay 3.5s, swipe ≥ 20px.
  */
-function Slider({ views, labels, autoplay = true }: { views: ReactNode[]; labels: ReactNode[]; autoplay?: boolean }) {
-  const { slideWidth: w, scale: s, labelHeight: h, ms, ease, autoplayMs, swipeThreshold } = T.slider;
+export function Slider({
+  views,
+  labels,
+  autoplay = true,
+  offset,
+  labelHeight,
+  labelsClassName,
+  labelClassName,
+}: {
+  views: ReactNode[];
+  labels: ReactNode[];
+  autoplay?: boolean;
+  /** x offset (px) of a slide `u` slides from the centre (default VIPSlider: u·w ± (w − w·s)/2) */
+  offset?: (u: number) => number;
+  labelHeight?: number;
+  labelsClassName?: string;
+  labelClassName?: string;
+}) {
+  const { slideWidth: w, scale: s, ms, ease, autoplayMs, swipeThreshold } = T.slider;
+  const h = labelHeight ?? T.slider.labelHeight;
   const n = views.length;
   const pos = useMotionValue<number>(0);
   const [p, setP] = useState(0);
@@ -152,20 +170,20 @@ function Slider({ views, labels, autoplay = true }: { views: ReactNode[]; labels
           const d = (i - p) * w;
           const t = clamp01(Math.abs(d) / w);
           const scale = lerp(t, 1, s);
-          const shift = Math.sign(d) * lerp(t, 0, -tf);
+          const x = offset ? offset(i - p) : d + Math.sign(d) * lerp(t, 0, -tf);
           return (
-            <div key={i} className={styles.slide} style={{ transform: `translateX(${d + shift}px) scale(${scale})` }}>
+            <div key={i} className={styles.slide} style={{ transform: `translateX(${x}px) scale(${scale})` }}>
               {views[mod(i)]}
             </div>
           );
         })}
       </div>
-      <div className={styles.labels}>
+      <div className={[styles.labels, labelsClassName].filter(Boolean).join(' ')}>
         {[-1, 0, 1].map((k) => {
           const i = base + k;
           const d = (i - p) * h;
           return (
-            <div key={i} className={styles.label} style={{ transform: `translateY(${d}px)`, opacity: clamp01(1 - Math.abs(d) / (h / 3)) }}>
+            <div key={i} className={[styles.label, labelClassName].filter(Boolean).join(' ')} style={{ transform: `translateY(${d}px)`, opacity: clamp01(1 - Math.abs(d) / (h / 3)) }}>
               {labels[mod(i)]}
             </div>
           );
@@ -454,9 +472,28 @@ export function MembershipOverviewModule({
 }
 
 /** VIPSavingsOverviewModule (V1 — live: isVIPSavingsWidgetV2Enabled() is false without the flag), customerState 'new' variant. */
-export function SavingsOverviewModule({ title, savingsText, multiplier, subtitle }: { title: string; savingsText: string; multiplier: string; subtitle?: string }) {
+export function SavingsOverviewModule({
+  title,
+  savingsText,
+  multiplier = '',
+  subtitle,
+  customerState = 'new',
+  totalSavings,
+  bare,
+}: {
+  title: string;
+  savingsText: string;
+  multiplier?: string;
+  subtitle?: string;
+  /** savingsData.customerState: 'new' → centred potential card (member landing); anything else → overview card */
+  customerState?: string;
+  /** overview: Price before savingsText when set */
+  totalSavings?: string;
+  /** no ModuleWrapper margin (the non-member column spaces its modules) */
+  bare?: boolean;
+}) {
   const [before, after] = savingsText.split('{multiplier}');
-  const target = Number.parseInt(multiplier, 10);
+  const target = Number.parseInt(multiplier, 10) || 0;
   const mv = useMotionValue<number>(0);
   const [v, setV] = useState(0);
   useMotionValueEvent(mv, 'change', (x) => setV(Math.round(x)));
@@ -465,6 +502,34 @@ export function SavingsOverviewModule({ title, savingsText, multiplier, subtitle
     const a = animate(mv, target, { duration: 1.2, ease: 'easeOut' });
     return () => a.stop();
   }, [mv, target]);
+  if (customerState !== 'new') {
+    // non-'new' branch: title b14, savingsText as-is (h28/800) or totalSavings + b16 medium text, mint subtitle strip
+    const card = (
+      <div className={styles.savings}>
+        <div className={styles.savingsOverview}>
+          <span className={styles.savingsOverviewTitle}>{title}</span>
+          <div className={styles.savingsOverviewAmountRow}>
+            {totalSavings != null ? (
+              <>
+                <span className={styles.savingsOverviewAmount}>{totalSavings}</span>
+                <span className={styles.savingsOverviewTextBox}>
+                  <span className={styles.savingsOverviewText}>{savingsText}</span>
+                </span>
+              </>
+            ) : (
+              <span className={styles.savingsOverviewAmount}>{savingsText}</span>
+            )}
+          </div>
+          {subtitle && (
+            <div className={styles.savingsOverviewSubtitleBox}>
+              <span className={styles.savingsOverviewSubtitle}>{subtitle}</span>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+    return bare ? card : <ModuleBox>{card}</ModuleBox>;
+  }
   return (
     <ModuleBox>
       <div className={styles.savings}>

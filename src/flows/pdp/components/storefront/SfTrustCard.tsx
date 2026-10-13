@@ -13,8 +13,8 @@ export const sfTrustIcons: Record<PdpContent['offerBadges'][number]['icon'], Ori
 };
 
 /**
- * Storefront trust markers (Figma 3499:75389 "Trustmarker"): white r16 card, p12; a row of 80-high tiles (gap 8,
- * 1px blue-gray/200 border, r12, padding 14·8, gap 4) with a 24px blue icon over a 12/600/14 two-line label.
+ * Trust markers (New PDP 64:5694 / Storefront 3499:75389 "Trustmarker"): white r16 card, p12; a row of 80-high tiles (gap 8,
+ * 1px blue-gray/200 border, r12, padding 14·8, gap 4) with a 20px blue icon over a 12/600/14 two-line label.
  * ≤ 3 tiles share the row (103.67 each at 375); ≥ 4 tiles are 94 wide and scroll. Replaces ReinforcementCard
  * (same SD offer_badges ≥ 2 rule).
  */
@@ -27,7 +27,7 @@ export function SfTrustCard({ content }: { content: PdpContent }) {
       <div className={styles.row} data-scroll={scrolls || undefined}>
         {items.map((b) => (
           <div key={b.title} className={styles.tile}>
-            <OriginIcon name={sfTrustIcons[b.icon]} filled size={24} color="var(--nk-color-pdp-sfc-trust-icon)" />
+            <OriginIcon name={sfTrustIcons[b.icon]} filled size={20} color="var(--nk-color-pdp-sfc-trust-icon)" />
             <span className={styles.label}>{b.title}</span>
           </div>
         ))}
