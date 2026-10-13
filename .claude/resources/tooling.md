@@ -108,7 +108,7 @@ The runner lives in `scripts/journeys.mjs`. Journeys are in `scripts/journeys/<a
 - `--no-a11y` skips the scans.
 - `PORT=5182 npm run test:journeys` reuses a running dev server.
 
-**Reading the report.** Each run rewrites `test-results/journeys/report.md` and `report.json` for the journeys it ran. The terminal ends with the same summary.
+**Reading the report.** Each run rewrites `test-results/journeys/report.md` and `test-results/journeys/report.json` for the journeys it ran. The terminal ends with the same summary.
 
 - **Status per journey**:
   - `pass`

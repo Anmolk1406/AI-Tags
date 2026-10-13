@@ -101,7 +101,8 @@ const pathLike = /^(src\/|scripts\/|\.claude\/|references\/|evals\/)[\w./@-]*$|^
 const basenames = new Set();
 (function names(dir) {
   for (const e of readdirSync(dir, { withFileTypes: true })) {
-    if (e.name === 'node_modules' || e.name === '.git' || e.name.startsWith('dist')) continue;
+    // Skip gitignored output so the check gives the same answer locally and on a clean CI checkout.
+    if (['node_modules', '.git', 'test-results', 'playwright-report', '.vite', '.cache'].includes(e.name) || e.name.startsWith('dist')) continue;
     if (e.isDirectory()) names(join(dir, e.name));
     else basenames.add(e.name);
   }
