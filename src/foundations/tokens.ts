@@ -17,7 +17,7 @@ import { palette } from './palette';
  *    shadow.card         → var(--nk-shadow-card)
  *    palette.blackAlpha8 → var(--nk-palette-black-alpha8)
  *    button.primaryBg    → var(--nk-button-primary-bg)   (component groups: button, iconButton,
- *                          badge, pill, stepper, searchBar, tabBar, quickAdd, needHelp, sheet)
+ *                          badge, pill, stepper, searchBar, tabBar, quickAdd, needHelp, sheet, snackbar)
  *  Numbers become px, except keys ending in Scale / Opacity (unitless) and Duration (ms).
  *  Component tokens reference the semantic ones through `ref.*` (CSS vars), so flow overrides of a
  *  colour reach every button / pill that uses it.
@@ -220,6 +220,7 @@ export const type = {
   text10SemiboldLh12: { size: 10, line: 12, weight: 600 },
   text11RegularLh14: { size: 11, line: 14, weight: 400 },
   text11BoldLh18: { size: 11, line: 18, weight: 700 },
+  text11SemiboldLh14: { size: 11, line: 14, weight: 600 }, // Origin B11/SemiBold
   text12RegularLh1: { size: 12, line: '1', weight: 400 },
   text12RegularLh14: { size: 12, line: 14, weight: 400 },
   text12RegularLh18: { size: 12, line: 18, weight: 400 },
@@ -230,8 +231,10 @@ export const type = {
   text12MediumLh18: { size: 12, line: 18, weight: 500 },
   text12SemiboldLh1: { size: 12, line: '1', weight: 600 },
   text12SemiboldLh14: { size: 12, line: 14, weight: 600 },
+  text12SemiboldLh16: { size: 12, line: 16, weight: 600 }, // Origin A12/SemiBold
   text12BoldLh1: { size: 12, line: '1', weight: 700 },
   text12BoldLh16: { size: 12, line: 16, weight: 700 },
+  text12BoldLh18: { size: 12, line: 18, weight: 700 }, // Origin B12/Bold
   text13RegularLh1p35: { size: 13, line: '1.35', weight: 400 },
   text13RegularLh16: { size: 13, line: 16, weight: 400 },
   text13RegularLh17: { size: 13, line: 17, weight: 400 },
@@ -285,6 +288,7 @@ export const shadow = {
   bottomBar: `0 -2px 6px ${palette.blackAlpha8}`, // sticky footer (BottomBar)
   floating: `0 -4px 32px ${palette.charcoalAlpha12}`, // floating action pill (NeedHelpButton)
   sheet: `0 -2px 16px ${palette.blackAlpha12}`, // Origin M-BottomSheet
+  snackbar: `0 12px 14px ${palette.shadowOverlay}`, // Origin M-Toast drop-shadow
 } as const;
 
 export const layout = {
@@ -684,9 +688,92 @@ export const sheet = {
   secondaryBg: ref.color('bgSurface'), // M-SecondaryButton
   secondaryFg: ref.color('primary'), // text-n-icon/action #0F61FF
   secondaryBorder: ref.color('pillSelectedBorder'), // border/action #D6E9FF
+  // `sheet: 'floating'` — bappzaar OverlayBottomSheet `isFloating` (src/components/OverlayBottomSheet/styles.ts)
+  floatingScrim: ref.palette('overlaySheetScrim'), // rgba(30,30,30,0.7)
+  floatingInset: 12, // overlayFloating paddingHorizontal
+  floatingRadius: ref.radius('r16'), // containerFloating
+  floatingTopGap: 60, // overlayWrapper paddingTop
+  floatingBottomGap: 15, // FLOATING_BOTTOM_INSET without a safe area (the home-indicator inset wins)
+  floatingHandle: ref.palette('overlaySheetHandle'), // #B7B7B7, 36×4 r2
+  floatingHandleOffset: 18, // handleContainer top -18 (on the scrim)
 } as const;
 
-export const tokens = { colors, palette, spacing, radius, fontSize, fontFamily, fontWeight, type, shadow, layout, button, iconButton, badge, pill, stepper, searchBar, tabBar, quickAdd, needHelp, sheet };
+/**
+ * <EtaBadge> — Origin Design System `_ETA` (Figma wFRKiKskxZ4vjIHbDVvngJ · 2673:2414): estimated-delivery badge on
+ * product cards. CSS: var(--nk-eta-<key>).
+ */
+export const eta = {
+  height: 18, // max-h 18 (express / market / global rows)
+  pillHeight: 24, // Minutes / Supermall pill
+  pillPadding: ref.space('s4'),
+  pillRadius: ref.radius('r6'),
+  gap: ref.space('s4'),
+  minutesBg: ref.palette('dangerRed'), // colour/surface/error-bold #D92626
+  minutesShadow: ref.palette('originRed900'), // 0 2 0 #7B1414
+  supermallBg: ref.palette('blueSapphire'), // colour/surface/supermall-bold #2122B8
+  supermallShadow: ref.palette('originSupermall1000'), // 0 2 0 #12136D
+  onBold: ref.color('textInverse'), // on-surface-bold white
+  supermallAccent: ref.palette('yellowColor'), // text-n-icon/yellow-light #FEEE00
+  labelFont: ref.type('text12RegularLh18'), // B12/Regular "Get in" / "Get by"
+  valueFont: ref.type('text12BoldLh18'), // B12/Bold time / date / "minutes" / "supermall"
+  labelColor: ref.palette('slateGray'), // #666D85 "Get by"
+  valueColor: ref.palette('blueGray900'), // #1D2539 date
+  chipHeight: 18,
+  chipPadding: ref.space('s4'),
+  chipGap: ref.space('s2'),
+  marketFrom: ref.palette('noonSuccessSubtle'), // colour/surface/success-subtle #E3FCF2
+  marketTo: ref.palette('paleYellowGradient'), // colour/surface/yellow-subtle #FEFDC8
+  globalBg: ref.palette('originSupermallSubtle'), // #EDEEFD
+  globalFont: ref.type('text11SemiboldLh14'), // B11/SemiBold
+  globalColor: ref.palette('slateGray'), // text-n-icon/tertiary #666D85
+  tomorrowOverlap: 13, // express mark overlaps the "Tomorrow" bar by 13 (mr -13)
+} as const;
+
+/**
+ * <Snackbar> / nav.toast: Origin Design System M-Toast + M-Stacked Toast (Figma wFRKiKskxZ4vjIHbDVvngJ · 4227:76702 /
+ * 4229:76747). CSS: var(--nk-snackbar-<key>).
+ */
+export const snackbar = {
+  radius: ref.radius('r14'),
+  minWidth: 300,
+  maxWidth: 440,
+  padding: 12, // Content p12, gap 8
+  gap: 8,
+  assetSize: 40, // Asset container 20–40
+  textGap: 2,
+  shadow: ref.shadow('snackbar'),
+  titleFont: ref.type('text14SemiboldLh20'), // B14/SemiBold
+  subtitleFont: ref.type('text12RegularLh18'), // B12/Regular
+  tracking: -0.1,
+  chevronSize: 16,
+  // Type=Dark (default) / Light / Error / Success
+  darkBg: ref.color('textPrimary'), // surface/secondary-inverted #1D2539
+  lightBg: ref.color('bgSurface'),
+  errorBg: ref.palette('dangerRed'), // surface/error-bold #D92626
+  successBg: ref.color('success'), // surface/success-bold #0F8857
+  border: ref.palette('whiteAlpha8'), // border/overlay
+  lightBorder: ref.color('borderSubtle'), // border/subtle #F2F3F7
+  fg: ref.color('textInverse'), // on-surface-bold
+  subtitleFg: ref.palette('whiteAlpha80'), // on-surface-subtle
+  lightFg: ref.color('textPrimary'),
+  lightSubtitleFg: ref.color('textSecondary'), // tertiary #666D85
+  // action: Button-dark (alpha-light/16, p8, r8) / Button-light (M-SecondaryNeutralButton 32h, #EAECF0 border)
+  actionInset: 10, // pr 10
+  actionPadding: 8,
+  actionRadius: ref.radius('r8'),
+  actionFont: ref.type('text12SemiboldLh16'), // A12/SemiBold
+  actionBg: ref.palette('whiteAlpha16'),
+  actionLightBg: ref.color('bgSurface'),
+  actionLightBorder: ref.color('border'),
+  actionLightHeight: 32,
+  // M-Stacked Toast: the card behind peeks 12 above, 12 narrower on each side (327 of 351)
+  stackPeek: 12,
+  stackInset: 12,
+  // placement: bottom of the screen, 12 from the sides, above the tab bar
+  inset: 12,
+} as const;
+
+export const tokens = { colors, palette, spacing, radius, fontSize, fontFamily, fontWeight, type, shadow, layout, button, iconButton, badge, pill, stepper, searchBar, tabBar, quickAdd, needHelp, sheet, eta, snackbar };
 export type Tokens = typeof tokens;
 
 type Widen<T> = { [K in keyof T]?: T[K] extends object ? Widen<T[K]> : string | number };

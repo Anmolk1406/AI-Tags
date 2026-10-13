@@ -13,6 +13,7 @@ For a new screen, a redesign or an open-ended idea, run the research-first desig
 
 | Source | Where |
 |---|---|
+| Brain card (read first) | `.claude/resources/brain/flows/reviews.md` — generated: every screen with its module, components, tokens, motion, nav in / out, tests and the spec / brief line ranges that describe it; `npm run brain -- context "<request>"` for the reading list, `npm run brain -- impact <entity>` before changing shared code |
 | Branch brief | `.claude/resources/flows/reviews.md` — the two entries, submit graph, store, shared components, mapping gotchas |
 | Flow specification | `spec.md` (screens, anatomy, navigation graph, state, states, data, motion, acceptance) |
 | Design source | Figma `KzR8dy12uT8CtgBRHHY6Qx` "R&R 2.0" (one node per screen in `src/flows/reviews/index.ts`) + prototype repo `vbirla789/R-R-2.0-with-checkbox` @ `ab185b3` (`src/screens/*`). Truth is inferred `mixed` on every screen; no screen has `verified` yet |

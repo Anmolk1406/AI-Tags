@@ -252,6 +252,14 @@ Rules:
 - A Lottie intro goes in `<SheetBody>`: play it once, then swap to the real content.
 - `<SheetBody inset={false}>` for edge-to-edge rows (ListRow brings its own padding).
 
+**Floating sheets (bappzaar `OverlayBottomSheet isFloating`, 1:1).** When the bappzaar screen passes `isFloating` (or `useScrollToClose(…, true)`), set `sheet: 'floating'`:
+- scrim rgba(30,30,30,0.7), fading in over 350ms;
+- a #B7B7B7 36×4 handle 18px above the sheet, on the scrim; tapping or dragging it closes;
+- 12px side inset, r16, 60px top gap, bottom gap = the safe area (15 without one);
+- no shadow, and no close X.
+
+Example: `checkout/learn-more` (NoonCheckoutLearnMoreScreen). The screen renders its own content exactly as the port does.
+
 **Classic sheets (the bappzaar ports).** The 39 existing sheet screens set `sheet: 'classic'`: an edge-to-edge white sheet with r24 top corners, the grabber inside it, `max-height: 88%` and bottom inset padding. They keep their current UI, both the sheet frame and their contents (close buttons included): never move an existing sheet to Origin or restyle its header unless the user asks for that sheet. `scripts/sheet-baseline.json` lists them, and `npm run skill:check` fails if one loses `sheet: 'classic'` or if a new sheet sets `'classic'` without being a 1:1 bappzaar port. bappzaar's own rule matches: sheets that swipe to dismiss (OverlayBottomSheet, the gorhom BottomSheet) draw a grabber and never a close button. Only the legacy `Overlay`, which has no drag, uses an X.
 
 Classic list sheet — `src/flows/plp/SortSheet.tsx`:

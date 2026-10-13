@@ -446,6 +446,64 @@
       }
     },
     {
+      "name": "EtaBadge",
+      "file": "src/components/EtaBadge/EtaBadge.tsx",
+      "line": 21,
+      "doc": "Estimated-delivery badge — Origin Design System `_ETA` (Figma wFRKiKskxZ4vjIHbDVvngJ · 2673:2414), shown on product cards. `type` is the delivery mode, `size` large (primary cards) or small (compact grids, chips); `label` / `value` are the customisable text (\"Get in\" + \"15 Mins\", \"Get by\" + \"11 Sep\"). Named use cases and `etaFor(product)` live in `src/data/eta.ts`. Artwork in `src/assets/shared/eta/` is the Figma export, used unedited.",
+      "generic": false,
+      "forwardRef": false,
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "optional": true
+        },
+        {
+          "name": "type",
+          "type": "EtaType",
+          "optional": false,
+          "from": "EtaSpec"
+        },
+        {
+          "name": "size",
+          "type": "EtaSize",
+          "optional": true,
+          "default": "'large'",
+          "from": "EtaSpec"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "optional": true,
+          "doc": "lead text, e.g. \"Get in\" / \"Get by\" (large only)",
+          "from": "EtaSpec"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "optional": true,
+          "doc": "the time, date or date range, e.g. \"15 Mins\", \"11 Sep\", \"11-23 Sep\" (large only)",
+          "from": "EtaSpec"
+        }
+      ],
+      "variants": {
+        "type": [
+          "express",
+          "expressToday",
+          "expressTomorrow",
+          "global",
+          "market",
+          "minutes",
+          "supermall"
+        ],
+        "size": [
+          "large",
+          "small"
+        ]
+      },
+      "propsType": "EtaBadgeProps"
+    },
+    {
       "name": "IconButton",
       "file": "src/components/Header/Header.tsx",
       "line": 9,
@@ -1200,8 +1258,8 @@
     {
       "name": "ProductCard",
       "file": "src/components/ProductCard/ProductCard.tsx",
-      "line": 23,
-      "doc": "NoonProductBoxVertical — the PLP / carousel product card. Anatomy: image (≈0.8 aspect, contain) · Best Seller tag top-left · heart top-right · quick-ATC bottom-right · title 14/500 2 lines · rating pill · price row · coupon · express + delivery.",
+      "line": 25,
+      "doc": "NoonProductBoxVertical — the PLP / carousel product card. Anatomy: image (≈0.8 aspect, contain) · Best Seller tag top-left · heart top-right · quick-ATC bottom-right · title 14/500 2 lines · rating pill · price row · coupon · ETA badge (Origin `_ETA`, `EtaBadge` + `etaFor(product)`; small in the carousel).",
       "generic": false,
       "forwardRef": false,
       "props": [
@@ -1231,7 +1289,7 @@
           "name": "carousel",
           "type": "boolean",
           "optional": true,
-          "doc": "bappzaar home productCarousel box (NoonProductCard isCarousel in NoonOptimizedProductCarousel): r8, no hairline, image 138 × 169 at 390 (`round((w − 14) · 1.361)`) with an r8 overlay (carouselImage), 24 heart circle, \"+\" lifted 2 (imageBottomWrapperCarousel), info inset 4 + marginBottom 2, price marginTop 6 with a 16/700 sign (saleCurrency), \"n%\" discount (hideOffText), express flag only at 18h (NoonEstimatedDelivery isCarousel). Implies `compact`."
+          "doc": "bappzaar home productCarousel box (NoonProductCard isCarousel in NoonOptimizedProductCarousel): r8, no hairline, image 138 × 169 at 390 (`round((w − 14) · 1.361)`) with an r8 overlay (carouselImage), 24 heart circle, \"+\" lifted 2 (imageBottomWrapperCarousel), info inset 4 + marginBottom 2, price marginTop 6 with a 16/700 sign (saleCurrency), \"n%\" discount (hideOffText), the small ETA badge at 18h (was the express flag, NoonEstimatedDelivery isCarousel). Implies `compact`."
         },
         {
           "name": "width",
@@ -1243,7 +1301,7 @@
     {
       "name": "QuickAdd",
       "file": "src/components/ProductCard/ProductCard.tsx",
-      "line": 99,
+      "line": 101,
       "doc": "NoonProductBoxAddToCart: 36×36 white \"+\" → (tap) adds 1 and expands into a 76×36 #3866DF stepper → collapses to a filled count badge after 2.5s idle. A product with sizes (`variant_overlay_url`) opens the variants sheet instead (useCart → showVariantsFlyout), which adds and shows the snackbar itself.",
       "generic": false,
       "forwardRef": false,
@@ -1816,6 +1874,140 @@
         ]
       },
       "propsType": "SkuCardProps"
+    },
+    {
+      "name": "Snackbar",
+      "file": "src/components/Snackbar/Snackbar.tsx",
+      "line": 30,
+      "doc": "Snackbar — Origin Design System M-Toast (Figma wFRKiKskxZ4vjIHbDVvngJ · 4227:76702): a transient, non-blocking notification. 351 wide (300–440), r14, 1px overlay border, drop-shadow 0 12 14; content p12 gap 8: asset (20–40), title B14/SemiBold + subtitle B12/Regular with a 16px chevron, optional action (Dark/Error/Success: white-16% p8 r8; Light: M-SecondaryNeutralButton 32h). For two or more at once use <SnackbarStack> (M-Stacked Toast). Most screens show one through `useNav().toast(title, { type, subtitle, icon, action })`.",
+      "generic": false,
+      "forwardRef": false,
+      "props": [
+        {
+          "name": "type",
+          "type": "SnackbarType",
+          "optional": true,
+          "default": "'dark'",
+          "doc": "Dark (default, neutral) · Light (neutral, lower emphasis) · Error · Success — use Error / Success only for that status"
+        },
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "optional": false,
+          "doc": "one line, truncates"
+        },
+        {
+          "name": "subtitle",
+          "type": "ReactNode",
+          "optional": true,
+          "doc": "one line, truncates; gets the trailing chevron when `onSubtitlePress` is set"
+        },
+        {
+          "name": "onSubtitlePress",
+          "type": "() => void",
+          "optional": true
+        },
+        {
+          "name": "asset",
+          "type": "ReactNode",
+          "optional": true,
+          "doc": "leading icon / avatar / image (20–40 box)"
+        },
+        {
+          "name": "action",
+          "type": "{ label: string; onPress: () => void }",
+          "optional": true,
+          "doc": "optional trailing action button"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "optional": true
+        },
+        {
+          "name": "style",
+          "type": "CSSProperties",
+          "optional": true
+        }
+      ],
+      "variants": {
+        "type": [
+          "dark",
+          "error",
+          "light",
+          "success"
+        ]
+      },
+      "propsType": "SnackbarProps"
+    },
+    {
+      "name": "SnackbarStack",
+      "file": "src/components/Snackbar/Snackbar.tsx",
+      "line": 62,
+      "doc": "M-Stacked Toast (Figma wFRKiKskxZ4vjIHbDVvngJ · 4229:76747): the front snackbar with a second card peeking 12px out behind it (12px narrower each side) when two or more are queued. With `count < 2` it renders the plain snackbar. The back card takes the front's type.",
+      "generic": false,
+      "forwardRef": false,
+      "props": [
+        {
+          "name": "type",
+          "type": "SnackbarType",
+          "optional": true,
+          "doc": "Dark (default, neutral) · Light (neutral, lower emphasis) · Error · Success — use Error / Success only for that status"
+        },
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "optional": false,
+          "doc": "one line, truncates"
+        },
+        {
+          "name": "subtitle",
+          "type": "ReactNode",
+          "optional": true,
+          "doc": "one line, truncates; gets the trailing chevron when `onSubtitlePress` is set"
+        },
+        {
+          "name": "onSubtitlePress",
+          "type": "() => void",
+          "optional": true
+        },
+        {
+          "name": "asset",
+          "type": "ReactNode",
+          "optional": true,
+          "doc": "leading icon / avatar / image (20–40 box)"
+        },
+        {
+          "name": "action",
+          "type": "{ label: string; onPress: () => void }",
+          "optional": true,
+          "doc": "optional trailing action button"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "optional": true
+        },
+        {
+          "name": "style",
+          "type": "CSSProperties",
+          "optional": true
+        },
+        {
+          "name": "count",
+          "type": "number",
+          "optional": false
+        }
+      ],
+      "variants": {
+        "type": [
+          "dark",
+          "error",
+          "light",
+          "success"
+        ]
+      },
+      "propsType": "SnackbarProps"
     },
     {
       "name": "Spinner",
@@ -4117,7 +4309,7 @@
       "flow": "checkout",
       "name": "SlideButton",
       "file": "src/flows/checkout/components/SlideButton.tsx",
-      "line": 58,
+      "line": 56,
       "props": [
         "disabled",
         "ctaText",

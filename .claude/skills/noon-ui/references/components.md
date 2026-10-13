@@ -36,7 +36,8 @@ System icon from a noon / Figma design → `OriginIcon` (catalogue in `icons.md`
 | Wishlist heart toggle | `WishlistHeart` |
 | Quantity −/+ control | `QuantityStepper` |
 | "Best Seller" corner tag | `CatalogTag` |
-| noon express pill | `ExpressBadge` or `MarketplaceTag kind="express"` |
+| Estimated-delivery badge on a product card (minutes, supermall, express today / tomorrow / dated, market, global) | `EtaBadge` with `etaFor(product)` or an `etaUseCases.*` preset (`src/data/eta.ts`) |
+| noon express pill (outside the ETA slot: orders, returns, cart sheets) | `ExpressBadge` or `MarketplaceTag kind="express"` |
 | Marketplace pill (supermall, market, global, food, minutes) | `MarketplaceTag` |
 | Marketplace wordmark logo | `MarketplaceWordmark` |
 | Coupon chip ("dashed green") | `CouponTag` |
@@ -59,6 +60,7 @@ System icon from a noon / Figma design → `OriginIcon` (catalogue in `icons.md`
 | Square check glyph inside a selectable row | `Checkbox` |
 | Search pill, Homepage 2025 look (gray400 border, 15/18 Medium placeholder, Figma icons) | `SearchBarButton variant="2025"` |
 | Plain toast message | `useNav().toast(message, opts)` (not a component) |
+| Snackbar / toast message (default look) | `nav.toast(title, { type, subtitle, icon, action })` → `Snackbar` / `SnackbarStack` (Origin M-Toast) |
 | Custom-styled self-dismissing toast / snackbar | `Toast` (host) |
 | Cart shipment group (tinted header, wave, items, callouts, free-delivery progress) | flow-local `CartGroup` + `GroupProgressBar` (`src/flows/cart/components/`) |
 | Checkout shipment card (items scroller, "Get it" wave footer, fulfilment pill, lanes expander) | flow-local `CheckoutShipment` (`src/flows/checkout/components/`) |
@@ -499,7 +501,7 @@ Gotcha: always give it a width plus `height` or `aspect`, otherwise it has no he
 
 ## ProductCard and QuickAdd
 
-`src/components/ProductCard/ProductCard.tsx`. NoonProductBoxVertical: image (0.8 aspect) · `CatalogTag` top-start · `WishlistHeart` top-end · `QuickAdd` bottom-end · title 14/500 2 lines · `RatingPill` · `Price` · `CouponTag` · `ExpressBadge` + delivery HTML.
+`src/components/ProductCard/ProductCard.tsx`. NoonProductBoxVertical: image (0.8 aspect) · `CatalogTag` top-start · `WishlistHeart` top-end · `QuickAdd` bottom-end · title 14/500 2 lines · `RatingPill` · `Price` · `CouponTag` · `EtaBadge` (large; small in the `carousel` variant) from `etaFor(product)`.
 
 | `ProductCard` prop | Type | Default |
 |---|---|---|
@@ -510,7 +512,7 @@ Gotcha: always give it a width plus `height` or `aspect`, otherwise it has no he
 | `width` | `number \| string` (fixed width, `flexShrink: 0`, for carousels) | — |
 | `carousel` | `boolean` — bappzaar home `productCarousel` box (NoonProductCard): r8, no hairline, image `width × round((width − 14) · 1.361)` (138 × 169) with an r8 overlay, 24 heart circle, "+" at bottom 6, info inset 4 (+2 bottom), price 6 below the rating with a 16/700 dirham sign, express flag only (18h), discount "n%"; needs a numeric `width` | — |
 
-`QuickAdd`: 36×36 "+" that adds 1 to the DemoStore cart (with a toast), expands into a filled `QuantityStepper`, and collapses to a count badge after 2.5s. Props: `productId: string` (required).
+`QuickAdd`: 36×36 "+" that adds 1 to the DemoStore cart (no snackbar, as in bappzaar `useCartActions`; products with sizes open `pdp/variants`, whose success shows "Added to cart"), expands into a filled `QuantityStepper`, and collapses to a count badge after 2.5s. Props: `productId: string` (required).
 
 ```tsx
 // src/flows/home/HomeScreen.tsx (carousel)
@@ -605,6 +607,27 @@ Sponsored "Ad" label, by context (every sponsored element carries one):
 - On white PDP cards and rows (Storefront PDP): `bg="var(--nk-palette-border-color)"`, `color={ref.color('priceOld')}`.
 
 Gotcha: `src/flows/noonone/components/plans/PlanCard.tsx` defines a local `Badge` (`html`, `selected`); the shared `Badge` takes children.
+
+## EtaBadge
+
+`src/components/EtaBadge/EtaBadge.tsx`. Origin Design System `_ETA` (Figma `wFRKiKskxZ4vjIHbDVvngJ · 2673:2414`): the estimated-delivery badge on product cards. Tokens: `eta` group (`--nk-eta-*`). Artwork: `src/assets/shared/eta/` (Figma export, unedited); icons `flash-thunder`, `caret-right`, `home-filled` through `OriginIcon`.
+
+| Prop | Values | Notes |
+|---|---|---|
+| `type` | `minutes` · `supermall` · `expressToday` · `expressTomorrow` · `express` · `market` · `global` | the delivery mode |
+| `size` | `large` (default) · `small` | large on primary product cards, small in compact grids, rails and chips |
+| `label` | e.g. `Get in`, `Get by` | large only; customisable text |
+| `value` | e.g. `15 Mins`, `11 Sep`, `11-23 Sep` | large only; customisable text |
+
+Copy and use cases live in `src/data/eta.ts`: `etaCopy` (fixed words), `etaUseCases` (one preset per Figma variant: `quickCommerce`, `supermall`, `sameDay`, `nextDay`, `expressDated`, `market`, `global`, each with a `…Compact` small twin) and `etaFor(product, size?)`, which derives the badge from `express` / `supermall` and the `delivery` line (`null` when there is no promise).
+
+```tsx
+<EtaBadge {...etaFor(product)} />                              // product card
+<EtaBadge {...etaUseCases.quickCommerce} value="20 Mins" />     // preset + custom text
+<EtaBadge type="global" label="Get by" value="11-23 Sep" />
+```
+
+Used by `ProductCard` (large; small in `carousel`) and `ProductBoxVertical` (large). `ExpressBadge` stays for express flags outside the ETA slot (orders, returns, cart sheets).
 
 ## MarketplaceTag and MarketplaceWordmark
 
@@ -902,6 +925,28 @@ Gotcha: not used by any flow yet. Selected label is 12/600, unselected 14/500 (a
 </Pressable>
 ```
 
+## Snackbar and SnackbarStack
+
+`src/components/Snackbar/Snackbar.tsx`. **The default snackbar**: Origin Design System M-Toast (Figma `wFRKiKskxZ4vjIHbDVvngJ · 4227:76702`) and M-Stacked Toast (`4229:76747`). `nav.toast` renders it, so most screens never import it.
+
+| Prop | Type | Notes |
+|---|---|---|
+| `type` | `'dark' \| 'light' \| 'error' \| 'success'` | default `dark` (#1D2539). Use `error` / `success` only for that status; `dark` / `light` for neutral info |
+| `title` | `ReactNode` (required) | B14/SemiBold, one line, truncates |
+| `subtitle` | `ReactNode` | B12/Regular, one line; with `onSubtitlePress` it gets a 16px chevron and becomes a link |
+| `asset` | `ReactNode` | leading icon / avatar, 20–40 box |
+| `action` | `{ label, onPress }` | trailing button: white-16% p8 r8 (Light: 32h white, `#EAECF0` border) |
+| `SnackbarStack` `count` | `number` | `count >= 2` draws the back card peeking 12px above, 12px narrower each side |
+
+Metrics: 351 wide (300–440), r14, 1px `rgba(255,255,255,0.08)` border (Light: `#F2F3F7`), drop-shadow `0 12 14 rgba(11,12,14,0.1)`, content padding 12 and gap 8. Tokens: `--nk-snackbar-*`.
+
+```tsx
+nav.toast('Invoice downloaded', { type: 'success' });
+nav.toast('Added to wishlist', { subtitle: 'View wishlist', onSubtitlePress: () => nav.push('wishlist/wishlist'), action: { label: 'Undo', onPress: undo } });
+```
+
+`nav.toast` queues up to 3 messages. The newest shows in front; while two or more are active it renders as `SnackbarStack`, and it collapses back to one `Snackbar` as they expire. `tone` (`default` / `success` / `error`) still works as an alias of `type`.
+
 ## Toast (host)
 
 `src/components/Toast/Toast.tsx`. Self-dismissing toast/snackbar host: mounts `item` in `AnimatePresence`, calls `onHide(item)` after `duration`, animates out when the item clears. Look and motion come from the caller.
@@ -925,7 +970,7 @@ Gotcha: not used by any flow yet. Selected label is 12/600, unselected 14/500 (a
 </Toast>
 ```
 
-Gotchas: for a plain message use `nav.toast(message, { icon, action, duration, tone })` (`tone: 'default' | 'success' | 'error'`), as `QuickAdd` and `WishlistHeart` do. Use the `Toast` host only for bespoke toasts (checkout `VoucherToast.tsx`, address `primitives.tsx`, cart snackbar). Items without an `id` need `itemKey`.
+Gotchas: for a plain message use `nav.toast(title, { type, subtitle, onSubtitlePress, icon, action, duration })` (Origin M-Toast, see Snackbar above), as `WishlistHeart` and `pdp/variants` do. Use the `Toast` host only for bespoke toasts (checkout `VoucherToast.tsx`, address `primitives.tsx`, cart snackbar). Items without an `id` need `itemKey`.
 
 ---
 

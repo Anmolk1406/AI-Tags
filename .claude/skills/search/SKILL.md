@@ -13,6 +13,7 @@ For a new screen, a redesign or an open-ended idea, run the research-first desig
 
 | Source | Where |
 |---|---|
+| Brain card (read first) | `.claude/resources/brain/flows/search.md` and `.claude/resources/brain/flows/plp.md` — generated: every screen with its module, components, tokens, motion, nav in / out, tests and the spec / brief line ranges that describe it; `npm run brain -- context "<request>"` for the reading list, `npm run brain -- impact <entity>` before changing shared code |
 | Branch briefs | `.claude/resources/flows/search.md` and `.claude/resources/flows/plp.md` — phase machine, results hand-off, PLP scroll states, pill row, grid swap |
 | Flow specification | `spec.md` (screens, sections, data, navigation, motion, states, acceptance) |
 | Figma analysis | None: there is no Figma for search. The code is the spec — `src/flows/search` and `src/flows/plp` are bappzaar 1:1 ports (`NoonSearchScreen`, `NoonSearchSuggestionRow`, `NoonRecentlySearchedModule`, `ListingScreen` → `NoonCatalogList`, `NoonFiltersScreenV2`) with the UI and motion of github.com/saswata2002/Brand-Widget-PLP (marketplace strip, brand widget, ProtoPie handoff timings in `handoff` + their `tokens.ts`) |

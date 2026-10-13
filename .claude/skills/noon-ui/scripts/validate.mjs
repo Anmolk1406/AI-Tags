@@ -210,6 +210,7 @@ for (const flow of allFlows) {
   })(join(root, 'src'));
   let classic = 0;
   let origin = 0;
+  let floating = 0;
   for (const f of allFlows) {
     for (const sc of f.screens) {
       const r = `${f.id}/${sc.id}`;
@@ -221,12 +222,13 @@ for (const flow of allFlows) {
       } else if (layout === 'classic' && screenTruth(sc) !== 'bappzaar') {
         problems.push(`${r}: new sheets use the Origin M-BottomSheet (drop \`sheet: 'classic'\`, fill it with <SheetHeader> / <SheetBody> / <SheetFooter>); 'classic' is only for 1:1 bappzaar ports`);
       } else if (layout === 'classic') classic++;
+      else if (layout === 'floating') floating++; // bappzaar OverlayBottomSheet isFloating, 1:1
       else origin++;
     }
   }
   const gone = [...baseline].filter((r) => !routes.has(r));
   if (gone.length) problems.push(`scripts/sheet-baseline.json lists routes that no longer exist: ${gone.join(', ')}`);
-  ok(`sheets: ${classic} classic (existing UI kept), ${origin} Origin M-BottomSheet`);
+  ok(`sheets: ${classic} classic (existing UI kept), ${floating} floating (OverlayBottomSheet isFloating), ${origin} Origin M-BottomSheet`);
 }
 
 // ── 5b. Source of truth per screen: every screen names its reference; `figma` / `mixed` screens need the flow's

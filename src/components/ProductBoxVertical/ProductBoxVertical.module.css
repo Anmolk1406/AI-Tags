@@ -64,7 +64,4 @@
 
 /* flagAndDiscountRow: px 8, marginTop 4 → flagAndDeliveryRow (PLP 20 high): ProductFlag 60 × 18 marginRight 4 + delivery 12 / 14 charcoalNavy (b bold), 1 line */
 .flagRow { display: flex; align-items: center; padding: 0 var(--nk-space-s8); margin-top: var(--nk-space-s4); }
-.flagDelivery { flex: 1; min-width: 0; display: flex; align-items: center; height: 20px; }
-.flag { flex-shrink: 0; display: flex; margin-inline-end: var(--nk-space-s4); }
-.delivery { flex-shrink: 1; min-width: 0; font: var(--nk-type-text12-regular-lh14); color: var(--nk-palette-charcoal-navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.delivery b { font-weight: var(--nk-font-weight-bold); color: var(--nk-palette-charcoal-navy); }
+.flagDelivery { flex: 1; min-width: 0; display: flex; align-items: center; min-height: 20px; } /* Origin _ETA badge (18, or 24 for Minutes / Supermall) */

@@ -13,6 +13,7 @@ For a new screen, a redesign or an open-ended idea, run the research-first desig
 
 | Source | Where |
 |---|---|
+| Brain card (read first) | `.claude/resources/brain/flows/home.md` — generated: every screen with its module, components, tokens, motion, nav in / out, tests and the spec / brief line ranges that describe it; `npm run brain -- context "<request>"` for the reading list, `npm run brain -- impact <entity>` before changing shared code |
 | Branch brief | `.claude/resources/flows/home.md` — what `home/home` renders now (bappzaar CMS feed + 2025 header + Eid hero), area token files, how to add a feed module, gotchas |
 | Flow specification | `spec.md` (screens, module catalogue, ordering rules, data, acceptance) |
 | Figma analysis | `references/figma-homepage-2025.md` — Homepage Revamp 2025, file `iRE9RwO94eMAyW3j3XKNXW`, screen `1337:5102` (wrapper `1337:7139`): every section with measurements, variables → tokens, components → kit, delta vs code |

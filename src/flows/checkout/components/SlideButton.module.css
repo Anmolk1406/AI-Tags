@@ -1,13 +1,13 @@
-/* Figma "🚧 Checkout 2.0" Swipe cart button 14288:184319 (+ NoonCheckoutSlideButton behaviour) */
+/* NoonCheckoutSlideButton (bappzaar master marketplaces/noon/components/NoonCheckoutSlideButton/styles.ts) */
+/* slideButtonGradient: minHeight 48, padding 8, r14, overflow hidden */
 .track {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Figma: 48h, p 8, r12 */
-  height: 48px;
+  min-height: 48px;
   padding: var(--nk-space-s8);
-  border-radius: var(--nk-radius-r12);
+  border-radius: var(--nk-radius-r14);
   overflow: hidden;
   user-select: none;
   -webkit-user-select: none;
@@ -18,32 +18,31 @@
   position: absolute;
   inset: var(--nk-space-s8);
 }
-/* CVV Text: starts after the thumb (x 70 in the track → 62 in the masked view), 19/26.6 Bold, uppercase, centred */
+/* transparentMaskedView: absolute, left/right 10, centred — slideButtonText 16/700 */
 .label {
   position: absolute;
-  left: 62px;
-  right: 0;
+  left: 10px;
+  right: 10px;
   top: 0;
   bottom: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font: var(--nk-type-chk-fig-text19-bold-lh26p6);
-  text-transform: uppercase;
+  font: var(--nk-type-text16-bold-lh20);
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
   white-space: nowrap;
 }
-/* Arrow: white, 54×32, r8, px 8 py 4, at the track padding (8, 8) */
+/* slideButtonIconContainer: absolute left 7, 60×38, white, r9 */
 .thumb {
   position: absolute;
-  left: var(--nk-space-s8);
+  left: 7px;
   top: 50%;
-  margin-top: -16px;
-  width: 54px;
-  height: 32px;
-  border-radius: var(--nk-radius-r8);
+  margin-top: -19px;
+  width: 60px;
+  height: 38px;
+  border-radius: 9px; /* token-lint-ignore — slideButtonIconContainer borderRadius 9 (no r9 token) */
   background: var(--nk-color-bg-surface);
   overflow: hidden;
   display: flex;
@@ -58,27 +57,10 @@
 .track[data-disabled] .thumb {
   cursor: default;
 }
-/* arrow-to-checkmark Lottie (48 in the 38 thumb on master → 40 in the 32 Figma thumb) */
+/* slideButtonIcon: arrow-to-checkmark Lottie 48×48 (contain) */
 .lottie {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   flex-shrink: 0;
   pointer-events: none;
-}
-/* Arrow icon 24×24: glyph frame at inset 20.83% / 19.79% / 16.67% / 16.67%, the up-pointing svg turned to point right */
-.arrowBox {
-  position: relative;
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
-}
-.arrow {
-  position: absolute;
-  left: 11.625px;
-  top: 12.5px;
-  display: block;
-  transform: translate(-50%, -50%) rotate(90deg);
-}
-[dir='rtl'] .arrow {
-  transform: translate(-50%, -50%) rotate(-90deg);
 }

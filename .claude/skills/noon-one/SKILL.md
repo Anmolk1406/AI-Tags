@@ -13,6 +13,7 @@ For a new screen, a redesign or an open-ended idea, run the research-first desig
 
 | Source | Where |
 |---|---|
+| Brain card (read first) | `.claude/resources/brain/flows/noonone.md` and `.claude/resources/brain/flows/membership.md` — generated: every screen with its module, components, tokens, motion, nav in / out, tests and the spec / brief line ranges that describe it; `npm run brain -- context "<request>"` for the reading list, `npm run brain -- impact <entity>` before changing shared code |
 | Branch brief | `.claude/resources/flows/other-flows.md` → "noonone (acquisition)" and "membership (management)"; generated route index `.claude/resources/screens.md` → "noonone · noon One" |
 | Flow specification | `spec.md` (screens, landing anatomy member / non-member, plans, payment, overlays, navigation, state, states, data, motion, acceptance) |
 | Mapping | `src/flows/noonone/MAPPING.md` — bappzaar `origin/master` d481712 (2026-10-10), feature root `features/vip`; FeatureFlags table, routes and deep links, shared overlay chrome, per-area style tables, entry-point table, follow-ups |

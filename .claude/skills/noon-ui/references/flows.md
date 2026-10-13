@@ -56,7 +56,7 @@ Register screen components lazily so a page only downloads what it shows: `const
 | `title` | `string` | |
 | `component` | `ComponentType<ScreenProps<P>>` | receives `{ params }` |
 | `presentation?` | `'screen' \| 'sheet' \| 'modal'` | default `'screen'` |
-| `sheet?` | `SheetOptions \| 'origin' \| 'classic'` | sheet framing: default Origin M-BottomSheet (`layout 'origin'`, `grabber true`, `dismissible true`, `surface?`); `'classic'` = the bappzaar-port sheet. `grabber: false` → `SheetHeader` shows a close X (screen-recipes.md §6) |
+| `sheet?` | `SheetOptions \| 'origin' \| 'classic' \| 'floating'` | sheet framing: default Origin M-BottomSheet (`layout 'origin'`, `grabber true`, `dismissible true`, `surface?`); `'classic'` = the bappzaar-port edge sheet; `'floating'` = bappzaar OverlayBottomSheet `isFloating` 1:1. `grabber: false` → `SheetHeader` shows a close X (screen-recipes.md §6) |
 | `transition?` | `TransitionName` | default per presentation: `push` / `sheet` / `modal` |
 | `statusBar?` | `'dark' \| 'light'` | status bar content colour |
 | `defaultParams?` | `P` | merged under navigation params; also used by sidebar/URL. Used to register *state variants* of one component (e.g. `cart/empty` = `CartScreen` + `{ state: 'empty' }`) |
@@ -212,7 +212,7 @@ Presentations:
 | | How | Chrome |
 |---|---|---|
 | `screen` | default / `push` | full page, `push` slide; covered screen gets the transition's `under` style |
-| `sheet` | `presentation: 'sheet'` or `nav.sheet` | `SheetLayer`. Default (Origin M-BottomSheet): scrim rgba(0,0,0,0.8) (tap = back), grabber above the sheet, sheet floating 12px inset, r16 all corners, max 680; the component renders `SheetHeader` / `SheetBody` / `SheetFooter`, no close X when it has a grabber. `sheet: 'classic'` (the bappzaar ports): white top-r24 sheet, max-height 88%, grabber inside, `padding-bottom: var(--nk-inset-bottom)`. Both: drag the grabber down > 120px or > 600 px/s to dismiss. `useSheet()` tells a screen how it was framed |
+| `sheet` | `presentation: 'sheet'` or `nav.sheet` | `SheetLayer`. Default (Origin M-BottomSheet): scrim rgba(0,0,0,0.8) (tap = back), grabber above the sheet, sheet floating 12px inset, r16 all corners, max 680; the component renders `SheetHeader` / `SheetBody` / `SheetFooter`, no close X when it has a grabber. `sheet: 'floating'` (OverlayBottomSheet isFloating): scrim rgba(30,30,30,0.7), #B7B7B7 handle 18px above (tap closes), 12px inset, r16, 60 top gap. `sheet: 'classic'` (the other bappzaar ports): white top-r24 sheet, max-height 88%, grabber inside, `padding-bottom: var(--nk-inset-bottom)`. Both: drag the grabber down > 120px or > 600 px/s to dismiss. `useSheet()` tells a screen how it was framed |
 | `modal` | `presentation: 'modal'` | full-screen slide up (`modal`); custom overlays (noonone, membership) use `modal` + a transparent transition (`noonone-overlay`, `mb-overlay`) and draw their own backdrop + sheet (`VIPOverlay`, `VipOverlay`) |
 
 Patterns: in-screen overlays (`returns` `ReturnsOverlay open onClosed`, cart invoice) are local state, not routes — use them when the overlay needs the screen's live state and shouldn't be deep-linkable. Close-then-navigate: `nav.back(); setTimeout(() => …, 600)` (account SignOutSheet) or `VipOverlay` `close(after)`.

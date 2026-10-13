@@ -7,37 +7,39 @@
   flex-direction: column;
 }
 /* Figma Button Dock 14288:184318: white, drop-shadow 0 −4 3.5 rgba(0,0,0,.13), column gap 8, pt 12; Home bar → inset */
+/* NoonCheckoutScreen styles.stickyButtonsWrapper + columnReverseWrapper (useSliderCta): white, pt 16, pb safe area
+   (16 without one), px edgeSpacing 15, row gap 8, shadow 0 −4 rgba(0,0,0,0.06); slider above the overview */
 .sticky {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   row-gap: var(--nk-space-s8);
-  padding: var(--nk-space-s12) var(--nk-space-s16) var(--nk-inset-bottom);
+  padding: var(--nk-space-s16) var(--nk-space-s15) max(var(--nk-inset-bottom), var(--nk-space-s16));
   background: var(--nk-color-bg-surface);
-  box-shadow: var(--nk-shadow-chk-fig-dock);
+  box-shadow: var(--nk-shadow-chk-sticky-footer);
 }
 .cta {
   display: flex;
   flex-direction: column;
 }
-/* Cart Summary: 338 wide (2.5px inside the 343 slider) */
+/* overviewWrapper: row, space-between, centred, mx 4 */
 .overview {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin: 0 2.5px; /* Figma 18.5 vs 16 inset (geometry) */
+  align-items: center;
+  margin: 0 var(--nk-space-s4);
 }
-/* Proxima Nova Bold 19/26.6 → Noontree — Gray Shades/Grey 1 */
+/* itemsCountText: 19/700 steelColor */
 .itemsCount {
-  font: var(--nk-type-chk-fig-text19-bold-lh26p6);
-  color: var(--nk-palette-noon-grey1);
+  font: var(--nk-type-text19-bold-lh24);
+  color: var(--nk-palette-steel-color);
   white-space: nowrap;
 }
-/* Total Container: gap 4 — Primary. Colors/noon Black */
+/* totalPrice: 19/700 (Price: currency + amount) */
 .totalPrice {
   display: flex;
   gap: var(--nk-space-s4);
-  font: var(--nk-type-chk-fig-text19-bold-lh26p6);
+  font: var(--nk-type-text19-bold-lh24);
   color: var(--nk-color-text-legacy);
   white-space: nowrap;
 }

@@ -2,28 +2,26 @@ import { DotLottieReact, type DotLottie } from '@lottiefiles/dotlottie-react';
 import { animate, motion, useMotionValue, useMotionValueEvent, useTransform, type PanInfo } from 'motion/react';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import arrowLottie from '@assets/checkout/arrow-to-checkmark-animation-en.json';
-import arrowDisabled from '@assets/checkout/figma/slide-arrow.svg';
 import { checkoutJs } from '../tokens';
 import styles from './SlideButton.module.css';
 import { useReduceMotion } from '../../../motion/reducedMotion';
 
 /**
- * Figma "🚧 Checkout 2.0" Swipe cart button (14288:184319): 48h, r12, p8 — disabled Gray Shades/Grey 3 #DADCE3 with
- * the 54×32 white r8 thumb holding the 24px arrow, label 19/26.6 Bold white uppercase centred in the space after
- * the thumb ("ENTER CVV"). Enabled keeps NoonCheckoutSlideButton's behaviour:
- * NoonCheckoutSlideButton. Track = gradient #3866DF → #3454A8 (disabled #CED1DA), padding 8, minHeight 48, r14.
- * Thumb: white 60×38 r9 at left 7, holding the arrow-to-checkmark Lottie (48×48, arrow keypath tinted #3866DF /
- * #CED1DA) whose progress follows the slide past 62%. Label 16/700 is a mask over a #7394DE layer that moves with
- * the thumb (+5) so the text is wiped away as you slide; a 1/4-width #7394DE→#DAE3F6→#7394DE shimmer sweeps it every 4s.
- * Idle: pulse 7px ×2 (300ms steps) every 4s, also on tap. Release past 85% (or 65% faster than 500px/s) completes.
+ * NoonCheckoutSlideButton (bappzaar master, marketplaces/noon/components/NoonCheckoutSlideButton) — production wins
+ * over the Checkout 2.0 Figma slider here. Track: gradient #3866DF → #3454A8 (disabled #CED1DA), padding 8,
+ * minHeight 48, r14. Thumb: white 60×38 r9 at left 7, holding the arrow-to-checkmark Lottie (48×48, `arrow` keypath
+ * tinted #3866DF / #CED1DA) whose progress follows the slide past 62%. Label 16/700 (not upper-cased) centred across
+ * the track (left/right 10 inside the masked view); it is a mask over a #7394DE layer (white when disabled) that moves
+ * with the thumb (+5), so the text is wiped away as you slide; a ¼-width #7394DE→#DAE3F6→#7394DE shimmer sweeps it
+ * every 4s. Idle: pulse 7px ×2 (300ms steps) every 4s, also on tap. Release past 85% (or 65% faster than 500px/s) completes.
  */
 /** ENABLED_GRADIENT_COLORS ['#3866DF', '#3454A8'] (reversed in RTL) / DISABLED_GRADIENT_COLORS grayColor */
 const TRACK_ENABLED = 'linear-gradient(90deg, var(--nk-color-cta) 0%, var(--nk-color-chk-slide-track-end) 100%)';
-const TRACK_DISABLED = 'var(--nk-palette-noon-grey3)'; // Figma Gray Shades/Grey 3
-const SLIDE_BUTTON_WIDTH = 54; // Figma Arrow 54×32
-const GRADIENT_HORIZONTAL_PADDING = 16; // track padding 8 × 2
-/** label box starts after the thumb: 8 (padding) + 54 + 8 gap = 70 from the track, 62 inside the masked view */
-const LABEL_LEFT = 62;
+const TRACK_DISABLED = 'var(--nk-palette-gray-color)'; // DISABLED_GRADIENT_COLORS #CED1DA
+const SLIDE_BUTTON_WIDTH = 60;
+const GRADIENT_HORIZONTAL_PADDING = 14;
+/** transparentMaskedView left 10 (label coords start 10px into the masked view) */
+const LABEL_LEFT = 10;
 const SLIDE_SLOW_THRESHOLD = 0.85;
 const SLIDE_FAST_THRESHOLD = 0.65;
 const SLIDE_LOTTIE_THRESHOLD = 0.62;
@@ -67,6 +65,7 @@ export function SlideButton({ disabled, ctaText, onSlideComplete, onDisabledPres
   const reduce = useReduceMotion();
 
   const enabledData = useMemo(() => tintLottie(checkoutJs.slideArrowEnabled), []);
+  const disabledData = useMemo(() => tintLottie(checkoutJs.slideArrowDisabled), []);
 
   useLayoutEffect(() => {
     const el = trackRef.current;
@@ -162,7 +161,7 @@ export function SlideButton({ disabled, ctaText, onSlideComplete, onDisabledPres
   };
 
   // masked label: the coloured layer starts at thumb + 5 and carries the shimmer band
-  const clip = useTransform(x, (v) => `inset(0 0 0 ${Math.max(0, v + SLIDE_BUTTON_WIDTH - LABEL_LEFT)}px)`);
+  const clip = useTransform(x, (v) => `inset(0 0 0 ${Math.max(0, v + 5 - LABEL_LEFT)}px)`);
   const labelBg = useTransform([x, shimmerX], ([xv, sv]: number[]) => {
     const base = disabled ? 'var(--nk-color-bg-surface)' : 'var(--nk-color-chk-slide-label)';
     const shine = disabled ? 'var(--nk-color-bg-surface)' : 'var(--nk-color-chk-slide-label-shine)';
@@ -202,21 +201,16 @@ export function SlideButton({ disabled, ctaText, onSlideComplete, onDisabledPres
         aria-disabled={disabled}
         aria-valuenow={0}
       >
-        {disabled ? (
-          <span className={styles.arrowBox}>
-            <img className={styles.arrow} src={arrowDisabled} width={17.8168} height={17.5517} alt="" />
-          </span>
-        ) : (
-          <DotLottieReact
-            data={enabledData}
-            autoplay={false}
-            loop={false}
-            className={styles.lottie}
-            dotLottieRefCallback={(d) => {
-              lottieRef.current = d;
-            }}
-          />
-        )}
+        <DotLottieReact
+          key={disabled ? 'off' : 'on'}
+          data={disabled ? disabledData : enabledData}
+          autoplay={false}
+          loop={false}
+          className={styles.lottie}
+          dotLottieRefCallback={(d) => {
+            lottieRef.current = d;
+          }}
+        />
       </motion.div>
     </div>
   );

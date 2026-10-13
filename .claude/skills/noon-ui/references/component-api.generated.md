@@ -4,7 +4,7 @@
 
 The source of truth for component **names, props, types, defaults and variants**. Hand-written guidance (when to use, gotchas, examples) is in `components.md`; when the two disagree, this file is right and `components.md` is stale.
 
-51 shared components exported from `src/components/index.ts` · 353 flow-local components in `src/flows/*/components/`. "—" = no static default; `?` = optional. Variants = props typed as a union of string literals.
+54 shared components exported from `src/components/index.ts` · 353 flow-local components in `src/flows/*/components/`. "—" = no static default; `?` = optional. Variants = props typed as a union of string literals.
 
 ## Shared components
 
@@ -153,6 +153,24 @@ SVG dashed line (react-native-svg `<Line strokeDasharray>`), 1:1 with bappzaar's
 
 Variants:
 - `cap`: `butt` · `round`
+
+### EtaBadge
+
+`src/components/EtaBadge/EtaBadge.tsx:21` · props `EtaBadgeProps`
+
+Estimated-delivery badge — Origin Design System `_ETA` (Figma wFRKiKskxZ4vjIHbDVvngJ · 2673:2414), shown on product cards. `type` is the delivery mode, `size` large (primary cards) or small (compact grids, chips); `label` / `value` are the customisable text ("Get in" + "15 Mins", "Get by" + "11 Sep"). Named use cases and `etaFor(product)` live in `src/data/eta.ts`. Artwork in `src/assets/shared/eta/` is the Figma export, used unedited.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `className?` | `string` | — |  |
+| `type` | `EtaType` | — | from EtaSpec |
+| `size?` | `EtaSize` | `'large'` | from EtaSpec |
+| `label?` | `string` | — | from EtaSpec; lead text, e.g. "Get in" / "Get by" (large only) |
+| `value?` | `string` | — | from EtaSpec; the time, date or date range, e.g. "15 Mins", "11 Sep", "11-23 Sep" (large only) |
+
+Variants:
+- `type`: `express` · `expressToday` · `expressTomorrow` · `global` · `market` · `minutes` · `supermall`
+- `size`: `large` · `small`
 
 ### IconButton
 
@@ -409,9 +427,9 @@ NoonProductBoxVertical, PLP layout: the search / listing result card, ported 1:1
 
 ### ProductCard
 
-`src/components/ProductCard/ProductCard.tsx:23`
+`src/components/ProductCard/ProductCard.tsx:25`
 
-NoonProductBoxVertical — the PLP / carousel product card. Anatomy: image (≈0.8 aspect, contain) · Best Seller tag top-left · heart top-right · quick-ATC bottom-right · title 14/500 2 lines · rating pill · price row · coupon · express + delivery.
+NoonProductBoxVertical — the PLP / carousel product card. Anatomy: image (≈0.8 aspect, contain) · Best Seller tag top-left · heart top-right · quick-ATC bottom-right · title 14/500 2 lines · rating pill · price row · coupon · ETA badge (Origin `_ETA`, `EtaBadge` + `etaFor(product)`; small in the carousel).
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
@@ -419,12 +437,12 @@ NoonProductBoxVertical — the PLP / carousel product card. Anatomy: image (≈0
 | `onPress?` | `() => void` | — |  |
 | `quickAdd?` | `boolean` | `true` |  |
 | `compact?` | `boolean` | — | carousel variant: no coupon / delivery rows |
-| `carousel?` | `boolean` | — | bappzaar home productCarousel box (NoonProductCard isCarousel in NoonOptimizedProductCarousel): r8, no hairline, image 138 × 169 at 390 (`round((w − 14) · 1.361)`) with an r8 overlay (carouselImage), 24 heart circle, "+" lifted 2 (imageBottomWrapperCarousel), info inset 4 + marginBottom 2, price marginTop 6 with a 16/700 sign (saleCurrency), "n%" discount (hideOffText), express flag only at 18h (NoonEstimatedDelivery isCarousel). Implies `compact`. |
+| `carousel?` | `boolean` | — | bappzaar home productCarousel box (NoonProductCard isCarousel in NoonOptimizedProductCarousel): r8, no hairline, image 138 × 169 at 390 (`round((w − 14) · 1.361)`) with an r8 overlay (carouselImage), 24 heart circle, "+" lifted 2 (imageBottomWrapperCarousel), info inset 4 + marginBottom 2, price marginTop 6 with a 16/700 sign (saleCurrency), "n%" discount (hideOffText), the small ETA badge at 18h (was the express flag, NoonEstimatedDelivery isCarousel). Implies `compact`. |
 | `width?` | `number \| string` | — |  |
 
 ### QuickAdd
 
-`src/components/ProductCard/ProductCard.tsx:99`
+`src/components/ProductCard/ProductCard.tsx:101`
 
 NoonProductBoxAddToCart: 36×36 white "+" → (tap) adds 1 and expands into a 76×36 #3866DF stepper → collapses to a filled count badge after 2.5s idle. A product with sizes (`variant_overlay_url`) opens the variants sheet instead (useCart → showVariantsFlyout), which adds and shows the snackbar itself.
 
@@ -619,6 +637,47 @@ SkuCard — the 134px product card of every noon product rail (Figma component "
 Variants:
 - `look`: `cart` · `feed`
 - `fulfilment`: `express` · `expressToday`
+
+### Snackbar
+
+`src/components/Snackbar/Snackbar.tsx:30` · props `SnackbarProps`
+
+Snackbar — Origin Design System M-Toast (Figma wFRKiKskxZ4vjIHbDVvngJ · 4227:76702): a transient, non-blocking notification. 351 wide (300–440), r14, 1px overlay border, drop-shadow 0 12 14; content p12 gap 8: asset (20–40), title B14/SemiBold + subtitle B12/Regular with a 16px chevron, optional action (Dark/Error/Success: white-16% p8 r8; Light: M-SecondaryNeutralButton 32h). For two or more at once use <SnackbarStack> (M-Stacked Toast). Most screens show one through `useNav().toast(title, { type, subtitle, icon, action })`.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `type?` | `SnackbarType` | `'dark'` | Dark (default, neutral) · Light (neutral, lower emphasis) · Error · Success — use Error / Success only for that status |
+| `title` | `ReactNode` | — | one line, truncates |
+| `subtitle?` | `ReactNode` | — | one line, truncates; gets the trailing chevron when `onSubtitlePress` is set |
+| `onSubtitlePress?` | `() => void` | — |  |
+| `asset?` | `ReactNode` | — | leading icon / avatar / image (20–40 box) |
+| `action?` | `{ label: string; onPress: () => void }` | — | optional trailing action button |
+| `className?` | `string` | — |  |
+| `style?` | `CSSProperties` | — |  |
+
+Variants:
+- `type`: `dark` · `error` · `light` · `success`
+
+### SnackbarStack
+
+`src/components/Snackbar/Snackbar.tsx:62` · props `SnackbarProps`
+
+M-Stacked Toast (Figma wFRKiKskxZ4vjIHbDVvngJ · 4229:76747): the front snackbar with a second card peeking 12px out behind it (12px narrower each side) when two or more are queued. With `count < 2` it renders the plain snackbar. The back card takes the front's type.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `type?` | `SnackbarType` | — | Dark (default, neutral) · Light (neutral, lower emphasis) · Error · Success — use Error / Success only for that status |
+| `title` | `ReactNode` | — | one line, truncates |
+| `subtitle?` | `ReactNode` | — | one line, truncates; gets the trailing chevron when `onSubtitlePress` is set |
+| `onSubtitlePress?` | `() => void` | — |  |
+| `asset?` | `ReactNode` | — | leading icon / avatar / image (20–40 box) |
+| `action?` | `{ label: string; onPress: () => void }` | — | optional trailing action button |
+| `className?` | `string` | — |  |
+| `style?` | `CSSProperties` | — |  |
+| `count` | `number` | — |  |
+
+Variants:
+- `type`: `dark` · `error` · `light` · `success`
 
 ### Spinner
 
@@ -965,7 +1024,7 @@ Search these before you create a component (`components.md` → "Search before y
 | checkout | `RetryIcon` | `src/flows/checkout/components/RewardsPrimitives.tsx:198` | `color` |
 | checkout | `Crescent` | `src/flows/checkout/components/RewardsPrimitives.tsx:203` | `color` `style` |
 | checkout | `SavedContact` | `src/flows/checkout/components/SavedContact.tsx:5` | `contactInfo` `isChecked` `isPrimary` `onPress` |
-| checkout | `SlideButton` | `src/flows/checkout/components/SlideButton.tsx:58` | `disabled` `ctaText` `onSlideComplete` `onDisabledPress` `resetSignal` |
+| checkout | `SlideButton` | `src/flows/checkout/components/SlideButton.tsx:56` | `disabled` `ctaText` `onSlideComplete` `onDisabledPress` `resetSignal` |
 | checkout | `VoucherToast` | `src/flows/checkout/components/VoucherToast.tsx:16` | — |
 | home | `AdBannerModule` | `src/flows/home/components/AdBannerModule.tsx:17` | `wrap` `header` `banner` `ad` `creativeAd` `crop` |
 | home | `AdProductLedDisplay` | `src/flows/home/components/AdProductLedDisplay.tsx:15` | `wrap` `product` |

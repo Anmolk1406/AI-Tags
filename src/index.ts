@@ -16,7 +16,7 @@ export { PhoneFrame } from './kit/PhoneFrame';
 export type * from './kit/types';
 
 export { tokens, colors, spacing, radius, fontSize, fontFamily, fontWeight, type, shadow, layout, ref, kebab, type TokenOverrides } from './foundations/tokens';
-export { button as buttonTokens, iconButton as iconButtonTokens, badge as badgeTokens, pill as pillTokens, stepper as stepperTokens, searchBar as searchBarTokens, tabBar as tabBarTokens, quickAdd as quickAddTokens, needHelp as needHelpTokens, sheet as sheetTokens } from './foundations/tokens';
+export { button as buttonTokens, iconButton as iconButtonTokens, badge as badgeTokens, pill as pillTokens, stepper as stepperTokens, searchBar as searchBarTokens, tabBar as tabBarTokens, quickAdd as quickAddTokens, needHelp as needHelpTokens, sheet as sheetTokens, snackbar as snackbarTokens, eta as etaTokens } from './foundations/tokens';
 export { palette } from './foundations/palette';
 export { NoonThemeProvider, TokenScope, tokensToCssVars } from './foundations/ThemeProvider';
 

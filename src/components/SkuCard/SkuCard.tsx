@@ -101,8 +101,7 @@ export function SkuCard({ product: p, look = 'feed', badge, sponsored, rating, d
           aria-label="Add to cart"
           onClick={(e) => {
             e.stopPropagation();
-            addToCart(p.id);
-            nav.toast('Added to cart');
+            addToCart(p.id); // no snackbar on a direct quick add (bappzaar useCartActions)
           }}
         >
           <img src={plusBlue} alt="" />

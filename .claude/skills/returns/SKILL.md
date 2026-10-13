@@ -13,6 +13,7 @@ For a new screen, a redesign or an open-ended idea, run the research-first desig
 
 | Source | Where |
 |---|---|
+| Brain card (read first) | `.claude/resources/brain/flows/returns.md` — generated: every screen with its module, components, tokens, motion, nav in / out, tests and the spec / brief line ranges that describe it; `npm run brain -- context "<request>"` for the reading list, `npm run brain -- impact <entity>` before changing shared code |
 | Branch brief | `.claude/resources/flows/other-flows.md` → "returns" (screens, `returnsStore`, in-screen overlays) |
 | Flow specification | `spec.md` (screens, anatomy, overlays, navigation, state, states, data, motion, acceptance) |
 | Design source | bappzaar **origin/master** `d481712d6d9` (2026-10-10), `features/afs/returns/` (read only, `git -C ~/bappzaar show origin/master:<path>`), mapped value by value in `src/flows/returns/MAPPING.md` (§1 live entry points, §2–§12 per screen, §13 copy keys, §15 server-driven demo data, §16 follow-ups) |

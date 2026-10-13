@@ -163,12 +163,15 @@ express, in Figma order (supermall first). Promise copy (`buildPromises`, Figma 
 | Total | Label-1 Bold 17/20 Blue-Gray/1000 px12 | t.chk-fig-text17-bold-lh20 (= orderPaymentAmount) |
 | savings strip | Emerald/100 under the 355×5 wave; p12 gap8; 15/18 Emerald/1000 SemiBold label + Bold amount; note 11/16 | `figma/savings-wave.svg`, p.emerald100 / p.emerald1000; Coupon Cashback (2% of subtotal while a coupon is applied) + noon one credit card cashback (5%) — demo values in `cashback` (data.ts) |
 
-### Footer — `14288:184317` → `CheckoutScreen` footer, `checkout.module.css`, `components/SlideButton.tsx`
-| Property | Figma | Kit |
+### Footer — **bappzaar wins** (production, 2026-10-13) → `CheckoutScreen` footer, `checkout.module.css`, `components/SlideButton.tsx`
+The Checkout 2.0 Figma footer (`14288:184317`) differs from production; on request the footer now follows bappzaar master
+(`S/NoonCheckoutScreen/styles.ts` stickyButtonsWrapper + columnReverseWrapper, `C/NoonCheckoutSlideButton`). The Figma values are kept in the third column for reference.
+
+| Property | bappzaar (kit) | Figma (not used) |
 |---|---|---|
-| dock | white, drop-shadow 0 −4 3.5 rgba(0,0,0,.13), column gap 8, pt12; home bar 25 | `.sticky` sh.chk-fig-dock, padding s.s12 s.s16 inset-bottom |
-| slider | 343×48 r12 p8, #DADCE3 disabled; thumb 54×32 white r8 + 24 arrow; "ENTER CVV" 19/26.6 Bold white centred after the thumb | `SlideButton` (48h, r.r12, p.noon-grey3, `figma/slide-arrow.svg` rotated → right; enabled keeps the gradient / shimmer / Lottie) |
-| summary | 338 wide; "4 Items" 19/26.6 Bold #7E859B; "AED 1,643.00" #404553 gap 4 | `.overview` (margin 2.5px), t.chk-fig-text19-bold-lh26p6, p.noon-grey1 / c.text-legacy |
+| dock | white; pt 16, pb safe area (16 without), px 15, row gap 8; shadow 0 −4 rgba(0,0,0,.06) → `.sticky`, sh.chk-sticky-footer | drop-shadow 0 −4 3.5 rgba(0,0,0,.13), gap 8, pt12 |
+| slider | minHeight 48, p8, r14; gradient #3866DF → #3454A8, disabled #CED1DA; thumb white 60×38 r9 at left 7 with the 48×48 arrow-to-checkmark Lottie (arrow #3866DF / #CED1DA); label 16/700 as written ("Slide to Order", "Enter CVV"), centred across the track (left/right 10), #7394DE mask layer (white when disabled) + shimmer | 343×48 r12, #DADCE3; thumb 54×32 r8 + static arrow; "ENTER CVV" 19/26.6 uppercase after the thumb |
+| summary | overviewWrapper mx 4, centred; items 19/700 steelColor #7E859B; total 19/700 → t.text19-bold-lh24, p.steel-color / c.text-legacy | 338 wide, 19/26.6 |
 
 ## Kit sections not in the frame (kept, hidden by default)
 

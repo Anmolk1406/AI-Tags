@@ -13,6 +13,7 @@ For a new screen, a redesign or an open-ended idea, run the research-first desig
 
 | Source | Where |
 |---|---|
+| Brain card (read first) | `.claude/resources/brain/flows/checkout.md` — generated: every screen with its module, components, tokens, motion, nav in / out, tests and the spec / brief line ranges that describe it; `npm run brain -- context "<request>"` for the reading list, `npm run brain -- impact <entity>` before changing shared code |
 | Branch brief | `.claude/resources/flows/checkout.md` — sections, the three stores and `update()`, order placement and failure, gotchas |
 | Flow specification | `spec.md` (screens, section order, payment methods, dock, data, navigation, states, acceptance) |
 | Figma analysis | `references/figma-cart-checkout.md` — Checkout 2.0, file `zURu7GI7sq77fjdXKrouvo`, frame `14288:183972`: §2.3 anatomy, §5 motion cues, §6 delta, §7 build guidance (shared with Cart 2.0) |
@@ -38,7 +39,7 @@ For a new screen, a redesign or an open-ended idea, run the research-first desig
 
 - Section order comes from `ALL_FLOWS_SECTIONS` (`address_card, integrated_noonone, delivery_instructions, receiver_details, shipments, burn, pay_with, donation, payment_summary`, Figma All flows 127:44077); `FIGMA_SECTIONS` is the Checkout 2.0 order. A new step is a new section id in that list (or behind the `sections` param) plus a sheet screen for its detail; never a second scrolling page.
 - Selection is a fill and border swap, never layout motion: selected = `--nk-palette-alice-blue` fill + 1px border (`--nk-color-link` for payment rows, `--nk-palette-light-blue` for delivery instructions); unselected rows keep a 1px transparent border so nothing shifts.
-- The `SlideButton` is the only primary on the page. It stays disabled ("ENTER CVV", or "Select payment method" without a card) until the selected card has a valid CVV (3 digits, 4 for Amex, `isCvvValid`); a disabled press scrolls to the CVV input (`guideToPayment`). Selecting another method or card clears the CVV. Apple Pay swaps the slider for the Apple Pay button; an unverified address phone swaps it for "Verify Phone".
+- The `SlideButton` is the only primary on the page. It (bappzaar NoonCheckoutSlideButton 1:1: production wins over the Figma dock) stays disabled ("Enter CVV", or "Select payment method" without a card) until the selected card has a valid CVV (3 digits, 4 for Amex, `isCvvValid`); a disabled press scrolls to the CVV input (`guideToPayment`). Selecting another method or card clears the CVV. Apple Pay swaps the slider for the Apple Pay button; an unverified address phone swaps it for "Verify Phone".
 - Slide complete → `nav.push('checkout/placing', { fail }, { transition: 'none' })` → `nav.replace('checkout/confirmation', {}, { transition: 'checkout-alpha' })`, or `nav.replace('checkout/payment-failure', …, { presentation: 'modal' })` when the payment fails. Back on top after a failure resets the slider.
 - Exits leave the checkout stack: Continue shopping → `nav.reset('home/home')`, View order → `nav.reset('orders/list')`. Back from checkout returns to `cart/cart` (the flow's `parent`).
 - Prices through `currency` / `formatAmount` (dirham glyph), never "AED" text. NEW badges are `NewBadge` from `src/flows/checkout/components/BurnSection.tsx`, top-right, overlapping the row edge.
@@ -53,4 +54,4 @@ node .claude/skills/noon-ui/scripts/snap.mjs checkout          # top of every ch
 node scripts/shot.mjs checkout/checkout /tmp/x.png --scroll 1500
 ```
 
-Read every PNG against `spec.md` → Acceptance and against the Figma (§2.3 of the analysis): section order, 12 gutter and gap, r16 cards, selected payment row and delivery option, NEW badges, CVV field, installment strip overlap, payment summary, disabled "ENTER CVV" dock with "N Items" + total. Take a mid shot too (`--scroll 750`) for Points & Vouchers and Pay With. Then run `npm run skill:check` if you changed components, tokens or screens.
+Read every PNG against `spec.md` → Acceptance and against the Figma (§2.3 of the analysis): section order, 12 gutter and gap, r16 cards, selected payment row and delivery option, NEW badges, CVV field, installment strip overlap, payment summary, disabled "Enter CVV" slider (60×38 thumb, r14 track, label centred) with "N Items" + total below, as in production. Take a mid shot too (`--scroll 750`) for Points & Vouchers and Pay With. Then run `npm run skill:check` if you changed components, tokens or screens.

@@ -13,6 +13,7 @@ For a new screen, a redesign or an open-ended idea, run the research-first desig
 
 | Source | Where |
 |---|---|
+| Brain card (read first) | `.claude/resources/brain/flows/cart.md` — generated: every screen with its module, components, tokens, motion, nav in / out, tests and the spec / brief line ranges that describe it; `npm run brain -- context "<request>"` for the reading list, `npm run brain -- impact <entity>` before changing shared code |
 | Branch brief | `.claude/resources/flows/cart.md` — DemoStore state, section anatomy, footer, hand-off to checkout |
 | Flow specification | `spec.md` (screens, section order, group theming, footer, data, navigation, motion, states, acceptance) |
 | Current Figma | All flows `Af34gfmhQ1D0wstXUEHSIF` · `127:39687` (frame "Cart"), mapped in `src/flows/cart/FIGMA-MAPPING.md` → "All flows · 127:39687" |

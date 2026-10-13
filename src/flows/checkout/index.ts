@@ -92,7 +92,7 @@ export const checkoutFlow = defineFlow({
       id: 'alternate-phone',
       title: 'Receiver details',
       component: AlternatePhoneScreen,
-      presentation: 'sheet', sheet: 'classic',
+      presentation: 'sheet', sheet: 'floating', // OverlayBottomSheet via useScrollToClose(…, isFloating true)
       notes: 'Receiver details → Change Receiver. Pick Primary / a saved contact, or type a name + number (more than 4 digits) and Save. The contacts icon opens the mocked device picker.',
       source: `${S}/NoonCheckoutAlternatePhoneScreen (+ SavedContact), ${S}/NoonCheckoutScreen/ReceiverDetails`,
     },
@@ -108,7 +108,7 @@ export const checkoutFlow = defineFlow({
       id: 'learn-more',
       title: 'Delivery instructions',
       component: LearnMoreScreen,
-      presentation: 'sheet', sheet: 'classic',
+      presentation: 'sheet', sheet: 'floating', // OverlayBottomSheet isFloating
       defaultParams: { isList: true },
       notes: 'Info icon on "Delivery instructions" opens the list; tapping an inactive instruction card opens this sheet for that option and "Got It" turns it on.',
       source: `${S}/NoonCheckoutLearnMoreScreen, ${S}/NoonCheckoutScreen/DeliveryInstruction`,

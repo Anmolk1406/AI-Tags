@@ -13,7 +13,7 @@ palette.ts (raw, bappzaar names)   palette.accentColor = '#3866DF'
 
 - **Palette** (`palette`, ~470 entries): every colour literal the kit uses, named after bappzaar `colorStatic` / `NoonTokens.colors` / `NoonColors`. Use only for exact one-off brand colours.
 - **Semantic** (`colors`, `spacing`, `radius`, `fontSize`, `fontFamily`, `fontWeight`, `type`, `shadow`, `layout`): what screens and components use.
-- **Component** (`button`, `iconButton`, `badge`, `pill`, `stepper`, `searchBar`, `tabBar`, `quickAdd`, `needHelp`, `sheet`): every visual value of a shared component. Colour/type/radius values are `var(--nk-…)` references (via `ref.*`), so overriding a semantic colour re-colours every component that uses it.
+- **Component** (`button`, `iconButton`, `badge`, `pill`, `stepper`, `searchBar`, `tabBar`, `quickAdd`, `needHelp`, `sheet`, `snackbar`, `eta`): every visual value of a shared component. Colour/type/radius values are `var(--nk-…)` references (via `ref.*`), so overriding a semantic colour re-colours every component that uses it.
 - **Flow tokens**: `src/flows/<id>/tokens.ts` exports a `TokenOverrides` object passed to `defineFlow({ tokens })`; it can override central keys and add flow-prefixed keys.
 
 ### CSS variable naming (`tokensToCssVars`)
@@ -63,7 +63,7 @@ const w = layout.deviceWidth / 2.5;                                     // raw n
 - Raw objects (`tokens`, `colors`, `spacing`, `layout`, `palette`, ...) give literal values; use for arithmetic (widths, motion), not for colours in styles.
 - `<Text>`: `variant` is typed to central `type` keys only (default `body`); `color` accepts any camelCase colour key, including flow keys (`color="cartEmerald"` → `var(--nk-color-cart-emerald)`), or a raw CSS value (default `textPrimary`). Flow `type` tokens are used from CSS (`font: var(--nk-type-<flow>-…)`), not via `variant`.
 - Some flows ship typed helpers for their own keys, e.g. `mb.color('mbYellowDark')` in `src/flows/membership/tokens.ts`.
-- Package exports: `tokens, colors, spacing, radius, fontSize, fontFamily, fontWeight, type, shadow, layout, ref, kebab, TokenOverrides`, `palette`, component groups as `buttonTokens, iconButtonTokens, badgeTokens, pillTokens, stepperTokens, searchBarTokens, tabBarTokens, quickAddTokens, needHelpTokens, sheetTokens`, and `NoonThemeProvider, TokenScope, tokensToCssVars`.
+- Package exports: `tokens, colors, spacing, radius, fontSize, fontFamily, fontWeight, type, shadow, layout, ref, kebab, TokenOverrides`, `palette`, component groups as `buttonTokens, iconButtonTokens, badgeTokens, pillTokens, stepperTokens, searchBarTokens, tabBarTokens, quickAddTokens, needHelpTokens, sheetTokens, snackbarTokens, etaTokens`, and `NoonThemeProvider, TokenScope, tokensToCssVars`.
 
 ## 2. Tables
 
@@ -196,8 +196,8 @@ Combo variants, named `text<size><Weight>Lh<line>` (`Lh1` = unitless 1, `Lh1p35`
 | Size | Variants |
 |---|---|
 | 10 | `text10MediumLh12`, `text10SemiboldLh12`, `text10RegularLh11` (SKU "Ad" tag) |
-| 11 | `text11RegularLh14`, `text11BoldLh18` |
-| 12 | `text12RegularLh1`, `text12RegularLh14`, `text12RegularLh18`, `text12MediumLh1`, `text12MediumLh14`, `text12MediumLh15`, `text12MediumLh16`, `text12MediumLh18`, `text12SemiboldLh1`, `text12SemiboldLh14`, `text12BoldLh1`, `text12BoldLh16` |
+| 11 | `text11RegularLh14`, `text11SemiboldLh14`, `text11BoldLh18` |
+| 12 | `text12RegularLh1`, `text12RegularLh14`, `text12RegularLh18`, `text12MediumLh1`, `text12MediumLh14`, `text12MediumLh15`, `text12MediumLh16`, `text12MediumLh18`, `text12SemiboldLh1`, `text12SemiboldLh14`, `text12BoldLh1`, `text12BoldLh16`, `text12BoldLh18` |
 | 13 | `text13RegularLh1p35`, `text13RegularLh16`, `text13RegularLh17`, `text13RegularLh18`, `text13RegularLh20`, `text13MediumLh16`, `text13MediumLh17`, `text13MediumLh18`, `text13SemiboldLh1`, `text13SemiboldLh16`, `text13SemiboldLh18` |
 | 14 | `text14RegularLh1`, `text14RegularLh20`, `text14RegularLh22`, `text14MediumLh1`, `text14SemiboldLh1`, `text14SemiboldLh16`, `text14SemiboldLh20`, `text14BoldLh1`, `text14BoldLh20` |
 | 15 | `text15MediumLh18`, `text15SemiboldLh19`, `text15SemiboldLh20` |
@@ -236,6 +236,7 @@ Weights: Regular 400, Medium 500, Semibold 600, Bold 700. Lookup from a raw shor
 | `bottomBar` | `0 -2px 6px rgba(0, 0, 0, 0.08)` | sticky footer |
 | `floating` | `0 -4px 32px` `palette.charcoalAlpha12` (`rgba(34, 34, 34, 0.12)`) | floating action pill (`NeedHelpButton`) |
 | `sheet` | `0 -2px 16px rgba(0, 0, 0, 0.12)` | Origin M-BottomSheet |
+| `snackbar` | `0 12px 14px rgba(11, 12, 14, 0.1)` (`palette.shadowOverlay`) | Origin M-Toast (`Snackbar`, as `filter: drop-shadow`) |
 
 ### Layout (`layout` → `--nk-layout-*`, px)
 
@@ -297,7 +298,11 @@ count: `countSize 20`, `countBg primary`, `countFg textInverse`, `countFont text
 
 **`needHelp`** (`--nk-need-help-*`): `size 48`, `padding 12`, `gap 8`, `radius full`, `borderWidth 2`, `border palette.lightBlue`, `bg bgSurface`, `shadow floating`, `icon brandBlue`, `iconSize 20`, `fg textPrimary`, `font text16SemiboldLh20`, `tracking -0.16`, `inset 16`, `pressScale 0.96`.
 
-**`sheet`** (`--nk-sheet-*`, Origin M-BottomSheet `wFRKiKskxZ4vjIHbDVvngJ · 3207:15`): `scrim scrimBold`, `inset 12`, `radius r16`, `bg bgSurface`, `shadow sheet`, `maxHeight 680`, `bottomGap 12`, `grabberZone 28`, `grabberWidth 36`, `grabberHeight 4`, `grabberRadius r2`, `grabber palette.whiteAlpha64`, `headerHeight 48`, `padding 12`, `titleFont text16SemiboldLh22`, `titleFg textPrimary`, `subtitleFont text12MediumLh18`, `subtitleFg textSecondary`, `closeSize 44`, `closeIconSize 24`, `closeFg textPrimary`, `footerPadding 12`, `footerGap 12`, `secondaryBg bgSurface`, `secondaryFg primary`, `secondaryBorder pillSelectedBorder`.
+**`eta`** (`--nk-eta-*`, Origin `_ETA` `wFRKiKskxZ4vjIHbDVvngJ · 2673:2414`, used by `EtaBadge`): `height 18`, `pillHeight 24`, `pillPadding s4`, `pillRadius r6`, `gap s4`, `minutesBg palette.dangerRed` (#D92626), `minutesShadow palette.originRed900` (#7B1414), `supermallBg palette.blueSapphire` (#2122B8), `supermallShadow palette.originSupermall1000` (#12136D), `onBold textInverse`, `supermallAccent palette.yellowColor` (#FEEE00), `labelFont text12RegularLh18`, `valueFont text12BoldLh18`, `labelColor palette.slateGray`, `valueColor palette.blueGray900`, `chipHeight 18`, `chipPadding s4`, `chipGap s2`, `marketFrom palette.noonSuccessSubtle`, `marketTo palette.paleYellowGradient` (mixed 40 / 60 to match Figma's render), `globalBg palette.originSupermallSubtle` (#EDEEFD), `globalFont text11SemiboldLh14`, `globalColor palette.slateGray`, `tomorrowOverlap 13`.
+
+**`sheet`** (`--nk-sheet-*`, Origin M-BottomSheet `wFRKiKskxZ4vjIHbDVvngJ · 3207:15`): `scrim scrimBold`, `inset 12`, `radius r16`, `bg bgSurface`, `shadow sheet`, `maxHeight 680`, `bottomGap 12`, `grabberZone 28`, `grabberWidth 36`, `grabberHeight 4`, `grabberRadius r2`, `grabber palette.whiteAlpha64`, `headerHeight 48`, `padding 12`, `titleFont text16SemiboldLh22`, `titleFg textPrimary`, `subtitleFont text12MediumLh18`, `subtitleFg textSecondary`, `closeSize 44`, `closeIconSize 24`, `closeFg textPrimary`, `footerPadding 12`, `footerGap 12`, `secondaryBg bgSurface`, `secondaryFg primary`, `secondaryBorder pillSelectedBorder`. `sheet: 'floating'` (bappzaar OverlayBottomSheet isFloating): `floatingScrim palette.overlaySheetScrim` (rgba(30,30,30,0.7)), `floatingInset 12`, `floatingRadius r16`, `floatingTopGap 60`, `floatingBottomGap 15`, `floatingHandle palette.overlaySheetHandle` (#B7B7B7), `floatingHandleOffset 18`.
+
+**`snackbar`** (`--nk-snackbar-*`, Origin M-Toast `4227:76702` / M-Stacked Toast `4229:76747`): `radius r14`, `minWidth 300`, `maxWidth 440`, `padding 12`, `gap 8`, `assetSize 40`, `textGap 2`, `shadow snackbar`, `titleFont text14SemiboldLh20`, `subtitleFont text12RegularLh18`, `tracking -0.1`, `chevronSize 16`, `darkBg textPrimary`, `lightBg bgSurface`, `errorBg palette.dangerRed`, `successBg success`, `border palette.whiteAlpha8`, `lightBorder borderSubtle`, `fg textInverse`, `subtitleFg palette.whiteAlpha80`, `lightFg textPrimary`, `lightSubtitleFg textSecondary`, `actionInset 10`, `actionPadding 8`, `actionRadius r8`, `actionFont text12SemiboldLh16`, `actionBg palette.whiteAlpha16`, `actionLightBg bgSurface`, `actionLightBorder border`, `actionLightHeight 32`, `stackPeek 12`, `stackInset 12`, `inset 12`.
 
 ## 3. Rules
 

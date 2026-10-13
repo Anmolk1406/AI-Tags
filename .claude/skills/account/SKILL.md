@@ -13,6 +13,7 @@ For a new screen, a redesign or an open-ended idea, run the research-first desig
 
 | Source | Where |
 |---|---|
+| Brain card (read first) | `.claude/resources/brain/flows/account.md` — generated: every screen with its module, components, tokens, motion, nav in / out, tests and the spec / brief line ranges that describe it; `npm run brain -- context "<request>"` for the reading list, `npm run brain -- impact <entity>` before changing shared code |
 | Branch brief | `.claude/resources/flows/account.md` — screens, state, components, "master beats Figma" corrections |
 | Flow specification | `spec.md` (screens, anatomy, menu data, navigation, state, motion, states, acceptance) |
 | Behaviour + look | bappzaar master `ba159e20381` (2026-10-12): `marketplaces/noon/screens/NoonAccountScreen` and `marketplaces/noon/components/NoonAccount/*`, mapped property by property in `src/flows/account/MAPPING.md` (profile card, edit ring, noon One strip, action cards) |

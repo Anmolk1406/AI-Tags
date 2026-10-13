@@ -39,6 +39,8 @@ export const palette = {
   chatbotPeriwinkle: '#B5BBFE',
   chatbotPeriwinkleTranslucent: '#B5BBFEB3',
   chatbotScrim: 'rgba(30, 30, 30, 0.9)',
+  overlaySheetScrim: 'rgba(30, 30, 30, 0.7)', // OverlayBottomSheetMetrics BACKDROP 30,30,30 × 0.7
+  overlaySheetHandle: '#B7B7B7', // OverlayBottomSheet styles.handle
   chatbotSuggestedGradientEnd: '#262FFF',
   chatbotSuggestedGradientStart: '#BF3DEB',
   chatbotTitleIndigo: '#4447CF',
@@ -228,6 +230,9 @@ export const palette = {
   deepGreen: '#0F8857',
   shadowOverlay: 'rgba(11, 12, 14, 0.10)',
   dangerRed: '#D92626',
+  originRed900: '#7B1414', // Origin base/colour/red/900 (ETA minutes badge shadow)
+  originSupermall1000: '#12136D', // Origin base/colour/supermall/1000 (ETA supermall badge shadow)
+  originSupermallSubtle: '#EDEEFD', // Origin colour/surface/supermall-subtle (ETA global pill)
   dangerRedMuted: '#F6A2A2',
   gradientPurpleStart: '#9047E9',
   gradientPurpleEnd: '#E33FB9',
@@ -328,6 +333,7 @@ export const palette = {
   warningBorder: '#FEDBB4', // NoonColors.warningBorder()
   warningSurface: '#FFF1E0', // NoonColors.warningSurface()
   whiteAlpha0: 'rgba(255, 255, 255, 0)', // NoonTokens.colors.whiteAlpha(0)
+  whiteAlpha8: 'rgba(255, 255, 255, 0.08)', // Origin colour/border/overlay
   whiteAlpha12: 'rgba(255, 255, 255, 0.12)', // NoonTokens.colors.whiteAlpha(0.12)
   whiteAlpha14: 'rgba(255, 255, 255, 0.14)', // NoonTokens.colors.whiteAlpha(0.14)
   whiteAlpha15: 'rgba(255, 255, 255, 0.15)', // NoonTokens.colors.whiteAlpha(0.15)

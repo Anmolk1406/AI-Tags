@@ -106,11 +106,11 @@ Order and copy from `paymentMethods` (`src/flows/checkout/data.payment.ts`), ren
 
 ## Dock
 
-Sticky footer `.sticky` in `src/flows/checkout/checkout.module.css`: white, `--nk-shadow-chk-fig-dock`, padding `--nk-space-s12` `--nk-space-s16` `--nk-inset-bottom`, row gap 8.
+Sticky footer `.sticky` in `src/flows/checkout/checkout.module.css` follows **bappzaar production**, not the Figma dock (FIGMA-MAPPING.md → Footer). It is white with `--nk-shadow-chk-sticky-footer`, padding `--nk-space-s16` `--nk-space-s15` and the safe area (16 without one), row gap 8, slider above the summary.
 
 | Part | Kit | Spec |
 |---|---|---|
-| CTA | `SlideButton` (`src/flows/checkout/components/SlideButton.tsx`) | 48h r12 p8. Disabled `--nk-palette-noon-grey3`, white 54×32 thumb + `src/assets/checkout/figma/slide-arrow.svg`, label "ENTER CVV" / "Select payment method" `--nk-type-chk-fig-text19-bold-lh26p6` white. Enabled: gradient `--nk-color-cta` → `--nk-color-chk-slide-track-end`, label shimmer, arrow-to-checkmark Lottie; completes past 85% (or 65% faster than 500px/s) |
+| CTA | `SlideButton` (`src/flows/checkout/components/SlideButton.tsx`, bappzaar NoonCheckoutSlideButton 1:1) | min 48h, `--nk-radius-r14`, p8. Thumb: white 60×38 r9 at left 7, holding the 48px arrow-to-checkmark Lottie (arrow #3866DF, or #CED1DA when disabled). Label is 16/700 as written ("Slide to Order" / "Enter CVV"), centred across the track. Disabled: track `--nk-palette-gray-color`, label white. Enabled: gradient `--nk-color-cta` → `--nk-color-chk-slide-track-end`, `--nk-color-chk-slide-label` label with shimmer. Completes past 85% (or 65% faster than 500px/s) |
 | CTA swaps | Apple Pay button · `Button variant="noon"` "Verify Phone" | `apple_pay` selected · address phone not verified |
 | Overview | `.overview` | "N Items" `--nk-palette-noon-grey1` and total `--nk-color-text-legacy`, both `--nk-type-chk-fig-text19-bold-lh26p6`, total = `orderPaymentAmount` with the dirham glyph |
 
@@ -160,7 +160,7 @@ Sticky footer `.sticky` in `src/flows/checkout/checkout.module.css`: white, `--n
 
 | State | Spec |
 |---|---|
-| CVV empty | slider disabled "ENTER CVV"; press scrolls to and focuses the CVV input |
+| CVV empty | slider disabled "Enter CVV"; press scrolls to and focuses the CVV input |
 | No card | slider "Select payment method"; press scrolls to Pay With |
 | Credits sufficient | method becomes `nopayment`; slider enabled without a CVV |
 | Points loading | `BurnSection` `Skeleton` tiles until `ensureProvidersLoading` resolves |

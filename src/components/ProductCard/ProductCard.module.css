@@ -8,7 +8,7 @@
 .quick { position: absolute; bottom: var(--nk-space-s4); right: var(--nk-space-s4); }
 [dir='rtl'] .quick { right: auto; left: var(--nk-space-s4); }
 .info { display: flex; flex-direction: column; gap: var(--nk-space-s4); padding: var(--nk-space-s6) var(--nk-space-s8) 0; }
-.delivery { display: flex; align-items: center; gap: var(--nk-space-s4); padding: 0 var(--nk-space-s8); margin-top: var(--nk-space-s6); height: 20px; min-width: 0; }
+.delivery { display: flex; align-items: center; gap: var(--nk-space-s4); padding: 0 var(--nk-space-s8); margin-top: var(--nk-space-s6); min-height: 20px; min-width: 0; }
 .quickBtn, .quickFilled { width: var(--nk-quick-add-size); height: var(--nk-quick-add-size); border-radius: var(--nk-quick-add-radius); display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; }
 .quickBtn { background: var(--nk-quick-add-bg); border: 1px solid var(--nk-quick-add-border); box-shadow: var(--nk-quick-add-shadow); }
 .quickFilled { background: var(--nk-quick-add-filled-bg); border: 0; }
@@ -23,4 +23,4 @@
 .card[data-carousel] .quick { bottom: var(--nk-space-s6); }
 .card[data-carousel] .info { margin-bottom: var(--nk-space-s2); }
 .card[data-carousel] .price { display: flex; margin-top: var(--nk-space-s2); }
-.card[data-carousel] .delivery { height: 18px; }
+.card[data-carousel] .delivery { min-height: 18px; }

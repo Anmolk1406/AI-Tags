@@ -2,14 +2,15 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
 import { useDemoStore } from '../../kit/DemoStore';
 import { useNav } from '../../kit/Navigator';
-import { productById, type Product } from '../../data';
+import { etaFor, productById, type Product } from '../../data';
+import { EtaBadge } from '../EtaBadge/EtaBadge';
 import { spring } from '../../motion/presets';
 import { Icon } from '../Icon/Icon';
 import { Price } from '../Price/Price';
 import { ProductImage } from '../ProductImage/ProductImage';
 import { QuantityStepper } from '../QuantityStepper/QuantityStepper';
 import { RatingPill } from '../Rating/Rating';
-import { CatalogTag, CouponTag, ExpressBadge } from '../Tag/Tag';
+import { CatalogTag, CouponTag } from '../Tag/Tag';
 import { Text } from '../Text/Text';
 import { WishlistHeart } from '../WishlistHeart/WishlistHeart';
 import { quickAdd as t, radius, spacing } from '../../foundations/tokens';
@@ -18,7 +19,8 @@ import styles from './ProductCard.module.css';
 /**
  * NoonProductBoxVertical — the PLP / carousel product card.
  * Anatomy: image (≈0.8 aspect, contain) · Best Seller tag top-left · heart top-right ·
- * quick-ATC bottom-right · title 14/500 2 lines · rating pill · price row · coupon · express + delivery.
+ * quick-ATC bottom-right · title 14/500 2 lines · rating pill · price row · coupon · ETA badge (Origin `_ETA`,
+ * `EtaBadge` + `etaFor(product)`; small in the carousel).
  */
 export function ProductCard({
   product,
@@ -37,12 +39,13 @@ export function ProductCard({
    * bappzaar home productCarousel box (NoonProductCard isCarousel in NoonOptimizedProductCarousel): r8, no hairline, image
    * 138 × 169 at 390 (`round((w − 14) · 1.361)`) with an r8 overlay (carouselImage), 24 heart circle, "+" lifted 2
    * (imageBottomWrapperCarousel), info inset 4 + marginBottom 2, price marginTop 6 with a 16/700 sign (saleCurrency),
-   * "n%" discount (hideOffText), express flag only at 18h (NoonEstimatedDelivery isCarousel). Implies `compact`.
+   * "n%" discount (hideOffText), the small ETA badge at 18h (was the express flag, NoonEstimatedDelivery isCarousel). Implies `compact`.
    */
   carousel?: boolean;
   width?: number | string;
 }) {
   const nav = useNav();
+  const eta = etaFor(product); // Origin _ETA from the express / supermall flags and the delivery line
   const open = onPress ?? (() => nav.push('pdp/detail', { productId: product.id }));
   return (
     <motion.article className={styles.card} data-carousel={carousel || undefined} style={{ width, flexShrink: width !== undefined ? 0 : undefined }} onClick={open} whileTap={{ scale: 0.98 }} transition={spring.press}>
@@ -76,15 +79,14 @@ export function ProductCard({
         )}
         {!compact && !carousel && product.coupon && <CouponTag>{product.coupon}</CouponTag>}
       </div>
-      {carousel && product.express && (
+      {carousel && eta && (
         <div className={styles.delivery}>
-          <ExpressBadge />
+          <EtaBadge {...eta} size="small" />
         </div>
       )}
-      {!compact && !carousel && (
+      {!compact && !carousel && eta && (
         <div className={styles.delivery}>
-          {product.express && <ExpressBadge />}
-          <Text variant="caption" color="textStrong" lines={1} html={product.delivery} />
+          <EtaBadge {...eta} />
         </div>
       )}
     </motion.article>
@@ -135,10 +137,8 @@ export function QuickAdd({ productId }: { productId: string }) {
             transition={spring.bouncy}
             onClick={() => {
               if (!qty && hasSizeOverlay(productId)) return nav.sheet('pdp/variants', { productId });
-              if (!qty) {
-                addToCart(productId);
-                nav.toast('Added to cart', { icon: <Icon name="checkCircle" size={20} />, tone: 'default' });
-              }
+              // useCartActions: a direct quick add shows no snackbar (only the variants flyout's success does — pdp/variants)
+              if (!qty) addToCart(productId);
               bump();
             }}
             aria-label="Add to cart"

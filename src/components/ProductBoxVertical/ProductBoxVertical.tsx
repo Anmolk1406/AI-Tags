@@ -1,19 +1,19 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useRef, useState, type UIEvent } from 'react';
 import { useNav } from '../../kit/Navigator';
-import { currency, type Product, type ProductNudge } from '../../data';
+import { currency, etaFor, type Product, type ProductNudge } from '../../data';
+import { EtaBadge } from '../EtaBadge/EtaBadge';
 import freeDelivery from '@assets/products/iphone-17-pro/nudge-free-delivery.webp';
 import lowStock from '@assets/products/iphone-17-pro/nudge-low-stock.webp';
 import lowestPrice from '@assets/products/iphone-17-pro/nudge-lowest-price.webp';
 import rank from '@assets/products/iphone-17-pro/nudge-rank.webp';
 import sellingFast from '@assets/products/iphone-17-pro/nudge-selling-fast.webp';
 import soldRecently from '@assets/products/iphone-17-pro/nudge-sold-recently.webp';
-import { HtmlText } from '../HtmlText/HtmlText';
 import { Icon } from '../Icon/Icon';
 import { QuickAdd } from '../ProductCard/ProductCard';
 import { ProductImage } from '../ProductImage/ProductImage';
 import { compact, starColor } from '../Rating/Rating';
-import { CatalogTag, ExpressBadge } from '../Tag/Tag';
+import { CatalogTag } from '../Tag/Tag';
 import { WishlistHeart } from '../WishlistHeart/WishlistHeart';
 import styles from './ProductBoxVertical.module.css';
 
@@ -39,6 +39,7 @@ const plpPrice = (n: number) =>
 export function ProductBoxVertical({ product, onPress, quickAdd = true }: { product: Product; onPress?: () => void; quickAdd?: boolean }) {
   const nav = useNav();
   const open = onPress ?? (() => nav.push('pdp/detail', { productId: product.id }));
+  const eta = etaFor(product); // Origin _ETA (replaces the express flag + delivery line)
   const images = (product.images ?? []).slice(0, 5);
   const name = product.title.toLowerCase().startsWith(product.brand.toLowerCase()) ? product.title : `${product.brand} ${product.title}`;
   const off = product.was && product.was > product.price ? Math.round(((product.was - product.price) / product.was) * 100) : 0;
@@ -107,12 +108,7 @@ export function ProductBoxVertical({ product, onPress, quickAdd = true }: { prod
 
       <div className={styles.flagRow}>
         <div className={styles.flagDelivery}>
-          {product.express && (
-            <span className={styles.flag}>
-              <ExpressBadge height={18} />
-            </span>
-          )}
-          <HtmlText className={styles.delivery} value={product.delivery} />
+          {eta && <EtaBadge {...eta} />}
         </div>
       </div>
     </article>

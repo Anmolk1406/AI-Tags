@@ -13,6 +13,7 @@ For a new screen, a redesign or an open-ended idea, run the research-first desig
 
 | Source | Where |
 |---|---|
+| Brain card (read first) | `.claude/resources/brain/flows/pdp.md` — generated: every screen with its module, components, tokens, motion, nav in / out, tests and the spec / brief line ranges that describe it; `npm run brain -- context "<request>"` for the reading list, `npm run brain -- impact <entity>` before changing shared code |
 | Branch brief | `.claude/resources/flows/pdp.md` — section groups sfA–E / npA–E, render order, delivery variants, in-place SKU switch, gotchas |
 | Flow specification | `spec.md` (screens, section order, footer per state, data, navigation, motion, acceptance) |
 | Figma analysis | `references/figma-storefront-pdp.md` — Storefront, file `2ldJbjmQq4RkhnrNFCfXQB`, main node `930:259766` (Case 3 · out of stock), plus Case 1 in stock `2316:17084`, Case 2 not available at location `908:251666`, alt OOS `1644:39023`: every section with measurements, variables → tokens, components → kit, delta vs code |

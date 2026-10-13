@@ -5,6 +5,7 @@ import { duration, easing, spring } from '../motion/presets';
 import { useReduceMotion } from '../motion/reducedMotion';
 import { TokenScope } from '../foundations/ThemeProvider';
 import { TabBar } from '../components/TabBar/TabBar';
+import { SnackbarStack } from '../components/Snackbar/Snackbar';
 import { preloadScreens } from './lazyScreen';
 import { resolveSheet, SheetCtx } from './sheet';
 import type { Registry } from './registry';
@@ -200,7 +201,8 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
 
   const toast = useCallback<NavApi['toast']>((message, opts = {}) => {
     const id = Date.now() + Math.random();
-    setToasts((t) => [...t.slice(-1), { id, message, ...opts }]);
+    // keep at most 3 queued: the newest shows in front, the stack card signals the rest
+    setToasts((t) => [...t.slice(-2), { id, message, ...opts }]);
     setTimeout(() => setToasts((t) => t.filter((x) => x.id !== id)), opts.duration ?? 2600);
   }, []);
 
@@ -224,6 +226,7 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
     return undefined;
   };
 
+  const front = toasts[toasts.length - 1];
   return (
     <NavCtx.Provider value={{ api, registry }}>
       <div className={styles.root}>
@@ -279,28 +282,29 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
           })}
         </AnimatePresence>
 
+        {/* Origin M-Toast; two or more queued → M-Stacked Toast (newest in front, the next one peeking behind) */}
         <div className={styles.toastLayer}>
-          <AnimatePresence>
-            {toasts.map((t) => (
+          <AnimatePresence initial={false}>
+            {front && (
               <motion.div
-                key={t.id}
-                className={styles.toast}
-                data-tone={t.tone ?? 'default'}
+                key={front.id}
+                className={styles.toastSlot}
                 initial={{ y: 40, opacity: 0, scale: 0.96 }}
                 animate={{ y: 0, opacity: 1, scale: 1 }}
                 exit={{ y: 20, opacity: 0 }}
                 transition={spring.sheet}
-                layout
               >
-                {t.icon}
-                <span className={styles.toastText}>{t.message}</span>
-                {t.action && (
-                  <button className={styles.toastAction} onClick={t.action.onPress}>
-                    {t.action.label}
-                  </button>
-                )}
+                <SnackbarStack
+                  count={toasts.length}
+                  type={front.type ?? (front.tone === 'success' ? 'success' : front.tone === 'error' ? 'error' : 'dark')}
+                  title={front.message}
+                  subtitle={front.subtitle}
+                  onSubtitlePress={front.onSubtitlePress}
+                  asset={front.icon}
+                  action={front.action}
+                />
               </motion.div>
-            ))}
+            )}
           </AnimatePresence>
         </div>
         {overlay}
@@ -314,23 +318,29 @@ function SheetLayer({ children, options, onDismiss, isTop, zIndex, reduce }: { c
   const onDragEnd = (_: unknown, info: PanInfo) => {
     if (info.offset.y > 120 || info.velocity.y > 600) onDismiss();
   };
-  const origin = options.layout === 'origin';
-  const ctx = useMemo(() => ({ layout: options.layout, grabber: options.grabber, dismiss: onDismiss }), [options.layout, options.grabber, onDismiss]);
+  const { layout } = options;
+  const ctx = useMemo(() => ({ layout, grabber: options.grabber, dismiss: onDismiss }), [layout, options.grabber, onDismiss]);
+  const cls = {
+    origin: { scrim: styles.originScrim, column: styles.originColumn, zone: styles.originGrabberZone, bar: styles.originGrabber },
+    floating: { scrim: styles.floatingScrim, column: styles.floatingColumn, zone: styles.floatingHandleZone, bar: styles.floatingHandle },
+    classic: { scrim: styles.scrim, column: styles.sheet, zone: styles.grabberZone, bar: styles.grabber },
+  }[layout];
   const grabber = options.grabber && (
-    <div className={origin ? styles.originGrabberZone : styles.grabberZone} onPointerDown={(e) => drag.start(e)}>
-      <div className={origin ? styles.originGrabber : styles.grabber} />
+    // floating: OverlayBottomSheet renderHandle — a Pressable that also closes on tap
+    <div className={cls.zone} onPointerDown={(e) => drag.start(e)} onClick={layout === 'floating' ? onDismiss : undefined}>
+      <div className={cls.bar} />
     </div>
   );
   return (
-    <motion.div className={styles.sheetLayer} style={{ pointerEvents: isTop ? 'auto' : 'none', zIndex }} inert={!isTop} role="dialog" aria-modal={isTop} initial="hidden" animate="shown" exit="hidden">
+    <motion.div className={styles.sheetLayer} style={{ pointerEvents: isTop ? 'auto' : 'none', zIndex }} initial="hidden" animate="shown" exit="hidden">
       <motion.div
-        className={origin ? styles.originScrim : styles.scrim}
+        className={cls.scrim}
         variants={{ hidden: { opacity: 0 }, shown: { opacity: 1 } }}
-        transition={{ duration: 0.25 }}
+        transition={{ duration: layout === 'floating' ? 0.35 : 0.25 }}
         onClick={options.dismissible ? onDismiss : undefined}
       />
       <motion.div
-        className={origin ? styles.originColumn : styles.sheet}
+        className={cls.column}
         // reduced motion: the sheet fades in place with its scrim instead of rising (dragging still works)
         variants={reduce ? { hidden: { opacity: 0 }, shown: { opacity: 1 } } : { hidden: { y: '100%' }, shown: { y: 0 } }}
         transition={reduce ? { duration: duration.base, ease: easing.standard } : spring.sheet}
@@ -340,18 +350,28 @@ function SheetLayer({ children, options, onDismiss, isTop, zIndex, reduce }: { c
         dragConstraints={{ top: 0, bottom: 0 }}
         dragElastic={{ top: 0.05, bottom: 0.8 }}
         onDragEnd={onDragEnd}
-        data-sheet={options.layout}
+        data-sheet={layout}
       >
         <SheetCtx.Provider value={ctx}>
-          {grabber}
-          {origin ? (
-            // Origin M-BottomSheet: grabber + home-indicator gap sit outside the sheet body; the body holds only the
-            // Header / Body / Footer slots (<SheetHeader> <SheetBody> <SheetFooter>)
-            <div className={styles.originSheet} style={options.surface ? { background: options.surface } : undefined}>
-              {children}
+          {layout === 'origin' ? (
+            <>
+              {grabber}
+              {/* Origin M-BottomSheet: grabber + home-indicator gap sit outside the sheet body; the body holds only the
+                  Header / Body / Footer slots (<SheetHeader> <SheetBody> <SheetFooter>) */}
+              <div className={styles.originSheet} style={options.surface ? { background: options.surface } : undefined}>
+                {children}
+              </div>
+            </>
+          ) : layout === 'floating' ? (
+            <div className={styles.floatingSheet} style={options.surface ? { background: options.surface } : undefined}>
+              {grabber}
+              <div className={`nk-scroll ${styles.floatingChildren}`}>{children}</div>
             </div>
           ) : (
-            children
+            <>
+              {grabber}
+              {children}
+            </>
           )}
         </SheetCtx.Provider>
       </motion.div>

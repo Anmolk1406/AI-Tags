@@ -4,6 +4,7 @@ Shared material the noon skills load **on demand**. It describes what is on the 
 
 | File | What it gives you | Kept current by |
 |---|---|---|
+| `brain/INDEX.md` → `brain/flows/<flow>.md` (+ `components.md`, `tokens.md`, `motion.md`, `journeys.md`, `findings.md`) | the **brain map**: entry point and one card per flow with each screen's module, components, tokens, motion, nav in / out, tests and doc line ranges; layer cards; consistency findings. Query it: `npm run brain -- context "<request>"`, `impact <entity>`, `deps <screen>`, `path <a> <b>` (`brain/README.md`) | **generated**: `npm run brain:build` (also run by `resources:build`; `skill:check` fails when stale) |
 | `screens.md` | every route: URL, presentation, truth, verified date, source; each flow's docs, data/token files and local components | **generated**: `npm run resources:build` (`skill:check` fails when it's stale) |
 | `inventory.md` (+ `inventory.json`) | per flow: screen count, routes, coverage level (`spec` / `brief` / `blueprint` / `none`), which docs exist (mapping docs, brief, screen skill + spec), verified dates; per screen: truth and provenance label (**reference-backed** / **kit-backed** / **inferred**, mapping in the file); loading / empty / error / success states detected heuristically; lists of unverified screens and screens whose truth is only inferred from `source` | **generated**: `npm run resources:build`; `node scripts/check-inventory.mjs` fails when a doc quotes a flow / screen / route count the registry disagrees with |
 | `patterns.md` | the shopping hand-off graph, where state goes, area token files vs param variants, scroll/tab bar, motion reuse | hand-written |
@@ -15,6 +16,7 @@ Shared material the noon skills load **on demand**. It describes what is on the 
 
 | Skill | Read first | Then, as needed |
 |---|---|---|
+| every skill | `npm run brain -- context "<request>"`, then `brain/INDEX.md` → the flow card it names | the files the card names; `brain -- impact` before touching shared code |
 | `/noon-ui` | `screens.md`, `inventory.md`, `patterns.md` | the brief of the closest flow; `tooling.md` before validating |
 | `/home-page` | `flows/home.md` | `patterns.md` → tokens, data-driven screens |
 | `/search` | `flows/search.md`, `flows/plp.md` | `patterns.md` → scroll |
@@ -27,7 +29,7 @@ Shared material the noon skills load **on demand**. It describes what is on the 
 ## Rules
 
 - **The code wins.** These files are a map, not the spec. When a brief disagrees with the code, trust the code and fix the brief in the same change.
-- Never edit `screens.md`, `inventory.md`, `inventory.json` or `flows/categories-views.md` by hand.
+- Never edit `screens.md`, `inventory.md`, `inventory.json`, `flows/categories-views.md` or the generated `brain/` cards by hand.
 - **Don't hand-type counts.** Point to `inventory.md` instead of writing "N flows" or "N screens". Where a count must stay in prose, `node scripts/check-inventory.mjs` keeps it honest. A file count or subset that isn't a registry count ("+ 21 screens") is listed for review and doesn't fail; add `<!-- count-ok -->` to a line to skip it.
 - **Provenance.** Label new work reference-backed, kit-backed or inferred (see `inventory.md`, and `../skills/noon-ui/references/portability.md` for what to do when a reference is unavailable). Set `verified` only after a real side-by-side check.
 - After changing a flow, update its brief: screens, pieces, gotchas. Run `npm run resources:build` and `npm run skill:check`. Both check this folder: every path, `--nk-*` var and route mentioned must exist.

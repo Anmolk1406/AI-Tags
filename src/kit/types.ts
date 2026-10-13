@@ -18,10 +18,12 @@ export type Presentation =
  * - `origin` (default): Origin Design System M-BottomSheet — bold scrim, grabber ABOVE the sheet, sheet floats with a
  *   12px inset and r16 on all corners, max 680 high; the screen fills it with <SheetHeader> / <SheetBody> / <SheetFooter>.
  * - `classic`: the edge-to-edge sheet the bappzaar ports use (r24 top corners, grabber inside) — keep it for 1:1 ports.
+ * - `floating`: bappzaar OverlayBottomSheet `isFloating` 1:1 — scrim rgba(30,30,30,0.7), #B7B7B7 handle 18px above the
+ *   sheet (tap or drag closes), 12px side inset, r16, 60px top gap, bottom gap = safe area (15 without one).
  * A sheet with a grabber never shows a close button; `grabber: false` makes <SheetHeader> show the close (X) instead.
  */
 export interface SheetOptions {
-  layout?: 'origin' | 'classic';
+  layout?: 'origin' | 'classic' | 'floating';
   /** default true — drag the grabber down to dismiss */
   grabber?: boolean;
   /** sheet fill (origin), any surface colour, e.g. `var(--nk-color-bg-subtle)` */
@@ -101,9 +103,18 @@ export interface StackEntry {
   transition: TransitionName;
 }
 
+/** `nav.toast(title, opts)` — rendered as the Origin M-Toast (<Snackbar>); two or more queued stack (M-Stacked Toast). */
 export interface ToastOptions {
+  /** leading asset (icon / avatar, 20–40) */
   icon?: ReactNode;
   action?: { label: string; onPress: () => void };
   duration?: number;
+  /** M-Toast Type: dark (default) · light · error · success. Wins over `tone`. */
+  type?: 'dark' | 'light' | 'error' | 'success';
+  /** legacy alias of `type`: default → dark */
   tone?: 'default' | 'success' | 'error';
+  /** one-line subtitle under the title */
+  subtitle?: string;
+  /** makes the subtitle a link with a trailing chevron */
+  onSubtitlePress?: () => void;
 }
