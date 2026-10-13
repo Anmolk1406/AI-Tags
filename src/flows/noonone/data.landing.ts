@@ -144,3 +144,158 @@ export const savingsModule = {
 
 export const fmtDate = (iso?: string) =>
   iso ? new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+
+// ─── non-member landing (prod) ─────────────────────────────────────────────
+/**
+ * Non-member landing as shipped in prod (Figma Af34gfmhQ1D0wstXUEHSIF · 24:2604). Kept CMS-shaped: an ordered list of
+ * landingV2.cms.data modules, each rendered by NpModuleRenderer (port of VIPModuleRenderer). Copy is the Figma copy
+ * (sentence / title case as in the frame); amounts use the dirham sign. MAPPING.md › Non-member landing.
+ */
+export type NpAction = { route: string; params?: Record<string, unknown> } | { cta: '/create' };
+
+export interface NpValueProp {
+  title: string;
+  description: string;
+  /** leadingIconUrl (sparkle) is the same for every row */
+  icon?: 'gift' | 'osn' | 'coupon';
+  /** mpIcons: VIP_BENEFITS_MODULE mpIcons (35px circles, overlapping) */
+  mpIcons?: ('noon' | 'food' | 'supermall' | 'nownow' | 'minutes')[];
+}
+
+export type NpTileId = 'noon' | 'food' | 'supermall' | 'nownow' | 'minutes';
+export interface NpMpBenefit {
+  id: NpTileId;
+  title: string;
+  subtitle: string;
+}
+
+export interface NpVideoBanner {
+  title: string;
+  subTitle: string;
+  buttonText: string;
+  cta: '/create';
+  /** server video / poster — none in the frame ("Replace this"); set to preview one */
+  videoUrl?: string;
+  placeholderUrl?: string;
+}
+
+export interface NpPartnerBanner {
+  id: 'fab' | 'stc';
+  title: [string, string];
+  durationText: string;
+  buttonText: string;
+  action: NpAction;
+}
+
+export interface NpOfferData {
+  title: string;
+  subtitle: string;
+  /** subtitleIconUrl / tag.iconUrl stand-ins (kit vip/gift.svg, vip/star.svg, tinted) */
+  subtitleIcon: 'gift';
+  borderColors: string[];
+  tag: { text: string; textColor: string; backgroundColor: string; borderColors: string[]; icon: 'sparkle' };
+}
+
+export type NpModule =
+  | { type: 'VIP_MEMBERSHIP_OVERVIEW_MODULE'; showDefault: true; title: string; subtitle: string }
+  | { type: 'VIP_BENEFITS_MODULE'; benefits: NpValueProp[]; footer: { text: string } }
+  | { type: 'VIP_MARKETPLACE_BENEFITS_CAROUSEL_MODULE'; mpId: NpTileId; mpBenefits: NpMpBenefit[] }
+  | { type: 'VIP_VIDEO_MODULE_CAROUSEL'; banners: NpVideoBanner[] }
+  | { type: 'VIP_BANNER_MODULE_CAROUSEL'; title: string; banners: NpPartnerBanner[] }
+  | { type: 'VIP_COUPON_ENTRY'; title: string; actionText: string; action: NpAction }
+  | { type: 'VIP_EXPANDABLE_TEXT_MODULE'; title: string; collapsible: boolean; rows: { header: string; body: string }[] }
+  /** VIPOfferPlanModuleDataType.offerData (colours are server hex on master → flow tokens here) */
+  | { type: 'VIP_OFFER_PLAN_MODULE'; offerData: NpOfferData }
+  /** VIP_SAVINGS_BREAKDOWN_MODULE → VIPSavingsOverviewModule (V1) savingsData, non-'new' customerState (overview variant) */
+  | { type: 'VIP_SAVINGS_BREAKDOWN_MODULE'; savingsData: { customerState: string; title: string; savingsText: string; savingsMultiplier?: string; subtitle: string } };
+
+export const npLanding: { modules: NpModule[]; buttonText: string } = {
+  /** Bottom section CTA (Figma 24:2745); plan.buttonText when the user is not trial-eligible */
+  buttonText: 'Start Free Trial',
+  modules: [
+    // Header 24:2637 — VIPMembershipOverviewModule showDefault (vip_one_landing_title; subtitle as in the frame)
+    { type: 'VIP_MEMBERSHIP_OVERVIEW_MODULE', showDefault: true, title: 'Free Delivery', subtitle: 'on everything, anytime' },
+    // Prod screenshot (not in frame 24:2604): offer plan card, then savings overview — placed after the header
+    {
+      type: 'VIP_OFFER_PLAN_MODULE',
+      offerData: {
+        title: '<p><b>Get One at 20% Off</b></p>',
+        subtitle: `<p>${CURRENCY} 19.00/month for 2 month, then at ${CURRENCY} 24.99</p>`,
+        subtitleIcon: 'gift',
+        borderColors: ['var(--nk-color-vip-np-offer-border)', 'var(--nk-palette-white)'],
+        tag: {
+          text: '<p>15 days free trial</p>',
+          textColor: 'var(--nk-color-best-price-ink)',
+          backgroundColor: 'var(--nk-color-vip-np-offer-tag-bg)',
+          borderColors: ['var(--nk-color-vip-np-offer-tag-border)', 'var(--nk-color-vip-np-offer-tag-border-to)'],
+          icon: 'sparkle',
+        },
+      },
+    },
+    {
+      type: 'VIP_SAVINGS_BREAKDOWN_MODULE',
+      savingsData: {
+        customerState: 'potential',
+        title: 'ON AVERAGE, USERS LIKE YOU',
+        // the non-'new' branch prints savingsText as-is (no {multiplier} split), so the server sends the final copy
+        savingsText: 'Save 6x',
+        savingsMultiplier: '6x',
+        subtitle: `of the membership price, worth ${CURRENCY} 928/year`,
+      },
+    },
+    // Value props 24:2627
+    {
+      type: 'VIP_BENEFITS_MODULE',
+      benefits: [
+        { title: 'Try for FREE, then decide', description: 'Risk free, you can cancel anytime', icon: 'gift' },
+        { title: 'Unlimited Free Delivery', description: 'On food, groceries, & shopping', mpIcons: ['noon', 'food', 'supermall', 'nownow', 'minutes'] },
+        { title: 'OSN+ Streaming Included', description: 'HBO, Discovery+ & family favourites', icon: 'osn' },
+        { title: 'Member-Only Deals', description: 'Big savings, every month', icon: 'coupon' },
+      ],
+      footer: { text: 'Priority Support for One Customer' },
+    },
+    // Savings widget 24:2628 — highlighted mp first (the marketplace the user came from)
+    {
+      type: 'VIP_MARKETPLACE_BENEFITS_CAROUSEL_MODULE',
+      mpId: 'noon',
+      mpBenefits: [
+        { id: 'noon', title: 'Free Same-Day Delivery', subtitle: `on orders above ${CURRENCY} 100 or ${CURRENCY} 50 for next-day delivery` },
+        { id: 'nownow', title: 'Free Delivery in Minutes', subtitle: `on NowNow orders above ${CURRENCY} 30` },
+        { id: 'minutes', title: 'Free 15-Minute Delivery', subtitle: `on Minutes groceries above ${CURRENCY} 25` },
+        { id: 'supermall', title: 'Free Delivery on supermall', subtitle: `on premium brands above ${CURRENCY} 100` },
+        { id: 'food', title: 'Free Food Delivery', subtitle: `on noon Food orders above ${CURRENCY} 30` },
+      ],
+    },
+    // Streaming carousel 24:2629
+    {
+      type: 'VIP_VIDEO_MODULE_CAROUSEL',
+      banners: [
+        { title: 'Watch HBO & OSN+ Originals', subTitle: 'Original, award-winning dramas & blockbusters', buttonText: 'Start 15-days trial', cta: '/create' },
+        { title: 'Watch HBO & OSN+ Originals', subTitle: 'Original, award-winning dramas & blockbusters', buttonText: 'Activate OSN+ Now', cta: '/create' },
+      ],
+    },
+    // Partnerships 24:2632
+    {
+      type: 'VIP_BANNER_MODULE_CAROUSEL',
+      title: 'Partnerships and Benefits',
+      banners: [
+        { id: 'fab', title: ['noon One', 'with FAB Z card'], durationText: '1 year free', buttonText: 'View now', action: { route: 'noonone/offers', params: { tab: 'bank' } } },
+        { id: 'stc', title: ['noon One', 'with STC network'], durationText: '3 months free', buttonText: 'View now', action: { route: 'noonone/partnerOffer', params: { campaignCode: 'stc' } } },
+      ],
+    },
+    // Coupon row 24:2635 — vip_have_coupon_code → VIPOffersOverlayScreen (voucher input)
+    { type: 'VIP_COUPON_ENTRY', title: 'Have a coupon code?', actionText: 'Apply', action: { route: 'noonone/offers', params: { tab: 'vouchers' } } },
+    // FAQ 24:2636 — VIPExpandableTextModule grouped, collapsible title
+    {
+      type: 'VIP_EXPANDABLE_TEXT_MODULE',
+      title: 'Frequently asked question',
+      collapsible: true,
+      rows: [
+        { header: 'What is noon One?', body: 'noon One is a membership that gives you unlimited free delivery across noon, Food, Minutes, NowNow and supermall, OSN+ streaming, member-only deals and priority support.' },
+        { header: 'How much does noon One cost?', body: `noon One is ${CURRENCY} 25/month after your free trial. Duo and Family plans let you share every benefit with up to 4 members.` },
+        { header: 'Do I get a free trial? If yes, What does it include?', body: "Yes. New members get a 30-day free trial with every noon One benefit. We'll remind you 2 days before it ends, and you can cancel anytime." },
+        { header: 'What does free delivery on noon express include?', body: `Free same-day delivery on express orders above ${CURRENCY} 100, or free next-day delivery on orders above ${CURRENCY} 50.` },
+      ],
+    },
+  ],
+};

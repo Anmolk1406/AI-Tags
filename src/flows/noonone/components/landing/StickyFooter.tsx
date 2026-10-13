@@ -52,6 +52,9 @@ export function SubscriptionButton({
   isLoading,
   onPress,
   onPaymentPress,
+  buttonClassName = styles.stickyButton,
+  buttonPayClassName = styles.stickyButtonPay,
+  textClassName = styles.stickyButtonText,
 }: {
   title: string;
   showPayment: boolean;
@@ -59,6 +62,10 @@ export function SubscriptionButton({
   isLoading?: boolean;
   onPress: () => void;
   onPaymentPress: () => void;
+  /** non-member landing restyle (Figma 24:2745) passes its own button look */
+  buttonClassName?: string;
+  buttonPayClassName?: string;
+  textClassName?: string;
 }) {
   const withPay = showPayment && !!payment;
   return (
@@ -78,9 +85,9 @@ export function SubscriptionButton({
         </motion.button>
       )}
       <VIPButton
-        className={[styles.stickyButton, withPay && styles.stickyButtonPay].filter(Boolean).join(' ')}
+        className={[buttonClassName, withPay && buttonPayClassName].filter(Boolean).join(' ')}
         htmlTitle={title}
-        textClassName={styles.stickyButtonText}
+        textClassName={textClassName}
         isLoading={isLoading}
         disabled={isLoading}
         onPress={onPress}

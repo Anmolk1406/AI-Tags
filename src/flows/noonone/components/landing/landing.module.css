@@ -233,3 +233,18 @@
 .savingsAmountRow { display: flex; align-items: center; margin-bottom: var(--nk-space-s8); }
 .savingsAmount { white-space: pre; font: var(--nk-type-vip-h32-bold); letter-spacing: var(--nk-layout-vip-track-h); color: var(--nk-color-vip-black); height: var(--nk-layout-vip-savings-amount); line-height: var(--nk-layout-vip-savings-amount); }
 .savingsSubtitle { font: var(--nk-type-vip-b13); letter-spacing: var(--nk-layout-vip-track-b); color: var(--nk-color-vip-savings-grey); margin-top: var(--nk-space-s4); }
+
+/* VIPSavingsOverviewModule (V1) overview variant (customerState ≠ new): overviewContainer padding 12 / pb 8, mb 4 */
+.savingsOverview { width: 100%; padding: var(--nk-space-s12) var(--nk-space-s12) var(--nk-space-s8); margin-bottom: var(--nk-space-s4); }
+.savingsOverviewTitle { display: block; margin-bottom: var(--nk-space-s12); font: var(--nk-type-vip-b14); letter-spacing: var(--nk-layout-vip-track-b); color: var(--nk-palette-black); }
+.savingsOverviewAmountRow { display: flex; align-items: flex-end; margin-bottom: var(--nk-space-s8); }
+.savingsOverviewAmount { font: var(--nk-type-vip-h28-heavy); letter-spacing: var(--nk-layout-vip-track-h); color: var(--nk-palette-black); }
+.savingsOverviewTextBox { margin-inline-start: var(--nk-space-s4); margin-bottom: 3px; }
+.savingsOverviewText { font: var(--nk-type-vip-np-b16-medium); letter-spacing: var(--nk-layout-vip-track-h18); color: var(--nk-palette-black); }
+/* overviewSubtitleContainer: LinearGradient #DFFEF3 → white (90°, RTL 270°), padding 8 / 12, marginStart −12 (bleeds to the card edge) */
+.savingsOverviewSubtitleBox {
+  padding: var(--nk-space-s8) var(--nk-space-s12); margin-inline-start: calc(-1 * var(--nk-space-s12));
+  background: linear-gradient(90deg, var(--nk-color-vip-savings-mint) 0%, var(--nk-palette-white) 100%);
+}
+[dir='rtl'] .savingsOverviewSubtitleBox { background: linear-gradient(270deg, var(--nk-color-vip-savings-mint) 0%, var(--nk-palette-white) 100%); }
+.savingsOverviewSubtitle { font: var(--nk-type-vip-b14); letter-spacing: var(--nk-layout-vip-track-b); color: var(--nk-color-best-price-ink); }

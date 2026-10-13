@@ -256,11 +256,11 @@ initial `noonone/landing` · group Profile · parent `account/account` · sheetB
 - docs: `src/flows/noonone/MAPPING.md`
 - data / token files: `data.entry.ts`, `data.landing.ts`, `data.offers.ts`, `data.payment.ts`, `data.plans.ts`
 - state / helpers: `store.ts`
-- components/: VIPButton, VIPOverlay, entry/LegacyOverlay, landing/DashedLine, landing/LandingHeader, landing/StickyFooter, landing/TransitionAnim, landing/modules, offers/InlinePopup, offers/Primitives, offers/SubscribeButton, payment/LegacyOverlay, payment/Reloader, plans/PlanCard, plans/parts
+- components/: VIPButton, VIPOverlay, entry/LegacyOverlay, landing/DashedLine, landing/LandingHeader, landing/StickyFooter, landing/TransitionAnim, landing/modules, landing/npModules, offers/InlinePopup, offers/Primitives, offers/SubscribeButton, payment/LegacyOverlay, payment/Reloader, plans/PlanCard, plans/parts
 
 | Route | Title | Presentation | URL | Truth | Verified | Source |
 |---|---|---|---|---|---|---|
-| `noonone/landing` | noon One | screen | /noon-one /noonvip | bappzaar* |  | features/vip/screens/VIPLandingScreen (+ features/vip/components/VIPModules/{VIPBannerModule, VIPMarketplaceB… |
+| `noonone/landing` | noon One | screen | /noon-one /noonvip | mixed |  | Figma Af34gfmhQ1D0wstXUEHSIF · 24:2604 (non-member) · features/vip/components/VIPModules/{VIPMembershipOvervi… |
 | `noonone/success` | Subscribed (success animation) | screen |  | bappzaar* |  | features/vip/components/VIPTransitionAnim (VIPLandingScreen VIPEventEmitter.onVipMembershipChanged → showSucc… |
 | `noonone/plans` | Choose your plan | screen | /noon-one-all-plans /vip-plans | bappzaar* |  | features/vip/screens/VIPQuickPlanSelectV3Screen (+ Plan/Plan.tsx, Plan/BundlePlan.tsx), components/VIPSubscri… |
 | `noonone/planDetails` | Plan details (trial guide) | modal |  | bappzaar* |  | features/vip/utils/VIPPopupUtil.showPlanDetailDialog → screens/VIPGenericOverlayScreen + components/VIPPopups… |
@@ -329,4 +329,4 @@ initial `wishlist/wishlist` · group Profile
 | `wishlist/wishlist` | Wishlist | screen | /wishlist | bappzaar* |  | marketplaces/noon/screens/NoonWishlistV2Screen, components/NoonWishlistV2*, NoonProductBoxWishlistAddToCart |
 | `wishlist/empty` | Empty wishlist | screen |  | bappzaar* |  | components/NoonWishlistV2Empty |
 
-Totals by truth: 13 mixed · 129 bappzaar · 1 figma · 2 reference. `*` = inferred from `source` (no explicit `truth`).
+Totals by truth: 14 mixed · 128 bappzaar · 1 figma · 2 reference. `*` = inferred from `source` (no explicit `truth`).

@@ -100,3 +100,15 @@ o4 / o5 keep their meaning for `returns` and `reviews`.
 
 Star tap → `openReview(nav, { orderId, rating })` from `src/flows/reviews/store.ts` after the pop lands; the exchanged
 order passes `product: 'iphone16'` (README "Order kinds"). Returned / cancelled orders have no rating row.
+
+## List header and filter pills (bappzaar master `features/o2d/screens/O2DOrdersV2Screen`)
+
+| Master | Value | Kit |
+|---|---|---|
+| `headerArea` (outside the list, zIndex 10) | pinned; the list scrolls under it | `Screen header` (`.listTop`) |
+| `useO2DOrdersListingAnimation` `headerBackdropStyle` | bg antiFlashWhite #F2F3F7 → white over 0–16 px, bottom radius 0 → 10 over 0–16, shadow opacity 0 → 0.1 over 0–20 (slateGray, offset 0 3.2, radius 3.2) | `.headerWhite` / `.headerShadow` opacity + `borderBottom*Radius` from `useScroll` → `useTransform`; `--nk-color-bg-page` screen bg |
+| `headerFilterBar` + `O2DOrderHistoryFilterBar` | ps 10 + 2, pt 4, pb 12; gap 6, pe 12 | `.filterRow` |
+| `O2DOrderFilterChip` `chip` | 32 high, `borderRadiusRound`, px 9, gap 4, white, 1px lightGreyColor #EAECF0; label 13/600/16 blueGray900 | `.chip` (`--nk-radius-full`, `--nk-color-border`, `--nk-type-text13-semibold-lh16`) |
+| `chipSelected` / `labelSelected` | primaryBlue #0F61FF border and label, no fill | `.chip[data-on]` |
+| `chipTag` + `logo` (service facets) | px 7, logo 60 × 18 | `.chip[data-logo]`, wordmarks 60 × 18 |
+

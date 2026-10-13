@@ -324,6 +324,212 @@ export const landingFlowTokens: TokenOverrides = {
   },
 };
 
+// ─── landing · non-member (prod Figma) ─────────────────────────────────────────────
+/**
+ * Non-member landing as shipped in prod: Figma Af34gfmhQ1D0wstXUEHSIF · 24:2604 ("113", 375 wide). Every value is
+ * taken from the frame (get_design_context per section); behaviour from the bappzaar VIP modules (MAPPING.md ›
+ * Non-member landing). CSS vars: --nk-color-vip-np-*, --nk-layout-vip-np-*, --nk-type-vip-np-*, --nk-shadow-vip-np-*.
+ */
+export const landingNpTokens = {
+  /** VIPSlider in the savings widget: centre tile 80, neighbours ×0.5 (40), 26px gaps between tile edges */
+  savingsSlider: { centre: 80, scale: 0.5, gap: 26 },
+  /** VIPVideoCarouselModule (Slider isSlideSizeScrolling, slideSpacing 16): card 325 × 480 (Figma) */
+  video: { cardW: 325, gap: 16, inset: 12 },
+  /** PageControl (Scrolling indicator 24:396): current dot 6.5, others 3.96 white 43%, 5.73 apart */
+  dots: { active: 6.5, size: 3.96, gap: 5.73 },
+  /**
+   * Logo art boxes (px, inside the 80px savings tile; the small Figma tiles are 40px = this × 0.5 under the slider
+   * scale). `inset` = CSS inset in %, else a centred w × h box nudged by dx / dy.
+   */
+  tiles: {
+    noon: { w: 60, h: 18, dx: 0.03, dy: 1.37 },
+    food: { w: 44, h: 25, dx: 0, dy: 0 },
+    nownow: { w: 46, h: 64, dx: -1, dy: -1 },
+    minutes: { w: 60, h: 14, dx: 0, dy: 0 },
+    supermallA: { inset: '31.18% 19.1% 50.19% 21.71%' },
+    supermallB: { inset: '49.83% 36.35% 31.69% 21.71%' },
+  },
+  /** value-prop marketplace circles (35px; now now 32.94) */
+  circles: {
+    noon: { w: 19.721, h: 5.752, dx: 0 },
+    food: { w: 26.132, h: 24.638, dx: 0 },
+    nownow: { w: 18.653, h: 25.436, dx: -2.05 },
+    minutes: { w: 28.172, h: 6.573, dx: 0 },
+    supermallA: { inset: '36.89% 29.11% 49.96% 29.11%' },
+    supermallB: { inset: '50.06% 41.28% 36.9% 29.11%' },
+  },
+  /** value-prop icon glyphs inside the 44px circle: x, y, w, h */
+  glyphs: {
+    gift: [[11.38, 11.79, 21.231, 20.427]],
+    osn: [[5.63, 10.61, 31.293, 21.145]],
+    /** coupon: b, a, c, d layers of the 27px group at (8.5, 8.5) + (0.25, 5.15) */
+    coupon: [
+      [8.75, 13.65, 6.905, 16.689],
+      [15.66, 13.65, 19.586, 16.689],
+      [20.11, 17.95, 8.098, 8.083],
+      [31.99, 27.04, 3.255, 3.302],
+    ],
+  },
+  /**
+   * Partnership card textures (Figma mask group, clipped to the top-part shape): box left/top/width/height px, the
+   * rotated image w × h centred in it, rotation, image opacity (the group is at .25 / STC .4 + blur 1).
+   */
+  partnerTex: {
+    fab: [
+      { left: 14.54, top: 56.13, w: 132.11, h: 126.03, iw: 112.5, ih: 71.0, rot: -39.05, opacity: 0.6, tex: 'a' },
+      { left: -5.06, top: -91.72, w: 141.64, h: 158.63, iw: 134.18, ih: 84.69, rot: 120.95, opacity: 0.6, tex: 'a' },
+      { left: 75.66, top: -25.03, w: 140.76, h: 158.79, iw: 134.38, ih: 84.81, rot: -120.1, opacity: 1, tex: 'b' },
+    ],
+    stc: [{ left: -38.66, top: -92.93, w: 262.49, h: 330.55, iw: 262.49, ih: 330.55, rot: 0, opacity: 1, tex: 'stc' }],
+    /** logo boxes: FAB two layers, STC one (left, top, w, h) */
+    fabLogo: [
+      [53.85, 42.72, 50.155, 41.068],
+      [102.83, 42.62, 19.28, 37.886],
+    ],
+    stcLogo: [[54.72, 45.95, 58.067, 34.469]],
+  },
+} as const;
+
+export const landingNpFlowTokens: TokenOverrides = {
+  colors: {
+    /** page background gray/200 */
+    vipNpPage: '#F5F5F5',
+    /** value-prop sub text rgba(2,6,12,.75); value-prop title rgba(2,6,12,.92) */
+    vipNpInk92: 'rgba(2, 6, 12, 0.92)',
+    /** marketplace circle border rgba(2,6,12,.05) */
+    vipNpInk5: 'rgba(2, 6, 12, 0.05)',
+    /** priority-support strip gradient #EBFEFD → white */
+    vipNpSupportFrom: '#EBFEFD',
+    /** value-prop marketplace circles (35px) */
+    vipNpMpNoon: '#F7E628',
+    vipNpMpFood: '#E5004E',
+    vipNpMpSupermall: '#2122B8',
+    vipNpMpNownow: '#EF5227',
+    vipNpMpMinutes: '#D22D29',
+    /** savings widget marketplace tiles (Marketplaces component) */
+    vipNpTileNoon: '#FFE600',
+    vipNpTileFood: '#FC5190',
+    vipNpTileSupermall: '#2122B8',
+    vipNpTileNownow: '#EF5227',
+    vipNpTileMinutes: '#BB4544',
+    /** savings widget radial bg rgba(252,252,252) → white */
+    vipNpSavingsFrom: '#FCFCFC',
+    /** Black1 / Gray#1 / Gray#3 */
+    vipNpText171717: '#171717',
+    vipNpText404040: '#404040',
+    vipNpChevron: '#737373',
+    /** streaming card sub #CACACA */
+    vipNpStreamSub: '#CACACA',
+    /** streaming page control: inactive dot white 43% */
+    vipNpDotInactive: 'rgba(255, 255, 255, 0.43)',
+    /** partnership duration pill border / gradient start #D2D2D2 */
+    vipNpPillGrey: '#D2D2D2',
+    /** coupon container dashed border */
+    vipNpCouponBorder: '#75DAB1',
+    /** back button border #E3E3E3, icon #404040 */
+    vipNpBackBorder: '#E3E3E3',
+    /** VIPOfferPlanModule demo CMS colours (offerData.borderColors, tag.borderColors / backgroundColor / textColor); white fallback = palette white */
+    vipNpOfferBorder: '#8EE0BE',
+    vipNpOfferTagBorder: '#9FE5C8',
+    vipNpOfferTagBorderTo: '#E6FAF1',
+    vipNpOfferTagBg: '#EAFBF4',
+    /** VIPSavingsOverviewModule overviewSubtitleContainer gradient #DFFEF3 → white (= vipSavingsMint) · subtitle #108757 */
+    /** streaming poster stand-in (no CMS video in the frame): black → #1C1C1C */
+    vipNpPosterTo: '#1C1C1C',
+  },
+  shadow: {
+    /** Bottom section drop-shadow 0 −4 17.6 rgba(0,0,0,.1) */
+    vipNpFooter: '0 -4px 17.6px rgba(0, 0, 0, 0.1)',
+  },
+  layout: {
+    /** back button 39.92 circle, border 1.247 */
+    vipNpBack: 40,
+    vipNpBackBorderW: 1.25,
+    /** header: logo 75.6 × 43, illustration 121.2 × 62.3; header column 241 wide, gap 12 / 6 */
+    vipNpLogoW: 75.63,
+    vipNpLogoH: 43.02,
+    vipNpIllustrationW: 121.23,
+    vipNpIllustrationH: 62.31,
+    /** Header frame top 78 − status bar 44 */
+    vipNpHeaderTop: 34,
+    /** value props: icon circle 44, star 16, mp circles 35 (−14.93 overlap), nownow 32.94 */
+    vipNpIcon: 44,
+    vipNpStar: 16,
+    vipNpMp: 35,
+    vipNpMpOverlap: -14.93,
+    vipNpMpNownow: 32.94,
+    vipNpMpBorder: 0.75,
+    vipNpRow: 40,
+    /** savings tiles: 80 r12 centre */
+    vipNpTile: 80,
+    vipNpSavingsLabel: 38,
+    /** streaming card 325 × 480; CTA 293 × 50 r11.3; top overlay 143.7, bottom overlay 179 */
+    vipNpStreamW: 325,
+    vipNpStreamH: 480,
+    vipNpStreamCtaW: 293,
+    vipNpStreamCtaH: 50,
+    vipNpStreamCtaR: 11.31,
+    vipNpStreamTop: 143.74,
+    vipNpStreamBottom: 178.97,
+    vipNpStreamLogoW: 40,
+    vipNpStreamLogoH: 26,
+    /** partnership card 167.5 × 252.77; View now pill 90 × 30; duration pill text box */
+    vipNpPartnerW: 167.5,
+    vipNpPartnerH: 252.77,
+    vipNpPillW: 90,
+    vipNpPillH: 30,
+    vipNpPillChevron: 17,
+    /** Figma letter-spacing −1% (label scale) */
+    vipNpTrack: '-0.01em',
+    vipNpTrackTitle: '-0.016em',
+    vipNpTrackOsn: '-0.3px',
+    /** sticky CTA 56; footer padding: top 12, bottom 43 below the CTA in the 812 frame = inset-bottom + 9 */
+    vipNpCta: 56,
+    vipNpFooterPadB: 9,
+    /** VIPOfferPlanModule: tag 28 tall, maxWidth 170, left radius 24, icon 14; subtitle icon 18 */
+    vipNpOfferTagH: 28,
+    vipNpOfferTagMax: 170,
+    vipNpOfferTagR: 24,
+    vipNpOfferTagIcon: 14,
+    vipNpOfferSubIcon: 18,
+    /** streaming poster stand-in: OSN+ logo 120 wide */
+    vipNpPosterLogo: 120,
+    /** header block is 189.2 tall and the value props start 204 below its top → −5.2 against the 20 column gap */
+    vipNpHeaderGap: -5.2,
+    /** back button: 14.2 below the status bar, x 15.5 */
+    vipNpBackTop: 14.2,
+    vipNpBackLeft: 15.5,
+  },
+  type: {
+    /** Primary/Title2/ExtraBold 40/42 */
+    vipNpTitle: { size: 40, line: 42, weight: 800 },
+    /** Label3/Medium 14/18 · Label3/Semibold 14/18 · Label3/Bold 14/18 */
+    vipNpLabel3Medium: { size: 14, line: 18, weight: 500 },
+    vipNpLabel3Semibold: { size: 14, line: 18, weight: 600 },
+    vipNpLabel3Bold: { size: 14, line: 18, weight: 700 },
+    /** Label2/Bold 16/20 · Label2/Semibold 16/20 */
+    vipNpLabel2Bold: { size: 16, line: 20, weight: 700 },
+    vipNpLabel2Semibold: { size: 16, line: 20, weight: 600 },
+    /** Label4/Regular 12/14 */
+    vipNpLabel4: { size: 12, line: 14, weight: 400 },
+    /** Label5/Semibold 11/12 (View now) · Tiny/Medium 10/12 (duration pill) */
+    vipNpLabel5Semibold: { size: 11, line: 12, weight: 600 },
+    vipNpTinyMedium: { size: 10, line: 12, weight: 500 },
+    /** streaming card: title 15.08/18.85 bold, sub 11.31/13.19, CTA 15.08/18.85 semibold */
+    vipNpStreamTitle: { size: 15.077, line: 18.846, weight: 700 },
+    vipNpStreamSub: { size: 11.308, line: 13.192, weight: 400 },
+    vipNpStreamCta: { size: 15.077, line: 18.846, weight: 600 },
+    /** Label1/Semibold 18/24 (Start Free Trial) */
+    vipNpCta: { size: 18, line: 24, weight: 600 },
+    /** VIPOfferPlanModule: title p 18 regular / b 18 bold (RN default line height), tag 13/600, subtitle 14 regular / b semibold */
+    vipNpOfferTitle: { size: 18, line: 'normal', weight: 400 },
+    vipNpOfferTag: { size: 13, line: 'normal', weight: 600 },
+    vipNpOfferSub: { size: 14, line: 'normal', weight: 400 },
+    /** VIPSavingsOverviewModule overview: savingsText 16/22 medium (with totalSavings) */
+    vipNpB16Medium: { size: 16, line: 22, weight: 500 },
+  },
+};
+
 // ─── plans ─────────────────────────────────────────────
 /** RN Text without lineHeight → CSS `line-height: normal` */
 
@@ -812,4 +1018,4 @@ function merge(...ps: TokenOverrides[]): TokenOverrides {
   return out as TokenOverrides;
 }
 
-export const noononeFlowTokens: TokenOverrides = merge(baseFlowTokens, landingFlowTokens, plansFlowTokens, paymentFlowTokens, offersFlowTokens, entryFlowTokens);
+export const noononeFlowTokens: TokenOverrides = merge(baseFlowTokens, landingFlowTokens, landingNpFlowTokens, plansFlowTokens, paymentFlowTokens, offersFlowTokens, entryFlowTokens);
