@@ -28,6 +28,10 @@ Start a new session (or run `/reload-plugins`). The skills are namespaced by the
 
 **Inside the kit repo itself you don't need the plugin**: the same skills load from `.claude/skills/` as `/noon-ui`, `/home-page` …. With both, each skill appears twice.
 
+### Upload instead (Claude app → Your plugins → Upload local plugin)
+
+In the kit repo run `npm run release:zip`; it writes `dist-plugin/noon-ui-<version>.zip` with `.claude-plugin/plugin.json` at the archive root, which is what the upload form needs. Upload that file. To update, upload the zip of the new version; an uploaded plugin does not update from the marketplace.
+
 ### Update, disable, remove
 
 ```bash

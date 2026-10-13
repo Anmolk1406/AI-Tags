@@ -96,7 +96,8 @@
     "brain:check": "node scripts/brain/build.mjs --check",
     "brain:eval": "node scripts/brain/eval.mjs",
     "release:build": "node scripts/release/build-plugin.mjs",
-    "release:check": "node scripts/release/check.mjs"
+    "release:check": "node scripts/release/check.mjs",
+    "release:zip": "node scripts/release/build-plugin.mjs --check && rm -rf dist-plugin && mkdir -p dist-plugin && cd plugins/noon-ui && zip -qrX ../../dist-plugin/noon-ui-$npm_package_version.zip . -x '.DS_Store' && echo \"wrote dist-plugin/noon-ui-$npm_package_version.zip\""
   },
   "peerDependencies": {
     "react": "^19.3.0",

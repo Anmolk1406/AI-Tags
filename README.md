@@ -106,52 +106,82 @@ Each flow folder (`src/flows/<flow>/`) has a `MAPPING.md` and/or `FIGMA-MAPPING.
 
 ## Build screens with AI
 
-The repo ships **Claude skills** in `.claude/skills/`. They know noon's tokens, components, assets, motion and every flow, so Claude can build a new page that looks and behaves like the app.
+The repo ships **Claude skills**: they know noon's tokens, components, assets, motion and every flow, so Claude can build a new page that looks and behaves like the app. There are three ways to use them; pick by where you work.
+
+| Where you work | Use | What the skills can do there |
+|---|---|---|
+| **Terminal, inside this repo** (Claude Code) | nothing to install: `.claude/skills/` loads automatically | plan, **build**, register and screenshot-check screens in `src/flows/` |
+| **Terminal, any other project** (Claude Code) | the `noon-ui` plugin from this repo's marketplace | plan and review with the full design knowledge; building needs a checkout of this repo |
+| **Claude app** (claude.ai / desktop) | upload the plugin zip | plan, write specs, review designs against noon's system; no repo access |
 
 | Skill | Use it for |
 |---|---|
-| `/noon-ui` | The main skill: any noon page or flow. It works out what you're asking for, routes to a screen skill when one fits, and holds the design-system references, flow catalogue and validation steps. |
-| `/home-page` | Home feed variants and campaign / landing pages |
-| `/search` | Search entry, suggestions, results, sort and filters |
-| `/cart` | Cart, shipment groups, carousels, coupons, payment offers, cart states |
-| `/checkout` | Checkout sections, payment methods, slide to pay, confirmation |
-| `/pdp` | Product detail page, its sheets, out-of-stock and newer-model states |
+| `noon-ui` | The main skill: any noon page or flow. Routes to a screen skill when one fits; holds the design-system references, the brain map and the validation steps. |
+| `home-page` · `search` · `pdp` · `cart` · `checkout` | Home and campaign pages · search and results · product page · cart · checkout |
+| `orders` · `returns` · `reviews` · `account` · `noon-one` | Orders and tracking · returns · ratings and reviews · account and settings · noon One membership |
 
-### In Claude Code (recommended)
+In this repo the skills are `/noon-ui`, `/home-page` …; from the plugin they are namespaced `/noon-ui:noon-ui`, `/noon-ui:home-page` …. You can also just describe the page; Claude picks the skill by its description.
 
-Open the repo folder in Claude Code and ask in plain language. You can type the skill or just describe the page:
+### 1. In the terminal, inside this repo (recommended for building)
+
+```bash
+git clone https://github.com/arnabdebnath07/noon-app-skill && cd noon-app-skill
+npm install
+npm run dev          # http://localhost:5180 — the phone preview
+claude               # in a second terminal, from the repo folder
+```
+
+Then ask in plain language, or start with the skill:
 
 ```text
 /home-page build a Ramadan campaign landing page
 /checkout add a gift-wrap step before payment
 update the PDP to match this Figma: https://www.figma.com/design/<file>?node-id=<node>
 build a loyalty page with tiers, rewards and a history screen
-make the orders list 1:1 with bappzaar
 ```
 
-Claude reads the closest existing flow, writes a plan, builds with the kit's components and tokens, registers the screen at a URL, and checks its work with screenshots (`node .claude/skills/noon-ui/scripts/snap.mjs <flow>`). Paste a Figma link or a screenshot and it rebuilds the structure in noon's design language; it doesn't copy foreign colours or fonts.
+Claude first asks the brain map what already exists, reads only what it names, writes a plan, builds with the kit's components and tokens, registers the screen at a URL and checks it with screenshots (`node .claude/skills/noon-ui/scripts/snap.mjs <flow>`). You can run the same retrieval yourself:
 
-### As a Claude Code plugin (any project)
+![npm run brain -- context in the kit repo](./docs/images/usage/brain.webp)
 
-```
-/plugin marketplace add arnabdebnath07/noon-app-skill
-/plugin install noon-ui@noon-flow-kit
-```
-
-The skills then load as `/noon-ui:noon-ui`, `/noon-ui:home-page` … in any project. Inside this repo you don't need the plugin: the project skills load as `/noon-ui`, `/home-page` …. Other agents that read Agent Skills can use `plugins/noon-ui/skills/` directly. Install, update, removal and troubleshooting: [plugins/noon-ui/README.md](./plugins/noon-ui/README.md); what works where: [docs/distribution/PACKAGE-NOTES.md](./docs/distribution/PACKAGE-NOTES.md).
-
-### In the Claude app
+### 2. In the terminal, in any other project (the plugin)
 
 ```bash
-npm run skills:package     # → dist-skills/<skill>.zip
+claude plugin marketplace add arnabdebnath07/noon-app-skill
+claude plugin install noon-ui@noon-flow-kit
 ```
 
-Upload a zip in the Claude app (**Settings → Skills → + Add → Upload**). Each zip is self-contained: the skill, the other skills it links to, and the shared resources.
+(or `/plugin marketplace add …` and `/plugin install noon-ui@noon-flow-kit` inside a Claude Code session). Add `--sparse .claude-plugin plugins` to the first command to skip downloading the app's assets. Start a new session, or run `/reload-plugins`.
+
+![Adding the marketplace and installing the plugin](./docs/images/usage/install.webp)
+
+`claude plugin details noon-ui@noon-flow-kit` shows what you got: 11 skills, no hooks or MCP servers, about 2.8k tokens added to each session (each skill's full text loads only when it is used).
+
+![claude plugin details noon-ui@noon-flow-kit](./docs/images/usage/details.webp)
+
+Use it like any skill. Outside the repo it plans from the bundled brain map and specs, and says what it can't confirm without the kit's source:
+
+![Using /noon-ui:home-page outside the kit repo](./docs/images/usage/use.webp)
+
+Update with `claude plugin marketplace update noon-flow-kit` then `claude plugin update noon-ui@noon-flow-kit`; remove with `claude plugin uninstall noon-ui@noon-flow-kit` and `claude plugin marketplace remove noon-flow-kit`. Inside this repo, disable the plugin (`claude plugin disable noon-ui@noon-flow-kit`) or every skill appears twice.
+
+### 3. In the Claude app
+
+1. In this repo run `npm run release:zip`. It writes `dist-plugin/noon-ui-<version>.zip` with `.claude-plugin/plugin.json` at the archive root.
+2. In the Claude app open **Your plugins → Upload local plugin**, drop the zip on **Plugin file** and press **Upload**.
+3. Ask for a noon page as you would in the terminal. The app has no access to this repo, so it plans, writes specs and reviews designs; build the screens in the terminal (option 1).
+
+An uploaded plugin does not update itself: upload the zip of each new version. If you uploaded single skills before (`npm run skills:package`, shown as `anthropic-skills:noon-ui` …), delete them in **Settings → Skills** so they don't duplicate the plugin's.
+
+### Other agents
+
+`plugins/noon-ui/skills/` is a standard Agent Skills package (one folder per skill with a `SKILL.md`). Copy **all** its folders, side by side, into the skills directory your agent reads. What needs Claude Code or this repo: [docs/distribution/PACKAGE-NOTES.md](./docs/distribution/PACKAGE-NOTES.md). Plugin install, troubleshooting and removal: [plugins/noon-ui/README.md](./plugins/noon-ui/README.md); releasing: [docs/distribution/RELEASING.md](./docs/distribution/RELEASING.md).
 
 ### How the skills stay accurate
 
-- `.claude/resources/` is the map the skills read first: a generated index of every screen (`screens.md`), shared patterns, tooling notes and a brief per flow. See [its README](./.claude/resources/README.md).
-- `npm run skill:check` validates every skill against the code (file paths, `--nk-*` variables, routes, and coverage of components, tokens, motion, assets, icons and flows). Run `npm run resources:build` first if it says the screen index is stale.
+- `.claude/skills/` and `.claude/resources/` are the only source; the plugin, the zip and the Agent Skills package are generated from them (`npm run resources:build` regenerates everything, `npm run release:check` verifies the package).
+- `.claude/resources/brain/` is the brain map the skills read first: an index, one card per flow, and component / token / motion / journey cards, generated from the code. See [its README](./.claude/resources/brain/README.md).
+- `npm run skill:check` validates every skill against the code (file paths, `--nk-*` variables, routes, coverage, and that the brain map is current).
 
 ---
 
@@ -251,6 +281,7 @@ scripts/          checks, screenshots, asset tools, generators
 | `npm run resources:build` | Regenerates `.claude/resources/screens.md`, the categories index, the brain map and the plugin |
 | `npm run skills:package` | Zips the skills for the Claude app |
 | `npm run release:build` | Regenerates the `noon-ui` plugin + marketplace from the skills (also run by `resources:build`) |
+| `npm run release:zip` | Zips the plugin for the Claude app (**Your plugins → Upload local plugin**) → `dist-plugin/noon-ui-<version>.zip` |
 | `npm run release:check` | Checks the plugin / marketplace / skills package (metadata, versions, paths, duplicates, `claude plugin validate`) |
 | `npm run new-flow -- loyalty "noon Loyalty" "Profile"` | Scaffolds a new flow and registers it |
 | `npm run icons:import -- <folder>` | Imports Origin icons exported from Figma |
