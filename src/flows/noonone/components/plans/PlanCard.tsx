@@ -1,8 +1,8 @@
 import { motion } from 'motion/react';
 import { maskSrc } from '../maskSrc';
-import radioOn from '../../../../assets/vip/radio-green-selected.svg';
-import radioOff from '../../../../assets/vip/radio-green-unselected.svg';
-import check from '../../../../assets/vip/check.webp';
+import radioOn from '@assets/vip/radio-green-selected.svg';
+import radioOff from '@assets/vip/radio-green-unselected.svg';
+import check from '@assets/vip/check.webp';
 import { HtmlText, MaskIcon } from '../../../../components';
 import type { V3Bundle, V3Plan } from '../../data.plans';
 import { ChevronLeftRounded, DashedBorder } from './parts';

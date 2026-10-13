@@ -1,6 +1,6 @@
 import { HtmlText } from '../../../components';
 import { useNav, useParams } from '../../../kit/Navigator';
-import oneTrialAlert from '../../../assets/vip/one-trial-alert.webp';
+import oneTrialAlert from '@assets/vip/one-trial-alert.webp';
 import { VIPOverlay, useVipOverlay } from '../components/VIPOverlay';
 import { trialWarningPopup, type InfoOverlayParams } from '../data.payment';
 import styles from './InfoOverlayScreen.module.css';

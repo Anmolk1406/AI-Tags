@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Badge, Pressable } from '../../../components';
 import { ref as tok } from '../../../foundations/tokens';
 import { useNav } from '../../../kit/Navigator';
-import { currency } from '../../../mocks/products';
+import { currency } from '../../../data';
 import { heroInterval2025, heroSlides2025, type HeroSlide } from '../data.header';
 import styles from './HeroBanners.module.css';
 

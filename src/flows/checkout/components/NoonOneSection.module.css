@@ -15,10 +15,31 @@
 .icon { width: var(--nk-layout-chk-noon-one-icon-w); height: var(--nk-layout-chk-noon-one-icon-h); object-fit: contain; }
 .subtitle { padding-bottom: var(--nk-space-s12); }
 .cta { position: relative; padding: 7px var(--nk-space-s12); background: var(--nk-color-chk-noon-one-cta-bg); border-radius: 0 0 var(--nk-radius-r12) var(--nk-radius-r12); text-align: center; }
-.reveal { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; background: var(--nk-palette-anti-flash-white); } /* ctaRevealBackdrop: antiFlashWhite */
+.revealHost { position: absolute; inset: 0; z-index: 2; border-radius: inherit; overflow: hidden; pointer-events: none; }
 .nudge { position: relative; display: flex; flex-direction: row; justify-content: center; align-items: center; padding: 8.5px var(--nk-space-s16); width: 100%; }
 .nudgeText { flex-shrink: 1; color: var(--nk-color-text-inverse); }
 .nudgeStrong { font: var(--nk-type-chk-noon-one-nudge); }
 .nudgePlan { font: var(--nk-type-chk-noon-one-plan); }
 .chevron { width: var(--nk-space-s12); height: var(--nk-space-s12); color: var(--nk-color-text-inverse); }
 [dir='rtl'] .chevron { transform: scaleX(-1); }
+
+/* ── Figma "All flows" Banner/.base 127:44088 (variant="banner") ── */
+/* .base: pt 12, px 4, pb 4, gap 12, r15 */
+.banner .container { gap: var(--nk-space-s12); padding: var(--nk-space-s12) var(--nk-space-s4) var(--nk-space-s4); }
+.banner .enrolled { padding-top: var(--nk-space-s10); }
+/* title row px 12, gap 2 */
+.banner .info { padding: 0 var(--nk-space-s12); }
+.banner .toggle { gap: var(--nk-space-s2); }
+/* Primary/Label2/Bold 16/20 (-0.16) Blue-Gray/900, "free delivery" Savings green */
+.banner .titleText { font: var(--nk-type-text16-bold-lh20); letter-spacing: -0.16px; color: var(--nk-color-text-primary); }
+/* 35×24 window: the "one" lozenge (33.4×19.36) at 0.85 / 2.92 */
+.lozenge { position: relative; flex-shrink: 0; width: 35px; height: 24px; overflow: hidden; }
+/* 69.25×19.36 logo at (−35, 2.92): group A (lozenge) inset-left 51.77%, group B ("one") 58.96% / 29.64% */
+.lozenge img { position: absolute; display: block; }
+.lozengeA { left: 0.85px; top: 2.92px; }
+.lozengeB { left: 5.83px; top: 8.66px; }
+/* _secondary strip: Sementic/BG/positive, py 7, bottom r12 */
+.banner .cta { padding: 7px 0; } /* token-lint: geometry (Figma py 7) */
+/* Primary/Label4/Semibold 12/14 (-0.12) Savings green; struck amount Medium @ 64% */
+.bannerCta { display: block; width: 100%; text-align: center; font: var(--nk-type-text12-semibold-lh14); color: var(--nk-color-best-price-ink); } /* = the reveal's settled text (ctaRevealTextGreen 12/600 grass700) */
+/* Line 1281: 30.05 wide, rotated −12°, centred on the struck amount */

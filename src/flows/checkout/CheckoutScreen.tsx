@@ -5,7 +5,10 @@ import { useDemoStore } from '../../kit/DemoStore';
 import { useNav } from '../../kit/Navigator';
 import type { ScreenProps } from '../../kit/types';
 import { addressStore, useAddressStore } from '../address/store';
+import { AddressCard } from './components/AddressCard';
 import { BurnSection } from './components/BurnSection';
+import { Donation } from './components/Donation';
+import { PointsVouchers } from './components/PointsVouchers';
 import { CheckoutHeader } from './components/CheckoutHeader';
 import { CheckoutShipment } from './components/CheckoutShipment';
 import { CouponStatus } from './components/CouponStatus';
@@ -20,24 +23,34 @@ import { ReceiverDetails } from './components/ReceiverDetails';
 import { Reloader } from './components/Reloader';
 import { SlideButton } from './components/SlideButton';
 import { VoucherToast } from './components/VoucherToast';
-import pointsSeparator from '../../assets/checkout/figma/points-separator.svg';
-import { FAILING_CARD_LAST4, makeOrderId, t, tf, type PaymentCode } from './data';
+import pointsSeparator from '@assets/checkout/figma/points-separator.svg';
+import { FAILING_CARD_LAST4, makeOrderId, t, taf, tf, type PaymentCode } from './data';
 import { checkoutStore, useCheckout } from './store';
 import { useCheckoutTotals, type CheckoutTotals } from './totals';
 import { formatAmount, isCvvValid } from './utils';
 import styles from './checkout.module.css';
 
 /**
- * Screen sections, top → bottom. The default list is the Figma "🚧 Checkout 2.0" frame; the kit sections the
- * frame doesn't show (bappzaar master) stay available — add their ids (in the order you want) via the `sections`
- * param or by editing FIGMA_SECTIONS:
- *   detached_address  · NoonCheckoutScreen detached address card (the Figma header already carries the address)
- *   integrated_noonone · NoonCheckoutNoonOneSection toggle
+ * Screen sections, top → bottom. The default list is the Figma "All flows" Checkout frame (ALL_FLOWS_SECTIONS,
+ * Af34gfmhQ1D0wstXUEHSIF · 127:44077); the previous "🚧 Checkout 2.0" order is FIGMA_SECTIONS and the bappzaar
+ * order MASTER_SECTIONS — pass either (or any list) through the `sections` param:
+ *   address_card       · "All flows" address card (= master detached address, Figma look); header shows "Checkout"
+ *   integrated_noonone · NoonCheckoutNoonOneSection toggle (the "All flows" Banner/.base look in ALL_FLOWS_SECTIONS)
+ *   burn               · "All flows" Points & Vouchers card (master NoonCheckoutBurnSection layout)
+ *   pay_with           · Pay With on its own card (master `payment`)
+ *   payment            · Checkout 2.0 "Cards": Points & Vouchers carousel + Pay With in one card
+ *   donation           · NoonCheckoutDonation
+ * The rest are kit sections the default frame doesn't show:
+ *   detached_address   · NoonCheckoutScreen detached address card (master look; header shows "Checkout")
  *   coupon_status      · NoonCheckoutCouponStatus (needs a cart coupon)
  *   earn               · NoonCheckoutEarnCallout
  *   dynamic_invoice    · master NoonDynamicInvoice "Order Summary" (instead of / next to payment_summary)
  */
 export type CheckoutSectionId =
+  | 'address_card'
+  | 'burn'
+  | 'pay_with'
+  | 'donation'
   | 'shipments'
   | 'delivery_instructions'
   | 'receiver_details'
@@ -49,6 +62,9 @@ export type CheckoutSectionId =
   | 'earn'
   | 'dynamic_invoice';
 
+/** Figma "All flows" Checkout (127:44077) — the default */
+export const ALL_FLOWS_SECTIONS: CheckoutSectionId[] = ['address_card', 'integrated_noonone', 'delivery_instructions', 'receiver_details', 'shipments', 'burn', 'pay_with', 'donation', 'payment_summary'];
+/** Figma "🚧 Checkout 2.0" (zURu7GI7sq77fjdXKrouvo · 14288:183972) — address in the header */
 export const FIGMA_SECTIONS: CheckoutSectionId[] = ['shipments', 'delivery_instructions', 'receiver_details', 'payment', 'payment_summary'];
 /** master section order (MAPPING.md), mapped onto the Figma components */
 export const MASTER_SECTIONS: CheckoutSectionId[] = ['detached_address', 'shipments', 'integrated_noonone', 'delivery_instructions', 'receiver_details', 'payment', 'coupon_status', 'earn', 'dynamic_invoice'];
@@ -58,7 +74,7 @@ export interface CheckoutParams {
   coupon?: string | null;
   /** demo: fail the payment of the next order (NoonCheckoutPaymentFailureScreen) */
   failPayment?: boolean;
-  /** sections to render (default FIGMA_SECTIONS); e.g. MASTER_SECTIONS to bring back the hidden kit sections */
+  /** sections to render (default ALL_FLOWS_SECTIONS); e.g. FIGMA_SECTIONS (Checkout 2.0) or MASTER_SECTIONS */
   sections?: CheckoutSectionId[];
 }
 
@@ -221,15 +237,30 @@ export function CheckoutScreen({ params }: ScreenProps<CheckoutParams>) {
     </div>
   );
 
-  const sections = params.sections ?? FIGMA_SECTIONS;
+  const sections = params.sections ?? ALL_FLOWS_SECTIONS;
+  const isAllFlows = sections.includes('address_card');
+  // master session v3 (detached address): the header shows the title and the address is a section
+  const addressInBody = isAllFlows || sections.includes('detached_address');
   const renderSection = (id: CheckoutSectionId) => {
     switch (id) {
+      case 'address_card':
+        return <AddressCard key={id} address={address} onPress={openAddressSelect} />;
+      case 'burn':
+        return <PointsVouchers key={id} />;
+      case 'pay_with':
+        return (
+          <div key={id} ref={paymentRef} className={styles.cards}>
+            <PaymentMethods cvvInputRef={cvvInputRef} />
+          </div>
+        );
+      case 'donation':
+        return <Donation key={id} />;
       case 'detached_address':
         return <DetachedAddress key={id} address={address} onPress={openAddressSelect} />;
       case 'shipments':
         return totals.shipments.map((sh, i) => <CheckoutShipment key={sh.id} shipment={sh} index={i} selected={totals.selectedPromise[sh.id]} />);
       case 'integrated_noonone':
-        return <NoonOneSection key={id} />;
+        return <NoonOneSection key={id} variant={isAllFlows ? 'banner' : 'master'} />;
       case 'delivery_instructions':
         return <DeliveryInstruction key={id} />;
       case 'receiver_details':
@@ -244,7 +275,7 @@ export function CheckoutScreen({ params }: ScreenProps<CheckoutParams>) {
           </div>
         );
       case 'payment_summary':
-        return <PaymentSummary key={id} totals={totals} coupon={s.coupon} />;
+        return <PaymentSummary key={id} totals={totals} coupon={s.coupon} flush={isAllFlows} />;
       case 'coupon_status':
         return <CouponStatus key={id} />;
       case 'earn':
@@ -257,13 +288,13 @@ export function CheckoutScreen({ params }: ScreenProps<CheckoutParams>) {
   return (
     <div className={styles.root}>
       <Screen
-        header={<CheckoutHeader address={address} scrollY={scrollY} onBack={nav.back} onAddressPress={openAddressSelect} />}
+        header={<CheckoutHeader address={address} scrollY={scrollY} onBack={nav.back} onAddressPress={openAddressSelect} title={addressInBody ? taf.headerTitle : undefined} />}
         footer={footer}
         background="var(--nk-color-chk-fig-page)"
         onScroll={(y) => scrollY.set(y)}
         contentStyle={{ paddingInline: 'var(--nk-space-s12)', paddingTop: 'var(--nk-space-s8)', paddingBottom: 'var(--nk-space-s8)' }}
       >
-        {sections.map(renderSection)}
+        <div className={styles.sections}>{sections.map(renderSection)}</div>
       </Screen>
       <VoucherToast />
       <Reloader visible={s.reloading} />

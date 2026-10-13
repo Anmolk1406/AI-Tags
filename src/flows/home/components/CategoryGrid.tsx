@@ -2,9 +2,9 @@ import type { CSSProperties } from 'react';
 import { Pressable } from '../../../components';
 import { useNav } from '../../../kit/Navigator';
 import { categoryRows, type CategoryLayer, type CategoryTileData } from '../data.rails';
-import tileBg from '../../../assets/home/2025/categories/tile-bg.svg';
-import saleFoldLeft from '../../../assets/home/2025/categories/sale-fold-left.svg';
-import saleFoldRight from '../../../assets/home/2025/categories/sale-fold-right.svg';
+import tileBg from '@assets/home/2025/categories/tile-bg.svg';
+import saleFoldLeft from '@assets/home/2025/categories/sale-fold-left.svg';
+import saleFoldRight from '@assets/home/2025/categories/sale-fold-right.svg';
 import styles from './CategoryGrid.module.css';
 
 /**

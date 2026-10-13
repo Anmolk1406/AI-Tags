@@ -1,4 +1,4 @@
-import { currency, formatPrice, productById, type Product } from '../../mocks/products';
+import { currency, formatPrice, productById, type Product } from '../../data';
 import type { PdpContent } from './data';
 
 /** New PDP (Figma Af34gfmhQ1D0wstXUEHSIF · 64:5571) copy for section group A (header, gallery, main info, bundle card, footer). */

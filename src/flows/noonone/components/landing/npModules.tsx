@@ -1,47 +1,49 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
-import circleBg from '../../../../assets/noonone/landing-np/icon-circle.svg';
-import couponA from '../../../../assets/noonone/landing-np/coupon-a.svg';
-import couponB from '../../../../assets/noonone/landing-np/coupon-b.svg';
-import couponC from '../../../../assets/noonone/landing-np/coupon-c.svg';
-import couponD from '../../../../assets/noonone/landing-np/coupon-d.svg';
-import fabLogoA from '../../../../assets/noonone/landing-np/fab-logo-a.svg';
-import fabLogoB from '../../../../assets/noonone/landing-np/fab-logo-b.svg';
-import gift from '../../../../assets/noonone/landing-np/gift.svg';
-import headphone from '../../../../assets/noonone/landing-np/headphone.svg';
-import illustration from '../../../../assets/noonone/landing-np/hero-illustration.png';
-import mpFood from '../../../../assets/noonone/landing-np/mp-food.svg';
-import mpNoon from '../../../../assets/noonone/landing-np/mp-noon.svg';
-import mpNownow from '../../../../assets/noonone/landing-np/mp-nownow.svg';
-import oneLogo from '../../../../assets/noonone/landing-np/one-logo.png';
-import osn from '../../../../assets/noonone/landing-np/osn.svg';
-import partnerBottom from '../../../../assets/noonone/landing-np/partner-bottom.svg';
-import partnerMask from '../../../../assets/noonone/landing-np/partner-mask.svg';
-import texA from '../../../../assets/noonone/landing-np/partner-tex-a.png';
-import texB from '../../../../assets/noonone/landing-np/partner-tex-b.png';
-import texStc from '../../../../assets/noonone/landing-np/partner-tex-stc.png';
-import topFab from '../../../../assets/noonone/landing-np/partner-top-fab.svg';
-import topStc from '../../../../assets/noonone/landing-np/partner-top-stc.svg';
-import separator from '../../../../assets/noonone/landing-np/separator.svg';
-import star from '../../../../assets/noonone/landing-np/star.svg';
-import stcLogo from '../../../../assets/noonone/landing-np/stc-logo.svg';
-import streamOsn from '../../../../assets/noonone/landing-np/stream-osn.svg';
-import tileFood from '../../../../assets/noonone/landing-np/tile-food.svg';
-import tileMinutes from '../../../../assets/noonone/landing-np/tile-minutes.png';
-import tileNoon from '../../../../assets/noonone/landing-np/tile-noon.svg';
-import tileNownow from '../../../../assets/noonone/landing-np/tile-nownow.svg';
-import tileSupermallA from '../../../../assets/noonone/landing-np/tile-supermall-a.svg';
-import tileSupermallB from '../../../../assets/noonone/landing-np/tile-supermall-b.svg';
-import vipGift from '../../../../assets/vip/gift.svg';
-import vipSparkle from '../../../../assets/vip/star.svg';
+import circleBg from '@assets/noonone/landing-np/icon-circle.svg';
+import couponA from '@assets/noonone/landing-np/coupon-a.svg';
+import couponB from '@assets/noonone/landing-np/coupon-b.svg';
+import couponC from '@assets/noonone/landing-np/coupon-c.svg';
+import couponD from '@assets/noonone/landing-np/coupon-d.svg';
+import fabLogoA from '@assets/noonone/landing-np/fab-logo-a.svg';
+import fabLogoB from '@assets/noonone/landing-np/fab-logo-b.svg';
+import gift from '@assets/noonone/landing-np/gift.svg';
+import headphone from '@assets/noonone/landing-np/headphone.svg';
+import illustration from '@assets/noonone/landing-np/hero-illustration.png';
+import mpFood from '@assets/noonone/landing-np/mp-food.svg';
+import mpNoon from '@assets/noonone/landing-np/mp-noon.svg';
+import mpNownow from '@assets/noonone/landing-np/mp-nownow.svg';
+import oneLogo from '@assets/noonone/landing-np/one-logo.png';
+import osn from '@assets/noonone/landing-np/osn.svg';
+import partnerBottom from '@assets/noonone/landing-np/partner-bottom.svg';
+import partnerMask from '@assets/noonone/landing-np/partner-mask.svg';
+import texA from '@assets/noonone/landing-np/partner-tex-a.png';
+import texB from '@assets/noonone/landing-np/partner-tex-b.png';
+import texStc from '@assets/noonone/landing-np/partner-tex-stc.png';
+import topFab from '@assets/noonone/landing-np/partner-top-fab.svg';
+import topStc from '@assets/noonone/landing-np/partner-top-stc.svg';
+import separator from '@assets/noonone/landing-np/separator.svg';
+import star from '@assets/noonone/landing-np/star.svg';
+import stcLogo from '@assets/noonone/landing-np/stc-logo.svg';
+import streamOsn from '@assets/noonone/landing-np/stream-osn.svg';
+import tileFood from '@assets/noonone/landing-np/tile-food.svg';
+import tileMinutes from '@assets/noonone/landing-np/tile-minutes.png';
+import tileNoon from '@assets/noonone/landing-np/tile-noon.svg';
+import tileNownow from '@assets/noonone/landing-np/tile-nownow.svg';
+import tileSupermallA from '@assets/noonone/landing-np/tile-supermall-a.svg';
+import tileSupermallB from '@assets/noonone/landing-np/tile-supermall-b.svg';
+import vipGift from '@assets/vip/gift.svg';
+import vipSparkle from '@assets/vip/star.svg';
 import { HtmlText, MaskIcon, OriginIcon, Pressable } from '../../../../components';
 import { Stagger } from '../../../../motion/recipes';
 import { useNav } from '../../../../kit/Navigator';
-import type { NpAction, NpModule, NpOfferData, NpMpBenefit, NpPartnerBanner, NpTileId, NpValueProp, NpVideoBanner } from '../../data.landing';
+import type { FlyoutData, NpAction, NpModule, NpOfferData, NpMpBenefit, NpPartnerBanner, NpTileId, NpValueProp, NpVideoBanner } from '../../data.landing';
 import { landingNpTokens as N, landingTokens as T } from '../../tokens';
 import { VIPButton } from '../VIPButton';
 import { SavingsOverviewModule, Slider } from './modules';
-import { SubscriptionButton } from './StickyFooter';
+import { DashedLine } from './DashedLine';
+import { Flyout, SubscriptionButton } from './StickyFooter';
+import landingStyles from './landing.module.css';
 import styles from './np.module.css';
 
 /**
@@ -428,10 +430,35 @@ export function NpModuleRenderer({ modules, onCreate }: { modules: NpModule[]; o
 }
 
 /** Bottom section 24:2745: VIPLandingScreen.renderStickyFooter ('/create' → VIPSubscriptionButtonV2), no flyout / view-plans link in prod. */
-export function NpStickyFooter({ subscription }: { subscription: Parameters<typeof SubscriptionButton>[0] }) {
+/**
+ * VIPLandingScreen.renderStickyFooter, prod non-member: offerFlyout strip on top (the footer loses its top radius, the
+ * flyout carries it) · the '/create' CTA (Figma 24:2745 styling) · dashed "View other plans" link (viewPlansButton).
+ */
+export function NpStickyFooter({
+  subscription,
+  flyout,
+  onFlyout,
+  viewPlansTitle,
+  onViewPlans,
+}: {
+  subscription: Parameters<typeof SubscriptionButton>[0];
+  flyout?: FlyoutData;
+  onFlyout?: (url: string) => void;
+  viewPlansTitle?: string;
+  onViewPlans?: () => void;
+}) {
   return (
-    <div className={styles.footer}>
-      <SubscriptionButton {...subscription} buttonClassName={styles.cta} buttonPayClassName={styles.ctaPay} textClassName={styles.ctaText} />
+    <div className={styles.footerWrap} data-flyout={flyout ? '' : undefined}>
+      {flyout && <Flyout data={flyout} onNavigate={onFlyout} />}
+      <div className={styles.footer}>
+        <SubscriptionButton {...subscription} buttonClassName={styles.cta} buttonPayClassName={styles.ctaPay} textClassName={styles.ctaText} />
+        {viewPlansTitle && onViewPlans && (
+          <div className={landingStyles.viewPlansWrap}>
+            <DashedLine className={landingStyles.viewPlansDash} strokeWidth={4} strokeSpacing={5} strokeHeight={1} color="var(--nk-color-text-body)" />
+            <VIPButton className={landingStyles.viewPlans} textClassName={landingStyles.viewPlansText} title={viewPlansTitle} onPress={onViewPlans} />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

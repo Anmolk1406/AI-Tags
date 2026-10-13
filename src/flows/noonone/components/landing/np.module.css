@@ -198,6 +198,13 @@
   padding: var(--nk-space-s12) var(--nk-space-s16) calc(var(--nk-inset-bottom) + var(--nk-layout-vip-np-footer-pad-b));
   background: var(--nk-palette-white); border-radius: var(--nk-radius-r12) var(--nk-radius-r12) 0 0; box-shadow: var(--nk-shadow-vip-np-footer);
 }
+/* with an offerFlyout the strip sits on top and carries the 12 top radius (renderStickyFooter noBorderRadius) */
+.footerWrap { position: relative; }
+/* stickyButtonContainer alignItems center: the dashed link hugs its label */
+.footer { display: flex; flex-direction: column; align-items: center; }
+.footer > :first-child { align-self: stretch; }
+.footerWrap[data-flyout] { border-radius: var(--nk-radius-r12) var(--nk-radius-r12) 0 0; overflow: hidden; box-shadow: var(--nk-shadow-vip-np-footer); }
+.footerWrap[data-flyout] .footer { border-radius: 0; box-shadow: none; }
 .cta { width: 100%; height: var(--nk-layout-vip-np-cta); border-radius: var(--nk-radius-r12); background: var(--nk-color-brand-ink); }
 .ctaPay { height: var(--nk-layout-vip-sticky-button-pay); }
 .ctaText { font: var(--nk-type-vip-np-cta); letter-spacing: var(--nk-layout-vip-np-track); color: var(--nk-palette-white); }

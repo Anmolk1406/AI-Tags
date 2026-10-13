@@ -1,16 +1,16 @@
 import type { CSSProperties } from 'react';
-import pillExpress from '../../assets/marketplace/pill-express.svg';
-import pillFood from '../../assets/marketplace/pill-food.svg';
-import supermallMall from '../../assets/marketplace/supermall-mall.svg';
-import supermallSuper from '../../assets/marketplace/supermall-super.svg';
-import marketIcon from '../../assets/marketplace/market-icon.svg';
-import marketText from '../../assets/marketplace/market-text.svg';
-import globalContent from '../../assets/marketplace/global-content.svg';
-import minutesText from '../../assets/marketplace/minutes-text.svg';
-import logoSupermall from '../../assets/marketplace/logo-supermall.svg';
-import logoFood from '../../assets/marketplace/logo-food.svg';
-import logoMinutes from '../../assets/marketplace/logo-minutes.svg';
-import logoNoon from '../../assets/marketplace/logo-noon.svg';
+import pillExpress from '@assets/marketplace/pill-express.svg';
+import pillFood from '@assets/marketplace/pill-food.svg';
+import supermallMall from '@assets/marketplace/supermall-mall.svg';
+import supermallSuper from '@assets/marketplace/supermall-super.svg';
+import marketIcon from '@assets/marketplace/market-icon.svg';
+import marketText from '@assets/marketplace/market-text.svg';
+import globalContent from '@assets/marketplace/global-content.svg';
+import minutesText from '@assets/marketplace/minutes-text.svg';
+import logoSupermall from '@assets/marketplace/logo-supermall.svg';
+import logoFood from '@assets/marketplace/logo-food.svg';
+import logoMinutes from '@assets/marketplace/logo-minutes.svg';
+import logoNoon from '@assets/marketplace/logo-noon.svg';
 import { radius, ref } from '../../foundations/tokens';
 
 export type MarketplacePill = 'express' | 'supermall' | 'market' | 'global' | 'food' | 'minutes';

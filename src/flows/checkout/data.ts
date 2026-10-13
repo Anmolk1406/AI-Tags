@@ -1,4 +1,4 @@
-import { currency, user } from '../../mocks/products';
+import { currency, user } from '../../data';
 
 /**
  * Shared checkout mock content. Strings come from bappzaar origin/master translations
@@ -135,4 +135,41 @@ export const cashback = {
   coupon: (subtotal: number, hasCoupon: boolean) => (hasCoupon ? Math.round(subtotal * 0.02) : 0),
   /** noon One Credit Card cashback = 5% of what the card would be charged */
   noonOneCard: (orderPaymentAmount: number) => Math.round(orderPaymentAmount * 0.05 * 100) / 100,
+};
+
+/* ───────────────────────── Figma "All flows" Checkout (Af34gfmhQ1D0wstXUEHSIF · 127:44077) ───────────────────────── */
+
+/** Copy for the "All flows" sections. Translation keys from noon-en.json where master has one; the rest is session copy. */
+export const taf = {
+  /** noon_checkout_header */
+  headerTitle: 'Checkout',
+  /** server: integratedNoonone.title / cta (Banner/.base) */
+  noonOneTitle: '<p><b>Get <green>free delivery</green> with</b></p>',
+  noonOneCtaPrefix: 'On orders above',
+  noonOneWas: 100,
+  noonOneNow: 50,
+  /** noon_donate_to */
+  donateTo: (name: string) => `Donate to ${name}`,
+  /** noon_learn_more */
+  learnMore: 'Learn more',
+  /** noon_donations_amount_note */
+  donationNote: '*Non-refundable donation will be added to your order total',
+  /** noon_donation_got_it / noon_donation_permit / noon_donation */
+  donationGotIt: 'Got it!',
+  donationPermit: 'Permit',
+  donation: 'Donation',
+} as const;
+
+/**
+ * server: session `charity` (NoonCheckoutDonation). `amounts` drive the pills; `labels` is the Figma "1 MEAL"
+ * sub-label (not in the master payload — demo only). `logo` is the CDN logo in the app (Figma DABS export here).
+ */
+export const charity = {
+  name: 'Dar Al Ber Society',
+  description: '<p>Contribute with Dar Al Ber Society to provide orphaned children vital food</p>',
+  longDescription:
+    '<p>Dar Al Ber Society is a UAE charity that supports orphans, low-income families and people in need. Your donation goes to its food programme for orphaned children; the full amount reaches the society.</p>',
+  permit: 'IACAD-2024-0193',
+  amounts: [5, 10, 15, 20, 25],
+  labels: { 5: '1 MEAL' } as Record<number, string>,
 };

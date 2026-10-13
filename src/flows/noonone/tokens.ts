@@ -394,6 +394,8 @@ export const landingNpFlowTokens: TokenOverrides = {
   colors: {
     /** page background gray/200 */
     vipNpPage: '#F5F5F5',
+    /** landingV2.offerFlyout.backgroundColor (server hex; prod screenshot "Don't miss noon One at the lowest price") */
+    vipNpOfferFlyout: '#52875D', // token-lint-ignore — flow token definition (server colour)
     /** value-prop sub text rgba(2,6,12,.75); value-prop title rgba(2,6,12,.92) */
     vipNpInk92: 'rgba(2, 6, 12, 0.92)',
     /** marketplace circle border rgba(2,6,12,.05) */

@@ -1,17 +1,17 @@
-import payInstallments from '../../assets/products/iphone-17-pro/pay-installments.webp';
-import payNoonOne from '../../assets/products/iphone-17-pro/pay-noon-one-card.webp';
-import paySplit from '../../assets/products/iphone-17-pro/pay-split.webp';
-import review1 from '../../assets/products/iphone-17-pro/review-1.webp';
-import review2 from '../../assets/products/iphone-17-pro/review-2.webp';
-import review3 from '../../assets/products/iphone-17-pro/review-3.webp';
-import review4 from '../../assets/products/iphone-17-pro/review-4.webp';
-import review5 from '../../assets/products/iphone-17-pro/review-5.webp';
-import swatchDeepBlue from '../../assets/products/iphone-17-pro/swatch-deep-blue.webp';
-import swatchOrange from '../../assets/products/iphone-17-pro/swatch-cosmic-orange.webp';
-import swatchSilver from '../../assets/products/iphone-17-pro/swatch-silver.webp';
+import payInstallments from '@assets/products/iphone-17-pro/pay-installments.webp';
+import payNoonOne from '@assets/products/iphone-17-pro/pay-noon-one-card.webp';
+import paySplit from '@assets/products/iphone-17-pro/pay-split.webp';
+import review1 from '@assets/products/iphone-17-pro/review-1.webp';
+import review2 from '@assets/products/iphone-17-pro/review-2.webp';
+import review3 from '@assets/products/iphone-17-pro/review-3.webp';
+import review4 from '@assets/products/iphone-17-pro/review-4.webp';
+import review5 from '@assets/products/iphone-17-pro/review-5.webp';
+import swatchDeepBlue from '@assets/products/iphone-17-pro/swatch-deep-blue.webp';
+import swatchOrange from '@assets/products/iphone-17-pro/swatch-cosmic-orange.webp';
+import swatchSilver from '@assets/products/iphone-17-pro/swatch-silver.webp';
 import { palette } from '../../foundations/palette';
-import { leafName } from '../../mocks/categories';
-import { fbtFor, IPHONE_17_PRO_ID, products, variantFamilies, type Product, type ProductAttributes } from '../../mocks/products';
+import { leafName } from '../../data';
+import { fbtFor, IPHONE_17_PRO_ID, products, variantFamilies, type Product, type ProductAttributes } from '../../data';
 import { money, type PdpContent, type VariantGroup } from './data';
 
 /**

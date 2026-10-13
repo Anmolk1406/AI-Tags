@@ -1,11 +1,11 @@
 import { motion, type MotionValue } from 'motion/react';
 import { useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
-import chevronLeft from '../../../../assets/vip/chevron-left-rounded.svg';
-import chevronUp from '../../../../assets/vip/chevron-up-rounded.svg';
-import applePay from '../../../../assets/shared/payment/apple-pay.webp';
-import visa from '../../../../assets/shared/payment/brand-card-visa.webp';
-import mastercard from '../../../../assets/shared/payment/brand-card-mastercard.webp';
-import amex from '../../../../assets/shared/payment/brand-card-amex.webp';
+import chevronLeft from '@assets/vip/chevron-left-rounded.svg';
+import chevronUp from '@assets/vip/chevron-up-rounded.svg';
+import applePay from '@assets/shared/payment/apple-pay.webp';
+import visa from '@assets/shared/payment/brand-card-visa.webp';
+import mastercard from '@assets/shared/payment/brand-card-mastercard.webp';
+import amex from '@assets/shared/payment/brand-card-amex.webp';
 import { useNav } from '../../../../kit/Navigator';
 import type { NoononeState } from '../../store';
 import { VIPButton } from '../VIPButton';

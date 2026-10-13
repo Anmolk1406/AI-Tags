@@ -1,5 +1,5 @@
 import { Icon, Pressable, ProductImage } from '../../../components';
-import type { Product } from '../../../mocks/products';
+import type { Product } from '../../../data';
 import { ref } from '../../../foundations/tokens';
 
 /** Bolds the matched part of `text` (NoonSearchSuggestionRow highlight). */

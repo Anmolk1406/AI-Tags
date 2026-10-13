@@ -143,6 +143,26 @@ Source: `~/bappzaar` `origin/master` (read-only, git objects). Render tree: `mar
 
 Figma 2025 modules that the live payload doesn't have and that are therefore no longer on `home/home` (files kept): `PromoTicker` (the cashback ticker; its slot is the homepage-toggle strip, row 4), `CategoryGrid`, `OfferTickets`, `ProductRail`, `KeepShopping`, `BrandAdModule`, `LaunchModule`, `HeroBanners`, `DepartmentTabs`, `EidAdBanner`.
 
+### Product carousel card (NoonProductCard `isCarousel`)
+
+`marketplaces/noon/components/NoonProductCard/{NoonProductCard.tsx,styles.ts}` via `NoonOptimizedProductCarousel/CarouselItem` → `ProductBox isCarousel isOptimizedProductBox`. Values resolved from `NoonTokens` (`marketplaces/noon/theme/tokens`) and `src/theme/Metrics.ts` at 390.
+
+| bappzaar element | value | kit token / prop |
+| --- | --- | --- |
+| box (`carouselLayout` + `styles.box`, `container` + `carouselContainer`) | width 138, r8, border 0, white, paddingBottom 10 | `ProductCard carousel width={bz.productWidth}`, `--nk-radius-r8`, `--nk-space-s10` |
+| image (`imageSizeStyle`) | 138 × `round((138 − 14) · 1.361)` = 169, `contain` | `ProductImage aspect` |
+| `imageOverlay` + `carouselImage` | `rgba(0,0,0,.02)`, r8 (all corners) | `ProductImage radius={radius.r8}`, `--nk-color-image-overlay` |
+| Best Seller (`NoonMarketplaceTag` + `catalogTag*`), copy `noon_best_seller` | top-left 0/0, 20h, px 8, `#0A4F4A` (darkGreenTeal), bottom-end r10, 12/600 lh14 white | `CatalogTag` (`--nk-color-best-seller-tag`, `text12SemiboldLh14`) |
+| heart (`imageTopRightWrapperStyle` + `NoonFavourite` wrapper) | top 4 right 4, 24 circle, `whiteAlpha(0.7)` | `WishlistHeart box={24}` (icon 18) |
+| quick add (`NoonCard.MediaBottom` padding 4 + `imageBottomWrapperCarousel` bottom 2, `NoonProductBoxAddToCart.roundButton`) | bottom 6 right 4, 36 × 36 r8, white, 1px `#F2F3F7` | `.card[data-carousel] .quick` `--nk-space-s6`, `QuickAdd` (`quickAdd` tokens) |
+| `infoCarousel` | px 4, marginBottom 2 | `.info` padding `--nk-space-s4`, margin-bottom `--nk-space-s2` |
+| title (`NoonCard.Title` + `nameAdjustedContainer`; the `marginTop={6}` prop is ignored by RN Text) | brand + name, 14/500 lh18 `#212121`, 2 lines, marginTop 4 | `Text variant="productTitle" color="textProduct" lines={2}` |
+| `NoonProductRating` | marginTop 4, `#F7F8FA` r6, py 2 px 6, gap 4; 12/600 `#101628`; star 11 by score; count 12 `#666D85` | `RatingPill` |
+| `PriceDiscounted` (`priceDiscountedStyles`, `showDiscountInline hideCurrency isCompact hideOffText`) | marginTop 6, wrap; sale + sign 16/700 `#0E0E0E` (`saleCurrency`), marginRight 4; was 12 `#7E859B` struck; discount 12/600 `#05AF25` "n%" (Discount px 3) | `Price offSuffix={false} currencySize="sale"`, wrapper `margin-top: --nk-space-s2` on top of the info gap 4 |
+| `flagAndDiscountRow` + `flagAndDiscountRowCarousel`, `NoonEstimatedDelivery isCarousel` | marginTop 4, px 4, express flag 60 × 18, delivery text hidden | `.delivery` 18h, `ExpressBadge` |
+
+Not matched: the prod screenshot shows the rating as "4.8 ★ (7.6K)" (kit order); bappzaar master's `NoonProductRating` puts the star before the score. The discount sits 4 from the struck price (bappzaar Discount px 3).
+
 ### Ad banner formula (row 7, homepage-top-fold-2)
 
 `AdBannerModule` (no `shouldFetchAds`) → `AdBannerModuleV1` → `ModuleWrapper` → `BannerModule.renderGrid` (type is not strip / carousel / scroller) → `renderBannerRow` → `BannerContent` → `StaticImage`:

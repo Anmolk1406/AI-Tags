@@ -1,6 +1,6 @@
 import { OriginIcon, Pressable, ProductImage } from '../../../../components';
 import { useNav } from '../../../../kit/Navigator';
-import { products, type Product } from '../../../../mocks/products';
+import { products, type Product } from '../../../../data';
 import { money } from '../../data';
 import styles from './SfNewerModelCard.module.css';
 

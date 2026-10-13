@@ -1,4 +1,4 @@
-import { user } from '../../mocks/products';
+import { user } from '../../data';
 
 /**
  * Copy — every string is the real value from bappzaar origin/master

@@ -1,11 +1,12 @@
 import { AnimatePresence, motion } from 'motion/react';
 import type { ReactNode } from 'react';
-import { currency } from '../../../mocks/products';
-import divider from '../../../assets/checkout/figma/summary-divider.svg';
-import savingsWave from '../../../assets/checkout/figma/savings-wave.svg';
-import noonOneA from '../../../assets/checkout/figma/noonone-logo-a.svg';
-import noonOneB from '../../../assets/checkout/figma/noonone-logo-b.svg';
-import noonOneC from '../../../assets/checkout/figma/noonone-logo-c.svg';
+import { currency } from '../../../data';
+import divider from '@assets/checkout/figma/summary-divider.svg';
+import savingsWave from '@assets/checkout/figma/savings-wave.svg';
+import savingsWave351 from '@assets/checkout/figma/savings-wave-351.svg';
+import noonOneA from '@assets/checkout/figma/noonone-logo-a.svg';
+import noonOneB from '@assets/checkout/figma/noonone-logo-b.svg';
+import noonOneC from '@assets/checkout/figma/noonone-logo-c.svg';
 import { cashback, tf } from '../data';
 import type { CheckoutTotals } from '../totals';
 import { formatAmount } from '../utils';
@@ -46,7 +47,7 @@ function Strip({ label, children, underline }: { label: string; children: ReactN
  * points, credits, donation); dashed divider; Coupon discount; divider; Total 17/20 Bold; then the Emerald/100
  * savings strip under the wave (Coupon Cashback, noon One credit card cashback + note). Amounts are cart-driven.
  */
-export function PaymentSummary({ totals, coupon }: { totals: CheckoutTotals; coupon: string | null }) {
+export function PaymentSummary({ totals, coupon, flush = false }: { totals: CheckoutTotals; coupon: string | null; /** Figma "All flows" 127:44358: same width as the other sections (351, no −2 bleed) + its 351 wave */ flush?: boolean }) {
   const mrp = totals.mrp;
   const extras: { label: string; value: string }[] = [];
   if (totals.addOns) extras.push({ label: 'Protection plans', value: money(totals.addOns) });
@@ -57,7 +58,7 @@ export function PaymentSummary({ totals, coupon }: { totals: CheckoutTotals; cou
   const cardCashback = cashback.noonOneCard(totals.orderPaymentAmount);
 
   return (
-    <div className={styles.wrapper}>
+    <div className={flush ? `${styles.wrapper} ${styles.flush}` : styles.wrapper}>
       <div className={styles.card}>
         <div className={styles.content}>
           <div className={styles.header}>
@@ -112,7 +113,7 @@ export function PaymentSummary({ totals, coupon }: { totals: CheckoutTotals; cou
         </div>
         {(couponCashback > 0 || cardCashback > 0) && (
           <div className={styles.savings}>
-            <img className={styles.savingsWave} src={savingsWave} width={355} height={5} alt="" />
+            <img className={styles.savingsWave} src={flush ? savingsWave351 : savingsWave} width={flush ? 351 : 355} height={5} alt="" />
             <div className={styles.savingsContent}>
               {couponCashback > 0 && (
                 <div className={styles.savingsRow}>

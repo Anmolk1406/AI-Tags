@@ -5,7 +5,7 @@ import { ref } from '../../foundations/tokens';
 import { useNav } from '../../kit/Navigator';
 import { haptic } from '../../motion/haptics';
 import { spring, supermall } from '../../motion/presets';
-import { currency } from '../../mocks/products';
+import { currency } from '../../data';
 import { art } from './assets';
 import { BillSummary } from './components/BillSummary';
 import { ImageStack } from './components/ImageStack';
@@ -13,7 +13,7 @@ import { PinTiles } from './components/PinTiles';
 import { Stepper } from './components/Stepper';
 import { Thumb } from './components/Thumb';
 import { WindowPill } from './components/WindowPill';
-import { heroVariant, isActive, money2, orderById, type Order } from './data';
+import { heroVariant, isActive, money2, orderById, stepsFor, trackingFor, type Order, type OrderAction, type OrderTracking } from './data';
 import { pressDip, reveal } from './motion';
 import styles from './orders.module.css';
 import { ordersTokens } from './tokens';
@@ -23,7 +23,10 @@ import { ordersTokens } from './tokens';
  * header (back, order number + copy, item count, ⋯), fanned image stack with the express pill, status line, big
  * ETA, delivery-window pill (V2–V4: hot-afternoon pill + advice and a warm backdrop), tracker card (stepper, rider,
  * delivery PIN, Reschedule / See all updates), Delivering to, Order summary (Cancel items → orders/cancel),
- * Bill summary, chat FAB. Delivered / returned / exchanged / cancelled orders reuse the layout without rider and PIN.
+ * Bill summary, chat FAB. Delivered / returned / exchanged / cancelled orders follow bappzaar O2DOrderTrackingScreen
+ * per state (`trackingFor`, MAPPING.md → States): status line + headline, which timeline (delivery / return / exchange,
+ * hidden when cancelled), the status message, the CTA row (Return, Track refund, Get help, See all updates), the
+ * delivery card title, Quick actions on return cards and no bill there.
  */
 export function OrderTrackingScreen({ params }: { params: { orderId?: string; variant?: string | number } }) {
   const nav = useNav();
@@ -31,6 +34,8 @@ export function OrderTrackingScreen({ params }: { params: { orderId?: string; va
   const variant = heroVariant(params.variant);
   const active = isActive(order);
   const cancelled = order.status === 'cancelled';
+  const t = trackingFor(order);
+  const act = useOrderAction(order, t);
   const stack = order.stack ?? order.items.map((it) => ({ image: it.product.image ?? '', title: it.product.title, qty: it.qty, installation: it.installation }));
 
   const copy = () => {
@@ -77,29 +82,35 @@ export function OrderTrackingScreen({ params }: { params: { orderId?: string; va
             </motion.div>
             <motion.div className={styles.heroText} {...reveal(2)}>
               <div className={styles.statusLine}>
-                {order.statusLabel}
-                <i />
-                {cancelled ? <b style={{ color: 'var(--nk-palette-danger-red)' }}>Refunded</b> : <b>{active ? 'On time' : 'Completed'}</b>}
+                {t.highStatus && (
+                  <>
+                    {t.highStatus}
+                    <i />
+                  </>
+                )}
+                <b data-tone={t.badgeTone}>{t.badge}</b>
               </div>
-              <h1 className={styles.headline}>{order.eta}</h1>
+              <h1 className={styles.headline} data-tone={t.titleTone}>
+                {order.eta}
+              </h1>
               {active && order.window && <WindowPill variant={variant} text={order.window} heatText={order.heatWindow ?? order.window} onInfo={() => nav.toast('Your rider is on the way — we will share live updates')} />}
             </motion.div>
           </div>
 
           <motion.section className={styles.tracker} {...reveal(3)}>
-            <Stepper step={order.step} dates={order.stepDates} enRoute={order.status === 'out_for_delivery'} gray={cancelled} />
+            {t.timeline && <Stepper step={order.step} dates={order.stepDates} enRoute={order.status === 'out_for_delivery'} steps={stepsFor(t.timeline)} />}
+            {t.message && <p className={styles.trackMsg} data-top={!t.timeline || undefined}>{richText(t.message)}</p>}
             {order.rider && <RiderBlock order={order} />}
             <div className={styles.ctaRow}>
-              <Button variant="secondary" className={styles.ctaBtn} onClick={() => nav.toast(active ? 'Reschedule — demo only' : 'Need help with this order?')}>
-                {active ? 'Reschedule' : 'Get help'}
-              </Button>
-              <Button variant="secondary" className={styles.ctaBtn} onClick={() => nav.toast('All updates — demo only')}>
-                See all updates
-              </Button>
+              {t.actions.map((a) => (
+                <Button key={a.code} variant="secondary" className={styles.ctaBtn} data-dark={a.code === 'view_refund_tracking' || undefined} onClick={() => act(a)}>
+                  {a.label}
+                </Button>
+              ))}
             </div>
           </motion.section>
 
-          {order.address && <DeliveringTo order={order} />}
+          {order.address && <DeliveringTo order={order} title={t.addressTitle} full={active} />}
 
           <motion.section className={styles.summary} {...reveal(5)}>
             <div className={styles.summaryHead} style={{ alignSelf: 'stretch' }}>
@@ -140,6 +151,11 @@ export function OrderTrackingScreen({ params }: { params: { orderId?: string; va
                                 <OriginIcon name="star-shield" size={16} color={ref.color('success')} /> {it.warranty}
                               </p>
                             )}
+                            {it.returnPolicy === 'closed' && (
+                              <p className={styles.note}>
+                                <OriginIcon name="rewind-cross" size={16} /> Return window closed
+                              </p>
+                            )}
                             {it.returnPolicy === 'none' && (
                               <p className={styles.note}>
                                 <OriginIcon name="rewind-cross" size={16} /> Cannot be exchanged or returned
@@ -155,15 +171,66 @@ export function OrderTrackingScreen({ params }: { params: { orderId?: string; va
             </div>
           </motion.section>
 
-          {order.bill && (
+          {order.bill && !t.returnCard && (
             <motion.div {...reveal(6)}>
               <BillSummary bill={order.bill} />
             </motion.div>
+          )}
+
+          {t.quickActions && (
+            <motion.section className={styles.block} {...reveal(6)}>
+              <h2 className={styles.blockTitle}>Quick actions</h2>
+              <div className={styles.quickList}>
+                {t.quickActions.map((a, i) => (
+                  <div key={a.code} style={{ display: 'flex', flexDirection: 'column' }}>
+                    {i > 0 && <DashedDivider color={ref.color('border')} inset="44px 0" margin="0" />}
+                    <Pressable className={styles.quickRow} onClick={() => act(a)}>
+                      <span className={styles.infoIcon}>
+                        <OriginIcon name={a.icon} size={20} />
+                      </span>
+                      <span className={styles.quickLabel}>{a.label}</span>
+                      <OriginIcon name="chevron-right" size={20} color={ref.color('textTertiary')} />
+                    </Pressable>
+                  </div>
+                ))}
+              </div>
+            </motion.section>
           )}
         </div>
       </div>
     </Screen>
   );
+}
+
+/** `**bold**` in a server status message → <b> (master renders `message_html`) */
+function richText(text: string) {
+  return text.split(/\*\*(.+?)\*\*/g).map((part, i) => (i % 2 ? <b key={i}>{part}</b> : part));
+}
+
+/** bappzaar useO2DOrderTrackingActions: one handler per action code (screens the kit doesn't port are toasts) */
+function useOrderAction(order: Order, t: OrderTracking) {
+  const nav = useNav();
+  return (a: OrderAction) => {
+    haptic('tap');
+    switch (a.code) {
+      case 'see_all_actions':
+        return nav.sheet('orders/updates', { orderId: order.id });
+      case 'return_initiate':
+        // AFSReturnsReturnSubmissionScreen (mpItemNr) → returns/submit
+        return nav.push('returns/submit', { orderId: order.id, productId: order.returnItem?.productId });
+      case 'view_return_details':
+        return nav.push('returns/details');
+      case 'view_refund_tracking':
+        // OrderRefundDetailsScreen is not ported: return cards open the return details (refund timeline), others toast
+        return t.returnCard ? nav.push('returns/details') : nav.toast(order.refund ? `Refund credited to ${order.refund.to} on ${order.refund.on}` : 'Refund details — demo only');
+      case 'view_return_policy':
+        return nav.toast('Return policy — demo only');
+      case 'reschedule':
+        return nav.toast('Reschedule — demo only');
+      default:
+        return nav.toast('Need help with this order?');
+    }
+  };
 }
 
 /** rider row + share PIN inside the tracker card (inset 4, `#F9F9FB`) */
@@ -207,7 +274,7 @@ function RiderBlock({ order }: { order: Order }) {
 }
 
 /** "Delivering to": address + receiver rows, and the two delivery-instruction checkbox tiles */
-function DeliveringTo({ order }: { order: Order }) {
+function DeliveringTo({ order, title, full }: { order: Order; title: OrderTracking['addressTitle']; full: boolean }) {
   const nav = useNav();
   const [on, setOn] = useState<Record<string, boolean>>({});
   const [taps, setTaps] = useState<Record<string, number>>({});
@@ -217,7 +284,7 @@ function DeliveringTo({ order }: { order: Order }) {
   ];
   return (
     <motion.section className={styles.block} {...reveal(4)}>
-      <h2 className={styles.blockTitle}>Delivering to</h2>
+      <h2 className={styles.blockTitle}>{title}</h2>
       <div className={styles.infoRows}>
         <div className={styles.infoMain}>
           <span className={styles.infoIcon}>
@@ -228,7 +295,7 @@ function DeliveringTo({ order }: { order: Order }) {
             <span className={styles.infoSub}>{order.address!.line}</span>
           </span>
         </div>
-        {order.receiver && (
+        {full && order.receiver && (
           <div className={styles.infoRow}>
             <div className={styles.infoMain}>
               <span className={styles.infoIcon}>
@@ -249,6 +316,8 @@ function DeliveringTo({ order }: { order: Order }) {
           </div>
         )}
       </div>
+      {full && (
+        <>
       <DashedDivider color={ref.color('border')} inset={4} margin="-1px 0 0" />
       <div className={styles.tiles}>
         {tiles.map((t) => (
@@ -275,6 +344,8 @@ function DeliveringTo({ order }: { order: Order }) {
           </Pressable>
         ))}
       </div>
+        </>
+      )}
     </motion.section>
   );
 }

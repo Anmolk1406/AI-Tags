@@ -2,7 +2,7 @@ import { animate, motion, useMotionValue } from 'motion/react';
 import { useLayoutEffect, useRef, type ReactNode } from 'react';
 import { MarketplaceTag, Pressable } from '../../../components';
 import { haptic } from '../../../motion/haptics';
-import noonLogo from '../../../assets/plp/fulfillment/noon-wide-assortment.png';
+import noonLogo from '@assets/plp/fulfillment/noon-wide-assortment.png';
 import { plpTokens } from '../tokens';
 import styles from '../plp.module.css';
 

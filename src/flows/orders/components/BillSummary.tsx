@@ -1,7 +1,7 @@
 import { Button, DashedDivider, OriginIcon, Pressable } from '../../../components';
 import { ref } from '../../../foundations/tokens';
 import { useNav } from '../../../kit/Navigator';
-import { currency } from '../../../mocks/products';
+import { currency } from '../../../data';
 import { art } from '../assets';
 import { money, money2, type Bill } from '../data';
 import styles from '../orders.module.css';

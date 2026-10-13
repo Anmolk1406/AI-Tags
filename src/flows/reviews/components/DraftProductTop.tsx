@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { MaskIcon } from '../../../components';
 import { ref } from '../../../foundations/tokens';
-import paperclip from '../../../assets/reviews/paperclip.svg';
+import paperclip from '@assets/reviews/paperclip.svg';
 import { reviewsDraft as D } from '../tokens.draft';
 import { reviewsMotion as M } from '../tokens';
 import { StarRatingInput } from './StarRatingInput';

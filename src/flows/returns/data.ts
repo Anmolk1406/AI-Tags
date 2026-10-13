@@ -1,4 +1,4 @@
-import { liveProducts, products, user, type Product, currency } from '../../mocks/products';
+import { getProduct, productById, user, type Product, currency } from '../../data';
 
 /**
  * Copy from bappzaar origin/master translations (see MAPPING.md §13) and mock returns-API payloads
@@ -105,12 +105,13 @@ export const copy = {
 
 /** productId → any catalogue product (demo products, the live iPhone page, its carousels), by id or sku. */
 export function resolveProduct(id?: string): Product {
-  const all = [...products, ...liveProducts];
-  return all.find((p) => p.id === id || p.sku === id) ?? products.find((p) => p.id === 'p5') ?? products[0];
+  // the whole catalogue (src/data) — incl. the orders items, so "Return" on an order (orders/tracking?orderId=o9)
+  // opens the same product; unknown ids show the demo item p5
+  return getProduct(id) ?? productById('p5');
 }
 
-/** order the demo item belongs to (src/flows/orders/data.ts: p5 → o3) */
-export const orderIdFor = (productId: string) => (productId === 'p5' ? 'o3' : 'o3');
+/** order the demo item belongs to (src/flows/orders/data.ts: p5 → o3, the o9 fridge → o9) */
+export const orderIdFor = (productId: string) => (productId === 'pds-fridge' ? 'o9' : 'o3');
 
 const orderNumbers: Record<string, string> = { p5: 'NAEH40021571220', p3: 'NAEH40021588107', p8: 'NAEH40021530778', p7: 'NAEH40021544019' };
 const orderNumberFor = (p: Product) => orderNumbers[p.id] ?? `NAEH4002${String(Math.abs(hash(p.id))).padStart(7, '0').slice(0, 7)}`;

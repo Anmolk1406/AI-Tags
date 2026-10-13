@@ -1,4 +1,4 @@
-import type { Product } from '../../mocks/products';
+import type { Product } from '../../data';
 
 /**
  * New PDP (Figma Af34gfmhQ1D0wstXUEHSIF · 64:5571) copy and mock data for section group C. Copy keys follow

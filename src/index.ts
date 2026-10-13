@@ -26,5 +26,5 @@ export { haptics, haptic, type HapticKind } from './motion/haptics';
 export { registerTransition, getTransition, listTransitions, type ScreenTransition, type TransitionName } from './motion/transitions';
 
 export * from './components';
-export * from './mocks/products';
+export * from './data';
 export * from './flows';

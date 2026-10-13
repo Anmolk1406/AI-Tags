@@ -9,7 +9,7 @@ import { rewardsStore } from './store.rewards';
 import { useCheckoutTotals } from './totals';
 import { checkoutServerColors } from './tokens';
 import styles from './components/providerForm.module.css';
-import { currency } from '../../mocks/products';
+import { currency } from '../../data';
 
 export interface ProviderBurnOtpParams {
   code?: string;

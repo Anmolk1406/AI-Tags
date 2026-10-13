@@ -1,9 +1,9 @@
-import cardIcon from '../../../assets/cart/figma/card.svg';
-import fastDelivery from '../../../assets/cart/figma/fast-delivery.svg';
-import nonReturnable from '../../../assets/cart/figma/non-returnable.svg';
-import refunds from '../../../assets/cart/figma/refunds.svg';
-import warrantyShield from '../../../assets/cart/figma/warranty-shield.svg';
-import warrantyTick from '../../../assets/cart/figma/warranty-tick.svg';
+import cardIcon from '@assets/cart/figma/card.svg';
+import fastDelivery from '@assets/cart/figma/fast-delivery.svg';
+import nonReturnable from '@assets/cart/figma/non-returnable.svg';
+import refunds from '@assets/cart/figma/refunds.svg';
+import warrantyShield from '@assets/cart/figma/warranty-shield.svg';
+import warrantyTick from '@assets/cart/figma/warranty-tick.svg';
 import type { ItemPointKind } from '../data';
 import styles from './item.module.css';
 

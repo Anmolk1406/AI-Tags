@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'motion/react';
 import type { ReactNode } from 'react';
 import { Icon, ProductImage } from '../../../../components';
-import type { Product } from '../../../../mocks/products';
+import type { Product } from '../../../../data';
 import { icons, images } from '../../assets';
 import { copy, estimatedRefund, evidenceConfig, pickupSection, reasons, refundSection, resolution, type PickupOption, type Reason, type RefundOption, type SubReason } from '../../data';
 import { PRODUCT_PHOTO } from '../../store';

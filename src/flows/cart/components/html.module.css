@@ -27,6 +27,8 @@
 .etaExpiry { font: var(--nk-type-text12-regular-lh14); letter-spacing: -0.12px; color: var(--nk-color-text-body); white-space: nowrap; }
 .etaExpiry :global(steel) { color: var(--nk-color-text-body); }
 .etaExpiry :global(b), .etaExpiry :global(highlight) { font-weight: 600; }
+/* express "Order within" nudge (All flows 89:44435): SemiBold Red/700 */
+.etaExpiry :global(red) { font-weight: 600; color: var(--nk-color-danger); }
 /* USPs Urgency text: Label4/Medium 12/14 Blue-Gray/700 */
 .urgency { font: var(--nk-type-text12-medium-lh14); letter-spacing: -0.12px; color: var(--nk-color-text-muted); }
 .urgency :global(highlight), .urgency :global(b) { font-weight: 600; }
@@ -38,6 +40,13 @@
 
 .screenCallout { font-size: 12px; font-weight: 600; color: var(--nk-color-text-primary); }
 .screenCallout :global(highlight) { font-weight: 600; color: var(--nk-color-primary); }
+/* All flows Payment offers 127:40133: SemiBold 12/16 −0.1 #1D2539 (<b> SemiBold, <highlight> "Learn more" #0F61FF) */
+.paymentOffer { font: var(--nk-type-caption-bold); letter-spacing: -0.1px; color: var(--nk-color-text-primary); }
+.paymentOffer :global(b) { font-weight: 600; }
+.paymentOfferRegular { font: var(--nk-type-caption); letter-spacing: -0.1px; color: var(--nk-color-text-primary); }
+.paymentOfferRegular :global(b), .paymentOfferRegular :global(highlight) { font-weight: 600; }
+.paymentOfferRegular :global(highlight) { color: var(--nk-color-primary); }
+.paymentOffer :global(highlight) { font-weight: 600; color: var(--nk-color-primary); }
 
 .footerNudge { color: var(--nk-color-text-ink); }
 .footerNudge :global(steel) { font-weight: 500; color: var(--nk-color-text-secondary); }

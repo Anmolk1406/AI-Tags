@@ -1,5 +1,5 @@
 /* NoonCouponInput — Figma "Coupons" 10575:94148: white r16, py 10; title px 12; "Tray best price" px 12 py 8 → box #F9F9FB r12 h56 px 12 gap 10; dashed divider; offers row px 12 py 4 */
-.outer { position: relative; overflow: hidden; margin: var(--nk-space-s12) var(--nk-space-s12) 0; padding: var(--nk-space-s10) 0; border-radius: var(--nk-radius-r16); background: var(--nk-color-bg-surface); display: flex; flex-direction: column; align-items: center; }
+.outer { position: relative; overflow: hidden; margin: var(--nk-space-s8) var(--nk-space-s12) 0; padding: var(--nk-space-s10) 0; border-radius: var(--nk-radius-r16); background: var(--nk-color-bg-surface); display: flex; flex-direction: column; align-items: center; }
 .container { width: 100%; display: flex; flex-direction: column; row-gap: var(--nk-space-s2); }
 .title { padding: 0 var(--nk-space-s12); font: var(--nk-type-text16-bold-lh20); letter-spacing: -0.16px; color: var(--nk-color-text-ink); }
 .tray { padding: var(--nk-space-s8) var(--nk-space-s12); }

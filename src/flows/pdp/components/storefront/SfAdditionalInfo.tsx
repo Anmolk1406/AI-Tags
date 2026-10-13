@@ -1,7 +1,7 @@
 import { MaskIcon } from '../../../../components';
-import verifiedFilled from '../../../../assets/pdp/new-pdp/icons/verified-filled-24.svg';
-import salesReturn from '../../../../assets/pdp/new-pdp/icons/sales-return-filled-21.svg';
-import chevronRight from '../../../../assets/pdp/new-pdp/icons/mini-chevron-right-20.svg';
+import verifiedFilled from '@assets/pdp/new-pdp/icons/verified-filled-24.svg';
+import salesReturn from '@assets/pdp/new-pdp/icons/sales-return-filled-21.svg';
+import chevronRight from '@assets/pdp/new-pdp/icons/mini-chevron-right-20.svg';
 import { useNav } from '../../../../kit/Navigator';
 import { copy, type PdpContent } from '../../data';
 import { Card } from '../Sections';

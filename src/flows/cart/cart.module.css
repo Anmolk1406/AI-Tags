@@ -7,15 +7,6 @@
 .updatesDismiss { width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; border: 0; background: none; padding: 0; cursor: pointer; align-self: center; }
 .updatesDismiss img { width: 8px; height: 8px; object-fit: contain; filter: brightness(0) saturate(100%) invert(20%) sepia(14%) saturate(1200%) hue-rotate(186deg); }
 
-/* Payment offers: white r16 card, header like Figma "Cards Header" (Label2/Bold) */
-.callouts { display: flex; flex-direction: column; row-gap: var(--nk-space-s12); margin: var(--nk-space-s12) var(--nk-space-s12) 0; padding: var(--nk-space-s12) 0; border-radius: var(--nk-radius-r16); background: var(--nk-color-bg-surface); overflow: hidden; }
-.calloutsTitle { margin: 0; padding: 0 var(--nk-space-s12); font: var(--nk-type-text16-bold-lh20); letter-spacing: -0.16px; color: var(--nk-color-text-ink); }
-.calloutsRow { display: flex; flex-direction: row; column-gap: var(--nk-space-s8); padding: 0 var(--nk-space-s12); overflow-x: auto; scrollbar-width: none; }
-.calloutsRow::-webkit-scrollbar { display: none; }
-.calloutEntry { flex-shrink: 0; width: 259px; justify-content: center; border-radius: var(--nk-radius-r12) !important; }
-.calloutEntry > span { align-items: center; }
-.calloutEntry > span > span { flex-grow: 1; column-gap: var(--nk-space-s8) !important; }
-
 /* #region Empty View */
 .empty { display: flex; flex-direction: column; align-items: center; background: var(--nk-color-bg-surface); padding: var(--nk-space-s20) var(--nk-space-s15); margin-top: -10px; }
 .emptyImage { width: 150px; height: 150px; object-fit: contain; }

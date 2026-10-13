@@ -1,9 +1,9 @@
 import type { CSSProperties } from 'react';
 import { Pressable } from '../../../../components';
-import chevronUp from '../../../../assets/vip/chevron-up-rounded.svg';
-import visa from '../../../../assets/shared/payment/brand-card-visa.webp';
-import mastercard from '../../../../assets/shared/payment/brand-card-mastercard.webp';
-import amex from '../../../../assets/shared/payment/brand-card-amex.webp';
+import chevronUp from '@assets/vip/chevron-up-rounded.svg';
+import visa from '@assets/shared/payment/brand-card-visa.webp';
+import mastercard from '@assets/shared/payment/brand-card-mastercard.webp';
+import amex from '@assets/shared/payment/brand-card-amex.webp';
 import { VIPButton } from '../VIPButton';
 import type { NoononeState } from '../../store';
 import styles from './subscribe.module.css';

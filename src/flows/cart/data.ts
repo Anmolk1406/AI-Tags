@@ -6,10 +6,13 @@
  * cart API returns on master (HTML messages rendered via <HtmlView>) — those strings are NOT in the
  * translation files, so they are authored here to match the shapes in marketplaces/noon/types/NoonCartType.ts.
  */
-import cashbackIcon from '../../assets/cart/cashback-icon.webp';
-import mastercardIcon from '../../assets/shared/payment/card-mastercard.webp';
-import noonOneIcon from '../../assets/noonone/entry/noon-one.webp';
-import fouponIcon from '../../assets/cart/checkout-foupon.webp';
+import tamaraTile from '@assets/cart/payment/tamara-tile.webp';
+import tabbyTile from '@assets/cart/payment/tabby-tile.webp';
+import bankInstallments from '@assets/cart/payment/bank-installments.svg';
+import taxRefund from '@assets/cart/payment/tax-refund.svg';
+import noonOneCard from '@assets/cart/cobrand/noon-one-card.webp';
+import noonOneIcon from '@assets/noonone/entry/noon-one.webp';
+import fouponIcon from '@assets/cart/checkout-foupon.webp';
 import type { CartGroupType } from '../../kit/DemoStore';
 
 export const t = {
@@ -59,6 +62,7 @@ export const t = {
   wishlistTitle: 'From your wishlist',
   freeGiftsTitle: 'Free gifts for you',
   leftToUnlock: 'left to unlock',
+  learnMore: 'Learn more', // noon_learn_more
 };
 
 /** NoonCartResponseCouponType.message / .error (server HTML) for the evaluated coupon */
@@ -108,7 +112,7 @@ export interface DiscountTag {
 /** NoonCartItemType extras the cart API returns per offer */
 export interface CartItemExtras {
   catalogTag?: string;
-  deliveryInfo?: { icon?: 'express' | null; message: string; expiryMessage?: string; colors?: string[] };
+  deliveryInfo?: { icon?: 'express' | 'flash' | null; message: string; expiryMessage?: string; colors?: string[] };
   callouts?: SalesCallout[];
   bottomCallouts?: SalesCallout[];
   discountTags?: DiscountTag[];
@@ -138,6 +142,7 @@ export const itemPoints: Record<ItemPointKind, string> = {
 /* ───────────────────────── groups (NoonCartGroup colors / header) ───────────────────────── */
 
 export const groupMeta: Record<CartGroupType, { title: string; serviceMode: string }> = {
+  supermall: { title: 'supermall', serviceMode: 'rocket' },
   express: { title: 'express', serviceMode: 'express' },
   marketplace: { title: 'market', serviceMode: 'mp' },
   xborder: { title: 'global', serviceMode: 'global' },
@@ -145,16 +150,26 @@ export const groupMeta: Record<CartGroupType, { title: string; serviceMode: stri
 
 /** NoonCartGroup callouts (delivery estimate row under the items) */
 export const groupCallouts: Record<CartGroupType, string> = {
+  supermall: 'Save on fees at checkout with later delivery!', // All flows 127:39715
   express: 'Get it by <highlight>Tomorrow</highlight> if you order in <b>5 hrs 12 mins</b>',
   marketplace: 'Ships from seller warehouses · delivery in <highlight>3-4 days</highlight>',
   xborder: 'Shipped from abroad · delivery in <highlight>6-8 days</highlight>',
 };
 
-/** NoonCartGroupProgressBarType.message (server HTML) */
-export function progressMessage(remaining: number, currency: string, fmt: (n: number) => string) {
+/** Progress-bar group names + what the threshold unlocks (All flows 127:39717 / 127:39731 / 127:39746 / 127:39773) */
+const progressCopy: Record<CartGroupType, { name: string; perk: string }> = {
+  supermall: { name: 'supermall', perk: 'free service fees' },
+  xborder: { name: 'Global', perk: 'free shipping' },
+  express: { name: 'Express', perk: 'free shipping' },
+  marketplace: { name: 'Market', perk: 'free shipping' },
+};
+
+/** NoonCartGroupProgressBarType.message (server HTML; copy as in the All flows Figma) */
+export function progressMessage(remaining: number, currency: string, fmt: (n: number) => string, group: CartGroupType = 'marketplace') {
+  const c = progressCopy[group];
   return remaining > 0
-    ? `Add <highlight>${currency} ${fmt(remaining)}</highlight> more to get <b>FREE delivery</b>`
-    : `Yay! You get <highlight>FREE delivery</highlight> on this shipment`;
+    ? `Add ${currency} ${fmt(remaining)} from ${c.name} for ${c.perk}`
+    : `Yay! You get <highlight>${group === 'supermall' ? 'FREE service fees' : 'FREE delivery'}</highlight> on this shipment`;
 }
 
 /* ───────────────────────── per-item extras ───────────────────────── */
@@ -186,7 +201,7 @@ const save50: DiscountTag = {
 export const cartItemExtras: Record<string, CartItemExtras> = {
   p1: {
     catalogTag: 'Best Seller',
-    deliveryInfo: { icon: 'express', message: 'Get it by <highlight>Tomorrow</highlight>', expiryMessage: '<steel>Order in 5 h 12 m</steel>' },
+    deliveryInfo: { icon: 'express', message: 'Get by <highlight>Tomorrow</highlight>', expiryMessage: 'Order within <red>5 hrs 12 mins</red>' },
     discountTags: [noon10],
     urgency: 'Lowest Price in 30 days',
     points: ['refund', 'nonReturnable'],
@@ -195,7 +210,8 @@ export const cartItemExtras: Record<string, CartItemExtras> = {
     quantityMax: 3,
   },
   p6: {
-    deliveryInfo: { icon: 'express', message: 'Get it by <highlight>Tomorrow</highlight>', expiryMessage: '<steel>Order in 5 h 12 m</steel>' },
+    // supermall ETAs (All flows 89:44427): flash icon + "Get in <b>…</b>" on #F5F5FC
+    deliveryInfo: { icon: 'flash', message: 'Get in <b>1 hour 12 mins</b>' },
     callouts: [
       {
         message: 'Size: <b>{variant}</b>',
@@ -258,11 +274,31 @@ export const fouponImage = fouponIcon;
 
 /* ───────────────────────── screen sections ───────────────────────── */
 
-/** NoonCartCalloutsType (order: horizontal) → "Payment offers" */
-export const paymentCallouts: SalesCallout[] = [
-  { message: 'Get <highlight>10% cashback</highlight> with noon One Mastercard. T&Cs apply', icon: { url: mastercardIcon, isLeft: true }, background: { border: 'var(--nk-color-border)' } },
-  { message: 'Earn up to <highlight>5% cashback</highlight> as noon credits on this order', icon: { url: cashbackIcon, isLeft: true }, background: { border: 'var(--nk-color-border)' } },
-  { message: 'Join <highlight>noon One</highlight> for free delivery & extra savings', icon: { url: noonOneIcon, isLeft: true }, background: { border: 'var(--nk-color-border)' }, link: '/noon-one' },
+/**
+ * NoonCartCalloutsType (order: horizontal) → "Payment offers" (All flows 127:40114). Each entry's icon is the server's
+ * 48px tile image; `tile` gives the two vector logos the Figma tile fill (bank: noon yellow, tax refund: white).
+ * The noon One callout (link '/noon-one') is kept from the kit cart and hidden for members.
+ */
+export type PaymentOffer = SalesCallout & { tile?: 'noon' | 'plain'; /** Regular root copy with SemiBold <b> (Figma bank / tax-refund tiles) */ regular?: boolean };
+export const paymentCallouts: PaymentOffer[] = [
+  { message: 'Split payment in up to 6 payments<br/><highlight>Learn more</highlight>', icon: { url: tamaraTile, isLeft: true }, background: { border: 'var(--nk-color-border-subtle)' }, link: '/tamara' },
+  { message: 'Split payment in up to 6 payments<br/><highlight>Learn more</highlight>', icon: { url: tabbyTile, isLeft: true }, background: { border: 'var(--nk-color-border-subtle)' }, link: '/tabby' },
+  { message: 'Buy now, pay in <b>monthly installments</b> with selected cards <highlight>Learn more</highlight>', icon: { url: bankInstallments, isLeft: true }, tile: 'noon', regular: true, background: { border: 'var(--nk-color-border-subtle)' }, link: '/installments' },
+  { message: 'Tourists can register for <b>tax refund</b> on eligible products<br/><highlight>Learn more</highlight>', icon: { url: taxRefund, isLeft: true }, tile: 'plain', regular: true, background: { border: 'var(--nk-color-border-subtle)' }, link: '/tax-free' },
+  { message: 'Join <highlight>noon One</highlight> for free delivery & extra savings', icon: { url: noonOneIcon, isLeft: true }, background: { border: 'var(--nk-color-border-subtle)' }, link: '/noon-one' },
+];
+
+/** NoonCartCobrandCardsType[] (cartData.cobrandCards → NoonCartCobrandCards, All flows "Cobrand" 127:40071) */
+export interface CobrandCard {
+  title: string;
+  cta: { message: string };
+  terms: string[];
+  linkUrl: string;
+  imageUrl: string;
+}
+export const cobrandCards: CobrandCard[] = [
+  { title: 'noon One Credit Card', cta: { message: 'Apply now' }, terms: ['Free 1 year of noon one', 'Upto 20% savings'], linkUrl: '/noon-one-credit-card', imageUrl: noonOneCard },
+  { title: 'noon One Credit Card', cta: { message: 'Apply now' }, terms: ['Free 1 year of noon one', 'Upto 20% savings'], linkUrl: '/noon-one-credit-card', imageUrl: noonOneCard },
 ];
 
 /** NoonCartUpdateType[] (NoonCartUpdatesOverlayScreen) */

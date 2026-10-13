@@ -1,4 +1,4 @@
-import check from '../../../assets/vip/check.webp';
+import check from '@assets/vip/check.webp';
 import { maskSrc } from '../components/maskSrc';
 import { HtmlText, MaskIcon } from '../../../components';
 import { useNav } from '../../../kit/Navigator';
@@ -9,7 +9,7 @@ import { completeSubscription, noononeStore, useNoonone } from '../store';
 import { VIPOverlay } from '../components/VIPOverlay';
 import { DashedBorder, PlanMembers, SubscriptionButton } from '../components/plans/parts';
 import { QUICK_PAY_MS } from '../components/plans/useQuickPay';
-import { user } from '../../../mocks/products';
+import { user } from '../../../data';
 import { useEffect, useRef, useState } from 'react';
 import s from './PlanDetailsOverlayScreen.module.css';
 

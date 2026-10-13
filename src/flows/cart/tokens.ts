@@ -39,6 +39,11 @@ export const cartFigmaColors = {
   cartGlassExpress: '#FDFDF1',
   cartGlassGlobal: '#F5F2F7',
   cartGlassMarket: '#EFFAEA',
+  cartGlassSupermall: '#E8E8F3', // All flows 127:39690 supermall Glass effect Container
+  // supermall Progress bars 127:39717: gradient end, track (fill = rocketBlueSapphire)
+  cartProgressSupermall: '#EBEBFE',
+  cartTrackSupermall: '#E3E3FC',
+  cartEtaSupermall: '#F5F5FC', // supermall ETAs 89:44427 gradient start
   // progress-bar footer gradient end stops (Figma: Yellow/100-ish raw, Purple/200, Green/100)
   cartProgressExpress: '#FEFDD4',
   // ETA pill gradient starts
@@ -57,6 +62,9 @@ export const cartFigmaColors = {
   cartHeaderTextShadow: 'rgba(0, 0, 0, 0.07)',
   cartGlobalLogoInk: '#3D4048', // "Global" wordmark text
   cartFreebieImageBg: '#F5F7FB', // freebie image tile
+  // Payment offers 127:40114 bank-installments tile (noon/50 → noon/100, border noon/300)
+  cartNoon50: '#FEFEEB',
+  cartNoon300: '#FFF77A',
 } as const;
 
 /**
@@ -121,10 +129,27 @@ export const cartFlowTokens: TokenOverrides = {
   },
 };
 
-/** Per-group Figma styling (Glass effect Container / items / Progress bars / ETA). CSS vars only. */
-export const groupTheme: Record<CartGroupType, { glass: string; border: string; progressEnd: string; track: string; fill: string; eta: string }> = {
-  express: { glass: 'var(--nk-color-cart-glass-express)', border: 'var(--nk-palette-yellow200)', progressEnd: 'var(--nk-color-cart-progress-express)', track: 'var(--nk-color-border)', fill: 'var(--nk-color-text-strong)', eta: 'var(--nk-color-cart-eta-express)' },
-  xborder: { glass: 'var(--nk-color-cart-glass-global)', border: 'var(--nk-palette-purple200)', progressEnd: 'var(--nk-palette-purple200)', track: 'var(--nk-color-border)', fill: 'var(--nk-palette-black)', eta: 'var(--nk-palette-border-primary)' },
-  marketplace: { glass: 'var(--nk-color-cart-glass-market)', border: 'var(--nk-palette-green200)', progressEnd: 'var(--nk-palette-green100)', track: 'var(--nk-color-border)', fill: 'var(--nk-color-text-strong)', eta: 'var(--nk-palette-border-primary)' },
+/**
+ * Per-group Figma styling (Glass effect Container / items / Progress bars / ETA / "+ Add"). CSS vars only.
+ * `progressBg` is the whole "Progress bars" fill; supermall (All flows 127:39717) is a straight white → #EBEBFE fade,
+ * the others the −1.08deg Cart 2.0 gradient. `etaInk` / `add*` are set only where the group recolours them.
+ */
+type GroupTheme = { glass: string; border: string; progressEnd: string; progressBg: string; track: string; fill: string; eta: string; etaInk?: string; addBorder?: string; addInk?: string };
+const cart20Progress = (end: string) => `linear-gradient(-1.08deg, var(--nk-color-bg-surface) 6.77%, ${end} 264.03%)`;
+export const groupTheme: Record<CartGroupType, GroupTheme> = {
+  supermall: {
+    glass: 'var(--nk-color-cart-glass-supermall)',
+    border: 'var(--nk-palette-persian-blue100)',
+    progressEnd: 'var(--nk-color-cart-progress-supermall)',
+    progressBg: 'linear-gradient(0deg, var(--nk-color-bg-surface) 0%, var(--nk-color-cart-progress-supermall) 84.375%)',
+    track: 'var(--nk-color-cart-track-supermall)',
+    fill: 'var(--nk-palette-rocket-blue-sapphire)',
+    eta: 'var(--nk-color-cart-eta-supermall)',
+    etaInk: 'var(--nk-palette-rocket-blue-sapphire)',
+    addBorder: 'var(--nk-palette-persian-blue50)',
+    addInk: 'var(--nk-palette-persian-blue)',
+  },
+  express: { glass: 'var(--nk-color-cart-glass-express)', border: 'var(--nk-palette-yellow200)', progressEnd: 'var(--nk-color-cart-progress-express)', progressBg: cart20Progress('var(--nk-color-cart-progress-express)'), track: 'var(--nk-color-border)', fill: 'var(--nk-color-text-strong)', eta: 'var(--nk-color-cart-eta-express)' },
+  xborder: { glass: 'var(--nk-color-cart-glass-global)', border: 'var(--nk-palette-purple200)', progressEnd: 'var(--nk-palette-purple200)', progressBg: cart20Progress('var(--nk-palette-purple200)'), track: 'var(--nk-color-border)', fill: 'var(--nk-palette-black)', eta: 'var(--nk-palette-border-primary)' },
+  marketplace: { glass: 'var(--nk-color-cart-glass-market)', border: 'var(--nk-palette-green200)', progressEnd: 'var(--nk-palette-green100)', progressBg: cart20Progress('var(--nk-palette-green100)'), track: 'var(--nk-color-border)', fill: 'var(--nk-color-text-strong)', eta: 'var(--nk-palette-border-primary)' },
 };
-

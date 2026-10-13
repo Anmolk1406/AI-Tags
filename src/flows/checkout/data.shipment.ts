@@ -1,5 +1,5 @@
 import { cartGroupOf, type CartGroupType, type CartLine } from '../../kit/DemoStore';
-import { currency } from '../../mocks/products';
+import { currency } from '../../data';
 
 /**
  * NoonCheckoutShipmentType mock (server copy). One shipment per cart group (express / marketplace / global),
@@ -112,9 +112,12 @@ export function buildPromises(group: CartGroupType = 'marketplace'): ShipmentPro
 
 /** Figma order: supermall shipments, then global, then express. */
 const GROUP_ORDER: CartGroupType[] = ['marketplace', 'xborder', 'express'];
-const MARKETPLACE: Record<CartGroupType, ShipmentMarketplace> = { marketplace: 'supermall', xborder: 'global', express: 'express' };
+const MARKETPLACE: Record<CartGroupType, ShipmentMarketplace> = { supermall: 'supermall', marketplace: 'supermall', xborder: 'global', express: 'express' };
+/** the cart's supermall group ships with checkout's supermall (marketplace) shipment */
+const shipmentGroupOf = (line: CartLine): CartGroupType => (cartGroupOf(line.product) === 'supermall' ? 'marketplace' : cartGroupOf(line.product));
 /** server: expander copy (Figma "Need Today Texts") — only for shipments with alternative lanes */
 const CALLOUT: Record<CartGroupType, string | null> = {
+  supermall: 'Need it today?',
   marketplace: 'Need it today?',
   express: 'Save on fees with later delivery',
   xborder: null,
@@ -122,7 +125,7 @@ const CALLOUT: Record<CartGroupType, string | null> = {
 
 /** One shipment per cart group that has items (express / marketplace / global). */
 export function buildShipments(cart: CartLine[]): CheckoutShipment[] {
-  return GROUP_ORDER.map((group) => ({ group, lines: cart.filter((l) => cartGroupOf(l.product) === group) }))
+  return GROUP_ORDER.map((group) => ({ group, lines: cart.filter((l) => shipmentGroupOf(l) === group) }))
     .filter((g) => g.lines.length > 0)
     .map(({ group, lines }) => {
       const promises = buildPromises(group);

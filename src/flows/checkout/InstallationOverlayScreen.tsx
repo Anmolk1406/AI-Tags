@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import errorImage from '../../assets/checkout/rewards-installation-slots-error.webp';
+import errorImage from '@assets/checkout/rewards-installation-slots-error.webp';
 import { Button, DashedDivider, ProductImage, Spinner } from '../../components';
 import { useNav } from '../../kit/Navigator';
 import type { ScreenProps } from '../../kit/types';

@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import cardAmex from '../../../assets/shared/payment/card-amex.webp';
-import cardMada from '../../../assets/shared/payment/card-mada.webp';
-import cardMastercard from '../../../assets/shared/payment/card-mastercard.webp';
-import cardVisa from '../../../assets/shared/payment/card-visa.webp';
-import checkboxChecked from '../../../assets/shared/icons/checkbox-checked.webp';
-import checkboxUnchecked from '../../../assets/shared/icons/checkbox-unchecked.webp';
+import cardAmex from '@assets/shared/payment/card-amex.webp';
+import cardMada from '@assets/shared/payment/card-mada.webp';
+import cardMastercard from '@assets/shared/payment/card-mastercard.webp';
+import cardVisa from '@assets/shared/payment/card-visa.webp';
+import checkboxChecked from '@assets/shared/icons/checkbox-checked.webp';
+import checkboxUnchecked from '@assets/shared/icons/checkbox-unchecked.webp';
 import { LegacyOverlay, useLegacyOverlay } from '../components/payment/LegacyOverlay';
 import { Reloader } from '../components/payment/Reloader';
 import type { VipCard } from '../data';

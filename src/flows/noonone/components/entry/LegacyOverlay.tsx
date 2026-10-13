@@ -1,7 +1,7 @@
 import { animate, motion, useMotionValue } from 'motion/react';
 import { createContext, useCallback, useContext, useEffect, useRef, type ReactNode } from 'react';
 import { useNav } from '../../../../kit/Navigator';
-import closeOverlayIcon from '../../../../assets/vip/close-overlay.webp';
+import closeOverlayIcon from '@assets/vip/close-overlay.webp';
 import { entryTokens } from '../../tokens';
 import styles from './LegacyOverlay.module.css';
 

@@ -1,6 +1,6 @@
 import { ProductImage, Pressable } from '../../../components';
 import { useNav } from '../../../kit/Navigator';
-import { currency, formatPrice, type Product } from '../../../mocks/products';
+import { currency, formatPrice, type Product } from '../../../data';
 import type { BzWrap } from '../data.feed';
 import { BzModuleWrapper, Sponsored } from './BzModuleWrapper';
 import styles from './AdProductLedDisplay.module.css';

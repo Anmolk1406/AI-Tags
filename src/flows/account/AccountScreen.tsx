@@ -2,7 +2,7 @@ import { motion } from 'motion/react';
 import { memo, useCallback, useState } from 'react';
 import { NeedHelpButton, Pressable, Screen } from '../../components';
 import { useNav } from '../../kit/Navigator';
-import { currency, formatPrice, user } from '../../mocks/products';
+import { currency, formatPrice, user } from '../../data';
 import { AccountFooter } from './components/AccountFooter';
 import { ActionCards } from './components/ActionCards';
 import { AccountSectionItem } from './components/AccountSection';

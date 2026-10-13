@@ -1,6 +1,6 @@
 import { animate, motion, useMotionValue } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
-import successLottie from '../../../../assets/vip/vip-landing-success-animation.lottie';
+import successLottie from '@assets/vip/vip-landing-success-animation.lottie';
 import { landingTokens } from '../../tokens';
 import { LottieBox } from './modules';
 import styles from './landing.module.css';

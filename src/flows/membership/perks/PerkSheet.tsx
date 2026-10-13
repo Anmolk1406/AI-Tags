@@ -1,7 +1,7 @@
 import { animate, motion, useMotionValue, type PanInfo } from 'motion/react';
 import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useRef, type ReactNode } from 'react';
 import { useNav } from '../../../kit/Navigator';
-import closeOverlayIcon from '../../../assets/vip/close-overlay.webp';
+import closeOverlayIcon from '@assets/vip/close-overlay.webp';
 import styles from './perks.module.css';
 
 /**

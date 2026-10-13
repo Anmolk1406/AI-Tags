@@ -1,11 +1,11 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useState } from 'react';
-import etaExpressToday from '../../../../assets/pdp/new-pdp/eta-express-today.svg';
+import etaExpressToday from '@assets/pdp/new-pdp/eta-express-today.svg';
 import { OriginIcon, ProductImage, type OriginIconName } from '../../../../components';
 import { ref } from '../../../../foundations/tokens';
 import { useDemoStore } from '../../../../kit/DemoStore';
 import { useNav } from '../../../../kit/Navigator';
-import { currency, discountPct, formatPrice, type Product, type ProductNudge } from '../../../../mocks/products';
+import { currency, discountPct, formatPrice, type Product, type ProductNudge } from '../../../../data';
 import { spring } from '../../../../motion/presets';
 import { copy } from '../../data';
 import { pdpTokens } from '../../tokens';

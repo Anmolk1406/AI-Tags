@@ -2,7 +2,7 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import { HtmlText, Screen } from '../../../components';
 import { useNav } from '../../../kit/Navigator';
-import greenCheck from '../../../assets/vip/one-green-check.webp';
+import greenCheck from '@assets/vip/one-green-check.webp';
 import { VIPButton } from '../components/VIPButton';
 import { SubscribeButton } from '../components/offers/SubscribeButton';
 import { ChevronLeft } from '../components/offers/Primitives';

@@ -1,6 +1,6 @@
 import { useNav } from '../../../kit/Navigator';
 import { useAddressStore } from '../../address/store';
-import callIcon from '../../../assets/checkout/figma/receiver-call.svg';
+import callIcon from '@assets/checkout/figma/receiver-call.svg';
 import { deliveryOptions, td } from '../data.delivery';
 import { useCheckout } from '../store';
 import { useDelivery } from '../store.delivery';

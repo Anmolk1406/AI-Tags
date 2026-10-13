@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useRef, useState } from 'react';
 import { ProductCard, Screen } from '../../components';
 import { useDemoStore } from '../../kit/DemoStore';
-import { productById } from '../../mocks/products';
+import { productById } from '../../data';
 import { CollectionTile } from './components/CollectionTile';
 import { EmptyState } from './components/EmptyState';
 import { ViewCartPill } from './components/ViewCartPill';

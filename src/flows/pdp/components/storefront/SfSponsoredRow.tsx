@@ -1,6 +1,6 @@
 import { Badge, MarketplaceTag, Pressable, ProductImage } from '../../../../components';
 import { useNav } from '../../../../kit/Navigator';
-import { productById, products, type Product } from '../../../../mocks/products';
+import { productById, products, type Product } from '../../../../data';
 import { copy, discountPercent, money, type PdpContent } from '../../data';
 import styles from './SfSponsoredRow.module.css';
 

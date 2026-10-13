@@ -1,9 +1,9 @@
 import { motion } from 'motion/react';
-import bundleLottie from '../../assets/cart/noon-bundle.lottie';
+import bundleLottie from '@assets/cart/noon-bundle.lottie';
 import { ExpressBadge, HtmlText, Lottie, ProductImage } from '../../components';
 import type { ScreenProps } from '../../kit/types';
 import { tween } from '../../motion/presets';
-import { productById } from '../../mocks/products';
+import { productById } from '../../data';
 import { bundleDetails } from './data.bundles';
 import styles from './bundles.module.css';
 

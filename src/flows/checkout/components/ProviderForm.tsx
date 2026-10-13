@@ -1,14 +1,14 @@
 import { AnimatePresence, motion } from 'motion/react';
-import pasteIcon from '../../../assets/checkout/rewards-paste.svg';
+import pasteIcon from '@assets/checkout/rewards-paste.svg';
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
-import checkboxChecked from '../../../assets/shared/icons/checkbox-checked.webp';
-import checkboxUnchecked from '../../../assets/shared/icons/checkbox-unchecked.webp';
-import termsInfo from '../../../assets/checkout/rewards-terms-info.webp';
+import checkboxChecked from '@assets/shared/icons/checkbox-checked.webp';
+import checkboxUnchecked from '@assets/shared/icons/checkbox-unchecked.webp';
+import termsInfo from '@assets/checkout/rewards-terms-info.webp';
 import { rt, type ProviderPage } from '../data.rewards';
 import { Crescent, InfoEditButton, ProviderLogo } from './RewardsPrimitives';
 import { Button, Spinner } from '../../../components';
 import styles from './providerForm.module.css';
-import { currency } from '../../../mocks/products';
+import { currency } from '../../../data';
 
 /**
  * marketplaces/noon/components/NoonCheckoutProvider/* — the pieces of the provider burn / earn overlays.

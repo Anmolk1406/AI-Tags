@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
 import { useDemoStore } from '../../kit/DemoStore';
 import { useNav } from '../../kit/Navigator';
-import { productById, type Product } from '../../mocks/products';
+import { productById, type Product } from '../../data';
 import { spring } from '../../motion/presets';
 import { Icon } from '../Icon/Icon';
 import { Price } from '../Price/Price';
@@ -12,7 +12,7 @@ import { RatingPill } from '../Rating/Rating';
 import { CatalogTag, CouponTag, ExpressBadge } from '../Tag/Tag';
 import { Text } from '../Text/Text';
 import { WishlistHeart } from '../WishlistHeart/WishlistHeart';
-import { quickAdd as t, spacing } from '../../foundations/tokens';
+import { quickAdd as t, radius, spacing } from '../../foundations/tokens';
 import styles from './ProductCard.module.css';
 
 /**
@@ -34,8 +34,10 @@ export function ProductCard({
   /** carousel variant: no coupon / delivery rows */
   compact?: boolean;
   /**
-   * bappzaar home productCarousel box (NoonProductCard in NoonOptimizedProductCarousel): r8, no hairline, image
-   * 138 × 169 at 390 (`round((w − 14) · 1.361)`), info inset 4, express flag only (delivery text hidden). Implies `compact`.
+   * bappzaar home productCarousel box (NoonProductCard isCarousel in NoonOptimizedProductCarousel): r8, no hairline, image
+   * 138 × 169 at 390 (`round((w − 14) · 1.361)`) with an r8 overlay (carouselImage), 24 heart circle, "+" lifted 2
+   * (imageBottomWrapperCarousel), info inset 4 + marginBottom 2, price marginTop 6 with a 16/700 sign (saleCurrency),
+   * "n%" discount (hideOffText), express flag only at 18h (NoonEstimatedDelivery isCarousel). Implies `compact`.
    */
   carousel?: boolean;
   width?: number | string;
@@ -45,14 +47,14 @@ export function ProductCard({
   return (
     <motion.article className={styles.card} data-carousel={carousel || undefined} style={{ width, flexShrink: width !== undefined ? 0 : undefined }} onClick={open} whileTap={{ scale: 0.98 }} transition={spring.press}>
       <div className={styles.media}>
-        <ProductImage product={product} aspect={carousel && typeof width === 'number' ? width / Math.round((width - 14) * 1.361) : 0.8} />
+        <ProductImage product={product} aspect={carousel && typeof width === 'number' ? width / Math.round((width - 14) * 1.361) : 0.8} radius={carousel ? radius.r8 : 0} />
         {product.tag && (
           <span className={styles.tag}>
             <CatalogTag>{product.tag}</CatalogTag>
           </span>
         )}
         <span className={styles.heart}>
-          <WishlistHeart productId={product.id} />
+          <WishlistHeart productId={product.id} box={carousel ? 24 : undefined} />
         </span>
         {quickAdd && (
           <span className={styles.quick}>
@@ -65,7 +67,13 @@ export function ProductCard({
           {product.title}
         </Text>
         <RatingPill rating={product.rating} count={product.ratingCount} />
-        <Price price={product.price} was={product.was} offSuffix={!carousel} />
+        {carousel ? (
+          <span className={styles.price}>
+            <Price price={product.price} was={product.was} offSuffix={false} currencySize="sale" />
+          </span>
+        ) : (
+          <Price price={product.price} was={product.was} />
+        )}
         {!compact && !carousel && product.coupon && <CouponTag>{product.coupon}</CouponTag>}
       </div>
       {carousel && product.express && (

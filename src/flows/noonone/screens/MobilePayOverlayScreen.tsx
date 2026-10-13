@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import addBokuOtp from '../../../assets/noonone/icons/add-boku-otp.webp';
-import addBokuPhone from '../../../assets/vip/add-boku-phone.webp';
-import closePopup from '../../../assets/vip/close-overlay-popup.webp';
+import addBokuOtp from '@assets/noonone/icons/add-boku-otp.webp';
+import addBokuPhone from '@assets/vip/add-boku-phone.webp';
+import closePopup from '@assets/vip/close-overlay-popup.webp';
 import { LegacyOverlay, useLegacyOverlay } from '../components/payment/LegacyOverlay';
 import { Reloader } from '../components/payment/Reloader';
 import { payCopy, paymentLocalStore } from '../data.payment';

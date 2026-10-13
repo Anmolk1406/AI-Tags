@@ -172,6 +172,8 @@
 }
 .flyoutText { font: var(--nk-type-vip-flyout); }
 .flyoutTextFlex { flex: 1; text-align: start; }
+.flyoutIcon { flex-shrink: 0; margin-inline-end: var(--nk-space-s8); }
+.flyoutTrailingIcon { flex-shrink: 0; margin-inline-start: var(--nk-space-s8); }
 .flyoutTrailing { font: var(--nk-type-vip-flyout); font-weight: var(--nk-font-weight-bold); text-decoration: underline; }
 
 /* reminder toast */

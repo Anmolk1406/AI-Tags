@@ -1,6 +1,6 @@
 import { HtmlText } from '../../../components';
 import { useParams } from '../../../kit/Navigator';
-import oneTrialAlert from '../../../assets/vip/one-trial-alert.webp';
+import oneTrialAlert from '@assets/vip/one-trial-alert.webp';
 import { VIPButton } from '../components/VIPButton';
 import { VIPOverlay, useVipOverlay } from '../components/VIPOverlay';
 import { payCopy, touchpointErrorPopup, type GenericOverlayParams } from '../data.payment';

@@ -1,9 +1,9 @@
 import { motion } from 'motion/react';
 import { Button } from '../../../components';
 import { useNav } from '../../../kit/Navigator';
-import errorIcon from '../../../assets/checkout/rewards-coupon-error.svg';
-import overridenIcon from '../../../assets/checkout/rewards-coupon-overriden.svg';
-import successIcon from '../../../assets/checkout/rewards-coupon-success.svg';
+import errorIcon from '@assets/checkout/rewards-coupon-error.svg';
+import overridenIcon from '@assets/checkout/rewards-coupon-overriden.svg';
+import successIcon from '@assets/checkout/rewards-coupon-success.svg';
 import { couponFor, rt } from '../data.rewards';
 import { useCheckout } from '../store';
 import { useCheckoutTotals } from '../totals';

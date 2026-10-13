@@ -1,8 +1,8 @@
 import { HtmlText, MaskIcon } from '../../../components';
 import { maskSrc } from '../../noonone/components/maskSrc';
 import { useNav } from '../../../kit/Navigator';
-import noonOneIcon from '../../../assets/noonone/entry/noon-one.webp';
-import rightChevron from '../../../assets/noonone/entry/right-chevron.webp';
+import noonOneIcon from '@assets/noonone/entry/noon-one.webp';
+import rightChevron from '@assets/noonone/entry/right-chevron.webp';
 import styles from './VipPreference.module.css';
 
 /** offer.shipping_preferences_vip[0].description (server html) */

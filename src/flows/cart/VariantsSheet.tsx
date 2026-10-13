@@ -1,11 +1,11 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useMemo, useState } from 'react';
 import { ExpressBadge, ProductImage, Skeleton, Spinner } from '../../components';
-import ratingStar from '../../assets/cart/rating-star.svg?raw';
+import ratingStar from '@assets/cart/rating-star.svg?raw';
 import { useDemoStore } from '../../kit/DemoStore';
 import { useNav } from '../../kit/Navigator';
 import type { ScreenProps } from '../../kit/types';
-import { currency, formatPrice, productById } from '../../mocks/products';
+import { currency, formatPrice, productById } from '../../data';
 import { tween } from '../../motion/presets';
 import { VariantOptionChip } from './components/VariantOptionChip';
 import { cartVariants } from './data.variants';

@@ -1,4 +1,4 @@
-import { user } from '../../mocks/products';
+import { currency, user } from '../../data';
 import { checkoutServerColors as sc } from './tokens';
 
 /**
@@ -262,6 +262,27 @@ export const voucherProviders: BurnProvider[] = [
   },
 ];
 
+/**
+ * server: burn for the Figma "All flows" Checkout (127:44077, "🇸🇦 Points & Vouchers section" 143:13577) —
+ * master NoonCheckoutBurnSection: `title`, `loyalty.providers` as a row of collapsed callouts (Mokafaa, Qitaf) and
+ * the `voucher` callout (HTML text + overlapping 30px rounded logos + chevron) that opens the providers list.
+ * The frame is the KSA market; the providers are session data (no country gate in master), kept as demo data.
+ */
+export const qitafProvider = figmaLoyalty('qitaf', 'Qitaf', 'Qitaf Points', sc.qitafPurple, sc.qitafTint, { description: 'Pay with your Qitaf points', balance: '95.00' });
+export const tamamProvider: BurnProvider = {
+  ...figmaLoyalty('tamam', 'Tamam', 'Tamam', sc.tamamYellow, sc.tamamTint, { description: 'Split in up to 36 monthly payments' }),
+  balance: undefined,
+  voucherAmount: '500',
+};
+export const topUpBurn = {
+  title: 'Top up noon Credits',
+  loyalty: [loyaltyProviders[0], qitafProvider] as BurnProvider[],
+  voucher: {
+    callout: `<p>Get up to <b>${currency} 30,000</b> & split in <b>36/mo</b></p>`,
+    providers: [tamamProvider, loyaltyProviders[2], loyaltyProviders[1]] as BurnProvider[],
+  },
+};
+
 /** server: burn */
 export const burnSection = {
   title: 'Pay with points & vouchers',
@@ -326,7 +347,7 @@ export const earnProviders: EarnProvider[] = [
   },
 ];
 
-export const allBurnProviders = [...loyaltyProviders, ...voucherProviders];
+export const allBurnProviders = [...loyaltyProviders, ...voucherProviders, qitafProvider, tamamProvider];
 export const findBurnProvider = (code: string) => allBurnProviders.find((p) => p.code === code);
 export const findEarnProvider = (code: string) => earnProviders.find((p) => p.code === code);
 

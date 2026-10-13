@@ -1,21 +1,24 @@
 import { motion } from 'motion/react';
 import { useState } from 'react';
-import chevronUp from '../../../../assets/vip/chevron-up-rounded.svg';
-import amexIcon from '../../../../assets/shared/payment/brand-card-amex.webp';
-import mastercardIcon from '../../../../assets/shared/payment/brand-card-mastercard.webp';
-import visaIcon from '../../../../assets/shared/payment/brand-card-visa.webp';
-import applePayIcon from '../../../../assets/shared/payment/apple-pay.webp';
-import { HtmlText } from '../../../../components';
+import chevronUp from '@assets/vip/chevron-up-rounded.svg';
+import amexIcon from '@assets/shared/payment/brand-card-amex.webp';
+import mastercardIcon from '@assets/shared/payment/brand-card-mastercard.webp';
+import visaIcon from '@assets/shared/payment/brand-card-visa.webp';
+import applePayIcon from '@assets/shared/payment/apple-pay.webp';
+import { HtmlText, MaskIcon } from '../../../../components';
 import type { VipCard } from '../../data';
-import { flyout as flyoutData, landingCopy } from '../../data.landing';
+import { flyout as flyoutData, landingCopy, type FlyoutData } from '../../data.landing';
 import { VIPButton } from '../VIPButton';
 import { DashedLine } from './DashedLine';
 import styles from './landing.module.css';
 
 const cardIcon = { visa: visaIcon, mastercard: mastercardIcon, amex: amexIcon };
 
-/** VIPLandingScreen Flyout (VIPPartnerCalloutType, couponCode variant): copies the code, trailing text → "Code copied". */
-export function Flyout({ data = flyoutData }: { data?: typeof flyoutData }) {
+/**
+ * VIPLandingScreen Flyout (VIPPartnerCalloutType): optional 16px leading icon (me 8) and 18px trailing icon (ms 8), both
+ * tinted textColor; tap → internalUrl (onNavigate) or copies couponCode (trailing text → "Code copied").
+ */
+export function Flyout({ data = flyoutData, onNavigate }: { data?: FlyoutData; onNavigate?: (url: string) => void }) {
   const [copied, setCopied] = useState(false);
   const color = data.textColor;
   return (
@@ -23,18 +26,22 @@ export function Flyout({ data = flyoutData }: { data?: typeof flyoutData }) {
       type="button"
       className={`nk-pressable ${styles.flyout}`}
       style={data.backgroundColor ? { background: data.backgroundColor } : undefined}
-      disabled={copied}
+      disabled={!!data.couponCode && copied}
       onClick={() => {
+        if (data.internalUrl) return onNavigate?.(data.internalUrl);
+        if (!data.couponCode) return;
         void navigator.clipboard?.writeText(data.couponCode).catch(() => {});
         setCopied(true);
       }}
     >
+      {data.iconUrl && <MaskIcon src={data.iconUrl} size={16} color={color} className={styles.flyoutIcon} />}
       <HtmlText value={data.text} className={[styles.flyoutText, data.trailingText && styles.flyoutTextFlex].filter(Boolean).join(' ')} style={{ color }} />
       {data.trailingText && (
         <span className={styles.flyoutTrailing} style={{ color }}>
           {copied ? landingCopy.codeCopied : data.trailingText}
         </span>
       )}
+      {data.trailingIconUrl && <MaskIcon src={data.trailingIconUrl} size={18} color={color} className={styles.flyoutTrailingIcon} />}
     </motion.button>
   );
 }

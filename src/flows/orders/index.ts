@@ -5,6 +5,7 @@ import { lazyScreen } from '../../kit/lazyScreen';
 const OrderCancelScreen = lazyScreen(() => import('./OrderCancelScreen'), 'OrderCancelScreen');
 const OrderTrackingScreen = lazyScreen(() => import('./OrderTrackingScreen'), 'OrderTrackingScreen');
 const OrdersListScreen = lazyScreen(() => import('./OrdersListScreen'), 'OrdersListScreen');
+const UpdatesSheet = lazyScreen(() => import('./UpdatesSheet'), 'UpdatesSheet');
 
 export const ordersFlow = defineFlow({
   id: 'orders',
@@ -28,9 +29,18 @@ export const ordersFlow = defineFlow({
       title: 'Order tracking',
       component: OrderTrackingScreen,
       defaultParams: { orderId: 'o1' },
-      notes: 'PDS reference details. ?variant=1 (default) calm hero · 2 hot-afternoon wash + glass pill + advice · 3 orange glowing pill · 4 warm glow behind the tracker. V2–V4 rotate the image stack. Stepper fill grows and discs pop; Cancel items → orders/cancel; noon One strip → noonone. Other ids: o3/o4 delivered, o7 returned, o8 exchanged, o5 cancelled.',
+      notes: 'PDS reference details. ?variant=1 (default) calm hero · 2 hot-afternoon wash + glass pill + advice · 3 orange glowing pill · 4 warm glow behind the tracker. V2–V4 rotate the image stack. Stepper fill grows and discs pop; Cancel items → orders/cancel; noon One strip → noonone. Per-state content follows bappzaar O2D (MAPPING.md → States): ?orderId=o3 delivered (return & exchange available) · o9 delivered with "Return" → returns/submit · o4 return window closed · o7 returned (return timeline, refund message, Track refund, Quick actions, no bill) · o8 exchanged (exchange timeline) · o5 cancelled (no timeline, red title, refund message). See all updates → orders/updates.',
       source: 'reference: pds-noon-as.vercel.app/one-flows (My Orders → Arriving today, tabs V1–V4); bappzaar features/o2d/screens/O2DOrderTrackingScreen',
-      truth: 'reference',
+      truth: 'mixed', // PDS look (measured); per-state content and actions from bappzaar O2D — MAPPING.md → States
+    },
+    {
+      id: 'updates',
+      title: 'All updates',
+      component: UpdatesSheet,
+      presentation: 'sheet',
+      defaultParams: { orderId: 'o3' },
+      notes: 'See all updates: the timeline newest first (return cards: "Return progress"). Try ?orderId=o7 or o1.',
+      source: 'features/o2d/components/NoonOrderDeliveryProgressOverlay (see_all_actions / view_shipment_history)',
     },
     {
       id: 'cancel',

@@ -4,7 +4,7 @@ import { Badge, Pressable, SkuCard, Text } from '../../../components';
 import { ref } from '../../../foundations/tokens';
 import { useNav } from '../../../kit/Navigator';
 import { duration, easing } from '../../../motion/presets';
-import muteIcon from '../../../assets/home/2025/brand/mute.svg';
+import muteIcon from '@assets/home/2025/brand/mute.svg';
 import { brandAd } from '../data.modules';
 import styles from './BrandAdModule.module.css';
 

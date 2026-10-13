@@ -4,12 +4,17 @@ Changes to the noon-ui skill and its screen skills. Add a line whenever a refere
 
 ## Unreleased
 
+- checkout: default sections follow Figma All flows Checkout (127:44077) — `ALL_FLOWS_SECTIONS` with new ids `address_card`, `burn`, `pay_with`, `donation`; new components `AddressCard`, `PointsVouchers`, `Donation`, sheet `checkout/donation-learn-more`; flows.md + checkout spec updated.
+- Data layer: `src/data` replaces `src/mocks` as the place for products (one folder each), categories, variants, user and money; docs repointed (CLAUDE.md, CONTRIBUTING, flows.md Data layer, assets.md product photos, specs).
+- flows.md / orders brief: `orders/tracking` per-state content (`trackingFor`, MAPPING.md → States), new sheet `orders/updates`, order `o9` (delivered, return enabled); counts 145 → 147 screens.
+- `npm run skills:package` (`scripts/package-skills.mjs`): one self-contained zip per skill in `dist-skills/` for the Claude app (Skills → + Add → Upload), bundling every skill's markdown under `skills/` and `.claude/resources` under `resources/`, links rewritten.
+- resources: `flows/categories.md` (what a Categories tap opens in the app: routing, DynamicLoaderScreen types, StaticPage modules) and generated `flows/categories-views.md` (all 29 tiles × sub banners with destination and page type); `npm run categories:fetch` captures the live pages into `src/flows/categories/cms-pages.json`; `src/flows/categories/linkRouting.ts` ports `ModuleHelper.handlePress` routing.
 - pdp / noon-ui references: legacy PDP components removed — `PdpHeader`, `Gallery`, `ProductInfo`, `AtcBar`, `Reviews` references now point to `SfHeader`, `SfGallery`, `SfMainInfo`, `SfAtcBar`, `SfReviewsCard`; the `favourite` lottie is listed as unused.
 - `.claude/resources/`: shared branch resources for every skill — generated `screens.md` (`npm run resources:build`), `patterns.md`, `tooling.md`, `flows/<flow>.md` briefs; SKILL.md and the screen skills point to them; validate.mjs checks them and fails when `screens.md` is stale.
 - verify.md: `npm run visual:ref` (reference fidelity vs visual/refs) and the "Rendered is not approved" rule; SKILL.md + CLAUDE.md list it.
 - verify.md / SKILL.md: `npm run test:journeys` (scripts/journeys.mjs) — five browser journeys asserting behaviour and console errors.
 - SKILL.md / flows.md: source of truth per screen (`ScreenDef.truth` + `verified`, `screenTruth()`); ask on bappzaar ↔ Figma conflicts. validate.mjs enforces source / verified / mapping file.
-- validate.mjs: flow / screen totals quoted in README and the skill files must match the registry (fixed 16 → 17 flows, 133 → 145 screens).
+- validate.mjs: flow / screen totals quoted in README and the skill files must match the registry (fixed 16 → 17 flows, 133 → 147 screens).
 - pdp: `pdp/detail` follows New PDP (All flows 64:5571); new storefront components `SfBundleCard`, `SfFreeGifts`; `SfRecommendations` `variant` bleed | card.
 - search spec / flows.md: the brand widget is no longer rendered on `plp/listing`.
 - components.md: `ProductBoxVertical` (bappzaar PLP product box, 1:1) for the search results grid; search spec points at it.

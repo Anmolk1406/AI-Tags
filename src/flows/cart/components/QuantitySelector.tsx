@@ -1,9 +1,9 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import { cartTokens } from '../tokens';
-import minusIcon from '../../../assets/cart/figma/minus.svg';
-import plusIcon from '../../../assets/cart/figma/plus.svg';
-import trashIcon from '../../../assets/cart/figma/trash.svg';
+import minusIcon from '@assets/cart/figma/minus.svg';
+import plusIcon from '@assets/cart/figma/plus.svg';
+import trashIcon from '@assets/cart/figma/trash.svg';
 import { Spinner } from '../../../components';
 import styles from './item.module.css';
 

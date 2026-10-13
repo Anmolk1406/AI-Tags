@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { user } from '../../../../mocks/products';
+import { user } from '../../../../data';
 import { Icon, type IconName } from '../../../../components';
 import { icons } from '../../assets';
 import { addresses, copy, evidenceConfig, type estimatedRefund } from '../../data';

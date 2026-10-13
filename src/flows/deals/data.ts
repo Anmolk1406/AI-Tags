@@ -1,7 +1,7 @@
-import strip1 from '../../assets/deals/strip-01.webp';
-import strip2 from '../../assets/deals/strip-02.gif';
-import hero1 from '../../assets/deals/hero-01.webp';
-import hero2 from '../../assets/deals/hero-02.webp';
+import strip1 from '@assets/deals/strip-01.webp';
+import strip2 from '@assets/deals/strip-02.gif';
+import hero1 from '@assets/deals/hero-01.webp';
+import hero2 from '@assets/deals/hero-02.webp';
 
 // CMS creatives captured from noon.com/uae-en/noon-deals-ae (Oct 2026), the page the Deals tab opens.
 export const strips = [

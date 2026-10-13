@@ -219,7 +219,7 @@ Weights: Regular 400, Medium 500, Semibold 600, Bold 700. Lookup from a raw shor
 
 - Noontree OTFs in `src/assets/fonts`: Regular (400), Medium (500), SemiBold (600), Bold (`font-weight: 700 900`, so 800 renders Bold). `@font-face` in `global.css`.
 - Figtree and Cairo are not bundled; the dev app loads them from Google Fonts in `index.html` (Figtree 400–800, Cairo 400/600/700). A package consumer must load Cairo for RTL.
-- Dirham sign: `currency` from `src/mocks/products.ts` = `''` (private-use glyph drawn by Noontree; SAR is U+E000). Render prices as `{currency} {amount}` in a Noontree-styled element; never the text "AED".
+- Dirham sign: `currency` from `src/data` = `''` (private-use glyph drawn by Noontree; SAR is U+E000). Render prices as `{currency} {amount}` in a Noontree-styled element; never the text "AED".
 - `.nk-root` base: `font-family: var(--nk-font-family)`, `color: var(--nk-color-text-primary)`, 14px, line-height 1.3, antialiased.
 
 ### Shadows (`shadow` → `--nk-shadow-*`)

@@ -1,5 +1,5 @@
 import { MarketplaceTag, ProductImage } from '../../../components';
-import { currency, type Product } from '../../../mocks/products';
+import { currency, type Product } from '../../../data';
 import { copy, isExpress, price2 } from '../data';
 import styles from '../details.module.css';
 

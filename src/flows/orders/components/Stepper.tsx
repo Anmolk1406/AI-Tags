@@ -3,7 +3,7 @@ import { MaskIcon, OriginIcon } from '../../../components';
 import { art } from '../assets';
 import { ref } from '../../../foundations/tokens';
 import { duration, spring, supermall } from '../../../motion/presets';
-import { trackingSteps } from '../data';
+import { trackingSteps, type returnSteps, type exchangeSteps } from '../data';
 import styles from '../orders.module.css';
 import { ordersTokens } from '../tokens';
 
@@ -19,7 +19,10 @@ const FILL_S = duration.slower + duration.medium;
  * from the left on `supermall.ease.soft`; each done disc pops (`spring.bouncy`) as the fill reaches it, (no haptic: browsers block
  * vibration before the first tap, and this plays on load).
  */
-export function Stepper({ step, dates, enRoute, gray }: { step: number; dates: string[]; enRoute?: boolean; gray?: boolean }) {
+type Steps = typeof trackingSteps | typeof returnSteps | typeof exchangeSteps;
+
+/** `steps`: the server timeline for the card type (delivery by default; return / exchange cards send their own) */
+export function Stepper({ step, dates, enRoute, gray, steps = trackingSteps }: { step: number; dates: string[]; enRoute?: boolean; gray?: boolean; steps?: Steps }) {
   const frac = enRoute ? EN_ROUTE : AT[Math.max(0, Math.min(step, 3))];
   const start = supermall.reveal.delay + supermall.reveal.stagger * 3;
   const tint = (done: boolean) => (done ? (gray ? ref.color('textTertiary') : ref.color('success')) : ref.color('borderStrong'));
@@ -35,7 +38,7 @@ export function Stepper({ step, dates, enRoute, gray }: { step: number; dates: s
             transition={{ duration: FILL_S, ease: supermall.ease.soft, delay: start }}
           />
         </span>
-        {trackingSteps.map((s, i) => {
+        {steps.map((s, i) => {
           const done = i <= step && !(i === 3 && enRoute);
           return (
             <li key={s.id} className={styles.step}>

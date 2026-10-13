@@ -18,3 +18,9 @@
 .card[data-carousel] { border: 0; border-radius: var(--nk-radius-r8); }
 .card[data-carousel] .info { padding: var(--nk-space-s4) var(--nk-space-s4) 0; }
 .card[data-carousel] .delivery { padding: 0 var(--nk-space-s4); margin-top: var(--nk-space-s4); }
+/* NoonCard.MediaBottom padding 4 + imageBottomWrapperCarousel bottom 2 · infoCarousel marginBottom 2 ·
+   priceDiscountedPLP marginTop 6 (= info gap 4 + 2) · flag row 18h (no flagAndDeliveryRowPLP 20h outside PLP) */
+.card[data-carousel] .quick { bottom: var(--nk-space-s6); }
+.card[data-carousel] .info { margin-bottom: var(--nk-space-s2); }
+.card[data-carousel] .price { display: flex; margin-top: var(--nk-space-s2); }
+.card[data-carousel] .delivery { height: 18px; }

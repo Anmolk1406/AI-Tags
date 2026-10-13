@@ -1,18 +1,18 @@
 import { motion } from 'motion/react';
 import { useDemoStore } from '../../kit/DemoStore';
 import { useNav } from '../../kit/Navigator';
-import { currency, discountPct, formatPrice, type Product } from '../../mocks/products';
+import { currency, discountPct, formatPrice, type Product } from '../../data';
 import { ref } from '../../foundations/tokens';
 import { spring } from '../../motion/presets';
 import { CatalogTag } from '../Tag/Tag';
 import { ProductImage } from '../ProductImage/ProductImage';
 import { MaskIcon } from '../MaskIcon/MaskIcon';
-import heartOutline from '../../assets/shared/sku/heart-outline.svg';
-import plusBlue from '../../assets/shared/sku/plus-blue.svg';
-import star from '../../assets/shared/sku/star.svg';
-import truck from '../../assets/shared/sku/truck.svg';
-import pillExpress from '../../assets/shared/sku/pill-express.svg';
-import pillExpressToday from '../../assets/shared/sku/pill-express-today.svg';
+import heartOutline from '@assets/shared/sku/heart-outline.svg';
+import plusBlue from '@assets/shared/sku/plus-blue.svg';
+import star from '@assets/shared/sku/star.svg';
+import truck from '@assets/shared/sku/truck.svg';
+import pillExpress from '@assets/shared/sku/pill-express.svg';
+import pillExpressToday from '@assets/shared/sku/pill-express-today.svg';
 import styles from './SkuCard.module.css';
 
 export type SkuFulfilment = 'express' | 'expressToday';

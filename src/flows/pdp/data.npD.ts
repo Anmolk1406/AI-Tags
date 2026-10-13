@@ -1,5 +1,5 @@
-import aplus1 from '../../assets/pdp/new-pdp/aplus-1.webp';
-import aplus2 from '../../assets/pdp/new-pdp/aplus-2.webp';
+import aplus1 from '@assets/pdp/new-pdp/aplus-1.webp';
+import aplus2 from '@assets/pdp/new-pdp/aplus-2.webp';
 
 /**
  * New PDP (Figma Af34gfmhQ1D0wstXUEHSIF · 64:5571), section group D: copy and demo content for Product Features (64:5729),

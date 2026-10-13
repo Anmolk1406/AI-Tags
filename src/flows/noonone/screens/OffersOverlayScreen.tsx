@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { HtmlText, MaskIcon } from '../../../components';
 import { useNav } from '../../../kit/Navigator';
-import checkCircle from '../../../assets/vip/check-circle.svg';
+import checkCircle from '@assets/vip/check-circle.svg';
 import { VIPButton } from '../components/VIPButton';
 import { VIPOverlay, useVipOverlay } from '../components/VIPOverlay';
 import { InlinePopup } from '../components/offers/InlinePopup';

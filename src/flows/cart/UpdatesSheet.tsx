@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { HtmlText, ProductImage } from '../../components';
-import { currency, formatPrice, productById } from '../../mocks/products';
+import { currency, formatPrice, productById } from '../../data';
 import { easing } from '../../motion/presets';
 import { cartUpdates, t } from './data';
 import styles from './updates.module.css';

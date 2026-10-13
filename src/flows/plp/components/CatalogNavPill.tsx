@@ -2,12 +2,12 @@ import { DotLottieReact, type DotLottie } from '@lottiefiles/dotlottie-react';
 import { animate, motion, useMotionValue, useReducedMotion, useTransform } from 'motion/react';
 import { forwardRef, useImperativeHandle, useRef, type ReactNode } from 'react';
 import { haptic } from '../../../motion/haptics';
-import filterPillLottie from '../../../assets/lotties/filter-pill.lottie';
+import filterPillLottie from '@assets/lotties/filter-pill.lottie';
 // the same Lottie with its stroke recoloured #475067 → #0F61FF (bappzaar FILTER_PILL_SELECTED_COLOR_FILTERS)
-import filterPillLottieSelected from '../../../assets/lotties/filter-pill-selected.lottie';
-import sortIcon from '../../../assets/plp/navpills/sort-icon-v2.webp';
-import chevronDown from '../../../assets/icons/noon-chevron-down.webp';
-import crossV2 from '../../../assets/plp/navpills/crossV2.webp';
+import filterPillLottieSelected from '@assets/lotties/filter-pill-selected.lottie';
+import sortIcon from '@assets/plp/navpills/sort-icon-v2.webp';
+import chevronDown from '@assets/icons/noon-chevron-down.webp';
+import crossV2 from '@assets/plp/navpills/crossV2.webp';
 import styles from './catalogNavPill.module.css';
 
 /**

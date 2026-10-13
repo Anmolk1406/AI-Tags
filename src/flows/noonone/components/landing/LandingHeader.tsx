@@ -1,5 +1,5 @@
 import { motion, useTransform, type MotionValue } from 'motion/react';
-import chevronLeft from '../../../../assets/vip/chevron-left-rounded.svg';
+import chevronLeft from '@assets/vip/chevron-left-rounded.svg';
 import { Pressable } from '../../../../components';
 import { NOON_ONE } from '../../data.landing';
 import { landingTokens } from '../../tokens';

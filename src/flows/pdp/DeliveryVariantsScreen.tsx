@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Header, Screen, Text } from '../../components';
 import type { ScreenProps } from '../../kit/types';
-import { productById } from '../../mocks/products';
+import { productById } from '../../data';
 import { SfDeliveryCard, deliveryVariants, type DeliveryVariant } from './components/storefront/SfDeliveryCard';
 import { pdpContent } from './data';
 import styles from './pdp.module.css';

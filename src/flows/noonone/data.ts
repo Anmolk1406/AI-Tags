@@ -1,5 +1,5 @@
 import type { MembershipPlan } from '../../kit/membership';
-import { currency } from '../../mocks/products';
+import { currency } from '../../data';
 
 /**
  * Shared noon One demo data. Everything here is SERVER-DRIVEN on master (VIPService.getVIPTouchpoints

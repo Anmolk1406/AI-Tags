@@ -1,6 +1,6 @@
 import { membershipActions, membershipStore, type FamilyMember, type MembershipPlan, type MembershipState } from '../../kit/membership';
 import type { MembershipManageState } from '../../kit/membership';
-import { user, currency } from '../../mocks/products';
+import { user, currency } from '../../data';
 import { icons } from './assets';
 import vipEn from './locale/vip-en.json';
 

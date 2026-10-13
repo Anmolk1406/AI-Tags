@@ -1,11 +1,11 @@
-import enbdCard from '../../assets/noonone/offers/enbd-card-no-name.webp';
-import enbdCardSm from '../../assets/noonone/offers/enbd-card-no-name-sm.webp';
-import mashreqCardSm from '../../assets/noonone/offers/mashreq-card-no-name-sm.webp';
-import noonOneIcon from '../../assets/noonone/entry/noon-one.webp';
-import gift from '../../assets/vip/gift.svg';
-import percentBadge from '../../assets/vip/percent-badge.svg';
-import stcIcon from '../../assets/noonone/icons/stc.webp';
-import alertIcon from '../../assets/vip/one-trial-alert.webp';
+import enbdCard from '@assets/noonone/offers/enbd-card-no-name.webp';
+import enbdCardSm from '@assets/noonone/offers/enbd-card-no-name-sm.webp';
+import mashreqCardSm from '@assets/noonone/offers/mashreq-card-no-name-sm.webp';
+import noonOneIcon from '@assets/noonone/entry/noon-one.webp';
+import gift from '@assets/vip/gift.svg';
+import percentBadge from '@assets/vip/percent-badge.svg';
+import stcIcon from '@assets/noonone/icons/stc.webp';
+import alertIcon from '@assets/vip/one-trial-alert.webp';
 import { CURRENCY, findPlan, type VipPlan } from './data';
 
 /**

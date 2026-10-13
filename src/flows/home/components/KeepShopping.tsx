@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react';
 import { MaskIcon, Pressable, Text } from '../../../components';
 import { ref } from '../../../foundations/tokens';
 import { useNav } from '../../../kit/Navigator';
-import searchIcon from '../../../assets/home/2025/keep/search.svg';
+import searchIcon from '@assets/home/2025/keep/search.svg';
 import { keepCaret, recentItems, type RecentItem } from '../data.modules';
 import styles from './KeepShopping.module.css';
 

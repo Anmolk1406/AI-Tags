@@ -2,7 +2,7 @@
 
 > System icons: `src/assets/icons/origin/` holds the 399 Origin Design System icons — use `<OriginIcon name>` and the catalogue in `icons.md`, not the files directly.
 
-Sources: `src/assets/*` (22 folders, 839 files, ~8.7 MB), `src/components/{Icon,MaskIcon,Lottie,ProductImage,TabBar,Tag,SearchBar}`, `src/flows/*/assets.ts`, `src/foundations/global.css`, `src/mocks/products.ts`, `scripts/optimize-assets.mjs`, `scripts/asset-budget.json`, `vite.config.ts`, `src/vite-env.d.ts`, CONTRIBUTING.md (Assets).
+Sources: `src/assets/*` (22 folders, 839 files, ~8.7 MB), `src/components/{Icon,MaskIcon,Lottie,ProductImage,TabBar,Tag,SearchBar}`, `src/flows/*/assets.ts`, `src/foundations/global.css`, `src/data`, `scripts/optimize-assets.mjs`, `scripts/asset-budget.json`, `vite.config.ts`, `src/vite-env.d.ts`, CONTRIBUTING.md (Assets).
 
 Component props live in `components.md` (sections Icon, MaskIcon, Lottie, ProductImage, MarketplaceTag and MarketplaceWordmark). This file says **which files exist and where they go**. Rule: search here (or `ls src/assets/<folder>`) before downloading anything; most noon glyphs, logos, payment marks and empty states are already in the repo.
 
@@ -29,12 +29,12 @@ Paths are relative to `src/assets/`. "Used by" is from grepping imports; folders
 | `noonone/` | 14 webp, 2 lottie | flows/noonone, account, cart, checkout, pdp | `entry/noon-one.webp` (noon One logo mark, used in cart/checkout/pdp/noonone), `entry/noon-one-text.webp`, `entry/noon-one-day-tab.webp`, `entry/right-chevron.webp`, lotties `entry/noon-account-noon-one-logo.lottie`, `entry/checkout-noon-one-green-container.lottie`; `icons/` (`stc.webp`, `add-boku-otp.webp`, `check-circle.webp` …); `offers/` bank cards `enbd-card-no-name{,-sm}.webp`, `mashreq-card-no-name{,-sm}.webp` |
 | `pdp/` | 31 webp | flows/pdp | `express-pdp-en.webp`, `rocket-pdp-en.webp` (delivery badges), `favourite.webp` / `favourite-active-v2.webp`, `ai-summary-sparkle.webp`, `reviews-verified-purchase.webp`, `noon-review-star-empty.webp`, `percent-badge.webp`, `seller-logo.webp`, `warranty.webp`, `returnable.webp` … |
 | `plp/` | 14 webp, 14 svg, 1 png | flows/plp (`brands.ts`, `MarketplaceStrip`) | `fulfillment/noon-wide-assortment.png` (bappzaar noon fulfilment tab logo, mpcms); `navpills/`: bappzaar `sort-icon-v2`, `crossV2` (@3x webp; the chevron is `icons/noon-chevron-down.webp`) + the live navPills CMS icons `{deals,brand,price}-{active,inactive}.png`; `brands/`: brand widget flagship photos `{apple,samsung,google,xiaomi,honor,oneplus,huawei,motorola,nothing,oppo,vivo,tecno,realme,infinix}.webp` (300w), wordmarks `mark-*.svg`, selected-bar coin marks `coin-{apple,samsung,google,xiaomi}.svg` (from github.com/saswata2002/Brand-Widget-PLP) |
-| `products/` | 93 webp | `mocks/products.ts`, `mocks/phones.ts`, flows/pdp | `iphone-17-pro/`: `card-<sku>.webp` (21 product cards), `gallery-{1..4}.webp`, `fbt-*.webp`, `swatch-{silver,cosmic-orange,deep-blue}.webp`, `review-{1..5}.webp`, `nudge-*.webp`, `pay-{installments,noon-one-card,split}.webp`; `phones/`: `card-<sku>.webp` (48 phone cards, 4 per brand, 320w, for the PLP brand widget) |
+| `products/` | 18 webp | flows/pdp, `src/data/products/N70211564V` | product-page art that isn't one product's photo: `iphone-17-pro/`: `swatch-{silver,cosmic-orange,deep-blue}.webp`, `review-{1..5}.webp`, `nudge-*.webp`, `pay-{installments,noon-one-card,split}.webp`, and `card-n70211534v.webp` (shared by two iPhone variants). Phone and other product photos moved into `src/data/products/<id>/` |
 | `returns/` | 30 svg, 7 webp, 1 lottie | flows/returns (via `assets.ts`), flows/cards | AFS icons `returns-*.svg`, `wc-radio-{checked,unchecked}.svg`; `empty-return-requests@3x.webp`, `slim-chevron-{left,right}@3x.webp`, `x-mark@3x.webp`, `returns-supermall-tag.svg`; `returns-processing-en.lottie` |
 | `reviews/` | 11 webp, 2 lottie | flows/reviews (via `assets.ts`) | R&R 2.0 products (`product-case`, `iphone`, `pastorder-1..3`, `washer`), review photos `review-1/2`, `review-photo-1..3`; lotties `stars-loading`, `review-success` (pass via `src`) |
 | `shared/` | 17 webp, 2 svg | components/SearchBar, flows/account, cards, cart, checkout, membership, noonone, pdp, returns | Cross-flow: `search-bar/back.webp` + `search-bar/clear-input.webp` (bappzaar back / clearInput, `SearchInput`, post-order header, PDP, membership search); `payment/apple-pay.webp`, `payment/card-{visa,mastercard,amex,mada}.webp`, `payment/brand-card-{visa,mastercard,amex}.webp`; `icons/checkbox-{checked,unchecked}.webp`, `icons/radio2-{checked,unchecked}.webp`, `icons/arrow-down.webp`, `icons/addr-{home,chevron}.svg`; `delivery/{work,other}.webp` (address tags) |
 | `switcher/` | 18 png, 2 gif | flows/home, flows/noonone | Super-app switcher tiles: `noon`, `rocket`, `food`, `money`, `nooninstant`, `noonnownow`, `services` with `-compact`, `-selected`, `-compact-selected` variants |
-| `tabbar/` | 12 webp | components/TabBar | `home`, `categories`, `deals-box`, `cart`, `account` + `-selected` (imported); `discount-badge{,-selected}.webp` (fallback deals icon, not imported) |
+| `tabbar/` | 12 webp + 2 svg | components/TabBar | `home`, `categories`, `cart`, `account` + `-selected` webp (imported); Deals = `deals-bag{,-selected}.svg` (Origin `M-Icon/Bottomnav-Icon/deals-bag`, imported, drawn at 28); `deals-box{,-selected}.webp` and `discount-badge{,-selected}.webp` (older deals icons, not imported) |
 | `vip/` | 16 svg, 10 webp, 5 lottie, 1 png | flows/membership, flows/noonone | VIP glyphs (`gift.svg`, `star.svg`, `percent-badge.svg`, `reminder-bell.svg`, `radio-green-{selected,unselected}.svg`, `one-green-check.webp`, `one-trial-alert.webp` …); lotties `vip-family-plans-header`, `vip-accept-invite-header`, `vip-accept-invite-duo-header`, `vip-landing-success-animation`, `vip-loading-shimmer` |
 
 ## 2. Using assets
@@ -46,7 +46,7 @@ Paths are relative to `src/assets/`. "Used by" is from grepping imports; folders
 | One file | Static ES import (Vite returns a hashed URL string; files under 4 KB are inlined as data URIs) | `import pin from '../../assets/address/mapV2-pin-location-summary.webp';` then `<img src={pin} />` |
 | Flow asset table | Collect imports in `src/flows/<flow>/assets.ts` and export `icons` / `images` / `lotties` objects | `src/flows/address/assets.ts`, `src/flows/membership/assets.ts`, `src/flows/returns/assets.ts` (`lottieFiles`) |
 | Many CMS images looked up by name | `import.meta.glob` eager | `src/flows/home/data.ts`: `import.meta.glob<string>('../../assets/home/*.webp', { eager: true, import: 'default' })`; same in `src/flows/categories/data.ts` (`asset(name)`) |
-| Product photo | `image` / `images` on a `Product` in `src/mocks/products.ts`, rendered with `ProductImage` | `image: ip17Gallery1, images: [ip17Gallery1, …]` |
+| Product photo | `card.webp` / `gallery-N.webp` next to the product's `product.ts` in `src/data/products/<id>/` (attached as `image` / `images`), rendered with `ProductImage` | `src/data/products/N70211593V/` |
 | Shared lottie | `<Lottie name="…">` | `<Lottie name="atcCheck" size={64} />` |
 | Flow lottie | Import the `.lottie` and pass `src` (`*.lottie` is in `vite.config.ts` `assetsInclude`, typed in `src/vite-env.d.ts`) | `<Lottie src={lotties.allowLocation} loop size={100} />` |
 | Generic line icon | `<Icon name="…">` (lucide set) | `<Icon name="chevronRight" size={16} flipRtl />` |
@@ -63,7 +63,7 @@ Locale variants: pick by direction at runtime, e.g. `document.documentElement.di
 - Used by two or more flows: `src/assets/shared/<kind>/` (`payment/`, `icons/`, `delivery/`). `assets:check` fails on byte-identical copies, so move a file to `shared/` instead of copying it.
 - Shared lottie: `src/assets/lotties/` plus a key in the `lotties` map in `src/components/Lottie/Lottie.tsx`.
 - Component-owned artwork: next to the component's folder (`tabbar/`, `marketplace/`, `icons/` for SearchBar).
-- Product photos: `src/assets/products/<family>/`, wired in `src/mocks/products.ts`.
+- Product photos: in the product's own folder, `src/data/products/<id>/card.webp` (+ `gallery-N.webp`); `npm run assets:optimize` covers them. See `src/data/README.md`.
 
 ### Size and format
 
@@ -187,7 +187,7 @@ Checkbox: `shared/icons/checkbox-{checked,unchecked}.webp`, `cart/checkbox-{chec
 | Noontree | `src/assets/fonts/Noontree-{Regular,Medium,SemiBold,Bold}.otf`, `@font-face` in `src/foundations/global.css` (weights 400, 500, 600, 700–900, `font-display: swap`) |
 | Stacks | `fontFamily.primary` = `'Noontree', 'Figtree', -apple-system, …`; `fontFamily.rtl` = `'Cairo', 'Noontree', 'Figtree', sans-serif` (`src/foundations/tokens.ts`). Figtree and Cairo (400/600/700) load from Google Fonts in `index.html` |
 | Using fonts | Never set `font-family` in a flow; use `<Text variant>` or `var(--nk-type-*)`, which resolve to `var(--nk-font-family)` (switches to the RTL stack when `rtl`) |
-| Dirham sign | `currency` from `src/mocks/products.ts` = `''` (private-use glyph drawn by Noontree; SAR would be U+E000). In RTL, Cairo lacks the glyph and falls back to Noontree in the stack |
+| Dirham sign | `currency` from `src/data` = `''` (private-use glyph drawn by Noontree; SAR would be U+E000). In RTL, Cairo lacks the glyph and falls back to Noontree in the stack |
 | Rendering prices | `<Price price was size>` (currency at 0.7em, semibold) or `<Money value>`; text: `` `${currency} ${formatPrice(n)}` ``. Never type "AED", never use an image for the sign |
 
 ## 6. Validation

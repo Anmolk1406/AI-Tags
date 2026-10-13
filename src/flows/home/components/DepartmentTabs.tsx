@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useState, type CSSProperties } from 'react';
 import { Icon, Pressable } from '../../../components';
 import { useNav } from '../../../kit/Navigator';
-import { currency } from '../../../mocks/products';
+import { currency } from '../../../data';
 import { cmsWidgets, groceryTiles, homeTabs, sponsored, tabRails, tabStars, type Crop, type HomeTabId, type PromoItem, type TabTile } from '../data.tabs';
 import { homeTabInk, homeTabThemes, homeTabsTokens as T, type TabTheme } from '../tokens.tabs';
 import styles from './DepartmentTabs.module.css';

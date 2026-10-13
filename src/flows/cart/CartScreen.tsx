@@ -6,26 +6,28 @@ import { useNav } from '../../kit/Navigator';
 import { useIsNoonOneMember } from '../../kit/membership';
 import { takeCartVipPush } from '../noonone/components/entry/cartVipPush';
 import type { ScreenProps } from '../../kit/types';
-import { products, type Product } from '../../mocks/products';
+import { products, type Product } from '../../data';
 import { CartCarousel } from './components/CartCarousel';
 import { FreeGifts } from './components/FreeGifts';
-import emptyGeneric from '../../assets/cart/empty-generic.webp';
-import infoFilled from '../../assets/cart/info-circle-filled.webp';
-import closeQuantity from '../../assets/cart/close-quantity.webp';
+import emptyGeneric from '@assets/cart/empty-generic.webp';
+import infoFilled from '@assets/cart/info-circle-filled.webp';
+import closeQuantity from '@assets/cart/close-quantity.webp';
 import { CartFooter } from './components/CartFooter';
 import { CartGroup } from './components/CartGroup';
 import { CartHeader } from './components/CartHeader';
 import { CartSnackBar } from './components/CartSnackBar';
 import { CouponInput } from './components/CouponInput';
 import { InactiveGroup } from './components/InactiveGroup';
-import { SalesCallout } from './components/SalesCallout';
-import { cartUpdates, freeGift, paymentCallouts, t } from './data';
+import { CobrandCards } from './components/CobrandCards';
+import { PaymentOffers } from './components/PaymentOffers';
+import { cartUpdates, cobrandCards, freeGift, paymentCallouts, t } from './data';
 import styles from './cart.module.css';
 
 /** NoonCartResponseType.sectionsOrder as the cart API returns it for this cart */
-// Figma Cart 2.0 order: groups → offers carousel → wishlist carousel → free gifts → coupon → payment offers
-const SECTIONS = ['updates', 'groups', 'secondary_groups', 'cms_bottom', 'wishlist', 'free_gifts', 'coupon_tray', 'callouts'] as const;
-const GROUP_ORDER: CartGroupType[] = ['express', 'marketplace', 'xborder'];
+// All flows 127:39687 order: groups → offers carousel → wishlist carousel → (free gifts) → coupon → cobrand cards → payment offers
+const SECTIONS = ['updates', 'groups', 'secondary_groups', 'cms_bottom', 'wishlist', 'free_gifts', 'coupon_tray', 'cobrand_cards', 'callouts'] as const;
+// All flows 127:39688: supermall → Global → express → market
+const GROUP_ORDER: CartGroupType[] = ['supermall', 'xborder', 'express', 'marketplace'];
 
 /**
  * NoonCartScreen (master). FeedbackView loading → animated address header, then the server-ordered sections:
@@ -87,23 +89,10 @@ export function CartScreen({ params }: ScreenProps<{ state?: 'empty' | 'loading'
         return forcedEmpty ? null : <InactiveGroup key={section} onMovedToWishlist={onMovedToWishlist} />;
       case 'coupon_tray':
         return empty ? null : <CouponInput key={section} />;
+      case 'cobrand_cards':
+        return empty ? null : <CobrandCards key={section} cards={cobrandCards} />;
       case 'callouts':
-        return empty ? null : (
-          <section key={section} className={styles.callouts}>
-            <h3 className={styles.calloutsTitle}>{t.paymentOffers}</h3>
-            <div className={styles.calloutsRow}>
-              {paymentCallouts.filter((c) => !(noonOneMember && c.link === '/noon-one')).map((c) =>
-                c.link === '/noon-one' ? (
-                  <div key={c.message} style={{ display: 'contents' }} onClick={() => nav.push('noonone/landing', { source: '/cart' })}>
-                    <SalesCallout entry={c} sheet="screenCallout" lines={2} iconSize={48} className={styles.calloutEntry} wrapperStyle={{ padding: 8 }} />
-                  </div>
-                ) : (
-                  <SalesCallout key={c.message} entry={c} sheet="screenCallout" lines={2} iconSize={48} className={styles.calloutEntry} wrapperStyle={{ padding: 8 }} />
-                ),
-              )}
-            </div>
-          </section>
-        );
+        return empty ? null : <PaymentOffers key={section} entries={paymentCallouts} />;
       case 'cms_bottom':
         return empty ? (
           <CartCarousel key={section} title={t.recommended} items={products.slice(0, 8)} />

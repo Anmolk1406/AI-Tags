@@ -205,7 +205,7 @@ Not 1:1:
 Files: `screens/{PlanSelectScreen,PlanDetailsOverlayScreen,TrialGuideOverlayScreen,PlanOptionOverlayScreen,FamilyPlansScreen}.tsx`, `components/plans/*`, `data.plans.ts`, `tokens.ts` (plans section).
 
 ### Screens
-- **`noonone/plans`** — `features/vip/screens/VIPQuickPlanSelectV3Screen (+ Plan/Plan.tsx, Plan/BundlePlan.tsx), components/VIPSubscriptionButtonV2, src/components/SegmentedControlTabSwitcher`. Live plan select (VIPUtil.showPlanSelectV2 always pushes V3; V1 VIPQuickPlanSelectScreen is legacy). Switch tiers (noon One ↔ One + Play bundle; pill slides 500ms ease-out-cubic), pick Monthly / Annual or a streaming partner. First CTA tap opens the "Review your plan" sheet; after that the sticky button shows "Pay with ••••4242" and quick-subscribes (loader → success on the landing). "Pay with" → payment. Params: preSelectedTierCode (individual | yango), preSelectedPlanCode.
+- **`noonone/plans`** — `features/vip/screens/VIPQuickPlanSelectV3Screen (+ Plan/Plan.tsx, Plan/BundlePlan.tsx), components/VIPSubscriptionButtonV2, src/components/SegmentedControlTabSwitcher`. Live plan select (VIPUtil.showPlanSelectV2 always pushes V3; V1 VIPQuickPlanSelectScreen is legacy). Switch tiers (One Bundle ↔ One Standard, Standard selected by default as in prod; pill slides 500ms ease-out-cubic), pick Monthly / Annual or a streaming partner. First CTA tap opens the "Review your plan" sheet; after that the sticky button shows "Pay with ••••4242" and quick-subscribes (loader → success on the landing). "Pay with" → payment. Params: preSelectedTierCode (individual | yango), preSelectedPlanCode.
 - **`noonone/planDetails`** — `features/vip/utils/VIPPopupUtil.showPlanDetailDialog → screens/VIPGenericOverlayScreen + components/VIPPopups/VIPPlanDetailsPopup (REGULAR · FAMILY_PLAN); variant planSelect = screens/VIPInfoOverlayScreen via VIPUtil.showInfoOverlay`. variant landing (default): the sheet the landing "Start free trial" opens once — title, plan card with trial tag, body, reminder, CTA with Pay-with row. variant planSelect: plan-select review (VIPInfoOverlayScreen). variant family: family review with members + invoice. CTA quick-subscribes (1.2s loader) → membership active → pops to the landing success animation.
 - **`noonone/trialGuide`** — `features/vip/screens/VIPTrialGuideOverlayScreen (opened by VIPPaymentV2Screen/VIPTrialGuideButton)`. How the free trial works: day 1 / 28 / 30 timeline. GOT IT closes. Rows from data.plans.ts trialGuideData (server: trial guide touchpoint).
 - **`noonone/planOption`** — `features/vip/screens/VIPPlanOptionOverlayScreen (VIPUtil.showPlanOptionOverlay)`. Only caller on master is VIPCancelMembershipV2Screen (switch-instead-of-cancel step, management). Select a plan (m-checkbox), Continue: for members it changes the plan + toast.
@@ -685,3 +685,12 @@ container blueGray900 r12 padding 12 (`--nk-color-text-primary`, `--nk-radius-r1
 - Account strip: master's subscribed strip pushes `VIPLandingScreen` (member view); the kit routes it to `membership/manage` as instructed.
 - `vipBackBorder` / `vipBackButton` / `vipTermsBorder` repeat across landing, plans and payment sections with identical values (harmless merge) — could be hoisted to the base section.
 - Several noon One CMS images/lotties (module banners, bgImg, partner logos) are server URLs with no fixture; demo uses bundled assets/emoji-free placeholders described per section.
+
+### Non-member sticky footer (prod, screenshot 2026-10-13)
+
+| Master (`VIPLandingScreen.renderStickyFooter`) | Prod value | Kit |
+|---|---|---|
+| `offerFlyout` (wins over `flyout`) → `Flyout` (`partnerCalloutContainer` min-height 40, px 15, top radius 12; icon 16 me 8, trailing icon 18 ms 8, tinted `textColor`; text 14/500 HTML) | green strip, sparkle · "Don't miss noon One at the **lowest** price" · sparkle, opens plan select | `npLanding.flyout` (`offerFlyout`), `Flyout` icons, `--nk-color-vip-np-offer-flyout`; footer radius moves to the strip (`noBorderRadius`) |
+| `buttons` '/create' → `VIPSubscriptionButtonV2` | "Start your 15 days trial" (plan buttonText) | `npLanding.buttonText` |
+| `viewPlansButton` + `VIPDashedBorder` (4 / 5 / 1, #343D54), 14/600 #0E0E0E, centred | "View other plans" → plan select | `NpStickyFooter viewPlansTitle` (`landing.module.css` viewPlans*) |
+

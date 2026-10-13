@@ -11,7 +11,7 @@ import { distanceFromCurrent, reverseGeocode, WORLD, type PinDetails } from './c
 import { AddressToastHost, OverlayButton } from './components/primitives';
 import { StreetMap } from './components/StreetMap';
 import { CURRENT_LOCATION, places, singleLineAddress, t, userDialCode, userPhone, type MapPoint, type SavedAddress } from './data';
-import { user } from '../../mocks/products';
+import { user } from '../../data';
 import { addressStore, useAddressStore } from './store';
 import { addressMetrics } from './tokens';
 import styles from './components/map.module.css';

@@ -1,25 +1,25 @@
-import { productById, type Product } from '../../mocks/products';
+import { productById, type Product } from '../../data';
 import type { SkuFulfilment } from '../../components';
-import forYouIcon from '../../assets/home/2025/tabs/for-you.svg';
-import electronicsIcon from '../../assets/home/2025/tabs/electronics.svg';
-import beautyIcon from '../../assets/home/2025/tabs/beauty.svg';
-import fashionIcon from '../../assets/home/2025/tabs/fashion.svg';
-import homeIcon from '../../assets/home/2025/tabs/home.svg';
-import hyaluronicMask from '../../assets/home/2025/categories/hyaluronic-mask.webp';
-import pinkCleanser from '../../assets/home/2025/categories/pink-cleanser.webp';
-import wasabi from '../../assets/home/2025/categories/wasabi.webp';
-import pringles from '../../assets/home/2025/categories/pringles.webp';
-import mapleSyrup from '../../assets/home/2025/categories/maple-syrup.webp';
-import espressoMachine from '../../assets/home/2025/categories/espresso-machine.webp';
-import leverEspresso from '../../assets/home/2025/categories/lever-espresso.webp';
-import cardsGame from '../../assets/home/2025/categories/cards-game.webp';
-import zeldaGame from '../../assets/home/2025/categories/zelda-game.webp';
-import headphones from '../../assets/home/2025/categories/headphones.webp';
-import smartwatch from '../../assets/home/2025/categories/smartwatch.webp';
-import hairStraightener from '../../assets/home/2025/categories/hair-straightener.webp';
-import shampoo from '../../assets/home/2025/categories/shampoo.webp';
-import pinkDress from '../../assets/home/2025/categories/pink-dress.webp';
-import sneakers from '../../assets/home/2025/categories/sneakers.webp';
+import forYouIcon from '@assets/home/2025/tabs/for-you.svg';
+import electronicsIcon from '@assets/home/2025/tabs/electronics.svg';
+import beautyIcon from '@assets/home/2025/tabs/beauty.svg';
+import fashionIcon from '@assets/home/2025/tabs/fashion.svg';
+import homeIcon from '@assets/home/2025/tabs/home.svg';
+import hyaluronicMask from '@assets/home/2025/categories/hyaluronic-mask.webp';
+import pinkCleanser from '@assets/home/2025/categories/pink-cleanser.webp';
+import wasabi from '@assets/home/2025/categories/wasabi.webp';
+import pringles from '@assets/home/2025/categories/pringles.webp';
+import mapleSyrup from '@assets/home/2025/categories/maple-syrup.webp';
+import espressoMachine from '@assets/home/2025/categories/espresso-machine.webp';
+import leverEspresso from '@assets/home/2025/categories/lever-espresso.webp';
+import cardsGame from '@assets/home/2025/categories/cards-game.webp';
+import zeldaGame from '@assets/home/2025/categories/zelda-game.webp';
+import headphones from '@assets/home/2025/categories/headphones.webp';
+import smartwatch from '@assets/home/2025/categories/smartwatch.webp';
+import hairStraightener from '@assets/home/2025/categories/hair-straightener.webp';
+import shampoo from '@assets/home/2025/categories/shampoo.webp';
+import pinkDress from '@assets/home/2025/categories/pink-dress.webp';
+import sneakers from '@assets/home/2025/categories/sneakers.webp';
 
 /* ───────────── Shop by category (Figma 1337:5151 › Cat Grid) ───────────── */
 

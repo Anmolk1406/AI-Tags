@@ -1,6 +1,6 @@
 import { Badge, ExpressBadge, OriginIcon, ProductImage } from '../../../../components';
 import { useNav } from '../../../../kit/Navigator';
-import { products, type Product } from '../../../../mocks/products';
+import { products, type Product } from '../../../../data';
 import { money } from '../../data';
 import styles from './SfSponsoredBrandCard.module.css';
 

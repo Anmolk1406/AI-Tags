@@ -14,7 +14,7 @@ import { fileURLToPath, URL } from 'node:url';
  */
 export default defineConfig({
   plugins: [react()],
-  resolve: { alias: { '@kit': fileURLToPath(new URL('./src', import.meta.url)) } },
+  resolve: { alias: { '@kit': fileURLToPath(new URL('./src', import.meta.url)), '@assets': fileURLToPath(new URL('./src/assets', import.meta.url)) } },
   assetsInclude: ['**/*.lottie'],
   publicDir: false,
   experimental: { renderBuiltUrl: () => ({ relative: true }) },
@@ -31,6 +31,7 @@ export default defineConfig({
         index: 'src/index.ts',
         'components/index': 'src/components/index.ts',
         'foundations/tokens': 'src/foundations/tokens.ts',
+        'data/index': 'src/data/index.ts',
         'flows/index': 'src/flows/index.ts',
         ...Object.fromEntries(
           readdirSync('src/flows', { withFileTypes: true })

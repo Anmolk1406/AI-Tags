@@ -1,12 +1,12 @@
 import { AnimatePresence, motion, useDragControls, type PanInfo } from 'motion/react';
 import { useLayoutEffect, useRef, useState } from 'react';
 import type { CartLine, CartTotals } from '../../../kit/DemoStore';
-import { currency, formatPrice } from '../../../mocks/products';
+import { currency, formatPrice } from '../../../data';
 import { t } from '../data';
 import { buildDynamicInvoice } from '../invoice';
 import { cartTokens } from '../tokens';
 import { NoonOneLogo } from './NoonOneLogo';
-import savingsWave from '../../../assets/cart/footer/savings-wave.svg';
+import savingsWave from '@assets/cart/footer/savings-wave.svg';
 import { DynamicInvoice } from './DynamicInvoice';
 import styles from './footer.module.css';
 

@@ -1,7 +1,7 @@
 import { OriginIcon, Pressable } from '../../../../components';
 import { useNav } from '../../../../kit/Navigator';
-import type { Product } from '../../../../mocks/products';
-import bundleIcon from '../../../../assets/pdp/new-pdp/bundle-combo.gif';
+import type { Product } from '../../../../data';
+import bundleIcon from '@assets/pdp/new-pdp/bundle-combo.gif';
 import type { PdpContent } from '../../data';
 import { bestComboSaving, combosFor, npaCopy } from '../../data.npA';
 import styles from './SfBundleCard.module.css';

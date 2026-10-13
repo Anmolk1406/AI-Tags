@@ -1,6 +1,6 @@
 import { useNav } from '../../../kit/Navigator';
 import type { ScreenProps } from '../../../kit/types';
-import colorIcon from '../../../assets/noonone/entry/noon-one-text.webp';
+import colorIcon from '@assets/noonone/entry/noon-one-text.webp';
 import { LegacyOverlay, useLegacyOverlay } from '../components/entry/LegacyOverlay';
 import { ocErrorOverlay, ocOverlay } from '../data.entry';
 import styles from './OCOneOverlayScreen.module.css';

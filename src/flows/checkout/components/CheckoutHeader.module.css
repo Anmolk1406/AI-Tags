@@ -128,3 +128,14 @@
   width: 40px;
   height: 40px;
 }
+/* Figma "All flows" Header 127:44454: "Checkout" Figtree Bold 16/21.1 (-0.3016) Blue-Gray/900 + text-shadow, centred */
+.title {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  font: var(--nk-type-chk-fig-text16-bold-lh21);
+  letter-spacing: -0.3016px;
+  color: var(--nk-color-text-primary);
+  text-shadow: var(--nk-shadow-chk-fig-header-label);
+  white-space: nowrap;
+}

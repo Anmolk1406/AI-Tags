@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams } from '../../../kit/Navigator';
-import addCvvIcon from '../../../assets/vip/add-cvv.webp';
+import addCvvIcon from '@assets/vip/add-cvv.webp';
 import { LegacyOverlay, useLegacyOverlay } from '../components/payment/LegacyOverlay';
 import { savedCards } from '../data';
 import { cvvError, payCopy, paymentLocalStore } from '../data.payment';

@@ -55,6 +55,7 @@ These components are kept but **not rendered** on `home/home`: PromoTicker, Cate
   2. add a `case` in `FeedModule` (`src/flows/home/HomeScreen.tsx`);
   3. add an entry with a unique `key` to `homeFeed`;
   4. wrap the component in `BzModuleWrapper`.
+- **Hiding a module**: set `hidden: true` on its `homeFeed` entry. It keeps its place in the payload order and isn't rendered. `homepage-toggle` (the FIRST15 / Emirates NBD strips) is hidden this way.
 - **Spacing rule**: only the wrapper's top/bottom padding plus `marginBottom` apply. `marginBottom` is 24, or 0 with `removeExternalSpacing`. CMS `outerSpacing` is ignored and there is no feed gap.
 - **Geometry**: copy the bappzaar formula into `bz` and keep the formula in a comment. Fixed card sizes stay fixed; the extra width shows as rail peek.
 - **Assets**: `data.feed.ts` loads `src/assets/home/*.webp` and `src/assets/home/bz/*.webp` with `import.meta.glob`. File names must follow `prefix-NN`.

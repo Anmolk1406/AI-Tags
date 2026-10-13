@@ -1,9 +1,9 @@
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { useRef } from 'react';
 import { useNav } from '../../kit/Navigator';
-import languageToAr from '../../assets/account/noon-account-language-change-ar.lottie';
-import languageToEn from '../../assets/account/noon-account-language-change-en.lottie';
-import countryEn from '../../assets/account/noon-account-country-change-en.lottie';
+import languageToAr from '@assets/account/noon-account-language-change-ar.lottie';
+import languageToEn from '@assets/account/noon-account-language-change-en.lottie';
+import countryEn from '@assets/account/noon-account-country-change-en.lottie';
 import { supportedCountries, type CountryCode, type LanguageId } from './data';
 import { setAccountState, useAccountState } from './store';
 import styles from './inner.module.css';

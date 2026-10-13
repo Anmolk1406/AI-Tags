@@ -1,10 +1,10 @@
-import bellIcon from '../../assets/vip/reminder-bell.svg';
-import userGroupIcon from '../../assets/vip/user-group.svg';
-import giftIcon from '../../assets/vip/gift.svg';
-import percentIcon from '../../assets/vip/percent-badge.svg';
-import shareIcon from '../../assets/vip/share.svg';
-import starIcon from '../../assets/vip/star.svg';
-import calendarIcon from '../../assets/vip/calendar-check.svg';
+import bellIcon from '@assets/vip/reminder-bell.svg';
+import userGroupIcon from '@assets/vip/user-group.svg';
+import giftIcon from '@assets/vip/gift.svg';
+import percentIcon from '@assets/vip/percent-badge.svg';
+import shareIcon from '@assets/vip/share.svg';
+import starIcon from '@assets/vip/star.svg';
+import calendarIcon from '@assets/vip/calendar-check.svg';
 import { CURRENCY, tiers, type VipPlan, type VipTierCode } from './data';
 
 /**
@@ -92,14 +92,14 @@ const osn: V3Plan = {
   bundleTagHtml: undefined,
 };
 
+/** planSelectV2.tiers as live in prod (screenshot 2026-10-13): "One Bundle" | "One Standard", no discount tag; defaultTierCode = individual */
 export const v3Tiers: V3Tier[] = [
-  { tierCode: 'individual', name: 'noon One', plans: [individualMonthly, individualAnnual] },
   {
     tierCode: 'yango',
-    name: 'One + Play',
-    discountTag: 'Save 28%',
+    name: 'One Bundle',
     plans: [{ isBundleComponent: true, planCode: 'ONE_BUNDLE', title: 'noon One + Streaming', plans: [yango, osn] }],
   },
+  { tierCode: 'individual', name: 'One Standard', plans: [individualMonthly, individualAnnual] },
 ];
 
 export const v3AllPlans: V3Plan[] = v3Tiers.flatMap((t) => t.plans.flatMap((p) => (isBundle(p) ? p.plans : [p])));

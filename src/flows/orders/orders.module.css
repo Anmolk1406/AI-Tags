@@ -107,7 +107,11 @@
 .statusLine { display: flex; align-items: center; gap: var(--nk-space-s6); font: var(--nk-type-orders-text12-semibold-lh18); letter-spacing: 0.24px; text-transform: uppercase; color: var(--nk-color-text-secondary); }
 .statusLine i { width: 3px; height: 3px; border-radius: var(--nk-radius-full); background: var(--nk-color-text-tertiary); }
 .statusLine b { font: var(--nk-type-orders-text12-extrabold-lh18); letter-spacing: 0.24px; color: var(--nk-color-success); }
+/* badge colour = `status.highStatusColor` (O2DOrderTrackingEddBlock): cancelled shows only the grey cancel reason */
+.statusLine b[data-tone='danger'] { color: var(--nk-palette-danger-red); }
+.statusLine b[data-tone='muted'] { font: var(--nk-type-orders-text12-semibold-lh18); color: var(--nk-color-text-secondary); }
 .headline { font: var(--nk-type-orders-text32-bold-lh40); letter-spacing: -0.25px; color: var(--nk-color-text-primary); text-align: center; white-space: nowrap; }
+.headline[data-tone='danger'] { color: var(--nk-palette-danger-red); }
 .windowArea { position: relative; width: 100%; display: flex; justify-content: center; padding-top: var(--nk-space-s6); }
 .windowArea[data-heat] { height: 92px; padding-top: 0; }
 .windowPill { height: 40px; display: flex !important; align-items: center; justify-content: center; gap: var(--nk-space-s6); padding: var(--nk-space-s10) var(--nk-space-s10) var(--nk-space-s10) var(--nk-space-s14) !important; border-radius: var(--nk-radius-full); background: var(--nk-color-bg-surface) !important; font: var(--nk-type-text14-semibold-lh20); color: var(--nk-color-text-primary); white-space: nowrap; }
@@ -148,7 +152,16 @@
 .sharePin { display: flex; align-items: center; justify-content: space-between; padding: var(--nk-space-s12) var(--nk-space-s12) var(--nk-space-s12) var(--nk-space-s16); }
 .sharePinLabel { display: flex; align-items: center; gap: var(--nk-space-s6); font: var(--nk-type-text13-semibold-lh18); letter-spacing: -0.1px; color: var(--nk-color-text-primary); }
 .sharePinLabel img { width: 20px; height: 20px; display: block; }
+/* status message (O2DOrderTrackingStatusCard: HTML 13/20 #666D85, bold #1D2539, 14 side padding) */
+.trackMsg { padding: var(--nk-space-s4) var(--nk-space-s14) 0; font: var(--nk-type-text13-regular-lh20); color: var(--nk-color-text-secondary); }
+.trackMsg[data-top] { padding-top: var(--nk-space-s14); }
+.trackMsg b { font-weight: 600; color: var(--nk-color-text-primary); }
 .ctaRow { display: flex; gap: var(--nk-space-s10); padding: var(--nk-space-s12); }
+/* view_refund_tracking is the dark button (#101628, white text) */
+.ctaBtn[data-dark] { background: var(--nk-color-text-strong) !important; border-color: var(--nk-color-text-strong) !important; color: var(--nk-color-text-inverse) !important; }
+.quickList { display: flex; flex-direction: column; }
+.quickRow { display: flex !important; align-items: center; gap: var(--nk-space-s12); min-height: 52px; padding: var(--nk-space-s8) var(--nk-space-s4) !important; }
+.quickLabel { flex: 1; min-width: 0; font: var(--nk-type-text14-semibold-lh20); letter-spacing: -0.1px; color: var(--nk-color-text-primary); }
 .ctaBtn { flex: 1; height: 48px; min-height: 48px !important; padding: var(--nk-space-s14) var(--nk-space-s16) !important; border-radius: var(--nk-radius-r10) !important; border: 1px solid var(--nk-color-border) !important; background: var(--nk-color-bg-surface) !important; font: var(--nk-type-text14-semibold-lh20) !important; color: var(--nk-color-text-primary) !important; }
 
 .block { position: relative; display: flex; flex-direction: column; gap: var(--nk-space-s16); padding: var(--nk-space-s14) var(--nk-space-s12) var(--nk-space-s12); background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r16); }
@@ -231,3 +244,17 @@
 .refundBanner { background: var(--nk-palette-emerald50); border-radius: 12px; padding: 8px 10px; font: var(--nk-type-caption); color: var(--nk-color-text-secondary); }
 .refundBanner b { color: var(--nk-palette-success-green); font-weight: 700; }
 .cancelBtns { display: flex; gap: 8px; }
+
+/* See all updates sheet (NoonOrderDeliveryProgressOverlay): newest first, 2px rail between the dots */
+.updates { display: flex; flex-direction: column; gap: var(--nk-space-s12); padding: var(--nk-space-s4) var(--nk-space-s16) var(--nk-space-s20); }
+.updatesTitle { font: var(--nk-type-text16-bold-lh20); letter-spacing: -0.15px; color: var(--nk-color-text-primary); }
+.updatesList { display: flex; flex-direction: column; list-style: none; margin: 0; padding: 0; }
+.updatesRow { position: relative; display: flex; align-items: flex-start; gap: var(--nk-space-s12); padding-bottom: var(--nk-space-s20); }
+.updatesRow:last-child { padding-bottom: 0; }
+.updatesRow:not(:last-child)::after { content: ''; position: absolute; left: 9px; top: 24px; bottom: 4px; width: 2px; border-radius: var(--nk-radius-full); background: var(--nk-color-border); }
+.updatesDot { width: 20px; height: 20px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.updatesDot i { width: 10px; height: 10px; border-radius: var(--nk-radius-full); border: 2px solid var(--nk-color-border-strong); }
+.updatesText { display: flex; flex-direction: column; gap: var(--nk-space-s2); }
+.updatesLabel { font: var(--nk-type-text14-regular-lh20); color: var(--nk-color-text-tertiary); }
+.updatesRow[data-done] .updatesLabel { font: var(--nk-type-text14-semibold-lh20); color: var(--nk-color-text-primary); }
+.updatesDate { font: var(--nk-type-text12-regular-lh18); color: var(--nk-color-text-tertiary); }

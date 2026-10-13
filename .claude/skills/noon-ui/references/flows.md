@@ -3,7 +3,7 @@
 
 Everything here is read from the code (`src/kit/*`, `src/flows/*`). When this file and the code disagree, the code wins; fix this file.
 
-Contents: 1. Anatomy of a flow · 2. Navigation API · 3. Catalogue (17 flows, 145 screens) · 4. Blueprints for common requests.
+Contents: 1. Anatomy of a flow · 2. Navigation API · 3. Catalogue (17 flows, 147 screens) · 4. Blueprints for common requests.
 
 ---
 
@@ -122,7 +122,7 @@ Present in: categories, pdp, returns, checkout (both), cart (FIGMA), noonone, me
 
 - Copy as a flat object, each string commented with its translation key: `export const t = { checkout: 'Checkout', // noon_checkout … }` (cart, checkout, cards, address). membership loads `locale/vip-en.json` verbatim and exposes `t(key, params)` with `{{x}}` interpolation.
 - Server-driven content (CMS creatives, HTML messages, plan data) authored to the real response shape, file header says so: "realistic UAE demo values".
-- Images via `import x from '../../assets/<flow>/…'` or `import.meta.glob` (home). Products from `src/mocks/products.ts`, never redefined.
+- Images via `import x from '../../assets/<flow>/…'` or `import.meta.glob` (home). Products from `src/data`, never redefined.
 - Prices: `` `${currency} ${formatPrice(n)}` ``; HTML strings for `HtmlText` use `<b>`, `<highlight>`.
 - Per-item mock tints/swatches are allowed literals with `// token-lint-ignore: mock …`.
 
@@ -170,13 +170,16 @@ Also exported: `useCartTotals()`, `computeCartTotals(cart, code)`, `evaluateCoup
 - `noonOneJourneyActions`: `subscribe(plan, opts)` (also consumes trial eligibility), `resetToNonMember()`.
 - Entry points switch on `useIsNoonOneMember()`: account ProfileCard noon One strip ("Start Trial" / "Join Now" vs savings), cart payment callouts + `noonone/cartOverlay` push, checkout `NoonOneSection`, PDP `VipPreference`.
 
-### Mocks (`src/mocks/products.ts`, `src/mocks/categories.ts`)
+### Data layer (`src/data`, how to add a product: `src/data/README.md`)
+
+One folder per product: `src/data/products/<id>/product.ts` (`defineProduct({ …, collection })`) plus its photos (`card.webp`, `gallery-N.webp`), found and attached by `src/data/catalog.ts`. Flows import from `src/data`; `src/mocks/*` only re-exports it for old paths and the package.
 
 `Product`: `id, brand, title, price, was?, rating, ratingCount, emoji, tint, image?, express?, tag?: 'Best Seller' | 'Top Rated' | 'New' | 'Selling out fast', delivery` (HTML, e.g. `'Get it <b>Tomorrow</b>'`), `category, coupon?, colors?, sizes?, highlights?, seller?`; live-data extras: `sku, offerCode, images, categoryId, categoryPath, rank, nudges?: { text, kind }[], stockLeft, freeDelivery, attributes {model,color,storage,version}, variantFamily, sellerRating, description, featureBullets, specs`.
 
-- `products`: mock `p1`…`p14` first (indices stable), then `liveProducts` appended (`iphone-17-pro` = `IPHONE_17_PRO_ID` `'N70211593V'` family, carousel and FBT items). `products.slice(0, n)` gives mocks.
-- Helpers: `productById(id)` (falls back to `products[0]`), `discountPct(p)`, `formatPrice(n)` (en-US, ≤ 2 decimals), `currency` (`''` dirham), `variantFamilies`, `fbtFor`, `user` (`firstName 'Ankit'`, `lastName`, `email`, `phone`, `noonOne`, `credits: 25.5`, `address { label 'Home', line 'Marina Gate 2, Dubai Marina', city 'Dubai' }`), `categories` (12 `{ id, name, emoji }`).
-- `categories.ts`: `taxonomy`, `categoryById`, `categoryPath(id)`, `isInCategory(id, ancestorId)`, `leafName(id)`.
+- Collections: `products` = demo `p1`…`p14`, then `liveProducts` (`iphone-17-pro` = `IPHONE_17_PRO_ID` `'N70211593V'` family, carousel and FBT items), then `homeFeedProducts`, in each product's `order` (indices stable); `phoneProducts` (48 PLP phones); `orderProducts` (`pds-*`). `allProducts` has all of them.
+- Lookups: `getProduct(id)` (id or sku, any collection, `undefined` when unknown), `productById(id)` (same, but falls back to `products[0]` and warns in dev), `listProducts({ collection, categoryId, brand, tag })`.
+- Helpers: `discountPct(p)`, `formatPrice(n)` (en-US, ≤ 2 decimals), `currency` (`''` dirham), `variantFamilies`, `fbtFor`, `user` (`firstName 'Ankit'`, `lastName`, `email`, `phone`, `noonOne`, `credits: 25.5`, `address { label 'Home', line 'Marina Gate 2, Dubai Marina', city 'Dubai' }`), `categories` (12 `{ id, name, emoji }`).
+- `src/data/categories.ts`: `taxonomy`, `categoryById`, `categoryPath(id)`, `isInCategory(id, ancestorId)`, `leafName(id)`.
 
 ---
 
@@ -259,7 +262,7 @@ File: `DealsScreen.tsx` (118). Reuses `home/data` (`tileRows`, `savingsRows`) an
 Copy from here for: any offers/campaign page (strips → heroes → tiles → product rails → grid). Smallest complete feed example.
 
 ### plp · Shopping · `listing`
-Files: `ListingScreen.tsx`, `FiltersSheet.tsx`, `SortSheet.tsx`, `store.ts`, `brands.ts` (`phoneBrands`, `brandWidgetFor`), `components/NavPills.tsx` (`RevealChip`), `components/SkeletonCard.tsx`, `components/BrandWidget.tsx`, `components/MarketplaceStrip.tsx`. Data: `products` (shared catalogue + `src/mocks/phones.ts`), `searchProducts, isPhoneQuery, applyFilters, applySort, countFilters, facets, sortOptions`.
+Files: `ListingScreen.tsx`, `FiltersSheet.tsx`, `SortSheet.tsx`, `store.ts`, `brands.ts` (`phoneBrands`, `brandWidgetFor`), `components/NavPills.tsx` (`RevealChip`), `components/SkeletonCard.tsx`, `components/BrandWidget.tsx`, `components/MarketplaceStrip.tsx`. Data: `products` (shared catalogue + `src/data/products` (collection `phones`)), `searchProducts, isPhoneQuery, applyFilters, applySort, countFilters, facets, sortOptions`.
 
 | id | title | presentation | params | shows |
 |---|---|---|---|---|
@@ -298,11 +301,11 @@ Files: `CartScreen.tsx` (164), `components/{CartHeader,CartGroup,CartItem,Inacti
 Copy from here for: server-ordered section switch (`SECTIONS.map(renderSection)`), sticky footer that measures itself (`onHeightChange` → `contentStyle.paddingBottom`), one screen registered as several states.
 
 ### checkout · Shopping · `checkout` · parent `cart/cart`
-Files: `CheckoutScreen.tsx` (272) + 20 screens, `components/` (CheckoutHeader, CheckoutShipment, DeliveryInstruction, ReceiverDetails, BurnSection, PaymentMethods, PaymentSummary, DynamicInvoice, CouponStatus, EarnCallout, NoonOneSection, DetachedAddress, SlideButton, VoucherToast, Reloader, ProviderForm, RewardsPrimitives…), stores `store.ts`, `store.delivery.ts`, `store.rewards.ts`, `totals.ts` (`useCheckoutTotals`), `MAPPING.md` + `FIGMA-MAPPING.md`.
+Files: `CheckoutScreen.tsx` + 21 screens, `components/` (CheckoutHeader, AddressCard, CheckoutShipment, DeliveryInstruction, ReceiverDetails, PointsVouchers, BurnSection, Donation, PaymentMethods, PaymentSummary, DynamicInvoice, CouponStatus, EarnCallout, NoonOneSection, DetachedAddress, SlideButton, VoucherToast, Reloader, ProviderForm, RewardsPrimitives…), stores `store.ts`, `store.delivery.ts`, `store.rewards.ts`, `totals.ts` (`useCheckoutTotals`), `MAPPING.md` + `FIGMA-MAPPING.md`.
 
 | id | title | presentation / transition | shows |
 |---|---|---|---|
-| `checkout` | Checkout | screen | sections via `params.sections` (default `FIGMA_SECTIONS`: `shipments, delivery_instructions, receiver_details, payment, payment_summary`; `MASTER_SECTIONS` adds `detached_address, integrated_noonone, coupon_status, earn, dynamic_invoice`). Footer: `SlideButton` (or Apple Pay) + "N Items" + total. Slide → `checkout/placing` |
+| `checkout` | Checkout | screen | sections via `params.sections` (default `ALL_FLOWS_SECTIONS`: `address_card, integrated_noonone, delivery_instructions, receiver_details, shipments, burn, pay_with, donation, payment_summary` — Figma All flows 127:44077, header title "Checkout"; `FIGMA_SECTIONS` is the Checkout 2.0 order with the address in the header; `MASTER_SECTIONS` adds `detached_address, coupon_status, earn, dynamic_invoice`). Footer: `SlideButton` (or Apple Pay) + "N Items" + total. Slide → `checkout/placing` |
 | `promise-info` | Delivery lane info | sheet | lane title + text (`{ title, textContent }`) |
 | `cards-select` | Select card | sheet | saved cards |
 | `add-card` | Add card | sheet | card form + validation |
@@ -311,7 +314,8 @@ Files: `CheckoutScreen.tsx` (272) + 20 screens, `components/` (CheckoutHeader, C
 | `alternate-phone` | Receiver details | sheet | receiver form |
 | `alternate-phone-contacts` | Contacts | sheet | contact list |
 | `learn-more` | Delivery instructions | sheet | `{ isList: true }` |
-| `burn-providers` | Points & vouchers | sheet | provider list (SHARE, Skywards, YOUGotaGift, Flex, Gift+) |
+| `burn-providers` | Points & vouchers | sheet | provider list (YOUGotaGift, Flex, Gift+; `{ list: 'topup' }` → Tamam, Emkan, QUARA financing) |
+| `donation-learn-more` | Donation info | sheet | charity logo, "Donate to …", description + permit, Got it! |
 | `provider-burn` | Redeem points | sheet | `{ code: 'share' }` provider form |
 | `provider-burn-otp` | Verify OTP | sheet | amount entry, balance, OTP |
 | `earn` | Earn points | sheet | |
@@ -333,7 +337,8 @@ Files: `OrdersListScreen.tsx` (107), `OrderTrackingScreen.tsx` (280), `OrderCanc
 | id | title | params | shows |
 |---|---|---|---|
 | `list` | My orders | | Header scrolls with the page: back circle + "Search all orders" pill; chips Filter ▾ · Delivered · Cancelled · Returns · supermall · express (tap toggles a filter, `supermall.press` dip). "Active" `ActiveOrderCard` (status strip + express pill, thumb, Arriving today / On time, Call / Chat rider, Delivery PIN tiles). "Order history" `HistoryOrderCard`s: delivered + exchanged (price, warranty chip, `StarRating` → `openReview` from `reviews/store`), return completed (refund chip, Track my refund → `returns/details`), cancelled (×2 thumb, Refund credited row). Collapsed `NeedHelpButton` FAB. Content reveals on `supermall.reveal` |
-| `tracking` | Order tracking | `{ orderId: 'o1', variant?: 1–4 }` | Header (back, order no. + copy, item count, ⋯), 8-card `ImageStack` ring + express pill, status line, 32/700 ETA, `WindowPill` (variant 1 white pill; 2 warm wash + glass pill + heat advice; 3 orange glowing pill; 4 warm glow behind the tracker — 2–4 rotate the stack); tracker card (`Stepper` fill + disc pops, rider row, Share delivery PIN, Reschedule / See all updates); Delivering to (address, receiver, checkbox tiles); Order summary (Cancel items → `orders/cancel`, return / warranty notes); `BillSummary` (Apple Pay, noon One strip → `noonone/landing`, coupon, total, savings footer, Download invoice); FAB |
+| `tracking` | Order tracking | `{ orderId: 'o1', variant?: 1–4 }` — per-state content from bappzaar O2D (`trackingFor`): o3 delivered, o9 delivered + Return → `returns/submit`, o4 return window closed, o7 returned (return timeline, Track refund, Quick actions, no bill), o8 exchanged, o5 cancelled (no timeline, red title) | Header (back, order no. + copy, item count, ⋯), 8-card `ImageStack` ring + express pill, status line, 32/700 ETA, `WindowPill` (variant 1 white pill; 2 warm wash + glass pill + heat advice; 3 orange glowing pill; 4 warm glow behind the tracker — 2–4 rotate the stack); tracker card (`Stepper` fill + disc pops, rider row, Share delivery PIN, Reschedule / See all updates); Delivering to (address, receiver, checkbox tiles); Order summary (Cancel items → `orders/cancel`, return / warranty notes); `BillSummary` (Apple Pay, noon One strip → `noonone/landing`, coupon, total, savings footer, Download invoice); FAB |
+| `updates` | All updates | sheet `{ orderId: 'o3' }` | "See all updates": the timeline newest first (`NoonOrderDeliveryProgressOverlay`); return cards say "Return progress". |
 | `cancel` | Cancel items | `{ orderId: 'o1' }` | `Header variant="transparent"`; checkbox cards expanding reason pickers; footer refund banner + `Button variant="secondary"` / `variant="checkout"` |
 
 Copy from here for: card lists with status strips, a horizontal stepper, PIN tiles, star rating rows, a bill summary with a savings footer, footer with two buttons.

@@ -1,7 +1,8 @@
 /* features/vip/screens/VIPQuickPlanSelectV3Screen/styles.ts */
 .content { padding-top: calc(var(--nk-inset-top) + var(--nk-space-s8)); padding-bottom: var(--nk-space-s8); }
 .pageTitleContainer { display: flex; justify-content: center; padding-top: var(--nk-space-s24); padding-bottom: var(--nk-space-s6); background: var(--nk-color-vip-plans-bg); }
-.pageTitle { font: var(--nk-type-vip-page-title); letter-spacing: var(--nk-layout-vip-tracking-title); color: var(--nk-color-text-ink); }
+/* RN Text default colour (charcoalGreyColor #404553) — pageTitle / tierTabText set no colour on master */
+.pageTitle { font: var(--nk-type-vip-page-title); letter-spacing: var(--nk-layout-vip-tracking-title); color: var(--nk-color-text-legacy); }
 :global([dir='rtl']) .pageTitle { font-weight: var(--nk-font-weight-bold); letter-spacing: 0; }
 
 .tierDetails { width: 100%; display: flex; justify-content: center; }
@@ -36,8 +37,8 @@
   border: 1px solid var(--nk-color-vip-tab-active-border);
   box-sizing: border-box;
 }
-.tierTab { display: flex; flex-direction: row; justify-content: center; align-items: center; }
-.tierTabText { font: var(--nk-type-vip-tier-tab); color: var(--nk-color-text-ink); }
+.tierTab { display: flex; flex-direction: row; justify-content: center; align-items: center; white-space: nowrap; }
+.tierTabText { font: var(--nk-type-vip-tier-tab); color: var(--nk-color-text-legacy); }
 .tierDiscount {
   margin-inline-start: var(--nk-space-s4);
   padding: var(--nk-space-s2) var(--nk-space-s8);

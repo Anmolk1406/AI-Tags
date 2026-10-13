@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { HtmlText, Pressable } from '../../../components';
-import chevronRight from '../../../assets/cart/figma/variants-chevron-right.svg';
+import chevronRight from '@assets/cart/figma/variants-chevron-right.svg';
 import type { SalesCallout as SalesCalloutType } from '../data';
 import html from './html.module.css';
 import styles from './callout.module.css';

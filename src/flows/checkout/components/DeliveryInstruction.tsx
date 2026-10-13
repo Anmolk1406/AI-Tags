@@ -1,8 +1,8 @@
 import { Icon } from '../../../components';
 import { useNav } from '../../../kit/Navigator';
-import checkboxOff from '../../../assets/checkout/figma/checkbox-off.svg';
-import checkboxOn from '../../../assets/checkout/figma/checkbox-on.svg';
-import infoIcon from '../../../assets/checkout/figma/di-info.svg';
+import checkboxOff from '@assets/checkout/figma/checkbox-off.svg';
+import checkboxOn from '@assets/checkout/figma/checkbox-on.svg';
+import infoIcon from '@assets/checkout/figma/di-info.svg';
 import { deliveryOptions, td, type DeliveryOption } from '../data.delivery';
 import { checkoutStore, useCheckout, type DeliveryInstructionsState } from '../store';
 import styles from './delivery.module.css';

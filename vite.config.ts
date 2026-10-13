@@ -5,7 +5,7 @@ import { fileURLToPath, URL } from 'node:url';
 // Dev preview of the flows (src/app/main.tsx). `npm run dev`
 export default defineConfig({
   plugins: [react()],
-  resolve: { alias: { '@kit': fileURLToPath(new URL('./src', import.meta.url)) } },
+  resolve: { alias: { '@kit': fileURLToPath(new URL('./src', import.meta.url)), '@assets': fileURLToPath(new URL('./src/assets', import.meta.url)) } },
   assetsInclude: ['**/*.lottie'],
   server: { port: 5180 },
   // ship images as files, not base64 inside the JS bundle: the bundle stays small to parse and each screen

@@ -9,6 +9,7 @@
 .subtitle { font: var(--nk-type-vip-text14); color: var(--nk-color-text-legacy); text-align: center; }
 .items { display: flex; column-gap: var(--nk-space-s8); align-items: center; max-width: 100%; overflow-x: auto; scrollbar-width: none; }
 .item { display: flex; flex-direction: column; row-gap: var(--nk-space-s4); align-items: center; flex-shrink: 0; }
+.itemImage { width: var(--nk-layout-vip-cart-item-image); height: var(--nk-layout-vip-cart-item-image); object-fit: contain; }
 .itemPrice { text-align: center; }
 .itemIcon { width: var(--nk-layout-vip-cart-item-icon-w); height: var(--nk-layout-vip-cart-item-icon-h); object-fit: contain; }
 .buttons { border-top: 1px solid var(--nk-color-bg-muted); padding: var(--nk-space-s4) 0; margin: var(--nk-space-s15); margin-bottom: calc(var(--nk-inset-bottom) + var(--nk-layout-vip-sheet-float)); }

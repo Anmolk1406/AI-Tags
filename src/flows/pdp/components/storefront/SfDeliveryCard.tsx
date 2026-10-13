@@ -1,11 +1,11 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useState, type ReactNode } from 'react';
 import { HtmlText, MarketplaceTag, OriginIcon, Pressable } from '../../../../components';
-import globalMap from '../../../../assets/pdp/storefront/b/global-map.webp';
+import globalMap from '@assets/pdp/storefront/b/global-map.webp';
 import { useNav } from '../../../../kit/Navigator';
 import { useIsNoonOneMember } from '../../../../kit/membership';
 import { tween } from '../../../../motion/presets';
-import { currency } from '../../../../mocks/products';
+import { currency } from '../../../../data';
 import { copy, money, type PdpContent } from '../../data';
 import { fasterLanesFor, npbCopy, type FasterLane } from '../../data.npB';
 import { Asset } from '../Asset';

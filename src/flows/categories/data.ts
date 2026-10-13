@@ -1,5 +1,5 @@
-import { categoryById } from '../../mocks/categories';
-import emptyErrorImage from '../../assets/categories/empty-error@3x.webp';
+import { categoryById } from '../../data';
+import emptyErrorImage from '@assets/categories/empty-error@3x.webp';
 import { liveCategoriesPage } from './data.live';
 
 /**

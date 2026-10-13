@@ -1,11 +1,11 @@
 import { DashedDivider, MaskIcon } from '../../../../components';
-import salesReturn16 from '../../../../assets/pdp/new-pdp/icons/sales-return-filled-16.svg';
-import solidStar16 from '../../../../assets/pdp/new-pdp/icons/solid-star-16.svg';
-import ratingStar from '../../../../assets/pdp/new-pdp/icons/rating-star-12.svg';
-import microTag from '../../../../assets/pdp/new-pdp/icons/micro-tag-16.svg';
-import chevron16 from '../../../../assets/pdp/new-pdp/icons/mini-chevron-right-16.svg';
-import chevron20 from '../../../../assets/pdp/new-pdp/icons/mini-chevron-right-20.svg';
-import appleSellerLogo from '../../../../assets/pdp/new-pdp/seller-logo-apple.png';
+import salesReturn16 from '@assets/pdp/new-pdp/icons/sales-return-filled-16.svg';
+import solidStar16 from '@assets/pdp/new-pdp/icons/solid-star-16.svg';
+import ratingStar from '@assets/pdp/new-pdp/icons/rating-star-12.svg';
+import microTag from '@assets/pdp/new-pdp/icons/micro-tag-16.svg';
+import chevron16 from '@assets/pdp/new-pdp/icons/mini-chevron-right-16.svg';
+import chevron20 from '@assets/pdp/new-pdp/icons/mini-chevron-right-20.svg';
+import appleSellerLogo from '@assets/pdp/new-pdp/seller-logo-apple.png';
 import { useNav } from '../../../../kit/Navigator';
 import { copy, money, type PdpContent } from '../../data';
 import { assets as assetsUrl } from '../Asset';

@@ -1,11 +1,11 @@
 import { motion } from 'motion/react';
 import { Lottie, Pressable } from '../../../components';
 import { useIsNoonOneMember, useMembership, useMembershipEligibility } from '../../../kit/membership';
-import { currency } from '../../../mocks/products';
-import noonOneLogo from '../../../assets/noonone/entry/noon-account-noon-one-logo.lottie';
-import noonAccountChevron from '../../../assets/icons/noon-account-chevron.svg';
+import { currency } from '../../../data';
+import noonOneLogo from '@assets/noonone/entry/noon-account-noon-one-logo.lottie';
+import noonAccountChevron from '@assets/icons/noon-account-chevron.svg';
 import { useNav } from '../../../kit/Navigator';
-import { user } from '../../../mocks/products';
+import { user } from '../../../data';
 import { useAccountState } from '../store';
 import { accountTokens } from '../tokens';
 import { EditRing } from './EditRing';

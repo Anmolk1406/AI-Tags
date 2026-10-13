@@ -2,7 +2,8 @@ import { animate, motion, useMotionValue, useSpring, useTransform } from 'motion
 import { useEffect, useRef, useState } from 'react';
 import { t } from '../data';
 import { cartTokens } from '../tokens';
-import addPlus from '../../../assets/cart/figma/add-plus-16.svg';
+import addPlus from '@assets/cart/figma/add-plus-16.svg';
+import addPlusSupermall from '@assets/cart/figma/add-plus-supermall.svg';
 import { HtmlText } from '../../../components';
 import html from './html.module.css';
 import styles from './group.module.css';
@@ -16,7 +17,7 @@ const P = cartTokens.progress;
  * on every change, and a skewed shimmer sweeps 7× (1800ms, inOut quad) the first time the group is seen.
  * "+ Add" (white, 1px rgba(14,14,14,.07), r6) opens the CMS page.
  */
-export function GroupProgressBar({ message, current, threshold, shouldHide, showButton, onAdd, animateIn, trackColor, fillColor }: { message: string; current: number; threshold: number; shouldHide?: boolean; showButton: boolean; onAdd: () => void; animateIn: boolean; trackColor?: string; fillColor?: string }) {
+export function GroupProgressBar({ message, current, threshold, shouldHide, showButton, onAdd, animateIn, trackColor, fillColor, addVariant, addBorder, addInk }: { message: string; current: number; threshold: number; shouldHide?: boolean; showButton: boolean; onAdd: () => void; animateIn: boolean; trackColor?: string; fillColor?: string; /** supermall "+ Add" (All flows 127:39717): 14px Persian-Blue plus, 13px label, pl 4 pr 8 */ addVariant?: 'supermall'; addBorder?: string; addInk?: string }) {
   const pct = current <= 0 ? 0 : Math.min((current / threshold) * 100, 100);
   const width = useSpring(0, { damping: P.spring.damping, stiffness: P.spring.stiffness, mass: P.spring.mass });
   const widthPct = useTransform(width, (v) => `${v}%`);
@@ -68,8 +69,8 @@ export function GroupProgressBar({ message, current, threshold, shouldHide, show
         </motion.div>
       </div>
       {showButton && (
-        <motion.button type="button" className={styles.progressButton} whileTap={{ scale: 0.95 }} onClick={onAdd}>
-          <img src={addPlus} alt="" />
+        <motion.button type="button" className={styles.progressButton} data-variant={addVariant} style={{ borderColor: addBorder, color: addInk }} whileTap={{ scale: 0.95 }} onClick={onAdd}>
+          <img src={addVariant === 'supermall' ? addPlusSupermall : addPlus} alt="" />
           <span>{t.add}</span>
         </motion.button>
       )}

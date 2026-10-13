@@ -4,12 +4,12 @@
 // (src/assets/home/bz/) or the kit's earlier captures of the same CMS slots (src/assets/home/*.webp, exact ratios).
 // Ad slots that the payload leaves empty (filled at runtime by AdsService / GAM) are listed but not rendered, except
 // top-fold-2 (the Soundcore creative) and one sfu slot (strip-01, ratio 25) so the ad geometry shows.
-import { currency, products, type Product } from '../../mocks/products';
-import welcomeStrip from '../../assets/home/bz/welcome-strip-01.webp';
-import preSearchStrip from '../../assets/categories/ad-pre-search-banner.webp';
-import soundcore from '../../assets/home/eid/soundcore-liberty-5-pro.webp';
-import midscrollHeader from '../../assets/home/bz/midscroll-header-01.webp';
-import emaar from '../../assets/home/bz/emaar-01.webp';
+import { currency, getProduct, IPHONE_17_PRO_ID, type Product } from '../../data';
+import welcomeStrip from '@assets/home/bz/welcome-strip-01.webp';
+import preSearchStrip from '@assets/categories/ad-pre-search-banner.webp';
+import soundcore from '@assets/home/eid/soundcore-liberty-5-pro.webp';
+import midscrollHeader from '@assets/home/bz/midscroll-header-01.webp';
+import emaar from '@assets/home/bz/emaar-01.webp';
 
 const kit = import.meta.glob<string>('../../assets/home/*.webp', { eager: true, import: 'default' });
 const bzAssets = import.meta.glob<string>('../../assets/home/bz/*.webp', { eager: true, import: 'default' });
@@ -43,7 +43,8 @@ export interface BzHeader {
   truncate?: boolean;
 }
 
-export type BzModule = { key: string; wrap: BzWrap; header?: BzHeader } & (
+/** `hidden`: kept in the payload order but not rendered (a kit choice, not a CMS field) */
+export type BzModule = { key: string; wrap: BzWrap; header?: BzHeader; hidden?: boolean } & (
   | { type: 'adBannerModuleCarousel'; banners: BzBanner[]; /** banner-level removeCurvedCorners */ flat?: boolean }
   | { type: 'noonDynamicCarousel' }
   | { type: 'bannerModuleScroller'; rows: number; numPerRow: number; banners: BzBanner[] }
@@ -63,10 +64,10 @@ const wrap = (pt: number, pb: number, mb: number, bg?: string): BzWrap => ({ pt,
 const viewAll = (query: string) => ({ text: 'View all', query });
 // demo pool: one of each product family (real photos first where the mock has one), so neighbouring rails differ
 const poolIds = [
-  'home-airpods-pro-2', 'N70283860V', 'p3', 'home-whirlpool-7kg', 'iphone-17-pro', 'p7', 'Z49C27F88DD3370F190CAZ', 'p5', 'N70187031V', 'p8',
+  'home-airpods-pro-2', 'N70283860V', 'p3', 'home-whirlpool-7kg', IPHONE_17_PRO_ID, 'p7', 'Z49C27F88DD3370F190CAZ', 'p5', 'N70187031V', 'p8',
   'home-maynos-mount', 'p12', 'N70211592V', 'p9', 'N70270614V', 'p10', 'ZF1A24406870D3964331CZ', 'p4', 'p6', 'p11', 'N70140492V', 'p2', 'p13', 'p1',
 ];
-const pool = poolIds.map((id) => products.find((p) => p.id === id)).filter((p): p is Product => !!p);
+const pool = poolIds.map((id) => getProduct(id)).filter((p): p is Product => !!p);
 const withImage = pool.filter((p) => p.image);
 const slice = (from: number, n = 8) => Array.from({ length: n }, (_, i) => pool[(from + i) % pool.length]);
 
@@ -83,6 +84,7 @@ export const homeFeed: BzModule[] = [
   {
     key: 'homepage-toggle',
     type: 'adBannerModuleCarousel',
+    hidden: true, // hidden on request (2026-10-13): the FIRST15 cashback + Emirates NBD strips under the search bar
     wrap: wrap(0, 10, 0),
     flat: true,
     banners: [

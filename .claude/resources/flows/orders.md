@@ -8,9 +8,10 @@ Read with `../screens.md` and `src/flows/orders/MAPPING.md`. This brief reflects
 |---|---|---|
 | `orders/list` | PDS `pds-noon-as.vercel.app/one-flows?screen=orderlisting` (+ bappzaar O2DOrdersV2Screen) | URL `/orders`; filter pills; active + history cards |
 | `orders/tracking` | PDS one-flows V1–V4 (+ O2DOrderTrackingScreen) | `?orderId=o1&variant=1..4`; V2 top wash, V4 glow; stack rotates only when active and variant ≠ 1 |
+| `orders/updates` | bappzaar NoonOrderDeliveryProgressOverlay | sheet: the timeline newest first ("Return progress" on return cards) |
 | `orders/cancel` | bappzaar O2DOrderCancelItemsScreen | refund banner, reason picker with spring height, red outline on a missing reason |
 
-**Truth.** `orders/list` and `orders/tracking` set `truth: 'reference'` explicitly: PDS is what was measured (Playwright `getComputedStyle` at 375×812), bappzaar only supplies data and behaviour. Their `source` strings also name bappzaar paths, so without the explicit field `screenTruth` would infer `bappzaar`. `orders/cancel` is a bappzaar port.
+**Truth.** `orders/list` sets `truth: 'reference'`; `orders/tracking` is `mixed` (PDS look, per-state content from bappzaar O2D, MAPPING.md → States). For the list: PDS is what was measured (Playwright `getComputedStyle` at 375×812), bappzaar only supplies data and behaviour. Their `source` strings also name bappzaar paths, so without the explicit field `screenTruth` would infer `bappzaar`. `orders/cancel` is a bappzaar port.
 
 ## Data (`src/flows/orders/data.ts`; there is no store)
 
@@ -25,11 +26,21 @@ Read with `../screens.md` and `src/flows/orders/MAPPING.md`. This brief reflects
   - `heroVariant`, `heatAdvice`, `cancelReasons`
 - **Stable ids used by other flows**:
   - o1: active
+  - o9: delivered, return enabled (Return → `returns/submit`)
   - o3, o4: delivered; reviews opens bike and iPhone from these
   - o5: cancelled
   - o7: returned
   - o8: exchanged, with `reviewProduct: 'iphone16'`
 - Returns and reviews depend on these meanings. Don't renumber them.
+
+## Per-state details (`trackingFor` in `src/flows/orders/data.ts`)
+
+`orders/tracking` renders each state the way bappzaar O2D does. The table is in `src/flows/orders/MAPPING.md` → States.
+
+- `trackingFor(order)` returns the status line (highStatus · badge + tone), the headline tone, the timeline kind (`delivery | return | exchange | null`), the status message, the CTA row, Quick actions, `returnCard` (no bill) and the delivery card title.
+- Add a state by adding a `case`. Add an order by giving it `status` plus the fields that state reads: `returnItem` (Return CTA), `refund` (refund message), `cancelReason` (cancelled status line), `returnPolicy: 'available' | 'closed' | 'none'` (item notes).
+- `useOrderAction` in the screen maps action codes to navigation. Never hard-code a CTA.
+- **o9** is the delivered order with returns enabled. Its fridge resolves in the returns flow (`resolveProduct` includes `pdsProducts`; `orderIdFor('pds-fridge')` is `o9`).
 
 ## Components (`src/flows/orders/components/`)
 

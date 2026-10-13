@@ -61,6 +61,35 @@ Status: **reuse** = existing kit piece, **flow** = flow-local component / token,
 | Download invoice | padding 0 12 12; 48h, r10, 1px `#EAECF0`, `download` 20 + 14/600/20 | `Button variant="secondary"` | `border` | reuse |
 | Chat FAB | same as listing | `NeedHelpButton collapsed` | | reuse |
 
+### States (bappzaar master `features/o2d/screens/O2DOrderTrackingScreen`)
+
+The details page keeps the PDS look, but what each state shows follows O2D. On master it is all server data: the active `timeline[]` step's `status` (`highStatus`, `subStatus`, `highStatusColor`, `cancelReason`), `summary.deliveryMessageTracking`, `trackActions` + `subStatusActions`, `summary.type`, `return_info`, `item.returnable`. The client only picks layout and colour (`o2dOrderTracking{Core,Timeline,Cta,Summary}Selectors.ts`). The kit derives it from `status` in `trackingFor()` (`data.ts`). `orders/tracking` is therefore `truth: 'mixed'`: the PDS look and bappzaar per-state content.
+
+| State (order) | Status line (`O2DOrderTrackingEddBlock`) | Headline | Tracker card | CTA row | Other sections |
+|---|---|---|---|---|---|
+| Active (`o1`) | `highStatus` · **On time** (`success`) | ETA | delivery timeline, rider, PIN | Reschedule · See all updates | Delivering to (+ receiver, instruction tiles), Cancel items, bill |
+| Delivered (`o3`) | DELIVERED · **COMPLETED** | Delivered on … | delivery timeline | Get help · See all updates | Order summary: "Return & exchange available" |
+| Delivered, return enabled (`o9`) | same | Delivered on April 18 | same | **Return** (return-details API `buttonType: 'return_submit'`, `o2d_order_return_cta`) · See all updates | Delivered to (address only), item notes, bill |
+| Return window closed (`o4`) | same | same | same | Get help · See all updates | item "Return window closed" (`item.returnable` not valid → CLOSED_RETURN_WINDOW) |
+| Returned (`o7`, return card) | RETURNED · **REFUNDED** | Returned on … | **return** timeline (Requested · Picked up · Inspected · Refunded) + status message "Refund of … sent to …" | **Track refund** (`view_refund_tracking`, dark #101628 → `text-strong`) · Get help | **Quick actions** (`summary.quickActions`: Return details, Return policy); **no bill** (`isReturnCard`) |
+| Exchanged (`o8`) | EXCHANGED · **COMPLETED** | Exchanged on … | **exchange** timeline (Requested · Picked up · Dispatched · Delivered) | Get help · See all updates | warranty note |
+| Cancelled (`o5`) | only `cancelReason`, grey ("Cancelled by you") | **red** (`dangerRed` #D92626) | **timeline hidden**; status message "Refund of … credited to …" | Track refund · Get help (history actions dropped: `CANCELLED_EXCLUDED_ACTION_CODE_SET`) | image stack dimmed; "Delivery information" title |
+
+Status message: HTML 13/20 `text-secondary`, bold parts `text-primary`, 14 side padding (`O2DOrderTrackingStatusCard`). Timeline labels and icons are API data on master; the return and exchange sets in `data.ts` (`returnSteps`, `exchangeSteps`) are demo values built from Origin icons.
+
+Actions (`useOrderAction`, after `useO2DOrderTrackingActions`):
+
+| Code | Master | Kit |
+|---|---|---|
+| `see_all_actions` / `view_shipment_history` | overlay `NoonOrderDeliveryProgressOverlay` (steps newest first) | sheet `orders/updates` ("Delivery progress" / "Return progress") |
+| `return_initiate` / Return | push `AFSReturnsReturnSubmissionScreen` (`mpItemNr`) | push `returns/submit` with the order's `returnItem` |
+| `view_refund_tracking` | push `OrderRefundDetailsScreen` | return card → `returns/details`; cancelled → toast (not ported) |
+| `view_return_details` | deep link `/account/returns/{id}` | push `returns/details` |
+| `view_return_policy` | overlay `AFSReturnsPolicyScreen` | toast |
+| `contact_customer_support`, `reschedule` | help screen / reschedule overlay | toasts |
+
+Deliberate difference: master draws the returnable note as a chip (gradient `#E3FCF2` → white, 13/600 `#0F8857`). The kit keeps the PDS row (16px icon + 12/500 secondary text), because that is the visual reference for this screen.
+
 ### Variants V1–V4 (tabs above the reference frame)
 
 | Ref | What it switches | Ours |

@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 import { maskSrc } from '../maskSrc';
 import { MaskIcon } from '../../../../components';
-import chevronLeft from '../../../../assets/vip/chevron-left-rounded.svg';
+import chevronLeft from '@assets/vip/chevron-left-rounded.svg';
 import { offersTokens } from '../../tokens';
 import styles from './primitives.module.css';
 

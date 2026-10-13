@@ -1,5 +1,5 @@
 import { defineFlow } from '../../kit/registry';
-import { IPHONE_17_PRO_ID } from '../../mocks/products';
+import { IPHONE_17_PRO_ID } from '../../data';
 import { pdpFlowTokens } from './tokens';
 import { lazyScreen } from '../../kit/lazyScreen';
 

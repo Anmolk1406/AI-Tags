@@ -1,9 +1,9 @@
 import { motion, useTransform, type MotionValue } from 'motion/react';
-import backIcon from '../../../assets/checkout/figma/header-back.svg';
-import chevronIcon from '../../../assets/shared/icons/addr-chevron.svg';
-import homeIcon from '../../../assets/shared/icons/addr-home.svg';
-import deliveryOther from '../../../assets/shared/delivery/other.webp';
-import deliveryWork from '../../../assets/shared/delivery/work.webp';
+import backIcon from '@assets/checkout/figma/header-back.svg';
+import chevronIcon from '@assets/shared/icons/addr-chevron.svg';
+import homeIcon from '@assets/shared/icons/addr-home.svg';
+import deliveryOther from '@assets/shared/delivery/other.webp';
+import deliveryWork from '@assets/shared/delivery/work.webp';
 import { singleLineAddress, tagLabels, type SavedAddress } from '../../address/data';
 import { t, tf } from '../data';
 import { checkoutJs } from '../tokens';
@@ -31,8 +31,23 @@ const kitIcons = { WORK: deliveryWork, OTHER: deliveryOther } as const;
  * 16px chevron, address line 13/18 Blue-Gray/700 ellipsised — and the 40px empty right slot.
  * Keeps NoonSalesAnimatedHeader's scroll behaviour (0→50: bg #F2F3F7 → white, bottom corners 0 → 12).
  * Tapping the address opens the address book (address/select modal).
+ * With `title` (Figma "All flows" Header 127:44446) the centre is the "Checkout" title (Figtree Bold 16/21.1, same
+ * text-shadow) and the address renders as the AddressCard section instead.
  */
-export function CheckoutHeader({ address, scrollY, onBack, onAddressPress }: { address: SavedAddress | undefined; scrollY: MotionValue<number>; onBack: () => void; onAddressPress: () => void }) {
+export function CheckoutHeader({
+  address,
+  scrollY,
+  onBack,
+  onAddressPress,
+  title,
+}: {
+  address: SavedAddress | undefined;
+  scrollY: MotionValue<number>;
+  onBack: () => void;
+  onAddressPress: () => void;
+  /** Figma "All flows" (127:44446) / master session v3: centred "Checkout" title; the address moves into the first section */
+  title?: string;
+}) {
   const bg = useTransform(scrollY, [0, 50], [checkoutJs.headerFrom, checkoutJs.headerTo]);
   const radius = useTransform(scrollY, [0, 50], [0, 12]);
   const gradient = useTransform(scrollY, [50, 60], [0, 1]);
@@ -48,7 +63,9 @@ export function CheckoutHeader({ address, scrollY, onBack, onAddressPress }: { a
         <button type="button" className={styles.back} onClick={onBack} aria-label="Back">
           <img className={styles.backIcon} src={backIcon} width={22.7778} height={22.7778} alt="" />
         </button>
-        {address ? (
+        {title ? (
+          <span className={styles.title}>{title}</span>
+        ) : address ? (
           <button type="button" className={styles.address} onClick={onAddressPress}>
             <span className={styles.labelRow}>
               <span className={styles.typeIcon}>
