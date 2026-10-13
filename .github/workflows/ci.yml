@@ -19,6 +19,7 @@ jobs:
       - run: npm run lint:tokens
       - run: npm run assets:check
       - run: npm run skill:check
+      - run: npm run release:check
       - run: npm run build:lib
       - run: npm pack --dry-run
 

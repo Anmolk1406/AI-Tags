@@ -79,7 +79,7 @@
     "assets:measure": "node scripts/optimize-assets.mjs --measure",
     "skill:check": "node .claude/skills/noon-ui/scripts/validate.mjs && node scripts/brain/build.mjs --check",
     "skill:snap": "node .claude/skills/noon-ui/scripts/snap.mjs",
-    "resources:build": "node .claude/resources/scripts/build.mjs && node scripts/brain/build.mjs",
+    "resources:build": "node .claude/resources/scripts/build.mjs && node scripts/brain/build.mjs && node scripts/release/build-plugin.mjs",
     "categories:fetch": "node scripts/fetch-categories-cms.mjs",
     "skills:package": "node scripts/package-skills.mjs",
     "icons:import": "node scripts/import-origin-icons.mjs",
@@ -94,7 +94,9 @@
     "brain": "node scripts/brain/query.mjs",
     "brain:build": "node scripts/brain/build.mjs",
     "brain:check": "node scripts/brain/build.mjs --check",
-    "brain:eval": "node scripts/brain/eval.mjs"
+    "brain:eval": "node scripts/brain/eval.mjs",
+    "release:build": "node scripts/release/build-plugin.mjs",
+    "release:check": "node scripts/release/check.mjs"
   },
   "peerDependencies": {
     "react": "^19.3.0",

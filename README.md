@@ -131,6 +131,15 @@ make the orders list 1:1 with bappzaar
 
 Claude reads the closest existing flow, writes a plan, builds with the kit's components and tokens, registers the screen at a URL, and checks its work with screenshots (`node .claude/skills/noon-ui/scripts/snap.mjs <flow>`). Paste a Figma link or a screenshot and it rebuilds the structure in noon's design language; it doesn't copy foreign colours or fonts.
 
+### As a Claude Code plugin (any project)
+
+```
+/plugin marketplace add arnabdebnath07/noon-app-skill
+/plugin install noon-ui@noon-flow-kit
+```
+
+The skills then load as `/noon-ui:noon-ui`, `/noon-ui:home-page` … in any project. Inside this repo you don't need the plugin: the project skills load as `/noon-ui`, `/home-page` …. Other agents that read Agent Skills can use `plugins/noon-ui/skills/` directly. Install, update, removal and troubleshooting: [plugins/noon-ui/README.md](./plugins/noon-ui/README.md); what works where: [docs/distribution/PACKAGE-NOTES.md](./docs/distribution/PACKAGE-NOTES.md).
+
 ### In the Claude app
 
 ```bash
@@ -239,8 +248,10 @@ scripts/          checks, screenshots, asset tools, generators
 | `npm run assets:check` | Asset size budget and duplicate check |
 | `npm run assets:optimize` | Re-encodes assets (slow on the whole tree; prefer running it on new files) |
 | `npm run skill:check` | Validates the AI skills against the code |
-| `npm run resources:build` | Regenerates `.claude/resources/screens.md` and the categories index |
+| `npm run resources:build` | Regenerates `.claude/resources/screens.md`, the categories index, the brain map and the plugin |
 | `npm run skills:package` | Zips the skills for the Claude app |
+| `npm run release:build` | Regenerates the `noon-ui` plugin + marketplace from the skills (also run by `resources:build`) |
+| `npm run release:check` | Checks the plugin / marketplace / skills package (metadata, versions, paths, duplicates, `claude plugin validate`) |
 | `npm run new-flow -- loyalty "noon Loyalty" "Profile"` | Scaffolds a new flow and registers it |
 | `npm run icons:import -- <folder>` | Imports Origin icons exported from Figma |
 | `node scripts/shot.mjs <flow/screen> <out.png>` | Screenshot of one screen (`--scroll`, `--click`, `--type`, `--wait`; `PORT=` for another port) |
@@ -269,4 +280,4 @@ scripts/          checks, screenshots, asset tools, generators
 
 ## Release
 
-Versions follow semver, and every user-facing change adds a line to [CHANGELOG.md](./CHANGELOG.md) under *Unreleased*. `npm publish` runs `npm run verify` first; check the tarball with `npm run pack:check`.
+Versions follow semver, and every user-facing change adds a line to [CHANGELOG.md](./CHANGELOG.md) under *Unreleased*. `npm publish` runs `npm run verify` first; check the tarball with `npm run pack:check`. The `noon-ui` plugin shares the version: release steps in [docs/distribution/RELEASING.md](./docs/distribution/RELEASING.md).
