@@ -1,5 +1,5 @@
 import { MotionConfig } from 'motion/react';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState, type ReactNode } from 'react';
 import { NoonThemeProvider } from '../foundations/ThemeProvider';
 import type { TokenOverrides } from '../foundations/tokens';
 import { DemoStoreProvider } from './DemoStore';
@@ -8,6 +8,7 @@ import { PhoneFrame } from './PhoneFrame';
 import { StatusBarCtx, type StatusBarTone } from './statusBar';
 import { createRegistry } from './registry';
 import type { FlowDef, Route, StackEntry } from './types';
+import { REDUCED_MOTION_ATTR, useReduceMotion } from '../motion/reducedMotion';
 import '../foundations/global.css';
 
 export interface NoonPrototypeProps {
@@ -23,6 +24,11 @@ export interface NoonPrototypeProps {
   /** global token overrides (rebrand / A-B a colour across every flow) */
   tokens?: TokenOverrides;
   emptyCart?: boolean;
+  /**
+   * Reduced motion (default `'user'`: follow the OS `prefers-reduced-motion` setting). `'always'` forces it on,
+   * `'never'` always animates (e.g. a recorded demo). Drives motion/react's MotionConfig, the CSS rule in
+   * global.css, Lottie / Spinner / Skeleton and every flow's autoplay (`useReduceMotion`, src/motion/reducedMotion.ts).
+   */
   reducedMotion?: 'never' | 'always' | 'user';
   onRouteChange?: (route: Route, stack: StackEntry[]) => void;
   /** imperatively reset from outside (playground) */
@@ -36,7 +42,7 @@ export interface NoonPrototypeProps {
  *   import '@noon/flow-kit/style.css';
  *   <NoonPrototype flows={[homeFlow, plpFlow, pdpFlow, cartFlow]} initialRoute="home/home" />
  */
-export function NoonPrototype({ flows, initialRoute, initialParams, frame = true, scale = 1, rtl, tokens, emptyCart, reducedMotion = 'never', onRouteChange, resetSignal }: NoonPrototypeProps) {
+export function NoonPrototype({ flows, initialRoute, initialParams, frame = true, scale = 1, rtl, tokens, emptyCart, reducedMotion = 'user', onRouteChange, resetSignal }: NoonPrototypeProps) {
   const registry = useMemo(() => createRegistry(flows), [flows]);
   const start = initialRoute ?? `${flows[0].id}/${flows[0].initial}`;
   const [screenTone, setScreenTone] = useState<StatusBarTone>('dark');
@@ -71,14 +77,26 @@ export function NoonPrototype({ flows, initialRoute, initialParams, frame = true
   return (
     <NoonThemeProvider overrides={tokens} rtl={rtl}>
       <MotionConfig reducedMotion={reducedMotion}>
-        <DemoStoreProvider emptyCart={emptyCart}>
-          <PhoneFrame frameless={!frame} scale={scale} statusBar={statusBar}>
-            <StatusBarCtx.Provider value={setOverride}>
-              <Navigator registry={registry} initialRoute={start} initialParams={initialParams} onChange={onChange} resetSignal={resetSignal} />
-            </StatusBarCtx.Provider>
-          </PhoneFrame>
-        </DemoStoreProvider>
+        <ReducedMotionScope>
+          <DemoStoreProvider emptyCart={emptyCart}>
+            <PhoneFrame frameless={!frame} scale={scale} statusBar={statusBar}>
+              <StatusBarCtx.Provider value={setOverride}>
+                <Navigator registry={registry} initialRoute={start} initialParams={initialParams} onChange={onChange} resetSignal={resetSignal} />
+              </StatusBarCtx.Provider>
+            </PhoneFrame>
+          </DemoStoreProvider>
+        </ReducedMotionScope>
       </MotionConfig>
     </NoonThemeProvider>
+  );
+}
+
+/** Marks the tree with `data-nk-motion="reduce"` while motion is reduced (global.css neutralises CSS animations under it). Layout-neutral. */
+function ReducedMotionScope({ children }: { children: ReactNode }) {
+  const reduce = useReduceMotion();
+  return (
+    <div {...{ [REDUCED_MOTION_ATTR]: reduce ? 'reduce' : undefined }} style={{ display: 'contents' }}>
+      {children}
+    </div>
   );
 }

@@ -1,10 +1,12 @@
 import { AnimatePresence, motion, useDragControls, type PanInfo } from 'motion/react';
 import { createContext, Suspense, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { getTransition, type TransitionName } from '../motion/transitions';
-import { spring } from '../motion/presets';
+import { getTransition as getTransitionRaw, reducedTransition, type TransitionName } from '../motion/transitions';
+import { duration, easing, spring } from '../motion/presets';
+import { useReduceMotion } from '../motion/reducedMotion';
 import { TokenScope } from '../foundations/ThemeProvider';
 import { TabBar } from '../components/TabBar/TabBar';
 import { preloadScreens } from './lazyScreen';
+import { resolveSheet, SheetCtx } from './sheet';
 import type { Registry } from './registry';
 import type { NavigateOptions, Route, StackEntry, TabId, ToastOptions } from './types';
 import styles from './Navigator.module.css';
@@ -207,6 +209,10 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resetSignal?.nonce]);
 
+  // reduced motion: screens cross-fade instead of sliding / scaling (motion/react would only make the movement instant)
+  const reduce = useReduceMotion();
+  const getTransition = (name: TransitionName) => (reduce ? reducedTransition(getTransitionRaw(name)) : getTransitionRaw(name));
+
   const api = useMemo(
     () => ({ push, replace, sheet, back, popToRoot, reset, switchTab, toast, canGoBack: stack.length > 1 || !!(stack[0] && parentOf(stack[0].route)), stack }),
     [push, replace, sheet, back, popToRoot, reset, switchTab, toast, stack, parentOf],
@@ -239,7 +245,7 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
             );
 
             if (entry.presentation === 'sheet') {
-              return <SheetLayer key={entry.key} onDismiss={back} isTop={isTop} zIndex={i}>{content}</SheetLayer>;
+              return <SheetLayer key={entry.key} options={resolveSheet(resolved.screen.sheet)} onDismiss={back} isTop={isTop} zIndex={i} reduce={reduce}>{content}</SheetLayer>;
             }
 
             const cover = coveredBy(i);
@@ -262,6 +268,8 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
                 exit="exit"
                 transition={t.transition}
                 style={{ zIndex: i, pointerEvents: isTop ? 'auto' : 'none' }}
+                // a covered screen is out of the tab order and the accessibility tree (the sheet / screen on top is modal)
+                inert={!isTop}
                 data-route={entry.route}
               >
                 <div className={styles.screenBody}>{content}</div>
@@ -301,34 +309,51 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
   );
 }
 
-function SheetLayer({ children, onDismiss, isTop, zIndex }: { children: ReactNode; onDismiss: () => void; isTop: boolean; zIndex: number }) {
+function SheetLayer({ children, options, onDismiss, isTop, zIndex, reduce }: { children: ReactNode; options: ReturnType<typeof resolveSheet>; onDismiss: () => void; isTop: boolean; zIndex: number; reduce: boolean }) {
   const drag = useDragControls();
   const onDragEnd = (_: unknown, info: PanInfo) => {
     if (info.offset.y > 120 || info.velocity.y > 600) onDismiss();
   };
+  const origin = options.layout === 'origin';
+  const ctx = useMemo(() => ({ layout: options.layout, grabber: options.grabber, dismiss: onDismiss }), [options.layout, options.grabber, onDismiss]);
+  const grabber = options.grabber && (
+    <div className={origin ? styles.originGrabberZone : styles.grabberZone} onPointerDown={(e) => drag.start(e)}>
+      <div className={origin ? styles.originGrabber : styles.grabber} />
+    </div>
+  );
   return (
-    <motion.div className={styles.sheetLayer} style={{ pointerEvents: isTop ? 'auto' : 'none', zIndex }} initial="hidden" animate="shown" exit="hidden">
+    <motion.div className={styles.sheetLayer} style={{ pointerEvents: isTop ? 'auto' : 'none', zIndex }} inert={!isTop} role="dialog" aria-modal={isTop} initial="hidden" animate="shown" exit="hidden">
       <motion.div
-        className={styles.scrim}
+        className={origin ? styles.originScrim : styles.scrim}
         variants={{ hidden: { opacity: 0 }, shown: { opacity: 1 } }}
         transition={{ duration: 0.25 }}
-        onClick={onDismiss}
+        onClick={options.dismissible ? onDismiss : undefined}
       />
       <motion.div
-        className={styles.sheet}
-        variants={{ hidden: { y: '100%' }, shown: { y: 0 } }}
-        transition={spring.sheet}
-        drag="y"
+        className={origin ? styles.originColumn : styles.sheet}
+        // reduced motion: the sheet fades in place with its scrim instead of rising (dragging still works)
+        variants={reduce ? { hidden: { opacity: 0 }, shown: { opacity: 1 } } : { hidden: { y: '100%' }, shown: { y: 0 } }}
+        transition={reduce ? { duration: duration.base, ease: easing.standard } : spring.sheet}
+        drag={options.grabber ? 'y' : false}
         dragControls={drag}
         dragListener={false}
         dragConstraints={{ top: 0, bottom: 0 }}
         dragElastic={{ top: 0.05, bottom: 0.8 }}
         onDragEnd={onDragEnd}
+        data-sheet={options.layout}
       >
-        <div className={styles.grabberZone} onPointerDown={(e) => drag.start(e)}>
-          <div className={styles.grabber} />
-        </div>
-        {children}
+        <SheetCtx.Provider value={ctx}>
+          {grabber}
+          {origin ? (
+            // Origin M-BottomSheet: grabber + home-indicator gap sit outside the sheet body; the body holds only the
+            // Header / Body / Footer slots (<SheetHeader> <SheetBody> <SheetFooter>)
+            <div className={styles.originSheet} style={options.surface ? { background: options.surface } : undefined}>
+              {children}
+            </div>
+          ) : (
+            children
+          )}
+        </SheetCtx.Provider>
       </motion.div>
     </motion.div>
   );

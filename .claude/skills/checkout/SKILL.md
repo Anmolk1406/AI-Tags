@@ -7,6 +7,8 @@ description: Build or restyle the noon checkout (Checkout 2.0) and its steps wit
 
 Builds the noon checkout and any step that lives inside it. Load `../noon-ui/SKILL.md` first if it isn't loaded: its workflow, house rules and design-system references apply here unchanged. This skill adds the checkout specification and the checks specific to it.
 
+For a new screen, a redesign or an open-ended idea, run the research-first design workflow before building: `../noon-ui/references/design-workflow.md` (size the request, research the repo and Mobbin per `../noon-ui/references/research.md`, clarify only blocking gaps, write the design direction, build with `../noon-ui/references/component-checklist.md`, validate). Its rules apply here unchanged; this skill's `spec.md` is the starting point for the design direction, and a port from bappzaar or Figma stays analyse → map → implement.
+
 ## Sources
 
 | Source | Where |
@@ -15,7 +17,7 @@ Builds the noon checkout and any step that lives inside it. Load `../noon-ui/SKI
 | Flow specification | `spec.md` (screens, section order, payment methods, dock, data, navigation, states, acceptance) |
 | Figma analysis | `references/figma-cart-checkout.md` — Checkout 2.0, file `zURu7GI7sq77fjdXKrouvo`, frame `14288:183972`: §2.3 anatomy, §5 motion cues, §6 delta, §7 build guidance (shared with Cart 2.0) |
 | Node-by-node mapping | `src/flows/checkout/FIGMA-MAPPING.md` (Figma variables → tokens, every section and the dock); bappzaar master port in `src/flows/checkout/MAPPING.md` |
-| Current implementation | `src/flows/checkout/` — `CheckoutScreen.tsx` (`FIGMA_SECTIONS`, `MASTER_SECTIONS`), 20 step / post-order screens, `components/`, `store.ts`, `store.delivery.ts`, `store.rewards.ts`, `totals.ts`, `data*.ts`, `tokens.ts` (route `checkout/checkout`, page `/checkout`) |
+| Current implementation | `src/flows/checkout/` — `CheckoutScreen.tsx` (`ALL_FLOWS_SECTIONS` default, `FIGMA_SECTIONS`, `MASTER_SECTIONS`), 21 step / post-order screens, `components/`, `store.ts`, `store.delivery.ts`, `store.rewards.ts`, `totals.ts`, `data*.ts`, `tokens.ts` (route `checkout/checkout`, page `/checkout`) |
 | Design system | `../noon-ui/references/tokens.md`, `../noon-ui/references/components.md`, `../noon-ui/references/assets.md`, `../noon-ui/references/motion.md`, `../noon-ui/references/screen-recipes.md`, `../noon-ui/references/flows.md` (checkout catalogue + Checkout blueprint) |
 
 ## Steps
@@ -29,7 +31,7 @@ Builds the noon checkout and any step that lives inside it. Load `../noon-ui/SKI
 4. **Build each section** as a white r16 p12 card on `--nk-color-chk-fig-page`, 12 apart, inside the screen's 12px gutter. Reuse the checkout components; copy, options and methods go in `data.ts`, `data.payment.ts`, `data.delivery.ts`, `data.rewards.ts`; shared state in `checkoutStore` (`store.ts`) so sheets and the screen read the same values.
 5. **Tokens**: section titles `--nk-type-chk-fig-text16-bold-lh24` or the Figma style named in `src/flows/checkout/FIGMA-MAPPING.md`; checkout-only values as `chk*` / `chkFig*` keys in `src/flows/checkout/tokens.ts` with the Figma node in a comment, plus a row in `src/flows/checkout/FIGMA-MAPPING.md`. Don't change central tokens for this page.
 6. **Motion**: header colour on scroll, lane expander, credits reveal and the slide-to-pay as the existing components do; detail steps are sheets; placing and confirmation use the registered transitions (`spec.md` → Motion).
-7. **Register**: `ScreenDef` with `title`, `notes` (what to try) and `source: 'Figma zURu7GI7sq77fjdXKrouvo · 14288:183972'` (or the node of the new step). Sheets set `presentation: 'sheet'`; a URL-openable state sets `defaultParams`.
+7. **Register**: `ScreenDef` with `title`, `notes` (what to try) and `source: 'Figma Af34gfmhQ1D0wstXUEHSIF · 127:44077'` for the default All flows layout (`zURu7GI7sq77fjdXKrouvo · 14288:183972` for a Checkout 2.0 `FIGMA_SECTIONS` step, or the node of the new step). Sheets set `presentation: 'sheet'`; a URL-openable state sets `defaultParams`.
 8. **Validate**, below.
 
 ## Rules specific to checkout
@@ -40,7 +42,7 @@ Builds the noon checkout and any step that lives inside it. Load `../noon-ui/SKI
 - Slide complete → `nav.push('checkout/placing', { fail }, { transition: 'none' })` → `nav.replace('checkout/confirmation', {}, { transition: 'checkout-alpha' })`, or `nav.replace('checkout/payment-failure', …, { presentation: 'modal' })` when the payment fails. Back on top after a failure resets the slider.
 - Exits leave the checkout stack: Continue shopping → `nav.reset('home/home')`, View order → `nav.reset('orders/list')`. Back from checkout returns to `cart/cart` (the flow's `parent`).
 - Prices through `currency` / `formatAmount` (dirham glyph), never "AED" text. NEW badges are `NewBadge` from `src/flows/checkout/components/BurnSection.tsx`, top-right, overlapping the row edge.
-- `checkout/checkout` is a 1:1 port of the Figma frame and bappzaar master: don't restyle it unless asked. Hidden kit sections (`detached_address`, `integrated_noonone`, `coupon_status`, `earn`, `dynamic_invoice`) come back through `sections`, not by editing their components.
+- `checkout/checkout` is a 1:1 port of the Figma frame and bappzaar master: don't restyle it unless asked. Hidden kit sections (`detached_address`, `payment`, `coupon_status`, `earn`, `dynamic_invoice`; `integrated_noonone` is in the default list) come back through `sections`, not by editing their components.
 
 ## Validate
 

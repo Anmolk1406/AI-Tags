@@ -5,6 +5,7 @@ import { haptic } from '../../../motion/haptics';
 import noonLogo from '@assets/plp/fulfillment/noon-wide-assortment.png';
 import { plpTokens } from '../tokens';
 import styles from '../plp.module.css';
+import { useReduceMotion } from '../../../motion/reducedMotion';
 
 export type MarketplaceId = keyof typeof plpTokens.marketplaces;
 
@@ -39,6 +40,8 @@ export function MarketplaceStrip({ active, onSelect }: { active: MarketplaceId; 
   const x = useMotionValue(0);
   const width = useMotionValue(0);
   const placed = useRef(false);
+  // reduced motion: the indicator jumps to the tab
+  const reduce = useReduceMotion();
   const selected = tabs.findIndex((t) => t.id === active);
 
   useLayoutEffect(() => {
@@ -53,10 +56,10 @@ export function MarketplaceStrip({ active, onSelect }: { active: MarketplaceId; 
       return;
     }
     // reanimated withTiming default: 200ms, Easing.inOut(Easing.quad)
-    const opts = { duration: 0.2, ease: [0.455, 0.03, 0.515, 0.955] as const };
+    const opts = { duration: reduce ? 0 : 0.2, ease: [0.455, 0.03, 0.515, 0.955] as const };
     animate(x, nextX, opts);
     animate(width, nextW, opts);
-  }, [selected, x, width]);
+  }, [selected, x, width, reduce]);
 
   const scrollToTab = (el: HTMLElement) => {
     const sc = scroller.current;

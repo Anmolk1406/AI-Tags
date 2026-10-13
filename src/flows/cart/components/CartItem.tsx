@@ -23,6 +23,7 @@ import { ItemPoint } from './ItemPoint';
 import { QuantitySelector } from './QuantitySelector';
 import { SalesCallout } from './SalesCallout';
 import styles from './item.module.css';
+import { useReduceMotion } from '../../../motion/reducedMotion';
 
 export function getExtras(line: CartLine): CartItemExtras {
   const e = cartItemExtras[line.product.id];
@@ -291,11 +292,13 @@ export function CartItem({ line, group, onMovedToWishlist, onRemoveStart }: { li
 /** NoonSalesUSPs: one USP at a time sliding up (enter 400ms / exit 550ms, offset 20), in the Figma "USPs Urgency" pill. */
 function Usps({ usps }: { usps: string[] }) {
   const [i, setI] = useState(0);
+  const reduce = useReduceMotion();
   useEffect(() => {
-    if (usps.length < 2) return;
+    // reduced motion: the first USP stays (no auto-rotation)
+    if (usps.length < 2 || reduce) return;
     const id = window.setInterval(() => setI((n) => (n + 1) % usps.length), 3000);
     return () => window.clearInterval(id);
-  }, [usps.length]);
+  }, [usps.length, reduce]);
   return (
     <div className={styles.usps}>
       <AnimatePresence initial={false} mode="popLayout">

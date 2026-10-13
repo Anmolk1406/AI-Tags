@@ -220,9 +220,41 @@ Lighter alternative: `onScroll={(y) => setScrolled(y > 4)}` + a `data-scrolled` 
 
 ## 6. Bottom sheets
 
-Register with `presentation: 'sheet'` (or open with `nav.sheet(route, params)`). The navigator's `SheetLayer` supplies scrim, white top-r24 container, grabber, `max-height: 88%`, bottom inset padding and drag-to-dismiss. The sheet component renders content only (no `<Screen>`), and owns any inner scroll (`className="nk-scroll"` on the scrolling child, fixed height if it has a footer).
+**Default for every new sheet: the Origin Design System M-BottomSheet** (Figma `wFRKiKskxZ4vjIHbDVvngJ · 3207:15`). Use another layout only when the request explicitly asks for one, or when porting a bappzaar sheet 1:1 (then `sheet: 'classic'`).
 
-Simple list sheet — `src/flows/plp/SortSheet.tsx`:
+Register with `presentation: 'sheet'` (or open with `nav.sheet(route, params)`). The navigator's `SheetLayer` draws the chrome:
+- a bold scrim (`--nk-sheet-scrim`, rgba(0,0,0,0.8)); tapping it dismisses;
+- the grabber **above** the sheet, on the scrim (36×4, white at 0.64, in a 28px zone); dragging it down dismisses;
+- the sheet floating with a 12px side inset, r16 on all four corners, max 680 high, a gap above the home indicator.
+
+The screen renders only the three slots, in order (no `<Screen>`, no own container):
+```tsx
+import { SheetBody, SheetFooter, SheetHeader, Text } from '../../components';
+
+export function DeliveryInfoSheet() {
+  const nav = useNav();
+  return (
+    <>
+      <SheetHeader title="Delivery options" subtitle="Pick a slot" />   {/* 48 high; no close X — it has a grabber */}
+      <SheetBody>…rows, form, Lottie, illustration…</SheetBody>         {/* scrolls inside the sheet past 680 */}
+      <SheetFooter primary={{ label: 'Confirm', onPress: () => nav.back() }} secondary={{ label: 'Cancel', onPress: nav.back }} />
+    </>
+  );
+}
+// index.ts: { id: 'deliveryInfo', title: 'Delivery options', component: DeliveryInfoSheet, presentation: 'sheet' }
+```
+
+Rules:
+- **A sheet with a grabber has no close button.** For a sheet that must not be dragged away (a blocking confirm, a form with unsaved input), set `sheet: { grabber: false }`: the grabber goes and `<SheetHeader>` shows the close (X) instead (44×44). Add `dismissible: false` to stop a scrim tap from closing it.
+- Leave out `<SheetHeader>` or `<SheetFooter>` when the sheet doesn't need them (Origin "Show header / Show footer"). `SheetFooter` is M-StackedActionBar: optional `top` slot, primary (H52, r12, `bright`), optional secondary (white, `#D6E9FF` border, `#0F61FF` text), optional `bottom` slot.
+- A different fill: `sheet: { surface: 'var(--nk-color-bg-subtle)' }` (any surface colour).
+- One sheet at a time: for a second confirmation, close this one first or use a modal. Don't use a sheet for persistent navigation.
+- A Lottie intro goes in `<SheetBody>`: play it once, then swap to the real content.
+- `<SheetBody inset={false}>` for edge-to-edge rows (ListRow brings its own padding).
+
+**Classic sheets (the bappzaar ports).** The 39 existing sheet screens set `sheet: 'classic'`: an edge-to-edge white sheet with r24 top corners, the grabber inside it, `max-height: 88%` and bottom inset padding. They keep their current UI, both the sheet frame and their contents (close buttons included): never move an existing sheet to Origin or restyle its header unless the user asks for that sheet. `scripts/sheet-baseline.json` lists them, and `npm run skill:check` fails if one loses `sheet: 'classic'` or if a new sheet sets `'classic'` without being a 1:1 bappzaar port. bappzaar's own rule matches: sheets that swipe to dismiss (OverlayBottomSheet, the gorhom BottomSheet) draw a grabber and never a close button. Only the legacy `Overlay`, which has no drag, uses an X.
+
+Classic list sheet — `src/flows/plp/SortSheet.tsx`:
 ```tsx
 export function SortSheet() {
   const nav = useNav();
@@ -244,12 +276,11 @@ export function SortSheet() {
 }
 ```
 
-Sheet with title row, scroll body and footer — `src/flows/plp/FiltersSheet.tsx` (+ `filters.module.css`: `.sheet { display:flex; flex-direction:column; height:600px; max-height:100% }`, `.footer { display:flex; gap:8px; padding:12px 12px 4px; border-top:1px solid var(--nk-color-border-subtle) }`):
+Classic sheet with title row, scroll body and footer — `src/flows/plp/FiltersSheet.tsx` (+ `filters.module.css`: `.sheet { display:flex; flex-direction:column; height:600px; max-height:100% }`, `.footer { display:flex; gap:8px; padding:12px 12px 4px; border-top:1px solid var(--nk-color-border-subtle) }`):
 ```tsx
 <div className={styles.sheet}>
   <div className={styles.titleRow}>
-    <Text variant="titleSmall">Filters</Text>
-    <Pressable onClick={nav.back} aria-label="Close"><Icon name="close" size={20} /></Pressable>
+    <Text variant="titleSmall">Filters</Text>   {/* no close X: the sheet has a grabber */}
   </div>
   <div className={styles.body}>
     <nav className={`nk-scroll ${styles.sidebar}`}>…</nav>

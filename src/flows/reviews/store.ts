@@ -233,7 +233,7 @@ export const reviewsNav = {
 };
 
 export interface OpenReviewOptions {
-  /** our orders id (o3 / o4 / o6 …) — used when neither `product` nor `variant` is given */
+  /** our orders id (o3 / o4 / o9 …) — used when neither `product` nor `variant` is given */
   orderId?: string;
   /** the star the user tapped, 1–5 */
   rating: number;

@@ -8,7 +8,7 @@ The contract a search or results build must meet. There is no Figma for search: 
 | Route | Path | Presentation | What it is | Status |
 |---|---|---|---|---|
 | `search/search` | `/search` | push (`slide-left`) | Search entry: presearch (recent + trending) ↔ live suggestions, bappzaar `NoonSearchScreen` port on the handoff motion | exists — don't restyle unless asked |
-| `plp/listing` | `/plp`, `/listing` | push (`push`; from search `results-fade`) | Results listing (`defaultParams: { query: 'Best sellers' }`), bappzaar `ListingScreen` → `NoonCatalogList` port with the Brand Widget PLP header and brand panel | exists |
+| `plp/listing` | `/plp`, `/listing` | push (`push`; from search `results-fade`) | Results listing (`defaultParams: { query: 'Best sellers' }`), bappzaar `ListingScreen` → `NoonCatalogList` port with the Brand Widget PLP header (marketplace strip + pill row; the brand panel is no longer rendered) | exists |
 | `plp/filters` | `/filters` | sheet | Filters sheet (`{ facet? }`), draft → commit | exists |
 | `plp/sort` | `/plp/sort` | sheet | Sort sheet, radio list | exists |
 | `search/suggestions` | `/search/suggestions` | push (`slide-left`) | `SearchScreen` opened in the typing state (`defaultParams: { q: 'phone' }`; `SearchScreen` reads `q`) so it opens by URL and snaps | exists |
@@ -45,7 +45,7 @@ Rows 2–3 show only while the trimmed query is empty; row 4 replaces them while
 
 | Sheet | Kit | Spec |
 |---|---|---|
-| Filters (`plp/filters`) | `FiltersSheet.tsx` + `filters.module.css` | 600h; title "Filters" `titleSmall` in `plpTokens.filters.title` + close; "Search across filters" field 44h r12 on `--nk-color-bg-subtle`; sidebar 116 wide, active row `--nk-palette-alice-blue` with 3px `--nk-color-brand-blue` end border and count dot; option card `--nk-palette-filter-container-background` r16 with `Pill variant="filter"`; footer Clear All (0.4) / Show N results (0.6), 56h r14, `plpText18SemiboldLh1` |
+| Filters (`plp/filters`) | `FiltersSheet.tsx` + `filters.module.css` | 600h; title "Filters" `titleSmall` in `plpTokens.filters.title` (no close: the sheet has a grabber); "Search across filters" field 44h r12 on `--nk-color-bg-subtle`; sidebar 116 wide, active row `--nk-palette-alice-blue` with 3px `--nk-color-brand-blue` end border and count dot; option card `--nk-palette-filter-container-background` r16 with `Pill variant="filter"`; footer Clear All (0.4) / Show N results (0.6), 56h r14, `plpText18SemiboldLh1` |
 | Sort (`plp/sort`) | `SortSheet.tsx` | "Sort by" `titleSmall` `textMuted`; six `sortOptions` rows padding `14px 16px`, selected 600 in `--nk-color-brand-blue`; 20px radio ring `--nk-color-border-strong`, dot shared via `layoutId="sort-radio"` |
 
 ## Data
@@ -120,5 +120,5 @@ All values: `handoff` (`src/motion/presets.ts`), `searchTokens`, `plpTokens.time
 - [ ] Every query path goes through `go()` → `plp/listing { query }`; nothing dead.
 - [ ] PLP: search bar at the search screen's spot, `MarketplaceStrip`, `RevealChip` pill row, `SkeletonReveal` `ProductBoxVertical` grid (2 cols, gap 12, 177 × 241 image boxes, equal-height rows), sort reorders with layout, filters commit only on Show.
 - [ ] Tokens only (`lint:tokens` 0 for `src/flows/search` and `src/flows/plp`); new values are `searchTokens` / `plpTokens` keys.
-- [ ] Screenshots read for presearch, typing ("phone"), edit mode, listing ("phone" with the brand panel, and a brand selected), filters and sort.
+- [ ] Screenshots read for presearch, typing ("phone"), edit mode, listing ("phone", with a brand quick pill selected), filters and sort.
 - [ ] `source` = the bappzaar path (no Figma).

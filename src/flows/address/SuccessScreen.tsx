@@ -1,6 +1,7 @@
 import { motion, useMotionValue, useTransform, animate } from 'motion/react';
 import { useEffect, useRef } from 'react';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import { useLottieReducedMotion } from '../../components/Lottie/Lottie';
 import { Screen } from '../../components';
 import { useNav } from '../../kit/Navigator';
 import type { ScreenProps } from '../../kit/types';
@@ -8,6 +9,7 @@ import { lotties } from './assets';
 import { initialAddresses, singleLineAddress, t, type SavedAddress } from './data';
 import { addressStore } from './store';
 import styles from './address.module.css';
+import { useReduceMotion } from '../../motion/reducedMotion';
 
 export interface SuccessParams {
   address?: SavedAddress;
@@ -23,7 +25,10 @@ export function SuccessScreen({ params }: ScreenProps<SuccessParams>) {
   const nav = useNav();
   const progress = useMotionValue(0);
   const opacity = useTransform(progress, [0, 0.5, 0.7, 1], [0, 0, 1, 1]);
-  const y = useTransform(progress, [0, 0.5, 0.7, 1], [20, 20, -3, 0]);
+  // reduced motion: the text fades in place (same 2s timeline)
+  const reduce = useReduceMotion();
+  const y = useTransform(progress, [0, 0.5, 0.7, 1], reduce ? [0, 0, 0, 0] : [20, 20, -3, 0]);
+  const rm = useLottieReducedMotion({});
   const done = useRef(false);
   const address = params.address;
   const line = params.line ?? `${singleLineAddress(initialAddresses[0])}, ${initialAddresses[0].area}`;
@@ -49,7 +54,7 @@ export function SuccessScreen({ params }: ScreenProps<SuccessParams>) {
     <Screen background="addrSuccessBg" safeTop={false} contentStyle={{ overflow: 'hidden', paddingBottom: 0 }}>
       <div className={styles.success}>
         <div className={styles.successLottie}>
-          <DotLottieReact src={lotties.saveSuccess} autoplay layout={{ fit: 'cover', align: [0.5, 0.5] }} style={{ width: '100%', height: '100%' }} />
+          <DotLottieReact src={lotties.saveSuccess} autoplay={rm.autoplay} layout={{ fit: 'cover', align: [0.5, 0.5] }} style={{ width: '100%', height: '100%' }} dotLottieRefCallback={rm.attach} />
         </div>
         <div className={styles.successText}>
           <motion.span className={styles.successTitle} style={{ opacity, y }}>

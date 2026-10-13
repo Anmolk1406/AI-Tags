@@ -83,3 +83,27 @@ export function getTransition(name: TransitionName): ScreenTransition {
 export function listTransitions() {
   return [...registry.keys()];
 }
+
+/* ── Reduced motion ─────────────────────────────────────────────────────────────────────────────────── */
+
+const MOVING = new Set(['x', 'y', 'z', 'scale', 'scaleX', 'scaleY', 'rotate', 'rotateX', 'rotateY', 'rotateZ', 'skew', 'skewX', 'skewY', 'transformPerspective', 'top', 'left', 'right', 'bottom', 'width', 'height']);
+const still = (t: TargetAndTransition | undefined) => (t ? (Object.fromEntries(Object.entries(t).filter(([k]) => !MOVING.has(k))) as TargetAndTransition) : t);
+const moves = (t: TargetAndTransition) => Object.keys(t).some((k) => MOVING.has(k));
+const reducedCache = new WeakMap<ScreenTransition, ScreenTransition>();
+
+/**
+ * The reduced-motion version of a screen transition (used by the Navigator while motion is reduced): every movement
+ * (slide, scale, flip) is dropped; opacity and colour/filter changes keep their timing. A transition that only moved
+ * (`push`, `modal`, `slide-left`, `mb-modal`, …) becomes a `duration.base` cross-fade; `none` / instant ones stay instant.
+ */
+export function reducedTransition(t: ScreenTransition): ScreenTransition {
+  const hit = reducedCache.get(t);
+  if (hit) return hit;
+  const fades = 'opacity' in t.initial || 'opacity' in t.exit;
+  const out: ScreenTransition =
+    !fades && (moves(t.initial) || moves(t.exit))
+      ? { initial: { ...still(t.initial), opacity: 0 }, animate: { ...still(t.animate), opacity: 1 }, exit: { ...still(t.exit), opacity: 0 }, under: still(t.under), transition: { duration: duration.base, ease: easing.standard } }
+      : { initial: still(t.initial)!, animate: still(t.animate)!, exit: still(t.exit)!, under: still(t.under), transition: t.transition };
+  reducedCache.set(t, out);
+  return out;
+}

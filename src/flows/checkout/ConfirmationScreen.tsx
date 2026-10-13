@@ -12,6 +12,7 @@ import { buildPromises } from './data.shipment';
 import { useCheckout } from './store';
 import { useOcOneOverlay } from '../noonone/components/entry/useOcOneOverlay';
 import styles from './confirmation.module.css';
+import { useReduceMotion } from '../../motion/reducedMotion';
 
 const HEADER_BG = smartAssistConfig.backgroundColor; // smartAssistConfig?.backgroundColor || '#2F8E6D'
 /** shipmentReducedSpacer — no CMS hero carousel in the prototype */
@@ -193,9 +194,11 @@ function StackedImageCarousel({ items }: { items: ConfirmationItem[] }) {
   const count = items.length;
   const [progress, setProgress] = useState(0);
   const raf = useRef(0);
+  const reduce = useReduceMotion();
 
   useEffect(() => {
-    if (count <= 1) return;
+    // reduced motion: the stack holds its first card (no rotation)
+    if (count <= 1 || reduce) return;
     const total = (slideDurationMs + idleMs) * count; // withRepeat(withTiming(count, linear))
     const start = performance.now();
     const tick = (now: number) => {
@@ -204,7 +207,7 @@ function StackedImageCarousel({ items }: { items: ConfirmationItem[] }) {
     };
     raf.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf.current);
-  }, [count, slideDurationMs, idleMs]);
+  }, [count, slideDurationMs, idleMs, reduce]);
 
   const stepIndex = Math.floor(progress);
   const within = progress - stepIndex;

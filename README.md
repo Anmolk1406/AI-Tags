@@ -1,11 +1,152 @@
 # @noon/flow-kit
 
-The noon app as a **React UI kit for clickable prototypes**: noon design tokens, a central component library, a motion system and **17 ready-made flows (147 screens)** ported 1:1 from **bappzaar** (the noon React Native app) and the noon Figma files.
+The noon app as a **React UI kit for clickable prototypes**. It has noon's design tokens, a component library, a motion system and **17 ready-made flows (147 screens)** ported from **bappzaar** (the noon React Native app) and the noon Figma files.
 
-Use it two ways:
+<table>
+  <tr>
+    <td align="center"><img src="docs/screens/home.webp" width="180" alt="Home" /><br /><sub>Home · <code>/homepage</code></sub></td>
+    <td align="center"><img src="docs/screens/search.webp" width="180" alt="Search" /><br /><sub>Search · <code>/search</code></sub></td>
+    <td align="center"><img src="docs/screens/plp.webp" width="180" alt="Product listing" /><br /><sub>Listing · <code>/plp?query=phone</code></sub></td>
+    <td align="center"><img src="docs/screens/pdp.webp" width="180" alt="Product page" /><br /><sub>Product · <code>/pdp?productId=…</code></sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/screens/cart.webp" width="180" alt="Cart" /><br /><sub>Cart · <code>/cart</code></sub></td>
+    <td align="center"><img src="docs/screens/checkout.webp" width="180" alt="Checkout" /><br /><sub>Checkout · <code>/checkout</code></sub></td>
+    <td align="center"><img src="docs/screens/noon-one.webp" width="180" alt="noon One" /><br /><sub>noon One · <code>/noon-one</code></sub></td>
+    <td align="center"><img src="docs/screens/plan-select.webp" width="180" alt="Plan select" /><br /><sub>Plans · <code>/noonone/plans</code></sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/screens/orders.webp" width="180" alt="Orders" /><br /><sub>Orders · <code>/orders</code></sub></td>
+    <td align="center"><img src="docs/screens/categories.webp" width="180" alt="Categories" /><br /><sub>Categories · <code>/categories/categories</code></sub></td>
+    <td align="center"><img src="docs/screens/account.webp" width="180" alt="Account" /><br /><sub>Account · <code>/account/account</code></sub></td>
+    <td align="center"><img src="docs/screens/reviews.webp" width="180" alt="Reviews" /><br /><sub>Rate &amp; review · <code>/reviews/rate</code></sub></td>
+  </tr>
+</table>
 
-- **As a package** — drop a working noon phone (or any single screen, component or token) into your own React app.
-- **As a repo** — clone it, `npm run dev`, and edit / extend flows with live reload.
+**Who it's for**
+
+| You are… | Use it to… | Start at |
+|---|---|---|
+| A designer or PM | Click through real noon flows, demo an idea, hand a working prototype to engineering | [Run it locally](#run-it-locally) → [Open any screen](#open-any-screen) |
+| Someone building with AI | Ask Claude to build or restyle a noon page from a prompt, a Figma link or a screenshot | [Build screens with AI](#build-screens-with-ai) |
+| A front-end engineer | Use noon's tokens, components or whole flows in your own React app | [Use it as a package](#use-it-as-a-package) |
+| A contributor | Port a new screen from bappzaar / Figma, fix one, or add a flow | [Contribute](#contribute) |
+
+---
+
+## Run it locally
+
+You need **Node ≥ 20** and **git**.
+
+```bash
+git clone https://github.com/arnabdebnath07/noon-app-skill.git
+cd noon-app-skill
+npm install
+npm run dev
+```
+
+Open **http://localhost:5180**. You get a phone with the noon app on it. Tap around: the tab bar, the search, product cards, the cart and checkout all work, and the cart, wishlist and noon One state carry across screens.
+
+If port 5180 is taken, Vite picks the next free one and prints it in the terminal.
+
+## Open any screen
+
+Every screen has a URL, so you can link straight to it, bookmark it or paste it into a ticket.
+
+| Page | URL |
+|---|---|
+| Home | `/homepage` |
+| Search | `/search` |
+| Search results (listing) | `/plp?query=iphone` |
+| Product page | `/pdp?productId=N70211593V` (iPhone 17 Pro, live data) |
+| Cart | `/cart` |
+| Checkout | `/checkout` |
+| Order confirmation | `/order-confirmation` |
+| Orders | `/orders` |
+| Order tracking | `/order-tracking?orderId=o1` |
+| Categories | `/categories/categories` |
+| Deals | `/deals/deals` |
+| Account | `/account/account` |
+| Addresses | `/addresses` |
+| Payment cards | `/cards` |
+| noon One (non-member landing) | `/noon-one` |
+| noon One plans | `/noonone/plans` |
+| Manage membership | `/manage-membership` |
+| Return details | `/returns?productId=p5` |
+| Rate & review | `/reviews/rate` |
+| Wishlist | `/wishlist/wishlist` |
+
+Any screen also opens as `/<flow>/<screen>`; the full list of all 147, with their sources, is in [`.claude/resources/screens.md`](./.claude/resources/screens.md). Back on a page you opened directly goes to its logical parent.
+
+## Flows
+
+| Flow | Screens | What's in it |
+|---|---:|---|
+| `home` | 2 | Marketplace switcher, address, rotating search, the bappzaar home CMS feed (Eid hero, ad banners, carousels) |
+| `search` | 2 | Recent and trending searches, live suggestions, hand-off to results |
+| `categories` | 4 | Live CMS: 29 category tiles × 175 sub-categories, inline drill-down |
+| `deals` | 1 | The dynamic deals tab |
+| `plp` | 3 | Listing with filter / sort pills, sheets; bars hide on scroll like the app |
+| `pdp` | 4 | Storefront PDP: gallery parallax, variants (in-place switching), delivery, offers, reviews, recommendations, sheets |
+| `cart` | 8 | All flows cart design: shipment groups (supermall, Global, express, market), progress bars, carousels, coupons, cobrand card, payment offers |
+| `checkout` | 22 | All flows checkout design: address, noon One banner with the CTA reveal, delivery instructions, shipments, points & vouchers, Pay With, donation, summary, slide to pay, confirmation, failure |
+| `orders` | 4 | Order list (pinned header, filter pills), tracking, cancel |
+| `returns` | 5 | History → submission → details, plus sheets |
+| `reviews` | 9 | R&R 2.0: rate, write with AI, photos, success |
+| `account` | 17 | Profile, security, notifications, preferences, country and language |
+| `address` | 10 | Address book, map pin, form |
+| `cards` | 8 | Payment cards |
+| `noonone` | 22 | noon One acquisition: entry points, landing (non-member prod design), plans, payment, success |
+| `membership` | 24 | noon One management: manage, change / upgrade, cancel, family, referrals |
+| `wishlist` | 2 | Wishlist and empty state |
+
+Each flow folder (`src/flows/<flow>/`) has a `MAPPING.md` and/or `FIGMA-MAPPING.md` that records where every value came from in bappzaar or Figma.
+
+---
+
+## Build screens with AI
+
+The repo ships **Claude skills** in `.claude/skills/`. They know noon's tokens, components, assets, motion and every flow, so Claude can build a new page that looks and behaves like the app.
+
+| Skill | Use it for |
+|---|---|
+| `/noon-ui` | The main skill: any noon page or flow. It works out what you're asking for, routes to a screen skill when one fits, and holds the design-system references, flow catalogue and validation steps. |
+| `/home-page` | Home feed variants and campaign / landing pages |
+| `/search` | Search entry, suggestions, results, sort and filters |
+| `/cart` | Cart, shipment groups, carousels, coupons, payment offers, cart states |
+| `/checkout` | Checkout sections, payment methods, slide to pay, confirmation |
+| `/pdp` | Product detail page, its sheets, out-of-stock and newer-model states |
+
+### In Claude Code (recommended)
+
+Open the repo folder in Claude Code and ask in plain language. You can type the skill or just describe the page:
+
+```text
+/home-page build a Ramadan campaign landing page
+/checkout add a gift-wrap step before payment
+update the PDP to match this Figma: https://www.figma.com/design/<file>?node-id=<node>
+build a loyalty page with tiers, rewards and a history screen
+make the orders list 1:1 with bappzaar
+```
+
+Claude reads the closest existing flow, writes a plan, builds with the kit's components and tokens, registers the screen at a URL, and checks its work with screenshots (`node .claude/skills/noon-ui/scripts/snap.mjs <flow>`). Paste a Figma link or a screenshot and it rebuilds the structure in noon's design language; it doesn't copy foreign colours or fonts.
+
+### In the Claude app
+
+```bash
+npm run skills:package     # → dist-skills/<skill>.zip
+```
+
+Upload a zip in the Claude app (**Settings → Skills → + Add → Upload**). Each zip is self-contained: the skill, the other skills it links to, and the shared resources.
+
+### How the skills stay accurate
+
+- `.claude/resources/` is the map the skills read first: a generated index of every screen (`screens.md`), shared patterns, tooling notes and a brief per flow. See [its README](./.claude/resources/README.md).
+- `npm run skill:check` validates every skill against the code (file paths, `--nk-*` variables, routes, and coverage of components, tokens, motion, assets, icons and flows). Run `npm run resources:build` first if it says the screen index is stale.
+
+---
+
+## Use it as a package
 
 ```bash
 npm install @noon/flow-kit react react-dom
@@ -20,104 +161,112 @@ export default function Demo() {
 }
 ```
 
-> Requires React 19 and a bundler that understands ESM + `new URL(..., import.meta.url)` assets (Vite, webpack 5, Next.js, Rspack…). Node ≥ 20 for development.
-
----
-
-## What you can import
+> Needs React 19 and a bundler that understands ESM and `new URL(..., import.meta.url)` assets (Vite, webpack 5, Next.js, Rspack…).
 
 | Import | What it is |
 |---|---|
-| `@noon/flow-kit` | everything below + `NoonPrototype`, `Navigator`/`useNav`, `DemoStore`, `PhoneFrame`, motion presets/recipes, mocks |
-| `@noon/flow-kit/components` | the component library only (Button + NoonButton presets, Text, Screen, Header, SearchBar, ProductCard, Price, Tag/MarketplaceTag, Switch, Checkbox, Spinner, Toast, HtmlText, Divider…) |
-| `@noon/flow-kit/tokens` | design tokens as data: `colors`, `palette`, `spacing`, `radius`, `type`, `shadow`, `layout`, component tokens (`buttonTokens`, `pillTokens`…), `ref.*` helpers |
-| `@noon/flow-kit/flows` | `allFlows` + every flow definition |
-| `@noon/flow-kit/flows/<id>` | one flow, e.g. `@noon/flow-kit/flows/checkout` — smallest bundle |
-| `@noon/flow-kit/style.css` | all kit CSS (tokens as CSS variables, fonts, component + flow styles). Import once. |
+| `@noon/flow-kit` | Everything below, plus `NoonPrototype`, `Navigator` / `useNav`, `DemoStore`, `PhoneFrame`, motion presets and recipes, mocks |
+| `@noon/flow-kit/components` | The component library only: Button (+ NoonButton presets), Text, Screen, Header, SearchBar, ProductCard, Price, Tag, Switch, Checkbox, Spinner, Toast, HtmlText, Divider, OriginIcon, Lottie… |
+| `@noon/flow-kit/tokens` | Design tokens as data: `colors`, `palette`, `spacing`, `radius`, `type`, `shadow`, `layout`, component tokens, `ref.*` helpers |
+| `@noon/flow-kit/data` | Shared mock data (products, catalogue) |
+| `@noon/flow-kit/flows` | `allFlows` and every flow definition |
+| `@noon/flow-kit/flows/<id>` | One flow, e.g. `@noon/flow-kit/flows/checkout` (smallest bundle) |
+| `@noon/flow-kit/style.css` | All kit CSS (tokens as CSS variables, fonts, component and flow styles). Import once. |
 
-The package is ESM, one module per source file, `sideEffects`-marked — bundlers only include the flows/components you import. Images, Lotties and fonts are separate files loaded on demand (nothing is base64-inlined into JS).
+The package is ESM with one module per source file and `sideEffects` set, so bundlers only include what you import. Images, Lotties and fonts load on demand.
 
-### Flows
-
-| Flow id | Screens | Notes |
-|---|---:|---|
-| `home` | 1 | marketplace switcher, address, rotating search, CMS feed (live noon.com creatives) |
-| `search` | 1 | |
-| `categories` | 4 | live CMS: 29 category tiles × 175 sub-categories, inline drill-down |
-| `deals` | 1 | dynamic bottom tab |
-| `plp` | 3 | listing, filters, sort |
-| `pdp` | 3 | real iPhone 17 Pro data, variants, FBT, reviews, quick-cart |
-| `cart` | 8 | Figma Cart 2.0 styling, marketplace groups, 5 overlays |
-| `checkout` | 21 | Figma Checkout 2.0, payments, points & vouchers, slide-to-order, confirmation, failure |
-| `orders` | 3 | |
-| `returns` | 5 | history → submission → details (+13 sheets) |
-| `account` | 17 | profile, security, notifications, preferences, country/language… |
-| `address` | 10 | AddressV2: list, map pin, form, controls |
-| `cards` | 8 | Payment Cards V2 |
-| `noonone` | 22 | noon One acquisition: entry points → landing → plans → payment → success |
-| `membership` | 24 | noon One management: manage, change/upgrade, cancel, family, referrals |
-| `wishlist` | 2 | |
-
-Each flow folder has a `MAPPING.md` (or `FIGMA-MAPPING.md`) that records the bappzaar/Figma source of every value.
-
-### Routing & page URLs
-
-Screens are addressed as `flow/screen`. Friendly page names live in `src/kit/routes.ts` and on each screen's `path`:
+**Navigation.** Screens are addressed as `flow/screen`; friendly names live in `src/kit/routes.ts`:
 
 ```ts
-nav.push('plp', { query: 'iphone' });   // same as 'plp/listing'
-nav.push('checkout');                    // flow → its initial screen
+const nav = useNav();
+nav.push('plp', { query: 'iphone' });    // same as 'plp/listing'
+nav.push('checkout');                     // a flow opens on its initial screen
+nav.sheet('pdp/variants', { productId }); // bottom sheet
+nav.back();
 ```
 
-In the dev preview every page is a URL: `/homepage`, `/search`, `/plp?query=iphone`, `/pdp?productId=p2`, `/cart`, `/checkout`, `/order-confirmation`, `/addresses`, `/cards`, `/noon-one`, `/manage-membership`, `/returns?productId=p5` … Back from a page opened directly goes to its logical parent (`FlowDef.parent`).
-
-### Theming
-
-All styling reads CSS variables generated from `src/foundations/tokens.ts` (`--nk-color-*`, `--nk-palette-*`, `--nk-type-*`, `--nk-space-*`, `--nk-radius-*`, `--nk-button-*` …). Override at runtime:
+**Theming.** All styling reads CSS variables generated from `src/foundations/tokens.ts` (`--nk-color-*`, `--nk-palette-*`, `--nk-type-*`, `--nk-space-*`, `--nk-radius-*`…). Override them at runtime:
 
 ```tsx
 <NoonPrototype flows={allFlows} tokens={{ colors: { brand: '#FEEE00', cta: '#3866DF' } }} />
 ```
 
-Fonts: Noontree (bundled) with the dirham sign (U+E001) used for all prices; Cairo for RTL. `rtl` prop flips the whole prototype.
+Fonts: Noontree (bundled), with the dirham sign (U+E001) for every price; Cairo for RTL. The `rtl` prop flips the whole prototype.
+
+**Icons.** System icons are the Origin Design System set: `<OriginIcon name="cart-plus" />`, `<OriginIcon name="heart" filled />`. The catalogue is in [`.claude/skills/noon-ui/references/icons.md`](./.claude/skills/noon-ui/references/icons.md).
 
 ---
 
-## AI skills
+## Contribute
 
-`.claude/skills/` holds Claude Code skills that build noon screens and flows with this kit, from a prompt, a Figma link or a screenshot:
+Read **[CONTRIBUTING.md](./CONTRIBUTING.md)** and **[CLAUDE.md](./CLAUDE.md)** first. The short version:
 
-| Skill | Use it for |
+- **Port, don't invent.** For a screen that exists in the app: analyse the source, map every value, then implement. Read bappzaar **master** read-only (`git -C ~/bappzaar show origin/master:<path>`), write the flow's `MAPPING.md` / `FIGMA-MAPPING.md`, then build from it.
+- **Tokens only.** No raw hex, font or radius values in components or flows; use `var(--nk-*)` in CSS and `ref.color(...)` / `<Text variant>` in TSX. Values that only one flow needs go in that flow's `tokens.ts`.
+- **Reuse components** from `src/components`; a flow-only part goes in `src/flows/<flow>/components/`.
+- **Every screen** is wrapped in `<Screen>`, gets a URL, a `source` and `notes`, and passes the checks below.
+- **Prices** use the dirham sign (`currency` from `src/mocks/products.ts`), never "AED".
+
+### Project layout
+
+```text
+src/
+  app/            dev preview only (the phone page); not in the package
+  components/     central component library
+  foundations/    tokens.ts, palette.ts, generated CSS variables
+  motion/         presets, recipes, screen transitions, haptics
+  kit/            NoonPrototype, Navigator, routes, DemoStore, membership, tab-bar scroll
+  flows/<flow>/   index.ts (defineFlow), screens, components/, data.ts, tokens.ts, MAPPING.md
+  mocks/          products, phones, categories (demo catalogue)
+  data/           shared catalogue data
+  assets/<flow>/  images, icons, Lotties (shared ones in assets/shared/)
+.claude/
+  skills/         the AI skills (noon-ui + screen skills)
+  resources/      screen index, patterns, tooling, per-flow briefs
+docs/screens/     README screenshots
+scripts/          checks, screenshots, asset tools, generators
+```
+
+### Scripts
+
+| Command | What it does |
 |---|---|
-| `/noon-ui` | The main skill: any noon page or flow. Classifies the request, routes to a screen skill, and holds the design system references (tokens, components, assets, motion), flow catalogue, blueprints and validation. |
-| `/home-page` | Home feed and campaign / landing pages (Homepage Revamp 2025). |
-| `/search` | Search entry, suggestions, recent / trending, results with sort and filters. |
-| `/cart` | Cart 2.0: shipment groups, carousels, coupon, payment offers, states. |
-| `/checkout` | Checkout 2.0: sections, payment methods, slide to pay, placing and confirmation. |
-| `/pdp` | Product detail page, its sheets, out-of-stock and newer-model states. |
+| `npm run dev` | Dev preview at http://localhost:5180 |
+| `npm run verify` | Typecheck (app + library), token lint, asset check, library build. Run before every PR. |
+| `npm run check:routes` | Opens every screen and fails on console errors (needs the dev server; `PORT=<port>` if it isn't on 5180) |
+| `npm run test:journeys` | Walks the core user journeys in a browser and screenshots each step |
+| `npm run lint:tokens -- -v <path>` | Lists raw colour / font literals in a folder |
+| `npm run assets:check` | Asset size budget and duplicate check |
+| `npm run assets:optimize` | Re-encodes assets (slow on the whole tree; prefer running it on new files) |
+| `npm run skill:check` | Validates the AI skills against the code |
+| `npm run resources:build` | Regenerates `.claude/resources/screens.md` and the categories index |
+| `npm run skills:package` | Zips the skills for the Claude app |
+| `npm run new-flow -- loyalty "noon Loyalty" "Profile"` | Scaffolds a new flow and registers it |
+| `npm run icons:import -- <folder>` | Imports Origin icons exported from Figma |
+| `node scripts/shot.mjs <flow/screen> <out.png>` | Screenshot of one screen (`--scroll`, `--click`, `--type`, `--wait`; `PORT=` for another port) |
+| `npm run visual:snap -- <dir>` / `npm run visual:diff -- <base> <dir>` | Pixel regression snapshots |
 
-Open the repo in Claude Code and either type the skill (`/home-page build a Ramadan campaign landing page`, `/checkout add a gift-wrap step`, `/search add voice search`) or just describe the page ("build a loyalty page", "update the PDP to this Figma: <link>"); Claude picks the matching skill from its description. Each screen skill has a `spec.md` (screens, sections, tokens, data, acceptance) and ends with visual validation: `node .claude/skills/noon-ui/scripts/snap.mjs <flow>` screenshots every screen of a flow for review.
+### Troubleshooting
 
-Keep the skills in step with the code: `npm run skill:check` validates every skill (frontmatter, file paths, `--nk-*` variables, `flow/screen` routes, and coverage of components, tokens, motion, assets and flows) and runs in CI.
+- **A script can't find the app:** the checks and screenshot scripts assume port 5180. If `npm run dev` printed another port, prefix the command with it, e.g. `PORT=5182 npm run check:routes`.
+- **`check:routes` reports a one-off `createRoot` error:** that's a hot reload landing mid-run; run it again.
+- **`skill:check` says the screen index is stale:** run `npm run resources:build`, then `skill:check` again.
+- **Typecheck errors in a file you didn't touch:** someone else's work in progress; check `git status` before fixing it.
 
-## Develop / contribute
+## References
 
-```bash
-npm install
-npm run dev            # phone preview → http://localhost:5180
-```
-
-Read **[CONTRIBUTING.md](./CONTRIBUTING.md)** before opening a PR — it covers the folder layout, the porting process (analyse → map → implement), token and asset rules, and the checks every PR must pass:
-
-```bash
-npm run verify         # typecheck (app + lib) · token lint · library build
-npm run check:routes   # every screen renders with no console errors (dev server running)
-npm run visual:snap -- <dir> && npm run visual:diff -- <base> <dir>   # pixel regression
-npm run assets:check   # asset size budget + duplicate detection
-```
-
-Scaffold a new flow: `npm run new-flow -- loyalty "noon Loyalty" "Profile"`.
+| Source | What it covers |
+|---|---|
+| bappzaar (`origin/master`) | The noon React Native app: behaviour, copy (`marketplaces/noon/locale/translations/noon-en.json`), style values. Every flow's `MAPPING.md` cites the files. |
+| Figma `Af34gfmhQ1D0wstXUEHSIF` · All flows | Current home top, cart, checkout, noon One landing, bottom nav |
+| Figma `iRE9RwO94eMAyW3j3XKNXW` · Homepage Revamp 2025 | Home feed modules |
+| Figma `2ldJbjmQq4RkhnrNFCfXQB` · Storefront | PDP (in stock, out of stock, newer model) |
+| Figma `xPr9Ln37JGSBGvNtrsyD0y` · PDP Redesign | PDP delivery information |
+| Figma `BaWAAGW7zmdSTkXNXqPcAJ` · Cart 2.0 | Cart |
+| Figma `zURu7GI7sq77fjdXKrouvo` · Checkout 2.0 | Checkout (earlier variant) |
+| Figma `KzR8dy12uT8CtgBRHHY6Qx` · R&R 2.0 | Rate & review flow |
+| Figma `wFRKiKskxZ4vjIHbDVvngJ` · Origin Design System | System and bottom-nav icons |
 
 ## Release
 
-Versions follow semver; every user-facing change adds a line to [CHANGELOG.md](./CHANGELOG.md). `npm publish` runs `prepublishOnly` (= `npm run verify`). Check the tarball first with `npm run pack:check`.
+Versions follow semver, and every user-facing change adds a line to [CHANGELOG.md](./CHANGELOG.md) under *Unreleased*. `npm publish` runs `npm run verify` first; check the tarball with `npm run pack:check`.

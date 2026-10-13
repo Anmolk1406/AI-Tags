@@ -1,8 +1,8 @@
 # Components reference
 
-Every shared component lives in `src/components/<Name>/` and is re-exported from `src/components/index.ts`. Inside a flow, import from the barrel with a relative path: `import { Screen, Header, Button } from '../../components'` from `src/flows/<flow>/*.tsx`, `'../../../components'` from `src/flows/<flow>/components/*.tsx` (the flows use relative imports; the `@kit/*` alias exists in `tsconfig.json` but no flow uses it). Flow-only pieces go in `src/flows/<flow>/components/`. CONTRIBUTING.md says to "Reuse before you create", and that "A component used by two flows belongs in `src/components` (one folder, tokens only, doc comment naming its bappzaar/Figma source and variants). Flow-specific compositions stay in the flow." So check this file before you build anything, and move a component to `src/components` only once a second flow needs it.
+Every shared component lives in `src/components/<Name>/` and is re-exported from `src/components/index.ts`. Inside a flow, import from the barrel with a relative path: `import { Screen, Header, Button } from '../../components'` from `src/flows/<flow>/*.tsx`, `'../../../components'` from `src/flows/<flow>/components/*.tsx` (the flows use relative imports; the `@kit/*` alias exists in `tsconfig.json` but no flow uses it). Flow-only pieces go in `src/flows/<flow>/components/`. CONTRIBUTING.md says to "Reuse before you create", and that "A component used by two flows belongs in `src/components` (one folder, tokens only, doc comment naming its bappzaar/Figma source and variants). Flow-specific compositions stay in the flow." So run "Search before you create" (below) before you build anything, and move a component to `src/components` only once a second flow needs it and its API has been agreed ("Duplicates and promotion").
 
-Props tables below are copied from the TypeScript source. "—" means no default (optional unless marked required).
+**API source of truth: [`component-api.generated.md`](component-api.generated.md)** (+ `.json`), generated from the TypeScript checker by `node scripts/component-api.mjs`: every exported component with its file, every prop (type, optional, default, JSDoc), its variants, and the index of flow-local components. This file is the hand-written guidance: when to use what, examples from real screens, gotchas. Its props tables are kept in step with the generated API by `npm run skill:check` (a documented prop that doesn't exist fails the check); when the two disagree, the generated file is right. "—" means no default (optional unless marked required).
 
 ## Pick the component
 
@@ -31,7 +31,7 @@ System icon from a noon / Figma design → `OriginIcon` (catalogue in `icons.md`
 | Product picture (or emoji placeholder) | `ProductImage` |
 | PLP / search results grid card (bappzaar 1:1, `isPLP`) | `ProductBoxVertical` |
 | Carousel / other product tile | `ProductCard` |
-| Figma "SKU" rail card (134 wide, 134×174 image box, 1.2px blue "+", 15/20 price; Homepage 2025, Cart 2.0) | `SkuCard`, local and not exported in `src/flows/cart/components/CartCarousel.tsx`. Promote it to `src/components` before a second flow uses it; don't use `ProductCard` for these rails |
+| Figma "SKU" rail card (134 wide, 134×174 image box, 1.2px blue "+", 15/20 price; Homepage 2025, Cart 2.0) | `SkuCard` (shared; `look="cart"` in cart carousels); don't use `ProductCard` for these rails |
 | Quick add-to-cart "+" that expands into a stepper | `QuickAdd` |
 | Wishlist heart toggle | `WishlistHeart` |
 | Quantity −/+ control | `QuantityStepper` |
@@ -48,6 +48,7 @@ System icon from a noon / Figma design → `OriginIcon` (catalogue in `icons.md`
 | Dashed CSS separator (account, orders) | `DashedDivider` |
 | SVG dotted/dashed separator (address, account notifications) | `DottedDivider` |
 | Sticky footer surface with top radius + shadow + bottom inset | `BottomBar` |
+| Bottom sheet content (header, body, footer CTA) — default Origin layout | `SheetHeader`, `SheetBody`, `SheetFooter` (presentation `sheet`) |
 | Floating "Need help?" pill that folds into its icon on scroll | `NeedHelpButton` (as `<Screen overlay>`) |
 | Bottom tabs | `TabBar` (rendered by the Navigator; configure `tabBar` in `defineFlow`) |
 | Loading placeholder blocks | `Skeleton` |
@@ -56,6 +57,7 @@ System icon from a noon / Figma design → `OriginIcon` (catalogue in `icons.md`
 | Two/three-option sliding toggle | `Segmented` |
 | On/off toggle | `Switch` |
 | Square check glyph inside a selectable row | `Checkbox` |
+| Search pill, Homepage 2025 look (gray400 border, 15/18 Medium placeholder, Figma icons) | `SearchBarButton variant="2025"` |
 | Plain toast message | `useNav().toast(message, opts)` (not a component) |
 | Custom-styled self-dismissing toast / snackbar | `Toast` (host) |
 | Cart shipment group (tinted header, wave, items, callouts, free-delivery progress) | flow-local `CartGroup` + `GroupProgressBar` (`src/flows/cart/components/`) |
@@ -82,6 +84,7 @@ System icon from a noon / Figma design → `OriginIcon` (catalogue in `icons.md`
 | `gap` | `number` (makes content a flex column with this gap) | — |
 | `onScroll` | `(y: number) => void` | — |
 | `contentStyle` | `CSSProperties` (merged last into the scroll div) | — |
+| `overlay` | `ReactNode` (floats over the content, above the footer, e.g. `NeedHelpButton`; the layer lets taps through) | — |
 
 ```tsx
 // src/flows/plp/ListingScreen.tsx
@@ -208,6 +211,7 @@ Gotchas: `<b>`/`<strong>` become an explicit 700 only in stylesheet mode. Withou
 | `before` / `after` | `ReactNode` (NoonButton `renderBefore` / `renderAfter`; noon variants only) | — |
 | `dottedColor` | `string` (`noonDotted` line colour) | `newTextPrimary` token |
 | `disabled` | `boolean` (sets `data-disabled`, disabled styles) | — |
+| `scale` / `asDiv` | from `PressableProps` (press scale; render as a div inside another button) | — |
 | plus every `Pressable` / motion button prop (`onClick`, `className`, `style`, `whileTap`, `transition` …) | | |
 
 Variants:
@@ -303,7 +307,7 @@ Gotchas: need a new glyph? Add a key to `icons` in `Icon.tsx` (lucide or your ow
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
-| `name` | `OriginIconName` | — | typed union from `src/components/Icon/originIcons.ts` (generated); Figma `M-Icon/System-Icon/<name>` → `name="<name>"` |
+| `name` | `OriginIconName` (required) | — | typed union from `src/components/Icon/originIcons.ts` (generated); Figma `M-Icon/System-Icon/<name>` → `name="<name>"` |
 | `filled` | `boolean` | `false` | uses `<name>-filled` when the pair exists (selected / active state) |
 | `size` | `number` | `24` | drawn on a 24 grid; prefer 24 / 20 / 16 |
 | `color` | `string` | `ref.color('textPrimary')` | any token (`ref.color(...)`, `var(--nk-*)`); tinted via CSS mask (`MaskIcon`) |
@@ -318,6 +322,7 @@ Gotchas: multicolour icons (`mobile-haptic`, `mobile-haptic-filled`) render as `
 
 ## MaskIcon
 
+<!-- external: Image -->
 `src/components/MaskIcon/MaskIcon.tsx`. RN `<Image tintColor>` equivalent: a CSS-masked `span` so a webp/svg silhouette takes any colour.
 
 | Prop | Type | Default |
@@ -342,8 +347,11 @@ Gotchas: multicolour icons (`mobile-haptic`, `mobile-haptic-filled`) render as `
 | `onPress` | `() => void` | — |
 | `placeholder` | `string` | `'What are you looking for?'` |
 | `rotatingWords` | `string[]` ("Search <word>" vertical ticker, 2.2s) | — |
+| `rotatingPrefix` | `string` (the word before the ticker) | `'Search'` |
 | `camera` | `boolean` | `true` |
 | `height` | `number` | `searchBar.height` token |
+| `variant` | `'default' \| '2025'` (`2025`: Homepage Revamp 2025 look — gray400 border, 15/18 Medium placeholder, 18 search icon, 24 divider, 20 camera) | `'default'` |
+| `icons` | `{ search?: string; camera?: string; divider?: string }` (Figma artwork for the `2025` variant) | — |
 
 `SearchInput` is the editable field (NoonSearchScreen).
 
@@ -370,7 +378,7 @@ Gotchas: multicolour icons (`mobile-haptic`, `mobile-haptic-filled`) render as `
 <SearchInput value={query} onChange={() => undefined} onBack={nav.back} onFieldPress={editQuery} />
 ```
 
-Homepage 2025 search is 48 tall (`height={48}`) with a `--nk-palette-gray400` border and a 15/19 Medium placeholder. Override the `searchBar` tokens in the flow (`searchBar: { border: 'var(--nk-palette-gray400)', placeholderFont: 'var(--nk-type-text15-medium-lh18)' }`) rather than editing the defaults.
+Homepage 2025 search: `variant="2025"` with `height={48}` (and the Figma `icons`), or override the `searchBar` tokens in the flow (`searchBar: { border: 'var(--nk-palette-gray400)', placeholderFont: 'var(--nk-type-text15-medium-lh18)' }`) rather than editing the defaults.
 
 Gotcha: a clear (x) button replaces `right` whenever `value` is non-empty (unless `onFieldPress` is set). `src/flows/address/components/select.tsx` has its own `SearchInput` (with `disabled`, `style`); don't confuse the two.
 
@@ -409,7 +417,7 @@ Gotcha: `size` only changes the `nav` variant (`sm` height, `lg` height/padding/
 
 ## Price and Money
 
-`Price` takes `offSuffix` (default `true`: "n% OFF"; `false`: "n%" as bappzaar carousels show it). `currencySize` is `'small'` (default, 0.7em semibold sign) or `'sale'` (sign at the sale-price size and weight, bappzaar `saleCurrency`). `WishlistHeart` takes `box` (circle diameter, default `size + 4`).
+`Price` takes `offSuffix` (default `true`: "n% OFF"; `false`: "n%" as bappzaar carousels show it). `currencySize` is `'small'` (default, 0.7em semibold sign) or `'sale'` (sign at the sale-price size and weight, bappzaar `saleCurrency`).
 
 `src/components/Price/Price.tsx`. PriceDiscounted: sale price with the dirham sign (`currency`, U+E001, drawn by Noontree), struck "was" price and computed "{n}% OFF".
 
@@ -483,6 +491,12 @@ Gotcha: always give it a width plus `height` or `aspect`, otherwise it has no he
 
 `src/components/ProductBoxVertical/ProductBoxVertical.tsx`. bappzaar `NoonProductBoxVertical` with `isPLP`, values resolved from its `styles.ts` + NoonTokens / NoonMetrics: white card, 0.5 lightGray hairline (drawn as an overlay so the image keeps the full width), r12, padding-bottom 10 · image box 177 × 241 at 390 (`aspect-ratio: 177 / 241`, contain, 2% black overlay; > 1 `product.images` → paged slider with the PillPager) · `CatalogTag` top-start · `WishlistHeart` 24 at 4 / 4 · `QuickAdd` 36 bottom-end · "{brand} {title}" 14/500 18 inkBlack, 2 lines · rating pill star-first (softGray r6) · price row (sale 16 bold neutralBlack, struck was 12 steelColor without currency, "n% OFF" 12/600 greenOff; PLP precision: ≥ 999.99 no decimals) · `NoonNudgeTag` ticker (13/16 slateBlueGray, enter 300 / hold 1000 / exit 450 ms) · coupon tag · express flag 60 × 18 + delivery 12/14 charcoalNavy in a 20-high row. No press feedback. In a 2-column grid the cell must stretch so both boxes in a row share the taller height (`.cell` in `src/flows/plp/plp.module.css`).
 
+| Prop | Type | Default |
+|---|---|---|
+| `product` | `Product` (required) | — |
+| `onPress` | `() => void` | push `pdp/detail` with `productId` |
+| `quickAdd` | `boolean` (the 36 "+" quick add) | `true` |
+
 ## ProductCard and QuickAdd
 
 `src/components/ProductCard/ProductCard.tsx`. NoonProductBoxVertical: image (0.8 aspect) · `CatalogTag` top-start · `WishlistHeart` top-end · `QuickAdd` bottom-end · title 14/500 2 lines · `RatingPill` · `Price` · `CouponTag` · `ExpressBadge` + delivery HTML.
@@ -516,7 +530,7 @@ Gotchas: `ProductCard` is the bappzaar NoonProductBoxVertical (0.8 image, 36 qui
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
-| `product` | `Product` | — | from `src/data` |
+| `product` | `Product` (required) | — | from `src/data` |
 | `look` | `'feed' \| 'cart'` | `'feed'` | `feed`: white + `skuMediaTint` image box, emerald Best Seller tag, flat rating pill, `skuDiscount`; `cart`: grey bordered box, catalog tag (cart carousels) |
 | `badge` | `string \| null` | `product.tag` | top-left tag; `null` hides it |
 | `sponsored` | `boolean` | `false` | "Ad" tag in the image box (`text10RegularLh11`) |
@@ -536,6 +550,7 @@ Behaviour: "+" → `addToCart` + toast; heart → `toggleWishlist` + toast (soli
 |---|---|---|
 | `productId` | `string` (required) | — |
 | `size` | `number` (card variant: box = size + 4, icon = size − 6) | `24` |
+| `box` | `number` (circle diameter of the card variant; bappzaar NoonFavourite wrapper is 24) | `size + 4` |
 | `variant` | `'card' \| 'button'` (`button` = 40px bordered circle, 20px icon, ignores `size`) | `'card'` |
 | `toast` | `boolean` ("Added to Wishlist" / "Removed from Wishlist") | `true` |
 
@@ -708,14 +723,26 @@ Gotchas: `DashedDivider` defaults to a 3.5% inline inset; pass `inset={0}` for f
 
 Gotcha: pass it to `Screen footer`; it already includes the bottom safe area. Existing flows build their own footers (`cart/components/CartFooter.tsx`, checkout), so check those first when matching a specific bappzaar footer.
 
+## BottomSheet slots: SheetHeader, SheetBody, SheetFooter
+
+`src/components/BottomSheet/BottomSheet.tsx`. **The default bottom sheet**: Origin Design System M-BottomSheet (Figma `wFRKiKskxZ4vjIHbDVvngJ · 3207:15`). The navigator draws the chrome for a `presentation: 'sheet'` screen: scrim, grabber above the sheet, 12px floating inset, r16 corners, max 680. The screen renders these slots, in this order. Recipe and rules: `screen-recipes.md` §6.
+
+| Component | Props | Notes |
+|---|---|---|
+| `SheetHeader` | `title?`, `subtitle?`, `leading?`, `trailing?`, `align?: 'start' \| 'center'`, `onClose?`, `children?` (custom content) | 48 high, 12px sides. Shows the close X (44×44) **only** when the screen sets `sheet: { grabber: false }`. With a grabber there is never a close button |
+| `SheetBody` | `inset?` (default true: 12px sides), `className?`, `style?` | Any content. Scrolls (`nk-scroll`) once the sheet reaches 680 |
+| `SheetFooter` | `primary?`, `secondary?` (`{ label, onPress, disabled?, loading?, icon?, iconRight? }`), `top?`, `bottom?`, `children?` | M-StackedActionBar: 12px padding, 12 gap. Primary is `Button variant="bright" size="lg"` (H52, r12); secondary is white with a `#D6E9FF` border and `#0F61FF` text |
+
+`useSheet()` (`src/kit/sheet.ts`) returns `{ layout, grabber, dismiss }` inside a sheet, or `null` when the screen isn't presented as one.
+
 ## NeedHelpButton
 
 `src/components/NeedHelpButton/NeedHelpButton.tsx` — floating help pill (Accounts Figma `4NvyqO60K7Xn4gRJrkWmzQ` · `8924:67388`): white, 2px `--nk-palette-light-blue` ring, full radius, `shadow.floating`, 20px `OriginIcon name="message"` in `--nk-color-brand-blue` + "Need help?" in `text16SemiboldLh20`. Tokens: `needHelp` group (`--nk-need-help-*`). Render it through `Screen`'s `overlay` slot so it floats above the content.
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
-| `collapsed` | `boolean` | — | folds into the 48px icon circle anchored to the right edge |
-| `onPress` | `() => void` | — | |
+| `collapsed` | `boolean` (required) | — | folds into the 48px icon circle anchored to the right edge |
+| `onPress` | `() => void` (required) | — | |
 | `label` | `string` | `'Need help?'` | |
 | `aboveTabBar` | `boolean` | `true` | sits `needHelp.inset` above the tab bar; `false` = above the home indicator |
 
@@ -799,7 +826,9 @@ Gotcha: inside a CTA use `Button loading` (+ `spinner` overrides) instead of pla
 | `size` | `number` (square width/height) | — |
 | `style` | `CSSProperties` | — |
 | `speed` | `number` | `1` |
-| `onComplete` | `() => void` | — |
+| `onComplete` | `() => void` (a non-looping play ended) | — |
+| `onLoad` | `() => void` (animation data loaded; autoplay starts then) | — |
+| `reducedMotionFrame` | `number` (0–1) or `'auto'` (frame held under reduced motion; `'auto'` picks the most complete non-blank frame) | `'auto'` |
 
 ```tsx
 // src/flows/checkout/PlacingScreen.tsx
@@ -900,9 +929,45 @@ Gotchas: for a plain message use `nav.toast(message, { icon, action, duration, t
 
 ---
 
+## Search before you create
+
+Before you write any new component (shared or flow-local), search for one that already does the job. Run all three; it takes seconds:
+
+```bash
+# 1. the API: every shared component + the flow-local index (names, files, props)
+rg -n "<Name>|<keyword>" .claude/skills/noon-ui/references/component-api.generated.md
+# 2. the code: exported and local components with that name or role, shared and in every flow
+rg -n "export (function|const) <Name>|function <Name>\b" src/components src/flows
+rg -n -i "<keyword>" src/flows/*/components --glob "*.tsx" -l     # e.g. stepper, chip, banner, progress
+# 3. look-alikes already flagged
+node scripts/check-duplicates.mjs src/flows/<flow>
+```
+
+Then decide, in this order:
+
+1. **A shared component fits** (same role; differences are props, a `className` or a flow token override) → use it. Don't wrap it in a flow-local copy to change a colour.
+2. **A shared component almost fits** (one missing prop / variant used by the source design) → use it and report the missing prop; adding it to `src/components` is a separate, backward-compatible change (new optional prop, default = current behaviour).
+3. **A flow-local component in another flow fits** → don't copy it. Import it only if the flows are siblings in the same area (membership ↔ noonone); otherwise build yours flow-local and note it as a promotion candidate (below).
+4. **Nothing fits** → build it flow-local in `src/flows/<flow>/components/`, then follow "Building a new component".
+
+Say which of the four you chose, and why, in the plan (SKILL.md workflow step 5).
+
+## Duplicates and promotion
+
+`node scripts/check-duplicates.mjs` (`--all`, `--json`, or a path) reports likely duplicates: flow-local components whose name or props match a shared or another flow's component, identical / near-identical CSS-module rule blocks across flows, and inline SVG paths repeated in several files. It is a report only: it never edits or moves code, and nothing is promoted automatically.
+
+The rule: **evaluate intended reuse and the API first, then promote.** A pair the script flags is a question, not a fix:
+
+- Same role and the same source component (bappzaar / Figma) in two flows → promotion candidate: design one API (props named for the role, defaults = the more common use, variants for the real differences), move it to `src/components/<Name>/` with a doc comment, migrate both callers, `visual:snap` before/after. One PR per promotion.
+- Same name, different job (address `SearchInput` vs the shared one, pdp `Stars`, noonone `Badge`) → keep local; rename only if the clash confuses readers, and mention it in the gotcha of the shared component here.
+- Identical CSS blocks → reuse the component that owns the look; if the block is just a layout idiom (row with gap, absolute fill), leave it.
+- Repeated SVG paths → an `OriginIcon`, an asset + `MaskIcon`, or one flow-local icon component.
+
+Current top candidates (from the report): `DashedLine` (membership `components/primitives.tsx`, noonone `components/landing/DashedLine.tsx`, identical props), `PlanMembers` and `SubscriptionButton` (membership and noonone, both ports of noon One), `PaymentCard` (cards vs checkout) and `AddressCard` (address vs checkout, different jobs), `DynamicInvoice` (cart vs checkout), and the account-local `SectionCard` (should use the shared one with `margin` / `padding`).
+
 ## Building a new component
 
-Only after checking this file and the closest flow's `components/` folder. Start flow-local; promote when a second flow needs it.
+Only after "Search before you create". Start flow-local; promote when a second flow needs it (see "Duplicates and promotion").
 
 1. **Location.** Flow-only: `src/flows/<flow>/components/<Name>.tsx` (+ a CSS module). Shared: `src/components/<Name>/<Name>.tsx` + `<Name>.module.css`, one folder per component (related exports may share the file, like `Header` + `IconButton`).
 2. **Doc comment** on the export naming the bappzaar component / Figma node it ports and its variants and key metrics, e.g. `/** NoonSectionCard: white, r16, padding 12, margin 0 12 12, optional 16/700 title row. */`.

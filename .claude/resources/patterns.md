@@ -15,7 +15,7 @@ checkout/confirmation ──reset──► home/home | orders/list
 orders/list ──★ openReview()──► reviews/*        orders/list ──Track my refund──► returns/details
 ```
 
-`npm run test:journeys` covers the core of this: search → plp, filter, sort, PDP add to cart, cart → checkout. When you change a hand-off, run it. When you add one, add a journey for it (`tooling.md`).
+`npm run test:journeys` covers these hand-offs end to end (navigation, cart / wishlist state, filters, sheets, PDP variants, checkout, noon One, empty / error states, orders; full table in `tooling.md` → journeys). When you change a hand-off, run it. When you add one, add a journey for it (`tooling.md`).
 
 ## State: where it goes
 

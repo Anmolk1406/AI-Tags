@@ -13,6 +13,7 @@ import { mb } from '../tokens';
 import { FaqGroup, FamilyBenefits, FamilySection, PlanMembers, ScrollEnter, Steps } from './components';
 import { familyPlansError, familyPlansTouchpoint, type FamilyPlanOption } from './familyData';
 import styles from './family.module.css';
+import { useReduceMotion } from '../../../motion/reducedMotion';
 
 /** constants.ts: header Lottie (60fps) FAMILY_TO_DUO_END_FRAME = 1350ms, DUO_TO_FAMILY_END_FRAME = 2683ms */
 const FAMILY_TO_DUO_END_FRAME = Math.round(1.35 * 60);
@@ -114,6 +115,7 @@ export function FamilyPlansScreen({ params }: { params: { state?: string } }) {
   }, []);
 
   const isDuo = selected.maxNumMembers === 2;
+  const reduce = useReduceMotion();
   useEffect(() => {
     const a = lottie.current;
     if (!a) return;
@@ -124,11 +126,16 @@ export function FamilyPlansScreen({ params }: { params: { state?: string } }) {
       return;
     }
     if (prev === isDuo) return;
+    // reduced motion: jump to the plan's resting frame instead of playing the segment
+    if (reduce) {
+      a.setFrame(isDuo ? FAMILY_TO_DUO_END_FRAME : 0);
+      return;
+    }
     if (isDuo) a.setSegment(0, FAMILY_TO_DUO_END_FRAME);
     else a.setSegment(FAMILY_TO_DUO_END_FRAME, DUO_TO_FAMILY_END_FRAME);
     a.setFrame(isDuo ? 0 : FAMILY_TO_DUO_END_FRAME);
     a.play();
-  }, [isDuo]);
+  }, [isDuo, reduce]);
 
   const back = () => (nav.canGoBack ? nav.back() : nav.reset('membership/manage'));
 

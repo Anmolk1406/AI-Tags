@@ -14,6 +14,7 @@ import oneWordmark from '@assets/checkout/figma/noonone-logo-b.svg';
 import { taf } from '../data';
 import { NoonOneCtaReveal } from './NoonOneCtaReveal';
 import styles from './NoonOneSection.module.css';
+import { useReduceMotion } from '../../../motion/reducedMotion';
 
 const { checkout: a } = entryTokens;
 const green = { color: 'var(--nk-color-best-price-ink)' };
@@ -43,7 +44,9 @@ export function NoonOneSection({ variant = 'master' }: { variant?: 'master' | 'b
   const nav = useNav();
   const member = useIsNoonOneMember();
   const enrolled = useCheckoutEnrollment((s) => s.enrolled);
-  const [revealing, setRevealing] = useState(!enrolled && !!data.animation);
+  // reduced motion: skip the CTA reveal (odometer + squeeze); the settled CTA shows at once
+  const reduce = useReduceMotion();
+  const [revealing, setRevealing] = useState(!enrolled && !!data.animation && !reduce);
   // NoonOneCtaReveal: measure the card and the CTA strip once, then the reveal runs its own timeline
   const cardRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);

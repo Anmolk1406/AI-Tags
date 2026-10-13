@@ -9,15 +9,19 @@ import { accountTokens } from './tokens';
 import styles from './account.module.css';
 import { ref } from '../../foundations/tokens';
 import { palette } from '../../foundations/palette';
+import { useReduceMotion } from '../../motion/reducedMotion';
 
 /** Signed-out Account: blue hero (320 + status bar) with swipeable frames + dots, black Login/Sign up CTA. */
 export function SignedOutScreen() {
   const nav = useNav();
   const [i, setI] = useState(0);
+  const reduce = useReduceMotion();
   useEffect(() => {
+    // reduced motion: no auto-advance (still swipeable)
+    if (reduce) return;
     const t = setInterval(() => setI((x) => (x + 1) % signedOutSlides.length), 3500);
     return () => clearInterval(t);
-  }, []);
+  }, [reduce]);
   const s = signedOutSlides[i];
 
   return (

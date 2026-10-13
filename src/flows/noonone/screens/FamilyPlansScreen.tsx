@@ -13,6 +13,7 @@ import { familyPlansData } from '../data.plans';
 import { noononeStore } from '../store';
 import { ChevronLeftRounded, DashedBorder, PlanMembers, ScrollHeader, SubscriptionButton } from '../components/plans/parts';
 import s from './FamilyPlansScreen.module.css';
+import { useReduceMotion } from '../../../motion/reducedMotion';
 
 type FamilyPlan = (typeof familyPlansData.plans)[number];
 
@@ -166,10 +167,12 @@ export function FamilyPlansScreen() {
   // syncHeaderLottie: family = frame 0; → duo plays 0→81; → family plays 81→161
   const lottie = useRef<{ setSegment: (a: number, b: number) => void; setFrame: (f: number) => void; play: () => void; isLoaded: boolean; addEventListener: (e: string, cb: () => void) => void } | null>(null);
   const prevDuo = useRef<boolean | null>(null);
+  const reduce = useReduceMotion();
   useEffect(() => {
     const l = lottie.current;
     if (!l || !l.isLoaded) return;
-    if (prevDuo.current === null || prevDuo.current === isDuo) {
+    // reduced motion: jump to the plan's resting frame instead of playing the segment
+    if (prevDuo.current === null || prevDuo.current === isDuo || reduce) {
       prevDuo.current = isDuo;
       l.setFrame(isDuo ? FAMILY_TO_DUO_END_FRAME : 0);
       return;
@@ -178,7 +181,7 @@ export function FamilyPlansScreen() {
     if (isDuo) l.setSegment(0, FAMILY_TO_DUO_END_FRAME);
     else l.setSegment(FAMILY_TO_DUO_END_FRAME, DUO_TO_FAMILY_END_FRAME);
     l.play();
-  }, [isDuo]);
+  }, [isDuo, reduce]);
 
   const onCta = () => {
     noononeStore.patch({ selectedPlan: plan, trialGuideShown: true });

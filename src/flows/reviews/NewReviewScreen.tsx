@@ -1,4 +1,5 @@
-import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from 'motion/react';
+import { AnimatePresence, motion, useScroll, useTransform } from 'motion/react';
+import { useReduceMotion } from '../../motion/reducedMotion';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Button, Screen } from '../../components';
 import { useNav } from '../../kit/Navigator';
@@ -47,7 +48,7 @@ export function NewReviewScreen({ params }: ScreenProps<ReviewParams>) {
   // repo NewReview starts with the name shown (its own useState(false)); openNew() does the same via start()
   useEffect(() => reviewsActions.setHideName(false), []);
   const nav = useNav();
-  const reduce = useReducedMotion();
+  const reduce = useReduceMotion();
   const s = useReviews();
   const product = newProductFor(s.product);
   const editVariant = editVariantOf(s.product);

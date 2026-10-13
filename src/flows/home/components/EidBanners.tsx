@@ -1,4 +1,4 @@
-import { useReducedMotion } from 'motion/react';
+import { useReduceMotion } from '../../../motion/reducedMotion';
 import { useEffect, useRef, useState } from 'react';
 import { Badge, OriginIcon, Pressable } from '../../../components';
 import { ref as tok } from '../../../foundations/tokens';
@@ -21,7 +21,7 @@ const adBadge = { bg: tok.palette('whiteAlpha80'), color: tok.color('textSeconda
 export function EidBanners() {
   const railRef = useRef<HTMLDivElement>(null);
   const [touched, setTouched] = useState(false);
-  const reduced = useReducedMotion();
+  const reduced = useReduceMotion();
 
   useEffect(() => {
     const el = railRef.current;

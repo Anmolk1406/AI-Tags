@@ -22,6 +22,7 @@ import { CobrandCards } from './components/CobrandCards';
 import { PaymentOffers } from './components/PaymentOffers';
 import { cartUpdates, cobrandCards, freeGift, paymentCallouts, t } from './data';
 import styles from './cart.module.css';
+import { useReduceMotion } from '../../motion/reducedMotion';
 
 /** NoonCartResponseType.sectionsOrder as the cart API returns it for this cart */
 // All flows 127:39687 order: groups → offers carousel → wishlist carousel → (free gifts) → coupon → cobrand cards → payment offers
@@ -44,6 +45,13 @@ export function CartScreen({ params }: ScreenProps<{ state?: 'empty' | 'loading'
   const [footerH, setFooterH] = useState(0);
   const scrollY = useMotionValue(0);
   const forcedEmpty = params?.state === 'empty';
+  // the forced empty preview leaves the cart untouched, so pin the tab-bar badge to match what's on screen
+  const { setCartBadgeOverride } = useDemoStore();
+  useEffect(() => {
+    if (!forcedEmpty) return;
+    setCartBadgeOverride(0);
+    return () => setCartBadgeOverride(null);
+  }, [forcedEmpty, setCartBadgeOverride]);
   const forcedLoading = params?.state === 'loading';
   const lines = forcedEmpty ? [] : cart;
   const empty = lines.length === 0;
@@ -143,10 +151,16 @@ function EmptyCart() {
 
 /** ProgressLoader (followBottomTabs): #F5F7FF screen, 4px bar sweeping (800ms loop) with a #F5F7FF → #3866DF gradient. */
 function CartLoading({ withTabBar }: { withTabBar: boolean }) {
+  // reduced motion: the bar holds in place and pulses its opacity instead of sweeping (a dropped sweep would park it off-track)
+  const reduce = useReduceMotion();
   return (
     <div className={styles.loader} data-tab={withTabBar || undefined}>
       <div className={styles.loaderTrack}>
-        <motion.div className={styles.loaderBar} initial={{ x: '-100%' }} animate={{ x: '100%' }} transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1], repeat: Infinity }} />
+        {reduce ? (
+          <motion.div className={styles.loaderBar} initial={{ opacity: 1 }} animate={{ opacity: 0.45 }} transition={{ duration: 0.9, ease: 'easeInOut', repeat: Infinity, repeatType: 'reverse' }} />
+        ) : (
+          <motion.div className={styles.loaderBar} initial={{ x: '-100%' }} animate={{ x: '100%' }} transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1], repeat: Infinity }} />
+        )}
       </div>
     </div>
   );

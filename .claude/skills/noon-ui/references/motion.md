@@ -1,6 +1,6 @@
 # Motion reference
 
-How screens, sheets, toasts and in-screen elements animate in noon Flow Kit. Sources: `src/motion/presets.ts`, `src/motion/transitions.ts`, `src/motion/recipes.tsx`, `src/motion/custom/index.ts`, `src/kit/Navigator.tsx`, `src/kit/types.ts`, `src/kit/NoonPrototype.tsx`, `src/components/{Lottie,Pressable,Skeleton,Spinner,Toast,QuantityStepper,Segmented,TabBar,WishlistHeart,Button}`.
+How screens, sheets, toasts and in-screen elements animate in noon Flow Kit. Sources: `src/motion/presets.ts`, `src/motion/transitions.ts`, `src/motion/recipes.tsx`, `src/motion/reducedMotion.ts`, `src/motion/haptics.ts`, `src/motion/custom/index.ts`, `src/foundations/global.css`, `src/kit/Navigator.tsx`, `src/kit/types.ts`, `src/kit/NoonPrototype.tsx`, `src/components/{Lottie,Pressable,Skeleton,Spinner,Toast,QuantityStepper,Segmented,TabBar,WishlistHeart,Button}`.
 
 ## 1. Principles
 
@@ -10,7 +10,7 @@ How screens, sheets, toasts and in-screen elements animate in noon Flow Kit. Sou
 | One set of values | `src/motion/presets.ts` is "Central motion tokens. Every animation in the kit reads from here". Values mirror bappzaar reanimated (`withTiming` / `withSpring`, `Easing.out(Easing.cubic)` etc.). Exported from the package root (`src/index.ts`: `export * from './motion/presets'`, `export * from './motion/recipes'`). |
 | Springs vs tweens | Springs for physical things: press feedback (`spring.press`), sheets/toasts (`spring.sheet`), badges/hearts/counters (`spring.bouncy`), layout/zoom (`spring.gentle`). Tweens (`duration` + `easing`) for fades, tab indicators, screen pushes (`push`/`modal` use a 0.42s `easing.ios` tween, not a spring). |
 | 1:1 with the RN app | When porting, copy the source timing exactly and record it in the flow's `tokens.ts` / `MAPPING.md`, even when it is not a preset (e.g. PLP card rise spring 380/39, search spring 280.6/27.14, checkout-alpha 250ms, address modal 330ms, cart snackbar spring 120/16/0.7). The comment on the screen/component names the bappzaar source. |
-| Reduced motion | `<NoonPrototype reducedMotion="never" \| "always" \| "user">` wraps the tree in `<MotionConfig reducedMotion>`. Default is `'never'` (demos always animate). With `'user'`/`'always'` motion/react drops transform/layout animation; opacity still animates. CSS keyframes (Skeleton `nk-shimmer`, Spinner) and Lotties are NOT affected. |
+| Reduced motion | `<NoonPrototype reducedMotion="user" \| "always" \| "never">`, default `'user'` (follow the OS setting; `'never'` for a recorded demo). One switch drives motion/react (`MotionConfig`), CSS (`data-nk-motion="reduce"` + `global.css`), the Navigator, `<Lottie>`, `<Spinner>`, `<Skeleton>` and every flow's autoplay through `useReduceMotion()`. What each kind of motion does: section 7. |
 | Navigator owns screen motion | Screens never animate their own entry; the Navigator applies the transition chosen per screen or per navigation (section 3). A screen may animate its content after mount. |
 
 ### Which motion for which moment
@@ -29,7 +29,7 @@ Decide the motion by **what the element is doing**, then take the values from th
 | **fades in over** another page (PLP over search) | the search bar lifts 5px with it | `handoff.easeInOut`, `page.fade` 0.3 | 10ms after the last row is gone | — |
 | **rises from an edge** (bottom nav, sticky footers) | `handoff.spring`, y = its height → 0 | — | nav 94px, 224ms after the page | — |
 | **is a product card** loading | `handoff.spring`, y 16 → 0 | `handoff.easeOut` 0.183; its skeleton fades `cards.skeletonLag` (0.353) after | 60ms stagger in grid order | `land` when the first rows are in |
-| **is loading** | shimmer band (`supermall.shimmer`), linear, repeat | skeleton out with `handoff.easeInOut` | one 195px band at 17°, 1.867s per pass, 0.2s before the first | — |
+| **is loading** | shimmer band (`supermall.shimmer`; in code today: `<Skeleton>`'s `nk-shimmer`, 1.2s, 400px gradient), linear, repeat | skeleton out with `handoff.easeInOut` | one 195px band at 17°, 1.867s per pass, 0.2s before the first | — |
 | **opens space** in a laid-out list (inline banner) | FLIP: lay out once, then transform the grid, `ease.soft` 0.56 | `ease.soft` 0.3 (front-loaded out: 0.22) | banner settles from −8px / 96%, 40ms after the space | `soft` when it settles |
 | **re-skins a list** (filter select / unselect) | cards out 0.18 (`handoff.easeInOut`) → one re-layout → skeletons FLIP 0.42 `ease.soft` → cards back as on load at 0.82 | as cards | `supermall.swap` | `tap` on the pill, `land` on the new list |
 | **is selected** (pill, chip, payment row) | no movement; press dip `supermall.press` | fill + stroke cross-fade `ease.soft` 0.26 | — | `tap` |
@@ -43,7 +43,7 @@ Decide the motion by **what the element is doing**, then take the values from th
 | **is a modal sheet / drawer** | the Navigator's sheet (`spring.sheet`) | scrim `duration.base` | — | — |
 | **celebrates** (success) | existing Lotties / `Confetti` | — | — | `success` |
 
-Animate only `transform` and `opacity` (and `clip-path` / colour cross-fades); lay out once, then move with transforms (FLIP). Every spring movement is interruptible. Under reduced motion, keep fades and drop movement.
+Animate only `transform` and `opacity` (and `clip-path` / colour cross-fades); lay out once, then move with transforms (FLIP). Every spring movement is interruptible. Under reduced motion, keep fades and drop movement (section 7). Per-flow inventory of what actually moves, with file:line and source: [motion-matrix.md](motion-matrix.md).
 
 ## 2. Presets (`src/motion/presets.ts`)
 
@@ -158,6 +158,8 @@ import { handoff, supermall } from '../../motion/presets';
 <motion.div animate={{ y: 0 }} transition={supermall.springs.return} />
 ```
 
+**In code vs spec only (verified by grep, 2026-10-13).** Used by flows: `supermall.reveal` (orders, search landing), `supermall.press` (orders), `supermall.swap` (plp), `supermall.springs.return` (orders `ImageStack`), `supermall.ease.*`. Defined from the spec but not used by any flow yet: `shimmer`, `topSheet`, `bolt`, `nudge`, `ticker`, `banner`, `sampled.*`, `css.*`, `settle`, `push`, `dismiss`, `rows`, `page`, `cards` (the search / PLP code reads the same numbers from `handoff` + `searchTokens` / `plpTokens`; note the PLP bottom nav rises **88px** (`plpTokens.timeline.navRise`) where `supermall.page.navRise` is 94). Treat the unused ones as reference values; the choreographies below describe the spec, not shipped screens, unless a flow is named.
+
 Helpers added with it: `keyedEase(points)` (uneven-stop `linear()` lists as an easing function) in `presets.ts`; `haptic(kind)` / `haptics` in `src/motion/haptics.ts`.
 
 Component press scales live in tokens (`src/foundations/tokens.ts`): `button.pressScale` 0.96, `button.noonPressScale` 0.98 + `noonPressOpacity` 0.95 + `noonPressDuration` 200 (ms), `pill.pressScale` 0.94, `searchBar.pressScale` 0.98, `tabBar.pressScale` 0.9, `quickAdd.pressScale` 0.9.
@@ -197,6 +199,8 @@ A `ScreenTransition` is `{ initial, animate, exit, under?, transition }`. `under
 | `mb-modal` | `src/flows/membership/transitions.ts` | iOS modal slide up, nothing underneath moves | 0.42s `[0.32, 0.72, 0, 1]` |
 
 `getTransition(name)` silently falls back to `push` for unknown names; `listTransitions()` lists all keys.
+
+**Reduced motion.** While motion is reduced the Navigator plays `reducedTransition(t)` (`src/motion/transitions.ts`) instead: every movement key (`x`, `y`, `scale`, `rotate*`, `transformPerspective`, …) is dropped from `initial` / `animate` / `exit` / `under`; opacity, `filter` and colours keep their timing. A transition that only moved (`push`, `modal`, `sheet`, `slide-left`, `mb-modal`, `card-flip` keeps its own fade) becomes a `duration.base` (0.25s) `easing.standard` cross-fade; `none` / `noonone-instant` stay instant. Sheets (`SheetLayer`) fade in place with their scrim (0.25s) instead of rising; grabber drag still works.
 
 ### How the Navigator picks one (`makeEntry` in `src/kit/Navigator.tsx`)
 
@@ -270,8 +274,10 @@ All import from `'../../motion/recipes'` (or the package root). The general reci
 | `SkeletonReveal` | `skeleton`, `delay = 0`, `loading = false`, `animateIn = true`, `rise = 16`, `skeletonAfter = 0.353`, `style` | content rises `rise`px on `handoff.spring` with the `handoff.easeOut` fade over its own skeleton, which fades `skeletonAfter`s later (S-curve). `loading` dissolves the content back into the skeleton (0.18s); `animateIn={false}` renders settled. PLP cards |
 | `SpringPager` | `step` (px per page), `onPage(page, pages)`, `className`, `style`, `trackClassName`, `trackStyle`, `label` | horizontal pager: 1:1 drag axis-locked after 6px (`touch-action: pan-y`), iOS rubber band `c·(1 − 1/(x·0.55/c + 1))` past the ends, flick (≥ 220 px/s) pages one step, otherwise nearest; the last page is the track end; settles on `handoff.springs.pager` with the release velocity; wheel / trackpad 1:1 then pages; ← → when focused; a drag swallows the click under it. Brand widget rail |
 
+Reduced motion: the declarative recipes (`FadeIn`, `Stagger`, `Reveal`, `Pop`, `Float`, `BlurSwap`, `SkeletonReveal`) need nothing: motion/react drops their movement and keeps the fades (`Float` stands still). The others handle it themselves: `CountUp` sets `to` at once, `ShimmerText` holds the plain `base` colour, `Confetti` doesn't fire, `SpringPager` settles without the spring (drag still 1:1). `useReduceMotion` is re-exported from `recipes.tsx` (and the package root).
+
 ```tsx
-import { FadeIn, Stagger, Pop, CountUp, Confetti, Reveal, BlurSwap, SkeletonReveal, SpringPager } from '../../motion/recipes';
+import { FadeIn, Stagger, Pop, CountUp, Confetti, Reveal, BlurSwap, SkeletonReveal, SpringPager, useReduceMotion } from '../../motion/recipes';
 <BlurSwap swapKey={s.text} delay={i * 0.028}><SuggestionRow … /></BlurSwap>
 <SkeletonReveal skeleton={<SkeletonCard />} delay={0.68 + i * 0.06}><ProductCard product={p} /></SkeletonReveal>
 <SpringPager step={214} trackClassName={styles.track} onPage={(i, n) => setPage(i)}>{cards}</SpringPager>
@@ -376,7 +382,7 @@ Exact timelines from the spec (ms from the trigger). Reuse them as the template 
 | `error` | notification error | 45 · 40 · 45 · 40 · 45 | failed payment, invalid code |
 
 ### Success / celebration Lotties
-`<Lottie name | src loop={false} autoplay={true} speed={1} size style onComplete>`. Built-in names (`src/assets/lotties`): `atcCheck`, `boxAnim`, `favourite`, `orderConf`, `orderConfirmedCheck`, `reviewCheck`, `sliderArrow`, `starLoading`. Flow Lotties live in `src/assets/<flow>/*.lottie` and go in via `src`.
+`<Lottie name | src loop={false} autoplay={true} speed={1} size style onComplete onLoad reducedMotionFrame="auto">`. Built-in names (`src/assets/lotties`): `atcCheck`, `boxAnim`, `favourite`, `orderConf`, `orderConfirmedCheck`, `reviewCheck`, `sliderArrow`, `starLoading`. Flow Lotties live in `src/assets/<flow>/*.lottie` and go in via `src`.
 
 ```tsx
 // src/flows/checkout/PlacingScreen.tsx — loop loader, cross-fade to tick, navigate when tick ends
@@ -388,7 +394,7 @@ Exact timelines from the spec (ms from the trigger). Reuse them as the template 
 - `src/flows/pdp/AddedSheet.tsx`: `atcCheck` over the product image, row slides from x+150 (`pdpTokens.quickCart`).
 - `src/flows/cards/AddCardSuccessScreen.tsx`: `src={cardsImages.saveCardLottie}`, `onComplete={finish}` goes back.
 - `src/flows/returns/ReturnDetailsScreen.tsx`: `<Lottie name="orderConfirmedCheck" size={120} />`.
-- Need segments, tinting or the player instance: use `DotLottieReact` directly (`src/flows/checkout/components/SlideButton.tsx`, `src/flows/noonone/screens/FamilyPlansScreen.tsx`).
+- Need segments, tinting, `layout` or the player instance: use `DotLottieReact` directly (`src/flows/checkout/components/SlideButton.tsx`, `src/flows/noonone/screens/FamilyPlansScreen.tsx`) and, if it autoplays, give it the kit's reduced-motion handling: `const rm = useLottieReducedMotion({ loop, onComplete, poster })` from `src/components/Lottie/Lottie.tsx`, then `autoplay={rm.autoplay}` and `rm.attach(d)` in `dotLottieRefCallback` (`LottieBox` in `src/flows/noonone/components/landing/modules.tsx`, `src/flows/account/ChangeLocaleScreen.tsx`, `src/flows/address/SuccessScreen.tsx`). Players you drive yourself (segments on a state change, scrubbed by a drag) instead jump to the resting frame under `useReduceMotion()` (both `FamilyPlansScreen`s).
 - Hearts: `WishlistHeart` uses a motion particle burst (`spring.bouncy`) as a stand-in for `favouriteAnimatedV2`.
 
 ### Loading states
@@ -459,10 +465,51 @@ Chain `setTimeout`s in one effect, clear them on unmount, then navigate (`src/fl
 - Tappable things use `<Pressable>` / `<Button>` so press feel is shared; do not invent other scales without a source.
 - Sheets are `presentation: 'sheet'` + `nav.sheet()`; do not build your own scrim/drag unless porting an overlay that needs it (`mb-overlay` / `noonone-overlay` pattern).
 - Simple messages use `nav.toast()`; custom snackbars use `<Toast>`.
-- Respect reduced motion: never force-disable `MotionConfig`; keep meaning in opacity/state, not only in movement; infinite loops (`repeat: Infinity`, looping Lotties) only for loaders/shimmers.
+- Respect reduced motion (section 7): read it with `useReduceMotion()` (never motion's `useReducedMotion`, which ignores the `reducedMotion` prop); keep meaning in opacity / state, not only in movement; infinite loops (`repeat: Infinity`, looping Lotties) only for loaders / shimmers, and every `setInterval` autoplay, imperative `animate()` or rAF loop checks `useReduceMotion()`.
 - Use `AnimatePresence initial={false}` for values that change after mount (counters, swaps) so the first render does not animate; key the animated child by the value.
 - Stagger only the first visible items (PLP: 8) and keep stagger gaps 35-60ms.
 - Search, suggestions, results and anything that should feel like them use `handoff` (one spring + the recorded fades) and its recipes; don't mix `easing.*` tweens into that choreography.
 - Scroll-driven state (header collapse, floating pills) lives at the screen level; memoise the feed under it so a threshold flip re-renders only what depends on it (`HomeFeed`, `AccountBody`). Never promote many items to their own layers (`will-change` on every tile measured slower); `Screen`'s scroll content already has `contain: paint` + `isolation: isolate`. Below-the-fold images: `loading="lazy" decoding="async"`.
 - Animate a list that pushes content down with a transform on an opaque layer (`BrandWidget` `pushGrid`), not a height animation that re-lays out the cards.
 - Clean up timers and `animate()` controls in effect cleanups.
+
+## 7. Reduced motion
+
+One answer for the whole prototype: `<NoonPrototype reducedMotion>` (default `'user'` = the OS `prefers-reduced-motion`; `'always'`; `'never'`). It sets motion/react's `<MotionConfig reducedMotion>`, and while motion is reduced it marks its root `data-nk-motion="reduce"` (a `display: contents` wrapper). Read it anywhere with `useReduceMotion()` (`src/motion/reducedMotion.ts`, re-exported from `src/motion/recipes.tsx`); it returns `false` outside `<NoonPrototype>`, like motion/react. Do **not** use motion's `useReducedMotion()` (OS only, ignores the prop).
+
+What each kind of motion does under reduce (verified in Chromium with `page.emulateMedia({ reducedMotion: 'reduce' })`, 2026-10-13):
+
+| Kind | Under reduced motion | Where it is handled |
+|---|---|---|
+| Declarative `motion.*` (`animate`, variants, `layout`, `whileTap`) | movement (`x y z scale rotate* skew*`, `top left right bottom width height`, layout) is instant; opacity, colour, `filter`, `backgroundPosition`, `borderRadius` keep their timing, **including `repeat: Infinity` loops of those** | motion/react `MotionConfig` (motion-dom `positionalKeys`) |
+| Screen transitions | movement dropped; slide-only transitions (`push`, `modal`, `slide-left`, `mb-modal`) become a 0.25s cross-fade; fades keep their timing; `none` stays instant | `reducedTransition()` in `src/motion/transitions.ts`, used by `src/kit/Navigator.tsx` |
+| Sheets (`presentation: 'sheet'`) | fade in place with the scrim (0.25s `easing.standard`) instead of rising; drag-to-dismiss unchanged | `SheetLayer` in `src/kit/Navigator.tsx` |
+| Toasts | appear without the rise / scale; fade on `spring.sheet` | `MotionConfig` |
+| CSS `@keyframes` / `transition` | jump to their end state: `animation-duration` / `transition-duration` 0.01ms, 1 iteration, no delay (`transitionend` / `animationend` still fire, state-driven visibility still lands) | `[data-nk-motion='reduce']` rule in `src/foundations/global.css`; opt an element out with `.nk-motion-keep` |
+| `<Skeleton>` | a still block in the base grey (`shimmerGray`), no sweep | `src/components/Skeleton/Skeleton.tsx` |
+| `<Spinner>` | no rotation: the ring holds its arc, the iOS petals hold one frame of their fade; both pulse opacity 1 ↔ 0.45 (0.9s alternate) so loading still reads; `role="status"` + `aria-label` unchanged | `src/components/Spinner/Spinner.{tsx,module.css}` (`.nk-motion-keep`) |
+| Other loaders | cart `ProgressLoader` bar holds in place and pulses opacity instead of sweeping; checkout / noon One `Reloader` dot keeps its opacity pulse (scale dropped) | `src/flows/cart/CartScreen.tsx` `CartLoading`; `MotionConfig` |
+| `<Lottie>` / `LottieBox` / `useLottieReducedMotion` | no autoplay. Holds one frame: `reducedMotionFrame` / `poster` (share 0–1), or `'auto'`: samples the last frame (one-shot) or the middle (loop) and a few earlier ones, and holds the one that shows the most (many one-shots end blank). A one-shot still calls `onComplete` after its normal length, so flows that navigate on completion keep their timing (checkout placing → confirmation verified: same 5s) | `src/components/Lottie/Lottie.tsx` |
+| Lottie segments driven by state (family plans header) | jump to the resting frame | the two `FamilyPlansScreen.tsx` |
+| Auto-advancing carousels, tickers, nudges, rotating stacks | stop: the first item stays; swiping / tapping still works | each component checks `useReduceMotion()` (list in motion-matrix.md) |
+| Marquees / rAF loops / imperative `animate()` loops | stop (`EasyBannerScroller`, checkout confirmation `StackedImageCarousel`, slide-to-pay shimmer + 4s nudge, cart progress shimmer) | each component |
+| Imperative `animate()` on a gesture / tap (pager settle, carousel snap, tab indicator) | lands at once (`duration: 0` or `mv.set`) | `SpringPager`, home `BannerCarousel`, plp `MarketplaceStrip`, noon One `Slider`; `scrollStates.ts` / `tabBarScroll.ts` already did |
+| Scroll-linked motion (`useScroll` / `useTransform` headers, gallery pin) | unchanged: it follows the user's own scroll, not an animation | — |
+| Odometers / count-ups / reveals | `CountUp` lands on `to`; checkout noon One CTA reveal is skipped (the settled CTA shows at once) | `recipes.tsx`; `src/flows/checkout/components/NoonOneSection.tsx` |
+| Celebrations | `Confetti` doesn't fire; success Lotties hold their poster frame | `recipes.tsx`; `<Lottie>` |
+| Autoplay video | doesn't autoplay (poster shows) | home `BrandAdModule`, noon One `npModules` video card |
+| Haptics | unchanged (they are not motion; they already only accompany a visible change) | — |
+| Countdown text (deal timers, OTP resend) | unchanged (state, not motion) | — |
+
+Known gaps (outside the reduced-motion pass): `src/components/SearchBar/SearchBar.tsx` rotating placeholder words and `src/components/ProductBoxVertical` nudge ticker still auto-rotate (their y movement is dropped); `src/kit/tabBarScroll.ts` still reads motion's `useReducedMotion` (OS only); checkout `VoucherToast` confetti is a GIF.
+
+### Motion checklist for a new screen
+
+1. Entry is the Navigator's job: set `ScreenDef.transition` / `presentation` (or `{ transition }` on the call); the screen never animates its own entry. Sheets are `presentation: 'sheet'`.
+2. Values come from `presets.ts` (or the flow's `tokens.ts` with a comment naming the bappzaar / Figma source); no literal that equals a preset.
+3. Movement is `transform` / `opacity`; anything that grows or reorders uses FLIP or a transform on an opaque layer.
+4. Every animation can be interrupted (motion values start from the current value); timers and `animate()` controls are cleaned up in effect cleanups.
+5. Press feedback through `<Pressable>` / `<Button>`; a haptic only with a visible change (one per beat).
+6. Reduced motion: anything motion/react can't reduce for you (`setInterval` autoplay, imperative `animate()`, rAF, looping opacity / background / filter, `<video autoPlay>`, direct `DotLottieReact`) checks `useReduceMotion()`; loaders keep communicating (pulse, held frame); a Lottie that ends blank gets a `reducedMotionFrame`.
+7. Verify both ways: `page.emulateMedia({ reducedMotion: 'reduce' })` — nothing loops or auto-advances, content is visible, timed flows still finish — and `'no-preference'` — unchanged.
+8. Add the screen's interactions to [motion-matrix.md](motion-matrix.md) with their source (`bappzaar` / `figma` / `kit` / `unverified`).

@@ -5,6 +5,7 @@ import { useNav } from '../../../kit/Navigator';
 import { currency } from '../../../data';
 import { heroInterval2025, heroSlides2025, type HeroSlide } from '../data.header';
 import styles from './HeroBanners.module.css';
+import { useReduceMotion } from '../../../motion/reducedMotion';
 
 /** 330×150 landscape cards, 9 apart (Figma 1337:5106). */
 const W = 330;
@@ -19,9 +20,11 @@ export function HeroBanners() {
   const nav = useNav();
   const ref = useRef<HTMLDivElement>(null);
   const [held, setHeld] = useState(false);
+  const reduce = useReduceMotion();
 
   useEffect(() => {
-    if (held) return;
+    // no auto-advance under reduced motion (still swipeable)
+    if (held || reduce) return;
     const t = setInterval(() => {
       const el = ref.current;
       if (!el) return;
@@ -29,7 +32,7 @@ export function HeroBanners() {
       el.scrollTo({ left: next * (W + GAP), behavior: 'smooth' });
     }, heroInterval2025);
     return () => clearInterval(t);
-  }, [held]);
+  }, [held, reduce]);
 
   return (
     <div

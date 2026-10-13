@@ -135,6 +135,10 @@ export function computeCartTotals(cart: CartLine[], couponCode?: string | null):
 interface DemoStore {
   cart: CartLine[];
   cartCount: number;
+  /** what the tab bar's cart badge shows: `cartCount`, unless a screen forces a state (e.g. `cart/empty` → 0) */
+  cartBadge: number;
+  /** a screen previewing a forced cart state pins the badge (null releases it); the cart itself is untouched */
+  setCartBadgeOverride: (count: number | null) => void;
   cartTotal: number;
   addToCart: (productId: string, qty?: number) => void;
   setQty: (productId: string, qty: number) => void;
@@ -236,10 +240,13 @@ export function DemoStoreProvider({ children, emptyCart = false }: { children: R
   const removeCoupon = useCallback(() => setCoupon(null), []);
   const dismissCartUpdates = useCallback(() => setCartUpdatesDismissed(true), []);
 
+  const [cartBadgeOverride, setCartBadgeOverride] = useState<number | null>(null);
   const value = useMemo<DemoStore>(
     () => ({
       cart,
       cartCount: cart.reduce((n, l) => n + l.qty, 0),
+      cartBadge: cartBadgeOverride ?? cart.reduce((n, l) => n + l.qty, 0),
+      setCartBadgeOverride,
       cartTotal: cart.reduce((n, l) => n + l.qty * l.product.price, 0),
       addToCart,
       setQty,
@@ -259,7 +266,7 @@ export function DemoStoreProvider({ children, emptyCart = false }: { children: R
       toggleWishlist,
       isWishlisted: (id) => wishlist.includes(id),
     }),
-    [cart, wishlist, addToCart, setQty, removeFromCart, clearCart, updateLine, moveToWishlist, coupon, applyCoupon, removeCoupon, cartTotals, inactiveCart, removeInactive, cartUpdatesDismissed, dismissCartUpdates, toggleWishlist],
+    [cart, cartBadgeOverride, wishlist, addToCart, setQty, removeFromCart, clearCart, updateLine, moveToWishlist, coupon, applyCoupon, removeCoupon, cartTotals, inactiveCart, removeInactive, cartUpdatesDismissed, dismissCartUpdates, toggleWishlist],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

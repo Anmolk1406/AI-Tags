@@ -2,7 +2,9 @@
   "_readme": {
     "colors": "Key = normalised literal: #RRGGBB / #RRGGBBAA uppercase (3/4-digit hex expanded, alpha FF dropped), or rgba(r, g, b, a) with one space after commas (rgb()/alpha 1 \u2192 hex). palette = key in src/foundations/palette.ts; paletteVar = its CSS var; semantic = --nk-color-* tokens with the exact same value (pick the one that matches the meaning; cssVar = first semantic, else the palette var).",
     "type": "Key = \"<weight> <size>px/<line>[px]\" from a font shorthand ending in var(--nk-font-family). token = key in tokens.type \u2192 font: var(--nk-type-<kebab>). token null = one-off: keep, or add a flow-scoped type token in the flow tokens.ts (TokenOverrides.type).",
-    "lint": "node scripts/token-lint.mjs [-v path]"
+    "lint": "node scripts/token-lint.mjs [-v path]",
+    "fontSize": "Key = \"<n>px\" font size \u2192 var(--nk-font-size-<kebab>) (tokens.fontSize). Prefer a whole var(--nk-type-*) shorthand (see type) when weight and line height match too.",
+    "radius": "Key = \"<n>px\" corner radius \u2192 var(--nk-radius-<key>) (tokens.radius; 9999px = full)."
   },
   "colors": {
     "#FFFFFF": {
@@ -2864,5 +2866,41 @@
       "cssVar": "var(--nk-type-text14-semibold-lh16)",
       "uses": 0
     }
+  },
+  "fontSize": {
+    "8px": "var(--nk-font-size-micro-sm)",
+    "9px": "var(--nk-font-size-micro)",
+    "10px": "var(--nk-font-size-label)",
+    "11px": "var(--nk-font-size-caption)",
+    "12px": "var(--nk-font-size-body-small)",
+    "13px": "var(--nk-font-size-body-compact)",
+    "14px": "var(--nk-font-size-body)",
+    "15px": "var(--nk-font-size-body-medium)",
+    "16px": "var(--nk-font-size-body-large)",
+    "17px": "var(--nk-font-size-body-lead)",
+    "18px": "var(--nk-font-size-title-small)",
+    "19px": "var(--nk-font-size-title-promo)",
+    "20px": "var(--nk-font-size-title)",
+    "22px": "var(--nk-font-size-title-medium)",
+    "24px": "var(--nk-font-size-title-large)",
+    "28px": "var(--nk-font-size-headline)",
+    "32px": "var(--nk-font-size-display)",
+    "40px": "var(--nk-font-size-hero)"
+  },
+  "radius": {
+    "2px": "var(--nk-radius-r2)",
+    "4px": "var(--nk-radius-r4)",
+    "6px": "var(--nk-radius-r6)",
+    "8px": "var(--nk-radius-r8)",
+    "10px": "var(--nk-radius-r10)",
+    "12px": "var(--nk-radius-r12)",
+    "14px": "var(--nk-radius-r14)",
+    "16px": "var(--nk-radius-r16)",
+    "20px": "var(--nk-radius-r20)",
+    "24px": "var(--nk-radius-r24)",
+    "30px": "var(--nk-radius-r30)",
+    "32px": "var(--nk-radius-r32)",
+    "48px": "var(--nk-radius-r48)",
+    "9999px": "var(--nk-radius-full)"
   }
 }

@@ -2,11 +2,18 @@ import { AnimatePresence, animate, motion, useInView, useMotionValue, useTransfo
 import { Children, useEffect, useRef, useState, type CSSProperties, type Key, type ReactNode } from 'react';
 import { duration, easing, handoff, spring } from './presets';
 import { palette } from '../foundations/palette';
+import { useReduceMotion } from './reducedMotion';
+
+export { useReduceMotion } from './reducedMotion';
 
 /**
  * Drop-in animation recipes for prototypes. Wrap any element:
  *   <FadeIn delay={0.2}>…</FadeIn>   <Stagger>{items}</Stagger>   <CountUp to={1299} />
  * All timings come from ./presets so the whole kit shares one motion language.
+ *
+ * Reduced motion (`useReduceMotion`, set by `<NoonPrototype reducedMotion>`): motion/react already drops transform /
+ * layout movement for the declarative recipes (fades stay). The imperative or looping ones handle it here:
+ * CountUp lands on `to`, ShimmerText holds still, Confetti doesn't fire, SpringPager settles without the spring.
  */
 
 export function FadeIn({ children, delay = 0, y = 12, ...rest }: { children: ReactNode; delay?: number; y?: number } & HTMLMotionProps<'div'>) {
@@ -54,16 +61,22 @@ export function CountUp({ to, from = 0, durationS = 0.9, format = (n: number) =>
   const inView = useInView(ref, { once: true });
   const mv = useMotionValue(from);
   const text = useTransform(mv, format);
+  const reduce = useReduceMotion();
   useEffect(() => {
     if (!inView) return;
+    if (reduce) {
+      mv.set(to);
+      return;
+    }
     const c = animate(mv, to, { duration: durationS, ease: easing.out });
     return () => c.stop();
-  }, [inView, to, durationS, mv]);
+  }, [inView, to, durationS, mv, reduce]);
   return <motion.span ref={ref}>{text}</motion.span>;
 }
 
 /** Text shimmer sweep (checkout "Slide to Order" label, AI summary titles). */
 export function ShimmerText({ children, base = palette.kitBlue66, highlight = palette.kitBlue91, durationS = 4 }: { children: ReactNode; base?: string; highlight?: string; durationS?: number }) {
+  const reduce = useReduceMotion();
   return (
     <motion.span
       style={{
@@ -72,8 +85,10 @@ export function ShimmerText({ children, base = palette.kitBlue66, highlight = pa
         WebkitBackgroundClip: 'text',
         backgroundClip: 'text',
         color: 'transparent',
+        // reduced motion: hold the band off the text (plain `base` colour)
+        ...(reduce ? { backgroundPosition: '100% 0' } : null),
       }}
-      animate={{ backgroundPosition: ['100% 0', '0% 0'] }}
+      animate={reduce ? undefined : { backgroundPosition: ['100% 0', '0% 0'] }}
       transition={{ duration: durationS, repeat: Infinity, ease: 'linear' }}
     >
       {children}
@@ -84,8 +99,10 @@ export function ShimmerText({ children, base = palette.kitBlue66, highlight = pa
 /** Confetti burst — trigger by changing `fireKey`. */
 export function Confetti({ fireKey, count = 28, colors = [palette.yellowColor, palette.primaryBlue, palette.pink600, palette.greenOff, palette.absoluteApricot] }: { fireKey: number | string; count?: number; colors?: string[] }) {
   const [pieces, setPieces] = useState<{ id: string; x: number; y: number; r: number; c: string }[]>([]);
+  const reduce = useReduceMotion();
   useEffect(() => {
-    if (!fireKey) return;
+    // reduced motion: no burst (the pieces would only sit and fade); the success state carries the meaning
+    if (!fireKey || reduce) return;
     setPieces(
       Array.from({ length: count }, (_, i) => ({
         id: `${fireKey}-${i}`,
@@ -193,6 +210,9 @@ export function SpringPager({ children, step, onPage, className, style, trackCla
   const trackRef = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const tx = useTransform(x, (v) => -v);
+  // a ref: the wheel listener below keeps the first render's closures
+  const reduce = useRef(false);
+  reduce.current = useReduceMotion();
   const s = useRef({ page: 0, anim: null as AnimationPlaybackControls | null, drag: null as null | { id: number; x0: number; y0: number; s0: number; lock: 'x' | 'y' | null; page: number; samples: [number, number][]; moved: boolean } });
 
   const view = () => railRef.current?.clientWidth ?? 0;
@@ -216,6 +236,12 @@ export function SpringPager({ children, step, onPage, className, style, trackCla
   };
   const settle = (target: number, velocity = 0) => {
     s.current.anim?.stop();
+    // reduced motion: land on the page at once (the drag itself still follows the finger)
+    if (reduce.current) {
+      s.current.anim = null;
+      x.set(target);
+      return;
+    }
     s.current.anim = animate(x, target, { ...handoff.springs.pager, velocity });
   };
   const snap = (vel: number) => {

@@ -5,6 +5,7 @@ import { icons } from '../../assets';
 import { copy } from '../../data';
 import { Svg, Tap } from '../AFSButton';
 import styles from '../../submit.module.css';
+import { useReduceMotion } from '../../../../motion/reducedMotion';
 
 /** constants/afsReturnsPhotoGuideCarousel.ts slot geometry (front 69 at 12/0, next 57 at 14/6 · 0.2, prev 57 at 0/8 · 0.2) */
 const SLOTS = [
@@ -18,11 +19,13 @@ const DURATION = 0.45;
 
 function useAutoIndex(count: number, interval: number) {
   const [i, setI] = useState(0);
+  const reduce = useReduceMotion();
   useEffect(() => {
-    if (count <= 1) return;
+    // reduced motion: the first tip / photo stays (no auto-advance)
+    if (count <= 1 || reduce) return;
     const t = setInterval(() => setI((v) => v + 1), interval);
     return () => clearInterval(t);
-  }, [count, interval]);
+  }, [count, interval, reduce]);
   return i;
 }
 

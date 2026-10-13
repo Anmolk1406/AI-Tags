@@ -17,7 +17,9 @@ export function defineScreen<P>(screen: ScreenDef<P>): ScreenDef<P> {
 export function screenTruth(screen: Pick<ScreenDef, 'truth' | 'source'>): ScreenTruth {
   if (screen.truth) return screen.truth;
   const src = screen.source ?? '';
-  const bappzaar = /marketplaces\/|src\/|screens\/|components\/|Noon[A-Z]/.test(src);
+  // a user-shared repo (`repo owner/name …`, github.com) is a reference, not bappzaar, even when it cites src/ paths
+  const sharedRepo = /\brepo [\w.-]+\/[\w.-]+|github\.com\//i.test(src);
+  const bappzaar = !sharedRepo && /marketplaces\/|src\/|screens\/|components\/|Noon[A-Z]/.test(src);
   if (/figma/i.test(src)) return bappzaar ? 'mixed' : 'figma';
   if (/^reference:|github\.com|vercel\.app|https?:/i.test(src) && !bappzaar) return 'reference';
   return 'bappzaar';

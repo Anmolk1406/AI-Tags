@@ -7,6 +7,7 @@ import addPlusSupermall from '@assets/cart/figma/add-plus-supermall.svg';
 import { HtmlText } from '../../../components';
 import html from './html.module.css';
 import styles from './group.module.css';
+import { useReduceMotion } from '../../../motion/reducedMotion';
 
 const P = cartTokens.progress;
 
@@ -38,12 +39,14 @@ export function GroupProgressBar({ message, current, threshold, shouldHide, show
     return () => ro.disconnect();
   }, []);
 
+  const reduce = useReduceMotion();
   useEffect(() => {
-    if (!animateIn || played.current || shouldHide) return;
+    // reduced motion: no shimmer sweep over the bar
+    if (!animateIn || played.current || shouldHide || reduce) return;
     played.current = true;
     const c = animate(shimmer, [0, 1], { duration: P.shimmerMs / 1000, ease: [0.455, 0.03, 0.515, 0.955], repeat: P.shimmerRepeat - 1, delay: P.delayMs / 1000 });
     return () => c.stop();
-  }, [animateIn, shouldHide, shimmer]);
+  }, [animateIn, shouldHide, shimmer, reduce]);
 
   const stripe = Math.min(P.shimmerMax, Math.max(P.shimmerMin, barW * P.shimmerRatio));
   const x = useTransform(shimmer, [0, 1], [-stripe, barW + stripe]);

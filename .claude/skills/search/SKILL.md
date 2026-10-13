@@ -7,6 +7,8 @@ description: Build or restyle the noon search experience with the noon flow kit 
 
 Builds the noon search entry and the results listing it hands off to. Load `../noon-ui/SKILL.md` first if it isn't loaded: its workflow, house rules and design-system references apply here unchanged. This skill adds the search specification and the checks specific to it.
 
+For a new screen, a redesign or an open-ended idea, run the research-first design workflow before building: `../noon-ui/references/design-workflow.md` (size the request, research the repo and Mobbin per `../noon-ui/references/research.md`, clarify only blocking gaps, write the design direction, build with `../noon-ui/references/component-checklist.md`, validate). Its rules apply here unchanged; this skill's `spec.md` is the starting point for the design direction, and a port from bappzaar or Figma stays analyse → map → implement.
+
 ## Sources
 
 | Source | Where |
@@ -15,7 +17,7 @@ Builds the noon search entry and the results listing it hands off to. Load `../n
 | Flow specification | `spec.md` (screens, sections, data, navigation, motion, states, acceptance) |
 | Figma analysis | None: there is no Figma for search. The code is the spec — `src/flows/search` and `src/flows/plp` are bappzaar 1:1 ports (`NoonSearchScreen`, `NoonSearchSuggestionRow`, `NoonRecentlySearchedModule`, `ListingScreen` → `NoonCatalogList`, `NoonFiltersScreenV2`) with the UI and motion of github.com/saswata2002/Brand-Widget-PLP (marketplace strip, brand widget, ProtoPie handoff timings in `handoff` + their `tokens.ts`) |
 | Current implementation | `src/flows/search/` — `SearchScreen.tsx`, `data.ts`, `tokens.ts`, `components/` (`RecentSearches`, `SuggestionRow`); routes `search/search` (page `/search`), `search/suggestions` |
-| Results implementation | `src/flows/plp/` — `ListingScreen.tsx`, `FiltersSheet.tsx`, `SortSheet.tsx`, `store.ts`, `data.ts`, `brands.ts`, `tokens.ts`, `components/` (`NavPills` → `RevealChip`, `SkeletonCard`, `BrandWidget`, `MarketplaceStrip`); routes `plp/listing` (page `/plp`), `plp/filters`, `plp/sort` |
+| Results implementation | `src/flows/plp/` — `ListingScreen.tsx`, `FiltersSheet.tsx`, `SortSheet.tsx`, `store.ts`, `data.ts`, `brands.ts`, `tokens.ts`, `components/` (`NavPills` → `RevealChip`, `SkeletonCard`, `MarketplaceStrip`; `BrandWidget` kept but not rendered); routes `plp/listing` (page `/plp`), `plp/filters`, `plp/sort` |
 | Design system | `../noon-ui/references/tokens.md`, `components.md`, `assets.md`, `motion.md`, `screen-recipes.md`, `flows.md` (Search and PLP blueprints) |
 
 ## Steps
@@ -29,7 +31,7 @@ Builds the noon search entry and the results listing it hands off to. Load `../n
 4. **Build the header** with `SearchInput` (`src/components/SearchBar/SearchBar.tsx`), then presearch (`RecentSearches`, trending `Pill variant="tag"`), then the suggestion list (`SuggestionRow`). Reuse the flow components; add new ones in `src/flows/search/components/`.
 5. **Hand off** every query (submit, recent tile, trending pill, suggestion row) through one `go(query)` that trims, fills the field, lets the rows leave and calls `nav.push('plp/listing', { query }, { transition: 'results-fade' })`. Results never live on the search screen; they look "in place" because the PLP draws the same `SearchInput` at the same spot.
 6. **Tokens**: search-only values as `search*` keys in `searchTokens` (`src/flows/search/tokens.ts`), PLP-only values in `plpTokens` (`src/flows/plp/tokens.ts`). Section titles `Text variant="section" color="textStrong"`. Don't change central tokens or `SearchInput` defaults for this page.
-7. **Motion**: the `handoff` language only (`src/motion/presets.ts`, recipes `BlurSwap` / `SkeletonReveal` / `SpringPager`): presearch ↔ suggestions, rows on `searchTokens`, PLP chips via `RevealChip`, cards via `SkeletonReveal` on `plpTokens.timeline`, brand panel via `BrandWidget` (`spec.md` → Motion, `../noon-ui/references/motion.md` → "Search → results handoff").
+7. **Motion**: the `handoff` language only (`src/motion/presets.ts`, recipes `BlurSwap` / `SkeletonReveal` / `SpringPager`): presearch ↔ suggestions, rows on `searchTokens`, PLP chips via `RevealChip`, cards via `SkeletonReveal` on `plpTokens.timeline` (`BrandWidget` only on a variant screen that brings the brand panel back; `spec.md` → Motion, `../noon-ui/references/motion.md` → "Search → results handoff").
 8. **Register**: `ScreenDef` with `title`, `notes` (what to type, what to tap) and `source` (the bappzaar path, as `src/flows/search/index.ts` does). New screens get a page alias in `src/kit/routes.ts` when they need a friendly URL.
 9. **Validate**, below.
 
@@ -56,4 +58,4 @@ node scripts/shot.mjs search/search /tmp/search-edit.png --click "text=Edit"
 node scripts/shot.mjs plp/listing /tmp/plp-sorted.png --wait 800 --click "text=Sort" --click "text=Price: Low to High"
 ```
 
-Read every PNG against `spec.md` → Acceptance and against the code: header padding, recent tiles 75 wide with 1.2 image ratio, trending tag pills wrapping at gap 8, suggestion rows 44 high with the match bold, PLP search bar at the search screen's spot, marketplace strip, pill row, the brand panel for "phone" and the 2-column grid at gap 12. Then run `npm run skill:check` if you changed components, tokens or screens.
+Read every PNG against `spec.md` → Acceptance and against the code: header padding, recent tiles 75 wide with 1.2 image ratio, trending tag pills wrapping at gap 8, suggestion rows 44 high with the match bold, PLP search bar at the search screen's spot, marketplace strip, pill row (no brand panel) and the 2-column grid at gap 12. Then run `npm run skill:check` if you changed components, tokens or screens.

@@ -13,6 +13,23 @@ export type Presentation =
   /** full-screen modal sliding up from the bottom */
   | 'modal';
 
+/**
+ * How a `presentation: 'sheet'` screen is framed.
+ * - `origin` (default): Origin Design System M-BottomSheet — bold scrim, grabber ABOVE the sheet, sheet floats with a
+ *   12px inset and r16 on all corners, max 680 high; the screen fills it with <SheetHeader> / <SheetBody> / <SheetFooter>.
+ * - `classic`: the edge-to-edge sheet the bappzaar ports use (r24 top corners, grabber inside) — keep it for 1:1 ports.
+ * A sheet with a grabber never shows a close button; `grabber: false` makes <SheetHeader> show the close (X) instead.
+ */
+export interface SheetOptions {
+  layout?: 'origin' | 'classic';
+  /** default true — drag the grabber down to dismiss */
+  grabber?: boolean;
+  /** sheet fill (origin), any surface colour, e.g. `var(--nk-color-bg-subtle)` */
+  surface?: string;
+  /** default true — tapping the scrim dismisses */
+  dismissible?: boolean;
+}
+
 export interface ScreenProps<P = Record<string, unknown>> {
   params: P;
 }
@@ -24,6 +41,8 @@ export interface ScreenDef<P = any> {
   title: string;
   component: ComponentType<ScreenProps<P>>;
   presentation?: Presentation;
+  /** sheet framing when presented as a sheet (default: Origin M-BottomSheet); `'classic'` is shorthand for `{ layout: 'classic' }` */
+  sheet?: SheetOptions | SheetOptions['layout'];
   /** default transition when this screen is opened; can be overridden per navigation */
   transition?: TransitionName;
   /** status bar content colour on top of this screen */

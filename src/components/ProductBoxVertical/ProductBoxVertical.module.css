@@ -18,8 +18,8 @@
 .slider::-webkit-scrollbar { display: none; }
 .slide { position: relative; flex: 0 0 100%; height: 100%; scroll-snap-align: start; scroll-snap-stop: always; }
 .pager { position: absolute; left: 0; right: 0; bottom: 6px; display: flex; justify-content: center; pointer-events: none; }
-.pagerInner { display: flex; align-items: center; justify-content: center; gap: 6px; padding: var(--nk-space-s4) var(--nk-space-s8); border-radius: 20px; background: var(--nk-palette-white-alpha70); }
-.dot { border-radius: 20px; background: var(--nk-palette-primary-alpha25); transition: width 0.2s, height 0.2s, background-color 0.2s; }
+.pagerInner { display: flex; align-items: center; justify-content: center; gap: 6px; padding: var(--nk-space-s4) var(--nk-space-s8); border-radius: var(--nk-radius-r20); background: var(--nk-palette-white-alpha70); }
+.dot { border-radius: var(--nk-radius-r20); background: var(--nk-palette-primary-alpha25); transition: width 0.2s, height 0.2s, background-color 0.2s; }
 .dotActive { background: var(--nk-palette-neutral-black); }
 
 /* imageTopWrapper: row, space-between; topTagsWrapper marginEnd 20; favourite absolute at 4 / 4 */
@@ -40,7 +40,7 @@
 [dir='rtl'] .name { margin: 6px 0 0 var(--nk-space-s12); }
 
 /* NoonProductRating in ratingWrapper (marginTop 4): softGray r6, px 6 py 2, gap 4; star 11 tinted by score; 12/600 charcoalNavy + 12 slateGray count */
-.rating { align-self: flex-start; display: inline-flex; align-items: center; gap: var(--nk-space-s4); margin-top: var(--nk-space-s4); padding: 2px 6px; border-radius: 6px; background: var(--nk-palette-soft-gray); }
+.rating { align-self: flex-start; display: inline-flex; align-items: center; gap: var(--nk-space-s4); margin-top: var(--nk-space-s4); padding: 2px 6px; border-radius: var(--nk-radius-r6); background: var(--nk-palette-soft-gray); }
 .ratingScore { display: inline-flex; align-items: center; gap: var(--nk-space-s4); font: var(--nk-type-text12-semibold-lh14); color: var(--nk-palette-charcoal-navy); }
 .ratingCount { font: var(--nk-type-text12-regular-lh14); color: var(--nk-palette-slate-gray); }
 

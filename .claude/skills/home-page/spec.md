@@ -58,14 +58,14 @@ Default order for the 2025 home. Every module is an optional title row (`Text va
 | 2 | Full-width ad | `EidAdBanner` | 351×88 r16, padding 12 12 8; the creative carries its "Ad" mark |
 | 3 | Promo ticker | `PromoTicker` | 351×62 ticket r12, 2–5 rotating messages, "n/N" + dots; kept after the ad (neither the Eid frame nor bappzaar places it elsewhere) |
 | — | Hero banners (2025) | `HeroBanners` | 330×150 r20 Welcome / sale cards; replaced by the Eid carousel, file kept |
-| 3 | Shop by category | build `CategoryTile` (replaces baked tiles) | 2 rows, tiles 92×128, gap 16, live 13/14 600 labels, optional SALE ribbon |
-| — | Recommended for you | `IconTabs` + rail of `SkuCard` (not rendered) | sticky icon tabs; not on `home/home` today (department tabs removed too) |
-| 5 | Offers for you | build `OfferTicket` | ~137×172 live cards, gap 12 |
-| 6 | Bestsellers | rail of `SkuCard` | 134 cards, gap 12, "Best Seller" tag `bestSellerTag` |
-| 7 | Keep shopping for | build `RecentCard` | 100–114 wide, "n Viewed" caption |
-| 8 | Sponsored brand module | build `BrandAdModule` | full-bleed dark, brand header, video tile, SKU rail, "Ad" badge |
+| 3 | Shop by category | `CategoryGrid` (exists, not rendered on `home/home`) | 2 rows, tiles 92×128, gap 16, live 13/14 600 labels, optional SALE ribbon |
+| — | Recommended for you | `RecommendedRail` (icon tabs + `SkuCard` rail; exists, not rendered) | sticky icon tabs; not on `home/home` today (department tabs removed too) |
+| 5 | Offers for you | `OfferTickets` (exists, not rendered) | ~137×172 live cards, gap 12 |
+| 6 | Bestsellers | `ProductRail` (rail of `SkuCard`; exists, not rendered) | 134 cards, gap 12, "Best Seller" tag `bestSellerTag` |
+| 7 | Keep shopping for | `KeepShopping` (exists, not rendered) | 100–114 wide, "n Viewed" caption |
+| 8 | Sponsored brand module | `BrandAdModule` (exists, not rendered) | full-bleed dark, brand header, video tile, SKU rail, "Ad" badge |
 | 9 | Selling out fast | rail of `SkuCard` | as Bestsellers |
-| 10 | New launches | build `LaunchModule` + `LaunchCard` | dark inset card r20 (351×420), cards 213×327, black CTA |
+| 10 | New launches | `LaunchModule` (exists, not rendered) | dark inset card r20 (351×420), cards 213×327, black CTA |
 | — | Tab bar | Navigator `TabBar` (from `defineFlow({ tabBar })`) | unchanged defaults; the 2025 indicator style is a separate opt-in |
 
 ### Ordering rules
@@ -81,9 +81,9 @@ Default order for the 2025 home. Every module is an optional title row (`Text va
 
 Pushed screen: `<Screen header={<Header title="…" />}>` with back + search, no switcher or address. Order: campaign hero (one full-width banner) → `PromoTicker` (campaign perks) → category grid → tabbed product rails by category → offer tickets → optional deal rail with `DealTimer` (`src/flows/home/components/DealTimer.tsx`). Campaign colours as flow tokens (`<flow>HeaderBg`, `<flow>Accent`).
 
-## Data (`data.ts`)
+## Data
 
-- `modules`: ordered array `{ type: 'promoTicker' | 'hero' | 'categories' | 'productRail' | 'offers' | 'keepShopping' | 'brandAd' | 'launches', title?, tabs?, items }`, rendered by one `switch`.
+- `home/home`: `homeFeed: BzModule[]` (`src/flows/home/data.feed.ts`, `{ key, type, wrap, header?, hidden? }` per CMS module type), rendered by one `switch` in `HomeScreen.tsx`; tokens `tokens.feed.ts` (`homeBz*`). A 2025 or campaign screen keeps the same pattern: one ordered module array (`{ type: 'promoTicker' | 'hero' | 'categories' | 'productRail' | 'offers' | 'keepShopping' | 'brandAd' | 'launches', title?, tabs?, items }`) and one `switch`.
 - Products from `src/data`; prices through `Price` (dirham sign); creatives from `src/assets/home/`.
 - Copy: short, sentence case; module titles as in the Figma ("Shop by category", "Recommended for you", "Offers for you", "Bestsellers", "Keep shopping for", "Selling out fast").
 
@@ -104,7 +104,7 @@ For a top-sheet tease (page drops to reveal a campaign sheet), an icon arriving 
 | Moment | Kit |
 |---|---|
 | Header collapse past 100px | `motion.div` height/opacity as `HomeScreen.tsx` does |
-| Hero carousel | `HeroCarousel` snap + auto-advance + pause on touch |
+| Hero carousel | `EidBanners` on `home/home` (centre snap, auto 3s while visible, stops on first touch); `HeroCarousel` on `home/classic` |
 | Promo ticker message swap | `AnimatePresence mode="popLayout"`, `tween('fast', 'out')` |
 | Tab underline + rail swap | `layoutId` underline (`duration.base`, `easing.out`); `AnimatePresence mode="wait"` + `Stagger` |
 | Card press | `Pressable` / `ProductCard` press scale |

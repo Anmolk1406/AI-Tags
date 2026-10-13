@@ -11,6 +11,7 @@ import dot from '@assets/home/2025/ticker/dot.svg';
 import dotActive from '@assets/home/2025/ticker/dot-active.svg';
 import { tickerInterval, tickerMessages } from '../data.header';
 import styles from './PromoTicker.module.css';
+import { useReduceMotion } from '../../../motion/reducedMotion';
 
 /** The pager shows 3 dots for any count: first message → dot 1, last → dot 3, everything between → dot 2. */
 const dotFor = (i: number, n: number) => (i === 0 ? 0 : i === n - 1 ? 2 : 1);
@@ -24,14 +25,16 @@ export function PromoTicker() {
   const nav = useNav();
   const [i, setI] = useState(0);
   const [held, setHeld] = useState(false);
+  const reduce = useReduceMotion();
   const n = tickerMessages.length;
   const m = tickerMessages[i];
 
   useEffect(() => {
-    if (held) return;
+    // reduced motion: the first message stays (no auto-rotation)
+    if (held || reduce) return;
     const t = setInterval(() => setI((x) => (x + 1) % n), tickerInterval);
     return () => clearInterval(t);
-  }, [held, n]);
+  }, [held, n, reduce]);
 
   const swap = { initial: { y: 8, opacity: 0 }, animate: { y: 0, opacity: 1 }, exit: { y: -8, opacity: 0 }, transition: tween('fast', 'out') };
   const active = dotFor(i, n);

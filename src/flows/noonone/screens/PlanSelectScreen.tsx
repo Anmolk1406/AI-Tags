@@ -4,7 +4,7 @@ import { HtmlText, Screen } from '../../../components';
 import { useNav } from '../../../kit/Navigator';
 import { useMembershipEligibility } from '../../../kit/membership';
 import { easing } from '../../../motion/presets';
-import { withEligibility } from '../data';
+import { CURRENCY, withEligibility } from '../data';
 import { isBundle, trialGuideData, v3Tiers, withBadge, type V3Plan } from '../data.plans';
 import { noononeStore, useNoonone } from '../store';
 import { BundlePlanCard, PlanCard } from '../components/plans/PlanCard';
@@ -145,7 +145,7 @@ export function PlanSelectScreen({ params }: { params: Params }) {
         <div className={s.plans}>
           {tier.plans.map((p) =>
             isBundle(p) ? (
-              <BundlePlanCard key={p.planCode} bundle={p} selectedPlanCode={selectedPlan.planCode} onSelect={(bp) => setPlanCode(bp.planCode)} onBundleTag={() => nav.toast('Yango Play AED 100 noon credits T&C')} />
+              <BundlePlanCard key={p.planCode} bundle={p} selectedPlanCode={selectedPlan.planCode} onSelect={(bp) => setPlanCode(bp.planCode)} onBundleTag={() => nav.toast(`Yango Play ${CURRENCY} 100 noon credits T&C`)} />
             ) : (
               <PlanCard key={p.planCode} plan={p} selected={p.planCode === selectedPlan.planCode} onSelect={(sp) => setPlanCode(sp.planCode)} />
             ),

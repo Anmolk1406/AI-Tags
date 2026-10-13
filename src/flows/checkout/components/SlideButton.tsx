@@ -5,6 +5,7 @@ import arrowLottie from '@assets/checkout/arrow-to-checkmark-animation-en.json';
 import arrowDisabled from '@assets/checkout/figma/slide-arrow.svg';
 import { checkoutJs } from '../tokens';
 import styles from './SlideButton.module.css';
+import { useReduceMotion } from '../../../motion/reducedMotion';
 
 /**
  * Figma "🚧 Checkout 2.0" Swipe cart button (14288:184319): 48h, r12, p8 — disabled Gray Shades/Grey 3 #DADCE3 with
@@ -63,6 +64,7 @@ export function SlideButton({ disabled, ctaText, onSlideComplete, onDisabledPres
   const lottieRef = useRef<DotLottie | null>(null);
   const shimmerAnim = useRef<ReturnType<typeof animate> | null>(null);
   const done = useRef(false);
+  const reduce = useReduceMotion();
 
   const enabledData = useMemo(() => tintLottie(checkoutJs.slideArrowEnabled), []);
 
@@ -100,13 +102,15 @@ export function SlideButton({ disabled, ctaText, onSlideComplete, onDisabledPres
       x.set(0);
       return;
     }
+    // reduced motion: no shimmer sweep and no 4s nudge; the slider waits still (dragging is unchanged)
+    if (reduce) return;
     startShimmer();
     const id = setInterval(() => !done.current && pulse(), 4000);
     return () => {
       clearInterval(id);
       shimmerAnim.current?.stop();
     };
-  }, [disabled, pulse, startShimmer, shimmerX, x]);
+  }, [disabled, pulse, startShimmer, shimmerX, x, reduce]);
 
   // resetSlider(): x → 0 (500ms), lottie → 0 (300ms), shimmer restarts
   useEffect(() => {

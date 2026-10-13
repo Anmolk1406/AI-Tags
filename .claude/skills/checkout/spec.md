@@ -36,7 +36,7 @@ Every screen also opens at `/checkout/<id>`; the flow opens at `/checkout`.
 
 Page aliases live in `src/kit/routes.ts` (`checkout`, `order-confirmation`, `payment-failure`). The flow's `parent` is `cart/cart`.
 
-## Header
+## Header (Checkout 2.0, `FIGMA_SECTIONS`)
 
 | # | Part | Kit | Spec |
 |---|---|---|---|
@@ -55,7 +55,7 @@ Page aliases live in `src/kit/routes.ts` (`checkout`, `order-confirmation`, `pay
 | # | Section id | Kit | Spec |
 |---|---|---|---|
 | 1 | `address_card` | `AddressCard` | white r16, p 12/16/10/12; type icon + label `--nk-type-text16-bold-lh20`, line `--nk-type-chk-af-text13-medium-lh20` `--nk-color-text-secondary`, 18px chevron; → `address/select` modal |
-| 2 | `integrated_noonone` | `NoonOneSection variant="banner"` | "Get **free delivery** with [one]" + 34×20 `Switch`; strip `--nk-color-chk-noon-one-cta-bg` "On orders above ~~₫100~~ ₫50"; toggle → reloader → enrolled (gradient, subtitle, nudge → `noonone/plans`); hidden for members |
+| 2 | `integrated_noonone` | `NoonOneSection variant="banner"` | "Get **free delivery** with [one]" + 34×20 `Switch`; strip `--nk-color-chk-noon-one-cta-bg` "On orders above ~~₫100~~ ₫50"; first show plays `NoonOneCtaReveal` (bappzaar NoonOneCtaReveal: one 2850ms clock — Lottie, "Save" odometer, text scale, block settles onto the CTA strip); toggle → reloader → enrolled (gradient, subtitle, nudge → `noonone/plans { source: '/checkout' }`); hidden for members |
 | 3 | `delivery_instructions` | `DeliveryInstruction` | unchanged (see below) |
 | 4 | `receiver_details` | `ReceiverDetails` | unchanged |
 | 5 | `shipments` | `CheckoutShipment` per shipment | unchanged |
@@ -148,6 +148,7 @@ Sticky footer `.sticky` in `src/flows/checkout/checkout.module.css`: white, `--n
 | Lane expander | `CheckoutShipment`: chevron rotate 180 + `AnimatePresence` height `auto`, 0.3s |
 | Credits remaining line | `AnimatePresence` height + opacity, 0.2s `easing.out` |
 | Selecting a method / instruction | instant fill + border swap; row `whileTap` scale 0.985 with `spring.press`; `Switch` knob `spring.press` |
+| noon One CTA reveal | `NoonOneCtaReveal` inside `NoonOneSection`: every property derived from one linear 0 → 2850ms clock (`src/flows/checkout/components/NoonOneCtaReveal.tsx`); never split it into separate springs |
 | Session update | `Reloader` over the screen for `API_DELAY` |
 | Slide to pay | `SlideButton` drag, idle pulse every 4s, label shimmer, Lottie arrow → check; spring back on `resetSignal` |
 | Placing | card slides up 0.4s, `Lottie name="boxAnim"` loop → `Lottie name="orderConf"` tick → confirmation |
@@ -170,12 +171,12 @@ Sticky footer `.sticky` in `src/flows/checkout/checkout.module.css`: white, `--n
 ## Acceptance
 
 - [ ] Routes registered; `/checkout`, `/order-confirmation`, `/payment-failure` open their screens; `check:routes` clean.
-- [ ] Sections in `FIGMA_SECTIONS` order (or the documented `sections` list); 12 gutter, 12 gap, white r16 p12 cards on `--nk-color-chk-fig-page`.
+- [ ] Sections in `ALL_FLOWS_SECTIONS` order by default (`FIGMA_SECTIONS` or another documented `sections` list for variants); 12 gutter, 12 gap, white r16 p12 cards on `--nk-color-chk-fig-page`.
 - [ ] Selected payment row and delivery option use alice-blue + 1px border; unselected rows don't shift.
 - [ ] `SlideButton` disabled until a valid CVV; disabled press guides to the CVV; Apple Pay and Verify Phone swaps work.
 - [ ] Slide → placing → confirmation (`none`, `checkout-alpha`); failure → modal → back resets the slider; exits reset to `home/home` / `orders/list`.
 - [ ] Every row, link and tile navigates or toggles; nothing dead.
 - [ ] Tokens only (`lint:tokens` 0 for the flow); new values are `chk*` / `chkFig*` flow tokens with a `src/flows/checkout/FIGMA-MAPPING.md` row.
 - [ ] Prices with the dirham glyph; NEW badges are `NewBadge`.
-- [ ] Screenshots read at top, mid (`--scroll 750`) and bottom (`--scroll 1500`), compared with `14288:183972`.
+- [ ] Screenshots read at top, mid (`--scroll 750`) and bottom (`--scroll 1500`), compared with All flows `127:44077` (and `14288:183972` for `FIGMA_SECTIONS`).
 - [ ] `source` names `Figma Af34gfmhQ1D0wstXUEHSIF · 127:44077` (and `zURu7GI7sq77fjdXKrouvo · 14288:183972` for `FIGMA_SECTIONS`).

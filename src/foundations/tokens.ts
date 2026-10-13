@@ -17,7 +17,7 @@ import { palette } from './palette';
  *    shadow.card         → var(--nk-shadow-card)
  *    palette.blackAlpha8 → var(--nk-palette-black-alpha8)
  *    button.primaryBg    → var(--nk-button-primary-bg)   (component groups: button, iconButton,
- *                          badge, pill, stepper, searchBar, tabBar, quickAdd, needHelp)
+ *                          badge, pill, stepper, searchBar, tabBar, quickAdd, needHelp, sheet)
  *  Numbers become px, except keys ending in Scale / Opacity (unitless) and Duration (ms).
  *  Component tokens reference the semantic ones through `ref.*` (CSS vars), so flow overrides of a
  *  colour reach every button / pill that uses it.
@@ -105,6 +105,7 @@ export const colors = {
 
   // overlays
   scrim: palette.primaryAlpha50, // rgba(14, 14, 14, 0.5)
+  scrimBold: palette.blackAlpha80, // Origin surface/overlay-bold — M-BottomSheet scrim
   imageOverlay: palette.blackAlpha2, // rgba(0, 0, 0, 0.02)
 
   // SKU card (src/components/SkuCard, Figma "SKU")
@@ -283,6 +284,7 @@ export const shadow = {
   thumb: `0 1px 4px ${palette.blackAlpha6}`,
   bottomBar: `0 -2px 6px ${palette.blackAlpha8}`, // sticky footer (BottomBar)
   floating: `0 -4px 32px ${palette.charcoalAlpha12}`, // floating action pill (NeedHelpButton)
+  sheet: `0 -2px 16px ${palette.blackAlpha12}`, // Origin M-BottomSheet
 } as const;
 
 export const layout = {
@@ -650,7 +652,41 @@ export const needHelp = {
   pressScale: 0.96,
 } as const;
 
-export const tokens = { colors, palette, spacing, radius, fontSize, fontFamily, fontWeight, type, shadow, layout, button, iconButton, badge, pill, stepper, searchBar, tabBar, quickAdd, needHelp };
+/**
+ * Default bottom sheet: Origin Design System M-BottomSheet (Figma wFRKiKskxZ4vjIHbDVvngJ · 3207:15). The navigator draws
+ * the chrome (scrim, grabber above the sheet, floating 12px inset, r16 on all corners, gap above the home indicator);
+ * <SheetHeader> / <SheetBody> / <SheetFooter> fill the slots. CSS: var(--nk-sheet-<key>).
+ */
+export const sheet = {
+  scrim: ref.color('scrimBold'), // rgba(0,0,0,0.8)
+  inset: 12, // floating horizontal inset
+  radius: ref.radius('r16'), // all four corners
+  bg: ref.color('bgSurface'), // surface.primary — override per context (any surface token)
+  shadow: ref.shadow('sheet'),
+  maxHeight: 680,
+  bottomGap: 12, // min gap under the sheet (the home-indicator inset wins when larger)
+  grabberZone: 28, // 12 + 4 + 12, outside the sheet
+  grabberWidth: 36,
+  grabberHeight: 4,
+  grabberRadius: ref.radius('r2'),
+  grabber: ref.palette('whiteAlpha64'), // on the scrim
+  headerHeight: 48,
+  padding: 12, // header / body / footer side padding (aligns with the footer button edge)
+  titleFont: ref.type('text16SemiboldLh22'),
+  titleFg: ref.color('textPrimary'),
+  subtitleFont: ref.type('text12MediumLh18'), // B12 medium
+  subtitleFg: ref.color('textSecondary'), // text-n-icon/tertiary #666D85
+  closeSize: 44, // tap target ≥ 44 (Origin don'ts)
+  closeIconSize: 24,
+  closeFg: ref.color('textPrimary'),
+  footerPadding: 12, // M-StackedActionBar
+  footerGap: 12,
+  secondaryBg: ref.color('bgSurface'), // M-SecondaryButton
+  secondaryFg: ref.color('primary'), // text-n-icon/action #0F61FF
+  secondaryBorder: ref.color('pillSelectedBorder'), // border/action #D6E9FF
+} as const;
+
+export const tokens = { colors, palette, spacing, radius, fontSize, fontFamily, fontWeight, type, shadow, layout, button, iconButton, badge, pill, stepper, searchBar, tabBar, quickAdd, needHelp, sheet };
 export type Tokens = typeof tokens;
 
 type Widen<T> = { [K in keyof T]?: T[K] extends object ? Widen<T[K]> : string | number };

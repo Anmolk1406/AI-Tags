@@ -1,4 +1,5 @@
-import { animate, motion, useInView, useMotionValue, useReducedMotion } from 'motion/react';
+import { animate, motion, useInView, useMotionValue } from 'motion/react';
+import { useReduceMotion } from '../../../motion/reducedMotion';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Pressable } from '../../../components';
 import { useNav } from '../../../kit/Navigator';
@@ -32,14 +33,15 @@ export function SnappedBannerCarousel({ wrap, banners, flat }: { wrap: BzWrap; b
   const [dragging, setDragging] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { amount: 0.5 });
-  const reduced = useReducedMotion();
+  const reduced = useReduceMotion();
 
   const go = useCallback(
     (to: number) => {
       indexRef.current = to;
       setIndex(to);
       animate(x, -to * step, {
-        duration: bz.sliderAdvance,
+        // reduced motion: swipes land at once (autoplay is off below)
+        duration: reduced ? 0 : bz.sliderAdvance,
         ease: easing.out,
         onComplete: () => {
           if (!looping) return;

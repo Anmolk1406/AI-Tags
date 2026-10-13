@@ -13,7 +13,7 @@ palette.ts (raw, bappzaar names)   palette.accentColor = '#3866DF'
 
 - **Palette** (`palette`, ~470 entries): every colour literal the kit uses, named after bappzaar `colorStatic` / `NoonTokens.colors` / `NoonColors`. Use only for exact one-off brand colours.
 - **Semantic** (`colors`, `spacing`, `radius`, `fontSize`, `fontFamily`, `fontWeight`, `type`, `shadow`, `layout`): what screens and components use.
-- **Component** (`button`, `iconButton`, `badge`, `pill`, `stepper`, `searchBar`, `tabBar`, `quickAdd`, `needHelp`): every visual value of a shared component. Colour/type/radius values are `var(--nk-…)` references (via `ref.*`), so overriding a semantic colour re-colours every component that uses it.
+- **Component** (`button`, `iconButton`, `badge`, `pill`, `stepper`, `searchBar`, `tabBar`, `quickAdd`, `needHelp`, `sheet`): every visual value of a shared component. Colour/type/radius values are `var(--nk-…)` references (via `ref.*`), so overriding a semantic colour re-colours every component that uses it.
 - **Flow tokens**: `src/flows/<id>/tokens.ts` exports a `TokenOverrides` object passed to `defineFlow({ tokens })`; it can override central keys and add flow-prefixed keys.
 
 ### CSS variable naming (`tokensToCssVars`)
@@ -63,7 +63,7 @@ const w = layout.deviceWidth / 2.5;                                     // raw n
 - Raw objects (`tokens`, `colors`, `spacing`, `layout`, `palette`, ...) give literal values; use for arithmetic (widths, motion), not for colours in styles.
 - `<Text>`: `variant` is typed to central `type` keys only (default `body`); `color` accepts any camelCase colour key, including flow keys (`color="cartEmerald"` → `var(--nk-color-cart-emerald)`), or a raw CSS value (default `textPrimary`). Flow `type` tokens are used from CSS (`font: var(--nk-type-<flow>-…)`), not via `variant`.
 - Some flows ship typed helpers for their own keys, e.g. `mb.color('mbYellowDark')` in `src/flows/membership/tokens.ts`.
-- Package exports: `tokens, colors, spacing, radius, fontSize, fontFamily, fontWeight, type, shadow, layout, ref, kebab, TokenOverrides`, `palette`, component groups as `buttonTokens, iconButtonTokens, badgeTokens, pillTokens, stepperTokens, searchBarTokens, tabBarTokens, quickAddTokens, needHelpTokens`, and `NoonThemeProvider, TokenScope, tokensToCssVars`.
+- Package exports: `tokens, colors, spacing, radius, fontSize, fontFamily, fontWeight, type, shadow, layout, ref, kebab, TokenOverrides`, `palette`, component groups as `buttonTokens, iconButtonTokens, badgeTokens, pillTokens, stepperTokens, searchBarTokens, tabBarTokens, quickAddTokens, needHelpTokens, sheetTokens`, and `NoonThemeProvider, TokenScope, tokensToCssVars`.
 
 ## 2. Tables
 
@@ -134,6 +134,7 @@ const w = layout.deviceWidth / 2.5;                                     // raw n
 | `noonOneSurface` | `--nk-color-noon-one-surface` | `#FFF3C0` | `paleYellowLegacy` | noon One surfaces |
 | `noonOneInk` | `--nk-color-noon-one-ink` | `#794000` | `cocoaBrown` | noon One text |
 | `scrim` | `--nk-color-scrim` | `rgba(14, 14, 14, 0.5)` | `primaryAlpha50` | sheet/modal backdrop |
+| `scrimBold` | `--nk-color-scrim-bold` | `rgba(0, 0, 0, 0.8)` | `blackAlpha80` | Origin surface/overlay-bold — default bottom sheet scrim |
 | `imageOverlay` | `--nk-color-image-overlay` | `rgba(0, 0, 0, 0.02)` | `blackAlpha2` | tint over product images |
 
 Same value, different meaning: `#0E0E0E` = `brandInk` / `bgInverse` / `textInk`; `#3866DF` = `cta` / `badge`; `#F2F3F7` = `bgPage` / `borderSubtle`; `#FFFFFF` = `textInverse` / `bgSurface`; `#0F8857` = `success` / `discount` / `rating`; `#F9F9FB` = `bgSubtle` / `bgPdp`; `#404553` = `textLegacy` / `tabInactive`. Pick by meaning.
@@ -234,6 +235,7 @@ Weights: Regular 400, Medium 500, Semibold 600, Bold 700. Lookup from a raw shor
 | `thumb` | `0 1px 4px rgba(0, 0, 0, 0.06)` | quick-add, thumbs |
 | `bottomBar` | `0 -2px 6px rgba(0, 0, 0, 0.08)` | sticky footer |
 | `floating` | `0 -4px 32px` `palette.charcoalAlpha12` (`rgba(34, 34, 34, 0.12)`) | floating action pill (`NeedHelpButton`) |
+| `sheet` | `0 -2px 16px rgba(0, 0, 0, 0.12)` | Origin M-BottomSheet |
 
 ### Layout (`layout` → `--nk-layout-*`, px)
 
@@ -295,26 +297,30 @@ count: `countSize 20`, `countBg primary`, `countFg textInverse`, `countFont text
 
 **`needHelp`** (`--nk-need-help-*`): `size 48`, `padding 12`, `gap 8`, `radius full`, `borderWidth 2`, `border palette.lightBlue`, `bg bgSurface`, `shadow floating`, `icon brandBlue`, `iconSize 20`, `fg textPrimary`, `font text16SemiboldLh20`, `tracking -0.16`, `inset 16`, `pressScale 0.96`.
 
+**`sheet`** (`--nk-sheet-*`, Origin M-BottomSheet `wFRKiKskxZ4vjIHbDVvngJ · 3207:15`): `scrim scrimBold`, `inset 12`, `radius r16`, `bg bgSurface`, `shadow sheet`, `maxHeight 680`, `bottomGap 12`, `grabberZone 28`, `grabberWidth 36`, `grabberHeight 4`, `grabberRadius r2`, `grabber palette.whiteAlpha64`, `headerHeight 48`, `padding 12`, `titleFont text16SemiboldLh22`, `titleFg textPrimary`, `subtitleFont text12MediumLh18`, `subtitleFg textSecondary`, `closeSize 44`, `closeIconSize 24`, `closeFg textPrimary`, `footerPadding 12`, `footerGap 12`, `secondaryBg bgSurface`, `secondaryFg primary`, `secondaryBorder pillSelectedBorder`.
+
 ## 3. Rules
 
 **Where raw values may live**
 - `src/foundations/**`: definitions (lint ignores it). Add to `palette.ts` / `tokens.ts` only for genuinely shared, kit-wide values.
 - `src/flows/<id>/tokens.ts`: the only other place for raw hex / rgba / font literals. Lint reports them in a separate "in tokens.ts" column and never fails on them.
 - Everywhere else (`*.module.css`, `*.tsx`, `src/components/**`, `src/kit/**`): only `var(--nk-…)`, `ref.*`, `<Text>`. `src/components` must have zero findings or `npm run lint:tokens` (and `npm run verify`) fails.
-- True geometry that matches the regex (e.g. SVG fill in an icon) may carry a `token-lint-ignore` comment on the line. Comments are stripped before scanning, so a hex inside a comment is fine.
-- Lint scope: hex (`#RGB`, `#RGBA`, `#RRGGBB`, `#RRGGBBAA`), `rgb()/rgba()/hsl()/hsla()`, and `font: <weight>00 <size>px` shorthands. It does not check px spacing/radius, gradients' numeric parts, or `font-size:` alone, so snap those by discipline.
+- True geometry that matches the regex (e.g. SVG fill in an icon) may carry a `token-lint-ignore — <reason>` comment on the line. The reason is required: an ignore without one is reported in the "no reason" column. Comments are stripped before scanning, so a hex inside a comment is fine.
+- Lint scope (fails `src/components`): hex (`#RGB`, `#RGBA`, `#RRGGBB`, `#RRGGBBAA`), `rgb()/rgba()/hsl()/hsla()`, and `font: <weight>00 <size>px` shorthands.
+- Lint scope (reported, never fails yet): the "px" column — raw `font-size: 13px` / `border-radius: 10px` in CSS and `fontSize: 13` / `borderRadius: 10` in TS whose number has a token (`token-map.json` `fontSize` / `radius`), and "no reason" ignores. Spacing, off-scale sizes and gradients' numeric parts are not checked, so snap those by discipline.
 
 **Lint and replace workflow**
 
 ```bash
 npm run lint:tokens                               # summary per folder
-node scripts/token-lint.mjs -v src/flows/cart     # list findings: file:line kind literal
-node scripts/token-lint.mjs --strict src/flows/cart   # exit 1 if that path has findings
+node scripts/token-lint.mjs -v src/flows/cart     # list findings: file:line kind literal (px findings name the token)
+node scripts/token-lint.mjs --strict src/flows/cart   # exit 1 if that path has hex / rgba / font findings
 ```
 
 For each finding, normalise the literal (hex uppercase, 3/4-digit expanded, `FF` alpha dropped; `rgba(r, g, b, a)` with one space after commas; `rgb()` / alpha 1 → hex) and look it up in `scripts/token-map.json`:
 - `colors["#3866DF"]` → `{ palette: "accentColor", cssVar: "var(--nk-color-badge)", semantic: ["--nk-color-badge", "--nk-color-cta"], paletteVar: "--nk-palette-accent-color" }`. Choose the `semantic` entry whose meaning fits (here `cta` for a button); `cssVar` is just the first. No `semantic` → use `paletteVar`.
 - `type["600 14px/18px"]` → `{ token: "bodySemibold", cssVar: "var(--nk-type-body-semibold)" }`. `token: null` = one-off: add a flow type token (`<flow>Text<size><Weight>Lh<line>`).
+- `radius["12px"]` → `var(--nk-radius-r12)` (`9999px` → `var(--nk-radius-full)`); `fontSize["13px"]` → `var(--nk-font-size-body-compact)`. For text, prefer a whole `var(--nk-type-*)` shorthand when weight and line height match too.
 - Not in the map: add a flow token (below), or a palette entry if several flows need it.
 
 **Flow tokens** (`src/flows/<id>/tokens.ts`, scaffolded by `npm run new-flow`)

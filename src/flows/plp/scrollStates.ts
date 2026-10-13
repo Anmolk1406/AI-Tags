@@ -1,4 +1,5 @@
-import { animate, cubicBezier, useMotionValue, useReducedMotion, type MotionValue } from 'motion/react';
+import { animate, cubicBezier, useMotionValue, type MotionValue } from 'motion/react';
+import { useReduceMotion } from '../../motion/reducedMotion';
 import { useCallback, useEffect, useRef, useState, type RefObject } from 'react';
 import { duration } from '../../motion/presets';
 import { TabBarScrollVisibility } from '../../kit/tabBarScroll';
@@ -60,7 +61,7 @@ export interface PlpScrollStates {
  * (bar back, unanimated), as navigationWrapper's push does.
  */
 export function usePlpScrollStates(scrollRef: RefObject<HTMLDivElement | null>, active: boolean): PlpScrollStates {
-  const reduce = useReducedMotion();
+  const reduce = useReduceMotion();
   const tabHide = useMotionValue(0);
   const headerHide = useMotionValue(0);
   const headerRef = useRef<HTMLDivElement>(null);

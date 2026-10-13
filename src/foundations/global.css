@@ -106,3 +106,22 @@
   text-align: inherit;
   color: inherit;
 }
+
+/*
+ * Reduced motion. <NoonPrototype> sets data-nk-motion="reduce" on its root while motion is reduced (OS setting with
+ * reducedMotion="user", the default, or reducedMotion="always"). CSS animations and transitions then jump to their
+ * end state (one iteration, no delay), so state-driven visibility still lands where it would have. Loading
+ * indicators that must keep communicating opt out with `.nk-motion-keep` and switch to a gentle opacity pulse
+ * (Spinner: `nk-reduced-pulse` in Spinner.module.css). Rules: .claude/skills/noon-ui/references/motion.md → Reduced motion.
+ */
+[data-nk-motion='reduce'] *:not(.nk-motion-keep),
+[data-nk-motion='reduce'] *:not(.nk-motion-keep)::before,
+[data-nk-motion='reduce'] *:not(.nk-motion-keep)::after {
+  animation-duration: 0.01ms !important;
+  animation-delay: 0s !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  transition-delay: 0s !important;
+  scroll-behavior: auto !important;
+}
+

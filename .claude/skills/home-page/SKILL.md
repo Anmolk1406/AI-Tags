@@ -7,6 +7,8 @@ description: Build or restyle the noon home page and home-style landing pages (c
 
 Builds the noon home feed and any page that speaks its module language. Load `../noon-ui/SKILL.md` first if it isn't loaded: its workflow, house rules and design-system references apply here unchanged. This skill adds the home specification and the checks specific to it.
 
+For a new screen, a redesign or an open-ended idea, run the research-first design workflow before building: `../noon-ui/references/design-workflow.md` (size the request, research the repo and Mobbin per `../noon-ui/references/research.md`, clarify only blocking gaps, write the design direction, build with `../noon-ui/references/component-checklist.md`, validate). Its rules apply here unchanged; this skill's `spec.md` is the starting point for the design direction, and a port from bappzaar or Figma stays analyse → map → implement.
+
 ## Sources
 
 | Source | Where |
@@ -23,9 +25,9 @@ Builds the noon home feed and any page that speaks its module language. Load `..
    - *Home 2025 variant*: a new screen `home/revamp` beside `home/home`. Default, because `home/home` is the reference port.
    - *Replace the home*: only when the user asks to update the home flow itself. Keep the route `home/home` and the tab bar.
    - *Campaign / landing page*: a pushed screen in a new flow (or `deals`) using the landing variant in `spec.md`.
-2. **Read** `spec.md`, then `references/figma-homepage-2025.md` §2 (anatomy) and §6 (delta), then `src/flows/home/HomeScreen.tsx`, `data.ts`, `tokens.ts` and the components you will reuse (`ExperienceSwitcher`, `HeroCarousel`, `CardRail`, `DealTimer`).
-3. **Plan the modules** as an ordered array in `data.ts` (`{ type, title?, ... }`) and render them through one `switch`, so order changes stay data-only. Follow the ordering rules in `spec.md`.
-4. **Build the header**, then each module, from the module catalogue: reuse the home components, promote `SkuCard` (`src/flows/cart/components/CartCarousel.tsx`) to `src/components` before using it in a second flow, and add the missing modules (`PromoTicker`, `CategoryTile`, `IconTabs`, `OfferTicket`, `RecentCard`, `BrandAdModule`, `LaunchModule`) in `src/flows/home/components/`.
+2. **Read** `spec.md`, then `references/figma-homepage-2025.md` §2 (anatomy) and §6 (delta), then `src/flows/home/HomeScreen.tsx`, `data.feed.ts` (`homeFeed`), `tokens.ts` and the components you will reuse (`HomeHeader`, `ExperienceSwitcher`, `EidBanners`, `ProductCarousel`, `BzModuleWrapper`, `DealTimer`).
+3. **Plan the modules** as an ordered array (as `homeFeed: BzModule[]` in `data.feed.ts`, `{ key, type, wrap, header?, … }`) and render them through one `switch`, so order changes stay data-only. Follow the ordering rules in `spec.md`.
+4. **Build the header**, then each module, from the module catalogue: reuse the home components and the central `SkuCard` / `ProductCard carousel`. The 2025 modules already exist in `src/flows/home/components/` but are not rendered on `home/home` (`PromoTicker`, `CategoryGrid`, `RecommendedRail`, `OfferTickets`, `ProductRail`, `KeepShopping`, `BrandAdModule`, `LaunchModule`, `HeroBanners`, `DepartmentTabs`); render them on the new screen instead of rebuilding them.
 5. **Tokens**: section titles `Text variant="heading"` coloured `var(--nk-palette-new-black)`; feed gap and the other 2025-only values as `home*` keys in `src/flows/home/tokens.ts`; snap every Figma value with the table in the Figma analysis §3. Don't change central tokens or `TabBar` defaults for this page.
 6. **Motion**: hero auto-advance and snap as `HeroCarousel` does; tab underline with `layoutId`; rail swap with `AnimatePresence` + `Stagger`; header collapse past 100px (`spec.md` → Motion).
 7. **Register**: `ScreenDef` with `title`, `path`, `notes`, and `source: 'Figma iRE9RwO94eMAyW3j3XKNXW · 1337:5102'`. For a full port, write `src/flows/home/FIGMA-MAPPING.md` from the analysis §3–4.

@@ -47,7 +47,7 @@ export function BillSummary({ bill }: { bill: Bill }) {
           </strong>
         </div>
         <div className={styles.oneStripWrap}>
-          <Pressable className={styles.oneStrip} scale={0.98} onClick={() => nav.push('noonone/landing')}>
+          <Pressable className={styles.oneStrip} scale={0.98} onClick={() => nav.push('noonone/landing', { source: '/orders' })}>
             <img className={styles.oneLines} src={art.bannerLines} alt="" />
             <span className={styles.oneText}>
               Get unlimited Free Delivery with

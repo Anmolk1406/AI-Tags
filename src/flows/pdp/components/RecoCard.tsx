@@ -12,6 +12,7 @@ import type { Product, ProductNudge } from '../../../data';
 import { spring } from '../../../motion/presets';
 import { pdpTokens } from '../tokens';
 import styles from '../pdp.module.css';
+import { useReduceMotion } from '../../../motion/reducedMotion';
 
 /** Live nudge icons (mpcms assets on the page), by ProductNudge.kind. */
 export const nudgeIcons: Record<ProductNudge['kind'], string> = { rank, lowestPrice, freeDelivery, lowStock, sellingFast, soldRecently, info: lowestPrice };
@@ -56,11 +57,13 @@ export function RecoCard({ product }: { product: Product }) {
 function CardNudges({ nudges }: { nudges: ProductNudge[] }) {
   const { card } = pdpTokens.nudge;
   const [i, setI] = useState(0);
+  const reduce = useReduceMotion();
   useEffect(() => {
-    if (nudges.length < 2) return;
+    // reduced motion: the first nudge stays (no auto-rotation)
+    if (nudges.length < 2 || reduce) return;
     const t = setInterval(() => setI((n) => (n + 1) % nudges.length), card.enterMs + card.holdMs + card.exitMs);
     return () => clearInterval(t);
-  }, [nudges.length, card.enterMs, card.holdMs, card.exitMs]);
+  }, [nudges.length, card.enterMs, card.holdMs, card.exitMs, reduce]);
   const n = nudges[i];
   return (
     <div className={styles.cardNudge}>

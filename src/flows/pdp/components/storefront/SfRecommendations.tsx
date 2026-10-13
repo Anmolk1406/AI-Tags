@@ -11,6 +11,7 @@ import { copy } from '../../data';
 import { pdpTokens } from '../../tokens';
 import { Card } from '../Sections';
 import styles from './SfRecommendations.module.css';
+import { useReduceMotion } from '../../../../motion/reducedMotion';
 
 /** Nudge kind → Origin icon + tint (Figma "Nudges - HP": solid/arrow-down-circle, solid/truck, solid/bolt, solid/shopping-cart, solid/check-badge). */
 const nudgeIcon: Record<ProductNudge['kind'], { name: OriginIconName; color: string }> = {
@@ -135,11 +136,13 @@ export function SfRecoCard({ product: p, sponsored }: { product: Product; sponso
 function SfNudges({ nudges }: { nudges: ProductNudge[] }) {
   const { card } = pdpTokens.nudge;
   const [i, setI] = useState(0);
+  const reduce = useReduceMotion();
   useEffect(() => {
-    if (nudges.length < 2) return;
+    // reduced motion: the first nudge stays (no auto-rotation)
+    if (nudges.length < 2 || reduce) return;
     const t = setInterval(() => setI((n) => (n + 1) % nudges.length), card.enterMs + card.holdMs + card.exitMs);
     return () => clearInterval(t);
-  }, [nudges.length, card.enterMs, card.holdMs, card.exitMs]);
+  }, [nudges.length, card.enterMs, card.holdMs, card.exitMs, reduce]);
   const n = nudges[i % nudges.length];
   const icon = nudgeIcon[n.kind];
   return (

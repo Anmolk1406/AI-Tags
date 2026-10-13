@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Scaffold a new flow:  npm run new-flow -- loyalty "noon Loyalty" "Profile"
-// Creates src/flows/<id>/{index.ts,tokens.ts,data.ts,<Name>Screen.tsx,<id>.module.css} and registers it.
+// Creates src/flows/<id>/{index.ts,tokens.ts,data.ts,<Name>Screen.tsx,<id>.module.css,DESIGN.md} and registers it.
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -31,18 +31,21 @@ export const ${id}FlowTokens: TokenOverrides = {
   // colors: { bgPage: '#FFFFFF' },
 };
 `,
-  'data.ts': `import { products } from '../../mocks/products';
+  'data.ts': `import { products } from '../../data';
 
 /** Mock content for ${title}. Keep copy here so PMs can edit text without touching layout. */
 export const ${id}Copy = {
   title: '${title}',
   subtitle: 'Describe what this demo shows',
   cta: 'Continue',
+  sheetTitle: 'How it works',
+  sheetBody: 'Bottom sheets use the Origin layout: grabber above, header, body, footer button.',
+  sheetCta: 'Got it',
 };
 
 export const ${id}Products = products.slice(0, 4);
 `,
-  [`${Name}Screen.tsx`]: `import { Button, Header, ProductCard, Screen, SectionCard, Text } from '../../components';
+  [`${Name}Screen.tsx`]: `import { Button, Header, ProductCard, Screen, SectionCard, SheetBody, SheetFooter, SheetHeader, Text } from '../../components';
 import { useNav } from '../../kit/Navigator';
 import { FadeIn, Stagger } from '../../motion/recipes';
 import { ${id}Copy, ${id}Products } from './data';
@@ -84,9 +87,25 @@ export function ${Name}NextScreen() {
   return (
     <Screen header={<Header title="Step 2" />}>
       <SectionCard title="All done">
+        <Button variant="soft" onClick={() => nav.sheet('${id}/info')}>How it works</Button>
         <Button variant="dark" onClick={() => nav.popToRoot()}>Back to start</Button>
       </SectionCard>
     </Screen>
+  );
+}
+
+/** Default bottom sheet (Origin M-BottomSheet): the navigator draws the chrome; render only the three slots.
+ *  It has a grabber, so no close button. */
+export function ${Name}InfoSheet() {
+  const nav = useNav();
+  return (
+    <>
+      <SheetHeader title={${id}Copy.sheetTitle} />
+      <SheetBody>
+        <Text color="textSecondary">{${id}Copy.sheetBody}</Text>
+      </SheetBody>
+      <SheetFooter primary={{ label: ${id}Copy.sheetCta, onPress: () => nav.back() }} />
+    </>
   );
 }
 `,
@@ -100,6 +119,7 @@ import { lazyScreen } from '../../kit/lazyScreen';
 // screens load on demand (only what a page shows is in its first download)
 const ${Name}Screen = lazyScreen(() => import('./${Name}Screen'), '${Name}Screen');
 const ${Name}NextScreen = lazyScreen(() => import('./${Name}Screen'), '${Name}NextScreen');
+const ${Name}InfoSheet = lazyScreen(() => import('./${Name}Screen'), '${Name}InfoSheet');
 import { ${id}FlowTokens } from './tokens';
 
 export const ${id}Flow = defineFlow({
@@ -112,11 +132,17 @@ export const ${id}Flow = defineFlow({
   screens: [
     { id: 'main', title: '${title}', component: ${Name}Screen, notes: 'TODO: what to try on this screen.' },
     { id: 'next', title: 'Step 2', component: ${Name}NextScreen, transition: 'fade-up' },
+    { id: 'info', title: 'How it works', component: ${Name}InfoSheet, presentation: 'sheet', notes: 'Default Origin bottom sheet.' },
   ],
 });
 `,
 };
 for (const [f, c] of Object.entries(files)) writeFileSync(join(dir, f), c);
+
+// design record (design-workflow.md → stage E): the template, titled; `npm run skill:check` fails until it is filled in
+// (or replaced by a MAPPING.md / FIGMA-MAPPING.md for a port)
+const tpl = readFileSync(join(root, '.claude/skills/noon-ui/templates/DESIGN.md'), 'utf8');
+writeFileSync(join(dir, 'DESIGN.md'), tpl.replace('# <Flow or screen name>', `# ${title}`).replaceAll('<flow>', id));
 
 // register in src/flows/index.ts
 const reg = join(root, 'src/flows/index.ts');
@@ -126,4 +152,5 @@ s = s.replace(/export \{ ([^}]*) \};/, (_, names) => `export { ${names.trim()}, 
 s = s.replace(/export const allFlows: FlowDef\[\] = \[([^\]]*)\];/, (_, names) => `export const allFlows: FlowDef[] = [${names.trim()}, ${id}Flow];`);
 writeFileSync(reg, s);
 
-console.log(`✔ Created src/flows/${id}  →  open http://localhost:5180/${id}/main`);
+console.log(`✔ Created src/flows/${id}  →  open /${id}/main on the dev server`);
+console.log(`  Next: fill in src/flows/${id}/DESIGN.md (.claude/skills/noon-ui/references/design-workflow.md); npm run skill:check fails until it is.`);

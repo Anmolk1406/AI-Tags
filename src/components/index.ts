@@ -34,3 +34,4 @@ export * from './HtmlText/HtmlText';
 export * from './Toast/Toast';
 export * from './MaskIcon/MaskIcon';
 export * from './SkuCard/SkuCard';
+export * from './BottomSheet/BottomSheet';

@@ -5,6 +5,7 @@ import { wishlistTokens } from '../tokens';
 import styles from '../wishlist.module.css';
 import { ref } from '../../../foundations/tokens';
 import { palette } from '../../../foundations/palette';
+import { useReduceMotion } from '../../../motion/reducedMotion';
 
 const floaters = [
   { x: '18%', y: '22%', size: 26, delay: 0, dur: 3.2 },
@@ -17,6 +18,8 @@ const floaters = [
 export function EmptyState() {
   const nav = useNav();
   const e = wishlistTokens.empty;
+  // reduced motion: the hearts hold still (MotionConfig would drop the float but keep the opacity loop)
+  const reduce = useReduceMotion();
   return (
     <div className={styles.empty}>
       <div className={styles.emptyArt}>
@@ -25,7 +28,7 @@ export function EmptyState() {
           <motion.span
             key={i}
             style={{ position: 'absolute', left: f.x, top: f.y, display: 'flex' }}
-            animate={{ y: [0, -12, 0], rotate: [0, i % 2 ? 10 : -10, 0], opacity: [0.5, 1, 0.5] }}
+            animate={reduce ? { opacity: 0.75 } : { y: [0, -12, 0], rotate: [0, i % 2 ? 10 : -10, 0], opacity: [0.5, 1, 0.5] }}
             transition={{ duration: f.dur, delay: f.delay, repeat: Infinity, ease: 'easeInOut' }}
           >
             <Icon name="heart" size={f.size} color={palette.pink600} fill={palette.pink600} strokeWidth={0} />
@@ -33,7 +36,7 @@ export function EmptyState() {
         ))}
         <motion.span
           className={styles.bigHeart}
-          animate={{ y: [0, -10, 0], scale: [1, 1.06, 1] }}
+          animate={reduce ? undefined : { y: [0, -10, 0], scale: [1, 1.06, 1] }}
           transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
         >
           <Icon name="heart" size={96} color={palette.white} fill={palette.pink600} strokeWidth={1.2} />

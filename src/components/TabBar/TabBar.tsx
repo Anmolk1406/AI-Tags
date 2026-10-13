@@ -35,7 +35,7 @@ const tabs: { id: TabId; label: string; icon: string; selected: string; size: nu
 
 export function TabBar({ active }: { active: TabId }) {
   const nav = useNav();
-  const { cartCount } = useDemoStore();
+  const { cartBadge: cartCount } = useDemoStore();
   return (
     <nav className={styles.bar}>
       {tabs.map((t) => {

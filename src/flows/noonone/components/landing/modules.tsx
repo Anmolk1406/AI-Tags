@@ -5,24 +5,29 @@ import chevronDownM from '@assets/vip/chevron-down-m.svg';
 import dots from '@assets/vip/dots.webp';
 import switchesIcon from '@assets/vip/switches.svg';
 import { HtmlText } from '../../../../components';
+import { useLottieReducedMotion } from '../../../../components/Lottie/Lottie';
 import type { Benefit, MpBenefit } from '../../data.landing';
 import { landingTokens as T } from '../../tokens';
 import { VIPButton } from '../VIPButton';
 import { DashedLine } from './DashedLine';
 import styles from './landing.module.css';
+import { useReduceMotion } from '../../../../motion/reducedMotion';
 
 /** DotLottie with RN LottieView `resizeMode` (contain | cover). */
 export function LottieBox({ src, fit = 'contain', loop = false, onComplete, style, className }: { src: string; fit?: 'contain' | 'cover'; loop?: boolean; onComplete?: () => void; style?: CSSProperties; className?: string }) {
+  // reduced motion: no autoplay; one-shots show their last frame and still complete on time, loops hold a frame
+  const rm = useLottieReducedMotion({ loop, onComplete });
   return (
     <DotLottieReact
       className={className}
       src={src}
-      autoplay
+      autoplay={rm.autoplay}
       loop={loop}
       layout={{ fit, align: [0.5, 0.5] }}
       style={style}
       dotLottieRefCallback={(d) => {
         if (d && onComplete) d.addEventListener('complete', onComplete);
+        rm.attach(d);
       }}
     />
   );
@@ -135,18 +140,21 @@ export function Slider({
   const startX = useRef<number | null>(null);
   useMotionValueEvent(pos, 'change', setP);
 
+  const reduce = useReduceMotion();
   const go = (dir: 1 | -1) => {
     target.current += dir;
-    animate(pos, target.current, { duration: ms / 1000, ease });
+    // reduced motion: swipes land at once
+    animate(pos, target.current, { duration: reduce ? 0 : ms / 1000, ease });
     setTick((t) => t + 1);
   };
 
   useEffect(() => {
-    if (!autoplay || n < 2) return;
+    // reduced motion: no autoplay (still swipeable)
+    if (!autoplay || n < 2 || reduce) return;
     const id = setInterval(() => go(1), autoplayMs);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [autoplay, n, tick]);
+  }, [autoplay, n, tick, reduce]);
 
   const tf = -(w - w * s) / 2;
   const base = Math.round(p);
@@ -364,11 +372,13 @@ export function StatusIndicator({ size = 18, color = 'var(--nk-color-success)' }
   const st = T.status;
   const total = st.totalMs;
   const id = useRef(`vipst${Math.random().toString(36).slice(2, 8)}`).current;
+  // reduced motion: the ring holds at rest instead of pulsing (MotionConfig would keep the opacity loop)
+  const reduce = useReduceMotion();
   return (
     <div className={styles.statusWrap} style={{ width: box, height: box }}>
       <motion.div
         className={styles.statusLayer}
-        animate={{ scale: [0, st.maxScale, st.maxScale], opacity: [1, 1, 0, 0] }}
+        animate={reduce ? undefined : { scale: [0, st.maxScale, st.maxScale], opacity: [1, 1, 0, 0] }}
         transition={{
           scale: { duration: total / 1000, times: [0, st.scaleEndMs / total, 1], ease: [st.scaleEase, 'linear'], repeat: Infinity },
           opacity: { duration: total / 1000, times: [0, st.opacityStartMs / total, st.opacityEndMs / total, 1], ease: 'easeInOut', repeat: Infinity },

@@ -7,6 +7,7 @@ import { duration, easing } from '../../../motion/presets';
 import muteIcon from '@assets/home/2025/brand/mute.svg';
 import { brandAd } from '../data.modules';
 import styles from './BrandAdModule.module.css';
+import { useReduceMotion } from '../../../motion/reducedMotion';
 
 /**
  * Sponsored brand module "SUMMER ESSENTIALS" (Figma 1337:6106): full-bleed dark gradient section, 418 tall. Brand header
@@ -16,6 +17,8 @@ import styles from './BrandAdModule.module.css';
 export function BrandAdModule() {
   const nav = useNav();
   const [muted, setMuted] = useState(true);
+  // reduced motion: the video doesn't autoplay (its poster shows)
+  const reduce = useReduceMotion();
   const openBrand = () => nav.push('plp/listing', { query: brandAd.query });
   return (
     <section className={styles.module} aria-label={`${brandAd.title}, sponsored`}>
@@ -38,7 +41,7 @@ export function BrandAdModule() {
       <div className={styles.row}>
         <Pressable className={styles.video} onClick={openBrand} scale={0.98} aria-label={`${brandAd.logoAlt} video`}>
           {brandAd.video ? (
-            <video className={styles.media} src={brandAd.video} poster={brandAd.poster} muted={muted} autoPlay loop playsInline />
+            <video className={styles.media} src={brandAd.video} poster={brandAd.poster} muted={muted} autoPlay={!reduce} loop playsInline />
           ) : (
             <img loading="lazy" decoding="async" className={styles.media} src={brandAd.poster} alt="" draggable={false} />
           )}

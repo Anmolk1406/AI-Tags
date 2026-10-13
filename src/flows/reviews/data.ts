@@ -306,12 +306,12 @@ export const orderKindEntries = {
 
 /**
  * Our orders (src/flows/orders/data.ts) by id: o3 (delivered, returnable) → bike · o4 (delivered, return closed)
- * → iPhone 16 Pro · o6 (delivered, return closed, 2 items) → rate A. Unknown ids → rate A. The review screens
+ * → iPhone 16 Pro · o9 (delivered April 18) → rate A. Unknown ids → rate A. The review screens
  * show the repo products (chips and drafts are product-specific), not the order's mock product.
  */
 export const orderReviewEntries: Record<string, ReviewEntry> = {
   o3: orderKindEntries.deliveredReturnable,
   o4: orderKindEntries.deliveredReturnClosed,
-  o6: { route: 'reviews/rate', variant: 'A' },
+  o9: { route: 'reviews/rate', variant: 'A' },
 };
 export const reviewEntryFor = (orderId?: string): ReviewEntry => (orderId && orderReviewEntries[orderId]) || { route: 'reviews/rate', variant: 'A' };

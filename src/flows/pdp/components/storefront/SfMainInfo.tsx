@@ -10,6 +10,7 @@ import { discountPercent, money, showDiscount, type PdpContent } from '../../dat
 import { bestComboSaving, combosFor, npaCopy } from '../../data.npA';
 import { pdpTokens } from '../../tokens';
 import styles from './SfMainInfo.module.css';
+import { useReduceMotion } from '../../../../motion/reducedMotion';
 
 /** Storefront copy (Figma 3499:75133); not in data.ts `copy`. */
 const sfCopy = {
@@ -227,7 +228,9 @@ function TitleToggle({ title }: { title: string }) {
 function NudgeTicker({ nudges }: { nudges: string[] }) {
   const { nudge } = pdpTokens;
   const [idx, setIdx] = useState(0);
-  const animateIt = nudges.length > 1;
+  // reduced motion: the first nudge stays (no auto-rotation)
+  const reduce = useReduceMotion();
+  const animateIt = nudges.length > 1 && !reduce;
   useEffect(() => {
     if (!animateIt) return;
     const t = setInterval(() => setIdx((n) => (n + 1) % nudges.length), nudge.enterMs + nudge.holdMs + nudge.exitMs);

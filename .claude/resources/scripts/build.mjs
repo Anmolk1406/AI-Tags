@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 // Regenerates the generated resources:  npm run resources:build
 //   screens.md                  from the live registry (src/flows/index.ts)
+//   inventory.md / .json        per flow: screen count, routes, coverage (spec / brief / blueprint / none), docs,
+//                               provenance label per screen (reference-backed / kit-backed / inferred), truth,
+//                               verified dates, heuristically detected loading / empty / error / success states
 //   flows/categories-views.md   every view the Categories tab links to (src/flows/categories/data.live.ts +
 //                               linkRouting.ts, plus cms-pages.json once `npm run categories:fetch` has run)
-//   --check   exit 1 if either is out of date (run by npm run skill:check)
+//   --check   exit 1 if any is out of date (run by npm run skill:check)
 //
 // screens.md is the "where is everything" index the skills read before touching a flow: every route with its
 // URL, presentation, source of truth, verified date and source, plus each flow's files (mapping docs, variant
@@ -18,7 +21,7 @@ const out = join(here, '../screens.md');
 const check = process.argv.includes('--check');
 
 const { createServer } = await import(join(root, 'node_modules/vite/dist/node/index.js'));
-const vite = await createServer({ root, configFile: false, logLevel: 'error', server: { middlewareMode: true }, appType: 'custom', assetsInclude: ['**/*.lottie'], resolve: { alias: { '@assets': join(root, 'src/assets') } } });
+const vite = await createServer({ root, configFile: false, logLevel: 'error', server: { middlewareMode: true, hmr: false, ws: false }, appType: 'custom', assetsInclude: ['**/*.lottie'], resolve: { alias: { '@assets': join(root, 'src/assets') } } });
 let allFlows, screenTruth, pageAliases, liveCategoriesPage, destinationOf, guessPageType;
 try {
   ({ liveCategoriesPage } = await vite.ssrLoadModule('/src/flows/categories/data.live.ts'));
@@ -87,6 +90,195 @@ for (const f of allFlows) {
 lines.push(`Totals by truth: ${Object.entries(truthTotals).map(([k, v]) => `${v} ${k}`).join(' · ')}. \`*\` = inferred from \`source\` (no explicit \`truth\`).`, '');
 const md = lines.join('\n');
 
+// ── inventory.md + inventory.json: per flow coverage, docs, provenance labels and detected states.
+// Everything here is derived from the registry and the files on disk; nothing is hand-typed, so docs can point here
+// instead of quoting counts (scripts/check-inventory.mjs fails when a doc quotes a count the registry disagrees with).
+const relp = (p) => p.replace(root + '/', '');
+const readIf = (p) => (existsSync(p) ? readFileSync(p, 'utf8') : '');
+const skillsDir = join(root, '.claude/skills');
+const briefsDir = join(here, '../flows');
+const flowsRef = readIf(join(skillsDir, 'noon-ui/references/flows.md'));
+
+// Screen skills: the "Screen skills" table in noon-ui/SKILL.md (`/name` · … · `src/flows/<id>` (+ `other`) · spec path),
+// plus the rows below.
+const skillOf = {};
+for (const row of readIf(join(skillsDir, 'noon-ui/SKILL.md')).split('\n')) {
+  const m = row.match(/^\|\s*`\/([\w-]+)`\s*\|/);
+  if (!m || !existsSync(join(skillsDir, m[1], 'SKILL.md'))) continue;
+  const cols = row.split('|');
+  const flowCol = cols[3] ?? '';
+  const ids = [...flowCol.matchAll(/src\/flows\/(\w+)/g), ...flowCol.matchAll(/\+\s*`(\w+)`/g)].map((x) => x[1]);
+  for (const id of ids) (skillOf[id] ??= []).push(m[1]);
+}
+// …and each screen skill's own "| Current implementation | `src/flows/<id>/` …" / "| Results implementation |" rows.
+for (const k of readdirSync(skillsDir)) {
+  if (k === 'noon-ui' || !existsSync(join(skillsDir, k, 'spec.md'))) continue;
+  for (const row of readIf(join(skillsDir, k, 'SKILL.md')).split('\n')) {
+    const id = row.match(/^\|\s*(?:Current|Results) implementation\s*\|[^|]*?src\/flows\/(\w+)/)?.[1];
+    if (id && !skillOf[id]?.includes(k)) (skillOf[id] ??= []).push(k);
+  }
+}
+for (const id of Object.keys(skillOf)) skillOf[id].sort();
+
+// Briefs: flows/<id>.md, or a `## <id>` section of flows/other-flows.md.
+const otherFlows = readIf(join(briefsDir, 'other-flows.md'));
+function sectionOf(text, id) {
+  const m = text.match(new RegExp(`^## ${id}\\b[^\\n]*\\n([\\s\\S]*?)(?=^## |(?![\\s\\S]))`, 'm'));
+  return m ? m[0] : null;
+}
+function briefOf(id) {
+  if (existsSync(join(briefsDir, `${id}.md`))) return { path: relp(join(briefsDir, `${id}.md`)), text: readIf(join(briefsDir, `${id}.md`)) };
+  const sec = sectionOf(otherFlows, id);
+  return sec ? { path: `${relp(join(briefsDir, 'other-flows.md'))}#${id}`, text: sec } : null;
+}
+// Blueprints: a `###` heading under "## 4. Blueprints" in noon-ui/references/flows.md naming the flow id or title.
+const blueprintHeads = (flowsRef.split(/^## 4\. Blueprints/m)[1] ?? '').match(/^### .+$/gm)?.map((h) => h.slice(4).trim()) ?? [];
+const blueprintOf = (f) => blueprintHeads.find((h) => { const l = h.toLowerCase(); return l.includes(f.id.toLowerCase()) || l.includes(f.title.toLowerCase()); }) ?? null;
+function mappingDocs(id) {
+  const dir = join(root, 'src/flows', id);
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir, { recursive: true }).filter((p) => /(^|\/)(FIGMA-)?MAPPING\.md$/.test(p)).sort().map((p) => `src/flows/${id}/${p}`);
+}
+
+// Provenance labels (documented in inventory.md and noon-ui/references/portability.md):
+//   reference-backed  the screen's `source` names an authoritative reference — a bappzaar master path, a Figma frame,
+//                     or a reference the user shared (truth bappzaar / figma / mixed / reference)
+//   kit-backed        no external reference for this screen: composed from kit components / patterns, or a stand-in
+//                     for a bappzaar screen that was not ported (source starts with `kit:`, `composed` or `stand-in`)
+//   inferred          no source, or a source screenTruth cannot recognise (it falls back to `bappzaar` without evidence)
+const BAPPZAAR_RE = /marketplaces\/|src\/|screens\/|components\/|Noon[A-Z]|features\/|bappzaar/;
+function provenance(s) {
+  const src = (s.source ?? '').trim();
+  if (/^(kit:|composed|stand-in)/i.test(src)) return 'kit-backed';
+  if (s.truth) return 'reference-backed';
+  if (!src) return 'inferred';
+  if (/figma/i.test(src) || /^reference:|github\.com|vercel\.app|https?:/i.test(src) || BAPPZAAR_RE.test(src)) return 'reference-backed';
+  return 'inferred';
+}
+
+// States: which of loading / empty / error / success the flow's spec or brief documents, and which are registered as
+// screens or param variants. Heuristic: keywords in screen id, title and defaultParams values (not notes).
+const STATES = {
+  loading: /loading|loader|skeleton|shimmer|placing|aiLoader/i,
+  empty: /empty|no results/i,
+  error: /error|fail/i,
+  success: /success|succeeded|submitted|\badded\b|^confirmation\b/i, // `^`: an id of `confirmation`, not "Delete confirmation"
+};
+const paramText = (p) => (p ? Object.values(p).filter((v) => typeof v === 'string').join(' ') : '');
+
+const LABELS = ['reference-backed', 'kit-backed', 'inferred'];
+const inv = { generatedBy: '.claude/resources/scripts/build.mjs', totals: {}, labelMapping: {
+  'reference-backed': 'truth bappzaar / figma / mixed / reference, explicit or inferred from a recognisable source (bappzaar master path, Figma <fileKey> · <node>, or reference: / link)',
+  'kit-backed': 'source starts with `kit:`, `composed` or `stand-in`: built from kit parts with no external reference for this screen',
+  inferred: 'no source, or a source that names no recognisable reference (screenTruth falls back to bappzaar without evidence)',
+}, flows: [] };
+for (const f of allFlows) {
+  const skills = skillOf[f.id] ?? [];
+  const specs = skills.filter((k) => existsSync(join(skillsDir, k, 'spec.md'))).map((k) => `.claude/skills/${k}/spec.md`);
+  const brief = briefOf(f.id);
+  const blueprint = blueprintOf(f);
+  const coverage = specs.length ? 'spec' : brief ? 'brief' : blueprint ? 'blueprint' : 'none';
+  const docText = [...specs.map((p) => readIf(join(root, p))), brief?.text ?? ''].join('\n');
+  const documented = Object.keys(STATES).filter((k) => new RegExp(`\\b${k}\\b`, 'i').test(docText));
+  const registered = {};
+  for (const [k, re] of Object.entries(STATES)) {
+    const hits = f.screens.filter((s) => re.test(`${s.id} ${s.title} ${paramText(s.defaultParams)}`)).map((s) => `${f.id}/${s.id}`);
+    if (hits.length) registered[k] = hits;
+  }
+  inv.flows.push({
+    id: f.id,
+    title: f.title,
+    group: f.group ?? null,
+    initial: `${f.id}/${f.initial}`,
+    screenCount: f.screens.length,
+    coverage,
+    docs: { mapping: mappingDocs(f.id), brief: brief?.path ?? null, skills: skills.map((k) => `.claude/skills/${k}/SKILL.md`), specs, blueprint },
+    states: { documented, registered, missing: documented.filter((k) => !registered[k]), heuristic: true },
+    screens: f.screens.map((s) => {
+      const route = `${f.id}/${s.id}`;
+      return {
+        route,
+        title: s.title,
+        presentation: s.presentation ?? 'screen',
+        urls: [...new Set([...aliasesOf(route), ...[s.path ?? []].flat().map((p) => `/${p}`)])],
+        truth: screenTruth(s),
+        truthExplicit: Boolean(s.truth),
+        label: provenance(s),
+        verified: s.verified ?? null,
+        source: s.source ?? null,
+      };
+    }),
+  });
+}
+const allScreens = inv.flows.flatMap((f) => f.screens);
+const tally = (key) => allScreens.reduce((o, s) => ((o[s[key]] = (o[s[key]] ?? 0) + 1), o), {});
+inv.totals = {
+  flows: inv.flows.length,
+  screens: allScreens.length,
+  routes: allScreens.length,
+  largestFlow: Math.max(...inv.flows.map((f) => f.screenCount)),
+  byCoverage: inv.flows.reduce((o, f) => ((o[f.coverage] = (o[f.coverage] ?? 0) + 1), o), {}),
+  byLabel: Object.fromEntries(LABELS.map((l) => [l, allScreens.filter((s) => s.label === l).length])),
+  byTruth: tally('truth'),
+  truthExplicit: allScreens.filter((s) => s.truthExplicit).length,
+  truthInferred: allScreens.filter((s) => !s.truthExplicit).length,
+  verified: allScreens.filter((s) => s.verified).length,
+  unverified: allScreens.filter((s) => !s.verified).length,
+};
+const T = inv.totals;
+const kv = (o) => Object.entries(o).map(([k, v]) => `${v} ${k}`).join(' · ');
+const il = [
+  '# Flow and screen inventory (generated)',
+  '',
+  '<!-- Generated by .claude/resources/scripts/build.mjs from src/flows/index.ts and the docs on disk. Do not edit; run `npm run resources:build`. Machine-readable copy: inventory.json. -->',
+  '',
+  'Quote counts from here instead of typing them: `scripts/check-inventory.mjs` fails when a doc states a flow / screen / route count the registry disagrees with.',
+  '',
+  `**${T.flows} flows · ${T.screens} screens (routes).** Coverage: ${kv(T.byCoverage)}. Provenance: ${kv(T.byLabel)}. Truth: ${kv(T.byTruth)} (${T.truthExplicit} explicit, ${T.truthInferred} inferred from \`source\`). Verified side by side: ${T.verified} of ${T.screens}.`,
+  '',
+  '## Labels',
+  '',
+  '| Label | Meaning | From |',
+  '|---|---|---|',
+  '| reference-backed | An authoritative reference exists for this screen and is named in `source` | `truth` bappzaar / figma / mixed / reference, explicit, or inferred by `screenTruth` from a bappzaar path, a Figma node or a `reference:` / link |',
+  '| kit-backed | No external reference for this screen: composed from kit components and patterns, or a stand-in for a bappzaar screen that was not ported | `source` starts with `kit:`, `composed` or `stand-in` |',
+  '| inferred | Nothing backs the layout: no `source`, or a `source` that names no recognisable reference | `screenTruth` fell back to `bappzaar` without evidence |',
+  '',
+  'The label says where a screen comes from, not whether it matches: `verified` (the last side-by-side check) is separate. A reference-backed screen with no `verified` date has never been compared. `truth` stays the precedence rule when references disagree (see `tooling.md`).',
+  '',
+  'Coverage: `spec` = a screen skill with `spec.md` covers the flow · `brief` = a brief in `flows/` only · `blueprint` = only a generic blueprint in `noon-ui/references/flows.md` §4 · `none`.',
+  '',
+  '## Flows',
+  '',
+  '| Flow | Screens | Coverage | Spec / skill | Brief | Mapping docs | Verified | Labels |',
+  '|---|---|---|---|---|---|---|---|',
+];
+for (const f of inv.flows) {
+  const v = f.screens.filter((s) => s.verified).length;
+  const labels = kv(Object.fromEntries(LABELS.map((l) => [l, f.screens.filter((s) => s.label === l).length]).filter(([, n]) => n)));
+  il.push(`| \`${f.id}\` ${cell(f.title)} | ${f.screenCount} | ${f.coverage} | ${f.docs.specs.map((p) => `\`${p}\``).join(', ') || '—'} | ${f.docs.brief ? `\`${f.docs.brief}\`` : '—'} | ${f.docs.mapping.map((p) => `\`${p.replace(`src/flows/${f.id}/`, '')}\``).join(', ') || '—'} | ${v}/${f.screenCount} | ${labels} |`);
+}
+il.push('', '## States (detected heuristically)', '', 'Documented = the word appears in the flow\'s spec or brief. Registered = a screen whose id, title or `defaultParams` values match (loading: loading/loader/skeleton/shimmer/placing · empty / no results · error/fail · success/succeeded/submitted/added, or an id of `confirmation`). A keyword match is a hint, not proof: open the screen.', '', '| Flow | Documented | Registered | Documented, not registered |', '|---|---|---|---|');
+for (const f of inv.flows) {
+  const reg = Object.entries(f.states.registered).map(([k, r]) => `${k}: ${r.map((x) => `\`${x}\``).join(', ')}`).join('; ');
+  il.push(`| \`${f.id}\` | ${f.states.documented.join(', ') || '—'} | ${reg || '—'} | ${f.states.missing.join(', ') || '—'} |`);
+}
+const unverified = inv.flows.map((f) => [f.id, f.screens.filter((s) => !s.verified)]).filter(([, l]) => l.length);
+il.push('', `## Screens with no \`verified\` date (${T.unverified})`, '', 'Never compared side by side with their reference, as far as the registry records. Only set `verified` after a real comparison.', '');
+for (const [id, l] of unverified) il.push(`- \`${id}\` (${l.length}): ${l.map((s) => `\`${s.route.slice(id.length + 1)}\``).join(', ')}`);
+il.push('', `## Truth inferred from \`source\` (${T.truthInferred})`, '', 'No explicit `truth`; `screenTruth()` guessed it from the `source` text. Set `truth` when you next touch the screen.', '');
+for (const f of inv.flows) {
+  const l = f.screens.filter((s) => !s.truthExplicit);
+  if (l.length) il.push(`- \`${f.id}\` (${l.length}): ${Object.entries(l.reduce((o, s) => ((o[s.truth] ??= []).push(`\`${s.route.slice(f.id.length + 1)}\``), o), {})).map(([t, r]) => `${t} → ${r.join(', ')}`).join(' · ')}`);
+}
+const notRef = allScreens.filter((s) => s.label !== 'reference-backed');
+il.push('', `## Kit-backed and inferred screens (${notRef.length})`, '');
+if (notRef.length) {
+  il.push('| Route | Label | Truth | Source |', '|---|---|---|---|');
+  for (const s of notRef) il.push(`| \`${s.route}\` | ${s.label} | ${s.truth}${s.truthExplicit ? '' : '*'} | ${cell(short(s.source ?? '—'))} |`);
+} else il.push('None.');
+il.push('');
+
 // ── flows/categories-views.md
 const cmsFile = join(root, 'src/flows/categories/cms-pages.json');
 const cms = existsSync(cmsFile) ? JSON.parse(readFileSync(cmsFile, 'utf8')) : null;
@@ -141,6 +333,8 @@ for (const b of liveCategoriesPage.banners) {
 const outputs = [
   [out, md],
   [join(here, '../flows/categories-views.md'), cv.join('\n')],
+  [join(here, '../inventory.md'), il.join('\n')],
+  [join(here, '../inventory.json'), `${JSON.stringify(inv, null, 2)}\n`],
 ];
 
 if (check) {

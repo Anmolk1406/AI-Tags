@@ -1,4 +1,5 @@
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import { useLottieReducedMotion } from '../../components/Lottie/Lottie';
 import { useRef } from 'react';
 import { useNav } from '../../kit/Navigator';
 import languageToAr from '@assets/account/noon-account-language-change-ar.lottie';
@@ -13,18 +14,20 @@ import styles from './inner.module.css';
  * On master `onAnimationFinish` calls I18n.setLanguage / I18n.setCountry, which restarts the app;
  * here it updates the flow store and closes the modal.
  */
-function LocaleLottie({ src, onFinish }: { src: string; onFinish: () => void }) {
+function LocaleLottie({ src, onFinish, poster }: { src: string; onFinish: () => void; poster?: number }) {
   const done = useRef(false);
   const finish = () => {
     if (done.current) return;
     done.current = true;
     onFinish();
   };
+  // reduced motion: no autoplay; the last frame shows and `finish` still runs after the animation's length
+  const rm = useLottieReducedMotion({ onComplete: finish, poster });
   return (
     <div className={styles.lottieScreen}>
       <DotLottieReact
         src={src}
-        autoplay
+        autoplay={rm.autoplay}
         loop={false}
         layout={{ fit: 'cover', align: [0.5, 0.5] }}
         style={{ width: '100%', height: '100%' }}
@@ -32,6 +35,7 @@ function LocaleLottie({ src, onFinish }: { src: string; onFinish: () => void }) 
           if (!d) return;
           d.addEventListener('complete', finish);
           d.addEventListener('loadError', finish);
+          rm.attach(d);
         }}
       />
     </div>
@@ -46,6 +50,8 @@ export function ChangeLanguageScreen() {
   return (
     <LocaleLottie
       src={language === 'en' ? languageToAr : languageToEn}
+      // reduced motion: hold the frame where the greeting is fully written (the morph has no clean last frame)
+      poster={0.2}
       onFinish={() => {
         setAccountState({ language: target });
         nav.back();

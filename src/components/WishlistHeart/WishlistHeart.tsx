@@ -3,7 +3,7 @@ import { useDemoStore } from '../../kit/DemoStore';
 import { useNav } from '../../kit/Navigator';
 import { Icon } from '../Icon/Icon';
 import { spring } from '../../motion/presets';
-import { ref } from '../../foundations/tokens';
+import { radius, ref } from '../../foundations/tokens';
 
 /** NoonFavourite active heart (pink600) */
 const heart = ref.palette('pink600');
@@ -55,7 +55,7 @@ export function WishlistHeart({ productId, size = 24, box: boxSize, variant = 'c
                   initial={{ x: 0, y: 0, scale: 0.4 }}
                   animate={{ x: Math.cos(a) * box * 0.7, y: Math.sin(a) * box * 0.7, scale: 1 }}
                   transition={spring.bouncy}
-                  style={{ position: 'absolute', left: '50%', top: '50%', width: 4, height: 4, marginLeft: -2, marginTop: -2, borderRadius: 2, background: heart }}
+                  style={{ position: 'absolute', left: '50%', top: '50%', width: 4, height: 4, marginLeft: -2, marginTop: -2, borderRadius: radius.r2, background: heart }}
                 />
               );
             })}

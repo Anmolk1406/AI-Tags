@@ -66,6 +66,50 @@
   background: var(--nk-color-border-strong);
 }
 
+/* Origin M-BottomSheet (default sheet layout) — Figma wFRKiKskxZ4vjIHbDVvngJ · 3207:15 */
+.originScrim {
+  position: absolute;
+  inset: 0;
+  background: var(--nk-sheet-scrim);
+}
+
+.originColumn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100% - var(--nk-inset-top, 0px));
+  padding: 0 var(--nk-sheet-inset) max(var(--nk-inset-bottom), var(--nk-sheet-bottom-gap));
+}
+
+.originGrabberZone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--nk-sheet-grabber-zone);
+  flex-shrink: 0;
+  cursor: grab;
+  touch-action: none;
+}
+
+.originGrabber {
+  width: var(--nk-sheet-grabber-width);
+  height: var(--nk-sheet-grabber-height);
+  border-radius: var(--nk-sheet-grabber-radius);
+  background: var(--nk-sheet-grabber);
+}
+
+.originSheet {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: var(--nk-sheet-max-height);
+  background: var(--nk-sheet-bg);
+  border-radius: var(--nk-sheet-radius);
+  box-shadow: var(--nk-sheet-shadow);
+  overflow: hidden;
+}
+
 .toastLayer {
   position: absolute;
   left: 12px;

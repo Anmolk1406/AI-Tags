@@ -1,5 +1,6 @@
 import { DotLottieReact, type DotLottie } from '@lottiefiles/dotlottie-react';
-import { animate, motion, useMotionValue, useReducedMotion, useTransform } from 'motion/react';
+import { animate, motion, useMotionValue, useTransform } from 'motion/react';
+import { useReduceMotion } from '../../../motion/reducedMotion';
 import { forwardRef, useImperativeHandle, useRef, type ReactNode } from 'react';
 import { haptic } from '../../../motion/haptics';
 import filterPillLottie from '@assets/lotties/filter-pill.lottie';
@@ -55,10 +56,12 @@ export const CatalogNavPill = forwardRef<
   const idleFilter = kind === 'filter' && !on;
   const lottie = useRef<DotLottie | null>(null);
   const attn = useRef<FilterPillAttentionHandle>(null);
+  const reduce = useReduceMotion();
 
   useImperativeHandle(ref, () => ({
     play: () => {
-      if (!idleFilter || !attn.current) return false;
+      // reduced motion: no attention pass (border, pulse or icon Lottie)
+      if (!idleFilter || !attn.current || reduce) return false;
       attn.current.play();
       lottie.current?.play();
       return true;
@@ -163,7 +166,7 @@ interface FilterPillAttentionHandle {
 }
 
 const FilterPillAttention = forwardRef<FilterPillAttentionHandle, { children: ReactNode }>(function FilterPillAttention({ children }, ref) {
-  const reduce = useReducedMotion();
+  const reduce = useReduceMotion();
   const attention = useMotionValue(0);
   const border = useMotionValue(0);
   const scale = useTransform(attention, (a) => 1 + a * 0.04);

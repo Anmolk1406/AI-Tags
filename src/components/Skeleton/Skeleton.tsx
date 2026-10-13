@@ -1,10 +1,13 @@
 import type { CSSProperties } from 'react';
 import { radius as r, ref } from '../../foundations/tokens';
+import { useReduceMotion } from '../../motion/reducedMotion';
 
 const base = ref.palette('shimmerGray');
 
-/** Shimmer block (NewLoadingState / ShimmerBackground). */
+/** Shimmer block (NewLoadingState / ShimmerBackground). Reduced motion: a still block in the base grey, no sweep. */
 export function Skeleton({ width = '100%', height = 14, radius = r.r6, style }: { width?: number | string; height?: number | string; radius?: number; style?: CSSProperties }) {
+  const reduce = useReduceMotion();
+  if (reduce) return <span style={{ display: 'block', width, height, borderRadius: radius, background: base, ...style }} />;
   return (
     <span
       style={{

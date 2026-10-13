@@ -45,6 +45,7 @@ import { DashedLine } from './DashedLine';
 import { Flyout, SubscriptionButton } from './StickyFooter';
 import landingStyles from './landing.module.css';
 import styles from './np.module.css';
+import { useReduceMotion } from '../../../../motion/reducedMotion';
 
 /**
  * Non-member landing (prod, Figma Af34gfmhQ1D0wstXUEHSIF · 24:2604). One component per CMS module; behaviour from the
@@ -218,12 +219,14 @@ export function NpVideoCarouselModule({ banners, onCta }: { banners: NpVideoBann
 
 function VideoCard({ banner, isSelected, index, count, onCta }: { banner: NpVideoBanner; isSelected: boolean; index: number; count: number; onCta: (cta: string) => void }) {
   const video = useRef<HTMLVideoElement>(null);
+  // reduced motion: the video doesn't autoplay (its poster shows)
+  const reduce = useReduceMotion();
   useEffect(() => {
     const v = video.current;
     if (!v) return;
-    if (isSelected) void v.play().catch(() => {});
+    if (isSelected && !reduce) void v.play().catch(() => {});
     else v.pause();
-  }, [isSelected]);
+  }, [isSelected, reduce]);
   return (
     <div className={styles.videoCard}>
       {banner.videoUrl || banner.placeholderUrl ? (

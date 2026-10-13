@@ -38,3 +38,17 @@
     opacity: 0.25;
   }
 }
+
+/* reduced motion: no rotation; the indicator pulses its opacity instead */
+.ring.reduced,
+.ios.reduced {
+  animation: nk-reduced-pulse 0.9s ease-in-out infinite alternate;
+}
+@keyframes nk-reduced-pulse {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.45;
+  }
+}

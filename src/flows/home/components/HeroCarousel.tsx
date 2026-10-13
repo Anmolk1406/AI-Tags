@@ -3,6 +3,7 @@ import { Pressable } from '../../../components';
 import { heroSlides } from '../data';
 import { homeTokens } from '../tokens';
 import styles from '../home.module.css';
+import { useReduceMotion } from '../../../motion/reducedMotion';
 
 const { heroCardWidth: W, heroCardHeight: H, heroGap: GAP, heroInterval } = homeTokens;
 
@@ -13,9 +14,11 @@ const { heroCardWidth: W, heroCardHeight: H, heroGap: GAP, heroInterval } = home
 export function HeroCarousel({ onPress }: { onPress?: (query: string) => void }) {
   const ref = useRef<HTMLDivElement>(null);
   const [held, setHeld] = useState(false);
+  const reduce = useReduceMotion();
 
   useEffect(() => {
-    if (held) return;
+    // no auto-advance under reduced motion (still swipeable)
+    if (held || reduce) return;
     const t = setInterval(() => {
       const el = ref.current;
       if (!el) return;
@@ -23,7 +26,7 @@ export function HeroCarousel({ onPress }: { onPress?: (query: string) => void })
       el.scrollTo({ left: next * (W + GAP), behavior: 'smooth' });
     }, heroInterval);
     return () => clearInterval(t);
-  }, [held]);
+  }, [held, reduce]);
 
   return (
     <div className={styles.heroWrap}>

@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react';
+import { useReduceMotion } from '../../motion/reducedMotion';
 import styles from './Spinner.module.css';
 
 export interface SpinnerProps {
@@ -36,13 +37,25 @@ export interface SpinnerProps {
  *   - cards PaymentButtonV2: `<Spinner color="#fff" gap="right" duration={0.75} />`
  *   - cart inline loader: `<Spinner size={14} thickness={size / 9} duration={0.7} />`
  *   - address AddressV2: `<Spinner variant="ios" color="var(--nk-color-cta)" />`
+ *
+ * Reduced motion (`useReduceMotion`): nothing turns. The ring holds its arc and the iOS petals hold one frame of
+ * their fade; both pulse their opacity gently (`nk-reduced-pulse`) so loading still reads as in progress.
  */
 export function Spinner({ variant = 'ring', size = 20, color = 'currentColor', track, thickness = 2, gap = 'top', duration = 0.8, className, style, label = 'Loading' }: SpinnerProps) {
+  const reduce = useReduceMotion();
+  const keep = reduce ? `${styles.reduced} nk-motion-keep` : undefined;
   if (variant === 'ios') {
     return (
-      <span className={[styles.ios, className].filter(Boolean).join(' ')} style={{ width: size, height: size, color, ...style }} aria-label={label} role="status">
+      <span className={[styles.ios, keep, className].filter(Boolean).join(' ')} style={{ width: size, height: size, color, ...style }} aria-label={label} role="status">
         {Array.from({ length: 8 }).map((_, i) => (
-          <i key={i} style={{ transform: `rotate(${i * 45}deg)`, animationDelay: `${(i - 8) * 0.1}s`, animationDuration: `${duration}s` }} />
+          <i
+            key={i}
+            style={
+              reduce
+                ? { transform: `rotate(${i * 45}deg)`, animation: 'none', opacity: 0.25 + (0.75 * i) / 7 }
+                : { transform: `rotate(${i * 45}deg)`, animationDelay: `${(i - 8) * 0.1}s`, animationDuration: `${duration}s` }
+            }
+          />
         ))}
       </span>
     );
@@ -52,8 +65,8 @@ export function Spinner({ variant = 'ring', size = 20, color = 'currentColor', t
     : { borderColor: color, [gap === 'right' ? 'borderRightColor' : 'borderTopColor']: 'transparent' };
   return (
     <span
-      className={[styles.ring, className].filter(Boolean).join(' ')}
-      style={{ width: size, height: size, borderWidth: thickness, animationDuration: `${duration}s`, ...ring, ...style }}
+      className={[styles.ring, keep, className].filter(Boolean).join(' ')}
+      style={{ width: size, height: size, borderWidth: thickness, animationDuration: reduce ? undefined : `${duration}s`, ...ring, ...style }}
       aria-label={label}
       role="status"
     />

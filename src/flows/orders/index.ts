@@ -37,7 +37,7 @@ export const ordersFlow = defineFlow({
       id: 'updates',
       title: 'All updates',
       component: UpdatesSheet,
-      presentation: 'sheet',
+      presentation: 'sheet', sheet: 'classic',
       defaultParams: { orderId: 'o3' },
       notes: 'See all updates: the timeline newest first (return cards: "Return progress"). Try ?orderId=o7 or o1.',
       source: 'features/o2d/components/NoonOrderDeliveryProgressOverlay (see_all_actions / view_shipment_history)',

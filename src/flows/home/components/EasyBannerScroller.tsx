@@ -1,4 +1,5 @@
-import { useInView, useReducedMotion } from 'motion/react';
+import { useInView } from 'motion/react';
+import { useReduceMotion } from '../../../motion/reducedMotion';
 import { useEffect, useRef } from 'react';
 import { Pressable } from '../../../components';
 import { useNav } from '../../../kit/Navigator';
@@ -20,7 +21,7 @@ export function EasyBannerScroller({ wrap, header, numPerView, rows, banners }: 
   const railRef = useRef<HTMLDivElement>(null);
   const halfRef = useRef<HTMLDivElement>(null);
   const inView = useInView(railRef, { amount: 0.2 });
-  const reduced = useReducedMotion();
+  const reduced = useReduceMotion();
   const holding = useRef(false);
   const w = bz.easyWidth(numPerView);
   const iS = 15;

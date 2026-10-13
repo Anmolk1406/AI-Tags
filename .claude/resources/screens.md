@@ -26,7 +26,7 @@ initial `search/search` · group Discovery
 | Route | Title | Presentation | URL | Truth | Verified | Source |
 |---|---|---|---|---|---|---|
 | `search/search` | Search | screen | /search | bappzaar | 2026-10-12 | marketplaces/noon/screens/NoonSearchScreen, components/NoonSearchSuggestionRow, NoonRecentlySearchedModule; m… |
-| `search/suggestions` | Suggestions | screen |  | bappzaar* |  | marketplaces/noon/screens/NoonSearchScreen, components/NoonSearchSuggestionRow, NoonRecentlySearchedModule; m… |
+| `search/suggestions` | Suggestions | screen |  | reference* |  | marketplaces/noon/screens/NoonSearchScreen, components/NoonSearchSuggestionRow, NoonRecentlySearchedModule; m… |
 
 ## categories · Categories
 
@@ -106,7 +106,7 @@ initial `checkout/checkout` · group Shopping · parent `cart/cart`
 - docs: `src/flows/checkout/FIGMA-MAPPING.md`, `src/flows/checkout/MAPPING.md`
 - data / token files: `data.delivery.ts`, `data.payment.ts`, `data.postorder.ts`, `data.rewards.ts`, `data.shipment.ts`
 - state / helpers: `store.ts`
-- components/: AddressCard, BurnSection, CheckoutHeader, CheckoutShipment, CheckoutTag, CouponStatus, DeliveryInstruction, DeliveryPrimitives, DetachedAddress, Donation, DynamicInvoice, EarnCallout, NoonOneSection, PaymentCard, PaymentMethods, PaymentSummary, PointsVouchers, ProviderForm, ReceiverDetails, Reloader, RewardsPrimitives, SavedContact, SlideButton, VoucherToast
+- components/: AddressCard, BurnSection, CheckoutHeader, CheckoutShipment, CheckoutTag, CouponStatus, DeliveryInstruction, DeliveryPrimitives, DetachedAddress, Donation, DynamicInvoice, EarnCallout, NoonOneCtaReveal, NoonOneSection, PaymentCard, PaymentMethods, PaymentSummary, PointsVouchers, ProviderForm, ReceiverDetails, Reloader, RewardsPrimitives, SavedContact, SlideButton, VoucherToast
 
 | Route | Title | Presentation | URL | Truth | Verified | Source |
 |---|---|---|---|---|---|---|
@@ -175,15 +175,15 @@ initial `reviews/rate` · group Post-order · parent `orders/list`
 
 | Route | Title | Presentation | URL | Truth | Verified | Source |
 |---|---|---|---|---|---|---|
-| `reviews/rate` | Rate & pick | screen | /reviews /rate-review | mixed* |  | Figma KzR8dy12uT8CtgBRHHY6Qx · 6042:140824; repo vbirla789/R-R-2.0-with-checkbox src/screens/ManualReviewScre… |
-| `reviews/aiLoader` | AI writing | screen | /review-ai-loader | mixed* |  | Figma KzR8dy12uT8CtgBRHHY6Qx · 6305:167731; repo vbirla789/R-R-2.0-with-checkbox src/screens/AILoaderScreen.t… |
-| `reviews/draft` | Review draft | screen | /review-draft | mixed* |  | Figma KzR8dy12uT8CtgBRHHY6Qx · 7116:43925; repo vbirla789/R-R-2.0-with-checkbox src/screens/ReviewDraftScreen… |
-| `reviews/draftB` | Review draft (B) | screen | /review-draft-b | mixed* |  | Figma KzR8dy12uT8CtgBRHHY6Qx · 7159:44106; repo vbirla789/R-R-2.0-with-checkbox src/screens/ReviewDraftScreen… |
-| `reviews/new` | Write a review | screen | /new-review | mixed* |  | Figma KzR8dy12uT8CtgBRHHY6Qx · 7629:275417; repo vbirla789/R-R-2.0-with-checkbox src/screens/NewReviewScreen.… |
-| `reviews/pastOrders` | Rate your past orders | screen | /rate-past-orders | mixed* |  | Figma KzR8dy12uT8CtgBRHHY6Qx · 9129:106814; repo vbirla789/R-R-2.0-with-checkbox src/screens/RatePastOrdersSc… |
-| `reviews/submitted` | Review submitted | screen | /review-submitted | mixed* |  | Figma KzR8dy12uT8CtgBRHHY6Qx · 6042:141658; repo vbirla789/R-R-2.0-with-checkbox src/screens/SubmittedScreen.… |
-| `reviews/deck` | Rate past orders (deck) | screen | /rate-orders-deck | mixed* |  | Figma KzR8dy12uT8CtgBRHHY6Qx · 8842:127140; repo vbirla789/R-R-2.0-with-checkbox src/screens/PastOrderRatingS… |
-| `reviews/slider` | Rate past orders (slider) | screen | /rate-orders-slider | mixed* |  | Figma KzR8dy12uT8CtgBRHHY6Qx · 8810:123358; repo vbirla789/R-R-2.0-with-checkbox src/screens/PastOrderRatingS… |
+| `reviews/rate` | Rate & pick | screen | /reviews /rate-review | figma* |  | Figma KzR8dy12uT8CtgBRHHY6Qx · 6042:140824; repo vbirla789/R-R-2.0-with-checkbox src/screens/ManualReviewScre… |
+| `reviews/aiLoader` | AI writing | screen | /review-ai-loader | figma* |  | Figma KzR8dy12uT8CtgBRHHY6Qx · 6305:167731; repo vbirla789/R-R-2.0-with-checkbox src/screens/AILoaderScreen.t… |
+| `reviews/draft` | Review draft | screen | /review-draft | figma* |  | Figma KzR8dy12uT8CtgBRHHY6Qx · 7116:43925; repo vbirla789/R-R-2.0-with-checkbox src/screens/ReviewDraftScreen… |
+| `reviews/draftB` | Review draft (B) | screen | /review-draft-b | figma* |  | Figma KzR8dy12uT8CtgBRHHY6Qx · 7159:44106; repo vbirla789/R-R-2.0-with-checkbox src/screens/ReviewDraftScreen… |
+| `reviews/new` | Write a review | screen | /new-review | figma* |  | Figma KzR8dy12uT8CtgBRHHY6Qx · 7629:275417; repo vbirla789/R-R-2.0-with-checkbox src/screens/NewReviewScreen.… |
+| `reviews/pastOrders` | Rate your past orders | screen | /rate-past-orders | figma* |  | Figma KzR8dy12uT8CtgBRHHY6Qx · 9129:106814; repo vbirla789/R-R-2.0-with-checkbox src/screens/RatePastOrdersSc… |
+| `reviews/submitted` | Review submitted | screen | /review-submitted | figma* |  | Figma KzR8dy12uT8CtgBRHHY6Qx · 6042:141658; repo vbirla789/R-R-2.0-with-checkbox src/screens/SubmittedScreen.… |
+| `reviews/deck` | Rate past orders (deck) | screen | /rate-orders-deck | figma* |  | Figma KzR8dy12uT8CtgBRHHY6Qx · 8842:127140; repo vbirla789/R-R-2.0-with-checkbox src/screens/PastOrderRatingS… |
+| `reviews/slider` | Rate past orders (slider) | screen | /rate-orders-slider | figma* |  | Figma KzR8dy12uT8CtgBRHHY6Qx · 8810:123358; repo vbirla789/R-R-2.0-with-checkbox src/screens/PastOrderRatingS… |
 
 ## account · Account
 
@@ -331,4 +331,4 @@ initial `wishlist/wishlist` · group Profile
 | `wishlist/wishlist` | Wishlist | screen | /wishlist | bappzaar* |  | marketplaces/noon/screens/NoonWishlistV2Screen, components/NoonWishlistV2*, NoonProductBoxWishlistAddToCart |
 | `wishlist/empty` | Empty wishlist | screen |  | bappzaar* |  | components/NoonWishlistV2Empty |
 
-Totals by truth: 15 mixed · 130 bappzaar · 1 figma · 1 reference. `*` = inferred from `source` (no explicit `truth`).
+Totals by truth: 6 mixed · 129 bappzaar · 2 reference · 10 figma. `*` = inferred from `source` (no explicit `truth`).

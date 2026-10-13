@@ -5,6 +5,7 @@ import { ref } from '../../../foundations/tokens';
 import { supermall } from '../../../motion/presets';
 import styles from '../orders.module.css';
 import { ordersTokens, ordersVar } from '../tokens';
+import { useReduceMotion } from '../../../motion/reducedMotion';
 
 export interface StackCard {
   image: string;
@@ -34,11 +35,13 @@ const look = (d: number) => {
 export function ImageStack({ cards, centre = 0, rotate, express, dim }: { cards: StackCard[]; centre?: number; rotate?: boolean; express?: boolean; dim?: boolean }) {
   const [shift, setShift] = useState(0);
   const n = cards.length;
+  const reduce = useReduceMotion();
   useEffect(() => {
-    if (!rotate || n < 2) return;
+    // reduced motion: the stack holds still (as V1)
+    if (!rotate || n < 2 || reduce) return;
     const t = window.setInterval(() => setShift((s) => s + 1), ordersTokens.stackRotateMs);
     return () => window.clearInterval(t);
-  }, [rotate, n]);
+  }, [rotate, n, reduce]);
   const c = (centre + shift) % Math.max(n, 1);
   return (
     <div className={styles.stack} style={{ opacity: dim ? 0.5 : 1 }}>
