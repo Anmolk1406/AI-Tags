@@ -1,5 +1,5 @@
-import { products as baseProducts, type Product } from '../../mocks/products';
-import { phoneProducts } from '../../mocks/phones';
+import { products as baseProducts, type Product } from '../../data';
+import { phoneProducts } from '../../data';
 
 /** The PLP's catalogue: the shared demo products plus the brand widget's phones (src/mocks/phones.ts). */
 export const products: Product[] = [...baseProducts, ...phoneProducts];

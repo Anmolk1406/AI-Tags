@@ -2,11 +2,11 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useState, type ReactNode } from 'react';
 import { easing, handoff } from '../../motion/presets';
 import { Pressable } from '../Pressable/Pressable';
-import searchIcon from '../../assets/icons/noon-search-bar.webp';
-import cameraIcon from '../../assets/icons/noon-search-bar-camera.webp';
+import searchIcon from '@assets/icons/noon-search-bar.webp';
+import cameraIcon from '@assets/icons/noon-search-bar-camera.webp';
 // bappzaar NoonThemeManager.icons.back() / ThemeManager.icons.clearInput() (@3x)
-import backIcon from '../../assets/shared/search-bar/back.webp';
-import clearIcon from '../../assets/shared/search-bar/clear-input.webp';
+import backIcon from '@assets/shared/search-bar/back.webp';
+import clearIcon from '@assets/shared/search-bar/clear-input.webp';
 import { searchBar as t } from '../../foundations/tokens';
 import styles from './SearchBar.module.css';
 

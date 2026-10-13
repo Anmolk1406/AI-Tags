@@ -1,14 +1,14 @@
 // Eid home top (Figma Af34gfmhQ1D0wstXUEHSIF · 89:34398): hero / brand banner carousel (89:34722) and the full-width ad (89:34782).
-import nikeEidOffer from '../../assets/home/eid/nike-eid-offer.webp';
-import areejHeader from '../../assets/home/eid/areej-header.webp';
-import areejAlOud from '../../assets/home/eid/areej-al-oud.webp';
-import areejArabicAroma from '../../assets/home/eid/areej-arabic-aroma.webp';
-import soundcore from '../../assets/home/eid/soundcore-liberty-5-pro.webp';
-import whoopBanner from '../../assets/home/tabs/content/all-cms/whoop-banner-overlay.webp';
-import whoopBlack from '../../assets/home/tabs/content/all-cms/whoop-black.webp';
-import whoopGrey from '../../assets/home/tabs/content/all-cms/whoop-grey.webp';
-import whoopBlue from '../../assets/home/tabs/content/all-cms/whoop-blue.webp';
-import whoopSilver from '../../assets/home/tabs/content/all-cms/whoop-silver.webp';
+import nikeEidOffer from '@assets/home/eid/nike-eid-offer.webp';
+import areejHeader from '@assets/home/eid/areej-header.webp';
+import areejAlOud from '@assets/home/eid/areej-al-oud.webp';
+import areejArabicAroma from '@assets/home/eid/areej-arabic-aroma.webp';
+import soundcore from '@assets/home/eid/soundcore-liberty-5-pro.webp';
+import whoopBanner from '@assets/home/tabs/content/all-cms/whoop-banner-overlay.webp';
+import whoopBlack from '@assets/home/tabs/content/all-cms/whoop-black.webp';
+import whoopGrey from '@assets/home/tabs/content/all-cms/whoop-grey.webp';
+import whoopBlue from '@assets/home/tabs/content/all-cms/whoop-blue.webp';
+import whoopSilver from '@assets/home/tabs/content/all-cms/whoop-silver.webp';
 
 /** A brand-module tile: image box 98×124 with a notch; `title` + prices only on the one-row (detailed) variant. */
 export interface EidTile {

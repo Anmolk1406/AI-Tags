@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 import { Pressable } from '../../../components';
 import { useNav } from '../../../kit/Navigator';
 import { tween } from '../../../motion/presets';
-import cardArt from '../../../assets/home/2025/ticker/card.webp';
-import glowLeft from '../../../assets/home/2025/ticker/glow-left.svg';
-import glowRight from '../../../assets/home/2025/ticker/glow-right.svg';
-import notch from '../../../assets/home/2025/ticker/notch.svg';
-import dot from '../../../assets/home/2025/ticker/dot.svg';
-import dotActive from '../../../assets/home/2025/ticker/dot-active.svg';
+import cardArt from '@assets/home/2025/ticker/card.webp';
+import glowLeft from '@assets/home/2025/ticker/glow-left.svg';
+import glowRight from '@assets/home/2025/ticker/glow-right.svg';
+import notch from '@assets/home/2025/ticker/notch.svg';
+import dot from '@assets/home/2025/ticker/dot.svg';
+import dotActive from '@assets/home/2025/ticker/dot-active.svg';
 import { tickerInterval, tickerMessages } from '../data.header';
 import styles from './PromoTicker.module.css';
 

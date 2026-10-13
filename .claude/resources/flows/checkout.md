@@ -25,7 +25,8 @@ Read with `../screens.md`, `src/flows/checkout/FIGMA-MAPPING.md` (wins for the m
 
 ## Sections
 
-- **Default** `FIGMA_SECTIONS`: shipments → delivery instructions → receiver details → payment → payment summary.
+- **Default** `ALL_FLOWS_SECTIONS` (Figma All flows 127:44077): address card → noon One banner → delivery instructions → receiver details → shipments → Points & Vouchers ("Top up noon Credits") → Pay With → donation → payment summary; header shows "Checkout".
+- **`FIGMA_SECTIONS`** (Checkout 2.0): shipments → delivery instructions → receiver details → payment (points + Pay With in one card) → payment summary; address in the header.
 - **`params.sections`** (e.g. `MASTER_SECTIONS`) brings back the master-only sections: detached address, integrated noon One (→ `noonone/plans`), coupon status, earn, dynamic invoice.
 
 | Component | Notes |

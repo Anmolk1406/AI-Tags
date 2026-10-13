@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { Divider, OriginIcon } from '../../../../components';
 import { useNav } from '../../../../kit/Navigator';
-import type { Product } from '../../../../mocks/products';
+import type { Product } from '../../../../data';
 import { spring } from '../../../../motion/presets';
 import { abbreviate, colorName, copy, score, type PdpContent } from '../../data';
 import { npdCopy } from '../../data.npD';

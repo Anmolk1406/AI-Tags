@@ -1,9 +1,9 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useState, type ReactNode } from 'react';
 import { OriginIcon } from '../../../../components';
-import type { Product } from '../../../../mocks/products';
+import type { Product } from '../../../../data';
 import { duration, easing } from '../../../../motion/presets';
-import aiStar from '../../../../assets/pdp/new-pdp/overview-ai-star.svg';
+import aiStar from '@assets/pdp/new-pdp/overview-ai-star.svg';
 import { copy, type PdpContent } from '../../data';
 import { aiOverviewFor, npcCopy, type AiOverview } from '../../data.npC';
 import { Asset } from '../Asset';

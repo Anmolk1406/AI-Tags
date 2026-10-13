@@ -1,5 +1,5 @@
 /* NoonCartInactiveGroup / NoonCartInactiveItem / NoonCartInactiveItemButtons styles.ts; secondaryGroupContainer marginTop 12, marginHorizontal 12, r16 */
-.container { margin: 12px 12px 0; border: 1px solid var(--nk-color-cart-new-border); border-radius: 16px; overflow: hidden; }
+.container { margin: var(--nk-space-s8) var(--nk-space-s12) 0; border: 1px solid var(--nk-color-cart-new-border); border-radius: 16px; overflow: hidden; }
 .header { display: flex; flex-direction: row; padding: 12px; gap: 4px; justify-content: space-between; align-items: center; }
 .headerContent { display: flex; flex-direction: row; align-items: center; gap: 8px; flex: 1; min-width: 0; }
 .headerIcon { width: 20px; height: 20px; }

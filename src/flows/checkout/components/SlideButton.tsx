@@ -1,8 +1,8 @@
 import { DotLottieReact, type DotLottie } from '@lottiefiles/dotlottie-react';
 import { animate, motion, useMotionValue, useMotionValueEvent, useTransform, type PanInfo } from 'motion/react';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import arrowLottie from '../../../assets/checkout/arrow-to-checkmark-animation-en.json';
-import arrowDisabled from '../../../assets/checkout/figma/slide-arrow.svg';
+import arrowLottie from '@assets/checkout/arrow-to-checkmark-animation-en.json';
+import arrowDisabled from '@assets/checkout/figma/slide-arrow.svg';
 import { checkoutJs } from '../tokens';
 import styles from './SlideButton.module.css';
 

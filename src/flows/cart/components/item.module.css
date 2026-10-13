@@ -61,6 +61,10 @@
 /* ETAs: pill (gradient per group → white, px 6 py 4, r6) + "Order within" line (h20, px 6) */
 .eta { display: flex; flex-direction: column; align-items: flex-start; border-radius: var(--nk-radius-r8); overflow: hidden; max-width: 100%; }
 .etaPill { display: inline-flex; align-items: center; padding: var(--nk-space-s4) var(--nk-space-s6); border-radius: var(--nk-radius-r6); max-width: 100%; box-sizing: border-box; }
+.etaPill[data-ink] { column-gap: var(--nk-space-s4); }
+/* supermall ETAs (All flows 89:44427): 14px flash, text + bold in the group ink */
+.etaPill[data-ink] :global(*) { color: inherit; }
+.etaIcon { width: 14px; height: 14px; flex-shrink: 0; display: block; }
 .etaExpiry { display: flex; align-items: center; height: 20px; padding: 0 var(--nk-space-s6); }
 
 /* tertiary info: gap 6, overflow clip */

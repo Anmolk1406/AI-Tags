@@ -141,8 +141,7 @@ Screenshot export of this instance was empty; the kit `paymentCallouts` (incl. t
 shared Figma card treatment (white r16, Cards Header title style). Callout internals unchanged.
 
 ## Not reproduced / deviations
-- **Supermall group** (`10575:94060`): the kit cart has no supermall shipment group (`CartGroupType` = express / marketplace / xborder). Its waves
-  (#2122B8) and wordmark were inspected but not shipped; adding a group type is a DemoStore change outside `src/flows/cart`.
+- **Supermall group** (`10575:94060`): superseded — shipped from All flows `127:39689` (see "All flows · 127:39687" below).
 - **Freebies (Lucid Air promo, `10575:94167`)**: campaign-specific artwork with no kit equivalent; skipped.
 - **Free item row (“Free Samsung soundbar”, grey disabled checkbox, gift stepper)**: kit has no freebie line type; `checkbox-disabled.svg`
   and `gift-stepper.svg` are downloaded for when one exists.
@@ -175,3 +174,45 @@ Supersedes the bappzaar remap above for the visuals (behaviour unchanged):
 - footer: white, r12 top, 72 high (py 10), px 12, gap 12, drop shadow 0 −4 10 black 8%.
 - Total: 131 wide, pl 4; "Total" Label4 12/14 Medium #666D85; price H4 20/24 Bold #0E0E0E −0.2 with a dotted underline, two decimals.
 - Button: flex 1, 52 high, px 16 py 12, Accent/700 #0057FF, r12, Label-1 SemiBold 17/20 −0.26 white.
+
+## All flows · 127:39687
+
+Source: file `Af34gfmhQ1D0wstXUEHSIF` ("All flows"), frame `127:39687` "Cart" (375 × 4085), named by the user as the current cart design.
+Precedence (`truth: 'mixed'`): this frame for visuals; bappzaar master `NoonCartScreen` for behaviour, copy keys and section logic.
+Kit screenshots (top and every 700pt) were compared with the frame section by section.
+
+### Section → kit
+
+| Figma section | Node | Kit | Tokens / assets |
+|---|---|---|---|
+| Nav Header | `127:40185` | `CartHeader` (unchanged, already this design) | — |
+| Page container | `127:39688` | `CartScreen` `SECTIONS`; sections **8 apart** (was 12), 12 gutters; carousels 12 apart (`.carousel + .carousel`) | s.s8 / s.s12 |
+| Supermall | `127:39689` | `CartGroup` type `supermall` (first in `GROUP_ORDER`) | `groupTheme.supermall`: glass c.cart-glass-supermall #E8E8F3, items border p.persian-blue100, track c.cart-track-supermall #E3E3FC, fill p.rocket-blue-sapphire #2122B8, progress fill `linear-gradient(0deg, white, c.cart-progress-supermall #EBEBFE 84.375%)`; `figma/waves-supermall.svg`, `figma/logo-supermall-super.svg` + `logo-supermall-mall.svg` (76×18, layer boxes 0/4.12 and 44.82/0) |
+| supermall ETAs | `89:44427` | `CartItem` ETA pill, `deliveryInfo.icon: 'flash'` | gradient c.cart-eta-supermall #F5F5FC → white, gap 4, `figma/eta-flash.svg` 14px, text + bold `etaInk` p.rocket-blue-sapphire |
+| supermall "+ Add" | `127:39717` (`10248:86043`) | `GroupProgressBar addVariant="supermall"` | border p.persian-blue50, ink p.persian-blue #2F33C0, pl 4 pr 8 py 4, t.text13-semibold-lh18, `figma/add-plus-supermall.svg` 14px |
+| Stacks | `127:39715` | `CartGroup` stack row | supermall copy "Save on fees at checkout with later delivery!" (`groupCallouts.supermall`) |
+| Global / Express / market | `127:39718` / `127:39732` / `127:39747` | `CartGroup` (unchanged Cart 2.0 theming; `groupTheme.*.progressBg` now holds the −1.08deg gradient) | progress copy per group: "Add ₫ X from Global / Express / Market for free shipping", supermall "… for free service fees" (`progressMessage(…, group)`) |
+| express ETA nudge | `89:44435` | `html.etaExpiry` `<red>` | "Order within" + SemiBold c.danger #DE1C1C |
+| Product Carousel ×2 | `127:39775`, `127:39914` | `CartCarousel` + central `SkuCard look="cart"` (card unchanged) | card 1px c.border-subtle; header px 16; title t.section 16/22 −0.15 c.text-primary |
+| Coupons | `127:40052` | `CouponInput` (unchanged) | margin s.s8 |
+| Cobrand | `127:40071` | **new** `components/CobrandCards.tsx`, `cobrand.module.css` | 351×138 white r16; title t.section c.text-primary at 12/14; terms t.text12-regular-lh18 −0.1 c.text-muted with the 8px diamond bullet (`cobrand/diamond.svg` + `diamond-light.svg` hard-light + `diamond-shade.svg` multiply); M-NeutralButton h36 px16 py10 r8 c.text-strong, t.caption-bold c.text-inverse; art 257×138 at the right (`cobrand/noon-one-card.webp`, Figma render of `127:40073` incl. its white fades) |
+| Offers for you | `127:40114` | **new** `components/PaymentOffers.tsx` → `SalesCallout` | card pt 12 pb 14 gap 12, title px 14 t.section; row gap 8 px 12; entries 259 wide, 1px c.border-subtle r16 p8 gap 8; tiles 48 r12 (`payment/tamara-tile.webp`, `payment/tabby-tile.webp` = Figma renders; `payment/bank-installments.svg` on c.cart-noon50 → p.pale-yellow-gradient with 1px c.cart-noon300; `payment/tax-refund.svg` on white with 1px p.black-alpha4); copy `html.paymentOffer` (t.caption-bold −0.1 c.text-primary, `<highlight>` "Learn more" c.primary) / `html.paymentOfferRegular` for the bank + tax tiles |
+| Footer · Color waves · Sticky footer | `127:40208`–`127:40220` | `CartFooter` (unchanged, mapped in the section above) | — |
+| Bottom Nav | `127:40230` | shared kit `TabBar` (not restyled) | — |
+
+### Behaviour kept from bappzaar master
+
+- Section order is the server `sectionsOrder`: `updates → groups → secondary_groups → cms_bottom → wishlist → free_gifts → coupon_tray → cobrand_cards → callouts`. `cobrand_cards` is master's `renderCobrandCards` (`NoonCartCobrandCards`); the Figma has no cart-updates banner, unavailable items or free gifts, so those stay where master renders them.
+- Cobrand cards: master `NoonCartCobrandCards` — tripled list starting on the middle copy, auto-advance every 3000 ms, snap back into the middle copy, auto-scroll stops for good once the user drags/touches/wheels, single card = no scroll; tap follows `linkUrl` (a toast in the kit: no cobrand flow exists). Hidden on the empty cart.
+- Payment offers: master `NoonCartScreenCallouts` horizontal entries (259 wide, 48px icon, 2-line message). noon One entry still opens `noonone/landing` and is hidden for members; the other entries follow their deeplink (toast).
+- Groups: totals, shipping, free-delivery threshold (`FREE_DELIVERY_THRESHOLD` 100, per group) and progress only from `useDemoStore().cartTotals`; supermall is one more `cartTotals.groups` entry (so a fourth group can waive its own shipping, which the savings tab includes). Stepper, trash at qty 1, wishlist move + snackbar, chips → sheets, warranty add/remove, foupon, coupons (NOON10 / SAVE50), invoice, Checkout (→ noon One VIP push once per session for non-members, else checkout) unchanged.
+- Checkout keeps its three shipments: supermall cart lines join checkout's supermall shipment (`shipmentGroupOf` in `src/flows/checkout/data.shipment.ts`).
+
+### Not matched exactly
+
+- **Item data**: product titles, photos, prices, chips and points are the kit mocks (p6 / p1 / p8 / p11), not the Figma placeholders (AirPods photos titled "Apple Watch…", "Comes with a free soundbar", "Combo"). The Figma's free soundbar line (grey checkbox, "FREE … 100% OFF") still has no kit line type.
+- **Progress state**: the Figma shows every group under the threshold; the kit computes it from the cart, so supermall / express / market show master's "Yay! You get FREE …" state at their subtotals, Global shows "+ Add".
+- **Copy from master kept**: "View available coupons & offers" (`noon_view_more_available_offers`) instead of the frame's "View all coupons & discounts"; "Sponsored" spelling (frame: "Sponsord").
+- **Card width**: the kit phone is 390pt, so 351-wide Figma cards render 366 wide; the cobrand art stays pinned right at 257×138.
+- **Second cobrand card** repeats the first (the frame shows the same card twice).
+- Bank-installments and tax-refund tiles: their Figma PNG exports were empty, so the vector logo is shown on the tile fill/border from the frame instead of a single render.

@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { ProductImage, Pressable } from '../../../components';
 import { useNav } from '../../../kit/Navigator';
-import { productById } from '../../../mocks/products';
+import { productById } from '../../../data';
 import { wishlistTokens } from '../tokens';
 import styles from '../wishlist.module.css';
 

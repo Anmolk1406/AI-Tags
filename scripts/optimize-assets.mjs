@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Asset optimiser for src/assets (raster · svg · dotLottie · lottie json). Idempotent: a file is only rewritten when
+// Asset optimiser for src/assets + the product photos in src/data/products (raster · svg · dotLottie · lottie json). Idempotent: a file is only rewritten when
 // the result is at least MIN_GAIN smaller AND (for lossy candidates) visually lossless (PSNR ≥ PSNR_MIN vs the source).
 //
 //   node scripts/optimize-assets.mjs                 optimise every asset in place, print a before/after report
@@ -27,6 +27,8 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ASSETS = path.join(root, 'src/assets');
+/** product photos live next to their product.ts (src/data/products/<id>/card.webp …) */
+const PRODUCT_PHOTOS = path.join(root, 'src/data/products');
 const BUDGET_FILE = path.join(root, 'scripts/asset-budget.json');
 const args = process.argv.slice(2);
 const flag = (f) => args.includes(f);
@@ -41,7 +43,10 @@ const typeOf = (f) => {
   const e = path.extname(f).slice(1).toLowerCase();
   return e === 'jpeg' ? 'jpg' : e;
 };
-const allAssets = () => walk(ASSETS).filter((f) => !f.includes(`${path.sep}fonts${path.sep}`) && !path.basename(f).startsWith('.'));
+const allAssets = () => [
+  ...walk(ASSETS).filter((f) => !f.includes(`${path.sep}fonts${path.sep}`)),
+  ...(fs.existsSync(PRODUCT_PHOTOS) ? walk(PRODUCT_PHOTOS).filter((f) => /\.(webp|png|jpe?g|avif|svg)$/i.test(f)) : []),
+].filter((f) => !path.basename(f).startsWith('.'));
 
 
 // ───────────────────────────────────────────── optimise ─────────────────────────────────────────────
@@ -383,7 +388,7 @@ async function measure() {
       } catch {
         continue;
       }
-      if (!p.startsWith('/src/assets/')) continue;
+      if (!p.startsWith('/src/assets/') && !p.startsWith('/src/data/products/')) continue;
       const r = p.slice(1);
       seen.set(r, Math.max(seen.get(r) ?? 0, scale));
       if (ratioDep) ratioDeps.add(r);

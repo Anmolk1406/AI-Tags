@@ -1,16 +1,16 @@
-import keepCaret from '../../assets/home/2025/keep/caret.svg';
-import keepDualsense from '../../assets/home/2025/keep/dualsense.webp';
-import keepJacket from '../../assets/home/2025/keep/jacket.webp';
-import keepPlaystation from '../../assets/home/2025/keep/playstation.webp';
-import keepSerum from '../../assets/home/2025/keep/serum.webp';
-import keepSneakers from '../../assets/home/2025/keep/sneakers.webp';
-import brandLogo from '../../assets/home/2025/brand/nike-logo.webp';
-import brandPoster from '../../assets/home/2025/brand/video-poster.webp';
-import launchPs5 from '../../assets/home/2025/launches/ps5-pro.webp';
-import offerDash from '../../assets/home/2025/offers/delivery-dash.webp';
-import offerEnbd from '../../assets/home/2025/offers/enbd-cashback.webp';
-import offerOne from '../../assets/home/2025/offers/noon-one.webp';
-import { currency, productById } from '../../mocks/products';
+import keepCaret from '@assets/home/2025/keep/caret.svg';
+import keepDualsense from '@assets/home/2025/keep/dualsense.webp';
+import keepJacket from '@assets/home/2025/keep/jacket.webp';
+import keepPlaystation from '@assets/home/2025/keep/playstation.webp';
+import keepSerum from '@assets/home/2025/keep/serum.webp';
+import keepSneakers from '@assets/home/2025/keep/sneakers.webp';
+import brandLogo from '@assets/home/2025/brand/nike-logo.webp';
+import brandPoster from '@assets/home/2025/brand/video-poster.webp';
+import launchPs5 from '@assets/home/2025/launches/ps5-pro.webp';
+import offerDash from '@assets/home/2025/offers/delivery-dash.webp';
+import offerEnbd from '@assets/home/2025/offers/enbd-cashback.webp';
+import offerOne from '@assets/home/2025/offers/noon-one.webp';
+import { currency, productById } from '../../data';
 
 /**
  * Homepage Revamp 2025 module data (Figma iRE9RwO94eMAyW3j3XKNXW): Offers for you 1337:5485, Keep shopping for 1337:5804,

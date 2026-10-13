@@ -1,11 +1,11 @@
-import { user } from '../../mocks/products';
-import flagAE from '../../assets/account/flag-ae.webp';
-import flagSA from '../../assets/account/flag-sa.webp';
-import flagEG from '../../assets/account/flag-eg.webp';
-import flagKW from '../../assets/account/flag-kw.webp';
-import flagQA from '../../assets/account/flag-qa.webp';
-import flagOM from '../../assets/account/flag-om.webp';
-import flagBH from '../../assets/account/flag-bh.webp';
+import { user } from '../../data';
+import flagAE from '@assets/account/flag-ae.webp';
+import flagSA from '@assets/account/flag-sa.webp';
+import flagEG from '@assets/account/flag-eg.webp';
+import flagKW from '@assets/account/flag-kw.webp';
+import flagQA from '@assets/account/flag-qa.webp';
+import flagOM from '@assets/account/flag-om.webp';
+import flagBH from '@assets/account/flag-bh.webp';
 import type { AccountIcon } from './icons';
 
 /**

@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Badge, OriginIcon, Pressable } from '../../../components';
 import { ref as tok } from '../../../foundations/tokens';
 import { useNav } from '../../../kit/Navigator';
-import { currency, formatPrice } from '../../../mocks/products';
+import { currency, formatPrice } from '../../../data';
 import { eidAdBanner, eidSlides, type EidSlide } from '../data.eid';
 import { homeEidCarousel as C } from '../tokens.eid';
 import styles from './EidBanners.module.css';

@@ -5,7 +5,7 @@ import { useDemoStore } from '../../kit/DemoStore';
 import { useNav } from '../../kit/Navigator';
 import type { ScreenProps } from '../../kit/types';
 import { tween } from '../../motion/presets';
-import { currency, formatPrice, productById } from '../../mocks/products';
+import { currency, formatPrice, productById } from '../../data';
 import { CartIcon } from './components/CartIcon';
 import html from './components/html.module.css';
 import { cartItemExtras, couponFeedback, t, type DiscountTag } from './data';

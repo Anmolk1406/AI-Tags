@@ -1,7 +1,7 @@
 import { HtmlText, Pressable } from '../../../../components';
 import { useNav } from '../../../../kit/Navigator';
 import type { PdpContent } from '../../data';
-import enbdCard from '../../../../assets/pdp/new-pdp/pay-enbd-card.png';
+import enbdCard from '@assets/pdp/new-pdp/pay-enbd-card.png';
 import { Card } from '../Sections';
 import styles from './SfPaymentOffers.module.css';
 

@@ -301,7 +301,7 @@ Collapse rows 2 and 3 past 100px. The search bar stays pinned.
 
 **Data.**
 - Modules come from `data.ts` as an ordered array: `{ type: 'productRail', title, tabs?, items }` …, rendered through a `switch` (the cart flow's `SECTIONS` pattern), so order changes stay data-only.
-- Products come from `src/mocks/products.ts`, prices from `Price` / `currency`, creatives from `src/assets/home/`.
+- Products come from `src/data`, prices from `Price` / `currency`, creatives from `src/assets/home/`.
 - Every tile → `nav.push('plp/listing', { query })`, every SKU → PDP (default `onPress`), search → `search/search`, wishlist → `wishlist/wishlist`.
 
 **Verify.** Screenshot `home/home` and compare with `1337:5102` module by module, against the 28 gap, the 12 gutters, 134 SKU cards and 17/22 titles.

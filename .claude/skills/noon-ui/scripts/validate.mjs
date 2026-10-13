@@ -28,7 +28,7 @@ const mentions = (doc, word) => new RegExp(`(^|[^\\w-])${word.replace(/[.*+?^${}
 
 // ── Load the real registry and tokens through Vite (screens and tokens live in TS modules).
 const { createServer } = await import(join(root, 'node_modules/vite/dist/node/index.js'));
-const vite = await createServer({ root, configFile: false, logLevel: 'error', server: { middlewareMode: true }, appType: 'custom', assetsInclude: ['**/*.lottie'] });
+const vite = await createServer({ root, configFile: false, logLevel: 'error', server: { middlewareMode: true }, appType: 'custom', assetsInclude: ['**/*.lottie'], resolve: { alias: { '@assets': join(root, 'src/assets') } } });
 let allFlows, tokens, tokensToCssVars, screenTruth;
 try {
   ({ allFlows } = await vite.ssrLoadModule('/src/flows/index.ts'));
@@ -80,6 +80,7 @@ for (const name of skills) {
   else if (field('name') !== name) problems.push(`${name}/SKILL.md: frontmatter name "${field('name')}" must equal the folder name`);
   else if (!field('description')) problems.push(`${name}/SKILL.md: missing description`);
   else if (field('description').length > 1024) problems.push(`${name}/SKILL.md: description is ${field('description').length} chars (max 1024)`);
+  else if (/[<>]/.test(field('description'))) problems.push(`${name}/SKILL.md: description contains < or > (the Claude app rejects XML-like tags; write e.g. "src/flows" instead of "src/flows/<flow>")`);
   else ok(`${name}: frontmatter`);
   if (name !== 'noon-ui') {
     if (!noonUiSkill.includes(`\`/${name}\``)) problems.push(`noon-ui/SKILL.md: screen skill /${name} is not in the skill table`);
@@ -208,7 +209,7 @@ for (const f of allFlows) {
 ok(`source of truth: ${Object.entries(truthCount).map(([k, v]) => `${v} ${k}`).join(' · ')}; ${verifiedCount} verified`);
 const truthSummary = `${Object.entries(truthCount).map(([k, v]) => `${v} ${k}`).join(' / ')} · ${verifiedCount} verified`;
 
-// ── 6. Flow / screen counts quoted in prose ("17 flows", "145 screens") must match the registry.
+// ── 6. Flow / screen counts quoted in prose ("17 flows", "147 screens") must match the registry.
 const nFlows = allFlows.length;
 const nScreens = routes.size;
 // a flow's own screen count ("noonone … 22 screens") is not a total: only numbers above the largest flow are checked
@@ -225,7 +226,7 @@ ok(`counts: ${nFlows} flows, ${nScreens} screens`);
 if (existsSync(join(resourcesRoot, 'scripts/build.mjs'))) {
   const { spawnSync } = await import('node:child_process');
   const r = spawnSync(process.execPath, [join(resourcesRoot, 'scripts/build.mjs'), '--check'], { encoding: 'utf8' });
-  if (r.status !== 0) problems.push('.claude/resources/screens.md is out of date: run npm run resources:build');
+  if (r.status !== 0) problems.push('.claude/resources generated files are out of date: run npm run resources:build');
   else ok('resources: screens.md current');
 }
 

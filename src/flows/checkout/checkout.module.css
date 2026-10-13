@@ -77,3 +77,7 @@
   margin-left: var(--nk-space-s6);
   font-size: 21px;
 }
+/* Main Container: sections 12 apart, the first one flush under the 8px top padding (Figma "All flows" y 8) */
+.sections > :first-child {
+  margin-top: 0;
+}

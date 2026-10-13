@@ -50,8 +50,8 @@ Rows 2–3 show only while the trimmed query is empty; row 4 replaces them while
 
 ## Data
 
-- Search (`src/flows/search/data.ts`): `recentSearches` (`{ id, label, emoji, tint }`, 6 items; tints are per-item mock server data with `token-lint-ignore`), `trending` (8 strings), `suggest(q)` → up to 8 `{ text, category?, product? }` from `src/mocks/products.ts` plus generic terms.
-- Results (`src/flows/plp/data.ts`): `products` (shared catalogue + `phoneProducts` from `src/mocks/phones.ts`, 48 phones, 4 per brand, `productById` finds them), `isPhoneQuery`, `searchProducts(query)` (phone queries → every `Mobiles` product, one brand in turn; otherwise falls back to all products under 2 hits), `facets` (category, brand, price, rating, delivery), `applyFilters`, `sortOptions` / `SortId`, `applySort`, `countFilters`.
+- Search (`src/flows/search/data.ts`): `recentSearches` (`{ id, label, emoji, tint }`, 6 items; tints are per-item mock server data with `token-lint-ignore`), `trending` (8 strings), `suggest(q)` → up to 8 `{ text, category?, product? }` from `src/data` plus generic terms.
+- Results (`src/flows/plp/data.ts`): `products` (shared catalogue + `phoneProducts` from `src/data/products` (collection `phones`), 48 phones, 4 per brand, `productById` finds them), `isPhoneQuery`, `searchProducts(query)` (phone queries → every `Mobiles` product, one brand in turn; otherwise falls back to all products under 2 hits), `facets` (category, brand, price, rating, delivery), `applyFilters`, `sortOptions` / `SortId`, `applySort`, `countFilters`.
 - Shared state (`src/flows/plp/store.ts`): `plpStore.get / set / reset`, `usePlpStore()` → `{ sort, filters, query }`; reset whenever `query` changes.
 - Copy: short, sentence case, as in the code ("Recent Searches", "Trending searches", "Search for “…”", "Searching…", "Show N results", "Clear All").
 

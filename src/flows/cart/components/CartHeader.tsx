@@ -1,12 +1,12 @@
 import { motion, useTransform, type MotionValue } from 'motion/react';
 import { Pressable } from '../../../components';
 import { useNav } from '../../../kit/Navigator';
-import { user } from '../../../mocks/products';
-import addrChevron from '../../../assets/shared/icons/addr-chevron.svg';
-import addrHome from '../../../assets/shared/icons/addr-home.svg';
-import headerWishlist from '../../../assets/cart/figma/header-wishlist.svg';
-import deliveryWork from '../../../assets/shared/delivery/work.webp';
-import deliveryOther from '../../../assets/shared/delivery/other.webp';
+import { user } from '../../../data';
+import addrChevron from '@assets/shared/icons/addr-chevron.svg';
+import addrHome from '@assets/shared/icons/addr-home.svg';
+import headerWishlist from '@assets/cart/figma/header-wishlist.svg';
+import deliveryWork from '@assets/shared/delivery/work.webp';
+import deliveryOther from '@assets/shared/delivery/other.webp';
 import styles from './header.module.css';
 
 /**

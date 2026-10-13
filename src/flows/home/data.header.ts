@@ -1,11 +1,11 @@
 // Homepage Revamp 2025 — header, cashback ticker and hero content (Figma iRE9RwO94eMAyW3j3XKNXW · 1337:6688 / 1337:5131 / 1337:5106).
-import welcomeDryer from '../../assets/home/2025/hero/welcome-dryer.webp';
-import welcomeWatch from '../../assets/home/2025/hero/welcome-watch.webp';
-import welcomeMakeup from '../../assets/home/2025/hero/welcome-makeup.webp';
-import welcomeShadow from '../../assets/home/2025/hero/welcome-shadow.svg';
-import saleImage from '../../assets/home/2025/hero/sale.webp';
-import saleLogo from '../../assets/home/2025/hero/sale-logo.svg';
-import { currency, user } from '../../mocks/products';
+import welcomeDryer from '@assets/home/2025/hero/welcome-dryer.webp';
+import welcomeWatch from '@assets/home/2025/hero/welcome-watch.webp';
+import welcomeMakeup from '@assets/home/2025/hero/welcome-makeup.webp';
+import welcomeShadow from '@assets/home/2025/hero/welcome-shadow.svg';
+import saleImage from '@assets/home/2025/hero/sale.webp';
+import saleLogo from '@assets/home/2025/hero/sale-logo.svg';
+import { currency, user } from '../../data';
 
 /** Address row: the demo user's saved address (Figma shows a placeholder Bengaluru address). */
 export const addressRow = { label: user.address.label, line: `${user.address.line}, ${user.address.city}` };

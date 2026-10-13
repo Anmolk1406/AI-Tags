@@ -1,5 +1,5 @@
-import { products } from '../../mocks/products';
-import { phoneProducts } from '../../mocks/phones';
+import { products } from '../../data';
+import { phoneProducts } from '../../data';
 
 export const recentSearches = [
   { id: 'r1', label: 'AirPods Pro', emoji: '🎧', tint: '#EEF2F8' }, // token-lint-ignore: per-item mock tint (server data)

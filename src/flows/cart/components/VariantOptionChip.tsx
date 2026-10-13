@@ -1,5 +1,5 @@
 import { ProductImage } from '../../../components';
-import type { Product } from '../../../mocks/products';
+import type { Product } from '../../../data';
 import styles from '../variants.module.css';
 
 /** NoonProductCartSelectionItem — r8 chip (r12 with image), #EBEBEB border, #0E0E0E when selected, dashed when OOS. */

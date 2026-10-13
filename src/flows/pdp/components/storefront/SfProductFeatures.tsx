@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { OriginIcon } from '../../../../components';
-import type { Product } from '../../../../mocks/products';
+import type { Product } from '../../../../data';
 import { tween } from '../../../../motion/presets';
 import type { PdpContent } from '../../data';
 import { demoAplusImages } from '../../data.npD';

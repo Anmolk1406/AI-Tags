@@ -1,9 +1,9 @@
 import { MaskIcon, Pressable } from '../../../../components';
 import { useNav } from '../../../../kit/Navigator';
-import { leafName } from '../../../../mocks/categories';
+import { leafName } from '../../../../data';
 import type { PdpContent } from '../../data';
-import badge from '../../../../assets/pdp/new-pdp/bestseller-badge.svg';
-import chevronRight from '../../../../assets/pdp/new-pdp/icons/mini-chevron-right-20.svg';
+import badge from '@assets/pdp/new-pdp/bestseller-badge.svg';
+import chevronRight from '@assets/pdp/new-pdp/icons/mini-chevron-right-20.svg';
 import styles from './SfBestsellerRow.module.css';
 
 export const sfBestsellerCopy = {

@@ -3,7 +3,7 @@ import type { ReactNode, RefObject } from 'react';
 import { Switch } from '../../../components';
 import { useNav } from '../../../kit/Navigator';
 import { easing, spring } from '../../../motion/presets';
-import { currency } from '../../../mocks/products';
+import { currency } from '../../../data';
 import { cashback, tf, type CheckoutCard } from '../data';
 import { formatAmount } from '../utils';
 import {

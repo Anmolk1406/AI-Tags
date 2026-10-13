@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
 import { Button, DashedDivider, Header, Icon, ProductImage, Pressable, Screen } from '../../components';
 import { useNav } from '../../kit/Navigator';
-import { currency, formatPrice } from '../../mocks/products';
+import { currency, formatPrice } from '../../data';
 import { cancelReasons, orderById } from './data';
 import styles from './orders.module.css';
 import { ref } from '../../foundations/tokens';

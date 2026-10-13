@@ -1,7 +1,7 @@
 import { animate, motion, useMotionValue } from 'motion/react';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import shimmerLottie from '../../../assets/vip/vip-loading-shimmer.lottie';
-import greenCheck from '../../../assets/vip/one-green-check.webp';
+import shimmerLottie from '@assets/vip/vip-loading-shimmer.lottie';
+import greenCheck from '@assets/vip/one-green-check.webp';
 import { Screen } from '../../../components';
 import { membershipStore, noonOneJourneyActions, useIsNoonOneMember, useMembership, useMembershipEligibility } from '../../../kit/membership';
 import { useNav } from '../../../kit/Navigator';
@@ -195,6 +195,10 @@ export function LandingScreen() {
               onPress: onCreate,
               onPaymentPress: () => nav.push('noonone/payment', { planCode: plan.planCode, source: '/noonone' }),
             }}
+            flyout={npLanding.flyout}
+            onFlyout={() => nav.push('noonone/plans', { source: '/noon-one-landingV2' })}
+            viewPlansTitle={npLanding.viewPlans.title}
+            onViewPlans={() => nav.push('noonone/plans', { source: '/noon-one-landingV2' })}
           />
         </motion.div>
       )}

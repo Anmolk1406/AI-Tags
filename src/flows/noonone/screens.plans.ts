@@ -20,7 +20,7 @@ export const plansScreens: ScreenDef[] = [
     defaultParams: { source: '/noon-one-landingV2' },
     source: `${V}/screens/VIPQuickPlanSelectV3Screen (+ Plan/Plan.tsx, Plan/BundlePlan.tsx), components/VIPSubscriptionButtonV2, src/components/SegmentedControlTabSwitcher`,
     notes:
-      'Live plan select (VIPUtil.showPlanSelectV2 always pushes V3; V1 VIPQuickPlanSelectScreen is legacy). Switch tiers (noon One ↔ One + Play bundle; pill slides 500ms ease-out-cubic), pick Monthly / Annual or a streaming partner. First CTA tap opens the "Review your plan" sheet; after that the sticky button shows "Pay with ••••4242" and quick-subscribes (loader → success on the landing). "Pay with" → payment. Params: preSelectedTierCode (individual | yango), preSelectedPlanCode.',
+      'Live plan select (VIPUtil.showPlanSelectV2 always pushes V3; V1 VIPQuickPlanSelectScreen is legacy). Switch tiers (One Bundle ↔ One Standard, Standard selected by default as in prod; pill slides 500ms ease-out-cubic), pick Monthly / Annual or a streaming partner. First CTA tap opens the "Review your plan" sheet; after that the sticky button shows "Pay with ••••4242" and quick-subscribes (loader → success on the landing). "Pay with" → payment. Params: preSelectedTierCode (individual | yango), preSelectedPlanCode.',
   },
   {
     id: 'planDetails',

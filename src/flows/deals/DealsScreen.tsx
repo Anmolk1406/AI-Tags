@@ -1,6 +1,6 @@
 import { Icon, Pressable, ProductCard, Screen, SearchBarButton, Text } from '../../components';
 import { useNav } from '../../kit/Navigator';
-import { products } from '../../mocks/products';
+import { products } from '../../data';
 import { savingsRows, tileRows } from '../home/data';
 import homeStyles from '../home/home.module.css';
 import { gridTitle, heroes, rails, strips } from './data';

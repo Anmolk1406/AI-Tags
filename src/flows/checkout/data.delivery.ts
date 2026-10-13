@@ -1,14 +1,14 @@
 import type { IconName } from '../../components';
-import iconCall from '../../assets/checkout/delivery-call.svg';
-import iconContacts from '../../assets/checkout/delivery-contacts@3x.webp';
-import iconRadioOn from '../../assets/checkout/delivery-radio-checked@3x.webp';
-import iconRadioOff from '../../assets/checkout/delivery-radio-unchecked@3x.webp';
-import iconCheckboxOn from '../../assets/shared/icons/checkbox-checked.webp';
-import iconCheckboxOff from '../../assets/shared/icons/checkbox-unchecked.webp';
-import iconArrowDownBlue from '../../assets/checkout/delivery-arrow-down-blue@3x.webp';
-import iconChevronRightBlue from '../../assets/checkout/delivery-chevron-right-blue@3x.webp';
-import iconTogether from '../../assets/checkout/figma/di-together.svg';
-import iconDoor from '../../assets/checkout/figma/di-door.svg';
+import iconCall from '@assets/checkout/delivery-call.svg';
+import iconContacts from '@assets/checkout/delivery-contacts@3x.webp';
+import iconRadioOn from '@assets/checkout/delivery-radio-checked@3x.webp';
+import iconRadioOff from '@assets/checkout/delivery-radio-unchecked@3x.webp';
+import iconCheckboxOn from '@assets/shared/icons/checkbox-checked.webp';
+import iconCheckboxOff from '@assets/shared/icons/checkbox-unchecked.webp';
+import iconArrowDownBlue from '@assets/checkout/delivery-arrow-down-blue@3x.webp';
+import iconChevronRightBlue from '@assets/checkout/delivery-chevron-right-blue@3x.webp';
+import iconTogether from '@assets/checkout/figma/di-together.svg';
+import iconDoor from '@assets/checkout/figma/di-door.svg';
 import type { DeliveryInstructionsState } from './store';
 import { checkoutServerColors as sc } from './tokens';
 

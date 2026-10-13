@@ -14,7 +14,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "types": ["vite/client"],
-    "paths": { "@kit/*": ["./src/*"] }
+    "paths": { "@kit/*": ["./src/*"], "@assets/*": ["./src/assets/*"] }
   },
   "include": ["src", "vite.config.ts", "vite.lib.config.ts"]
 }

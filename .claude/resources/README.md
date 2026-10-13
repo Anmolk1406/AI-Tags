@@ -8,6 +8,7 @@ Shared material the noon skills load **on demand**. It describes what is on the 
 | `patterns.md` | the shopping hand-off graph, where state goes, area token files vs param variants, scroll/tab bar, motion reuse | hand-written |
 | `tooling.md` | lazy screens, tab bar scroll, `screenTruth`, which check proves what, how to add a journey or visual reference | hand-written |
 | `flows/<flow>.md` | per-flow brief: what the screen is now, pieces, state, recipes, gotchas, known drift | hand-written |
+| `flows/categories-views.md` | every view the Categories tab links to: 29 tiles, each sub banner's link, where the app opens it, page type and sections | **generated** from `data.live.ts` + `linkRouting.ts` (+ `cms-pages.json` after `npm run categories:fetch`) |
 
 ## Which skill reads what
 
@@ -19,11 +20,12 @@ Shared material the noon skills load **on demand**. It describes what is on the 
 | `/pdp` | `flows/pdp.md` | `patterns.md` → tokens, scroll |
 | `/cart` | `flows/cart.md` | `flows/checkout.md` (hand-off), `patterns.md` → state |
 | `/checkout` | `flows/checkout.md` | `flows/cart.md`, `flows/orders.md` (confirmation → orders) |
+| categories / category landing pages via `/noon-ui` | `flows/categories.md`, `flows/categories-views.md` | `flows/home.md` (module renderers), `flows/plp.md` (catalog pages) |
 | orders / reviews / account / other pages via `/noon-ui` | `flows/orders.md`, `flows/reviews.md`, `flows/account.md`, `flows/other-flows.md` | `patterns.md` |
 
 ## Rules
 
 - **The code wins.** These files are a map, not the spec. When a brief disagrees with the code, trust the code and fix the brief in the same change.
-- Never edit `screens.md` by hand.
+- Never edit `screens.md` or `flows/categories-views.md` by hand.
 - After changing a flow, update its brief: screens, pieces, gotchas. Run `npm run resources:build` and `npm run skill:check`. Both check this folder: every path, `--nk-*` var and route mentioned must exist.
 - A new flow gets a brief in `flows/` (or a section in `flows/other-flows.md` while it's small) and a row in the table above.

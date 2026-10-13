@@ -1,5 +1,5 @@
 import { SkuCard } from '../../../components';
-import type { Product } from '../../../mocks/products';
+import type { Product } from '../../../data';
 import styles from './sections.module.css';
 
 /**

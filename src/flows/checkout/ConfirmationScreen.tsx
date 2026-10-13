@@ -4,7 +4,7 @@ import { Icon, ProductImage, Screen } from '../../components';
 import { useDemoStore } from '../../kit/DemoStore';
 import { useNav } from '../../kit/Navigator';
 import { easing } from '../../motion/presets';
-import { productById, products, type Product } from '../../mocks/products';
+import { productById, type Product } from '../../data';
 import { addressTitle, singleLineAddress } from '../address/data';
 import { useAddressStore } from '../address/store';
 import { mockNotificationBanner, postorderIcons, smartAssistConfig, tp } from './data.postorder';
@@ -45,8 +45,8 @@ export function ConfirmationScreen() {
     if (lastOrder?.items.length) return lastOrder.items.map((i) => ({ product: productById(i.id), qty: i.qty }));
     if (cart.length) return cart.map((l) => ({ product: l.product, qty: l.qty }));
     return [
-      { product: products[0], qty: 1 },
-      { product: products[3], qty: 2 },
+      { product: productById('p1'), qty: 1 },
+      { product: productById('p4'), qty: 2 },
     ];
   }, [lastOrder, cart]);
   const promiseLabel = lastOrder?.promiseLabel ?? buildPromises()[0].confirmationLabel;

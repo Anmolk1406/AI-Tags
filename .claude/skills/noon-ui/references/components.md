@@ -409,7 +409,7 @@ Gotcha: `size` only changes the `nav` variant (`sm` height, `lg` height/padding/
 
 ## Price and Money
 
-`Price` takes `offSuffix` (default `true`: "n% OFF"; `false`: "n%" as bappzaar carousels show it).
+`Price` takes `offSuffix` (default `true`: "n% OFF"; `false`: "n%" as bappzaar carousels show it). `currencySize` is `'small'` (default, 0.7em semibold sign) or `'sale'` (sign at the sale-price size and weight, bappzaar `saleCurrency`). `WishlistHeart` takes `box` (circle diameter, default `size + 4`).
 
 `src/components/Price/Price.tsx`. PriceDiscounted: sale price with the dirham sign (`currency`, U+E001, drawn by Noontree), struck "was" price and computed "{n}% OFF".
 
@@ -429,7 +429,7 @@ Gotcha: `size` only changes the `nav` variant (`sm` height, `lg` height/padding/
 <Price price={product.price} was={product.was} />
 ```
 
-Gotchas: never write "AED" or a dollar sign; for custom price layouts use `currency` and `formatPrice` from `src/mocks/products.ts`. The currency glyph is 0.7em of the sale font.
+Gotchas: never write "AED" or a dollar sign; for custom price layouts use `currency` and `formatPrice` from `src/data`. The currency glyph is 0.7em of the sale font.
 
 ## RatingPill and Stars
 
@@ -494,7 +494,7 @@ Gotcha: always give it a width plus `height` or `aspect`, otherwise it has no he
 | `quickAdd` | `boolean` | `true` |
 | `compact` | `boolean` (carousel: no coupon / delivery rows) | — |
 | `width` | `number \| string` (fixed width, `flexShrink: 0`, for carousels) | — |
-| `carousel` | `boolean` — bappzaar home `productCarousel` box (NoonProductCard): r8, no hairline, image `width × round((width − 14) · 1.361)` (138 × 169), info inset 4, express flag only, discount "n%"; needs a numeric `width` | — |
+| `carousel` | `boolean` — bappzaar home `productCarousel` box (NoonProductCard): r8, no hairline, image `width × round((width − 14) · 1.361)` (138 × 169) with an r8 overlay, 24 heart circle, "+" at bottom 6, info inset 4 (+2 bottom), price 6 below the rating with a 16/700 dirham sign, express flag only (18h), discount "n%"; needs a numeric `width` | — |
 
 `QuickAdd`: 36×36 "+" that adds 1 to the DemoStore cart (with a toast), expands into a filled `QuantityStepper`, and collapses to a count badge after 2.5s. Props: `productId: string` (required).
 
@@ -508,7 +508,7 @@ Gotcha: always give it a width plus `height` or `aspect`, otherwise it has no he
 <QuickAdd productId={product.id} />
 ```
 
-Gotchas: `ProductCard` is the bappzaar NoonProductBoxVertical (0.8 image, 36 quick-add, 16/700 price). The 2025 Figma "SKU" card (home rails, cart carousels, PDP recommendations) has a different footprint; see `SkuCard` in the pick table. Data comes from `Product` in `src/mocks/products.ts`; add products there rather than inlining objects. Cart and wishlist state flow through `useDemoStore()` automatically. The grid layout is the caller's (CSS grid in the flow module). RTL mirroring of tag/heart/quick positions is built in.
+Gotchas: `ProductCard` is the bappzaar NoonProductBoxVertical (0.8 image, 36 quick-add, 16/700 price). The 2025 Figma "SKU" card (home rails, cart carousels, PDP recommendations) has a different footprint; see `SkuCard` in the pick table. Data comes from `Product` in `src/data`; add products there rather than inlining objects. Cart and wishlist state flow through `useDemoStore()` automatically. The grid layout is the caller's (CSS grid in the flow module). RTL mirroring of tag/heart/quick positions is built in.
 
 ## SkuCard
 
@@ -516,7 +516,7 @@ Gotchas: `ProductCard` is the bappzaar NoonProductBoxVertical (0.8 image, 36 qui
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
-| `product` | `Product` | — | from `src/mocks/products.ts` |
+| `product` | `Product` | — | from `src/data` |
 | `look` | `'feed' \| 'cart'` | `'feed'` | `feed`: white + `skuMediaTint` image box, emerald Best Seller tag, flat rating pill, `skuDiscount`; `cart`: grey bordered box, catalog tag (cart carousels) |
 | `badge` | `string \| null` | `product.tag` | top-left tag; `null` hides it |
 | `sponsored` | `boolean` | `false` | "Ad" tag in the image box (`text10RegularLh11`) |

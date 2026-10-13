@@ -1,5 +1,5 @@
 import { motion, useMotionValue, useTransform } from 'motion/react';
-import { useMemo, useState } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { HtmlText, Screen } from '../../../components';
 import { useNav } from '../../../kit/Navigator';
 import { useMembershipEligibility } from '../../../kit/membership';
@@ -12,7 +12,9 @@ import { ChevronLeftRounded, ScrollHeader, SubscriptionButton } from '../compone
 import { useQuickPay } from '../components/plans/useQuickPay';
 import s from './PlanSelectScreen.module.css';
 
+/** VIPQuickPlanSelectV3Screen tabWidth (152 in RTL); widened only when a label + discount pill can't fit on one line */
 const TAB_WIDTH = 140;
+const TAB_PAD = 12;
 /** SegmentedControlTabSwitcher.animateToPosition: Animated.timing default 500ms, Easing.out(Easing.cubic) */
 const TAB_MS = 0.5;
 
@@ -57,6 +59,16 @@ export function PlanSelectScreen({ params }: { params: Params }) {
 
   const scrollY = useMotionValue(0);
   const headerOpacity = useTransform(scrollY, [0, 20], [0, 1]);
+
+  // keep each tab's label + pill on one line (RN measures them narrower than the web font does)
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const [tabWidth, setTabWidth] = useState(TAB_WIDTH);
+  useLayoutEffect(() => {
+    const contents = tabsRef.current?.querySelectorAll<HTMLElement>('[data-tier-tab]');
+    if (!contents?.length) return;
+    const widest = Math.max(...[...contents].map((el) => el.scrollWidth));
+    setTabWidth(Math.max(TAB_WIDTH, Math.ceil(widest) + TAB_PAD));
+  }, [tiers]);
 
   const switchTab = (i: number) => {
     const first = flatten(tiers[i].plans)[0];
@@ -109,17 +121,17 @@ export function PlanSelectScreen({ params }: { params: Params }) {
         </div>
         {tiers.length > 1 ? (
           <div className={s.tierDetails}>
-            <div className={s.tabs} style={{ width: tiers.length * TAB_WIDTH + 10 }}>
+            <div ref={tabsRef} className={s.tabs} style={{ width: tiers.length * tabWidth + 10 }}>
               <motion.div
                 className={s.activePill}
-                style={{ width: TAB_WIDTH, insetInlineStart: 4 }}
+                style={{ width: tabWidth, insetInlineStart: 4 }}
                 initial={false}
-                animate={{ x: tierIndex * TAB_WIDTH }}
+                animate={{ x: tierIndex * tabWidth }}
                 transition={{ duration: TAB_MS, ease: easing.out }}
               />
               {tiers.map((t, i) => (
-                <button key={t.tierCode} type="button" className={`nk-pressable ${s.tab}`} style={{ width: TAB_WIDTH, flex: 'none' }} onClick={() => i !== tierIndex && switchTab(i)}>
-                  <span className={s.tierTab}>
+                <button key={t.tierCode} type="button" className={`nk-pressable ${s.tab}`} style={{ width: tabWidth, flex: 'none' }} onClick={() => i !== tierIndex && switchTab(i)}>
+                  <span className={s.tierTab} data-tier-tab>
                     <span className={s.tierTabText}>{t.name}</span>
                     {t.discountTag && <span className={s.tierDiscount}>{t.discountTag}</span>}
                   </span>

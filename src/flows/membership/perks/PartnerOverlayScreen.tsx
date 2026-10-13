@@ -2,7 +2,7 @@ import { motion } from 'motion/react';
 import { HtmlText } from '../../../components';
 import { useNav } from '../../../kit/Navigator';
 import { useMembership } from '../../../kit/membership';
-import chevronUp from '../../../assets/vip/chevron-up-rounded.svg';
+import chevronUp from '@assets/vip/chevron-up-rounded.svg';
 import { cardImage, t } from '../data';
 import { acquisitionRoute } from '../links';
 import { useEnsureMembership } from '../store';

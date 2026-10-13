@@ -1,5 +1,5 @@
 import { layout } from '../../../foundations/tokens';
-import { formatPrice, type Product } from '../../../mocks/products';
+import { formatPrice, type Product } from '../../../data';
 import { copy, discountPercent, money, type PdpContent, type VariantGroup, type VariantOption } from '../data';
 import { pdpTokens } from '../tokens';
 import { Asset, DashedLine } from './Asset';

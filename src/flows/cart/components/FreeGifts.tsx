@@ -1,10 +1,10 @@
 import { motion } from 'motion/react';
 import { ProductImage } from '../../../components';
 import { useNav } from '../../../kit/Navigator';
-import { currency, formatPrice, type Product } from '../../../mocks/products';
-import addPlus from '../../../assets/cart/figma/add-plus-16.svg';
-import giftGreen from '../../../assets/cart/figma/gift-green.svg';
-import lockBadge from '../../../assets/cart/figma/lock-badge-freebie.svg';
+import { currency, formatPrice, type Product } from '../../../data';
+import addPlus from '@assets/cart/figma/add-plus-16.svg';
+import giftGreen from '@assets/cart/figma/gift-green.svg';
+import lockBadge from '@assets/cart/figma/lock-badge-freebie.svg';
 import { t } from '../data';
 import styles from './sections.module.css';
 

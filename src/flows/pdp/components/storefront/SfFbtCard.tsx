@@ -1,8 +1,8 @@
 import { Fragment, useState } from 'react';
 import { OriginIcon, ProductImage } from '../../../../components';
-import etaExpressToday from '../../../../assets/pdp/new-pdp/eta-express-today.svg';
+import etaExpressToday from '@assets/pdp/new-pdp/eta-express-today.svg';
 import { useDemoStore } from '../../../../kit/DemoStore';
-import { products, type Product } from '../../../../mocks/products';
+import { products, type Product } from '../../../../data';
 import { copy, money } from '../../data';
 import { pdpTokens } from '../../tokens';
 import { Card } from '../Sections';

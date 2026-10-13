@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import type { DiscountTag } from '../data';
-import chevronRight from '../../../assets/cart/figma/chevron-right.svg';
+import chevronRight from '@assets/cart/figma/chevron-right.svg';
 import styles from './item.module.css';
 
 /**

@@ -1,5 +1,5 @@
 import { cartAddOns, computeCartTotals, type CartLine, type CartTotals } from '../../kit/DemoStore';
-import { currency, formatPrice } from '../../mocks/products';
+import { currency, formatPrice } from '../../data';
 import { t } from './data';
 
 /** legacy row shape (kept for checkout/CheckoutScreen, which imports buildInvoice) */

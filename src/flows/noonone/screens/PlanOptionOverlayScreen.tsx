@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { useState } from 'react';
-import radioOff from '../../../assets/vip/radio-green-unselected.svg';
-import mCheckbox from '../../../assets/vip/m-checkbox.png';
+import radioOff from '@assets/vip/radio-green-unselected.svg';
+import mCheckbox from '@assets/vip/m-checkbox.png';
 import { HtmlText } from '../../../components';
 import { useNav } from '../../../kit/Navigator';
 import { membershipActions, useIsNoonOneMember } from '../../../kit/membership';

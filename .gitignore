@@ -7,3 +7,5 @@ dist-lib
 playwright-report
 test-results
 
+.cache
+dist-skills

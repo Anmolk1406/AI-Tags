@@ -1,14 +1,14 @@
 import { ProductImage, Pressable } from '../../../components';
 import { useDemoStore } from '../../../kit/DemoStore';
 import { useNav, useParams } from '../../../kit/Navigator';
-import { productById, type Product } from '../../../mocks/products';
+import { productById, type Product } from '../../../data';
 import { orders } from '../../orders/data';
-import ordersCenter from '../../../assets/icons/noon-account-orders-center.svg';
-import ordersLeft from '../../../assets/icons/noon-account-orders-left.svg';
-import ordersRight from '../../../assets/icons/noon-account-orders-right.svg';
-import wishlistLeft from '../../../assets/icons/noon-account-wishlist-left.svg';
-import wishlistCenter from '../../../assets/icons/noon-account-wishlist-center.svg';
-import wishlistRight from '../../../assets/icons/noon-account-wishlist-right.svg';
+import ordersCenter from '@assets/icons/noon-account-orders-center.svg';
+import ordersLeft from '@assets/icons/noon-account-orders-left.svg';
+import ordersRight from '@assets/icons/noon-account-orders-right.svg';
+import wishlistLeft from '@assets/icons/noon-account-wishlist-left.svg';
+import wishlistCenter from '@assets/icons/noon-account-wishlist-center.svg';
+import wishlistRight from '@assets/icons/noon-account-wishlist-right.svg';
 import styles from '../account.module.css';
 
 /** NoonAccountActionCard MAX_ICONS */

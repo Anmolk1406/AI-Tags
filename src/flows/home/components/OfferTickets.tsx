@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react';
 import { DashedDivider, Pressable, Text } from '../../../components';
 import { ref } from '../../../foundations/tokens';
 import { useNav } from '../../../kit/Navigator';
-import chevron from '../../../assets/home/2025/offers/chevron.svg';
+import chevron from '@assets/home/2025/offers/chevron.svg';
 import { offerTickets, type OfferTicket } from '../data.modules';
 import styles from './OfferTickets.module.css';
 

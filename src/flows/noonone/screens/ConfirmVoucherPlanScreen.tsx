@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { HtmlText } from '../../../components';
 import { useNav } from '../../../kit/Navigator';
-import giftIcon from '../../../assets/vip/gift.svg';
-import percentBadge from '../../../assets/vip/percent-badge.svg';
+import giftIcon from '@assets/vip/gift.svg';
+import percentBadge from '@assets/vip/percent-badge.svg';
 import { VIPOverlay, useVipOverlay } from '../components/VIPOverlay';
 import { SubscribeButton } from '../components/offers/SubscribeButton';
 import { ChevronLeft, VIPDashedBorder } from '../components/offers/Primitives';

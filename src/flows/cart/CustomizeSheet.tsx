@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Lottie } from '../../components';
-import atcLoader from '../../assets/cart/atc-loader-animation.lottie';
+import atcLoader from '@assets/cart/atc-loader-animation.lottie';
 import { useDemoStore } from '../../kit/DemoStore';
 import { useNav } from '../../kit/Navigator';
 import type { ScreenProps } from '../../kit/types';

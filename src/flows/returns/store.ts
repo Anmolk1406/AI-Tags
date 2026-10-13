@@ -1,5 +1,5 @@
 import { createStore } from '../../kit/createStore';
-import { user } from '../../mocks/products';
+import { user } from '../../data';
 import { addresses, resolveProduct, returnNumberFor, type HistoryItem } from './data';
 
 /**

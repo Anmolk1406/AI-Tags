@@ -1,6 +1,6 @@
 import { Icon, MarketplaceTag, Pressable, ProductImage, Screen } from '../../components';
 import { useNav } from '../../kit/Navigator';
-import { currency, liveProducts, products } from '../../mocks/products';
+import { currency, IPHONE_17_PRO_ID, productById } from '../../data';
 import { icons } from './assets';
 import { AFSBackHeader } from './components/AFSBackHeader';
 import { Tap } from './components/AFSButton';
@@ -12,7 +12,7 @@ import styles from './history.module.css';
 /** SD returnableList items (getReturnableList) — demo: delivered catalogue products */
 const returnable = [
   { productId: 'p5', itemNr: 'NAEH40021571220-1', button: { status: 'returnable', colorCode: 'blue', desc: 'Return window closes on Oct 17', title: 'Return' } },
-  { productId: liveProducts[0]?.id ?? 'p1', itemNr: 'NAEH40021602371-1', button: { status: 'returnable', colorCode: 'blue', desc: 'Return window closes on Oct 22', title: 'Return' } },
+  { productId: IPHONE_17_PRO_ID, itemNr: 'NAEH40021602371-1', button: { status: 'returnable', colorCode: 'blue', desc: 'Return window closes on Oct 22', title: 'Return' } },
   { productId: 'p2', itemNr: 'NAEH40021559814-1', button: { status: 'returnable', colorCode: 'blue', desc: 'Return window closes on Oct 15', title: 'Return' } },
   { productId: 'p7', itemNr: 'NAEH40021544019-1', button: { status: 'not_returnable', colorCode: 'gray', desc: 'Return window closed on Oct 5', title: '' } },
 ];
@@ -23,12 +23,11 @@ const returnable = [
  */
 export function ReturnableListScreen({ params }: { params: { rootKey?: string } }) {
   const nav = useNav();
-  const all = [...products, ...liveProducts];
   return (
     <Screen background="bgSubtle" overlayHeader safeTop={false} header={<AFSBackHeader blur title={copy.returnableHeader} onBack={() => nav.back()} />} contentStyle={{ paddingBottom: 0 }}>
       <div className={styles.rlList}>
         {returnable.map((it) => {
-          const p = all.find((x) => x.id === it.productId) ?? products[0];
+          const p = productById(it.productId);
           const code = it.button.colorCode;
           return (
             <div key={it.itemNr} className={styles.itemWrap}>

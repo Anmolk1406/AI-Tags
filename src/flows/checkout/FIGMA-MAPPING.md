@@ -191,3 +191,53 @@ Also hidden through data flags: delivery options `silent_delivery` / `sc` (`hidd
 - Shared follow-up: `MarketplaceTag` has no 63×20 r4.185 supermall / 57×17.1 express pill variant (it renders 60×18
   fully-rounded pills), so the Figma pills are flow-local in CheckoutShipment; consider adding them to
   `src/components/Tag/MarketplaceTag.tsx`.
+
+---
+
+## All flows · 127:44077
+
+Source: file `Af34gfmhQ1D0wstXUEHSIF` ("All flows"), frame `127:44077` "Checkout" (375×2601). This is now the default
+checkout layout (`ALL_FLOWS_SECTIONS` in `CheckoutScreen.tsx`); the Checkout 2.0 layout above stays available as
+`FIGMA_SECTIONS`. Precedence: Figma for visuals, bappzaar master (`origin/master`, read via `git show`) for behaviour,
+data and copy keys. New checkout tokens are `chkAf*` in `tokens.ts`; new assets in `src/assets/checkout/figma/`.
+
+Section order: `address_card, integrated_noonone, delivery_instructions, receiver_details, shipments, burn, pay_with,
+donation, payment_summary` (Main Container y 8, sections 12 apart → `.sections > :first-child { margin-top: 0 }`).
+This matches master `sectionsOrder` ids `address, integrated_noonone, delivery_options, receiver_details, shipment,
+burn, payment, donation, invoice` (the session decides the order on master).
+
+| Figma section | bappzaar master | Kit component · tokens · assets |
+|---|---|---|
+| Header 127:44446 (back 127:44453, "Checkout", 40px right pill) | `NoonSalesAnimatedHeader` + `headerDetachedAddress*` (session v3: title, no address) — `noon_checkout_header` | `CheckoutHeader title` → `.title` `t.chk-fig-text16-bold-lh21`, `sh.chk-fig-header-label`; back icon = existing `figma/header-back.svg` (same path); scroll behaviour unchanged |
+| Address card 127:44080 | `renderDetachedAddress` → `NoonCartAddressSelectorV2` (checkout-detached), `showAddressSelectScreen` | `components/AddressCard.tsx` · white r16, p 12/16/10/12, gap 10; label `t.text16-bold-lh20` (-0.15) `c.text-primary`; line `t.chk-af-text13-medium-lh20` (-0.1) `c.text-secondary`; home glyph `shared/icons/addr-home.svg` (same as the Figma group); chevron **`figma/address-chevron-right.svg`** (new, 18) · tap → `address/select` modal → "Address updated" |
+| Banner/.base 127:44088 | `NoonCheckoutNoonOneSection` (`integrated_noonone`, `setOne` → reloader) | `NoonOneSection variant="banner"` · `.banner` overrides: pt12 px4 pb4 gap12, row px12, title `t.text16-bold-lh20` with `<green>` = `c.best-price-ink` #108757; "one" lozenge = existing `noonone-logo-a.svg` + `-b.svg` in a 35×24 window (Figma insets); `Switch` 34×20 knob 16, off `c.border` #EAECF0; strip `c.chk-noon-one-cta-bg` #E5FAEC py7, `t.text12-semibold-lh14`, struck amount `t.text12-medium-lh14` `c.chk-af-banner-struck` (#108757 @ 64%) + **`figma/noonone-banner-strike.svg`** (new, −12°). Enrolled state, reveal Lottie and nudge unchanged (master) |
+| Delivery Instructions 127:44089 | `NoonCheckoutScreen/DeliveryInstruction` | unchanged (`DeliveryInstruction`); all Figma glyphs match the existing `figma/di-*.svg`, `checkbox-*.svg` |
+| Receiver Details 127:44109 | `NoonCheckoutScreen/ReceiverDetails` | unchanged; `figma/receiver-call.svg` matches |
+| Shipments 127:44132 / 133 / 134 | `NoonCheckoutShipment` | unchanged (`CheckoutShipment`, `data.shipment.ts` incl. the cart's supermall shipment) |
+| 🇸🇦 Points & Vouchers 143:13577 (title, Points 143:13584, Finance 143:13586) | `NoonCheckoutBurnSection` (`burn.title`, `loyalty.providers` row of collapsed `NoonCheckoutProviderCallout`, `voucher` callout → single provider or `NoonCheckoutBurnProvidersListOverlayScreen`), skeletons | `components/PointsVouchers.tsx` · white r16 p12 gap4; title row h28 `t.text16-bold-lh20`; callouts h43 `c.bg-subtle` r8 pr10 py2 gap2 (gap 4); finance h44 p10 r12, text `t.text12-regular-lh14` `c.text-muted` + bold parts, rounded logos 29.145 (`p.white-alpha14`) −10 overlap, tiles `c.chk-af-tamam-bg` / `c.chk-fig-emkan-bg` / `c.chk-fig-quara2`. Assets (new): `figma/provider-mokafaa-wide.svg`, `provider-qitaf.svg`, `provider-tamam-mini.svg`, `provider-emkan-mini.svg`, `provider-quara-mini.svg`, `points-chevron.svg`. Data `topUpBurn` (`data.rewards.ts`: Mokafaa + new Qitaf; financing Tamam (new) + Emkan + QUARA) → `checkout/provider-burn`, `checkout/burn-providers { list: 'topup' }` |
+| Pay With / Cards 143:13668 (credits 143:13683, cards 143:13685/704/723, card + EMI 143:13749/761, Pay Later 143:13766, COD 143:13788) | `NoonCheckoutPaymentMethods` (`payment`) | `PaymentMethods` on its own `.cards` card (`pay_with`); rows now pl8 pr12 (`padding-inline 7px 11px` inside the 1px stroke), noon One row px8. Credits toggle, NEW badge, CVV, Add/Change, EMI strip, Apply Now unchanged; logos are the existing @3x exports |
+| Donations new 127:44334 | `NoonCheckoutDonation` (`donation`, `setDonation` → reloader; same pill tapped again → 0; hidden on iOS) + `NoonCheckoutDonationLearnMoreOverlay` | `components/Donation.tsx` · 2px white border, gradient 31° `c.bg-surface` 50.28% → `c.chk-af-donation-end` (#EBF4FF) 103.82%, r16, pt10 pb16; name `t.section` (-0.15); description `t.caption` `c.text-secondary` (2 lines); Learn more `Button variant="noonDotted"` `p.primary-blue` `t.chk-af-text13-semibold-lh20`; logo slot 106×86 p8 with **`figma/donation-dabs.webp`** (new, 192×255 = 3× of 64×86); pills min 64×40 r10 `c.border`, selected `p.border-gray` + `p.primary-blue`, `t.chk-af-text13-bold-lh20`; "1 MEAL" `t.chk-af-text8-bold-lh12` on `p.border-gray`; note `t.text11-regular-lh14` `c.text-tertiary`. Sheet `DonationLearnMoreScreen` (`checkout/donation-learn-more`, `donation.module.css`). Copy: `noon_donate_to`, `noon_learn_more`, `noon_donations_amount_note`, `noon_donation_got_it`, `noon_donation_permit` |
+| Payment Summary 127:44358 (savings strip 127:44434) | `NoonDynamicInvoice` (invoice) | `PaymentSummary flush` · 351 wide (`.flush` drops the −2px bleed), **`figma/savings-wave-351.svg`** (new); rows / divider / savings unchanged; donation row shows when a pill is selected |
+| Button Dock 127:44462 | `NoonCheckoutSlideButton`, sticky footer | unchanged (`SlideButton`, `.sticky`, `.overview`) |
+
+### Behaviours kept
+
+Address change (modal → "Address updated", clears CVV), delivery-instruction toggles + learn-more sheets, receiver change,
+shipment lanes / need-today expander, points & vouchers redeem + OTP, credits toggle (`nopayment` when sufficient),
+card select / add card / CVV / EMI plans / special EMIs, Tabby, Tamara, Apple Pay button swap, COD, noon One card
+upsell toast, Verify Phone swap, slide to pay → placing → confirmation / payment failure, all route and screen ids.
+
+### Not 1:1 / notes
+
+- KSA variant: the frame uses the riyal glyph (`noon_sar` U+E800) and "AED" text in places; the kit uses the dirham
+  `currency` everywhere. Points & Vouchers is flagged 🇸🇦 and shows KSA programmes (Mokafaa, Qitaf, Tamam, Emkan,
+  QUARA). Master has no country gate on `burn` (providers are session data), so the section stays with these demo
+  providers; the "Top up noon Credits" title and the financing callout copy are session copy, not translation keys.
+- Donation: master returns `null` on iOS; the kit shows it as the frame does. "1 MEAL" is Figma-only (master's
+  `charity.amounts` has no labels) and lives in `charity.labels`. The frame shows ₫15 selected; the kit starts at the
+  master session default (no donation), so nothing is added to the total until the user taps a pill.
+- noon One banner copy ("Get free delivery with", "On orders above ~~₫100~~ ₫50") is session copy taken from the
+  frame (`taf`); master's mock (`integratedNoonone`) stays for the `master` variant.
+- Tamara keeps its Checkout 2.0 / server line ("Pay ₫x or in 4 payments. no late fees"); the frame repeats Tabby's
+  line as a placeholder.
+- Address label / line, receiver and shipment items are user / cart data (frame: "Rahul's home", "Rahul Jaiswal").

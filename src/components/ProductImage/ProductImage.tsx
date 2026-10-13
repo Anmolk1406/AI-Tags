@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import type { Product } from '../../mocks/products';
+import type { Product } from '../../data';
 import { ref } from '../../foundations/tokens';
 
 /**

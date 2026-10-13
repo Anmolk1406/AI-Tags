@@ -1,4 +1,4 @@
-import { currency, formatPrice } from '../../mocks/products';
+import { currency, formatPrice } from '../../data';
 import { fontWeight } from '../../foundations/tokens';
 import styles from './Price.module.css';
 
@@ -14,6 +14,7 @@ export function Price({
   showDiscount = true,
   free,
   offSuffix = true,
+  currencySize = 'small',
 }: {
   price: number;
   was?: number;
@@ -23,6 +24,8 @@ export function Price({
   free?: boolean;
   /** "n% OFF" (PLP) vs "n%" (bappzaar carousels, Discount + discountPLP) */
   offSuffix?: boolean;
+  /** `small` (default): 0.7em semibold sign; `sale`: sign at the sale-price size and weight (bappzaar NoonProductCard `saleCurrency` 16/700) */
+  currencySize?: 'small' | 'sale';
 }) {
   const pct = was ? Math.round(((was - price) / was) * 100) : 0;
   return (
@@ -31,7 +34,7 @@ export function Price({
         <span className={styles.free}>FREE</span>
       ) : (
         <span className={styles.sale}>
-          {showCurrency && <span className={styles.cur}>{currency}&nbsp;</span>}
+          {showCurrency && <span className={currencySize === 'sale' ? undefined : styles.cur}>{currency}&nbsp;</span>}
           {formatPrice(price)}
         </span>
       )}

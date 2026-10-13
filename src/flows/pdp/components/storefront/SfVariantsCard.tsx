@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef } from 'react';
 import { Spinner } from '../../../../components';
-import { formatPrice, type Product } from '../../../../mocks/products';
+import { formatPrice, type Product } from '../../../../data';
 import { copy, discountPercent, money, type PdpContent, type VariantGroup, type VariantOption } from '../../data';
 import { Card } from '../Sections';
 import type { VariantSelection } from '../Variants';

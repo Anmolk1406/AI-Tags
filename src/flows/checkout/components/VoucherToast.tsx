@@ -1,4 +1,4 @@
-import confetti from '../../../assets/checkout/rewards-confetti.gif';
+import confetti from '@assets/checkout/rewards-confetti.gif';
 import { rewardsStore, useRewards } from '../store.rewards';
 import { ProviderLogo } from './RewardsPrimitives';
 import { Toast } from '../../../components';

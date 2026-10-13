@@ -25,6 +25,10 @@
       "types": "./dist-lib/components/index.d.ts",
       "import": "./dist-lib/components/index.js"
     },
+    "./data": {
+      "types": "./dist-lib/data/index.d.ts",
+      "import": "./dist-lib/data/index.js"
+    },
     "./tokens": {
       "types": "./dist-lib/foundations/tokens.d.ts",
       "import": "./dist-lib/foundations/tokens.js"
@@ -76,6 +80,8 @@
     "skill:check": "node .claude/skills/noon-ui/scripts/validate.mjs",
     "skill:snap": "node .claude/skills/noon-ui/scripts/snap.mjs",
     "resources:build": "node .claude/resources/scripts/build.mjs",
+    "categories:fetch": "node scripts/fetch-categories-cms.mjs",
+    "skills:package": "node scripts/package-skills.mjs",
     "icons:import": "node scripts/import-origin-icons.mjs",
     "test:journeys": "node scripts/journeys.mjs",
     "visual:ref": "node scripts/visual-ref.mjs"

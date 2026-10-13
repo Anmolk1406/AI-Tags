@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useRef } from 'react';
-import type { Product } from '../../../mocks/products';
-import dealsActive from '../../../assets/plp/navpills/deals-active.png';
-import dealsInactive from '../../../assets/plp/navpills/deals-inactive.png';
-import brandActive from '../../../assets/plp/navpills/brand-active.png';
-import brandInactive from '../../../assets/plp/navpills/brand-inactive.png';
-import priceActive from '../../../assets/plp/navpills/price-active.png';
-import priceInactive from '../../../assets/plp/navpills/price-inactive.png';
+import type { Product } from '../../../data';
+import dealsActive from '@assets/plp/navpills/deals-active.png';
+import dealsInactive from '@assets/plp/navpills/deals-inactive.png';
+import brandActive from '@assets/plp/navpills/brand-active.png';
+import brandInactive from '@assets/plp/navpills/brand-inactive.png';
+import priceActive from '@assets/plp/navpills/price-active.png';
+import priceInactive from '@assets/plp/navpills/price-inactive.png';
 import type { FacetId, Filters } from '../data';
 import { CatalogNavPill, type CatalogNavPillHandle } from './CatalogNavPill';
 import { RevealChip } from './NavPills';

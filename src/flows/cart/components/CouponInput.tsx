@@ -2,13 +2,13 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import { useDemoStore } from '../../../kit/DemoStore';
 import { useNav } from '../../../kit/Navigator';
-import { currency, formatPrice } from '../../../mocks/products';
+import { currency, formatPrice } from '../../../data';
 import { couponFeedback, t } from '../data';
 import { CartIcon } from './CartIcon';
 import { HtmlText, Spinner } from '../../../components';
-import couponChevron from '../../../assets/cart/figma/coupon-chevron.svg';
-import couponDivider from '../../../assets/cart/figma/coupon-divider-dashed.png';
-import percentBadge from '../../../assets/cart/figma/coupon-percent-badge.svg';
+import couponChevron from '@assets/cart/figma/coupon-chevron.svg';
+import couponDivider from '@assets/cart/figma/coupon-divider-dashed.png';
+import percentBadge from '@assets/cart/figma/coupon-percent-badge.svg';
 import html from './html.module.css';
 import styles from './coupon.module.css';
 

@@ -52,11 +52,7 @@ NoonWishlistV2Screen. Screens `wishlist/wishlist` (`/wishlist`) and `wishlist/em
 
 ## categories
 
-Tab root `categories/categories` (`/categories`), plus `categories/expanded` (`?open=mobiles-accessories`), `categories/loading` and `categories/error`.
-
-- Data is a live CMS snapshot in `data.live.ts`.
-- `CollapsibleBannerModule`: the tile slides down 15, and the sub-list opens over 300 ms.
-- Pushes `plp/listing`. "SD" in its MAPPING.md marks server-driven values.
+Full brief: `categories.md`; every linked view: `categories-views.md`.
 
 ## cards
 

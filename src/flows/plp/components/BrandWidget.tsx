@@ -1,7 +1,7 @@
 import { animate, motion, useMotionValue, type AnimationPlaybackControls } from 'motion/react';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Icon, Pressable } from '../../../components';
-import { currency } from '../../../mocks/products';
+import { currency } from '../../../data';
 import { easing, handoff } from '../../../motion/presets';
 import { SpringPager } from '../../../motion/recipes';
 import type { BrandCard, BrandWidgetConfig } from '../brands';

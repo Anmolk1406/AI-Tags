@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { OriginIcon, Pressable, ProductImage, QuickAdd } from '../../../components';
 import { ref } from '../../../foundations/tokens';
 import { useNav } from '../../../kit/Navigator';
-import { currency, formatPrice } from '../../../mocks/products';
+import { currency, formatPrice } from '../../../data';
 import { megaDeals, type BzHeader, type BzWrap } from '../data.feed';
 import { bz } from '../tokens.feed';
 import { BzModuleWrapper } from './BzModuleWrapper';

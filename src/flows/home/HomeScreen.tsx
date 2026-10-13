@@ -45,7 +45,7 @@ export function HomeScreen() {
 const HomeFeed = memo(function HomeFeed() {
   return (
     <div className={styles.feed}>
-      {homeFeed.map((m) => (
+      {homeFeed.filter((m) => !m.hidden).map((m) => (
         <FeedModule key={m.key} m={m} />
       ))}
     </div>

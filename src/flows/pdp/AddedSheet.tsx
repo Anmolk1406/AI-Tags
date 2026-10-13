@@ -2,7 +2,7 @@ import { motion } from 'motion/react';
 import { Lottie, ProductCard, ProductImage } from '../../components';
 import { useNav } from '../../kit/Navigator';
 import type { ScreenProps } from '../../kit/types';
-import { productById, products } from '../../mocks/products';
+import { productById, products } from '../../data';
 import { copy } from './data';
 import { pdpTokens } from './tokens';
 import styles from './pdp.module.css';

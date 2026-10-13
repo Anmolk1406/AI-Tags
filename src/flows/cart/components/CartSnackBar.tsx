@@ -1,5 +1,5 @@
 import { ProductImage, Toast } from '../../../components';
-import type { Product } from '../../../mocks/products';
+import type { Product } from '../../../data';
 import { t } from '../data';
 import styles from './snackbar.module.css';
 

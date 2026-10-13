@@ -1,5 +1,5 @@
 import { ProductCard } from '../../../components';
-import type { Product } from '../../../mocks/products';
+import type { Product } from '../../../data';
 import { Stagger } from '../../../motion/recipes';
 import type { BzHeader, BzWrap } from '../data.feed';
 import { bz } from '../tokens.feed';

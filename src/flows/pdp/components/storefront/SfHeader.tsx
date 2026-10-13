@@ -3,7 +3,7 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import { OriginIcon, Pressable } from '../../../../components';
 import { useDemoStore } from '../../../../kit/DemoStore';
 import { useNav } from '../../../../kit/Navigator';
-import type { Product } from '../../../../mocks/products';
+import type { Product } from '../../../../data';
 import { spring } from '../../../../motion/presets';
 import { copy } from '../../data';
 import { pdpTokens } from '../../tokens';

@@ -5,6 +5,10 @@
   margin-inline: -2px; /* Figma x −2 (geometry) */
   padding-bottom: var(--nk-space-s12);
 }
+/* Figma "All flows" 127:44358: Payment Summary is 351 wide like the other sections */
+.flush {
+  margin-inline: 0;
+}
 /* NEW Order summary (r12 top / r23 bottom clip) ∩ Payment summary (white r16) → 12 / 16 */
 .card {
   display: flex;

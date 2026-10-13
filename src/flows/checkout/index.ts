@@ -10,6 +10,7 @@ const BurnProvidersScreen = lazyScreen(() => import('./BurnProvidersScreen'), 'B
 const CardsSelectScreen = lazyScreen(() => import('./CardsSelectScreen'), 'CardsSelectScreen');
 const CheckoutScreen = lazyScreen(() => import('./CheckoutScreen'), 'CheckoutScreen');
 const ConfirmationScreen = lazyScreen(() => import('./ConfirmationScreen'), 'ConfirmationScreen');
+const DonationLearnMoreScreen = lazyScreen(() => import('./DonationLearnMoreScreen'), 'DonationLearnMoreScreen');
 const EarnOverlayScreen = lazyScreen(() => import('./EarnOverlayScreen'), 'EarnOverlayScreen');
 const EmiPlansScreen = lazyScreen(() => import('./EmiPlansScreen'), 'EmiPlansScreen');
 const InstallationOverlayScreen = lazyScreen(() => import('./InstallationOverlayScreen'), 'InstallationOverlayScreen');
@@ -43,8 +44,8 @@ export const checkoutFlow = defineFlow({
       title: 'Checkout',
       component: CheckoutScreen,
       notes:
-        'Layout = Figma "🚧 Checkout 2.0" (FIGMA-MAPPING.md): address header, one shipment per cart group (supermall / global / express pill, "Need it today?" / "Save on fees…" expands the lanes), delivery instructions, receiver, Points & Vouchers + Pay With card, payment summary. Hidden kit sections (detached address, noon One, coupon status, earn, master invoice) come back via param sections (see CheckoutScreen FIGMA_SECTIONS / MASTER_SECTIONS). Entered from Cart → Checkout (carries the cart coupon). Type a 3-digit CVV to enable the slider, then drag past 85% (or 65% fast) → loader → confirmation. Tap the address → Address Book modal ("Address updated"). Payment failure demo: add card 4000 0000 0000 0002 (or open with param failPayment: true) and slide.',
-      source: `Figma zURu7GI7sq77fjdXKrouvo · 14288:183972 (🚧 Checkout 2.0); ${S}/NoonCheckoutScreen/{NoonCheckoutScreen,styles}.ts(x), ${C}/NoonSalesAnimatedHeader, NoonCartAddressSelectorV2, NoonAddressSelector, NoonCheckoutShipment, NoonDynamicInvoice, NoonCheckoutSlideButton, src/components/FeedbackView (reloader)`,
+        'Layout = Figma All flows "Checkout" (127:44077, FIGMA-MAPPING.md § All flows): "Checkout" header, address card (→ Address Book), noon One free-delivery banner toggle, delivery instructions, receiver, shipments, "Top up noon Credits" (loyalty callouts → redeem; financing callout → providers list), Pay With card, donation pills (tap to add to the total, tap again to remove; Learn more → sheet), payment summary. Checkout 2.0 order via param sections: FIGMA_SECTIONS (address header, one shipment per cart group (supermall / global / express pill, "Need it today?" / "Save on fees…" expands the lanes), delivery instructions, receiver, Points & Vouchers + Pay With card, payment summary). Hidden kit sections (detached address, noon One, coupon status, earn, master invoice) come back via param sections (see CheckoutScreen FIGMA_SECTIONS / MASTER_SECTIONS). Entered from Cart → Checkout (carries the cart coupon). Type a 3-digit CVV to enable the slider, then drag past 85% (or 65% fast) → loader → confirmation. Tap the address → Address Book modal ("Address updated"). Payment failure demo: add card 4000 0000 0000 0002 (or open with param failPayment: true) and slide.',
+      source: `Figma Af34gfmhQ1D0wstXUEHSIF · 127:44077 (All flows Checkout); Figma zURu7GI7sq77fjdXKrouvo · 14288:183972 (Checkout 2.0, FIGMA_SECTIONS); ${C}/NoonCheckoutBurnSection, NoonCheckoutDonation, NoonCheckoutNoonOneSection; ${S}/NoonCheckoutScreen/{NoonCheckoutScreen,styles}.ts(x), ${C}/NoonSalesAnimatedHeader, NoonCartAddressSelectorV2, NoonAddressSelector, NoonCheckoutShipment, NoonDynamicInvoice, NoonCheckoutSlideButton, src/components/FeedbackView (reloader)`,
     },
     {
       id: 'promise-info',
@@ -137,6 +138,14 @@ export const checkoutFlow = defineFlow({
       defaultParams: { code: 'share' },
       notes: 'Loyalty: enter an amount (min/max, red ring when out of range) or tick Available balance. Vouchers: amount ticket. Then a 6-digit OTP; 000000 fails. Redeem closes both sheets, applies the burn to the invoice and shows the voucher toast.',
       source: `${S}/NoonProviderBurnOtpOverlayScreen, ${C}/NoonCheckoutProvider/{AmountEntry,AmountTicket,AvailableBalance,VerifyOtp,InfoEditButton,OtpLoading}`,
+    },
+    {
+      id: 'donation-learn-more',
+      title: 'Donation info',
+      component: DonationLearnMoreScreen,
+      presentation: 'sheet',
+      notes: 'From "Learn more" on the donation section: charity logo, "Donate to Dar Al Ber Society", description and permit; Got it! closes it.',
+      source: `${C}/NoonCheckoutDonationLearnMoreOverlay/{NoonCheckoutDonationLearnMoreOverlay,styles}.ts(x)`,
     },
     {
       id: 'earn',

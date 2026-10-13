@@ -1,10 +1,11 @@
-import familyHeaderLottie from '../../assets/vip/vip-family-plans-header.lottie';
-import foodIcon from '../../assets/switcher/food.png';
-import minutesIcon from '../../assets/switcher/rocket.png';
-import noonIcon from '../../assets/switcher/noon.png';
-import instantIcon from '../../assets/switcher/nooninstant-compact.png';
-import nownowIcon from '../../assets/switcher/noonnownow.png';
-import { user } from '../../mocks/products';
+import familyHeaderLottie from '@assets/vip/vip-family-plans-header.lottie';
+import foodIcon from '@assets/switcher/food.png';
+import minutesIcon from '@assets/switcher/rocket.png';
+import noonIcon from '@assets/switcher/noon.png';
+import instantIcon from '@assets/switcher/nooninstant-compact.png';
+import nownowIcon from '@assets/switcher/noonnownow.png';
+import vipSparkle from '@assets/vip/star.svg';
+import { user } from '../../data';
 import { CURRENCY } from './data';
 
 /**
@@ -39,12 +40,34 @@ export const stickyButtons = {
   viewPlans: { title: 'View all plans', cta: '/plan-select' },
 };
 
+/** VIPPartnerCalloutType (landingV2.flyout / offerFlyout) */
+export interface FlyoutData {
+  text: string;
+  iconUrl?: string;
+  trailingIconUrl?: string;
+  trailingText?: string;
+  couponCode?: string;
+  internalUrl?: string;
+  backgroundColor?: string;
+  textColor: string;
+}
+
 /** landingV2.flyout (VIPPartnerCalloutType) — coupon variant: tap copies the code, trailing text → "Code copied" */
-export const flyout = {
+export const flyout: FlyoutData = {
   text: `<p>Extra month free with code <b>ONE2026</b></p>`,
   trailingText: 'Copy code',
   couponCode: 'ONE2026',
-  backgroundColor: undefined as string | undefined,
+  backgroundColor: undefined,
+  textColor: 'var(--nk-palette-white)',
+};
+
+/** landingV2.offerFlyout — wins over `flyout` when present (renderStickyFooter); prod non-member: sparkle · text · sparkle, opens plan select */
+export const offerFlyout: FlyoutData = {
+  iconUrl: vipSparkle,
+  trailingIconUrl: vipSparkle,
+  text: `<p>Don't miss noon One at the <b>lowest</b> price</p>`,
+  internalUrl: '/plan-select',
+  backgroundColor: 'var(--nk-color-vip-np-offer-flyout)',
   textColor: 'var(--nk-palette-white)',
 };
 
@@ -209,9 +232,13 @@ export type NpModule =
   /** VIP_SAVINGS_BREAKDOWN_MODULE → VIPSavingsOverviewModule (V1) savingsData, non-'new' customerState (overview variant) */
   | { type: 'VIP_SAVINGS_BREAKDOWN_MODULE'; savingsData: { customerState: string; title: string; savingsText: string; savingsMultiplier?: string; subtitle: string } };
 
-export const npLanding: { modules: NpModule[]; buttonText: string } = {
-  /** Bottom section CTA (Figma 24:2745); plan.buttonText when the user is not trial-eligible */
-  buttonText: 'Start Free Trial',
+export const npLanding: { modules: NpModule[]; buttonText: string; viewPlans: { title: string; cta: string }; flyout: FlyoutData } = {
+  /** Sticky CTA as live in prod (screenshot 2026-10-13; Figma 24:2745 had "Start Free Trial"); plan.buttonText when not trial-eligible */
+  buttonText: 'Start your 15 days trial',
+  /** landingV2.viewPlansButton (prod copy) */
+  viewPlans: { title: 'View other plans', cta: '/plan-select' },
+  /** landingV2.offerFlyout */
+  flyout: offerFlyout,
   modules: [
     // Header 24:2637 — VIPMembershipOverviewModule showDefault (vip_one_landing_title; subtitle as in the frame)
     { type: 'VIP_MEMBERSHIP_OVERVIEW_MODULE', showDefault: true, title: 'Free Delivery', subtitle: 'on everything, anytime' },

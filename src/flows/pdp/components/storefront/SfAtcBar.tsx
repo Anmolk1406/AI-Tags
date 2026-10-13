@@ -1,11 +1,11 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
-import atcLoader from '../../../../assets/cart/atc-loader-animation.lottie';
+import atcLoader from '@assets/cart/atc-loader-animation.lottie';
 import { Lottie, OriginIcon, TabBar } from '../../../../components';
 import { layout } from '../../../../foundations/tokens';
 import { useDemoStore } from '../../../../kit/DemoStore';
 import { useNav } from '../../../../kit/Navigator';
-import type { Product } from '../../../../mocks/products';
+import type { Product } from '../../../../data';
 import { spring } from '../../../../motion/presets';
 import { copy } from '../../data';
 import { npaCopy } from '../../data.npA';

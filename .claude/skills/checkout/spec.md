@@ -9,7 +9,7 @@ Every screen also opens at `/checkout/<id>`; the flow opens at `/checkout`.
 
 | Route | Path | Presentation | What it is | Status |
 |---|---|---|---|---|
-| `checkout/checkout` | `/checkout` | push (from cart) | Checkout 2.0 (`14288:183972`), sections from `FIGMA_SECTIONS` | exists — don't restyle unless asked |
+| `checkout/checkout` | `/checkout` | push (from cart) | All flows Checkout (`Af34gfmhQ1D0wstXUEHSIF · 127:44077`), sections from `ALL_FLOWS_SECTIONS`; Checkout 2.0 (`14288:183972`) via `FIGMA_SECTIONS` | exists — don't restyle unless asked |
 | `checkout/promise-info` | `/checkout/promise-info` | sheet | Delivery lane ⓘ (`{ title, textContent }`) | exists |
 | `checkout/cards-select` | `/checkout/cards-select` | sheet | Saved cards; Add New → add card | exists |
 | `checkout/add-card` | `/checkout/add-card` | sheet | Card form + validation (test card 4000 0000 0000 0002 fails) | exists |
@@ -18,7 +18,8 @@ Every screen also opens at `/checkout/<id>`; the flow opens at `/checkout`.
 | `checkout/alternate-phone` | `/checkout/alternate-phone` | sheet | Receiver details form (`{ mode: 'receiver' \| 'instruction' }`) | exists |
 | `checkout/alternate-phone-contacts` | `/checkout/alternate-phone-contacts` | sheet | Mocked device contacts | exists |
 | `checkout/learn-more` | `/checkout/learn-more` | sheet | Delivery instructions list / one option (`{ isList }`) | exists |
-| `checkout/burn-providers` | `/checkout/burn-providers` | sheet | Points & vouchers provider list | exists |
+| `checkout/burn-providers` | `/checkout/burn-providers` | sheet | Points & vouchers provider list (`{ list: 'topup' }` = the financing callout's providers) | exists |
+| `checkout/donation-learn-more` | `/checkout/donation-learn-more` | sheet | Donation "Learn more" (NoonCheckoutDonationLearnMoreOverlay) | exists |
 | `checkout/provider-burn` | `/checkout/provider-burn` | sheet | Redeem points / voucher code (`{ code }`) | exists |
 | `checkout/provider-burn-otp` | `/checkout/provider-burn-otp` | sheet | Amount + OTP (000000 fails) | exists |
 | `checkout/earn` | `/checkout/earn` | sheet | Earn programs | exists |
@@ -43,9 +44,29 @@ Page aliases live in `src/kit/routes.ts` (`checkout`, `order-confirmation`, `pay
 | 2 | Back | 40px round button | `nav.back` → `cart/cart` |
 | 3 | Address | "Delivering to Home ⌄" `--nk-type-chk-fig-text16-bold-lh21` + address line | opens the Address Book modal (`address/select`) |
 
-## Sections
+## Header (All flows, default)
 
-`CheckoutScreen` renders `params.sections ?? FIGMA_SECTIONS`. Screen `background="var(--nk-color-chk-fig-page)"`, content `paddingInline: var(--nk-space-s12)`, `paddingTop: var(--nk-space-s8)`; cards white `--nk-radius-r16`, p12, 12 apart.
+`CheckoutHeader title="Checkout"` (127:44446): 40px back button, centred "Checkout" Figtree Bold 16/21.1 (`--nk-type-chk-fig-text16-bold-lh21`), empty 40px right pill; same scroll behaviour. The address is the first section (`address_card`). With `FIGMA_SECTIONS` the header carries the address (table below).
+
+## Sections (All flows, default)
+
+`CheckoutScreen` renders `params.sections ?? ALL_FLOWS_SECTIONS`; first card flush under the 8px top padding, then 12 apart. Full measurements: `src/flows/checkout/FIGMA-MAPPING.md` § All flows.
+
+| # | Section id | Kit | Spec |
+|---|---|---|---|
+| 1 | `address_card` | `AddressCard` | white r16, p 12/16/10/12; type icon + label `--nk-type-text16-bold-lh20`, line `--nk-type-chk-af-text13-medium-lh20` `--nk-color-text-secondary`, 18px chevron; → `address/select` modal |
+| 2 | `integrated_noonone` | `NoonOneSection variant="banner"` | "Get **free delivery** with [one]" + 34×20 `Switch`; strip `--nk-color-chk-noon-one-cta-bg` "On orders above ~~₫100~~ ₫50"; toggle → reloader → enrolled (gradient, subtitle, nudge → `noonone/plans`); hidden for members |
+| 3 | `delivery_instructions` | `DeliveryInstruction` | unchanged (see below) |
+| 4 | `receiver_details` | `ReceiverDetails` | unchanged |
+| 5 | `shipments` | `CheckoutShipment` per shipment | unchanged |
+| 6 | `burn` | `PointsVouchers` | "Top up noon Credits" 16/20; two loyalty callouts h43 r8 (Mokafaa, Qitaf → `checkout/provider-burn`); financing callout h44 r12 ("Get up to ₫30,000 & split in 36/mo" + Tamam / Emkan / QUARA rounded logos → `checkout/burn-providers { list: 'topup' }`); skeleton while loading |
+| 7 | `pay_with` | `.cards` + `PaymentMethods` | Pay With on its own white r16 p12 card (rows pl8 pr12) |
+| 8 | `donation` | `Donation` | 2px white frame, gradient white → `--nk-palette-border-gray`; "Donate to Dar Al Ber Society", Learn more (`Button variant="noonDotted"`) → `checkout/donation-learn-more`; 64×40 r10 amount pills (selected border-gray + primary-blue); tap toggles `donation` (reloader) — it shows in the summary and the dock total |
+| 9 | `payment_summary` | `PaymentSummary flush` | 351 wide (no −2 bleed), 351 savings wave |
+
+## Sections (Checkout 2.0, `FIGMA_SECTIONS`)
+
+`params.sections = FIGMA_SECTIONS`. Screen `background="var(--nk-color-chk-fig-page)"`, content `paddingInline: var(--nk-space-s12)`, `paddingTop: var(--nk-space-s8)`; cards white `--nk-radius-r16`, p12, 12 apart.
 
 | # | Section id | Kit | Spec |
 |---|---|---|---|
@@ -62,8 +83,8 @@ Page aliases live in `src/kit/routes.ts` (`checkout`, `order-confirmation`, `pay
 
 ### Ordering rules
 
-1. What you get first: shipments → delivery instructions → receiver; then how you pay: payment → payment summary (`FIGMA_SECTIONS`).
-2. Points & Vouchers and Pay With share one card, split by the 1px separator; never two payment cards.
+1. Default (`ALL_FLOWS_SECTIONS`): where it goes (address, noon One delivery banner, instructions, receiver), what you get (shipments), then how you pay (points, Pay With, donation, summary). `FIGMA_SECTIONS`: shipments → delivery instructions → receiver → payment → payment summary.
+2. All flows: Points & Vouchers (`burn`) and Pay With (`pay_with`) are two cards; Checkout 2.0 (`payment`): one card split by the 1px separator. Never both layouts at once.
 3. The payment summary is the last section; the dock repeats its total.
 4. A new step goes where it acts: delivery-side steps after `shipments`, payment-side steps inside or after `payment`, never below `payment_summary`.
 5. `MASTER_SECTIONS` is the bappzaar order (`detached_address, shipments, integrated_noonone, delivery_instructions, receiver_details, payment, coupon_status, earn, dynamic_invoice`); use it only for a master variant.
@@ -157,4 +178,4 @@ Sticky footer `.sticky` in `src/flows/checkout/checkout.module.css`: white, `--n
 - [ ] Tokens only (`lint:tokens` 0 for the flow); new values are `chk*` / `chkFig*` flow tokens with a `src/flows/checkout/FIGMA-MAPPING.md` row.
 - [ ] Prices with the dirham glyph; NEW badges are `NewBadge`.
 - [ ] Screenshots read at top, mid (`--scroll 750`) and bottom (`--scroll 1500`), compared with `14288:183972`.
-- [ ] `source` = `Figma zURu7GI7sq77fjdXKrouvo · 14288:183972`.
+- [ ] `source` names `Figma Af34gfmhQ1D0wstXUEHSIF · 127:44077` (and `zURu7GI7sq77fjdXKrouvo · 14288:183972` for `FIGMA_SECTIONS`).

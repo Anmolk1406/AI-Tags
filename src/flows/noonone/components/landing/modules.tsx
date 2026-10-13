@@ -1,9 +1,9 @@
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { animate, AnimatePresence, motion, useMotionValue, useMotionValueEvent } from 'motion/react';
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
-import chevronDownM from '../../../../assets/vip/chevron-down-m.svg';
-import dots from '../../../../assets/vip/dots.webp';
-import switchesIcon from '../../../../assets/vip/switches.svg';
+import chevronDownM from '@assets/vip/chevron-down-m.svg';
+import dots from '@assets/vip/dots.webp';
+import switchesIcon from '@assets/vip/switches.svg';
 import { HtmlText } from '../../../../components';
 import type { Benefit, MpBenefit } from '../../data.landing';
 import { landingTokens as T } from '../../tokens';

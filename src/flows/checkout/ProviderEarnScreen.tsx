@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import helpIcon from '../../assets/checkout/rewards-help.webp';
+import helpIcon from '@assets/checkout/rewards-help.webp';
 import { useNav } from '../../kit/Navigator';
 import type { ScreenProps } from '../../kit/types';
 import { FormFields, FormTitle, ProviderHeader, SubmitButton, validateForm, type FormValues } from './components/ProviderForm';

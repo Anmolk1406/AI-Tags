@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { Skeleton } from '../../../components';
-import chevronBlueGray from '../../../assets/checkout/rewards-chevron-blue-gray.webp';
-import retryIcon from '../../../assets/checkout/rewards-retry.svg';
+import chevronBlueGray from '@assets/checkout/rewards-chevron-blue-gray.webp';
+import retryIcon from '@assets/checkout/rewards-retry.svg';
 import { checkoutServerColors } from '../tokens';
 import { CheckoutTag } from './CheckoutTag';
 import styles from './rewards.module.css';
@@ -48,6 +48,8 @@ const brands: Record<string, { name: string; color: string; ink: string; italic?
   mokafaa: { name: 'mokafaa', color: sc.mokafaaBlue, ink: sc.white },
   quara: { name: 'QUARA', color: sc.quaraViolet, ink: sc.white },
   emkan: { name: 'EMKAN', color: sc.emkanNavy, ink: sc.white },
+  qitaf: { name: 'qitaf', color: sc.qitafPurple, ink: sc.white },
+  tamam: { name: 'tamam', color: sc.tamamYellow, ink: sc.white },
   share: { name: 'SHARE', color: sc.shareViolet, ink: sc.white },
   skywards: { name: 'Skywards', color: sc.skywardsInk, ink: sc.skywardsLogoInk, italic: true },
   yougotagift: { name: 'YOUGotaGift', color: sc.yougotagiftPink, ink: sc.white },

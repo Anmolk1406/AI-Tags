@@ -12,11 +12,11 @@ const heart = ref.palette('pink600');
  * NoonFavourite: 24px heart in a white 70% circle. Pops to 1.25 when favouriting with a
  * particle burst (web stand-in for the favouriteAnimatedV2 lottie).
  */
-export function WishlistHeart({ productId, size = 24, variant = 'card', toast = true }: { productId: string; size?: number; variant?: 'card' | 'button'; toast?: boolean }) {
+export function WishlistHeart({ productId, size = 24, box: boxSize, variant = 'card', toast = true }: { productId: string; size?: number; /** circle diameter (card default `size + 4`); bappzaar NoonFavourite wrapper is 24 */ box?: number; variant?: 'card' | 'button'; toast?: boolean }) {
   const { isWishlisted, toggleWishlist } = useDemoStore();
   const nav = useNav();
   const on = isWishlisted(productId);
-  const box = variant === 'button' ? 40 : size + 4;
+  const box = variant === 'button' ? 40 : (boxSize ?? size + 4);
   return (
     <motion.button
       type="button"

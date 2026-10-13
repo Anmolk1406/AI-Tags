@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
-import { products, type Product } from '../mocks/products';
+import { getProduct, type Product } from '../data';
 
 /**
  * Tiny in-memory store so prototypes feel alive across flows:
@@ -47,9 +47,11 @@ export const SHIPPING_FEE = 10;
 /** Foupon value (AED) taken off an item when its free coupon is ticked. */
 export const FOUPON_VALUE = 15;
 
-export type CartGroupType = 'express' | 'marketplace' | 'xborder';
+/** NoonCartGroup serviceMode: supermall = 'rocket', express, marketplace = 'mp', xborder = 'global'. */
+export type CartGroupType = 'supermall' | 'express' | 'marketplace' | 'xborder';
 /** Which shipment group (NoonCartGroup) a product lands in. */
 export function cartGroupOf(p: Product): CartGroupType {
+  if (p.supermall) return 'supermall';
   if (p.express) return 'express';
   if (p.seller?.startsWith('Global')) return 'xborder';
   return 'marketplace';
@@ -103,7 +105,7 @@ export function computeCartTotals(cart: CartLine[], couponCode?: string | null):
   const savings = cart.reduce((n, l) => n + l.qty * ((l.product.was ?? l.product.price) - l.product.price), 0);
   const addOns = cart.reduce((n, l) => n + (l.warranty ? (cartAddOns[l.warranty]?.price ?? 0) * l.qty : 0), 0);
   const foupons = cart.reduce((n, l) => n + (l.foupon ? FOUPON_VALUE : 0), 0);
-  const groupTypes: CartGroupType[] = ['express', 'marketplace', 'xborder'];
+  const groupTypes: CartGroupType[] = ['supermall', 'express', 'marketplace', 'xborder'];
   const groups = groupTypes
     .map((type) => {
       const sub = cart.filter((l) => cartGroupOf(l.product) === type).reduce((n, l) => n + l.qty * l.product.price, 0);
@@ -161,7 +163,7 @@ interface DemoStore {
 
 const Ctx = createContext<DemoStore | null>(null);
 
-const byId = (id: string) => products.find((p) => p.id === id)!;
+const byId = (id: string) => getProduct(id)!;
 
 const seedCart: CartLine[] = [
   { product: byId('p1'), qty: 1, customization: [{ code: 'engraving', question: 'Engraving text', answer: 'AD ♥ 2025' }] },
@@ -177,10 +179,11 @@ export function DemoStoreProvider({ children, emptyCart = false }: { children: R
   const [inactiveCart, setInactiveCart] = useState<CartLine[]>(emptyCart ? [] : seedInactive);
   const [coupon, setCoupon] = useState<string | null>(null);
   const [cartUpdatesDismissed, setCartUpdatesDismissed] = useState(false);
-  const [wishlist, setWishlist] = useState<string[]>([products[1].id, products[5].id, products[6].id]);
+  const [wishlist, setWishlist] = useState<string[]>(['p2', 'p6', 'p7']);
 
   const addToCart = useCallback((productId: string, qty = 1) => {
-    const product = products.find((p) => p.id === productId);
+    // any collection (the PLP phones too), by id or sku
+    const product = getProduct(productId);
     if (!product) return;
     setCart((c) => {
       const existing = c.find((l) => l.product.id === productId);

@@ -40,7 +40,7 @@ Builds the noon search entry and the results listing it hands off to. Load `../n
 - Suggestions come from `suggest(q)` in `data.ts` (8 max); the matched part is bold, `--nk-color-text-strong`; a product match shows its 48×48 `ProductImage`, a category shows "in {category}" in `--nk-color-badge`. The trailing arrow fills the input (`setQ(text + ' ')`) and does not navigate.
 - An empty `RecentSearches` renders nothing (no empty title). Edit mode removes in place; it never navigates.
 - Results: the PLP owns sort and filters through `plpStore`; sheets are separate stack entries and read/write the store, never component state. Filters edit a draft and commit only on "Show N results".
-- Products from `src/mocks/products.ts`; prices through `ProductCard` / `Price` (dirham sign). Copy short, sentence case ("Trending searches", "Search for “…”", "No results match your filters").
+- Products from `src/data`; prices through `ProductCard` / `Price` (dirham sign). Copy short, sentence case ("Trending searches", "Search for “…”", "No results match your filters").
 
 ## Validate
 

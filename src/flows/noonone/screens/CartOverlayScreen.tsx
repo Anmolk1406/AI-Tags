@@ -2,9 +2,9 @@ import { HtmlText, ProductImage } from '../../../components';
 import { useDemoStore } from '../../../kit/DemoStore';
 import { useNav } from '../../../kit/Navigator';
 import type { ScreenProps } from '../../../kit/types';
-import { products } from '../../../mocks/products';
-import noonColorIcon from '../../../assets/noonone/entry/noon-one-text.webp';
-import noonOneIcon from '../../../assets/noonone/entry/noon-one.webp';
+import { products } from '../../../data';
+import noonColorIcon from '@assets/noonone/entry/noon-one-text.webp';
+import noonOneIcon from '@assets/noonone/entry/noon-one.webp';
 import { LegacyOverlay, useLegacyOverlay } from '../components/entry/LegacyOverlay';
 import { cartOverlayTouchpoint as tp, cartPushUnitPrice, type EntryButton } from '../data.entry';
 import { showLandingWithRedirect } from '../store';
@@ -52,7 +52,12 @@ function Content({ isOneDay }: { isOneDay: boolean }) {
         <div className={styles.items}>
           {items.map((p) => (
             <div key={p.id} className={styles.item}>
-              <ProductImage product={p} width="var(--nk-layout-vip-cart-item-image)" height="var(--nk-layout-vip-cart-item-image)" />
+              {/* itemImage: 90 × 90 Image, resizeMode contain — no tile, no overlay */}
+              {p.image ? (
+                <img className={styles.itemImage} src={p.image} alt={p.title} draggable={false} />
+              ) : (
+                <ProductImage product={p} width="var(--nk-layout-vip-cart-item-image)" height="var(--nk-layout-vip-cart-item-image)" />
+              )}
               <HtmlText base className={styles.itemPrice} value={cartPushUnitPrice(p.price)} />
               <img className={styles.itemIcon} src={noonOneIcon} alt="" />
             </div>

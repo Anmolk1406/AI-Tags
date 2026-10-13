@@ -1,7 +1,7 @@
-import tabbyLogo from '../../assets/checkout/payment-tabby.webp';
-import tamaraLogo from '../../assets/checkout/payment-tamara.webp';
+import tabbyLogo from '@assets/checkout/payment-tabby.webp';
+import tamaraLogo from '@assets/checkout/payment-tamara.webp';
 import { palette } from '../../foundations/palette';
-import { currency, formatPrice, type Product } from '../../mocks/products';
+import { currency, formatPrice, type Product } from '../../data';
 import { liveContent } from './data.live';
 
 /**

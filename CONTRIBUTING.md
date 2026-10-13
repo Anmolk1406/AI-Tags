@@ -19,7 +19,8 @@ src/
 ├── components/    shared components — one folder each, exported from components/index.ts
 ├── kit/           runtime: Navigator (stack, sheets, toasts), routes.ts (page URLs), createStore, DemoStore, membership, PhoneFrame
 ├── motion/        presets (easing/springs), transitions, recipes, custom/ (register screen transitions)
-├── mocks/         shared catalogue (products.ts), categories.ts
+├── data/          data layer: products/<id>/ (product.ts + photos), catalog, categories, variants, users, money (see src/data/README.md)
+├── mocks/         old import paths, re-exporting src/data
 ├── assets/        images · svg · lotties · fonts (optimised; see "Assets")
 ├── flows/<id>/    one folder per flow (see below) + flows/index.ts registry
 └── app/           dev preview only
@@ -60,7 +61,7 @@ Every screen we port is **analysed, mapped, then implemented** — never eyeball
 - A value with no token: add it to the flow's `tokens.ts`; if it's clearly global (a design-system colour reused across flows) **append** it to `foundations/palette.ts` / `tokens.ts` under its bappzaar / Figma name. Never rename or remove an existing token — other flows depend on it.
 - Geometry (SVG paths, Figma layer boxes, aspect ratios, 1px hairlines) may stay literal; mark unavoidable lines `// token-lint-ignore — <reason>`.
 - `npm run lint:tokens` (`-- -v <path>` lists findings) must stay at 0 for `src/components` and for the folders you touch.
-- Prices use the dirham sign: `currency` from `src/mocks/products.ts` (U+E001, drawn by Noontree), never the text "AED".
+- Prices use the dirham sign: `currency` from `src/data` (U+E001, drawn by Noontree), never the text "AED".
 
 ## Components
 

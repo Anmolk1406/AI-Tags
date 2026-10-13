@@ -57,6 +57,8 @@ export const checkoutFlowTokens: TokenOverrides = {
     chkNoonOneGold12: 'rgba(255, 197, 50, 0.12)',
     chkNoonOneGold0: 'rgba(255, 197, 50, 0)',
     chkNoonOneCtaBg: '#E5FAEC', // ottomanGreen
+    /** NoonOneCtaReveal CTA_REVEAL_START_COLOR = brightEmeraldGreen — the settling block starts in it */
+    chkNoonOneRevealGreen: '#00C679', // token-lint-ignore — flow token definition (bappzaar colour)
 
     /* ── Figma "🚧 Checkout 2.0" (zURu7GI7sq77fjdXKrouvo · 14288:183972) — see FIGMA-MAPPING.md ── */
     chkFigPage: 'var(--nk-palette-blue-gray200)', // frame fill / header — Blue-Gray/200 #F2F3F7
@@ -71,6 +73,11 @@ export const checkoutFlowTokens: TokenOverrides = {
     chkFigQuara2: '#6E19BF',
     chkFigQuara3: '#2423A4',
     chkFigQuara4: '#12AAE2',
+
+    /* ── Figma "All flows" Checkout (Af34gfmhQ1D0wstXUEHSIF · 127:44077) — FIGMA-MAPPING.md § All flows ── */
+    chkAfBannerStruck: 'rgba(16, 135, 87, 0.64)', // Banner/.base secondary strip struck amount (#108757 @ 64%)
+    chkAfDonationEnd: 'var(--nk-palette-border-gray)', // Donations new gradient end — colour/surface/action-subtle #EBF4FF
+    chkAfTamamBg: '#FCB316', // Finance callout Tamam rounded tile
   },
   radius: {
     chkNoonOne: 15, // ANIMATION.borderRadius / animatedContainer
@@ -115,6 +122,12 @@ export const checkoutFlowTokens: TokenOverrides = {
     chkFigText16BoldLh24: { size: 16, line: 24, weight: 700 }, // section titles — h4 16/24 (-0.2)
     chkFigText17BoldLh20: { size: 17, line: 20, weight: 700 }, // Primary/Label-1/Bold — summary total (-0.26)
     chkFigText19BoldLh26p6: { size: 19, line: 26.6, weight: 700 }, // footer slider label / items / total (Proxima Nova Bold → Noontree)
+
+    /* Figma "All flows" Checkout (127:44077) */
+    chkAfText13MediumLh20: { size: 13, line: 20, weight: 500 }, // B13/Medium — address card line (-0.1)
+    chkAfText13SemiboldLh20: { size: 13, line: 20, weight: 600 }, // B13/SemiBold — donation "Learn more" (-0.1)
+    chkAfText13BoldLh20: { size: 13, line: 20, weight: 700 }, // B13/Bold — donation amount pill (-0.1)
+    chkAfText8BoldLh12: { size: 8, line: 12, weight: 700 }, // donation pill sub-label "1 MEAL" (-0.1)
   },
   shadow: {
     // stickyButtonsWrapper: shadowOffset (0,-4), rgba(0,0,0,0.06), opacity 1, iOS default radius 3
@@ -153,6 +166,10 @@ export const checkoutServerColors = {
   quaraTint: '#F4ECFB',
   emkanNavy: '#373773', // Figma Emkan tile
   emkanTint: '#EEEEF6',
+  qitafPurple: '#4F008C', // Figma "All flows" Qitaf wordmark (STC purple)
+  qitafTint: '#F3EBF9',
+  tamamYellow: '#FCB316', // Figma "All flows" Tamam tile
+  tamamTint: '#FFF6E3',
   shareViolet: '#7B2CBF',
   shareVioletLight: '#C04BE0',
   shareTint: '#F6EEFC',

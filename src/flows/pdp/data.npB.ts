@@ -1,5 +1,5 @@
-import giftHamper from '../../assets/pdp/new-pdp/b/gift-hamper.webp';
-import type { Product } from '../../mocks/products';
+import giftHamper from '@assets/pdp/new-pdp/b/gift-hamper.webp';
+import type { Product } from '../../data';
 import type { PdpContent } from './data';
 
 /**

@@ -59,14 +59,16 @@
   flex-direction: column;
   gap: var(--nk-space-s8);
 }
-/* Cards MOLECULE: Sementic/BG/secondary-hover, r12, h54, px12 py10, gap 8 (selected stroke drawn inside) */
+/* Cards MOLECULE: Sementic/BG/secondary-hover, r12, h54, pl8 pr12 py10, gap 8 (selected stroke drawn inside)
+   — "All flows" 143:13685 (Checkout 2.0 had px12) */
 .row {
   position: relative;
   height: 54px;
   display: flex;
   align-items: center;
   gap: var(--nk-space-s8);
-  padding: 9px 11px; /* 10 / 12 − 1px inside stroke */
+  padding: 9px 11px 9px 7px; /* 10 / 12 / 8 − 1px inside stroke */
+  padding-inline: 7px 11px;
   border: 1px solid transparent;
   border-radius: var(--nk-radius-r12);
   background: var(--nk-color-bg-subtle);
@@ -83,8 +85,9 @@
   opacity: 0.4;
   cursor: default;
 }
-/* noon One Credit Card: gradient → right white → #ECFFD1 */
+/* noon One Credit Card: gradient → right white → #ECFFD1; px8 (143:13767) */
 .rowNoonOne {
+  padding-inline-end: 7px;
   background: linear-gradient(90deg, var(--nk-color-bg-surface) 0%, var(--nk-color-chk-fig-noon-one-card-end) 100%);
   background-origin: border-box;
 }

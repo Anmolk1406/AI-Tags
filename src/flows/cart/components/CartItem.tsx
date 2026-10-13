@@ -4,15 +4,16 @@ import { HtmlText, ProductImage, Spinner } from '../../../components';
 import { cartAddOns, FOUPON_VALUE, type CartGroupType, type CartLine } from '../../../kit/DemoStore';
 import { useDemoStore } from '../../../kit/DemoStore';
 import { useNav } from '../../../kit/Navigator';
-import { currency, discountPct, formatPrice } from '../../../mocks/products';
-import checkedGreen from '../../../assets/cart/checkbox-checked-green.webp';
-import uncheckedGreen from '../../../assets/cart/checkbox-unchecked-green.webp';
-import arrowDownCircle from '../../../assets/cart/figma/arrow-down-circle.svg';
-import checkboxChecked from '../../../assets/cart/figma/checkbox-checked.svg';
-import ewShield from '../../../assets/cart/figma/ew-shield.svg';
-import warrantyCreative from '../../../assets/cart/figma/warranty-creative.svg';
-import wishlistIcon from '../../../assets/cart/figma/wishlist.svg';
-import xMark from '../../../assets/cart/figma/x-mark.svg';
+import { currency, discountPct, formatPrice } from '../../../data';
+import checkedGreen from '@assets/cart/checkbox-checked-green.webp';
+import uncheckedGreen from '@assets/cart/checkbox-unchecked-green.webp';
+import arrowDownCircle from '@assets/cart/figma/arrow-down-circle.svg';
+import checkboxChecked from '@assets/cart/figma/checkbox-checked.svg';
+import etaFlash from '@assets/cart/figma/eta-flash.svg';
+import ewShield from '@assets/cart/figma/ew-shield.svg';
+import warrantyCreative from '@assets/cart/figma/warranty-creative.svg';
+import wishlistIcon from '@assets/cart/figma/wishlist.svg';
+import xMark from '@assets/cart/figma/x-mark.svg';
 import { cartItemExtras, fouponImage, itemPoints, t, type CalloutAction, type CartItemExtras } from '../data';
 import { groupTheme } from '../tokens';
 import { CartIcon } from './CartIcon';
@@ -187,7 +188,8 @@ export function CartItem({ line, group, onMovedToWishlist, onRemoveStart }: { li
               </div>
               {extras.deliveryInfo && (
                 <div className={styles.eta}>
-                  <span className={styles.etaPill} style={{ background: `linear-gradient(90deg, ${theme.eta}, var(--nk-color-bg-surface))` }}>
+                  <span className={styles.etaPill} style={{ background: `linear-gradient(90deg, ${theme.eta}, var(--nk-color-bg-surface))`, color: theme.etaInk }} data-ink={theme.etaInk ? '' : undefined}>
+                    {extras.deliveryInfo.icon === 'flash' && <img src={etaFlash} alt="" className={styles.etaIcon} />}
                     <HtmlText base value={extras.deliveryInfo.message} className={html.eta} />
                   </span>
                   {extras.deliveryInfo.expiryMessage && (

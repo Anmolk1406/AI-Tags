@@ -84,7 +84,7 @@ Pushed screen: `<Screen header={<Header title="…" />}>` with back + search, no
 ## Data (`data.ts`)
 
 - `modules`: ordered array `{ type: 'promoTicker' | 'hero' | 'categories' | 'productRail' | 'offers' | 'keepShopping' | 'brandAd' | 'launches', title?, tabs?, items }`, rendered by one `switch`.
-- Products from `src/mocks/products.ts`; prices through `Price` (dirham sign); creatives from `src/assets/home/`.
+- Products from `src/data`; prices through `Price` (dirham sign); creatives from `src/assets/home/`.
 - Copy: short, sentence case; module titles as in the Figma ("Shop by category", "Recommended for you", "Offers for you", "Bestsellers", "Keep shopping for", "Selling out fast").
 
 ## Navigation

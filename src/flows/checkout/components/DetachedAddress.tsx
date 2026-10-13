@@ -1,6 +1,6 @@
-import deliveryHome from '../../../assets/icons/noon-delivery-home.webp';
-import deliveryOther from '../../../assets/shared/delivery/other.webp';
-import deliveryWork from '../../../assets/shared/delivery/work.webp';
+import deliveryHome from '@assets/icons/noon-delivery-home.webp';
+import deliveryOther from '@assets/shared/delivery/other.webp';
+import deliveryWork from '@assets/shared/delivery/work.webp';
 import { singleLineAddress, tagLabels, type SavedAddress } from '../../address/data';
 import { t } from '../data';
 import { ChevronThick } from './CheckoutHeader';

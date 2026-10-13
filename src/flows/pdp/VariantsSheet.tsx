@@ -4,7 +4,7 @@ import { Icon, ProductImage } from '../../components';
 import { useDemoStore } from '../../kit/DemoStore';
 import { useNav } from '../../kit/Navigator';
 import type { ScreenProps } from '../../kit/types';
-import { currency, formatPrice, productById } from '../../mocks/products';
+import { currency, formatPrice, productById } from '../../data';
 import { Asset } from './components/Asset';
 import { copy, discountPercent, pdpContent, showDiscount } from './data';
 import styles from './pdp.module.css';

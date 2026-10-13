@@ -8,7 +8,7 @@ The contract a cart build must meet. Measurements are Figma points on a 375pt fr
 
 | Route | Path | Presentation | What it is | Status |
 |---|---|---|---|---|
-| `cart/cart` | `/cart` | tab root (`cart`); push when opened from PDP (back button, no tab bar) | Cart 2.0 Phase I (`10575:94058`), bappzaar 1:1 port | exists — don't restyle unless asked |
+| `cart/cart` | `/cart` | tab root (`cart`); push when opened from PDP (back button, no tab bar) | bappzaar 1:1 port, visuals from All flows `Af34gfmhQ1D0wstXUEHSIF · 127:39687` (Cart 2.0 Phase I `10575:94058` before) | exists — don't restyle unless asked |
 | `cart/empty` | `/cart/empty` | tab root, `{ state: 'empty' }` | Empty-generic image, "Your cart is empty" + recommendations carousel, no footer | exists |
 | `cart/loading` | `/cart/loading` | tab root, `{ state: 'loading' }` | `CartLoading`: pale page + 4px sweeping bar | exists |
 | `cart/variants` | `/cart/variants` | sheet, `{ productId: 'p6' }` | Variant chips → Update Item | exists |
@@ -32,26 +32,27 @@ All `cart/*` routes are tab-bar screens only when listed in `tabBar.screens` (`s
 
 ## Sections
 
-Default order (`SECTIONS` in `src/flows/cart/CartScreen.tsx`). Page `background="bgPage"` (`--nk-color-bg-page`), every card 12 from the screen edge (`cartTokens.horizontalPadding`), 12 apart, radius 16 (`--nk-radius-r16`).
+Default order (`SECTIONS` in `src/flows/cart/CartScreen.tsx`). Page `background="bgPage"` (`--nk-color-bg-page`), every card 12 from the screen edge (`cartTokens.horizontalPadding`), 8 apart (the two carousels 12 apart), radius 16 (`--nk-radius-r16`) — All flows `127:39688`.
 
 | # | Section id | Kit (reuse → build) | Spec |
 |---|---|---|---|
 | 1 | `updates` | inline banner in `CartScreen.tsx` → `cart/updates` sheet | orange tint `--nk-color-cart-orange-tint`, "Your cart’s been updated · Tap to review", dismiss × (`dismissCartUpdates`) |
 | 2 | `groups` | `CartGroup` per type in `GROUP_ORDER` → `CartItem`, `QuantitySelector`, `DiscountTags`, `ItemPoint`, `NoonOneNudge`, `GroupProgressBar` | glass container + waves + logo, white items card in the group border colour, dotted dividers, stacks rows, progress footer; theming below |
 | 3 | `secondary_groups` | `InactiveGroup` | "Unavailable items", collapsible, Find Similar → `plp/listing` |
-| 4 | `cms_bottom` | `CartCarousel` | "Don’t miss out on these offers" + "Sponsored"; empty cart: "Customers Also Viewed"; SKU tiles 134 wide, gap 12 |
+| 4 | `cms_bottom` | `CartCarousel` | "Don’t miss out on these offers" + "Sponsored"; empty cart: "Customers Also Viewed"; 1px `--nk-color-border-subtle` card, header px 16 `--nk-type-section`; SKU tiles 134 wide, gap 12 |
 | 5 | `wishlist` | `CartCarousel` | "From your wishlist" from `useDemoStore().wishlist` |
 | 6 | `free_gifts` | `FreeGifts` | mint → white card, 80×109 locked image, "left to unlock" bar in `--nk-color-best-price-ink` |
 | 7 | `coupon_tray` | `CouponInput` | "Got a coupon?", h56 input on `--nk-color-bg-subtle`, APPLY, success / error / warning borders, "View available coupons & offers" row |
-| 8 | `callouts` | `SalesCallout` list → build a payment-offers component (to build) | "Payment offers"; Figma: 3 installment tiles (Tabby / Tamara / Bank, `Money`) + 2 noon One card rows with "Apply ›"; noon One rows hidden for members |
+| 8 | `cobrand_cards` | `CobrandCards` | bappzaar NoonCartCobrandCards: paging 351×138 cards (noon One Credit Card: title, diamond-bullet terms, dark "Apply now", card art right), auto-advance 3s until swiped; hidden when empty |
+| 9 | `callouts` | `PaymentOffers` → `SalesCallout` | "Payment offers" (`--nk-type-section`, px 14); row of 259-wide entries (1px `--nk-color-border-subtle`, r16, p8) with 48px r12 tiles: tamara, tabby, bank installments, tax refund + "Learn more"; noon One entry hidden for members |
 | — | Snackbar | `CartSnackBar` (sibling of `<Screen>`) | "Item moved to Wishlist" → `wishlist/wishlist`, 3s |
 
 ### Ordering rules
 
-1. Shipment groups first, in `GROUP_ORDER` (express → marketplace → xborder; supermall first once built). A group with no lines renders nothing.
+1. Shipment groups first, in `GROUP_ORDER` (supermall → xborder (Global) → express → marketplace (market)). A group with no lines renders nothing.
 2. Upsell after the items: offers carousel → wishlist carousel → free gifts.
-3. Coupon before payment offers in the default; the best-price variant uses groups → free gifts → payment offers → coupon with strip → carousels, as its own order list, never by changing `SECTIONS`.
-4. Empty cart: only `EmptyCart` + the recommendations carousel; no coupon, callouts, wishlist or footer.
+3. Coupon → cobrand cards → payment offers in the default; the best-price variant uses groups → free gifts → payment offers → coupon with strip → carousels, as its own order list, never by changing `SECTIONS`.
+4. Empty cart: only `EmptyCart` + the recommendations carousel; no coupon, cobrand cards, callouts, wishlist or footer.
 
 ### Best-price coupon variant (to build)
 
@@ -66,7 +67,7 @@ Every colour comes from `groupTheme[type]` (`src/flows/cart/tokens.ts`); logos a
 | `express` | `--nk-color-cart-glass-express` | `--nk-palette-yellow200` | `--nk-color-cart-progress-express` | `--nk-color-border` / `--nk-color-text-strong` | `--nk-color-cart-eta-express` | `logo-express.svg`, `waves-express.svg` | exists |
 | `xborder` (Global) | `--nk-color-cart-glass-global` | `--nk-palette-purple200` | `--nk-palette-purple200` | `--nk-color-border` / `--nk-palette-black` | `--nk-palette-border-primary` | `logo-global-icon.svg` + "Global" (`--nk-type-cart-global-logo`), `waves-global.svg` | exists |
 | `marketplace` (market) | `--nk-color-cart-glass-market` | `--nk-palette-green200` | `--nk-palette-green100` | `--nk-color-border` / `--nk-color-text-strong` | `--nk-palette-border-primary` | `logo-market-store-icon.svg` + `logo-market-wordmark.svg`, `waves-market.svg` | exists |
-| supermall | new `cartFigmaColors` key (#E8E8F3) | `--nk-palette-persian-blue100` | new key (#EBEBFE) | new key (#E3E3FC) / `--nk-palette-rocket-blue-sapphire` | new key (#F5F5FC), flash icon, text `--nk-palette-rocket-blue-sapphire` | `MarketplaceWordmark kind="supermall"` + a supermall waves asset | to build: add `'supermall'` to `CartGroupType` and `cartGroupOf` (`src/kit/DemoStore.tsx`), first in `GROUP_ORDER`; "+ Add" border `--nk-palette-persian-blue50`, text `--nk-palette-persian-blue`; progress copy "for free service fees" |
+| `supermall` | `--nk-color-cart-glass-supermall` | `--nk-palette-persian-blue100` | `--nk-color-cart-progress-supermall` (straight `0deg` fade to 84.375%) | `--nk-color-cart-track-supermall` / `--nk-palette-rocket-blue-sapphire` | `--nk-color-cart-eta-supermall`, flash icon, ink `--nk-palette-rocket-blue-sapphire` | `logo-supermall-super.svg` + `logo-supermall-mall.svg`, `waves-supermall.svg` | exists (All flows `127:39689`): `'supermall'` in `CartGroupType` / `cartGroupOf` (`Product.supermall`), first in `GROUP_ORDER`; "+ Add" border `--nk-palette-persian-blue50`, text `--nk-palette-persian-blue`; progress copy "for free service fees"; checkout ships it with its supermall shipment |
 
 Shared per group: progress bar 4 tall (`cartTokens.progress.barHeight`), "+ Add" 57×26 → `plp/listing`, message from `progressMessage(remaining, …)` against `FREE_DELIVERY_THRESHOLD`. Keep checkout's shipment mapping (`src/flows/checkout/data.shipment.ts`) in sync when a group is added.
 
@@ -86,7 +87,7 @@ Shared per group: progress bar 4 tall (`cartTokens.progress.barHeight`), "+ Add"
 
 - State: `useDemoStore()` — `cart` (`CartLine[]`), `cartTotals` (`itemCount, subtotal, savings, addOns, foupons, shipping, freeDelivery, groups[], coupon, couponDiscount, total, totalSavings`), `coupon` / `applyCoupon` / `removeCoupon`, `inactiveCart`, `wishlist`, `cartUpdatesDismissed`. Constants `FREE_DELIVERY_THRESHOLD` (100), `SHIPPING_FEE` (10), `FOUPON_VALUE` (15); coupons `NOON10`, `SAVE50` (`cartCoupons`). Seed cart p1, p6, p8, p11; inactive p7.
 - Copy and content in `src/flows/cart/data.ts`: `t` (each string commented with its translation key), `groupMeta`, `groupCallouts`, `progressMessage`, `cartItemExtras`, `itemPoints`, `freeGift`, `paymentCallouts`, `cartUpdates`, `inactiveHeader`; variants in `data.variants.ts`, bundles in `data.bundles.ts`.
-- Products from `src/mocks/products.ts`; prices through `Price` / `Money` / `currency` (dirham sign), never "AED" in new UI. Server-style rich copy (`<b>`, `<highlight>`) through `HtmlText`.
+- Products from `src/data`; prices through `Price` / `Money` / `currency` (dirham sign), never "AED" in new UI. Server-style rich copy (`<b>`, `<highlight>`) through `HtmlText`.
 - New copy (to build): error title "Something went wrong!", message "It’s not you, it’s us! Please try again.", button "Try again"; best-price placeholder and strip. Sentence case.
 
 ## Navigation

@@ -72,8 +72,8 @@ The tab bar under the footer is a design-mock detail: the Navigator shows `TabBa
 
 ## Data (`data.ts`)
 
-- `pdpContent(product)` returns `PdpContent` (live products via `liveContent` in `src/flows/pdp/data.live.ts`, mock ones via `mockContent`); `productById(id)` from `src/mocks/products.ts` (falls back to the first product). Default product `IPHONE_17_PRO_ID`; `p3` is the fashion product that needs a size.
-- Add to `PdpContent` for the Storefront design: `outOfStock?`, `unavailableAtLocation?`, `successor?: { productId, title, price }`, `sponsoredRow?`, `aplusImages?`, `sponsoredBrand?`, `seller.subtitle?`, `seller.offerCount` / `seller.offerFrom` (Figma analysis §6 → `data.ts`). The successor is a real product id in `src/mocks/products.ts`.
+- `pdpContent(product)` returns `PdpContent` (live products via `liveContent` in `src/flows/pdp/data.live.ts`, mock ones via `mockContent`); `productById(id)` from `src/data` (falls back to the first product). Default product `IPHONE_17_PRO_ID`; `p3` is the fashion product that needs a size.
+- Add to `PdpContent` for the Storefront design: `outOfStock?`, `unavailableAtLocation?`, `successor?: { productId, title, price }`, `sponsoredRow?`, `aplusImages?`, `sponsoredBrand?`, `seller.subtitle?`, `seller.offerCount` / `seller.offerFrom` (Figma analysis §6 → `data.ts`). The successor is a real product id in `src/data`.
 - Copy lives in `copy` (`data.ts`): reuse the existing keys; add the Storefront strings ("Product Details", "Overview", "Visit Store", "Newer model available", "This item is currently out of stock", "Product Features", "View More", "Ad", "Similar Products", "Top products in {category}"). Prices through `Price`, `Money` or `money()`; counts not abbreviated in "(34244 reviews)".
 
 ## Navigation

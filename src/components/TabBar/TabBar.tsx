@@ -1,16 +1,17 @@
 import { useDemoStore } from '../../kit/DemoStore';
 import { useNav } from '../../kit/Navigator';
 import type { TabId } from '../../kit/types';
-import home from '../../assets/tabbar/home.webp';
-import homeSelected from '../../assets/tabbar/home-selected.webp';
-import categories from '../../assets/tabbar/categories.webp';
-import categoriesSelected from '../../assets/tabbar/categories-selected.webp';
-import deals from '../../assets/tabbar/deals-box.webp';
-import dealsSelected from '../../assets/tabbar/deals-box-selected.webp';
-import account from '../../assets/tabbar/account.webp';
-import accountSelected from '../../assets/tabbar/account-selected.webp';
-import cart from '../../assets/tabbar/cart.webp';
-import cartSelected from '../../assets/tabbar/cart-selected.webp';
+import home from '@assets/tabbar/home.webp';
+import homeSelected from '@assets/tabbar/home-selected.webp';
+import categories from '@assets/tabbar/categories.webp';
+import categoriesSelected from '@assets/tabbar/categories-selected.webp';
+// Deals: Origin Design System M-Icon/Bottomnav-Icon/deals-bag default / selected (All flows bottom nav 118:35938)
+import deals from '@assets/tabbar/deals-bag.svg';
+import dealsSelected from '@assets/tabbar/deals-bag-selected.svg';
+import account from '@assets/tabbar/account.webp';
+import accountSelected from '@assets/tabbar/account-selected.webp';
+import cart from '@assets/tabbar/cart.webp';
+import cartSelected from '@assets/tabbar/cart-selected.webp';
 import styles from './TabBar.module.css';
 
 /**
@@ -26,7 +27,8 @@ import styles from './TabBar.module.css';
 const tabs: { id: TabId; label: string; icon: string; selected: string; size: number }[] = [
   { id: 'home', label: 'Home', icon: home, selected: homeSelected, size: 32 },
   { id: 'categories', label: 'Categories', icon: categories, selected: categoriesSelected, size: 32 },
-  { id: 'deals', label: 'Deals', icon: deals, selected: dealsSelected, size: 25 },
+  // 24-grid Origin glyph at 28 → the same ~24pt glyph as the 32pt webp tabs
+  { id: 'deals', label: 'Deals', icon: deals, selected: dealsSelected, size: 28 },
   { id: 'account', label: 'Account', icon: account, selected: accountSelected, size: 32 },
   { id: 'cart', label: 'Cart', icon: cart, selected: cartSelected, size: 32 },
 ];

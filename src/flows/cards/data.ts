@@ -1,30 +1,30 @@
-import { user } from '../../mocks/products';
+import { user } from '../../data';
 
-import iconBack from '../../assets/cards/payment-back@3x.webp';
-import iconPlus from '../../assets/cards/payment-plus@3x.webp';
-import iconGroup from '../../assets/cards/payment-group-icon@3x.webp';
-import iconEdit from '../../assets/cards/payment-edit@3x.webp';
-import iconCheck from '../../assets/cards/payment-check@3x.webp';
-import iconTrash from '../../assets/cards/payment-trash@3x.webp';
-import iconLock from '../../assets/cards/payment-lock@3x.webp';
-import iconChevronRight from '../../assets/returns/slim-chevron-right@3x.webp';
-import imgDefaultCard from '../../assets/cards/payment-default-card@3x.webp';
-import imgEmptyCards from '../../assets/cards/payment-empty2.png';
-import imgCardSkin from '../../assets/cards/cardskin.png';
-import imgCardSkinShadow from '../../assets/cards/cardskin2.png';
-import lottieSaveCard from '../../assets/cards/save-card-reveal.lottie';
+import iconBack from '@assets/cards/payment-back@3x.webp';
+import iconPlus from '@assets/cards/payment-plus@3x.webp';
+import iconGroup from '@assets/cards/payment-group-icon@3x.webp';
+import iconEdit from '@assets/cards/payment-edit@3x.webp';
+import iconCheck from '@assets/cards/payment-check@3x.webp';
+import iconTrash from '@assets/cards/payment-trash@3x.webp';
+import iconLock from '@assets/cards/payment-lock@3x.webp';
+import iconChevronRight from '@assets/returns/slim-chevron-right@3x.webp';
+import imgDefaultCard from '@assets/cards/payment-default-card@3x.webp';
+import imgEmptyCards from '@assets/cards/payment-empty2.png';
+import imgCardSkin from '@assets/cards/cardskin.png';
+import imgCardSkinShadow from '@assets/cards/cardskin2.png';
+import lottieSaveCard from '@assets/cards/save-card-reveal.lottie';
 
-import brandAmex from '../../assets/shared/payment/brand-card-amex.webp';
-import brandMada from '../../assets/cards/payment-card-mada@3x.webp';
-import brandMastercard from '../../assets/shared/payment/brand-card-mastercard.webp';
-import brandVisa from '../../assets/shared/payment/brand-card-visa.webp';
-import brandMadaVisa from '../../assets/cards/payment-mada-visa@3x.webp';
-import brandMadaMastercard from '../../assets/cards/payment-mada-mastercard@3x.webp';
-import brandDiscover from '../../assets/cards/payment-discover@3x.webp';
-import brandJaywan from '../../assets/cards/payment-jaywan@3x.webp';
-import brandJcb from '../../assets/cards/payment-jcp@3x.webp';
-import brandUnionPay from '../../assets/cards/payment-union-pay@3x.webp';
-import brandDiners from '../../assets/cards/payment-diners-club@3x.webp';
+import brandAmex from '@assets/shared/payment/brand-card-amex.webp';
+import brandMada from '@assets/cards/payment-card-mada@3x.webp';
+import brandMastercard from '@assets/shared/payment/brand-card-mastercard.webp';
+import brandVisa from '@assets/shared/payment/brand-card-visa.webp';
+import brandMadaVisa from '@assets/cards/payment-mada-visa@3x.webp';
+import brandMadaMastercard from '@assets/cards/payment-mada-mastercard@3x.webp';
+import brandDiscover from '@assets/cards/payment-discover@3x.webp';
+import brandJaywan from '@assets/cards/payment-jaywan@3x.webp';
+import brandJcb from '@assets/cards/payment-jcp@3x.webp';
+import brandUnionPay from '@assets/cards/payment-union-pay@3x.webp';
+import brandDiners from '@assets/cards/payment-diners-club@3x.webp';
 
 /** features/payment/theme/PaymentIcons + PaymentImages. `w`/`h` are the 1x point sizes (asset is @3x). */
 export const cardsIcons = {
