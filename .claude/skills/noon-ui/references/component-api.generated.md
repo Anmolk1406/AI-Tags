@@ -4,9 +4,51 @@
 
 The source of truth for component **names, props, types, defaults and variants**. Hand-written guidance (when to use, gotchas, examples) is in `components.md`; when the two disagree, this file is right and `components.md` is stale.
 
-54 shared components exported from `src/components/index.ts` · 361 flow-local components in `src/flows/*/components/`. "—" = no static default; `?` = optional. Variants = props typed as a union of string literals.
+60 shared components exported from `src/components/index.ts` · 361 flow-local components in `src/flows/*/components/`. "—" = no static default; `?` = optional. Variants = props typed as a union of string literals.
 
 ## Shared components
+
+### Accordion
+
+`src/components/Accordion/Accordion.tsx:36` · props `AccordionProps`
+
+Field DS M-Accordion (`@field-ds/components` Accordion/Accordion.tsx): disclosure row that reveals its body on tap. Outer surfacePrimary r12 (clips); header min 44h, padding 12, gap 8, surfaceSecondary, optional 20px `iconLeft` 4 from a B14 SemiBold textPrimary title, 20px chevron-down that turns 180° open; header pressed opacity .85. A 1px surfacePrimary hairline separates the body (surfaceSecondary, padding 12). The body is uncovered, not stretched: height 0 ↔ auto + an opacity ramp, 320ms open / 260ms close on `fieldMotion.ease.standard`; instant with reduced motion. Controlled (`expanded` + `onExpandedChange`) or uncontrolled (`defaultExpanded`). <Accordion title="Specifications" iconLeft="info-circle">Water resistant to 50m.</Accordion>
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `title` | `ReactNode` | — |  |
+| `children?` | `ReactNode` | — | body; a string renders as B14 Regular textPrimary, nodes render as is |
+| `expanded?` | `boolean` | — | controlled open state (pair with `onExpandedChange`) |
+| `onExpandedChange?` | `(expanded: boolean) => void` | — |  |
+| `defaultExpanded?` | `boolean` | `false` | uncontrolled initial state |
+| `iconLeft?` | `OriginIconName \| ReactNode` | — | 20px icon before the title: an Origin icon name or any node |
+| `className?` | `string` | — |  |
+| `style?` | `CSSProperties` | — |  |
+
+### ActionBar
+
+`src/components/ActionBar/ActionBar.tsx:52` · props `ActionBarProps`
+
+M-ActionBar — port of Field Design System `packages/components/src/ActionBar/ActionBar.tsx` (Figma 698:11068, 1735:119). White `surface/primary`, padding 12. Layouts × tones = 8 variants: single one full-width H52 button (optional `top` slot above, gap 12) stacked primary over secondary, full width, H52, gap 12 split secondary | primary side by side, flex 1 each, H52, gap 12 leadingTrailing `leading` slot (flex 1) + primary (flex 1), H48, gap 8 Tone `action` = Field PrimaryButton + SecondaryButton; `neutral` = NeutralButton + SecondaryNeutralButton. Full-screen use: pass it to `<Screen footer>` (adds the bottom safe area). In a sheet use `<SheetFooter layout>`. <ActionBar layout="split" tone="neutral" secondary={{ label: 'Reset', onPress: reset }} primary={{ label: 'Apply', onPress: apply }} /> <ActionBar layout="leadingTrailing" leading={<Price />} primary={{ label: 'Add to cart', onPress: add }} />
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `layout?` | `ActionBarLayout` | `'single'` | default `'single'` |
+| `tone?` | `ActionBarTone` | `'action'` | `'action'` (default): fieldPrimary + fieldSecondary · `'neutral'`: fieldNeutral + fieldSecondaryNeutral |
+| `primary?` | `ActionBarAction` | — | dominant CTA (top in `stacked`, trailing in `split` / `leadingTrailing`) |
+| `secondary?` | `ActionBarAction` | — | second CTA: `stacked` (below the primary) and `split` (leading half) |
+| `top?` | `ReactNode` | — | content above the buttons (`single` / `stacked`) — Field `topSlot` |
+| `leading?` | `ReactNode` | — | content before the buttons (`leadingTrailing`, or `split` instead of the secondary) — Field `leading` |
+| `inset?` | `boolean` | `true` | add the bottom safe area (`var(--nk-inset-bottom)`) under the 12px padding. Default `true`; pass `false` inside a sheet |
+| `surface?` | `'solid' \| 'glass'` | `'solid'` | `'glass'`: the Liquid Glass sticky footer of bappzaar `noon/ios/liquid-upgrade` (NoonNativeStickyBar `placement="embedded"` → NoonStickyBarComponentView: a "clear" glass surface, r24, from the top of the footer down behind the bottom tab, `embeddedBottomPadding` 10). Default `'solid'` (surface/primary). |
+| `aboveTabBar?` | `boolean` | — | on a screen with the bottom tab bar: dock the content `floatingGap` (10) above the bar; a glass surface runs on behind it |
+| `className?` | `string` | — |  |
+| `style?` | `CSSProperties` | — |  |
+
+Variants:
+- `layout`: `leadingTrailing` · `single` · `split` · `stacked`
+- `tone`: `action` · `neutral`
+- `surface`: `glass` · `solid`
 
 ### BottomBar
 
@@ -24,7 +66,7 @@ Sticky footer bar (PDP ATC bar, cart checkout, checkout slide-to-pay): white, to
 
 ### SheetHeader
 
-`src/components/BottomSheet/BottomSheet.tsx:21`
+`src/components/BottomSheet/BottomSheet.tsx:22`
 
 Header slot: 48 high, title (+ optional subtitle), optional leading / trailing; close (X) only without a grabber.
 
@@ -43,7 +85,7 @@ Variants:
 
 ### SheetBody
 
-`src/components/BottomSheet/BottomSheet.tsx:65`
+`src/components/BottomSheet/BottomSheet.tsx:66`
 
 Body slot: 100% custom content; scrolls inside the sheet once the sheet reaches its max height.
 
@@ -56,9 +98,9 @@ Body slot: 100% custom content; scrolls inside the sheet once the sheet reaches 
 
 ### SheetFooter
 
-`src/components/BottomSheet/BottomSheet.tsx:76`
+`src/components/BottomSheet/BottomSheet.tsx:82`
 
-Footer: M-StackedActionBar — optional top slot, primary button (H52, r12), optional secondary, optional bottom slot.
+Footer: M-StackedActionBar — optional top slot, primary button (H52, r12), optional secondary, optional bottom slot. Opt in to the Field M-ActionBar (`<ActionBar>`, Field `ActionBar/ActionBar.tsx`) by passing `layout` and/or `tone`: `single | stacked | split | leadingTrailing` × `action | neutral`, with `leading` for split / leadingTrailing. `children` / `bottom` then render under the bar. Without `layout` / `tone` the output is unchanged.
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
@@ -67,21 +109,29 @@ Footer: M-StackedActionBar — optional top slot, primary button (H52, r12), opt
 | `top?` | `ReactNode` | — |  |
 | `bottom?` | `ReactNode` | — |  |
 | `children?` | `ReactNode` | — |  |
+| `layout?` | `ActionBarLayout` | — | opt-in Field M-ActionBar layout (default when only `tone` is given: `stacked` if a secondary is set, else `single`) |
+| `tone?` | `ActionBarTone` | — | opt-in Field M-ActionBar tone (default `action`) |
+| `leading?` | `ReactNode` | — | Field ActionBar leading slot (`split` / `leadingTrailing`) |
+
+Variants:
+- `layout`: `leadingTrailing` · `single` · `split` · `stacked`
+- `tone`: `action` · `neutral`
 
 ### Button
 
-`src/components/Button/Button.tsx:66` · props `ButtonProps`
+`src/components/Button/Button.tsx:89` · props `ButtonProps`
 
 Central button. Kit variants are the noon app's filled/outline CTAs; `noon*` variants are 1:1 with bappzaar's NoonButton presets (`variant` primary/secondary × `type` default/ghost/dotted, `isLoading`, `renderBefore/After`, title-casing). Noon presets press like NoonButton (opacity 0.95 + scale 0.98, 200ms; ghost: none); override with `whileTap` / `transition`. Their rules are zero-specificity, so a caller `className` can restyle metrics.
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
-| `variant?` | `ButtonVariant` | `'primary'` |  |
-| `size?` | `'sm' \| 'md' \| 'lg'` | `'md'` | kit variants only — noon variants always use the NoonButton metrics |
+| `variant?` | `ButtonVariant` | — |  |
+| `size?` | `'sm' \| 'md' \| 'lg'` | — | kit variants only — noon variants always use the NoonButton metrics, field variants `fieldSize` |
+| `fieldSize?` | `FieldButtonSize` | — | field variants only (ignored otherwise) — Field sizing.ts; default H56 (text A14, round H40) |
 | `icon?` | `IconName` | — |  |
 | `iconRight?` | `IconName` | — |  |
 | `block?` | `boolean` | — |  |
-| `loading?` | `boolean` | — | Kit variants: the spinner replaces the label. Noon variants (NoonButton `isLoading`): the label stays in place at opacity 0 and the loader is centred over the button, so the width never jumps. |
+| `loading?` | `boolean` | — | Kit variants: the spinner replaces the label. Noon variants (NoonButton `isLoading`): the label stays in place at opacity 0 and the loader is centred over the button, so the width never jumps. Field variants (useLoadingFade): the label stays in place and cross-fades with the spinner over 160ms. |
 | `spinner?` | `SpinnerProps` | — | loader overrides (default: white on `noon`, #0076FF otherwise, size 24 — NoonButton `loaderColor`/`loaderSize`) |
 | `titleCase?` | `boolean` | — | NoonButton `!skipTitleCase`: title-case a string label |
 | `before?` | `ReactNode` | — | NoonButton `renderBefore` / `renderAfter` |
@@ -94,50 +144,69 @@ Central button. Kit variants are the noon app's filled/outline CTAs; `noon*` var
 Also accepts 346 inherited DOM / React / motion props (not listed; e.g. `className` `style` `onClick` `disabled` `role` `aria-label` `id` `initial` `animate` `exit` `transition` `whileTap` `layout`).
 
 Variants:
-- `variant`: `bright` · `checkout` · `danger` · `dark` · `ghost` · `noon` · `noonDotted` · `noonGhost` · `noonGhostSecondary` · `noonSecondary` · `outline` · `primary` · `secondary` · `soft`
+- `variant`: `bright` · `checkout` · `danger` · `dark` · `fieldNeutral` · `fieldNeutralText` · `fieldPrimary` · `fieldRound` · `fieldSecondary` · `fieldSecondaryNeutral` · `fieldText` · `ghost` · `noon` · `noonDotted` · `noonGhost` · `noonGhostSecondary` · `noonSecondary` · `outline` · `primary` · `secondary` · `soft`
 - `size`: `lg` · `md` · `sm`
+- `fieldSize`: `A12` · `A14` · `H32` · `H36` · `H40` · `H48` · `H52` · `H56`
 
 ### Checkbox
 
-`src/components/Checkbox/Checkbox.tsx:5`
+`src/components/Checkbox/Checkbox.tsx:36` · props `CheckboxProps`
 
-Square (squircle) checkbox glyph — bappzaar `NoonIcons.squareCheckboxSVG(selected)`, 20×20 filled with `color`. Purely visual: wrap it in the pressable row that owns the toggle (e.g. checkout DeliveryInstruction).
+Square (squircle) checkbox glyph — bappzaar `NoonIcons.squareCheckboxSVG(selected)`, 20×20 filled with `color`. Purely visual: wrap it in the pressable row that owns the toggle (e.g. checkout DeliveryInstruction). `variant="field"`: Field DS M-Checkbox (`packages/components/src/Checkbox/Checkbox.tsx`), sizes 16 / 20 / 24 (default 24). Off = squircle outline textTertiary #666D85 (borderMedium disabled); on = filled squircle textPrimary #1D2539 (textMuted disabled) with a 2px white tick. Check-in 220ms / recede 180ms `ease.standard`: outline fades out, fill fades in (no scale), tick draws after 120ms. With `onChange` it is a `role="checkbox"` button (press opacity 0.85, ≈44px touch target); without, a visual span. Reduced motion snaps.
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
 | `checked` | `boolean` | — |  |
-| `color?` | `string` | `'currentColor'` |  |
-| `size?` | `number` | `20` |  |
+| `color?` | `string` | — | glyph colour (default variant only; default `currentColor`) |
+| `size?` | `number` | — | px. Default variant: 20. `variant="field"`: 16 \| 20 \| 24, default 24 |
+| `variant?` | `'field'` | — | `'field'` = Field DS M-Checkbox (animated, sizes 16/20/24, disabled look). Omit for the bappzaar glyph. |
+| `onChange?` | `(checked: boolean) => void` | — | makes it a tappable `role="checkbox"` button; omit for a purely visual glyph inside a pressable row |
+| `disabled?` | `boolean` | — |  |
+| `label?` | `string` | — | accessible label (aria-label) when there is no visible label wired to it |
+| `className?` | `string` | — |  |
+| `style?` | `CSSProperties` | — |  |
+
+Variants:
+- `variant`: `field`
 
 ### Divider
 
-`src/components/Divider/Divider.tsx:7`
+`src/components/Divider/Divider.tsx:13`
 
-Solid hairline. `vertical` draws a 1px-wide bar of `length` (PLP nav-pill separator: `<Divider vertical length={24} margin="0 8px" />`).
+Solid hairline. `vertical` draws a 1px-wide bar of `length` (PLP nav-pill separator: `<Divider vertical length={24} margin="0 8px" />`). `emphasis` follows Field M-Divider: `'low'` (default, border/subtle #F2F3F7) or `'high'` (border/primary #EAECF0); an explicit `color` wins. Renders `role="separator"` (with `aria-orientation` when vertical).
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
-| `color?` | `string` | `ref.color('borderSubtle')` |  |
+| `color?` | `string` | — |  |
+| `emphasis?` | `DividerEmphasis` | — |  |
 | `margin?` | `number \| string` | `0` |  |
 | `vertical?` | `boolean` | — |  |
 | `length?` | `number \| string` | `'100%'` |  |
 
+Variants:
+- `emphasis`: `high` · `low`
+
 ### DashedDivider
 
-`src/components/Divider/Divider.tsx:13`
+`src/components/Divider/Divider.tsx:24`
 
-Dashed separator used in account menus, cart gifting, orders (dash 4/4, #F2F3F7), drawn with a CSS gradient.
+Dashed separator used in account menus, cart gifting, orders (dash 4/4, #F2F3F7), drawn with a CSS gradient. `gap` sets the space between dashes (default = `dash`; Field M-Divider dashed is `dash={4} gap={3}`). `emphasis` as on `Divider`; an explicit `color` wins. Renders `role="separator"`.
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
-| `color?` | `string` | `ref.color('borderSubtle')` |  |
+| `color?` | `string` | — |  |
+| `emphasis?` | `DividerEmphasis` | — |  |
 | `inset?` | `string \| number` | `'3.5%'` |  |
 | `margin?` | `number \| string` | `0` |  |
 | `dash?` | `number` | `4` |  |
+| `gap?` | `number` | — |  |
+
+Variants:
+- `emphasis`: `high` · `low`
 
 ### DottedDivider
 
-`src/components/Divider/Divider.tsx:33`
+`src/components/Divider/Divider.tsx:47`
 
 SVG dashed line (react-native-svg `<Line strokeDasharray>`), 1:1 with bappzaar's SVG dividers: - `AddressDottedDivider`: defaults (1px tall, dash "2, 2", round caps) - `NoonAccountDivider`: `height={2} dash="4,4" cap="butt" width="93%" centered` (dash "2,2" + width 100% in notifications)
 
@@ -172,28 +241,40 @@ Variants:
 - `type`: `express` · `expressToday` · `expressTomorrow` · `global` · `market` · `minutes` · `supermall`
 - `size`: `large` · `small`
 
+### GlassFade
+
+`src/components/Glass/Glass.tsx:14`
+
+GlassFade — the layer under floating glass containers (tab bar, PDP sticky card, glass footer): a progressive blur (four masked backdrop blurs, 1 → 8px, stronger towards the bottom) under a transparent → white gradient, so the content scrolling under the glass blends into it. Absolutely positioned at the bottom of its (positioned) parent; size it with `style` (`top` / `height`). Purely visual; taps go through. A screen whose sticky footer brings its own fade (`data-glass-footer`) hides the tab bar's.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `className?` | `string` | — |  |
+| `style?` | `CSSProperties` | — |  |
+
 ### IconButton
 
-`src/components/Header/Header.tsx:9`
+`src/components/Header/Header.tsx:26`
 
-40px circular icon button — back, share, search, more (bappzaar NoonBackButton).
+40px circular icon button — back, share, search, more (bappzaar NoonBackButton). `variant="field*"` = Field M-IconButton: circle, `size` 40 (pad 10) or 36 (pad 8), icon 20, pressed + disabled bg surface/secondary #F9F9FB, disabled icon #989FB3; press scale 0.98 (xs in, snappy out) like the Field buttons.
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
 | `icon` | `IconName` | — |  |
 | `onPress?` | `() => void` | — |  |
-| `size?` | `number` | `iconButton.size` |  |
-| `iconSize?` | `number` | `iconButton.iconSize` |  |
-| `variant?` | `'outline' \| 'glass' \| 'plain' \| 'subtle'` | `'outline'` |  |
+| `size?` | `number` | `iconButton.size` | px; Field variants: 40 (H40, default) or 36 (H36) |
+| `iconSize?` | `number` | — | default 20 |
+| `variant?` | `IconButtonVariant` | `'outline'` |  |
 | `badge?` | `number` | — |  |
 | `label?` | `string` | — |  |
+| `disabled?` | `boolean` | — |  |
 
 Variants:
-- `variant`: `glass` · `outline` · `plain` · `subtle`
+- `variant`: `fieldAction` · `fieldDefault` · `fieldGhost` · `glass` · `outline` · `plain` · `subtle`
 
 ### Header
 
-`src/components/Header/Header.tsx:49` · props `HeaderProps`
+`src/components/Header/Header.tsx:92` · props `HeaderProps`
 
 Top bar used by most pushed screens. Includes the top safe-area inset.
 
@@ -205,13 +286,14 @@ Top bar used by most pushed screens. Includes the top safe-area inset.
 | `onBack?` | `() => void` | — |  |
 | `right?` | `ReactNode` | — |  |
 | `align?` | `'center' \| 'left'` | `'center'` | centered title (checkout/cancel style) vs left aligned (wishlist style) |
-| `variant?` | `'surface' \| 'transparent' \| 'page'` | `'surface'` |  |
+| `variant?` | `'surface' \| 'transparent' \| 'page' \| 'field'` | `'surface'` | `field` = Field DS M-PageHeader `title` (align left: H16 Bold) / `title-center` (B16 SemiBold): white, 56h, padding 8/12, gap 4, `fieldDefault` back button, B12 subtitle. Other M-PageHeader types (search-bar, search-pill, location, breadcrumb, icons) are not ported. |
 | `bordered?` | `boolean` | — |  |
+| `image?` | `string` | — | 38×38 r8 image before the title (M-PageHeader `imageSource`) |
 | `children?` | `ReactNode` | — |  |
 
 Variants:
 - `align`: `center` · `left`
-- `variant`: `page` · `surface` · `transparent`
+- `variant`: `field` · `page` · `surface` · `transparent`
 
 ### HtmlText
 
@@ -230,7 +312,7 @@ Server-HTML text (bappzaar `<HtmlView>`): renders the custom inline tags the API
 
 ### Icon
 
-`src/components/Icon/Icon.tsx:92` · props `IconProps`
+`src/components/Icon/Icon.tsx:94` · props `IconProps`
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
@@ -261,9 +343,9 @@ noon system icon from the Origin Design System (Figma wFRKiKskxZ4vjIHbDVvngJ · 
 
 ### ListRow
 
-`src/components/ListRow/ListRow.tsx:8`
+`src/components/ListRow/ListRow.tsx:35` · props `ListRowProps`
 
-NoonAccountSectionItem: padding 18/16, 20px icon, 15/500 #1D2539 title, chevron.
+NoonAccountSectionItem: padding 18/16, 20px icon, 15/500 #1D2539 title, chevron. `variant="field"`: Field M-ListItem.
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
@@ -272,14 +354,24 @@ NoonAccountSectionItem: padding 18/16, 20px icon, 15/500 #1D2539 title, chevron.
 | `title` | `ReactNode` | — |  |
 | `subtitle?` | `ReactNode` | — |  |
 | `right?` | `ReactNode` | — |  |
-| `chevron?` | `boolean` | `true` |  |
+| `chevron?` | `boolean` | — |  |
 | `onPress?` | `() => void` | — |  |
 | `danger?` | `boolean` | — |  |
-| `paddingY?` | `number` | `spacing.s18` |  |
+| `paddingY?` | `number` | — |  |
+| `variant?` | `'default' \| 'field'` | — | `field`: Field DS M-ListItem look (opt-in); `default` (NoonAccountSectionItem) is unchanged |
+| `size?` | `'small' \| 'big'` | — | field variant: `small` (B14 SemiBold title, default) · `big` (H16 Bold title) |
+| `leading?` | `ReactNode` | — | field variant: 24 × 24 leading slot (replaces `iconNode` / `icon`) |
+| `titleSlot?` | `ReactNode` | — | field variant: 16 × 16 slot inline after the title (badge, status dot) |
+| `trailing?` | `ReactNode` | — | field variant: trailing slot (Switch, button, close…); replaces the chevron. Mirrored in RTL. |
+| `aria-label?` | `string` | — | accessible name for a pressable row |
+
+Variants:
+- `variant`: `default` · `field`
+- `size`: `big` · `small`
 
 ### ListGroup
 
-`src/components/ListRow/ListRow.tsx:48`
+`src/components/ListRow/ListRow.tsx:96`
 
 White r14 card of ListRows separated by dashed lines.
 
@@ -341,9 +433,9 @@ Floating "Need help?" pill (Accounts Figma 4NvyqO60K7Xn4gRJrkWmzQ · 8924:67388)
 
 ### Pill
 
-`src/components/Pill/Pill.tsx:12`
+`src/components/Pill/Pill.tsx:24`
 
-PLP nav pill / filter chip / tag chip (NoonCatalogListNavPill redesign): 30h, r20, 1px #EAECF0, 13/500 #475067 → selected #D6E9FF border, 13/600 #0F61FF.
+PLP nav pill / filter chip / tag chip (NoonCatalogListNavPill redesign): 30h, r20, 1px #EAECF0, 13/500 #475067 → selected #D6E9FF border, 13/600 #0F61FF. `variant="fieldChip"` is the opt-in Field DS M-FilterChip (`@field-ds/components` FilterChip/FilterChip.tsx, Figma 1391:41, content="label"): 36h, r8, padding 8/10, A14 SemiBold, 16px Origin icons (leading `preferences`, trailing `caret-down`), border/subtle. `selected` = Field "added": border/extrabold, "(count)" and a divider + × clear zone that slides in from −12px; the × is its own target (`onClear`). Pressed bg surface/secondary; `disabled` bg surface/secondary + text muted. The default ↔ added morph runs 320ms (colour easeInOut, width + slide loft).
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
@@ -351,19 +443,24 @@ PLP nav pill / filter chip / tag chip (NoonCatalogListNavPill redesign): 30h, r2
 | `selected?` | `boolean` | — |  |
 | `onPress?` | `() => void` | — |  |
 | `icon?` | `IconName` | — |  |
-| `count?` | `number` | — |  |
-| `dropdown?` | `boolean` | — |  |
+| `count?` | `number \| string` | — | number (nav/tag/filter: count bubble; fieldChip: "(n)") or a pre-formatted string; hidden when 0 / empty |
+| `dropdown?` | `boolean` | — | trailing chevron; fieldChip shows its caret unless `dropdown={false}` |
 | `removable?` | `boolean` | — |  |
 | `size?` | `'sm' \| 'md' \| 'lg'` | `'md'` |  |
-| `variant?` | `'nav' \| 'tag' \| 'filter'` | `'nav'` | nav = PLP pill, tag = home tag chip (r32, 14px), filter = filter-sheet option (r8, 2px border) |
+| `variant?` | `PillVariant` | `'nav'` | nav = PLP pill, tag = home tag chip (r32, 14px), filter = filter-sheet option (r8, 2px border), fieldChip = Field M-FilterChip |
+| `onClear?` | `() => void` | — | fieldChip: the × clear target shown while `selected` (stops propagation, so `onPress` does not fire) |
+| `disabled?` | `boolean` | — | fieldChip: surface/secondary bg, muted text, no presses |
+| `fieldIcon?` | `OriginIconName \| null` | `'preferences'` | fieldChip leading Origin icon (`null` hides it); ignored when `icon` is set |
+| `fieldTrailingIcon?` | `OriginIconName \| null` | `'caret-down'` | fieldChip trailing Origin icon (`null` hides it) |
+| `clearLabel?` | `string` | `'Clear filters'` | fieldChip: accessible name of the × |
 
 Variants:
 - `size`: `lg` · `md` · `sm`
-- `variant`: `filter` · `nav` · `tag`
+- `variant`: `fieldChip` · `filter` · `nav` · `tag`
 
 ### PillRow
 
-`src/components/Pill/Pill.tsx:49`
+`src/components/Pill/Pill.tsx:195`
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
@@ -489,9 +586,25 @@ Quantity steppers used across the app. - `cart` : NoonCartItemQuantitySelector �
 Variants:
 - `variant`: `cart` · `filled` · `soft`
 
+### Radio
+
+`src/components/Radio/Radio.tsx:33` · props `RadioProps`
+
+Field DS M-Radio (`packages/components/src/Radio/Radio.tsx`): single-select disc, sizes 16 / 20 / 24 (default 24). Off = white disc (surfacePrimary; surfaceSecondary disabled) + 1px borderMedium #D0D4DD ring; on = textAction #0F61FF disc (textMuted disabled) with a 2px white tick. Select-in 220ms / recede 180ms, `ease.standard`: the ring fades out, the disc fades in (no scale), the tick draws after 120ms. Press opacity 0.85, touch target ≈44px, reduced motion snaps.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `checked` | `boolean` | — |  |
+| `onChange?` | `(checked: true) => void` | — | called with `true` when an unselected radio is tapped (tapping a selected radio is a no-op, like Field). Omit to render a purely visual span for a radio inside a larger pressable row. |
+| `size?` | `RadioSize` | `24` | 24 default · 20 dense lists · 16 compact tables only |
+| `disabled?` | `boolean` | `false` |  |
+| `label?` | `string` | — | accessible label (aria-label) when there is no visible label wired to it |
+| `className?` | `string` | — |  |
+| `style?` | `CSSProperties` | — |  |
+
 ### RatingPill
 
-`src/components/Rating/Rating.tsx:9`
+`src/components/Rating/Rating.tsx:15`
 
 NoonProductRating pill: #F7F8FA, r6, star tinted by score, 12/600 score + (1.2K) count.
 
@@ -506,19 +619,27 @@ Variants:
 
 ### Stars
 
-`src/components/Rating/Rating.tsx:38`
+`src/components/Rating/Rating.tsx:44`
 
-Row of 5 stars (reviews, order rating)
+Row of 5 stars (reviews, order rating). `variant="field"` = the Field DS RatingInput (see `FieldStars`).
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
 | `value` | `number` | — |  |
-| `size?` | `number` | `16` |  |
+| `size?` | `number` | `16` | default: any px (16); field: 20 \| 28 \| 32 (default 28) |
 | `onChange?` | `(v: number) => void` | — |  |
+| `variant?` | `'default' \| 'field'` | `'default'` | default = kit stars; field = Field M-Rating/Input (interactive, animated) |
+| `clearable?` | `boolean` | `true` | field: tapping the current value clears to 0 (Field always does) |
+| `disabled?` | `boolean` | — | field: muted stars, no presses |
+| `emoji?` | `string` | — | field: glyph shown at the selected star instead of a filled star (Field `emojis` + `emoji`, e.g. "😊") |
+| `label?` | `string` | — | field: radiogroup accessible name (default "Rating, n out of 5") |
+
+Variants:
+- `variant`: `default` · `field`
 
 ### Screen
 
-`src/components/Screen/Screen.tsx:29` · props `ScreenLayoutProps` · forwardRef
+`src/components/Screen/Screen.tsx:35` · props `ScreenLayoutProps` · forwardRef
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
@@ -534,10 +655,11 @@ Row of 5 stars (reviews, order rating)
 | `onScroll?` | `(y: number) => void` | — |  |
 | `contentStyle?` | `CSSProperties` | — |  |
 | `overlay?` | `ReactNode` | — | floats over the content, above the footer (e.g. NeedHelpButton); the layer itself lets taps through |
+| `floatingFooter?` | `boolean` | — | The footer floats over the content (bappzaar NoonNativeStickyBar: the list scrolls behind the sticky bar) instead of sitting below it; the content is padded by the footer's height. Use with see-through footers (`ActionBar surface="glass"`). |
 
 ### SearchBarButton
 
-`src/components/SearchBar/SearchBar.tsx:21`
+`src/components/SearchBar/SearchBar.tsx:22`
 
 Home search pill (NoonSearchBarButton): 52h, r12, 1px #D7DAE3, 20px search-bar.webp, 24px search-bar-camera.webp. `rotatingWords` reproduces the "Search <word>" vertical ticker (30px rows, ease-out-back); `rotatingPrefix` changes "Search". `variant="2025"` (opt-in, Homepage Revamp 2025, Figma iRE9RwO94eMAyW3j3XKNXW · 1337:6727): lighter 1px gray400 border, 15/18 Medium placeholder in textProduct, 18 search icon 4 from the text, 12 gaps to a 24 divider and a 20 camera. Pass the Figma artwork through `icons` (search / camera / divider); defaults are unchanged.
 
@@ -557,9 +679,9 @@ Variants:
 
 ### SearchInput
 
-`src/components/SearchBar/SearchBar.tsx:102`
+`src/components/SearchBar/SearchBar.tsx:159` · props `SearchInputProps`
 
-Editable search field (NoonSearchScreen): 52h, r12, 1px #DFDFDF, back icon inside. `fill` plays the handoff "picked suggestion" fill: the text before `from` holds, the rest fades in on the S-curve over 320ms (re-run it by changing `key`). `onFieldPress` makes the field a read-only button (the PLP's search bar: tapping it goes back to editing) and keeps the camera instead of the clear (x).
+Editable search field. Default: NoonSearchScreen (52h, r12, back icon inside). `variant="field"` (opt-in): Field DS M-SearchBar (`@field-ds/components` SearchBar/SearchBar.tsx, Figma 892:244) — H48 (padding 12, 24px icons, B14 Medium) or H44 (padding 10 / 12, 20px icons, B12 Medium), surfacePrimary, 1px borderSubtle, r12, gap 8, optional Sm `elevation`, Origin `search` icon (Field tertiary → primary once focused or typed), `iconRight` + `iconRightTwo` after a 1 × 24 divider, auto clear (x) while typing, placeholder Field textPrimary at rest / textTertiary focused, press scale .98 over 160ms. `fill`, `onFieldPress`, `onBack`, `onSubmit` work in both looks.
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
@@ -567,11 +689,21 @@ Editable search field (NoonSearchScreen): 52h, r12, 1px #DFDFDF, back icon insid
 | `onChange` | `(v: string) => void` | — |  |
 | `onBack?` | `() => void` | — |  |
 | `autoFocus?` | `boolean` | — |  |
-| `placeholder?` | `string` | `'What are you looking for?'` |  |
+| `placeholder?` | `string` | — |  |
 | `right?` | `ReactNode` | — |  |
 | `onSubmit?` | `(v: string) => void` | — |  |
 | `onFieldPress?` | `() => void` | — |  |
 | `fill?` | `{ from: number; key: number }` | — |  |
+| `variant?` | `'default' \| 'field'` | — | `field`: Field DS M-SearchBar look (opt-in); `default` (NoonSearchScreen) is unchanged |
+| `fieldSize?` | `'H48' \| 'H44'` | — | field variant: `H48` (padding 12, 24 icons, B14 Medium, default) · `H44` (padding 10 / 12, 20 icons, B12 Medium) |
+| `elevation?` | `boolean` | — | field variant: Sm elevation shadow |
+| `iconLeft?` | `ReactNode \| null` | — | field variant: leading icon; default Origin `search` (or a back arrow with `onBack`); `null` removes it |
+| `iconRight?` | `ReactNode` | — | field variant: first trailing icon (default: `right`; the clear (x) replaces it while typing unless set) |
+| `iconRightTwo?` | `ReactNode` | — | field variant: second trailing icon, after a 1 × 24 borderSubtle divider |
+
+Variants:
+- `variant`: `default` · `field`
+- `fieldSize`: `H44` · `H48`
 
 ### SectionCard
 
@@ -593,9 +725,9 @@ NoonSectionCard: white, r16, padding 12, margin 0 12 12, optional 16/700 title r
 
 ### Segmented
 
-`src/components/Segmented/Segmented.tsx:7` · generic
+`src/components/Segmented/Segmented.tsx:29` · props `SegmentedProps<T>` · generic
 
-Language toggle style segmented control (126×40, #F9F9FB, white sliding thumb, 250ms ease-out-cubic).
+Language toggle style segmented control (126×40, #F9F9FB, white sliding thumb, 250ms ease-out-cubic). `variant="field"`: Field DS M-Switch (`packages/components/src/Switch/Switch.tsx`), a pill segmented control for 2–4 options. Size 40 (thumb 32, B12 Semibold) or 48 (thumb 40, B14 Semibold), padding 4, fully rounded, surfaceSecondary #F9F9FB track with no border, white thumb with `field.shadowSm`; active label textPrimary #1D2539, inactive textTertiary #666D85. The thumb slides on `fieldMotion.spring.springLight` and squashes to scaleX 0.94 while an option is held; option press opacity 0.85; disabled = 50% opacity. Reduced motion snaps. No drag-to-select (see field-ds.md).
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
@@ -603,6 +735,12 @@ Language toggle style segmented control (126×40, #F9F9FB, white sliding thumb, 
 | `value` | `T` | — |  |
 | `onChange` | `(v: T) => void` | — |  |
 | `width?` | `number` | — |  |
+| `variant?` | `'field'` | — | `'field'` = Field DS M-Switch (2–4 options, sizes 40/48, spring thumb, press squash). Omit for the language toggle. |
+| `size?` | `40 \| 48` | — | Field track height: 40 (default, thumb 32, B12 Semibold) · 48 (thumb 40, B14 Semibold) |
+| `disabled?` | `boolean` | — | blocks taps and dims the control to 50% |
+
+Variants:
+- `variant`: `field`
 
 ### Skeleton
 
@@ -641,7 +779,7 @@ Variants:
 
 ### Snackbar
 
-`src/components/Snackbar/Snackbar.tsx:30` · props `SnackbarProps`
+`src/components/Snackbar/Snackbar.tsx:36` · props `SnackbarProps`
 
 Snackbar — Origin Design System M-Toast (Figma wFRKiKskxZ4vjIHbDVvngJ · 4227:76702): a transient, non-blocking notification. 351 wide (300–440), r14, 1px overlay border, drop-shadow 0 12 14; content p12 gap 8: asset (20–40), title B14/SemiBold + subtitle B12/Regular with a 16px chevron, optional action (Dark/Error/Success: white-16% p8 r8; Light: M-SecondaryNeutralButton 32h). For two or more at once use <SnackbarStack> (M-Stacked Toast). Most screens show one through `useNav().toast(title, { type, subtitle, icon, action })`.
 
@@ -652,7 +790,8 @@ Snackbar — Origin Design System M-Toast (Figma wFRKiKskxZ4vjIHbDVvngJ · 4227:
 | `subtitle?` | `ReactNode` | — | one line, truncates; gets the trailing chevron when `onSubtitlePress` is set |
 | `onSubtitlePress?` | `() => void` | — |  |
 | `asset?` | `ReactNode` | — | leading icon / avatar / image (20–40 box) |
-| `action?` | `{ label: string; onPress: () => void }` | — | optional trailing action button |
+| `action?` | `{ label: string; onPress: () => void } \| 'close'` | — | optional trailing action: a button (`{ label, onPress }`), or `'close'` — the Field / Origin M-Toast close (✕): round chip, padding 4, 20px cross (Dark / Error / Success: white-8% chip, white ✕; Light: surface/tertiary, ink ✕) |
+| `onClose?` | `() => void` | — | `action: 'close'` press handler (dismiss the toast). Without it the snackbar hides itself. |
 | `className?` | `string` | — |  |
 | `style?` | `CSSProperties` | — |  |
 
@@ -661,7 +800,7 @@ Variants:
 
 ### SnackbarStack
 
-`src/components/Snackbar/Snackbar.tsx:62` · props `SnackbarProps`
+`src/components/Snackbar/Snackbar.tsx:79` · props `SnackbarProps`
 
 M-Stacked Toast (Figma wFRKiKskxZ4vjIHbDVvngJ · 4229:76747): the front snackbar with a second card peeking 12px out behind it (12px narrower each side) when two or more are queued. With `count < 2` it renders the plain snackbar. The back card takes the front's type.
 
@@ -672,7 +811,8 @@ M-Stacked Toast (Figma wFRKiKskxZ4vjIHbDVvngJ · 4229:76747): the front snackbar
 | `subtitle?` | `ReactNode` | — | one line, truncates; gets the trailing chevron when `onSubtitlePress` is set |
 | `onSubtitlePress?` | `() => void` | — |  |
 | `asset?` | `ReactNode` | — | leading icon / avatar / image (20–40 box) |
-| `action?` | `{ label: string; onPress: () => void }` | — | optional trailing action button |
+| `action?` | `{ label: string; onPress: () => void } \| 'close'` | — | optional trailing action: a button (`{ label, onPress }`), or `'close'` — the Field / Origin M-Toast close (✕): round chip, padding 4, 20px cross (Dark / Error / Success: white-8% chip, white ✕; Light: surface/tertiary, ink ✕) |
+| `onClose?` | `() => void` | — | `action: 'close'` press handler (dismiss the toast). Without it the snackbar hides itself. |
 | `className?` | `string` | — |  |
 | `style?` | `CSSProperties` | — |  |
 | `count` | `number` | — |  |
@@ -705,41 +845,49 @@ Variants:
 
 ### Switch
 
-`src/components/Switch/Switch.tsx:42` · props `SwitchProps`
+`src/components/Switch/Switch.tsx:55` · props `SwitchProps`
 
-Toggle switch: bappzaar `react-native-switch` / `components/PaymentSwitchV2`. Mirrors itself in RTL. Configurations in use (pass the props, values are 1:1 with the RN configs): - account (react-native-switch circle 16, bar 20, ×2.3, inset 2): defaults `onColor="var(--nk-color-text-primary)" offColor="#EAECF0"` - cards PaymentSwitchV2 md/dark: `width={34} onColor="#0E0E0E" offColor="#CCCCCC"`, 150ms easeInOutQuad - checkout credits (circle 15, ×2.5): `width={37.5} knob={15}`, `#0076FF` / `#CED1DA`, spring.press
+Toggle switch: bappzaar `react-native-switch` / `components/PaymentSwitchV2`. Mirrors itself in RTL. Configurations in use (pass the props, values are 1:1 with the RN configs): - account (react-native-switch circle 16, bar 20, ×2.3, inset 2): defaults `onColor="var(--nk-color-text-primary)" offColor="#EAECF0"` - cards PaymentSwitchV2 md/dark: `width={34} onColor="#0E0E0E" offColor="#CCCCCC"`, 150ms easeInOutQuad - checkout credits (circle 15, ×2.5): `width={37.5} knob={15}`, `#0076FF` / `#CED1DA`, spring.press `variant="field"`: Field DS M-Toggle (`packages/components/src/Toggle/Toggle.tsx`). Sizes 16 (28×16, knob 12) · 20 (34×20, knob 16, default) · 24 (42×24, knob 20), inset 2, fully rounded. Track on surfaceSecondaryInverted #1D2539, off surfaceMuted #EAECF0 (on = muted too when disabled); knob white (surfaceTertiary disabled). Knob slides on `fieldMotion.spring.springLight` and stretches to ×1.3 width mid-slide; the track scales to 0.98 while pressed. Reduced motion snaps.
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
 | `value` | `boolean` | — |  |
 | `onChange?` | `(value: boolean) => void` | — | omit when the switch sits inside another button (`as="span"`) |
 | `label?` | `string` | — |  |
-| `width?` | `number` | `37` | track width (default 37 = react-native-switch barHeight 20 × 1.85 + insets) |
-| `height?` | `number` | `20` | track height (default 20) |
-| `knob?` | `number` | `16` | knob diameter (default 16) |
-| `inset?` | `number` | `2` | knob inset from the track edge (default 2) |
-| `onColor?` | `string` | `ref.color('textPrimary')` |  |
-| `offColor?` | `string` | `ref.color('border')` |  |
-| `knobColor?` | `string` | `ref.color('bgSurface')` |  |
-| `transition?` | `Transition` | `{ duration: 0.2, ease: easing.out }` | knob slide transition (motion) |
-| `colorTransition?` | `string` | `'background-color 0.2s'` | track colour transition (CSS `transition` value) |
-| `as?` | `'button' \| 'span'` | `'button'` | `span` = purely visual, for a switch inside a larger pressable row |
+| `width?` | `number` | — | track width (default 37 = react-native-switch barHeight 20 × 1.85 + insets) |
+| `height?` | `number` | — | track height (default 20) |
+| `knob?` | `number` | — | knob diameter (default 16) |
+| `inset?` | `number` | — | knob inset from the track edge (default 2) |
+| `onColor?` | `string` | — |  |
+| `offColor?` | `string` | — |  |
+| `knobColor?` | `string` | — |  |
+| `transition?` | `Transition` | — | knob slide transition (motion) |
+| `colorTransition?` | `string` | — | track colour transition (CSS `transition` value) |
+| `as?` | `'button' \| 'span'` | — | `span` = purely visual, for a switch inside a larger pressable row |
 | `className?` | `string` | — |  |
 | `style?` | `CSSProperties` | — |  |
+| `variant?` | `'field'` | — | `'field'` = Field DS M-Toggle (sizes 16/20/24, spring + knob stretch, press scale, disabled look). Ignores width / height / knob / inset / colours / transitions. Omit for the bappzaar switch. |
+| `size?` | `16 \| 20 \| 24` | — | Field toggle height: 16 compact · 20 standard (default) · 24 prominent |
+| `disabled?` | `boolean` | — | blocks `onChange`; with `variant="field"` also the disabled colours |
 
 Variants:
 - `as`: `button` · `span`
+- `variant`: `field`
 
 ### TabBar
 
-`src/components/TabBar/TabBar.tsx:36`
+`src/components/TabBar/TabBar.tsx:76` · props `TabBarProps`
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
 | `active` | `TabId` | — |  |
+| `variant?` | `'classic' \| 'field'` | — | Look. Default (unset): **Liquid Glass**, the floating glass platter of bappzaar `noon/ios/liquid-upgrade` (iOS 26). `'classic'`: the opaque pre-iOS-26 bar (bappzaar master, `UIDesignRequiresCompatibility` true). `'field'`: Field Design System M-Bottomnav. Per flow: `defineFlow({ tabBar: { …, variant } })`. |
+| `autoHide?` | `boolean` | — | Glass only: hide on scroll (bappzaar ScrollVisibilityProvider) — follows the vertical scroll of the screen it sits in (`<Screen>` content) and slides the platter off. The navigator turns it on for tab roots (`tabBar.scrollHide`, default true); screens that drive the bar themselves (PLP, PDP) leave it off. |
+| `covered?` | `boolean` | — | autoHide: the screen is covered (not on top) → release and restore the bar without animation |
 
 Variants:
 - `active`: `account` · `cart` · `categories` · `deals` · `home`
+- `variant`: `classic` · `field`
 
 ### MarketplaceTag
 
@@ -773,7 +921,7 @@ Variants:
 
 ### CatalogTag
 
-`src/components/Tag/Tag.tsx:7`
+`src/components/Tag/Tag.tsx:9`
 
 NoonCatalogTagV2 — "Best Seller": 20h, #0A4F4A, bottom-end radius 10 only, 12/600 white.
 
@@ -785,7 +933,7 @@ NoonCatalogTagV2 — "Best Seller": 20h, #0A4F4A, bottom-end radius 10 only, 12/
 
 ### ExpressBadge
 
-`src/components/Tag/Tag.tsx:16`
+`src/components/Tag/Tag.tsx:18`
 
 noon express badge — Figma MarketplaceTagsPills/express (60×18), scaled to `height`.
 
@@ -795,7 +943,7 @@ noon express badge — Figma MarketplaceTagsPills/express (60×18), scaled to `h
 
 ### CouponTag
 
-`src/components/Tag/Tag.tsx:21`
+`src/components/Tag/Tag.tsx:23`
 
 NoonDiscountTags coupon: 24h, r4, 1px dashed #BBE0DE, #E9FBF9, 12/600 #0A4F4A.
 
@@ -805,9 +953,9 @@ NoonDiscountTags coupon: 24h, r4, 1px dashed #BBE0DE, #E9FBF9, 12/600 #0A4F4A.
 
 ### StatusChip
 
-`src/components/Tag/Tag.tsx:44`
+`src/components/Tag/Tag.tsx:78`
 
-Status / highlight chip (O2D history highlights, return statuses).
+Status / highlight chip (O2D history highlights, return statuses). `variant="field"` is the opt-in Field DS M-InfoBanner (`@field-ds/components` InfoBanner/InfoBanner.tsx, Figma M-InfoBannerRounded 1337:69): single-line, non-interactive, tint-to-white gradient. `size` small = B11 Medium, 14px icon, padding 4 (start 4 · end 8 rounded / 6 rect), gap 2; large = B12 Medium, 18px icon, padding 8 (6 rect), gap 4. `shape` rounded = full radius, rectangular = r6. Tones map to Field colours: success→green, neutral/plain→grey, info→blue, warning→orange, danger→red, plus supermall and purple. Icon: `icon` (kit Icon) or `fieldIcon` (Origin).
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
@@ -815,13 +963,20 @@ Status / highlight chip (O2D history highlights, return statuses).
 | `icon?` | `IconName` | — |  |
 | `children` | `ReactNode` | — |  |
 | `style?` | `CSSProperties` | — |  |
+| `variant?` | `'default' \| 'field'` | `'default'` | default = kit 13/600 r8 chip; field = Field M-InfoBanner |
+| `size?` | `'small' \| 'large'` | `'small'` | field only |
+| `shape?` | `'rounded' \| 'rectangular'` | `'rounded'` | field only: rounded = pill, rectangular = r6 |
+| `fieldIcon?` | `OriginIconName` | — | field only: leading Origin icon (e.g. 'verified'); `icon` wins when both are set |
 
 Variants:
-- `tone`: `danger` · `info` · `neutral` · `plain` · `success` · `warning`
+- `tone`: `danger` · `info` · `neutral` · `plain` · `purple` · `success` · `supermall` · `warning`
+- `variant`: `default` · `field`
+- `size`: `large` · `small`
+- `shape`: `rectangular` · `rounded`
 
 ### Badge
 
-`src/components/Tag/Tag.tsx:55`
+`src/components/Tag/Tag.tsx:154`
 
 Generic small badge (counts, "member", sponsored)
 
@@ -852,6 +1007,77 @@ Typography primitive bound to the type scale + colour tokens.
 | `style?` | `CSSProperties` | — |  |
 | `children?` | `ReactNode` | — |  |
 | `html?` | `string` | — | render trusted HTML strings like 'Get it <b>Tomorrow</b>' (server-driven copy in bappzaar) |
+
+### TextArea
+
+`src/components/TextArea/TextArea.tsx:62` · props `TextAreaProps` · forwardRef
+
+Field DS M-InputTextarea (`@field-ds/components` InputTextarea/InputTextarea.tsx, Figma 1092:212): multi-line input. Min 180h, r12, 1px border, padding 16 / 14, external B12 Medium label (+ red `*`), helper B12 Regular, `n/max` counter B11 Regular. Same derived states as TextField: borderPrimary → borderMedium on focus (160ms), borderErrorBold on error, surfaceMuted when disabled. Text B14 Regular, B14 Medium when filled; placeholder textMuted. The box grows with the text up to `maxHeight`, then scrolls. Clicking anywhere in the box focuses the textarea. <TextArea label="Review" maxLength={200} showCounter helperText="Tell us how it went." value={v} onChange={setV} />
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `value?` | `string` | — | controlled value; omit for uncontrolled (`defaultValue`) |
+| `defaultValue?` | `string` | `''` |  |
+| `onChange?` | `(value: string) => void` | — | called with the new string (not the event) |
+| `label?` | `ReactNode` | — | external B12 Medium label |
+| `required?` | `boolean` | — |  |
+| `placeholder?` | `string` | — |  |
+| `helperText?` | `ReactNode` | — |  |
+| `error?` | `boolean \| string` | `false` | `true` = error border + red label; a string also shows as the helper line |
+| `disabled?` | `boolean` | `false` |  |
+| `maxLength?` | `number` | — |  |
+| `showCounter?` | `boolean` | — | `n/max` counter (needs `maxLength`) |
+| `minHeight?` | `number` | `180` | field box min height (default 180) |
+| `maxHeight?` | `number` | — | field box max height; the text scrolls past it (default: grows with the text) |
+| `rows?` | `number` | `6` | textarea rows (Field numberOfLines, default 6) |
+| `autoFocus?` | `boolean` | — |  |
+| `name?` | `string` | — |  |
+| `id?` | `string` | — |  |
+| `readOnly?` | `boolean` | — |  |
+| `onFocus?` | `(e: FocusEvent<HTMLTextAreaElement>) => void` | — |  |
+| `onBlur?` | `(e: FocusEvent<HTMLTextAreaElement>) => void` | — |  |
+| `aria-label?` | `string` | — |  |
+| `className?` | `string` | — |  |
+| `style?` | `CSSProperties` | — |  |
+
+### TextField
+
+`src/components/TextField/TextField.tsx:70` · props `TextFieldProps` · forwardRef
+
+Field DS M-InputText (`@field-ds/components` InputText/InputText.tsx, Figma 1102:164105): single-line text input. 48h (inline label mode 56h, padding-y 8), r12, 1px border, padding-x 16, gap 8, 20px left / right slots. State is derived (focus, value, `error`, `disabled`): border borderPrimary → borderMedium on focus (160ms, standard ease), borderErrorBold on error, surfaceMuted fill when disabled. Value B14 Regular while empty, B14 Medium when filled (inline: B14 SemiBold); placeholder textMuted; caret surfaceActionBold. `labelMode="inline"`: the label is the placeholder and floats 14 → 11 to the top over 200ms. Helper B12 Regular 6 below, counter B11 Regular. Clicking anywhere in the field focuses the input. <TextField label="Email" placeholder="you@noon.com" value={email} onChange={setEmail} />
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `value?` | `string` | — | controlled value; omit for uncontrolled (`defaultValue`) |
+| `defaultValue?` | `string` | `''` |  |
+| `onChange?` | `(value: string) => void` | — | called with the new string (not the event) |
+| `label?` | `ReactNode` | — |  |
+| `labelMode?` | `TextFieldLabelMode` | `'external'` | `external` (default): B12 Medium label above · `inline`: label floats inside a 56h field · `none` |
+| `required?` | `boolean` | — | red `*` after the label |
+| `placeholder?` | `string` | — |  |
+| `helperText?` | `ReactNode` | — | B12 Regular line under the field (replaced by the error text when `error` is a string) |
+| `error?` | `boolean \| string` | `false` | `true` = error border + red label; a string also shows as the helper line |
+| `disabled?` | `boolean` | `false` |  |
+| `maxLength?` | `number` | — |  |
+| `showCounter?` | `boolean` | — | `n/max` counter (needs `maxLength`) |
+| `leftSlot?` | `ReactNode` | — | 20 × 20 slot before / after the input (icon, clear button, eye toggle …) |
+| `rightSlot?` | `ReactNode` | — |  |
+| `type?` | `HTMLInputTypeAttribute` | `'text'` | HTML input type, e.g. `password`, `email`, `tel` |
+| `inputMode?` | `HTMLAttributes<HTMLInputElement>['inputMode']` | — |  |
+| `autoComplete?` | `string` | — |  |
+| `autoFocus?` | `boolean` | — |  |
+| `name?` | `string` | — |  |
+| `id?` | `string` | — |  |
+| `readOnly?` | `boolean` | — |  |
+| `onFocus?` | `(e: FocusEvent<HTMLInputElement>) => void` | — |  |
+| `onBlur?` | `(e: FocusEvent<HTMLInputElement>) => void` | — |  |
+| `onSubmit?` | `(value: string) => void` | — | Enter key |
+| `aria-label?` | `string` | — | accessible name when there is no visible label |
+| `className?` | `string` | — |  |
+| `style?` | `CSSProperties` | — |  |
+
+Variants:
+- `labelMode`: `external` · `inline` · `none`
 
 ### Toast
 
@@ -956,7 +1182,7 @@ Search these before you create a component (`components.md` → "Search before y
 | cards | `HeaderButton` | `src/flows/cards/components/primitives.tsx:50` | `icon` `onPress` `transparent` `reversed` `label` |
 | cards | `AdditionContainer` | `src/flows/cards/components/primitives.tsx:59` | `title` `className` `children` |
 | cart | `CartCarousel` | `src/flows/cart/components/CartCarousel.tsx:9` | `title` `sponsored` `items` |
-| cart | `CartFooter` | `src/flows/cart/components/CartFooter.tsx:21` | `totals` `cart` `isTabRoot` `disabled` `onCheckout` `onHeightChange` |
+| cart | `CartFooter` | `src/flows/cart/components/CartFooter.tsx:22` | `totals` `cart` `isTabRoot` `disabled` `onCheckout` `onHeightChange` |
 | cart | `CartGroup` | `src/flows/cart/components/CartGroup.tsx:35` | `type` `lines` `subtotal` `onMovedToWishlist` |
 | cart | `CartHeader` | `src/flows/cart/components/CartHeader.tsx:17` | `scrollY` `hidden` `showBackButton` |
 | cart | `CartIcon` | `src/flows/cart/components/CartIcon.tsx:19` | `name` `size` `color` `style` `flipRtl` |
@@ -1146,7 +1372,7 @@ Search these before you create a component (`components.md` → "Search before y
 | pdp | `VariantsCard` | `src/flows/pdp/components/Variants.tsx:15` | `product` `content` `selection` `onSelect` `onSizeGuide` `onLearnMore` |
 | pdp | `VipPreference` | `src/flows/pdp/components/VipPreference.tsx:16` | — |
 | pdp | `SfAdditionalInfo` | `src/flows/pdp/components/storefront/SfAdditionalInfo.tsx:24` | `content` |
-| pdp | `SfAtcBar` | `src/flows/pdp/components/storefront/SfAtcBar.tsx:25` | `product` `showBackToTop` `onBackToTop` `interceptAdd` `buyNow` |
+| pdp | `SfAtcBar` | `src/flows/pdp/components/storefront/SfAtcBar.tsx:28` | `product` `showBackToTop` `onBackToTop` `interceptAdd` `buyNow` |
 | pdp | `SfBestsellerRow` | `src/flows/pdp/components/storefront/SfBestsellerRow.tsx:27` | `content` |
 | pdp | `SfBundleCard` | `src/flows/pdp/components/storefront/SfBundleCard.tsx:16` | `product` `content` `onPress` |
 | pdp | `SfDeliveryCard` | `src/flows/pdp/components/storefront/SfDeliveryCard.tsx:54` | `content` `variant` `freeShippingMin` |

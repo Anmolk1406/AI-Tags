@@ -1,5 +1,6 @@
-import type { CSSProperties, ReactNode } from 'react';
+import { useState, type CSSProperties, type ReactNode } from 'react';
 import { OriginIcon } from '../Icon/OriginIcon';
+import { Pressable } from '../Pressable/Pressable';
 import styles from './Snackbar.module.css';
 
 export type SnackbarType = 'dark' | 'light' | 'error' | 'success';
@@ -14,8 +15,13 @@ export interface SnackbarProps {
   onSubtitlePress?: () => void;
   /** leading icon / avatar / image (20–40 box) */
   asset?: ReactNode;
-  /** optional trailing action button */
-  action?: { label: string; onPress: () => void };
+  /**
+   * optional trailing action: a button (`{ label, onPress }`), or `'close'` — the Field / Origin M-Toast close (✕):
+   * round chip, padding 4, 20px cross (Dark / Error / Success: white-8% chip, white ✕; Light: surface/tertiary, ink ✕)
+   */
+  action?: { label: string; onPress: () => void } | 'close';
+  /** `action: 'close'` press handler (dismiss the toast). Without it the snackbar hides itself. */
+  onClose?: () => void;
   className?: string;
   style?: CSSProperties;
 }
@@ -27,7 +33,9 @@ export interface SnackbarProps {
  * Light: M-SecondaryNeutralButton 32h). For two or more at once use <SnackbarStack> (M-Stacked Toast).
  * Most screens show one through `useNav().toast(title, { type, subtitle, icon, action })`.
  */
-export function Snackbar({ type = 'dark', title, subtitle, onSubtitlePress, asset, action, className, style }: SnackbarProps) {
+export function Snackbar({ type = 'dark', title, subtitle, onSubtitlePress, asset, action, onClose, className, style }: SnackbarProps) {
+  const [closed, setClosed] = useState(false);
+  if (closed) return null;
   const chevronColor = type === 'light' ? 'var(--nk-snackbar-light-subtitle-fg)' : 'var(--nk-snackbar-subtitle-fg)';
   return (
     <div className={[styles.toast, className].filter(Boolean).join(' ')} data-type={type} style={style} role="status">
@@ -43,12 +51,21 @@ export function Snackbar({ type = 'dark', title, subtitle, onSubtitlePress, asse
           )}
         </div>
       </div>
-      {action && (
-        <div className={styles.actionBox}>
-          <button type="button" className={styles.action} onClick={action.onPress}>
-            {action.label}
-          </button>
+      {action === 'close' ? (
+        // Field Toast ActionSlot variant "close" (packages/components/src/Toast/Toast.tsx): pad 4, radius rounded, press 0.95
+        <div className={styles.closeBox}>
+          <Pressable className={styles.close} scale={0.95} aria-label="Dismiss" onClick={onClose ?? (() => setClosed(true))}>
+            <OriginIcon name="cross" size={20} color={type === 'light' ? 'var(--nk-field-text-primary)' : 'var(--nk-field-text-on-surface-bold)'} />
+          </Pressable>
         </div>
+      ) : (
+        action && (
+          <div className={styles.actionBox}>
+            <button type="button" className={styles.action} onClick={action.onPress}>
+              {action.label}
+            </button>
+          </div>
+        )
       )}
     </div>
   );

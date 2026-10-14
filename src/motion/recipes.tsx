@@ -172,17 +172,26 @@ export function BlurSwap({ swapKey, children, delay = 0, shift = 5, blur = 2, cl
  * `animateIn={false}` renders settled (below-the-fold items).
  */
 export function SkeletonReveal({ skeleton, children, delay = 0, loading = false, animateIn = true, rise = 16, skeletonAfter = 0.353, style }: { skeleton: ReactNode; children: ReactNode; delay?: number; loading?: boolean; animateIn?: boolean; rise?: number; skeletonAfter?: number; style?: CSSProperties }) {
+  // the skeleton leaves the DOM once it has faded out (a grid otherwise keeps an invisible copy of every card) and
+  // comes back, fading in, when `loading` turns on again
+  const [gone, setGone] = useState(!animateIn && !loading);
+  const hidden = useRef(gone);
+  if (loading && gone) setGone(false);
+  if (gone) hidden.current = true;
   return (
     <div style={{ position: 'relative', ...style }}>
-      <motion.div
-        aria-hidden
-        style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}
-        initial={{ opacity: animateIn ? 1 : 0 }}
-        animate={{ opacity: loading ? 1 : 0 }}
-        transition={loading ? { duration: handoff.fade.out, ease: handoff.easeOut } : { duration: handoff.fade.io, ease: handoff.easeInOut, delay: animateIn ? delay + skeletonAfter : 0 }}
-      >
-        {skeleton}
-      </motion.div>
+      {!gone && (
+        <motion.div
+          aria-hidden
+          style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}
+          initial={{ opacity: animateIn && !hidden.current ? 1 : 0 }}
+          animate={{ opacity: loading ? 1 : 0 }}
+          transition={loading ? { duration: handoff.fade.out, ease: handoff.easeOut } : { duration: handoff.fade.io, ease: handoff.easeInOut, delay: animateIn ? delay + skeletonAfter : 0 }}
+          onAnimationComplete={() => !loading && setGone(true)}
+        >
+          {skeleton}
+        </motion.div>
+      )}
       <motion.div
         style={{ position: 'relative' }}
         initial={animateIn ? { opacity: 0, y: rise } : false}

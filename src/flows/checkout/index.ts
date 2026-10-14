@@ -198,6 +198,7 @@ export const checkoutFlow = defineFlow({
       transition: 'checkout-alpha',
       notes: 'Live variant pushed by NoonPostOrderLoader (V3Screen). Continue Shopping / back → home; shipment card → orders/list; need-help pill toasts; notifications banner hides on Turn on.',
       source: `${S}/NoonOrderConfirmationV3Screen, ${C}/NoonShipmentV2, NoonOrderConfirmationAddress, NoonNotificationsBanner`,
+      verified: '2026-10-14',
     },
     {
       id: 'track-steps',

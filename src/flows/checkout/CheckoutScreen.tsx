@@ -2,7 +2,7 @@ import { useMotionValue } from 'motion/react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Screen } from '../../components';
 import { useDemoStore } from '../../kit/DemoStore';
-import { useNav } from '../../kit/Navigator';
+import { useIsTop, useNav } from '../../kit/Navigator';
 import type { ScreenProps } from '../../kit/types';
 import { addressStore, useAddressStore } from '../address/store';
 import { AddressCard } from './components/AddressCard';
@@ -146,7 +146,7 @@ export function CheckoutScreen({ params }: ScreenProps<CheckoutParams>) {
   }, [defaultId]);
 
   // back on top after a failed / cancelled order → resetSlider()
-  const isTop = nav.stack[nav.stack.length - 1]?.route === 'checkout/checkout';
+  const isTop = useIsTop();
   useEffect(() => {
     if (isTop && placedRef.current) {
       placedRef.current = false;

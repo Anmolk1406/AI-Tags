@@ -1,8 +1,63 @@
+import { motion } from 'motion/react';
+import type { CSSProperties } from 'react';
+import styles from './Checkbox.module.css';
+import { Pressable } from '../Pressable/Pressable';
+import { field } from '../../foundations/tokens';
+import { fieldMotion } from '../../motion/presets';
+import { tickPath, tickLength, useFieldSelection } from './fieldSelection';
+
+export interface CheckboxProps {
+  checked: boolean;
+  /** glyph colour (default variant only; default `currentColor`) */
+  color?: string;
+  /** px. Default variant: 20. `variant="field"`: 16 | 20 | 24, default 24 */
+  size?: number;
+  /** `'field'` = Field DS M-Checkbox (animated, sizes 16/20/24, disabled look). Omit for the bappzaar glyph. */
+  variant?: 'field';
+  /** makes it a tappable `role="checkbox"` button; omit for a purely visual glyph inside a pressable row */
+  onChange?: (checked: boolean) => void;
+  disabled?: boolean;
+  /** accessible label (aria-label) when there is no visible label wired to it */
+  label?: string;
+  className?: string;
+  style?: CSSProperties;
+}
+
 /**
  * Square (squircle) checkbox glyph — bappzaar `NoonIcons.squareCheckboxSVG(selected)`, 20×20 filled with `color`.
  * Purely visual: wrap it in the pressable row that owns the toggle (e.g. checkout DeliveryInstruction).
+ *
+ * `variant="field"`: Field DS M-Checkbox (`packages/components/src/Checkbox/Checkbox.tsx`), sizes 16 / 20 / 24
+ * (default 24). Off = squircle outline textTertiary #666D85 (borderMedium disabled); on = filled squircle textPrimary
+ * #1D2539 (textMuted disabled) with a 2px white tick. Check-in 220ms / recede 180ms `ease.standard`: outline fades
+ * out, fill fades in (no scale), tick draws after 120ms. With `onChange` it is a `role="checkbox"` button (press
+ * opacity 0.85, ≈44px touch target); without, a visual span. Reduced motion snaps.
  */
-export function Checkbox({ checked, color = 'currentColor', size = 20 }: { checked: boolean; color?: string; size?: number }) {
+export function Checkbox(props: CheckboxProps) {
+  if (props.variant === 'field') return <FieldCheckbox {...props} />;
+  if (props.onChange) {
+    const { checked, onChange, disabled, label, className, style } = props;
+    return (
+      <Pressable
+        role="checkbox"
+        aria-checked={checked}
+        aria-label={label}
+        disabled={disabled}
+        className={[styles.plain, className].filter(Boolean).join(' ')}
+        style={style}
+        onClick={(e) => {
+          e.stopPropagation();
+          if (!disabled) onChange(!checked);
+        }}
+      >
+        <CheckboxGlyph checked={checked} color={props.color} size={props.size} />
+      </Pressable>
+    );
+  }
+  return <CheckboxGlyph checked={props.checked} color={props.color} size={props.size} />;
+}
+
+function CheckboxGlyph({ checked, color = 'currentColor', size = 20 }: { checked: boolean; color?: string; size?: number }) {
   return checked ? (
     <svg width={size} height={size} viewBox="0 0 20 20" fill="none" aria-hidden>
       <path
@@ -21,5 +76,67 @@ export function Checkbox({ checked, color = 'currentColor', size = 20 }: { check
         fill={color}
       />
     </svg>
+  );
+}
+
+// Figma M-Checkbox squircle paths (24×24), verbatim from Field
+const OUTLINE_D =
+  'M12 21.3925C10.07 21.3925 8.13875 21.2725 6.2225 21.0325C4.51875 20.82 3.18 19.48 2.96625 17.7762C2.4875 13.9425 2.4875 10.055 2.96625 6.22125C3.17875 4.5175 4.51875 3.17875 6.2225 2.965C10.0562 2.48625 13.9437 2.48625 17.7775 2.965C19.4812 3.1775 20.82 4.51625 21.0337 6.22125C21.5125 10.055 21.5125 13.9425 21.0337 17.7762C20.8212 19.48 19.4812 20.8187 17.7775 21.0325C15.86 21.2725 13.93 21.3925 12 21.3925ZM12 4.1075C10.1312 4.1075 8.26375 4.22375 6.40875 4.455C5.38625 4.5825 4.5825 5.38625 4.455 6.40875C3.99125 10.1187 3.99125 13.8812 4.455 17.5925C4.5825 18.615 5.38625 19.4187 6.40875 19.5462C10.1187 20.01 13.8812 20.01 17.5925 19.5462C18.615 19.4187 19.4187 18.615 19.5462 17.5925C20.01 13.8825 20.01 10.12 19.5462 6.40875C19.4187 5.38625 18.615 4.5825 17.5925 4.455C15.7375 4.2225 13.8687 4.1075 12.0012 4.1075H12Z';
+const FILL_D =
+  'M21.0337 6.22225C20.8212 4.5185 19.4812 3.17975 17.7775 2.966C13.9437 2.48725 10.0562 2.48725 6.22249 2.966C4.51874 3.1785 3.17999 4.5185 2.96624 6.22225C2.48749 10.056 2.48749 13.9435 2.96624 17.7773C3.17874 19.481 4.51874 20.8198 6.22249 21.0335C8.13874 21.2735 10.07 21.3935 12 21.3935C13.93 21.3935 15.8612 21.2735 17.7775 21.0335C19.4812 20.821 20.82 19.481 21.0337 17.7773C21.5125 13.9435 21.5125 10.056 21.0337 6.22225Z';
+
+/** Field hitSlop so the touch target reaches ≈44px (H16 +14, H20 +12, H24 +4). */
+const HIT: Record<number, number> = { 16: 14, 20: 12, 24: 4 };
+
+function FieldCheckbox({ checked, onChange, size = 24, disabled = false, label, className, style }: CheckboxProps) {
+  const { outlineOpacity, fillOpacity, tickOffset, tickOpacity } = useFieldSelection(checked);
+  const box: CSSProperties = { width: size, height: size, ...style };
+  const glyph = (
+    <>
+      <motion.svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden style={{ opacity: outlineOpacity }}>
+        <path d={OUTLINE_D} fillRule="evenodd" fill={disabled ? field.borderMedium : field.textTertiary} />
+      </motion.svg>
+      <motion.svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden style={{ opacity: fillOpacity }}>
+        <path d={FILL_D} fill={disabled ? field.textMuted : field.textPrimary} />
+      </motion.svg>
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden>
+        <motion.path
+          d={tickPath}
+          stroke={field.surfacePrimary}
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeDasharray={tickLength}
+          style={{ strokeDashoffset: tickOffset, opacity: tickOpacity }}
+        />
+      </svg>
+    </>
+  );
+  const cls = [styles.field, className].filter(Boolean).join(' ');
+  if (!onChange) {
+    return (
+      <span className={cls} style={box} aria-hidden>
+        {glyph}
+      </span>
+    );
+  }
+  return (
+    <Pressable
+      role="checkbox"
+      aria-checked={checked}
+      aria-label={label}
+      disabled={disabled}
+      scale={1}
+      whileTap={disabled ? undefined : { opacity: fieldMotion.pressOpacity }}
+      transition={{ duration: fieldMotion.duration.xs, ease: fieldMotion.ease.decelerate }}
+      className={[cls, styles.interactive].join(' ')}
+      style={{ ...box, ['--nk-checkbox-hit' as string]: `${HIT[size] ?? 4}px` }}
+      onClick={(e) => {
+        e.stopPropagation();
+        if (!disabled) onChange(!checked);
+      }}
+    >
+      {glyph}
+    </Pressable>
   );
 }

@@ -4,6 +4,16 @@ Changes to the noon-ui skill and its screen skills. Add a line whenever a refere
 
 ## Unreleased
 
+- cart spec: the Cart-tab footer is a floating glass card (liquid-upgrade).
+- components.md "GlassFade and the shared glass" (one glass material, `GlassFade`, `data-glass-footer`); tokens.md glass fills and fade tokens.
+- pdp blueprint: `SfAtcBar` is a floating glass card above the glass tab bar (liquid-upgrade).
+- Liquid Glass: components.md TabBar (glass default, `classic`, `autoHide`, hide-on-scroll, `--nk-tab-hide`), Screen `floatingFooter`, ActionBar `surface` / `aboveTabBar`; tokens.md `tabBar.glass*`; flows.md `fieldds/glass`.
+- Field Design System: new `references/field-ds.md` (Field → kit mapping, token and icon notes, status); components.md "Field Design System" section (+ `Radio`, `ActionBar`, `Accordion`, `TextField`, `TextArea`); tokens.md Field type styles and the `field` group; design-rules §0 Origin row names the Field pieces; flows.md catalogue `fieldds`; icons.md regenerated with 61 imported icons.
+- design-rules §0 "Design languages: reuse only, never invent": the three design languages (Origin, noon Figma revamps, bappzaar ports), the pill / chip / tab / toggle inventory per language, and the rule that new UI uses only these unless a new component is explicitly asked for; SKILL.md "Compose, don't invent", components.md "Search before you create" step 4 and CLAUDE.md point to it.
+- address: `address/selectSheet` closes the way it opened (`FloatingOverlay` `slideIn` slides back down, scrim fades; screen transition `none` instead of `fade`).
+- search spec: Trending searches pills use the new `trendingUp` icon (lucide TrendingUp) instead of `flame`.
+
+- tooling / motion: `nav.preload(...routes)`, and a loaded `lazyScreen` renders without suspending (no empty sheet frame).
 - search spec / plp brief: `plp/filters` is bappzaar NoonFiltersScreenV2 1:1 (floating, one scroll with scroll-spy sidebar, fulfilment cards, price range, search across filters); screen-recipes documents `sheet: { layout: 'floating', inset, bottomGap }`.
 - Motion guidelines (provisional): new `references/motion-guidelines.md` organises what moves today by purpose (opening a screen, press, entrances, state changes, loading, success, scroll-linked, autoplay, haptics, timing source) with "use for now" and a Pending line per section for the real guidelines; backed by the generated `references/motion-usage.generated.md` / `.json` (`scripts/motion-usage.mjs`, `npm run motion:usage`, run by `resources:build`; report only). SKILL.md step 7 and motion.md point to it.
 - Design rules: new `references/design-rules.md` (component per job, colour token per role, page background per layout, spacing scale and gutters, radius per element, type per use, Button variant per job), backed by the generated `references/design-usage.generated.md` / `.json` (`scripts/design-usage.mjs`, run by `resources:build`). SKILL.md steps 6 and 9, house rules, component-checklist and screen-recipes point to it; `npm run lint:design` (in `skill:check`) holds existing flows at `scripts/design-baseline.json` and requires 0 findings for a new flow.

@@ -500,6 +500,15 @@ export const palette = {
   homeGreen800: '#008200', // Green/800 in the Homepage Revamp 2025 file (SKU "% off"; the kit green800 is #329537)
   mintWhite97: '#F2F8F8', // SKU rating pill fill
   cobaltAlpha4: 'rgba(7, 47, 143, 0.04)', // SKU image box tint (over white)
+  // Field Design System (@field-ds/tokens, the coded Origin DS) — colours with no earlier palette entry
+  fieldYellowDark: '#A36200', // colour/text-n-icon/yellow-dark
+  fieldYellowMild: '#FFF7C2', // colour/surface/yellow-mild, colour/border/yellow
+  fieldYellowBold: '#F5C400', // colour/surface/yellow-bold (RatingInput star)
+  fieldSuccessExtrabold: '#083F3B', // colour/surface/success-extrabold
+  fieldBorderSupermall: '#C0C2F6', // colour/border/supermall
+  fieldBorderSuccess: '#CBF6E5', // colour/border/success
+  fieldPurple700: '#AD24DB', // base/colour/purple/700 (InfoBanner purple fg; bg purple/100 = lavenderMist)
+  blackAlpha24: 'rgba(0, 0, 0, 0.24)', // colour/surface/overlay-subtle
 } as const;
 
 export type PaletteToken = keyof typeof palette;

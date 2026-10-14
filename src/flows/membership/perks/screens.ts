@@ -1,9 +1,10 @@
 import type { ScreenDef } from '../../../kit/types';
+import { lazyScreen } from '../../../kit/lazyScreen';
 import { overlayScreen } from '../transitions';
-import { PartnerOverlayScreen } from './PartnerOverlayScreen';
-import { ReferralsInputOverlayScreen } from './ReferralsInputOverlayScreen';
-import { ReferralsScreen } from './ReferralsScreen';
-import { YangoCreditsOverlayScreen } from './YangoCreditsOverlayScreen';
+const PartnerOverlayScreen = lazyScreen(() => import('./PartnerOverlayScreen'), 'PartnerOverlayScreen');
+const ReferralsInputOverlayScreen = lazyScreen(() => import('./ReferralsInputOverlayScreen'), 'ReferralsInputOverlayScreen');
+const ReferralsScreen = lazyScreen(() => import('./ReferralsScreen'), 'ReferralsScreen');
+const YangoCreditsOverlayScreen = lazyScreen(() => import('./YangoCreditsOverlayScreen'), 'YangoCreditsOverlayScreen');
 
 /** perks screens of the membership flow — referrals + partner perks (see perks/MAPPING.md). */
 export const perksScreens: ScreenDef[] = [

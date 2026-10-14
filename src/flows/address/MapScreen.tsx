@@ -1,7 +1,7 @@
 import { animate, motion, useMotionValue, useMotionValueEvent } from 'motion/react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Lottie, Screen } from '../../components';
-import { useNav } from '../../kit/Navigator';
+import { useIsTop, useNav } from '../../kit/Navigator';
 import type { ScreenProps } from '../../kit/types';
 import { easing } from '../../motion/presets';
 import { lotties } from './assets';
@@ -143,7 +143,7 @@ export function MapScreen({ params }: ScreenProps<MapParams>) {
   );
 
   // SearchScreen → onSelectAddress
-  const isTop = nav.stack.at(-1)?.route === nav.route;
+  const isTop = useIsTop();
   useEffect(() => {
     if (!isTop) return;
     setZoomSearch(false); // startZoomOutAnimation

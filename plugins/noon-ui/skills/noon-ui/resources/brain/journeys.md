@@ -8,21 +8,7 @@ Edges come from static `nav.*('…')` calls in each screen's import closure (dyn
 
 | From flow | → To flows |
 |---|---|
-| `account` | membership, noonone, orders, wishlist |
-| `cart` | address, checkout, noonone, pdp, plp, wishlist |
-| `categories` | plp, search |
-| `checkout` | address, home, noonone, orders |
-| `deals` | pdp, plp, search |
 | `home` | address, pdp, plp, search, wishlist |
-| `membership` | account, checkout, home, noonone |
-| `noonone` | checkout, membership |
-| `orders` | noonone, returns, reviews |
-| `pdp` | cart, checkout, noonone, plp, search |
-| `plp` | pdp, search |
-| `returns` | home, orders, pdp |
-| `reviews` | orders |
-| `search` | checkout, noonone, pdp, plp |
-| `wishlist` | cart, pdp, search |
 
 ## Journey tests (`npm run test:journeys`)
 
@@ -73,19 +59,20 @@ Edges come from static `nav.*('…')` calls in each screen's import closure (dyn
 | Flow | Screens with a journey / visual test | Verified side by side |
 |---|---|---|
 | `home` | 1/2 | 1/2 |
-| `search` | 1/2 | 1/2 |
-| `categories` | 1/4 | 0/4 |
+| `search` | 0/2 | 1/2 |
+| `categories` | 0/4 | 0/4 |
 | `deals` | 0/1 | 0/1 |
-| `plp` | 3/3 | 1/3 |
-| `pdp` | 4/4 | 1/4 |
-| `cart` | 3/9 | 1/9 |
-| `checkout` | 4/22 | 0/22 |
-| `orders` | 1/4 | 0/4 |
+| `plp` | 0/3 | 1/3 |
+| `pdp` | 0/4 | 1/4 |
+| `cart` | 0/9 | 1/9 |
+| `checkout` | 0/22 | 1/22 |
+| `orders` | 0/4 | 0/4 |
 | `returns` | 0/5 | 0/5 |
 | `reviews` | 0/9 | 0/9 |
-| `account` | 1/17 | 0/17 |
-| `address` | 1/11 | 0/11 |
-| `cards` | 3/8 | 0/8 |
-| `noonone` | 5/22 | 0/22 |
+| `account` | 0/17 | 0/17 |
+| `address` | 0/11 | 0/11 |
+| `cards` | 0/8 | 0/8 |
+| `noonone` | 0/22 | 0/22 |
 | `membership` | 0/24 | 0/24 |
-| `wishlist` | 3/5 | 0/5 |
+| `wishlist` | 0/5 | 0/5 |
+| `fieldds` | 0/4 | 0/4 |

@@ -23,3 +23,24 @@
 .dividerArt { display: flex; align-items: center; justify-content: center; flex: none; width: 0; height: 24px; }
 .dividerArt img { display: block; flex: none; max-width: none; transform: rotate(90deg); }
 [dir='rtl'] .flipRtl { transform: scaleX(-1); }
+/* SearchInput variant="field" (Field DS M-SearchBar, Figma 892:244) — opt-in, the classes above are unchanged */
+.fieldBar {
+  display: flex; align-items: center; gap: var(--nk-space-s8); width: 100%;
+  height: 48px; padding: var(--nk-space-s12); /* token-lint-ignore — M-SearchBar H48 */
+  background: var(--nk-field-surface-primary); border: 1px solid var(--nk-field-border-subtle); border-radius: var(--nk-radius-r12);
+  cursor: text;
+}
+.fieldBar[data-size='H44'] { height: 44px; padding: var(--nk-space-s10) var(--nk-space-s12); /* token-lint-ignore — M-SearchBar H44 */ }
+.fieldElevated { box-shadow: var(--nk-field-shadow-sm); }
+.fieldSlot { display: flex; flex: none; align-items: center; justify-content: center; }
+.fieldInput, .fieldBar .fillCopy {
+  font: var(--nk-type-field-b14-medium); letter-spacing: var(--nk-field-tracking-b); color: var(--nk-field-text-primary);
+  caret-color: var(--nk-field-surface-action-bold); padding: 0;
+}
+.fieldBar[data-size='H44'] .fieldInput, .fieldBar[data-size='H44'] .fillCopy { font: var(--nk-type-field-b12-medium); }
+.fieldInput::placeholder { color: var(--nk-field-text-primary); opacity: 1; }
+.fieldBar[data-focused] .fieldInput::placeholder { color: var(--nk-field-text-tertiary); }
+/* type="search": drop the UA cancel button / decoration (the bar draws its own clear) */
+.fieldInput::-webkit-search-cancel-button, .fieldInput::-webkit-search-decoration { appearance: none; }
+.fieldInput { appearance: none; }
+.fieldDivider { flex: none; width: 1px; height: 24px; background: var(--nk-field-border-subtle); }

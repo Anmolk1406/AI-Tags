@@ -14,22 +14,61 @@ Read with: [`references/components.md`](references/components.md) (APIs), [`refe
 
 ---
 
+## 0. Design languages: reuse only, never invent
+
+The kit speaks three design languages. Every piece of new UI comes from one of them; read the host screen's `truth`
+(`bappzaar` / `figma` / `mixed`) and use that screen's language.
+
+| Language | Truth for | Its own pieces |
+|---|---|---|
+| **Origin Design System** (Figma `wFRKiKskxZ4vjIHbDVvngJ`; coded as the **Field Design System**, [`references/field-ds.md`](references/field-ds.md)) | the default for anything new | `OriginIcon`, M-BottomSheet (`SheetHeader` / `SheetBody` / `SheetFooter`), M-Toast (`nav.toast` → `Snackbar` / `SnackbarStack`), `_ETA` (`EtaBadge`), and the Field components: `Radio`, `ActionBar`, `Accordion`, `TextField`, `TextArea` and the `variant="field*"` of `Button`, `IconButton`, `Header`, `Checkbox`, `Switch`, `Segmented`, `Pill` (`fieldChip`), `StatusChip`, `Stars`, `ListRow`, `SearchInput`, `TabBar` (components.md → "Field Design System") |
+| **noon Figma revamps** (Homepage 2025, Cart 2.0, Checkout 2.0, Storefront PDP, R&R 2.0, Orders PDS) | screens with `truth: 'figma' \| 'mixed'` | `SkuCard`, `SearchBarButton variant="2025"`, `Button variant="dark"`, `DashedDivider`, `StatusChip`, home `DepartmentTabs` / `RecommendedRail` tabs |
+| **bappzaar ports** (master, 1:1) | screens with `truth: 'bappzaar'` | `Button` `noon*` variants, `Pill` `nav` / `filter`, `ProductBoxVertical`, `MaskIcon` glyphs, `DottedDivider`, `sheet: 'classic'`, address `TabSwitcher`, account `LanguageSwitcher` |
+
+**The rule.** When a request needs a pill, chip, tab, toggle, badge, button, card, row or sheet, pick it from the table
+below (or §1) and use it through its props and documented variants. Don't draw a new one: no new shape, height, radius,
+colour, border, weight or selected state, and no restyling an existing one through `className` until it looks different.
+Arranging existing pieces into a new section is fine; new pieces are not.
+
+The only exceptions are when the user **explicitly** asks for a new component or a new look, or when the reference they
+gave clearly shows one that nothing here matches. In both cases, name the closest existing component, say what differs,
+and ask before building. If the match is flow-local in another flow (e.g. home `DepartmentTabs`), propose promoting it
+(components.md → "Duplicates and promotion") instead of drawing a lookalike.
+
+| Need | Use | Language |
+|---|---|---|
+| Filter / sort / category nav pill row | `Pill` (`nav`, `size`, `count`, `dropdown`, `removable`) in `PillRow` | bappzaar PLP |
+| Option inside a filter sheet | `Pill variant="filter"` | bappzaar PLP |
+| Tag / suggestion chip (trending searches, home tags) | `Pill variant="tag"` | Figma home |
+| Status / highlight chip | `StatusChip tone` | Figma orders |
+| Coupon code chip | `CouponTag` | bappzaar cart |
+| Marketplace / fulfilment pill · express | `MarketplaceTag` · `ExpressBadge` | bappzaar |
+| Delivery promise on a product | `EtaBadge` + `etaFor` | Origin `_ETA` |
+| Small label ("Ad", member) · corner tag ("Best Seller") | `Badge` · `CatalogTag` | |
+| Rating pill · stars | `RatingPill` · `Stars` | |
+| 2–3 option sliding toggle | `Segmented` | shared |
+| Content tabs under a header | home `DepartmentTabs` / `RecommendedRail` tabs (flow-local; promote to reuse) | Figma home |
+| Two-tab track with sliding white indicator | address `TabSwitcher` (flow-local; promote to reuse) | bappzaar address |
+| Bottom navigation | `TabBar` (navigator `tabBar`) | |
+| On/off · multi-select | `Switch` · `Checkbox` | |
+| Variant choice (size, colour) | pdp `Variants` / cart `VariantOptionChip` (flow-local) | bappzaar |
+
 ## 1. Components: pick by job
 
 | Job | Use | Why (evidence) | Not |
 |---|---|---|---|
-| Root of every screen | `Screen` (+ `Header` on pushed screens) | 17 / 17 flows; owns safe areas, scroll and the page background | a custom scroll div |
-| Anything tappable that isn't a CTA (row, card, chip, icon) | `Pressable` (`scale` 0.96; 0.98 for wide rows / cards) | 188 uses in 15 of 17 flows; one press feel everywhere | `<button>` / `motion.button` (198 left in pdp, checkout, noonone, cart, membership ports, counted as `raw-button`) |
+| Root of every screen | `Screen` (+ `Header` on pushed screens) | 17 / 18 flows; owns safe areas, scroll and the page background | a custom scroll div |
+| Anything tappable that isn't a CTA (row, card, chip, icon) | `Pressable` (`scale` 0.96; 0.98 for wide rows / cards) | 188 uses in 15 of 18 flows; one press feel everywhere | `<button>` / `motion.button` (198 left in pdp, checkout, noonone, cart, membership ports, counted as `raw-button`) |
 | CTA | `Button` with the variant below | the variants carry the colour, radius, disabled and `loading` states | a styled `Pressable` |
 | Text from the server or with `<b>/<highlight>/<steel>` | `HtmlText` | 151 uses; the bappzaar HtmlView tags map to tokens | `dangerouslySetInnerHTML` |
 | System icon | `OriginIcon name` | Origin Design System; 110 uses in the newer flows (home, pdp, orders, reviews, noonone) | lucide `Icon` (28 uses, older flows only) |
-| bappzaar webp / svg glyph that needs a colour | `MaskIcon` | 69 uses in 11 of 17 flows | `<img>` + CSS filter |
-| Product picture | `ProductImage` | 40 uses in 10 of 17 flows; contain, placeholder, 2% overlay | `<img>` |
+| bappzaar webp / svg glyph that needs a colour | `MaskIcon` | 69 uses in 11 of 18 flows | `<img>` + CSS filter |
+| Product picture | `ProductImage` | 40 uses in 10 of 18 flows; contain, placeholder, 2% overlay | `<img>` |
 | Product grid card · rail card · Figma SKU rail | `ProductBoxVertical` · `ProductCard` · `SkuCard` | each is the 1:1 port of one bappzaar / Figma card | a new card |
 | Delivery promise on a product | `EtaBadge` via `etaFor(product)` | Origin `_ETA`; used inside every product card | `ExpressBadge` (only outside the ETA slot) |
-| Fulfilment pill (supermall, market, global) | `MarketplaceTag` | 5 of 17 flows | a coloured span |
-| Loading | `Skeleton` blocks; `Button loading` or `Spinner` inside a control | `Skeleton` 98 uses in 9 of 17 flows | a full-screen spinner for content |
-| Lottie (ATC check, confirmation) | `Lottie` | 11 of 17 flows | gif / video |
+| Fulfilment pill (supermall, market, global) | `MarketplaceTag` | 5 of 18 flows | a coloured span |
+| Loading | `Skeleton` blocks; `Button loading` or `Spinner` inside a control | `Skeleton` 98 uses in 9 of 18 flows | a full-screen spinner for content |
+| Lottie (ATC check, confirmation) | `Lottie` | 11 of 18 flows | gif / video |
 | Divider inside a card | `DashedDivider` (orders, checkout, pdp, home, reviews) or `Divider` hairline; `DottedDivider` for account / address / returns lists | 17 + 9 + 3 uses | a border on the row |
 | Toggle · checkbox · segmented | `Switch` · `Checkbox` · `Segmented` | | custom inputs |
 | Toast / snackbar | `nav.toast(title, { type, subtitle, icon, action })` | Origin M-Toast | a local toast state |
@@ -67,7 +106,7 @@ role is not borrowed for another (`role` finding).
 
 | Use | Token | Share |
 |---|---|---|
-| Titles, names, row labels, most UI text | `text-primary` (#1D2539) | 18%, 14 of 17 flows |
+| Titles, names, row labels, most UI text | `text-primary` (#1D2539) | 18%, 14 of 18 flows |
 | Meta, captions, helper lines | `text-secondary` (#666D85) | 9% |
 | Headings, product titles on cards | `text-strong` (#101628) | 6% |
 | Long body copy, addresses, input values | `text-body` (#343D54) | 5% |
@@ -83,7 +122,7 @@ role is not borrowed for another (`role` finding).
 
 | Use | Token |
 |---|---|
-| Cards, sheets, footers, headers | `bg-surface` (35% of all backgrounds, 16 of 17 of 17 flows) |
+| Cards, sheets, footers, headers | `bg-surface` (35% of all backgrounds, 16 of 17 of 18 flows) |
 | Pills, inner blocks, icon buttons, inputs on white | `bg-subtle` (#F9F9FB, 10%) |
 | Chips, image placeholders | `bg-muted` |
 | Dark fill (black CTA, dark pill, toast) | `bg-inverse`, not `text-primary` / `text-strong` (the ports' 25 + 13 uses are the drift this rule stops) |

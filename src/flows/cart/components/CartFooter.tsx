@@ -2,6 +2,7 @@ import { AnimatePresence, motion, useDragControls, type PanInfo } from 'motion/r
 import { useLayoutEffect, useRef, useState } from 'react';
 import type { CartLine, CartTotals } from '../../../kit/DemoStore';
 import { currency, formatPrice } from '../../../data';
+import { GlassFade } from '../../../components';
 import { t } from '../data';
 import { buildDynamicInvoice } from '../invoice';
 import { cartTokens } from '../tokens';
@@ -50,7 +51,9 @@ export function CartFooter({ totals, cart, isTabRoot, disabled, onCheckout, onHe
   const sections = buildDynamicInvoice(totals, cart);
 
   return (
-    <div className={styles.stickyBar} data-tab={isTabRoot || undefined}>
+    <div className={styles.stickyBar} data-tab={isTabRoot || undefined} data-glass-footer={isTabRoot ? '' : undefined}>
+      {/* liquid-upgrade: one progressive-blur + white fade under the floating card and the glass tab bar */}
+      {isTabRoot && <GlassFade className={styles.fade} />}
       {/* backdrop (zIndex 2 under the sticky bar) */}
       <AnimatePresence>
         {open && <motion.div className={styles.backdrop} initial={{ opacity: 0 }} animate={{ opacity: 0.5 }} exit={{ opacity: 0 }} transition={{ duration: INV.backdropMs / 1000 }} onClick={() => setOpen(false)} />}
@@ -82,7 +85,9 @@ export function CartFooter({ totals, cart, isTabRoot, disabled, onCheckout, onHe
         )}
       </AnimatePresence>
 
-      {/* invoice — anchored to the footer top, slides from behind it */}
+      {/* invoice — anchored to the footer top, slides from behind it (pushed cart; on the Cart tab it expands inside the
+          floating glass card instead, below) */}
+      {!isTabRoot && (
       <div className={styles.invoiceAnchor}>
         <motion.div
           className={styles.invoice}
@@ -102,8 +107,28 @@ export function CartFooter({ totals, cart, isTabRoot, disabled, onCheckout, onHe
           </div>
         </motion.div>
       </div>
+      )}
 
-      <motion.div ref={footerRef} className={styles.footer} data-open={open || undefined}>
+      <motion.div ref={footerRef} className={`${styles.footer} ${isTabRoot ? styles.glassFooter : ''}`} data-open={open || undefined}>
+        {/* Cart tab (Liquid Glass): the order summary grows out of the floating card — one container expanding upward */}
+        {isTabRoot && (
+          <AnimatePresence initial={false}>
+            {open && (
+              <motion.div
+                key="invoice"
+                className={styles.invoiceExpand}
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ height: { duration: INV.slideMs / 1000, ease: [0.25, 0.1, 0.25, 1] }, opacity: { duration: INV.backdropMs / 1000 } }}
+              >
+                <div className={styles.invoiceScroll}>
+                  <DynamicInvoice sections={sections} />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        )}
         <div className={styles.footerContent}>
           <button type="button" className={styles.nudges} onClick={() => setOpen((v) => !v)} aria-expanded={open}>
             <span className={styles.totalLabel}>{t.total}</span>

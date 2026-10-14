@@ -7,253 +7,37 @@
 - Docs: `../account/SKILL.md` · `../account/spec.md` · `resources/flows/account.md` · `src/flows/account/MAPPING.md`
 - Folder: `src/flows/account/` · tokens `src/flows/account/tokens.ts` (44 flow vars) · store `src/flows/account/store.ts` <!-- count-ok -->
 - Area data / token / helper files: store.ts
-- Enters from: `membership/cancel` → account · `membership/cancelSheet` → account · `membership/confirmOffer` → account · `membership/groupSavings` → account · `membership/leaveFamilyOverlay` → account · `membership/loseAccess` → account · `membership/manage` → account · `membership/planOptions` → account · `membership/unusedSeats` → account
-- Exits to: `membership/manage` (from account) · `noonone/landing` (from account) · `orders/list` (from account) · `wishlist/wishlist` (from account)
+- Enters from: —
+- Exits to: —
 
 ## Screens
 
 | Screen | Presentation | URL | Truth · verified | Module | Tests |
 |---|---|---|---|---|---|
-| `scr:account/account` Account | screen | /account | bappzaar* · never | `AccountScreen.tsx` | 5 |
-| `scr:account/signedOut` Signed out | screen | — | bappzaar* · never | `SignedOutScreen.tsx` | 0 |
-| `scr:account/editProfile` Edit profile | screen | /edit-profile | bappzaar* · never | `EditProfileScreen.tsx` | 0 |
-| `scr:account/birthday` Birthday picker | sheet (classic) | — | bappzaar* · never | `BirthdayPickerSheet.tsx` | 0 |
-| `scr:account/nationality` Nationality list | sheet (classic) | — | bappzaar* · never | `ListSheets.tsx` | 0 |
-| `scr:account/security` Account security | sheet (classic) | /account-security | bappzaar* · never | `SecuritySheet.tsx` | 0 |
-| `scr:account/manageDevices` Manage devices | screen | — | bappzaar* · never | `ManageDevicesScreen.tsx` | 0 |
-| `scr:account/changePassword` Change password | screen | — | bappzaar* · never | `ChangePasswordScreen.tsx` | 0 |
-| `scr:account/deletion` Account deletion | modal | — | bappzaar* · never | `DeletionScreen.tsx` | 0 |
-| `scr:account/deletionReason` Deletion reason | sheet (classic) | — | bappzaar* · never | `ListSheets.tsx` | 0 |
-| `scr:account/notifications` Notifications | sheet (classic) | /notifications | bappzaar* · never | `NotificationsSheet.tsx` | 0 |
-| `scr:account/preferences` Preferences | sheet (classic) | — | bappzaar* · never | `PreferencesSheet.tsx` | 0 |
-| `scr:account/policies` Policies | sheet (classic) | — | bappzaar* · never | `PoliciesSheet.tsx` | 0 |
-| `scr:account/country` Country selector | sheet (classic) | — | bappzaar* · never | `CountrySheet.tsx` | 0 |
-| `scr:account/changeCountry` Change country | modal · fade | — | bappzaar* · never | `ChangeLocaleScreen.tsx` (country) | 0 |
-| `scr:account/changeLanguage` Change language | modal · fade | — | bappzaar* · never | `ChangeLocaleScreen.tsx` (language) | 0 |
-| `scr:account/signOut` Sign out | sheet (classic) | — | bappzaar* · never | `SignOutSheet.tsx` | 0 |
+| `scr:account/account` Account | screen | /account | bappzaar* · never | ? | 0 |
+| `scr:account/signedOut` Signed out | screen | — | bappzaar* · never | ? | 0 |
+| `scr:account/editProfile` Edit profile | screen | /edit-profile | bappzaar* · never | ? | 0 |
+| `scr:account/birthday` Birthday picker | sheet (classic) | — | bappzaar* · never | ? | 0 |
+| `scr:account/nationality` Nationality list | sheet (classic) | — | bappzaar* · never | ? | 0 |
+| `scr:account/security` Account security | sheet (classic) | /account-security | bappzaar* · never | ? | 0 |
+| `scr:account/manageDevices` Manage devices | screen | — | bappzaar* · never | ? | 0 |
+| `scr:account/changePassword` Change password | screen | — | bappzaar* · never | ? | 0 |
+| `scr:account/deletion` Account deletion | modal | — | bappzaar* · never | ? | 0 |
+| `scr:account/deletionReason` Deletion reason | sheet (classic) | — | bappzaar* · never | ? | 0 |
+| `scr:account/notifications` Notifications | sheet (classic) | /notifications | bappzaar* · never | ? | 0 |
+| `scr:account/preferences` Preferences | sheet (classic) | — | bappzaar* · never | ? | 0 |
+| `scr:account/policies` Policies | sheet (classic) | — | bappzaar* · never | ? | 0 |
+| `scr:account/country` Country selector | sheet (classic) | — | bappzaar* · never | ? | 0 |
+| `scr:account/changeCountry` Change country | modal · fade | — | bappzaar* · never | ? (country) | 0 |
+| `scr:account/changeLanguage` Change language | modal · fade | — | bappzaar* · never | ? (language) | 0 |
+| `scr:account/signOut` Sign out | sheet (classic) | — | bappzaar* · never | ? | 0 |
 
 `*` truth inferred from `source`. Tests = journeys + visual references (every screen also runs in `check:routes`). In nav lines, `~` = target resolved through a const / helper / ternary (reachable, runtime-dependent); no mark = a literal `nav.*('…')` call.
 
-## `account/account`
+## `account/account` · `account/signedOut` · `account/editProfile` · `account/birthday` · `account/nationality` · `account/security` · `account/manageDevices` · `account/changePassword` · `account/deletion` · `account/deletionReason` · `account/notifications` · `account/preferences` · `account/policies` · `account/country` · `account/changeCountry` · `account/changeLanguage` · `account/signOut`
 
-- Module `src/flows/account/AccountScreen.tsx` · 13 own files, 49 in the import closure · **imports from other flows:** `src/flows/orders/assets.ts`, `src/flows/orders/data.ts`
+- Module `?` (shared by 17 screens; params pick the state) · 0 own files, 0 in the import closure <!-- count-ok -->
 - Source: bappzaar master ba159e20381: marketplaces/noon/screens/NoonAccountScreen, marketplaces/noon/components/NoonAccount/NoonAccountSignedInState, marketplaces/noon/components/NoonAccount/NoonAccountProfileHeader, marketplace…
-- Styles: account.module.css, inner.module.css
-- Data / helpers: data.ts, store.ts, tokens.ts
-- Shared components: `DottedDivider`, `Lottie`, `NeedHelpButton`, `Pressable`, `ProductImage`, `Screen`, `Spinner`
-- Flow components: `AccountFooter`, `AccountSection`, `AccountSectionItem`, `ActionCards`, `CountryRow`, `EditRing`, `LanguageRow`, `MenuGroup`, `ProfileCard`
-- Tokens (126): colors 19 · flow:account 40 · fontFamily 1 · local 2 · palette 20 · radius 5 · spacing 6 · type 33
-- Motion: `preset/duration.fast`, `preset/easing.backOut`, `preset/easing.out`, `transition/fade`
-- Icons: — · assets 62
-- State / data: `store:account`, `store:demo`, `store:membership`, `data:currency`, `data:formatPrice`, `data:productById`, `data:user`
-- Nav out: push `account/changeLanguage` · sheet `account/country` · push `account/editProfile` · sheet `account/policies` · sheet `account/signOut` · push `membership/manage` · push `noonone/landing` · push `orders/list` · push `wishlist/wishlist`
-- Route strings (data-driven links): `account/notifications`, `account/preferences`, `account/security`, `address/select`, `cards/cards`, `returns/history`
-- `account`: in ← `account/signedOut`, `membership/cancel`, `membership/cancelSheet`, `membership/confirmOffer`, `membership/groupSavings`, `membership/leaveFamilyOverlay`, `membership/loseAccess`, `membership/manage`, `membership/planOptions`, `membership/unusedSeats` · tests `test:journey/account-orders-empty`, `test:journey/back-direct-url`, `test:journey/back-from-pushed`, `test:journey/noonone-start-trial`, `test:visual/account-action-cards-empty` · docs `../orders/spec.md:6-16`, `../orders/spec.md:74-91`, `../returns/spec.md:91-109`, `resources/flows/account.md:5-15`, `../account/spec.md:6-29`, `../account/spec.md:32-50`, `../account/spec.md:63-84`, `../account/spec.md:96-112`, `src/flows/account/MAPPING.md:56-73`
-
-## `account/signedOut`
-
-- Module `src/flows/account/SignedOutScreen.tsx` · 10 own files, 41 in the import closure
-- Source: marketplaces/noon/components/NoonAccount/NoonAccountSignedOutState
-- Styles: account.module.css, inner.module.css
-- Data / helpers: data.ts, store.ts, tokens.ts
-- Shared components: `Button`, `DottedDivider`, `Pressable`, `Screen`, `Spinner`
-- Flow components: `AccountFooter`, `AccountSection`, `AccountSectionItem`, `CountryRow`, `LanguageRow`, `MenuGroup`
-- Tokens (125): colors 19 · flow:account 39 · fontFamily 1 · local 2 · palette 20 · radius 5 · spacing 6 · type 33
-- Motion: `preset/easing.out`, `reduced-motion`, `transition/fade`
-- Icons: — · assets 61
-- State / data: `store:account`, `data:user`
-- Nav out: reset `account/account` · push `account/changeLanguage` · sheet `account/country` · sheet `account/policies`
-- Route strings (data-driven links): `account/notifications`, `account/preferences`, `account/security`, `address/select`, `cards/cards`, `returns/history`
-- `signedOut`: in ← `account/deletion`, `account/signOut` · docs `resources/flows/account.md:5-15`, `../account/spec.md:6-29`, `../account/spec.md:59-62`, `../account/spec.md:96-112`
-
-## `account/editProfile`
-
-- Module `src/flows/account/EditProfileScreen.tsx` · 5 own files, 32 in the import closure
-- Source: marketplaces/noon/screens/NoonAccountScreen/NoonAccountEditProfileScreen, marketplaces/noon/components/NoonAccount/NoonAccountEditProfile/*
-- Styles: inner.module.css
-- Data / helpers: data.ts, store.ts
-- Shared components: `Pressable`, `Screen`, `Spinner`
-- Flow components: —
-- Tokens (94): colors 18 · flow:account 25 · fontFamily 1 · local 2 · palette 10 · radius 5 · spacing 2 · type 31
-- Icons: — · assets 61
-- State / data: `store:account`, `data:user`
-- Nav out: sheet `account/birthday` · sheet `account/nationality`
-- Route strings (data-driven links): `account/notifications`, `account/preferences`, `account/security`, `address/select`, `cards/cards`, `returns/history`
-- `editProfile`: in ← `account/account` · docs `resources/flows/account.md:5-15`, `../account/spec.md:6-29`, `../account/spec.md:32-50`
-
-## `account/birthday`
-
-- Module `src/flows/account/BirthdayPickerSheet.tsx` · 5 own files, 28 in the import closure
-- Source: src/screens/DatePickerScreen + marketplaces/noon/components/NoonAccount/NoonAccountEditProfile/NoonAccountBirthdayPickerContent
-- Styles: inner.module.css
-- Data / helpers: data.ts, store.ts
-- Shared components: `Pressable`
-- Flow components: —
-- Tokens (93): colors 18 · flow:account 25 · fontFamily 1 · local 2 · palette 9 · radius 5 · spacing 2 · type 31
-- Icons: — · assets 61
-- State / data: `store:account`, `data:user`
-- Route strings (data-driven links): `account/notifications`, `account/preferences`, `account/security`, `address/select`, `cards/cards`, `returns/history`
-- `birthday`: in ← `account/editProfile` · docs `resources/flows/account.md:5-15`, `../account/spec.md:6-29`, `../account/spec.md:51-58`
-
-## `account/nationality` · `account/deletionReason`
-
-- Module `src/flows/account/ListSheets.tsx` (shared by 2 screens; params pick the state) · 6 own files, 32 in the import closure <!-- count-ok -->
-- Source: stand-in for noon.PersonalizedExperienceNationalityListingScreen
-- Styles: inner.module.css
-- Data / helpers: data.ts, store.ts
-- Shared components: `DottedDivider`, `Pressable`, `Spinner`
-- Flow components: `AccountSection`, `AccountSectionItem`, `SheetBody`
-- Tokens (94): colors 18 · flow:account 25 · fontFamily 1 · local 2 · palette 10 · radius 5 · spacing 2 · type 31
-- Icons: — · assets 61
-- State / data: `store:account`, `data:user`
-- Route strings (data-driven links): `account/notifications`, `account/preferences`, `account/security`, `address/select`, `cards/cards`, `returns/history`
-- `nationality`: in ← `account/editProfile` · docs `resources/flows/account.md:5-15`, `../account/spec.md:6-29`, `../account/spec.md:51-58`
-- `deletionReason`: in ← `account/deletion` · docs `resources/flows/account.md:5-15`, `../account/spec.md:6-29`, `../account/spec.md:51-58`
-
-## `account/security`
-
-- Module `src/flows/account/SecuritySheet.tsx` · 5 own files, 31 in the import closure
-- Source: marketplaces/noon/components/NoonAccount/NoonAccountInnerScreenContent/NoonAccountSecuritySettings (+ Loader) in noon.NoonAccountBottomSheetScreen (AddressV2FloatingOverlay)
-- Styles: inner.module.css
-- Data / helpers: data.ts
-- Shared components: `DottedDivider`, `Pressable`, `Skeleton`, `Spinner`
-- Flow components: `AccountSection`, `AccountSectionItem`, `SheetBody`
-- Tokens (94): colors 18 · flow:account 25 · fontFamily 1 · local 2 · palette 10 · radius 5 · spacing 2 · type 31
-- Icons: — · assets 61
-- State / data: `data:user`
-- Route strings (data-driven links): `account/changePassword`, `account/deletion`, `account/manageDevices`, `account/notifications`, `account/preferences`, `address/select`, `cards/cards`, `returns/history`
-- `security`: docs `resources/flows/account.md:5-15`, `../account/spec.md:6-29`, `../account/spec.md:63-84`, `../account/spec.md:96-112`
-
-## `account/manageDevices`
-
-- Module `src/flows/account/ManageDevicesScreen.tsx` · 5 own files, 33 in the import closure
-- Source: marketplaces/noon/screens/NoonAccountScreen/NoonAccountSecuritySettingsManageAllDevicesScreen, marketplaces/noon/components/NoonAccount/NoonAccountInnerScreenContent/NoonAccountSecuritySettings/{NoonSecurityScreenHeader…
-- Styles: inner.module.css
-- Data / helpers: data.ts, store.ts
-- Shared components: `DottedDivider`, `Pressable`, `Screen`, `Spinner`
-- Flow components: —
-- Tokens (93): colors 18 · flow:account 25 · fontFamily 1 · local 2 · palette 9 · radius 5 · spacing 2 · type 31
-- Icons: — · assets 61
-- State / data: `store:account`, `data:user`
-- Nav out: sheet `account/signOut`
-- Route strings (data-driven links): `account/notifications`, `account/preferences`, `account/security`, `address/select`, `cards/cards`, `returns/history`
-- `manageDevices`: docs `resources/flows/account.md:5-15`, `../account/spec.md:6-29`, `../account/spec.md:63-84`
-
-## `account/changePassword`
-
-- Module `src/flows/account/ChangePasswordScreen.tsx` · 3 own files, 32 in the import closure
-- Source: features/auth/login/screens/PasswordEditScreen (noon.PasswordEditScreen)
-- Styles: inner.module.css
-- Data / helpers: data.ts
-- Shared components: `Header`, `Icon`, `Pressable`, `Screen`, `Spinner`
-- Flow components: —
-- Tokens (95): colors 19 · flow:account 25 · fontFamily 1 · local 2 · palette 10 · radius 5 · spacing 2 · type 31
-- Icons: — · assets 7
-- State / data: `data:user`
-- Route strings (data-driven links): `account/notifications`, `account/preferences`, `account/security`, `address/select`, `cards/cards`, `returns/history`
-- `changePassword`: docs `resources/flows/account.md:5-15`, `../account/spec.md:6-29`, `../account/spec.md:63-84`
-
-## `account/deletion`
-
-- Module `src/flows/account/DeletionScreen.tsx` · 5 own files, 35 in the import closure
-- Source: marketplaces/noon/screens/NoonAccountDeletionScreen
-- Styles: inner.module.css
-- Data / helpers: data.ts, store.ts
-- Shared components: `Header`, `IconButton`, `Pressable`, `Screen`, `Spinner`
-- Flow components: —
-- Tokens (94): colors 18 · flow:account 25 · fontFamily 1 · local 2 · palette 10 · radius 5 · spacing 2 · type 31
-- Icons: — · assets 61
-- State / data: `store:account`, `data:user`
-- Nav out: sheet `account/deletionReason` · reset `account/signedOut`
-- Route strings (data-driven links): `account/notifications`, `account/preferences`, `account/security`, `address/select`, `cards/cards`, `returns/history`
-- `deletion`: docs `resources/flows/account.md:5-15`, `../account/spec.md:6-29`, `../account/spec.md:63-84`
-
-## `account/notifications`
-
-- Module `src/flows/account/NotificationsSheet.tsx` · 6 own files, 34 in the import closure
-- Source: marketplaces/noon/components/NoonAccount/NoonAccountInnerScreenContent/NoonAccountNotificationsSettings in noon.NoonAccountBottomSheetScreen (AddressV2FloatingOverlay)
-- Styles: inner.module.css
-- Data / helpers: data.ts, store.ts
-- Shared components: `DottedDivider`, `Pressable`, `Spinner`, `Switch`
-- Flow components: `AccountSection`, `SheetBody`, `SheetButtons`
-- Tokens (94): colors 18 · flow:account 25 · fontFamily 1 · local 2 · palette 10 · radius 5 · spacing 2 · type 31
-- Motion: `preset/spring.gentle`
-- Icons: — · assets 61
-- State / data: `store:account`, `data:user`
-- Route strings (data-driven links): `account/preferences`, `account/security`, `address/select`, `cards/cards`, `returns/history`
-- `notifications`: docs `resources/flows/account.md:5-15`, `../account/spec.md:6-29`, `../account/spec.md:63-84`, `../account/spec.md:96-112`
-
-## `account/preferences`
-
-- Module `src/flows/account/PreferencesSheet.tsx` · 6 own files, 34 in the import closure
-- Source: marketplaces/noon/components/NoonAccount/NoonAccountInnerScreenContent/NoonAccountPreferences (+ NoonAccountClearCacheConfirmation) in noon.NoonAccountBottomSheetScreen (AddressV2FloatingOverlay)
-- Styles: inner.module.css
-- Data / helpers: data.ts, store.ts
-- Shared components: `DottedDivider`, `Pressable`, `Spinner`, `Switch`
-- Flow components: `AccountSection`, `AccountSectionItem`, `SheetBody`, `SheetButtons`
-- Tokens (94): colors 18 · flow:account 25 · fontFamily 1 · local 2 · palette 10 · radius 5 · spacing 2 · type 31
-- Icons: — · assets 61
-- State / data: `store:account`, `data:user`
-- Route strings (data-driven links): `account/notifications`, `account/security`, `address/select`, `cards/cards`, `returns/history`
-- `preferences`: docs `resources/flows/account.md:5-15`, `../account/spec.md:6-29`, `../account/spec.md:63-84`
-
-## `account/policies`
-
-- Module `src/flows/account/PoliciesSheet.tsx` · 6 own files, 32 in the import closure
-- Source: marketplaces/noon/components/NoonAccount/NoonAccountInnerScreenContent/NoonAccountPolicies in noon.NoonAccountBottomSheetScreen (AddressV2FloatingOverlay)
-- Styles: inner.module.css
-- Data / helpers: data.ts, store.ts
-- Shared components: `DottedDivider`, `Pressable`, `Spinner`
-- Flow components: `AccountSection`, `AccountSectionItem`, `SheetBody`
-- Tokens (94): colors 18 · flow:account 25 · fontFamily 1 · local 2 · palette 10 · radius 5 · spacing 2 · type 31
-- Icons: — · assets 61
-- State / data: `store:account`, `data:user`
-- Route strings (data-driven links): `account/notifications`, `account/preferences`, `account/security`, `address/select`, `cards/cards`, `returns/history`
-- `policies`: in ← `account/account`, `account/signedOut` · docs `resources/flows/account.md:5-15`, `../account/spec.md:6-29`
-
-## `account/country`
-
-- Module `src/flows/account/CountrySheet.tsx` · 6 own files, 32 in the import closure
-- Source: marketplaces/noon/components/NoonAccount/NoonAccountInnerScreenContent/NoonAccountCountrySelector in noon.NoonAccountBottomSheetScreen (AddressV2FloatingOverlay)
-- Styles: inner.module.css
-- Data / helpers: data.ts, store.ts
-- Shared components: `DottedDivider`, `Pressable`, `Spinner`
-- Flow components: `AccountSection`, `AccountSectionItem`, `SheetBody`
-- Tokens (94): colors 18 · flow:account 25 · fontFamily 1 · local 2 · palette 10 · radius 5 · spacing 2 · type 31
-- Motion: `transition/fade`
-- Icons: — · assets 61
-- State / data: `store:account`, `data:user`
-- Nav out: push `account/changeCountry`
-- Route strings (data-driven links): `account/notifications`, `account/preferences`, `account/security`, `address/select`, `cards/cards`, `returns/history`
-- `country`: in ← `account/account`, `account/signedOut` · docs `resources/flows/account.md:5-15`, `../account/spec.md:6-29`
-
-## `account/changeCountry` · `account/changeLanguage`
-
-- Module `src/flows/account/ChangeLocaleScreen.tsx` (shared by 2 screens; params pick the state) · 4 own files, 27 in the import closure <!-- count-ok -->
-- Source: marketplaces/noon/screens/NoonAccountScreen/NoonAccountChangeCountryAnimationScreen
-- Styles: inner.module.css
-- Data / helpers: data.ts, store.ts
 - Shared components: —
 - Flow components: —
-- Tokens (93): colors 18 · flow:account 25 · fontFamily 1 · local 2 · palette 9 · radius 5 · spacing 2 · type 31
-- Motion: `transition/fade`
-- Icons: — · assets 10
-- State / data: `store:account`, `data:user`
-- Route strings (data-driven links): `account/notifications`, `account/preferences`, `account/security`, `address/select`, `cards/cards`, `returns/history`
-- `changeCountry`: in ← `account/country` · docs `resources/flows/account.md:5-15`, `../account/spec.md:6-29`
-- `changeLanguage`: in ← `account/account`, `account/signedOut` · docs `resources/flows/account.md:5-15`, `../account/spec.md:6-29`
-
-## `account/signOut`
-
-- Module `src/flows/account/SignOutSheet.tsx` · 6 own files, 32 in the import closure
-- Source: marketplaces/noon/components/NoonAccount/NoonAccountInnerScreenContent/NoonAccountSignOutConfirmation in noon.NoonAccountBottomSheetScreen (AddressV2FloatingOverlay)
-- Styles: inner.module.css
-- Data / helpers: data.ts, store.ts
-- Shared components: `DottedDivider`, `Pressable`, `Spinner`
-- Flow components: `SheetBody`, `SheetButtons`
-- Tokens (94): colors 18 · flow:account 25 · fontFamily 1 · local 2 · palette 10 · radius 5 · spacing 2 · type 31
-- Icons: — · assets 61
-- State / data: `store:account`, `data:user`
-- Nav out: reset `account/signedOut`
-- Route strings (data-driven links): `account/notifications`, `account/preferences`, `account/security`, `address/select`, `cards/cards`, `returns/history`
-- `signOut`: in ← `account/account`, `account/manageDevices` · docs `resources/flows/account.md:5-15`, `../account/spec.md:6-29`, `../account/spec.md:51-58`
+- Tokens (0): —

@@ -39,7 +39,8 @@ export const addressFlow = defineFlow({
       title: 'Address Book (bottom sheet)',
       component: SelectScreen,
       presentation: 'modal',
-      transition: 'fade',
+      // the overlay animates itself in and out (springs up, slides back down); the screen layer stays put
+      transition: 'none',
       transparent: true,
       defaultParams: { isBottomSheet: true },
       parent: 'home/home',

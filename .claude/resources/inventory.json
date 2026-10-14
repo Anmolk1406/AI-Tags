@@ -1,29 +1,30 @@
 {
   "generatedBy": ".claude/resources/scripts/build.mjs",
   "totals": {
-    "flows": 17,
-    "screens": 152,
-    "routes": 152,
+    "flows": 18,
+    "screens": 156,
+    "routes": 156,
     "largestFlow": 24,
     "byCoverage": {
       "spec": 11,
-      "brief": 6
+      "brief": 6,
+      "none": 1
     },
     "byLabel": {
-      "reference-backed": 150,
+      "reference-backed": 154,
       "kit-backed": 2,
       "inferred": 0
     },
     "byTruth": {
       "mixed": 6,
-      "bappzaar": 134,
-      "reference": 2,
+      "bappzaar": 135,
+      "reference": 5,
       "figma": 10
     },
-    "truthExplicit": 15,
+    "truthExplicit": 19,
     "truthInferred": 137,
-    "verified": 5,
-    "unverified": 147
+    "verified": 6,
+    "unverified": 150
   },
   "labelMapping": {
     "reference-backed": "truth bappzaar / figma / mixed / reference, explicit or inferred from a recognisable source (bappzaar master path, Figma <fileKey> · <node>, or reference: / link)",
@@ -831,7 +832,7 @@
           "truth": "bappzaar",
           "truthExplicit": false,
           "label": "reference-backed",
-          "verified": null,
+          "verified": "2026-10-14",
           "source": "marketplaces/noon/screens/NoonOrderConfirmationV3Screen, marketplaces/noon/components/NoonShipmentV2, NoonOrderConfirmationAddress, NoonNotificationsBanner"
         },
         {
@@ -2446,6 +2447,73 @@
           "label": "reference-backed",
           "verified": null,
           "source": "marketplaces/noon/screens/NoonWishlistV2CollectionOptionScreen"
+        }
+      ]
+    },
+    {
+      "id": "fieldds",
+      "title": "Field Design System",
+      "group": "Design system",
+      "initial": "fieldds/gallery",
+      "screenCount": 4,
+      "coverage": "none",
+      "docs": {
+        "mapping": [],
+        "brief": null,
+        "skills": [],
+        "specs": [],
+        "blueprint": null
+      },
+      "states": {
+        "documented": [],
+        "registered": {},
+        "missing": [],
+        "heuristic": true
+      },
+      "screens": [
+        {
+          "route": "fieldds/gallery",
+          "title": "Field components",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "reference",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "reference: github.com/ayaneshu/field-design-system packages/components/src (Button, IconButton, PageHeader, Checkbox, Radio, Toggle, Switch, FilterChip, InfoBanner, RatingInput, SearchBar, InputText, InputTextarea, ListItem, Accordion, Divider, ActionBar, Toast)"
+        },
+        {
+          "route": "fieldds/sheet",
+          "title": "Bottom sheet + action bar",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "reference",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "reference: github.com/ayaneshu/field-design-system packages/components/src/BottomSheet, ActionBar"
+        },
+        {
+          "route": "fieldds/tabs",
+          "title": "Bottom navigation",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "reference",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "reference: github.com/ayaneshu/field-design-system packages/components/src/BottomNav"
+        },
+        {
+          "route": "fieldds/glass",
+          "title": "Liquid Glass",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "bappzaar origin/noon/ios/liquid-upgrade: marketplaces/noon/NoonApp.ts (getTab iOS 26), src/utils/BottomTabs/ScrollVisibilityProvider.ts, marketplaces/noon/components/NoonNativeStickyBar (embedded), ios/noon/NoonStickyBar/NoonStickyBarComponentView.mm"
         }
       ]
     }

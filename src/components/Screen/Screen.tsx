@@ -1,4 +1,4 @@
-import { forwardRef, type CSSProperties, type ReactNode } from 'react';
+import { forwardRef, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import styles from './Screen.module.css';
 import { ref as tok, spacing } from '../../foundations/tokens';
 
@@ -24,12 +24,28 @@ export interface ScreenLayoutProps {
   contentStyle?: CSSProperties;
   /** floats over the content, above the footer (e.g. NeedHelpButton); the layer itself lets taps through */
   overlay?: ReactNode;
+  /**
+   * The footer floats over the content (bappzaar NoonNativeStickyBar: the list scrolls behind the sticky bar) instead
+   * of sitting below it; the content is padded by the footer's height. Use with see-through footers
+   * (`ActionBar surface="glass"`).
+   */
+  floatingFooter?: boolean;
 }
 
 export const Screen = forwardRef<HTMLDivElement, ScreenLayoutProps>(function Screen(
-  { header, footer, children, background = 'bgPage', safeTop = !header, overlayHeader, withTabBar, padded, gap, onScroll, contentStyle, overlay },
+  { header, footer, children, background = 'bgPage', safeTop = !header, overlayHeader, withTabBar, padded, gap, onScroll, contentStyle, overlay, floatingFooter },
   ref,
 ) {
+  const footerRef = useRef<HTMLDivElement>(null);
+  const [footerH, setFooterH] = useState(0);
+  useLayoutEffect(() => {
+    const el = footerRef.current;
+    if (!floatingFooter || !el) return;
+    // absolute → its own formatting context: offsetHeight includes the footer's bottom margin (e.g. ActionBar aboveTabBar)
+    const ro = new ResizeObserver(() => setFooterH(el.offsetHeight));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [floatingFooter]);
   const bg = /^[a-z][a-zA-Z0-9]*$/.test(background) ? `var(--nk-color-${background.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()})` : background;
   return (
     <div className={styles.screen} style={{ background: bg }}>
@@ -37,10 +53,12 @@ export const Screen = forwardRef<HTMLDivElement, ScreenLayoutProps>(function Scr
       <div
         ref={ref}
         className={`nk-scroll ${styles.content}`}
+        // the glass TabBar's hide-on-scroll follows this element (not the rails inside it)
+        data-screen-scroll=""
         onScroll={onScroll ? (e) => onScroll(e.currentTarget.scrollTop) : undefined}
         style={{
           paddingTop: safeTop ? 'var(--nk-inset-top)' : undefined,
-          paddingBottom: footer ? spacing.s16 : withTabBar ? `calc(${tok.layout('tabBar')} + var(--nk-inset-bottom) + ${tok.space('s16')})` : `calc(var(--nk-inset-bottom) + ${tok.space('s16')})`,
+          paddingBottom: footer && floatingFooter ? footerH + spacing.s16 : footer ? spacing.s16 : withTabBar ? `calc(${tok.layout('tabBar')} + var(--nk-inset-bottom) + ${tok.space('s16')})` : `calc(var(--nk-inset-bottom) + ${tok.space('s16')})`,
           paddingInline: padded ? spacing.s12 : undefined,
           gap,
           display: gap !== undefined ? 'flex' : undefined,
@@ -50,7 +68,11 @@ export const Screen = forwardRef<HTMLDivElement, ScreenLayoutProps>(function Scr
       >
         {children}
       </div>
-      {footer && <div className={styles.footer}>{footer}</div>}
+      {footer && (
+        <div ref={footerRef} className={floatingFooter ? styles.floatingFooter : styles.footer}>
+          {footer}
+        </div>
+      )}
       {overlay && <div className={styles.overlay}>{overlay}</div>}
     </div>
   );

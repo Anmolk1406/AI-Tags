@@ -4,7 +4,7 @@
 
 Quote counts from here instead of typing them: `scripts/check-inventory.mjs` fails when a doc states a flow / screen / route count the registry disagrees with.
 
-**17 flows · 152 screens (routes).** Coverage: 11 spec · 6 brief. Provenance: 150 reference-backed · 2 kit-backed · 0 inferred. Truth: 6 mixed · 134 bappzaar · 2 reference · 10 figma (15 explicit, 137 inferred from `source`). Verified side by side: 5 of 152.
+**18 flows · 156 screens (routes).** Coverage: 11 spec · 6 brief · 1 none. Provenance: 154 reference-backed · 2 kit-backed · 0 inferred. Truth: 6 mixed · 135 bappzaar · 5 reference · 10 figma (19 explicit, 137 inferred from `source`). Verified side by side: 6 of 156.
 
 ## Labels
 
@@ -29,7 +29,7 @@ Coverage: `spec` = a screen skill with `spec.md` covers the flow · `brief` = a 
 | `plp` Product listing (PLP) | 3 | spec | `.claude/skills/search/spec.md` | `.claude/resources/flows/plp.md` | `MAPPING.md` | 1/3 | 3 reference-backed |
 | `pdp` Product page (PDP) | 4 | spec | `.claude/skills/pdp/spec.md` | `.claude/resources/flows/pdp.md` | `FIGMA-MAPPING.md`, `MAPPING.md` | 1/4 | 4 reference-backed |
 | `cart` Cart | 9 | spec | `.claude/skills/cart/spec.md` | `.claude/resources/flows/cart.md` | `FIGMA-MAPPING.md`, `components/couponTray/MAPPING.md` | 1/9 | 9 reference-backed |
-| `checkout` Checkout | 22 | spec | `.claude/skills/checkout/spec.md` | `.claude/resources/flows/checkout.md` | `FIGMA-MAPPING.md`, `MAPPING.md` | 0/22 | 22 reference-backed |
+| `checkout` Checkout | 22 | spec | `.claude/skills/checkout/spec.md` | `.claude/resources/flows/checkout.md` | `FIGMA-MAPPING.md`, `MAPPING.md` | 1/22 | 22 reference-backed |
 | `orders` Orders | 4 | spec | `.claude/skills/orders/spec.md` | `.claude/resources/flows/orders.md` | `MAPPING.md` | 0/4 | 4 reference-backed |
 | `returns` Returns | 5 | spec | `.claude/skills/returns/spec.md` | `.claude/resources/flows/other-flows.md#returns` | `MAPPING.md` | 0/5 | 5 reference-backed |
 | `reviews` Ratings & reviews | 9 | spec | `.claude/skills/reviews/spec.md` | `.claude/resources/flows/reviews.md` | `MAPPING.md` | 0/9 | 9 reference-backed |
@@ -39,6 +39,7 @@ Coverage: `spec` = a screen skill with `spec.md` covers the flow · `brief` = a 
 | `noonone` noon One | 22 | spec | `.claude/skills/noon-one/spec.md` | `.claude/resources/flows/other-flows.md#noonone` | `MAPPING.md` | 0/22 | 22 reference-backed |
 | `membership` noon One membership | 24 | brief | — | `.claude/resources/flows/other-flows.md#membership` | `MAPPING.md`, `perks/MAPPING.md` | 0/24 | 24 reference-backed |
 | `wishlist` Wishlist | 5 | brief | — | `.claude/resources/flows/other-flows.md#wishlist` | `MAPPING.md` | 0/5 | 5 reference-backed |
+| `fieldds` Field Design System | 4 | none | — | — | — | 0/4 | 4 reference-backed |
 
 ## States (detected heuristically)
 
@@ -63,8 +64,9 @@ Documented = the word appears in the flow's spec or brief. Registered = a screen
 | `noonone` | loading, empty, error, success | error: `noonone/acceptInviteError`; success: `noonone/success`, `noonone/ocOne` | loading, empty |
 | `membership` | — | — | — |
 | `wishlist` | loading, empty, error | loading: `wishlist/loading`; empty: `wishlist/empty` | error |
+| `fieldds` | — | — | — |
 
-## Screens with no `verified` date (147)
+## Screens with no `verified` date (150)
 
 Never compared side by side with their reference, as far as the registry records. Only set `verified` after a real comparison.
 
@@ -75,7 +77,7 @@ Never compared side by side with their reference, as far as the registry records
 - `plp` (2): `filters`, `sort`
 - `pdp` (3): `deliveryVariants`, `variants`, `added`
 - `cart` (8): `empty`, `loading`, `variants`, `customize`, `couponTray`, `discount`, `bundles`, `updates`
-- `checkout` (22): `checkout`, `promise-info`, `cards-select`, `add-card`, `special-emis`, `emi-plans`, `alternate-phone`, `alternate-phone-contacts`, `learn-more`, `burn-providers`, `provider-burn`, `provider-burn-otp`, `donation-learn-more`, `earn`, `provider-earn`, `provider-earn-help`, `installation`, `placing`, `confirmation`, `track-steps`, `payment-failure`, `payment-failure-help`
+- `checkout` (21): `checkout`, `promise-info`, `cards-select`, `add-card`, `special-emis`, `emi-plans`, `alternate-phone`, `alternate-phone-contacts`, `learn-more`, `burn-providers`, `provider-burn`, `provider-burn-otp`, `donation-learn-more`, `earn`, `provider-earn`, `provider-earn-help`, `installation`, `placing`, `track-steps`, `payment-failure`, `payment-failure-help`
 - `orders` (4): `list`, `tracking`, `updates`, `cancel`
 - `returns` (5): `history`, `returnable`, `submit`, `summary`, `details`
 - `reviews` (9): `rate`, `aiLoader`, `draft`, `draftB`, `new`, `pastOrders`, `submitted`, `deck`, `slider`
@@ -85,6 +87,7 @@ Never compared side by side with their reference, as far as the registry records
 - `noonone` (22): `landing`, `success`, `plans`, `planDetails`, `trialGuide`, `planOption`, `familyPlans`, `payment`, `addCard`, `addCvv`, `mobilePay`, `info`, `generic`, `offers`, `partnerOffer`, `confirmOffer`, `confirmVoucher`, `bundle`, `acceptInvite`, `acceptInviteError`, `cartOverlay`, `ocOne`
 - `membership` (24): `manage`, `upgrade`, `reviewPlan`, `switchPlan`, `info`, `changePlan`, `invoice`, `cancel`, `cancelSheet`, `unusedSeats`, `planOptions`, `groupSavings`, `loseAccess`, `leaveFamilyOverlay`, `confirmOffer`, `familyPlans`, `familyReview`, `shareInvite`, `removeMember`, `leaveFamily`, `referrals`, `referralsInput`, `partner`, `yangoCredits`
 - `wishlist` (5): `wishlist`, `no-collections`, `empty`, `loading`, `options`
+- `fieldds` (4): `gallery`, `sheet`, `tabs`, `glass`
 
 ## Truth inferred from `source` (137)
 

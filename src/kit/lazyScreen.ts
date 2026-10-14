@@ -1,4 +1,4 @@
-import { lazy, type ComponentType } from 'react';
+import { createElement, lazy, useState, type ComponentType } from 'react';
 import type { ScreenProps } from './types';
 
 type Loader = () => Promise<Record<string, unknown>>;
@@ -13,10 +13,23 @@ const loaders: Loader[] = [];
 export function lazyScreen<P = any>(load: Loader, name: string): ComponentType<ScreenProps<P>> & { preload: () => Promise<unknown> } {
   // one shared promise: preload() and the first render reuse the same download
   let pending: Promise<Record<string, unknown>> | undefined;
-  const once = () => (pending ??= load());
+  let loaded: ComponentType<ScreenProps<P>> | undefined;
+  const once = () =>
+    (pending ??= load().then((m) => {
+      loaded = m[name] as ComponentType<ScreenProps<P>>;
+      return m;
+    }));
   loaders.push(once);
-  const C = lazy(() => once().then((m) => ({ default: m[name] as ComponentType<ScreenProps<P>> })));
-  return Object.assign(C, { preload: once });
+  const Lazy = lazy(() => once().then(() => ({ default: loaded! })));
+  // Once the module is in, render it directly: React.lazy suspends on its first render even when the code is already
+  // downloaded, and React holds a suspended commit ~300ms — a sheet then rises empty and its content pops in mid-spring.
+  // The choice is made once per mount, so a screen never swaps component (and loses state) under the user.
+  function Screen(props: ScreenProps<P>) {
+    const [C] = useState(() => loaded ?? Lazy);
+    return createElement(C, props);
+  }
+  Screen.displayName = name;
+  return Object.assign(Screen, { preload: once });
 }
 
 /**

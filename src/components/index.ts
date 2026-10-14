@@ -37,3 +37,10 @@ export * from './MaskIcon/MaskIcon';
 export * from './SkuCard/SkuCard';
 export * from './BottomSheet/BottomSheet';
 export * from './Snackbar/Snackbar';
+// Field Design System (coded Origin DS) components with no earlier kit counterpart
+export * from './Radio/Radio';
+export * from './ActionBar/ActionBar';
+export * from './Accordion/Accordion';
+export * from './TextField/TextField';
+export * from './TextArea/TextArea';
+export * from './Glass/Glass';

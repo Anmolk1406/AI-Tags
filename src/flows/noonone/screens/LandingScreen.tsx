@@ -4,7 +4,7 @@ import shimmerLottie from '@assets/vip/vip-loading-shimmer.lottie';
 import greenCheck from '@assets/vip/one-green-check.webp';
 import { Screen } from '../../../components';
 import { membershipStore, noonOneJourneyActions, useIsNoonOneMember, useMembership, useMembershipEligibility } from '../../../kit/membership';
-import { useNav } from '../../../kit/Navigator';
+import { useIsTop, useNav } from '../../../kit/Navigator';
 import { CURRENCY, defaultPlan, findPlan, successMessage, toMembershipPlan, withEligibility } from '../data';
 import {
   benefitsModule,
@@ -68,7 +68,7 @@ export function LandingScreen() {
   const contentAnim = useMotionValue<number>(0);
   const contentY = useMotionValue<number>(0);
   const contentOpacity = useMotionValue<number>(1);
-  const isTop = nav.stack.at(-1)?.route === nav.route;
+  const isTop = useIsTop();
 
   // VIPService.getVIPTouchpoints('landingV2') under the VIPSkeletonLoader lottie
   useEffect(() => {

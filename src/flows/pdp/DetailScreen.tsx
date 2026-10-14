@@ -1,7 +1,7 @@
 import { animate, motion, useMotionValueEvent, useScroll } from 'motion/react';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Screen } from '../../components';
-import { useNav } from '../../kit/Navigator';
+import { useIsTop, useNav } from '../../kit/Navigator';
 import { useTabBarScrollHide } from '../../kit/tabBarScroll';
 import type { ScreenProps } from '../../kit/types';
 import { categoryPath, isInCategory } from '../../data';
@@ -82,7 +82,7 @@ export function DetailScreen({ params }: ScreenProps<{ productId: string; delive
   const [optionsLoading, setOptionsLoading] = useState(false);
   // BottomTabScrollVisibilityProvider (NoonProductDetails onScroll / onScrollEndDrag): the tab bar hides on scroll down
   // and the sticky bar follows it down
-  const isTop = nav.stack[nav.stack.length - 1]?.route === nav.route;
+  const isTop = useIsTop();
   const tabs = useTabBarScrollHide(scrollRef, isTop);
   // In-place SKU switch keeps the variant picker where the finger is: the sections above it differ in height between
   // SKUs (bundle, sponsored, delivery, gifts), so the page would otherwise jump. Record its screen top before the

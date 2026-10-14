@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
 import atcLoader from '@assets/cart/atc-loader-animation.lottie';
-import { Lottie, OriginIcon, TabBar } from '../../../../components';
+import { GlassFade, Lottie, OriginIcon, TabBar } from '../../../../components';
 import { layout } from '../../../../foundations/tokens';
 import { useDemoStore } from '../../../../kit/DemoStore';
 import { useNav } from '../../../../kit/Navigator';
@@ -19,6 +19,9 @@ import styles from './SfAtcBar.module.css';
  * r10, 14/700/20 white) + "Add to cart" (accentColor, r10), the two buttons sharing the width · the 5-tab bar (kit TabBar,
  * Home active) over the home-indicator inset. Buy now = bappzaar NoonAddToCartQuantity.onBuyNowPress (the Buy Now
  * overlay checkout): adds the chosen quantity and goes straight to checkout; `buyNow={false}` hides it.
+ * Liquid Glass (bappzaar noon/ios/liquid-upgrade, NoonProductDetails isLiquidGlass): the card floats — the glass tab
+ * bar's width (inset 21), r16 on all corners, NoonAddToCartQuantity buttons p8 / 12 — docked FLOATING_BOTTOM_GAP above
+ * the bar and following it; the surface is the tab bar's glass material (bappzaar: white + 0 −2 6 at 0.08).
  * "Back to top" (Pill Button 3499:75878) floats 48 above. Replaces AtcBar (same props): add → loader →
  * addToCart → `pdp/added` sheet; `interceptAdd` (size missing) wins; QTY opens the quantity chips.
  */
@@ -53,7 +56,8 @@ export function SfAtcBar({ product, showBackToTop, onBackToTop, interceptAdd, bu
   };
 
   return (
-    <div className={styles.sticky}>
+    <div className={styles.sticky} data-glass-footer="">
+      <GlassFade className={styles.fade} />
       <AnimatePresence>
         {showBackToTop && !selectorOpen && (
           <motion.div key="btt" className={styles.backToTopWrap} initial={false} exit={{ opacity: 0, transition: { duration: 0 } }}>
@@ -103,10 +107,10 @@ export function SfAtcBar({ product, showBackToTop, onBackToTop, interceptAdd, bu
             )}
           </button>
         </div>
+      </div>
 
-        <div className={styles.tabs}>
-          <TabBar active="home" />
-        </div>
+      <div className={styles.tabs}>
+        <TabBar active="home" />
       </div>
     </div>
   );

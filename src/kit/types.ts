@@ -93,8 +93,13 @@ export interface FlowDef {
   sheetBackdrop?: Route;
   /** where Back goes from this flow's screens when they're opened directly (no history). Default: home, except tab roots (no back). */
   parent?: Route;
-  /** show the bottom tab bar on these screens */
-  tabBar?: { tab: TabId; screens: string[] };
+  /** show the bottom tab bar on these screens; `variant: 'field'` = opt-in Field DS M-Bottomnav look (default: bappzaar bar) */
+  /**
+   * Bottom tabs on these screens. `variant`: unset = Liquid Glass (bappzaar liquid-upgrade), `'classic'` = the opaque
+   * pre-iOS-26 bar, `'field'` = Field DS M-Bottomnav. `scrollHide` (glass, default true): the bar slides off while the
+   * screen scrolls down and returns on scroll up / at the top (ScrollVisibilityProvider).
+   */
+  tabBar?: { tab: TabId; screens: string[]; variant?: 'classic' | 'field'; scrollHide?: boolean };
 }
 
 export type TabId = 'home' | 'categories' | 'deals' | 'account' | 'cart';
@@ -116,7 +121,8 @@ export interface StackEntry {
 export interface ToastOptions {
   /** leading asset (icon / avatar, 20–40) */
   icon?: ReactNode;
-  action?: { label: string; onPress: () => void };
+  /** trailing button, or `'close'` for the Field M-Toast round ✕ (dismisses this toast) */
+  action?: { label: string; onPress: () => void } | 'close';
   duration?: number;
   /** M-Toast Type: dark (default) · light · error · success. Wins over `tone`. */
   type?: 'dark' | 'light' | 'error' | 'success';

@@ -20,7 +20,7 @@ The contract a search or results build must meet. There is no Figma for search: 
 |---|---|---|---|
 | 1 | Header | custom block in `SearchScreen.tsx` + `SearchInput` (`src/components/SearchBar/SearchBar.tsx`) | `ref.color('bgSurface')`, padding `calc(var(--nk-inset-top) + 4px) 16px 12px`; back arrow, autofocus, placeholder "What are you looking for?", camera icon swaps to a clear (x) once the value is non-empty; Enter → `onSubmit` |
 | 2 | Recent searches | `RecentSearches` (`src/flows/search/components/RecentSearches.tsx`) | title "Recent Searches" `Text variant="section" color="textStrong"` + Edit / Done; `nk-hscroll` gap 12, padding `0 16px`; tiles `searchTokens.recentItemWidth` (390 ÷ 5.2 = 75) wide, image h = w × 1.2, r = w ÷ 10, per-item tint, overlay `--nk-color-image-overlay`, 2-line label in `--nk-palette-new-black` |
-| 3 | Trending searches | `Text variant="section"` + `Pill variant="tag" icon="flame"` (`src/components/Pill/Pill.tsx`) | title padding `0 16px`, gap 12 to the pills; pills wrap, gap 8, padding `0 16px` |
+| 3 | Trending searches | `Text variant="section"` + `Pill variant="tag" icon="trendingUp"` (`src/components/Pill/Pill.tsx`) | title padding `0 16px`, gap 12 to the pills; pills wrap, gap 8, padding `0 16px` |
 | — | Presearch layout | `motion.div` in `SearchScreen.tsx` | column, gap 24 between sections, `paddingTop: 8` |
 | 4 | Suggestions (typing) | `SuggestionRow` (`src/flows/search/components/SuggestionRow.tsx`) in 8 fixed slots, each wrapped in `BlurSwap` | overlays presearch (absolute), list padding `4px 12px`, rows 8 apart; row min-height 44 (`searchTokens.suggestionRowHeight`), r12; 48×48 `ProductImage` (r6, `--nk-color-border-subtle` border) or 18px search icon; text `body` in `--nk-color-text-legacy`, match bold 700 `--nk-color-text-strong`; "in {category}" `text12MediumLh16` in `--nk-color-badge`; trailing `arrowUp` rotated −45° in `--nk-color-text-secondary` |
 | 5 | No suggestion match | one `SuggestionRow` | text `Search for "{q}"`, padding `24px 4px`, fades in; press → results for `q` |
@@ -115,7 +115,7 @@ All values: `handoff` (`src/motion/presets.ts`), `searchTokens`, `plpTokens.time
 
 - [ ] Routes registered; `/search` and `/plp` open the screens; `check:routes` clean.
 - [ ] Header is `SearchInput` in the custom `bgSurface` block; no `<Header>` on search.
-- [ ] Presearch: recents 75 wide, image ratio 1.2, edit mode wobbles and deletes; trending `Pill variant="tag" icon="flame"`, gap 8.
+- [ ] Presearch: recents 75 wide, image ratio 1.2, edit mode wobbles and deletes; trending `Pill variant="tag" icon="trendingUp"`, gap 8.
 - [ ] Typing swaps to `SuggestionRow`s that stagger in with `searchTokens.rowEnterDelay` / `rowStagger`; match bold; fill arrow doesn't navigate.
 - [ ] Every query path goes through `go()` → `plp/listing { query }`; nothing dead.
 - [ ] PLP: search bar at the search screen's spot, `MarketplaceStrip`, `RevealChip` pill row, `SkeletonReveal` `ProductBoxVertical` grid (2 cols, gap 12, 177 × 241 image boxes, equal-height rows), sort reorders with layout, filters commit only on Show.

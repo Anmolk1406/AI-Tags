@@ -199,13 +199,16 @@ One folder per product: `src/data/products/<id>/product.ts` (`defineProduct({ �
 | `popToRoot` | `() => void` | keeps `stack[0]` |
 | `reset` | `(route, params?)` | new stack (fade). Post-order exits: `nav.reset('home/home')`, `nav.reset('orders/list')` |
 | `switchTab` | `(tab: TabId)` | stack = `[TAB_ROUTES[tab]]`, no transition |
+| `preload` | `(...routes: Route[])` | fetch those screens' code now (full `flow/screen` routes) so they open without an empty frame; call once on mount (`plp/listing` → `plp/filters`, `plp/sort`) |
 | `toast` | `(message, opts?: { icon?, action?: { label, onPress }, duration? = 2600, tone?: 'default' \| 'success' \| 'error' })` | max 2 visible |
 | `canGoBack` | `boolean` | stack > 1 or a logical parent exists; `Header` shows back from this |
 | `route`, `params`, `flowId` | of the calling screen | |
 | `isRoot` | `boolean` | screen is `stack[0]` (tab root) |
 | `stack` | `StackEntry[]` | `{ key, route, params, presentation, transition }` |
 
-`useParams<P>()` → `useNav().params as P`. Screens also get `params` as a prop (`ScreenProps<P>`). Params arrive as strings when opened by URL (`?empty=1`).
+`useParams<P>()` → `useNav().params as P`.
+
+**Re-renders.** A screen re-renders on navigation only if its render reads `stack`, `canGoBack` or `isRoot`; screens that only call `push` / `back` / `toast` keep their tree when something opens over them (the Navigator memoises each entry). Read the stack inside handlers, not in render, when you only need it on tap (`const onEdit = () => { const at = nav.stack…; }`) — handlers always get the live stack. For "is this screen on top?" use `useIsTop()` (`src/kit/Navigator.tsx`), not `nav.stack.at(-1)?.route === nav.route`: it re-renders only when the flag flips and holds still while the screen animates out. Screens also get `params` as a prop (`ScreenProps<P>`). Params arrive as strings when opened by URL (`?empty=1`).
 
 Presentations:
 
@@ -240,7 +243,7 @@ File: `src/flows/search/SearchScreen.tsx` (82).
 
 | id | title | shows |
 |---|---|---|
-| `search` | Search | `slide-left` push. Header `SearchInput` (back, autofocus, `fill`, submit → `plp/listing { query }` with `results-fade`). Empty → presearch: `RecentSearches` (edit mode wobble + delete) + "Trending searches" `Pill variant="tag" icon="flame"` (first: "phone"). Typing → `SuggestionRow`s fall in from −20px top → bottom, changed rows crossfade in place (`BlurSwap`), match bolded; no match → "Search for …" row; cleared → rows leave bottom → top |
+| `search` | Search | `slide-left` push. Header `SearchInput` (back, autofocus, `fill`, submit → `plp/listing { query }` with `results-fade`). Empty → presearch: `RecentSearches` (edit mode wobble + delete) + "Trending searches" `Pill variant="tag" icon="trendingUp"` (first: "phone"). Typing → `SuggestionRow`s fall in from −20px top → bottom, changed rows crossfade in place (`BlurSwap`), match bolded; no match → "Search for …" row; cleared → rows leave bottom → top |
 | `suggestions` | Suggestions | the same screen opened in the typing state (`defaultParams: { q: 'phone' }`) |
 
 Pattern: one screen, three states (presearch, suggestions, leaving) on the `handoff` motion (`references/motion.md` → "Search → results handoff"): presearch and eight fixed suggestion slots driven by variants, so every exit is staggered and interruptible.
@@ -419,7 +422,7 @@ Files: `SelectScreen.tsx`, `MapScreen.tsx` (358), `SearchScreen.tsx`, `SuccessSc
 | id | title | presentation / transition | params | shows |
 |---|---|---|---|---|
 | `select` | Address Book | modal | | 650ms skeleton → saved address cards (default = blue header), tap → loader + "Address updated" toast; ⋯ → `controls` sheet; search; Delivery / Locker-Pickup tabs; Add new address → `map` |
-| `selectSheet` | Address Book (bottom sheet) | modal, `transparent`, fade | `{ isBottomSheet: true }` | Home header address tap (`NoonAddressSelector.changeAddress`): the same tabs + list in `FloatingOverlay` (`slideIn`) over the page; a pick closes it, then the toast (`nav.toast`); dimmed-page tap closes |
+| `selectSheet` | Address Book (bottom sheet) | modal, `transparent`, `none` | `{ isBottomSheet: true }` | Home header address tap (`NoonAddressSelector.changeAddress`): the same tabs + list in `FloatingOverlay` (`slideIn`: springs up, slides back down on close) over the page; a pick closes it, then the toast (`nav.toast`); dimmed-page tap closes |
 | `map` | Map pin (add) | modal / `address-map` | `{ flow: 'create' }` | draggable map, pin lift/drop, tooltip, unserviceable state, current location |
 | `create` | Address details (create) | modal / `address-map` | `{ flow, placeId, expanded: true }` | form overlay: Home/Work/Other chips, floating labels, required errors |
 | `update` | Address details (edit) | modal / `address-map` | `{ flow: 'update', addressId, expanded }` | |
@@ -524,6 +527,19 @@ Files: `WishlistScreen.tsx`, `EmptyWishlistScreen.tsx`, `WishlistLoadingScreen.t
 
 Copy from here for: saved-items grids, floating pill CTAs, Lottie empty states, action-list sheets.
 
+### fieldds · Design system · `gallery` · tab bar on `glass`
+Not a product flow: the gallery of the Field Design System (coded Origin DS) as kit components and opt-in `field*`
+variants (`references/components.md` → "Field Design System", mapping in `references/field-ds.md`). Files: `FielddsScreen.tsx`, `data.ts`.
+
+| id | title | shows |
+|---|---|---|
+| `gallery` | Field components | `Header variant="field"`; sections for Button `field*` (loading cross-fade on Continue), `IconButton field*`, `Checkbox variant="field"`, `Radio`, `Switch variant="field"`, `Segmented variant="field"`, `Pill variant="fieldChip"` (add / clear), `StatusChip variant="field"` (7 tones, sizes, shapes), `Stars variant="field"`, `SearchInput variant="field"`, `TextField`, `TextArea`, `ListRow variant="field"`, `Accordion`, `Divider emphasis`; buttons for the Field toasts (`action: 'close'`), the sheet and the bottom nav; footer `ActionBar layout="leadingTrailing"` (Add to cart → toast) |
+| `sheet` | Bottom sheet + action bar | sheet: `SheetHeader` + `SheetBody` + `SheetFooter layout="split"` (Cancel · Clear all) |
+| `tabs` | Bottom navigation | `TabBar variant="field"` drawn in the screen's footer (blue indicator, `bottomnav-*` icons, B11 labels) |
+| `glass` | Liquid Glass | tab root (`tabBar: { tab: 'home', screens: ['glass'] }`): the default glass `TabBar` (hides on scroll) + `Screen floatingFooter` with `ActionBar surface="glass" aboveTabBar layout="leadingTrailing"` over a product grid; bappzaar `noon/ios/liquid-upgrade` |
+
+Copy from here for: any new Origin-era screen built from Field components.
+
 ---
 
 ## 4. Blueprints
@@ -548,7 +564,7 @@ Start from `search/search`. Header `SearchInput` (with `fill`); presearch (recen
 Start from `plp/listing` (+ `filters`, `sort`, `store.ts`). Header `SearchInput onFieldPress` + `MarketplaceStrip` + `nk-hscroll` pills wrapped in `RevealChip`; meta line; 2-col grid `gap 12, padding 2px 12px`; cards in `SkeletonReveal` on `plpTokens.timeline` (first 8); filter swaps via `plpTokens.swap`; empty filter state; `TabBar` footer. Sheets read/write `plpStore`. Pass `categoryId` from categories.
 
 ### PDP
-Start from `pdp/detail`. `<Screen ref overlayHeader safeTop={false} footer={<SfAtcBar/>}>` (QTY + Add to cart over the tab bar); white `Card` sections in the Storefront order (gallery → main info → sponsored row → delivery → newer model → variants → trust → payment offers → product details → extended warranty → additional info → bestseller → seller → A+ features → sponsored brand → FBT → reviews → similar / top products), all in `components/storefront`. Variant SKU switch with `nav.replace`. ATC → `addToCart` → `nav.sheet('pdp/added')`. Data: `pdpContent(product)`, `productById`.
+Start from `pdp/detail`. `<Screen ref overlayHeader safeTop={false} footer={<SfAtcBar/>}>` (QTY + Buy now + Add to cart in a floating glass card docked 10 above the glass tab bar, as wide as it, r16 — bappzaar liquid-upgrade NoonProductDetails `isLiquidGlass`; it follows the bar when it hides on scroll); white `Card` sections in the Storefront order (gallery → main info → sponsored row → delivery → newer model → variants → trust → payment offers → product details → extended warranty → additional info → bestseller → seller → A+ features → sponsored brand → FBT → reviews → similar / top products), all in `components/storefront`. Variant SKU switch with `nav.replace`. ATC → `addToCart` → `nav.sheet('pdp/added')`. Data: `pdpContent(product)`, `productById`.
 Design source: the newer Storefront Figma, analysed in `../pdp/references/figma-storefront-pdp.md`; screen skill `/pdp` (`../pdp/SKILL.md`).
 - Order (New PDP, `DetailScreen.tsx`): gallery → main info → bundle → sponsored row → delivery → newer model → free gifts → variants → payment offers → trust → Product Details accordions → additional info → bestseller → seller → Product Features (A+) → sponsored brand → extended warranty → FBT → Ratings & Reviews → three recommendation rails. Card titles 15/700/17.
 - States: out of stock / not available at location → no price block and no `SfAtcBar`; the footer is an OOS banner (top r16, red 12/600) + a successor chin that slides up (`spring.sheet`) once the in-page newer-model card leaves the viewport. The newer model opens with `nav.push('pdp/detail', { productId })`. In stock: QTY · Buy now · Add to cart (`buyNow={false}` for the Storefront Case 1 look).

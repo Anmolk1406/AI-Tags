@@ -28,6 +28,7 @@ and never moves. Kit port: `src/flows/plp/scrollStates.ts` (`usePlpScrollStates`
 | HidableView styles `header` | header layer absolute over the list, `overflow: hidden`, zIndex 2; the list gets `offsetTop` = header height | — | `.hidable` layer hangs under the search bar (`top: 100%`, overflow hidden); a spacer of the measured height opens the list |
 | HidableView `componentDidUpdate` `dataChange` | new data (filter / sort apply) → header back in place with no animation | — | filter / sort change → `header.reset()` |
 | NoonCatalogList `styles.searchContainer` | search bar block: white, shadow 0 1 4 black 0.1, zIndex 3 (above the header) — static, no scroll change | — | `.barBlock` (replaces the old `data-scrolled` shadow, which bappzaar doesn't have) |
+| NoonCatalogList `styles.searchButtonContainer` | paddingHorizontal 16, paddingBottom 12 (white gap under the bar, above the shadow) | — | `.barRow` padding 4 16 12 (pt 4 = the search screen bar's spot for the hand-off) |
 | NoonCatalogList `styles.fulfillmentHeaderContainer` | white + `NoonStyles.shadow()` (1,1 black 0.04, RN default radius 3) — static | — | `.hidableInner` |
 | NoonFulfillmentTabs, NoonCatalogListHeader | no scroll reaction of their own (no collapse, no subtitle change) | — | none |
 | — | haptics | none on scroll | none |

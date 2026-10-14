@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, ProductBoxVertical, Screen, SearchInput, TabBar, Text } from '../../components';
-import { useNav, useParams } from '../../kit/Navigator';
+import { useIsTop, useNav, useParams } from '../../kit/Navigator';
 import { handoff } from '../../motion/presets';
 import { SkeletonReveal } from '../../motion/recipes';
 import { applyFilters, applySort, countFilters, searchProducts, sortOptions, type Filters } from './data';
@@ -30,6 +30,9 @@ const keyOf = (query: string, f: Filters) => `${query}|${JSON.stringify(f)}`;
  *  so the bar — at the same spot as the search page's — stays put and never cross-fades with it. */
 const belowBar = { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: handoff.fade.reveal, ease: handoff.easeInOut } } as const;
 
+// the grid re-renders when the screen is covered / uncovered (push, back); a card only when its product changes
+const ProductBox = memo(ProductBoxVertical);
+
 export function ListingScreen() {
   const nav = useNav();
   const { query = 'Best sellers' } = useParams<{ query?: string }>();
@@ -39,9 +42,12 @@ export function ListingScreen() {
   const { sort, filters } = ready.current ? store : { sort: 'recommended' as const, filters: {} as Filters };
   const scroller = useRef<HTMLDivElement>(null);
   // bappzaar scroll states (MAPPING.md → "PLP scroll states"): tab bar slides off on scroll down, the strip + pills slide up
-  const isTop = nav.stack[nav.stack.length - 1]?.route === nav.route;
+  const isTop = useIsTop();
   const scroll = usePlpScrollStates(scroller, isTop);
   const [searching, setSearching] = useState(true);
+  // fetch the Filters / Sort sheets now: a lazy sheet opened cold rises empty, then its content pops in mid-spring
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- once per mount
+  useEffect(() => nav.preload('plp/filters', 'plp/sort'), []);
 
   useEffect(() => {
     plpStore.reset();
@@ -91,8 +97,11 @@ export function ListingScreen() {
   const setExpress = (on: boolean) => plpStore.set({ filters: { ...filters, delivery: on ? ['express'] : [] } });
 
   // tapping the bar goes back to editing: pop to the search page it came from, or open one on this query
-  const at = nav.stack.map((e) => e.route).lastIndexOf(nav.route);
-  const editQuery = () => (nav.stack[at - 1]?.route.startsWith('search/') ? nav.back() : nav.push('search/search', { q: query }));
+  const editQuery = () => {
+    const at = nav.stack.map((e) => e.route).lastIndexOf(nav.route);
+    if (nav.stack[at - 1]?.route.startsWith('search/')) nav.back();
+    else nav.push('search/search', { q: query });
+  };
   const onMarketplace = (id: MarketplaceId) => {
     if (id === 'noon' || id === 'express') setExpress(id === 'express');
     else nav.toast(`${plpTokens.marketplaces[id].a} — not in this demo`);
@@ -160,7 +169,7 @@ export function ListingScreen() {
                     rise={T.cardRise}
                     skeletonAfter={T.skeletonOutAfter}
                   >
-                    <ProductBoxVertical product={p} />
+                    <ProductBox product={p} />
                   </SkeletonReveal>
                 </motion.div>
               );

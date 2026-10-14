@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, useDragControls, type PanInfo } from 'motion/react';
-import { createContext, Suspense, useCallback, useContext, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { createContext, memo, Suspense, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type ComponentType, type CSSProperties, type ReactNode } from 'react';
 import { getTransition as getTransitionRaw, reducedTransition, type TransitionName } from '../motion/transitions';
 import { duration, easing, spring } from '../motion/presets';
 import { useReduceMotion } from '../motion/reducedMotion';
@@ -9,7 +9,8 @@ import { SnackbarStack } from '../components/Snackbar/Snackbar';
 import { preloadScreens } from './lazyScreen';
 import { resolveSheet, SheetCtx } from './sheet';
 import type { Registry } from './registry';
-import type { NavigateOptions, Route, StackEntry, TabId, ToastOptions } from './types';
+import type { NavigateOptions, Route, ScreenProps, StackEntry, TabId, ToastOptions } from './types';
+import type { TokenOverrides } from '../foundations/tokens';
 import styles from './Navigator.module.css';
 
 interface Toast extends ToastOptions {
@@ -29,6 +30,8 @@ export interface NavApi {
   reset: (route: Route, params?: Record<string, unknown>) => void;
   switchTab: (tab: TabId) => void;
   toast: (message: string, opts?: ToastOptions) => void;
+  /** fetch the code of screens this one is about to open (full 'flow/screen' routes), so they open without an empty frame */
+  preload: (...routes: Route[]) => void;
   canGoBack: boolean;
   /** route + params of the screen this hook is called from */
   route: Route;
@@ -39,7 +42,34 @@ export interface NavApi {
   stack: StackEntry[];
 }
 
-const NavCtx = createContext<{ api: Omit<NavApi, 'route' | 'params' | 'flowId' | 'isRoot'>; registry: Registry } | null>(null);
+type NavActions = Pick<NavApi, 'push' | 'replace' | 'sheet' | 'back' | 'popToRoot' | 'reset' | 'switchTab' | 'toast' | 'preload'>;
+
+/** The stack lives outside React state so a screen only re-renders on navigation when it reads `stack` / `canGoBack` / `isRoot`. */
+interface StackStore {
+  get: () => StackEntry[];
+  set: (next: StackEntry[] | ((s: StackEntry[]) => StackEntry[])) => void;
+  subscribe: (listener: () => void) => () => void;
+}
+function createStackStore(initial: StackEntry[]): StackStore {
+  let stack = initial;
+  const listeners = new Set<() => void>();
+  return {
+    get: () => stack,
+    set: (next) => {
+      const value = typeof next === 'function' ? next(stack) : next;
+      if (value === stack) return;
+      stack = value;
+      listeners.forEach((l) => l());
+    },
+    subscribe: (l) => {
+      listeners.add(l);
+      return () => listeners.delete(l);
+    },
+  };
+}
+
+// a stable value: navigating never re-renders a screen through this context
+const NavCtx = createContext<{ actions: NavActions; store: StackStore; canGoBack: (s: StackEntry[]) => boolean; registry: Registry } | null>(null);
 const EntryCtx = createContext<StackEntry | null>(null);
 
 export const TAB_ROUTES: Record<TabId, Route> = {
@@ -57,13 +87,55 @@ export function useNav(): NavApi {
   const nav = useContext(NavCtx);
   const entry = useContext(EntryCtx);
   if (!nav) throw new Error('useNav must be used inside <NoonPrototype>');
+  const { store } = nav;
+  // A component re-renders on navigation only if its last render read `stack`, `canGoBack` or `isRoot`: screens that
+  // only push / back / toast keep their tree when something is pushed over them. Reads in handlers and effects get the
+  // live stack without subscribing.
+  const reads = useRef(false);
+  const rendering = useRef(true);
+  rendering.current = true;
+  reads.current = false;
+  useLayoutEffect(() => {
+    rendering.current = false;
+  });
+  const subscribe = useCallback((cb: () => void) => store.subscribe(() => reads.current && cb()), [store]);
+  useSyncExternalStore(subscribe, store.get);
+  const stack = () => {
+    if (rendering.current) reads.current = true;
+    return store.get();
+  };
   return {
-    ...nav.api,
+    ...nav.actions,
     route: entry?.route ?? '',
     params: entry?.params ?? {},
     flowId: entry?.route.split('/')[0] ?? '',
-    isRoot: !!entry && nav.api.stack[0]?.key === entry.key,
+    get stack() {
+      return stack();
+    },
+    get canGoBack() {
+      return nav.canGoBack(stack());
+    },
+    get isRoot() {
+      return !!entry && stack()[0]?.key === entry.key;
+    },
   };
+}
+
+/**
+ * True while this screen is the top of the stack. Re-renders only when that flips (not on every push / back), and a
+ * screen that is animating out keeps its last value instead of re-rendering mid-exit.
+ */
+export function useIsTop(): boolean {
+  const nav = useContext(NavCtx);
+  const entry = useContext(EntryCtx);
+  if (!nav) throw new Error('useIsTop must be used inside <NoonPrototype>');
+  const last = useRef(true);
+  const get = () => {
+    const s = nav.store.get();
+    if (entry && s.some((e) => e.key === entry.key)) last.current = s.at(-1)?.key === entry.key;
+    return last.current;
+  };
+  return useSyncExternalStore(nav.store.subscribe, get);
 }
 
 /** Typed params helper: `const { productId } = useParams<{ productId: string }>()` */
@@ -116,17 +188,18 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
     [makeEntry, registry],
   );
 
-  const [stack, setStack] = useState<StackEntry[]>(() => rootStack(initialRoute, initialParams, 'none'));
+  const [store] = useState(() => createStackStore(rootStack(initialRoute, initialParams, 'none')));
+  const stack = useSyncExternalStore(store.subscribe, store.get);
+  const setStack = store.set;
   const [instantExit, setInstantExit] = useState(false);
   const [toasts, setToasts] = useState<Toast[]>([]);
-  const stackRef = useRef(stack);
-  stackRef.current = stack;
+  const stackRef = useMemo(() => ({ get current() { return store.get(); } }), [store]);
 
   useEffect(() => onChange?.(stack), [stack, onChange]);
   // after the first screen is up, fetch the other lazy screens in idle time so pushes don't wait on a download
   useEffect(() => preloadScreens(), []);
 
-  const currentFlow = () => stackRef.current.at(-1)?.route.split('/')[0];
+  const currentFlow = useCallback(() => stackRef.current.at(-1)?.route.split('/')[0], [stackRef]);
 
   const push = useCallback<NavApi['push']>(
     (route, params, opts) => {
@@ -136,7 +209,7 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
         setStack((s) => [...s, e]);
       }
     },
-    [makeEntry],
+    [makeEntry, currentFlow, setStack],
   );
   const replace = useCallback<NavApi['replace']>(
     (route, params, opts) => {
@@ -146,7 +219,13 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
         setStack((s) => [...s.slice(0, -1), e]);
       }
     },
-    [makeEntry],
+    [makeEntry, currentFlow, setStack],
+  );
+  const preload = useCallback<NavApi['preload']>(
+    (...routes) => {
+      for (const r of routes) (registry.resolve(r)?.screen.component as { preload?: () => Promise<unknown> } | undefined)?.preload?.().catch(() => undefined);
+    },
+    [registry],
   );
   const sheet = useCallback<NavApi['sheet']>((route, params) => push(route, params, { presentation: 'sheet' }), [push]);
   /** Logical parent for a screen opened with no history (direct URL / sidebar / reload): screen.parent → flow.parent → home; tab roots have none. */
@@ -174,11 +253,11 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
     if (!top || !below) return;
     setStack([below, top]);
     requestAnimationFrame(() => setStack([below]));
-  }, [makeEntry, parentOf]);
+  }, [makeEntry, parentOf, stackRef, setStack]);
   const popToRoot = useCallback(() => {
     setInstantExit(false);
     setStack((s) => s.slice(0, 1));
-  }, []);
+  }, [setStack]);
   const reset = useCallback<NavApi['reset']>(
     (route, params) => {
       const next = rootStack(route, params, 'fade');
@@ -187,7 +266,7 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
         setStack(next);
       }
     },
-    [rootStack],
+    [rootStack, setStack],
   );
   const switchTab = useCallback((tab: TabId) => {
     const target = TAB_ROUTES[tab];
@@ -197,7 +276,7 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
       setInstantExit(true);
       setStack([e]);
     }
-  }, [makeEntry]);
+  }, [makeEntry, stackRef, setStack]);
 
   const toast = useCallback<NavApi['toast']>((message, opts = {}) => {
     const id = Date.now() + Math.random();
@@ -215,9 +294,14 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
   const reduce = useReduceMotion();
   const getTransition = (name: TransitionName) => (reduce ? reducedTransition(getTransitionRaw(name)) : getTransitionRaw(name));
 
-  const api = useMemo(
-    () => ({ push, replace, sheet, back, popToRoot, reset, switchTab, toast, canGoBack: stack.length > 1 || !!(stack[0] && parentOf(stack[0].route)), stack }),
-    [push, replace, sheet, back, popToRoot, reset, switchTab, toast, stack, parentOf],
+  const nav = useMemo(
+    () => ({
+      actions: { push, replace, sheet, back, popToRoot, reset, switchTab, toast, preload },
+      store,
+      canGoBack: (s: StackEntry[]) => s.length > 1 || !!(s[0] && parentOf(s[0].route)),
+      registry,
+    }),
+    [push, replace, sheet, back, popToRoot, reset, switchTab, toast, preload, store, parentOf, registry],
   );
 
   // for each screen entry, find the next *screen/modal* entry above it — that one's `under` styles apply
@@ -228,7 +312,7 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
 
   const front = toasts[toasts.length - 1];
   return (
-    <NavCtx.Provider value={{ api, registry }}>
+    <NavCtx.Provider value={nav}>
       <div className={styles.root}>
         <AnimatePresence initial={false} custom={instantExit}>
           {stack.map((entry, i) => {
@@ -236,16 +320,7 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
             const Screen = resolved.screen.component;
             const t = getTransition(entry.transition);
             const isTop = i === stack.length - 1;
-            const content = (
-              <EntryCtx.Provider value={entry}>
-                <TokenScope overrides={resolved.flow.tokens}>
-                  {/* screens load on demand (lazyScreen); the rest are preloaded in idle time after the first paint */}
-                  <Suspense fallback={null}>
-                    <Screen params={entry.params} />
-                  </Suspense>
-                </TokenScope>
-              </EntryCtx.Provider>
-            );
+            const content = <ScreenHost entry={entry} Screen={Screen} tokens={resolved.flow.tokens} />;
 
             if (entry.presentation === 'sheet') {
               return <SheetLayer key={entry.key} options={resolveSheet(resolved.screen.sheet)} onDismiss={back} isTop={isTop} zIndex={i} reduce={reduce}>{content}</SheetLayer>;
@@ -276,7 +351,7 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
                 data-route={entry.route}
               >
                 <div className={styles.screenBody}>{content}</div>
-                {tab && <TabBar active={tab} />}
+                {tab && <TabBar active={tab} variant={resolved.flow.tabBar?.variant} autoHide={resolved.flow.tabBar?.scrollHide ?? true} covered={!isTop} />}
               </motion.div>
             );
           })}
@@ -302,6 +377,7 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
                   onSubtitlePress={front.onSubtitlePress}
                   asset={front.icon}
                   action={front.action}
+                  onClose={() => setToasts((t) => t.filter((x) => x.id !== front.id))}
                 />
               </motion.div>
             )}
@@ -312,6 +388,23 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
     </NavCtx.Provider>
   );
 }
+
+/**
+ * One stack entry's screen. Memoised on the (stable) entry, so a push, back or toast only renders the screen that
+ * changes; the ones underneath keep their tree unless they read the stack through useNav().
+ */
+const ScreenHost = memo(function ScreenHost({ entry, Screen, tokens }: { entry: StackEntry; Screen: ComponentType<ScreenProps<any>>; tokens?: TokenOverrides }) {
+  return (
+    <EntryCtx.Provider value={entry}>
+      <TokenScope overrides={tokens}>
+        {/* screens load on demand (lazyScreen); the rest are preloaded in idle time after the first paint */}
+        <Suspense fallback={null}>
+          <Screen params={entry.params} />
+        </Suspense>
+      </TokenScope>
+    </EntryCtx.Provider>
+  );
+});
 
 function SheetLayer({ children, options, onDismiss, isTop, zIndex, reduce }: { children: ReactNode; options: ReturnType<typeof resolveSheet>; onDismiss: () => void; isTop: boolean; zIndex: number; reduce: boolean }) {
   const drag = useDragControls();

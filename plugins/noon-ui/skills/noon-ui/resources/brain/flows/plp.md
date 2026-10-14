@@ -7,55 +7,24 @@
 - Docs: `../search/SKILL.md` · `../search/spec.md` · `resources/flows/plp.md` · `src/flows/plp/MAPPING.md`
 - Folder: `src/flows/plp/` · tokens `src/flows/plp/tokens.ts` (14 flow vars) · store `src/flows/plp/store.ts` <!-- count-ok -->
 - Area data / token / helper files: scrollStates.ts, store.ts
-- Enters from: `cart/cart` → listing · `cart/couponTray` → listing · `cart/discount` → listing · `cart/empty` → listing · `cart/loading` → listing · `categories/categories` → listing · `categories/error` → listing · `categories/expanded` → listing · `categories/loading` → listing · `deals/deals` → listing · `home/classic` → listing · `home/home` → listing · `pdp/deliveryVariants` → listing · `pdp/detail` → listing · `search/search` → listing, filters, sort · `search/suggestions` → listing, filters, sort
-- Exits to: `pdp/detail` (from listing) · `pdp/variants` (from listing) · `search/search` (from listing)
+- Enters from: `home/home` → listing
+- Exits to: —
 
 ## Screens
 
 | Screen | Presentation | URL | Truth · verified | Module | Tests |
 |---|---|---|---|---|---|
-| `scr:plp/listing` Listing | screen | /listing /plp | bappzaar · 2026-10-12 | `ListingScreen.tsx` (query) | 7 |
-| `scr:plp/filters` Filters | sheet (floating) | /filters | bappzaar · never | `FiltersSheet.tsx` | 4 |
-| `scr:plp/sort` Sort | sheet (classic) | — | bappzaar* · never | `SortSheet.tsx` | 2 |
+| `scr:plp/listing` Listing | screen | /listing /plp | bappzaar · 2026-10-12 | ? (query) | 0 |
+| `scr:plp/filters` Filters | sheet (floating) | /filters | bappzaar · never | ? | 0 |
+| `scr:plp/sort` Sort | sheet (classic) | — | bappzaar* · never | ? | 0 |
 
 `*` truth inferred from `source`. Tests = journeys + visual references (every screen also runs in `check:routes`). In nav lines, `~` = target resolved through a const / helper / ternary (reachable, runtime-dependent); no mark = a literal `nav.*('…')` call.
 
-## `plp/listing`
+## `plp/listing` · `plp/filters` · `plp/sort`
 
-- Module `src/flows/plp/ListingScreen.tsx` · 12 own files, 60 in the import closure
+- Module `?` (shared by 3 screens; params pick the state) · 0 own files, 0 in the import closure <!-- count-ok -->
 - Source: src/screens/ListingScreen, marketplaces/noon/components/NoonCatalogList (renderHeader, renderFulfillmentTabs), NoonFulfillmentTabs, NoonCatalogListHeader, NoonCatalogListNavPill (+ NoonFilterPillAnimation), NoonProductB…
-- Styles: components/catalogNavPill.module.css, plp.module.css
-- Data / helpers: data.ts, scrollStates.ts, store.ts, tokens.ts
-- Shared components: `MarketplaceTag`, `Pressable`, `ProductBoxVertical`, `Screen`, `SearchInput`, `Skeleton`, `TabBar`, `Text`
-- Flow components: `CatalogListHeader`, `CatalogNavPill`, `MarketplaceStrip`, `RevealChip`, `SkeletonCard`
-- Tokens (43): colors 8 · flow:plp 2 · layout 1 · local 2 · palette 16 · pill 1 · radius 2 · spacing 5 · type 6
-- Motion: `haptics`, `preset/duration.fast`, `preset/duration.medium`, `preset/handoff.easeInOut`, `preset/handoff.fade`, `preset/handoff.spring`, `preset/handoff.stagger`, `recipe/SkeletonReveal`, `reduced-motion`
-- Icons: — · assets 12
-- State / data: `store:plp`, `data:leafName`, `data:phoneProducts`, `data:products`
-- Nav out: push `pdp/detail` (via ProductBoxVertical) · sheet `pdp/variants` (via ProductCard) · sheet `plp/filters` · sheet `plp/sort` · push `search/search`
-- `listing`: in ← `cart/cart`, `cart/couponTray`, `cart/discount`, `cart/empty`, `cart/loading`, `categories/categories`, `categories/error`, `categories/expanded`, `categories/loading`, `deals/deals`, `home/classic`, `home/home`, `pdp/deliveryVariants`, `pdp/detail`, `search/search`, `search/suggestions` · tests `test:journey/pdp-add-to-cart`, `test:journey/plp-filter`, `test:journey/plp-filter-sheet`, `test:journey/plp-sort-sheet`, `test:journey/search-to-plp`, `test:journey/sheet-dismiss`, `test:visual/plp-filters` · docs `resources/flows/search.md:24-38`, `../search/spec.md:6-16`, `../search/spec.md:30-43`, `../search/spec.md:114-125`, `resources/flows/categories.md:7-16`, `resources/flows/categories.md:32-49`, `resources/flows/categories.md:50-59`, `resources/flows/categories.md:60-74`, `src/flows/categories/MAPPING.md:209-215`, `resources/flows/other-flows.md:49-55`, `resources/flows/plp.md:5-12`, `resources/flows/plp.md:13-39`, `src/flows/plp/MAPPING.md:3-36`, `src/flows/pdp/FIGMA-MAPPING.md:87-100`, `src/flows/pdp/MAPPING.md:522-551`, `resources/flows/cart.md:29-54`, `../cart/spec.md:34-50`, `../cart/spec.md:62-74`, `../cart/spec.md:94-111`
-
-## `plp/filters`
-
-- Module `src/flows/plp/FiltersSheet.tsx` · 4 own files, 30 in the import closure
-- Source: marketplaces/noon/screens/NoonFiltersScreenV2, components/NoonFiltersV2 (FilterHeader, FilterContainer, FilterFulfillmentCard, FilterNavPill, FilterCard, FilterSortSection, FilterRangeSlider); live app reference 2026-10…
-- Styles: filters.module.css
-- Data / helpers: data.ts, store.ts
-- Shared components: `MarketplaceTag`, `OriginIcon`, `Pill`, `Pressable`
+- Shared components: —
 - Flow components: —
-- Tokens (57): colors 15 · flow:plp 7 · layout 1 · palette 8 · radius 8 · spacing 9 · type 9
-- Motion: `reduced-motion`
-- Icons: `arrow-left`, `chevron-down`, `cross-circle-filled`, `search`, `star-filled` · assets 1
-- State / data: `store:plp`, `data:leafName`, `data:phoneProducts`, `data:products`
-- `filters`: in ← `plp/listing`, `search/search`, `search/suggestions` · tests `test:journey/plp-filter`, `test:journey/plp-filter-sheet`, `test:journey/plp-sort-sheet`, `test:journey/sheet-dismiss` · docs `../search/spec.md:6-16`, `../search/spec.md:44-50`, `resources/flows/plp.md:5-12`
-
-## `plp/sort`
-
-- Module `src/flows/plp/SortSheet.tsx` · 3 own files, 26 in the import closure
-- Source: marketplaces/noon/components/NoonFiltersV2/FilterSortSection
-- Data / helpers: data.ts, store.ts
-- Shared components: `Pressable`, `Text`
-- Flow components: —
-- Tokens (5): colors 4 · type 1
-- State / data: `store:plp`, `data:leafName`, `data:phoneProducts`, `data:products`
-- `sort`: in ← `plp/listing`, `search/search`, `search/suggestions` · tests `test:journey/plp-sort-sheet`, `test:journey/sheet-dismiss` · docs `../search/spec.md:6-16`, `../search/spec.md:44-50`, `resources/flows/plp.md:5-12`
+- Tokens (0): —
+- `listing`: in ← `home/home`

@@ -1,19 +1,19 @@
 {
   "generated": "node scripts/motion-usage.mjs",
   "presentation": {
-    "push (screen)": 69,
-    "sheet": 41,
+    "push (screen)": 72,
+    "sheet": 42,
     "modal": 42
   },
   "screenTransition": {
-    "push (default)": 58,
-    "sheet (default)": 41,
+    "push (default)": 61,
+    "sheet (default)": 42,
     "modal (default)": 4,
-    "fade": 8,
+    "fade": 7,
+    "none": 2,
     "address-map": 3,
     "address-success": 1,
     "address-search": 1,
-    "none": 1,
     "checkout-alpha": 1,
     "mb-modal": 1,
     "mb-overlay": 15,
@@ -31,10 +31,10 @@
   },
   "purpose": {
     "press · Pressable": 194,
-    "layout · layout / layoutId": 18,
+    "layout · layout / layoutId": 22,
     "loading · Spinner": 32,
-    "enter/exit · AnimatePresence": 96,
-    "enter · initial→animate": 158,
+    "enter/exit · AnimatePresence": 97,
+    "enter · initial→animate": 159,
     "loading · Skeleton": 98,
     "autoplay · setInterval": 21,
     "drag · drag= / useDragControls": 12,
@@ -42,7 +42,7 @@
     "scroll-linked · useScroll / useTransform": 113,
     "imperative · animate() / useAnimate": 93,
     "celebration · Lottie": 26,
-    "loading · Button loading": 2,
+    "loading · Button loading": 3,
     "rAF loop": 7,
     "recipe · Stagger": 4,
     "haptics": 35,
@@ -130,7 +130,7 @@
     "0.25s": 21,
     "0.2s": 19,
     "3s": 1,
-    "0.2s (css)": 11,
+    "0.2s (css)": 12,
     "0.15s (css)": 21,
     "0.45s": 4,
     "0.15s": 15,
@@ -186,7 +186,7 @@
     "280.6/27.14/1": 1
   },
   "eases": {
-    "[0.25,0.1,0.25,1]": 7,
+    "[0.25,0.1,0.25,1]": 8,
     "'easeInOut'": 18,
     "[0.455,0.03,0.515,0.955]": 5,
     "'linear'": 17,
@@ -208,7 +208,7 @@
     "delay i × 0.08s": 1
   },
   "css": {
-    "transition": 30,
+    "transition": 31,
     "animation": 3,
     "keyframes": 3
   },
@@ -260,7 +260,7 @@
         },
         "transition": {
           "modal (default)": 2,
-          "fade": 1,
+          "none": 1,
           "address-map": 3,
           "address-success": 1,
           "sheet (default)": 2,
@@ -330,13 +330,13 @@
         }
       },
       "purpose": {
-        "enter · initial→animate": 26,
+        "enter · initial→animate": 27,
         "loading · Spinner": 9,
         "press · Pressable": 6,
         "loading · Skeleton": 17,
         "celebration · Lottie": 4,
         "press · whileTap": 9,
-        "enter/exit · AnimatePresence": 10,
+        "enter/exit · AnimatePresence": 11,
         "drag · drag= / useDragControls": 2,
         "layout · layout / layoutId": 2,
         "scroll-linked · useScroll / useTransform": 6,
@@ -344,9 +344,9 @@
         "imperative · animate() / useAnimate": 1
       },
       "presets": 12,
-      "raw": 25,
+      "raw": 26,
       "css": {
-        "transition": 2,
+        "transition": 3,
         "animation": 0,
         "keyframes": 0
       }
@@ -424,6 +424,30 @@
       },
       "purpose": {
         "press · Pressable": 5
+      },
+      "presets": 0,
+      "raw": 0,
+      "css": {
+        "transition": 0,
+        "animation": 0,
+        "keyframes": 0
+      }
+    },
+    "fieldds": {
+      "screens": {
+        "total": 4,
+        "presentation": {
+          "push (screen)": 3,
+          "sheet": 1
+        },
+        "transition": {
+          "push (default)": 3,
+          "sheet (default)": 1
+        }
+      },
+      "purpose": {
+        "layout · layout / layoutId": 4,
+        "loading · Button loading": 1
       },
       "presets": 0,
       "raw": 0,

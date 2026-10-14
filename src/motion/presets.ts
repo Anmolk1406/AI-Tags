@@ -47,6 +47,34 @@ export const tween = (d: keyof typeof duration = 'base', e: keyof typeof easing 
   ease: easing[e],
 });
 
+/**
+ * Field Design System motion (@field-ds/tokens `motion`, the coded Origin DS). Use with the `field*` components and
+ * variants: `fieldMotion.spring.springLight` for thumbs / knobs / sheets, `fieldMotion.ease.standard` for timing.
+ * Durations are seconds (Field ms ÷ 1000).
+ */
+export const fieldMotion = {
+  duration: { instant: 0.04, xs: 0.1, sm: 0.16, base: 0.2, recede: 0.18, emphasized: 0.22, lg: 0.26, xl: 0.32 },
+  delay: { stagger: 0.025, beat: 0.12 },
+  ease: {
+    standard: [0.32, 0.72, 0, 1] as Bezier,
+    loft: [0.22, 1, 0.36, 1] as Bezier,
+    accelerate: [0.4, 0, 1, 1] as Bezier,
+    decelerate: [0, 0, 0.2, 1] as Bezier,
+    easeInOut: [0.6, 0, 0.4, 1] as Bezier,
+  },
+  spring: {
+    interaction: { type: 'spring', stiffness: 220, damping: 18, mass: 1 },
+    snappy: { type: 'spring', stiffness: 280, damping: 22, mass: 1 },
+    springLight: { type: 'spring', stiffness: 300, damping: 28, mass: 1 },
+    springHeavy: { type: 'spring', stiffness: 320, damping: 32, mass: 1 },
+    springBouncy: { type: 'spring', stiffness: 280, damping: 18, mass: 1 },
+  } satisfies Record<string, Transition>,
+  /** BUTTON_PRESS_SCALE / SearchBar press */
+  pressScale: 0.98,
+  /** pressed opacity on rows, accordions, chips */
+  pressOpacity: 0.85,
+} as const;
+
 /** Press scale used by AnimatedPressable in bappzaar (scale 0.96) */
 export const pressScale = 0.96;
 

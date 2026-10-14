@@ -113,6 +113,28 @@
   color: var(--nk-snackbar-light-fg);
 }
 
+/* action 'close' (Field Toast ActionSlot close): ActionContainer p10, round chip p4 around a 20px ✕ */
+.closeBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--nk-snackbar-action-inset);
+  flex-shrink: 0;
+}
+.close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--nk-space-s4);
+  border: 0;
+  border-radius: var(--nk-radius-full);
+  background: var(--nk-field-border-overlay);
+  cursor: pointer;
+}
+.toast[data-type='light'] .close {
+  background: var(--nk-field-surface-tertiary);
+}
+
 /* M-Stacked Toast: back card 12 above, 12 narrower each side, same height as the front */
 .stack {
   position: relative;

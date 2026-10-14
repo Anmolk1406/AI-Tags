@@ -7,26 +7,20 @@
 - Docs: `resources/flows/other-flows.md#deals`
 - Folder: `src/flows/deals/` · tokens `src/flows/deals/tokens.ts` (1 flow vars) <!-- count-ok -->
 - Enters from: —
-- Exits to: `pdp/detail` (from deals) · `pdp/variants` (from deals) · `plp/listing` (from deals) · `search/search` (from deals)
+- Exits to: —
 
 ## Screens
 
 | Screen | Presentation | URL | Truth · verified | Module | Tests |
 |---|---|---|---|---|---|
-| `scr:deals/deals` Deals | screen | /deals | bappzaar* · never | `DealsScreen.tsx` | 0 |
+| `scr:deals/deals` Deals | screen | /deals | bappzaar* · never | ? | 0 |
 
 `*` truth inferred from `source`. Tests = journeys + visual references (every screen also runs in `check:routes`). In nav lines, `~` = target resolved through a const / helper / ternary (reachable, runtime-dependent); no mark = a literal `nav.*('…')` call.
 
 ## `deals/deals`
 
-- Module `src/flows/deals/DealsScreen.tsx` · 4 own files, 47 in the import closure · **imports from other flows:** `src/flows/home/data.ts`, `src/flows/home/home.module.css`
+- Module `?` · 0 own files, 0 in the import closure
 - Source: marketplaces/noon/NoonApp.ts (getTabScreens, getDynamicTabInfo), screens/NoonDynamicTabScreen
-- Styles: deals.module.css
-- Data / helpers: data.ts, tokens.ts
-- Shared components: `Icon`, `Pressable`, `ProductCard`, `Screen`, `SearchBarButton`, `Text`
+- Shared components: —
 - Flow components: —
-- Tokens (7): colors 4 · local 1 · type 2
-- Icons: — · assets 4
-- State / data: `data:products`
-- Nav out: push `pdp/detail` (via ProductCard) · sheet `pdp/variants` (via ProductCard) · push `plp/listing` · push `search/search`
-- `deals`: docs `resources/flows/other-flows.md:49-55`
+- Tokens (0): —

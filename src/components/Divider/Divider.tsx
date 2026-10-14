@@ -1,24 +1,38 @@
 import type { CSSProperties } from 'react';
-import { ref } from '../../foundations/tokens';
+import { field, ref } from '../../foundations/tokens';
+
+/** Field DS M-Divider emphasis (`@field-ds/components` Divider/Divider.tsx): low = border/subtle, high = border/primary. */
+export type DividerEmphasis = 'low' | 'high';
+const emphasisColor = (e: DividerEmphasis | undefined) => (e === 'high' ? field.borderPrimary : ref.color('borderSubtle'));
 
 /**
  * Solid hairline. `vertical` draws a 1px-wide bar of `length` (PLP nav-pill separator: `<Divider vertical length={24} margin="0 8px" />`).
+ * `emphasis` follows Field M-Divider: `'low'` (default, border/subtle #F2F3F7) or `'high'` (border/primary #EAECF0);
+ * an explicit `color` wins. Renders `role="separator"` (with `aria-orientation` when vertical).
  */
-export function Divider({ color = ref.color('borderSubtle'), margin = 0, vertical, length = '100%' }: { color?: string; margin?: number | string; vertical?: boolean; length?: number | string }) {
-  if (vertical) return <span style={{ width: 1, height: length, background: color, margin, flexShrink: 0 }} />;
-  return <div style={{ height: 1, background: color, margin, flexShrink: 0 }} />;
+export function Divider({ color, emphasis, margin = 0, vertical, length = '100%' }: { color?: string; emphasis?: DividerEmphasis; margin?: number | string; vertical?: boolean; length?: number | string }) {
+  const c = color ?? emphasisColor(emphasis);
+  if (vertical) return <span role="separator" aria-orientation="vertical" style={{ width: 1, height: length, background: c, margin, flexShrink: 0 }} />;
+  return <div role="separator" style={{ height: 1, background: c, margin, flexShrink: 0 }} />;
 }
 
-/** Dashed separator used in account menus, cart gifting, orders (dash 4/4, #F2F3F7), drawn with a CSS gradient. */
-export function DashedDivider({ color = ref.color('borderSubtle'), inset = '3.5%', margin = 0, dash = 4 }: { color?: string; inset?: string | number; margin?: number | string; dash?: number }) {
+/**
+ * Dashed separator used in account menus, cart gifting, orders (dash 4/4, #F2F3F7), drawn with a CSS gradient.
+ * `gap` sets the space between dashes (default = `dash`; Field M-Divider dashed is `dash={4} gap={3}`). `emphasis` as on
+ * `Divider`; an explicit `color` wins. Renders `role="separator"`.
+ */
+export function DashedDivider({ color, emphasis, inset = '3.5%', margin = 0, dash = 4, gap }: { color?: string; emphasis?: DividerEmphasis; inset?: string | number; margin?: number | string; dash?: number; gap?: number }) {
+  const c = color ?? emphasisColor(emphasis);
+  const g = gap ?? dash;
   return (
     <div
+      role="separator"
       style={{
         height: 1,
         marginInline: inset,
         marginBlock: margin,
-        backgroundImage: `linear-gradient(to right, ${color} 50%, transparent 50%)`,
-        backgroundSize: `${dash * 2}px 1px`,
+        backgroundImage: g === dash ? `linear-gradient(to right, ${c} 50%, transparent 50%)` : `linear-gradient(to right, ${c} ${dash}px, transparent ${dash}px)`,
+        backgroundSize: `${dash + g}px 1px`,
         flexShrink: 0,
       }}
     />

@@ -127,8 +127,19 @@ export function CartScreen({ params }: ScreenProps<{ state?: 'empty' | 'loading'
       footer={empty ? undefined : <CartFooter totals={cartTotals} cart={lines} isTabRoot={isTabRoot} onCheckout={onCheckout} onHeightChange={setFooterH} />}
       background="bgPage"
       withTabBar={empty && isTabRoot}
+      // Cart tab (Liquid Glass): the list scrolls behind the floating glass footer (NoonNativeStickyBar over the list)
+      // instead of ending above it — so nothing is cut off when the footer follows the hiding tab bar
+      floatingFooter={!empty && isTabRoot}
       onScroll={(y) => scrollY.set(y)}
-      contentStyle={{ paddingTop: 0, paddingBottom: empty ? undefined : Math.max(16, footerH - 40) }}
+      contentStyle={{
+        paddingTop: 0,
+        paddingBottom: empty
+          ? undefined
+          : isTabRoot
+            ? // getContentPadding (liquid): savings tab + footer + gap + tab bar + inset
+              `calc(${footerH}px + var(--nk-tab-bar-floating-gap) + var(--nk-layout-tab-bar) + var(--nk-inset-bottom) + var(--nk-space-s16))`
+            : Math.max(16, footerH - 40),
+      }}
     >
       {empty && <EmptyCart />}
       {SECTIONS.map(renderSection)}

@@ -7,7 +7,7 @@ What the kit gives a flow beyond components and tokens, and the checks that prov
 - `lazyScreen(() => import('./XScreen'), 'XScreen')` returns a `React.lazy` screen with `.preload()`. The preload and the first render share one download.
   - Use it for every screen in a flow's `index.ts`. `npm run new-flow` generates screens this way.
   - Keep the screen a page opens on eager only when it must paint first. `home/home` is the one example; only `ClassicHomeScreen` is lazy.
-- `preloadRoutes(...loads)` fetches the screens a page is about to open, so a hand-off never shows an empty `<Suspense>` frame.
+- `nav.preload('flow/screen', …)` (or `preloadRoutes(...loads)` with raw imports) fetches the screens a page is about to open. A screen whose module is loaded renders without suspending (`lazyScreen`), so a sheet or hand-off opened after the preload never shows an empty `<Suspense>` frame (React holds a suspended commit ~300ms: a lazy sheet opened cold rises empty and its content pops in mid-spring). Example: `plp/listing` preloads `plp/filters` and `plp/sort` on mount.
   - Example: `src/flows/search/SearchScreen.tsx` preloads `plp/listing` and `pdp/detail` on mount.
   - Add this whenever a screen pushes another screen straight away (search → results, CTA → sheet).
 - `preloadScreens()` is called once by `src/kit/Navigator.tsx`. 1.5 s after first paint it fetches every lazy screen, one per idle slot.

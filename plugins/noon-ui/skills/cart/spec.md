@@ -80,6 +80,7 @@ Shared per group: progress bar 4 tall (`cartTokens.progress.barHeight`), "+ Add"
 |---|---|
 | Savings tab | `CartWave` in `--nk-color-cart-savings-wave`, overlapping the footer by 16; "You’re saving **X** on this order" from `cartTotals.totalSavings`; hidden at 0 |
 | Footer | white, top radius 12 (`--nk-radius-r12`), shadow `--nk-shadow-cart-footer`, padding 10 + `--nk-inset-bottom` |
+| Footer on the Cart tab (Liquid Glass) | bappzaar liquid-upgrade `isLiquidGlass`: floating card as wide as the glass tab bar (`--nk-tab-bar-glass-inset-x`), r16 all corners, padding 10 / 10, the shared glass (`Glass.module.css`), docked `--nk-tab-bar-floating-gap` above the bar and following it on scroll; `GlassFade` under it (`data-glass-footer`). Tapping Total expands the order summary inside the card (height 0 → auto over `slideMs`, the card turns solid white while open; backdrop / Total closes it) instead of the invoice sliding up from behind the footer |
 | Total | "Total · N items" + price `--nk-type-text20-bold-lh24`, dotted underline; tap slides `DynamicInvoice` up (`buildDynamicInvoice`, `src/flows/cart/invoice.ts`) with a backdrop; swipe down / backdrop closes |
 | Checkout | `--nk-color-brand-blue`, h52, r12, `--nk-type-text17-semibold-lh20`; locked 1.75s after a press |
 | Height | `onHeightChange` → content `paddingBottom`, so the last section clears the bar |

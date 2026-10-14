@@ -1,5 +1,6 @@
-import { StrictMode, useCallback, useEffect, useState } from 'react';
+import { Fragment, StrictMode, useCallback, useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import { setWasmUrl } from '@lottiefiles/dotlottie-react';
 import { allFlows } from '../flows';
 import { NoonPrototype } from '../kit/NoonPrototype';
 import { createRegistry } from '../kit/registry';
@@ -13,6 +14,10 @@ import './preview.css';
  * or the legacy `#/flow/screen`; `/` opens home. Not part of the package.
  */
 const registry = createRegistry(allFlows);
+
+// Lottie player from our own server (cached with the app) instead of the jsdelivr CDN on the first animation. A path,
+// not a package import: the wasm is not in dotlottie-web's exports map. Same installed version as the player JS.
+setWasmUrl(new URL('../../node_modules/@lottiefiles/dotlottie-web/dist/dotlottie-player.wasm', import.meta.url).href);
 
 // used by scripts/check-routes.mjs
 (window as unknown as { __NK_ROUTES__: string[] }).__NK_ROUTES__ = registry.all().map((r) => r.route);
@@ -51,8 +56,11 @@ function Preview() {
   );
 }
 
+// StrictMode renders every screen twice in dev, which doubles the cost of each push. Opt in while debugging effects:
+// `VITE_STRICT=1 npm run dev`.
+const Root = import.meta.env.VITE_STRICT ? StrictMode : Fragment;
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+  <Root>
     <Preview />
-  </StrictMode>,
+  </Root>,
 );

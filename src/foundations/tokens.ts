@@ -276,6 +276,44 @@ export const type = {
   text22BoldLh28: { size: 22, line: 28, weight: 700 },
   text15BoldLh20: { size: 15, line: 20, weight: 700 }, // SKU price (Figma "SKU", cart + home)
   text10RegularLh11: { size: 10, line: 11, weight: 400 }, // SKU "Ad" tag
+  // Field Design System text styles (@field-ds/tokens text-styles.ts): H = headings, B = body, A = action (buttons).
+  // Letter-spacing is not part of a font shorthand: add `letter-spacing: var(--nk-field-tracking-<h|h16|b16|b|a17>)`.
+  fieldH40Bold: { size: 40, line: 48, weight: 700 }, // H40_Bold
+  fieldH40Extrabold: { size: 40, line: 48, weight: 800 }, // H40_Extrabold
+  fieldH32Bold: { size: 32, line: 40, weight: 700 }, // H32_Bold
+  fieldH32Extrabold: { size: 32, line: 40, weight: 800 }, // H32_Extrabold
+  fieldH28Bold: { size: 28, line: 36, weight: 700 }, // H28_Bold
+  fieldH24Bold: { size: 24, line: 32, weight: 700 }, // H24_Bold
+  fieldH20Bold: { size: 20, line: 28, weight: 700 }, // H20_Bold
+  fieldH18Bold: { size: 18, line: 24, weight: 700 }, // H18_Bold
+  fieldH16Bold: { size: 16, line: 20, weight: 700 }, // H16_Bold
+  fieldB16Regular: { size: 16, line: 22, weight: 400 }, // B16_Regular
+  fieldB16Medium: { size: 16, line: 22, weight: 500 }, // B16_Medium
+  fieldB16Semibold: { size: 16, line: 22, weight: 600 }, // B16_SemiBold
+  fieldB16Bold: { size: 16, line: 22, weight: 700 }, // B16_Bold
+  fieldB14Regular: { size: 14, line: 20, weight: 400 }, // B14_Regular
+  fieldB14Medium: { size: 14, line: 20, weight: 500 }, // B14_Medium
+  fieldB14Semibold: { size: 14, line: 20, weight: 600 }, // B14_SemiBold
+  fieldB14Bold: { size: 14, line: 20, weight: 700 }, // B14_Bold
+  fieldB13Regular: { size: 13, line: 20, weight: 400 }, // B13_Regular
+  fieldB13Medium: { size: 13, line: 20, weight: 500 }, // B13_Medium
+  fieldB13Semibold: { size: 13, line: 20, weight: 600 }, // B13_SemiBold
+  fieldB13Bold: { size: 13, line: 20, weight: 700 }, // B13_Bold
+  fieldB12Regular: { size: 12, line: 18, weight: 400 }, // B12_Regular
+  fieldB12Medium: { size: 12, line: 18, weight: 500 }, // B12_Medium
+  fieldB12Semibold: { size: 12, line: 18, weight: 600 }, // B12_SemiBold
+  fieldB12Bold: { size: 12, line: 18, weight: 700 }, // B12_Bold
+  fieldB11Regular: { size: 11, line: 14, weight: 400 }, // B11_Regular
+  fieldB11Medium: { size: 11, line: 14, weight: 500 }, // B11_Medium
+  fieldB11Semibold: { size: 11, line: 14, weight: 600 }, // B11_SemiBold
+  fieldB11Bold: { size: 11, line: 14, weight: 700 }, // B11_Bold
+  fieldA17Semibold: { size: 17, line: 24, weight: 600 }, // A17_SemiBold
+  fieldA16Semibold: { size: 16, line: 24, weight: 600 }, // A16_SemiBold
+  fieldA16Bold: { size: 16, line: 24, weight: 700 }, // A16_Bold
+  fieldA14Semibold: { size: 14, line: 20, weight: 600 }, // A14_SemiBold
+  fieldA14Bold: { size: 14, line: 20, weight: 700 }, // A14_Bold
+  fieldA12Semibold: { size: 12, line: 16, weight: 600 }, // A12_SemiBold
+  fieldA12Bold: { size: 12, line: 16, weight: 700 }, // A12_Bold
 } as const;
 
 export const shadow = {
@@ -322,6 +360,9 @@ export const ref = {
 const transparent = 'transparent';
 /** kit variants share one disabled look (#EAECF0 fill, disabled text, no border) */
 const kitDisabled = { bg: ref.color('border'), fg: ref.color('textDisabled'), border: transparent };
+
+/** `var(--nk-field-<key>)` — Field DS colour refs for the `button` / `iconButton` field variants (group defined below). */
+const fieldRef = (k: keyof typeof field) => `var(--nk-field-${kebab(k)})`;
 
 /**
  * <Button> — every visual value of src/components/Button. CSS: var(--nk-button-<key>), e.g.
@@ -458,6 +499,137 @@ export const button = {
   noonDottedLineDisabled: ref.color('textDisabled'),
   noonDottedLineGap: 2,
   noonDottedDash: '0.5, 3',
+
+  // ── Field DS buttons (@field-ds/components Button/*: sizing.ts BUTTON_SIZE, _RectButton tones, TextButton,
+  // NeutralTextButton, RoundButton). `variant="field*"` + `fieldSize`. Colours are `field` tokens.
+  fieldPressScale: 0.98, // usePressScale BUTTON_PRESS_SCALE (in: duration xs, out: spring snappy)
+  fieldPressColorDuration: 120, // sizing.ts PRESS_TRANSITION (bg / border / colour)
+  fieldPressEase: 'cubic-bezier(0.32, 0.72, 0, 1)', // Field motion.easing.standard (= fieldMotion.ease.standard)
+  fieldLoadingFadeDuration: 160, // useLoadingFade (motion.duration.sm)
+  fieldBorderWidth: 1,
+  // rectangular sizes (H56 … H32): height, padding-x, radius, gap, icon, spinner, A-type
+  fieldH56Height: 56,
+  fieldH56PaddingX: ref.space('s24'),
+  fieldH56Radius: ref.radius('r12'),
+  fieldH56Gap: ref.space('s8'),
+  fieldH56IconSize: 24,
+  fieldH56SpinnerSize: 24,
+  fieldH56Font: ref.type('fieldA17Semibold'),
+  fieldH56Tracking: fieldRef('trackingA17'),
+  fieldH52Height: 52,
+  fieldH52PaddingX: ref.space('s20'),
+  fieldH52Radius: ref.radius('r12'),
+  fieldH52Gap: ref.space('s8'),
+  fieldH52IconSize: 24,
+  fieldH52SpinnerSize: 24,
+  fieldH52Font: ref.type('fieldA16Semibold'),
+  fieldH48Height: 48,
+  fieldH48PaddingX: ref.space('s16'),
+  fieldH48Radius: ref.radius('r10'),
+  fieldH48Gap: ref.space('s6'),
+  fieldH48IconSize: 20,
+  fieldH48SpinnerSize: 20,
+  fieldH48Font: ref.type('fieldA14Semibold'),
+  // H40 default = PrimaryButton footprint
+  fieldH40Height: 40,
+  fieldH40PaddingX: ref.space('s12'),
+  fieldH40Radius: ref.radius('r8'),
+  fieldH40Gap: ref.space('s4'),
+  fieldH40IconSize: 16,
+  fieldH40SpinnerSize: 16,
+  fieldH40Font: ref.type('fieldA12Semibold'),
+  // H40 override for secondary / secondary-neutral / neutral (BUTTON_SIZE_H40_OVERRIDES; secondary keeps A12)
+  fieldH40WidePaddingX: ref.space('s16'),
+  fieldH40WideRadius: ref.radius('r10'),
+  fieldH40WideGap: ref.space('s6'),
+  fieldH40WideIconSize: 20,
+  fieldH40WideSpinnerSize: 18, // secondary, secondary-neutral
+  fieldH40NeutralSpinnerSize: 20,
+  fieldH40WideFont: ref.type('fieldA14Semibold'),
+  fieldH36Height: 36,
+  fieldH36PaddingX: ref.space('s12'),
+  fieldH36Radius: ref.radius('r8'),
+  fieldH36Gap: ref.space('s4'),
+  fieldH36IconSize: 16,
+  fieldH36SpinnerSize: 16,
+  fieldH36Font: ref.type('fieldA12Semibold'),
+  fieldH32Height: 32,
+  fieldH32PaddingX: ref.space('s10'),
+  fieldH32Radius: ref.radius('r6'),
+  fieldH32Gap: ref.space('s4'),
+  fieldH32IconSize: 16,
+  fieldH32SpinnerSize: 16,
+  fieldH32Font: ref.type('fieldA12Semibold'),
+  // text buttons (TextButton / NeutralTextButton TEXT_SIZE)
+  fieldTextA14Height: 28,
+  fieldTextA14PaddingX: ref.space('s8'),
+  fieldTextA14Radius: ref.radius('r6'),
+  fieldTextA14Gap: ref.space('s4'),
+  fieldTextA14IconSize: 20,
+  fieldTextA14Font: ref.type('fieldA14Semibold'),
+  fieldTextA12Height: 24,
+  fieldTextA12PaddingX: ref.space('s6'),
+  fieldTextA12Radius: ref.radius('r4'),
+  fieldTextA12Gap: ref.space('s4'),
+  fieldTextA12IconSize: 16,
+  fieldTextA12Font: ref.type('fieldA12Semibold'),
+  // round button (RoundButton ROUND_SIZE, radius rounded)
+  fieldRoundRadius: ref.radius('full'),
+  fieldRoundH40Height: 40,
+  fieldRoundH40PaddingX: ref.space('s16'),
+  fieldRoundH40Gap: ref.space('s6'),
+  fieldRoundH40IconSize: 20,
+  fieldRoundH40SpinnerSize: 20,
+  fieldRoundH40Font: ref.type('fieldA14Semibold'),
+  fieldRoundH36Height: 36,
+  fieldRoundH36PaddingX: ref.space('s12'),
+  fieldRoundH36Gap: ref.space('s4'),
+  fieldRoundH36IconSize: 16,
+  fieldRoundH36SpinnerSize: 16,
+  fieldRoundH36Font: ref.type('fieldA12Semibold'),
+  // tones: bg / pressed / disabled, border, fg (PrimaryButton … RoundButton TONE)
+  fieldPrimaryBg: fieldRef('surfaceActionBold'),
+  fieldPrimaryBgPressed: fieldRef('surfaceActionExtrabold'),
+  fieldPrimaryBgDisabled: fieldRef('surfaceMuted'),
+  fieldPrimaryBorder: transparent,
+  fieldPrimaryFg: fieldRef('textOnSurfaceBold'),
+  fieldPrimaryFgDisabled: fieldRef('textMuted'),
+  fieldSecondaryBg: fieldRef('surfacePrimary'),
+  fieldSecondaryBgPressed: fieldRef('surfaceActionSubtle'),
+  fieldSecondaryBgDisabled: fieldRef('surfaceMuted'),
+  fieldSecondaryBorder: fieldRef('borderAction'),
+  fieldSecondaryBorderDisabled: fieldRef('borderSubtle'),
+  fieldSecondaryFg: fieldRef('textAction'),
+  fieldSecondaryFgDisabled: fieldRef('textMuted'),
+  fieldSecondaryNeutralBg: fieldRef('surfacePrimary'),
+  fieldSecondaryNeutralBgPressed: fieldRef('surfaceSecondary'),
+  fieldSecondaryNeutralBgDisabled: fieldRef('surfacePrimary'),
+  fieldSecondaryNeutralBorder: fieldRef('borderPrimary'),
+  fieldSecondaryNeutralBorderDisabled: fieldRef('borderPrimary'),
+  fieldSecondaryNeutralFg: fieldRef('textPrimary'),
+  fieldSecondaryNeutralFgPressed: fieldRef('textSecondary'),
+  fieldSecondaryNeutralFgDisabled: fieldRef('textMuted'),
+  fieldNeutralBg: fieldRef('surfacePrimaryInverted'),
+  fieldNeutralBgPressed: fieldRef('surfaceSecondaryInverted'),
+  fieldNeutralBgDisabled: fieldRef('surfaceMuted'),
+  fieldNeutralBorder: transparent,
+  fieldNeutralFg: fieldRef('textOnSurfaceBold'),
+  fieldNeutralFgDisabled: fieldRef('textMuted'),
+  fieldTextBg: transparent,
+  fieldTextBgPressed: fieldRef('surfaceActionSubtle'),
+  fieldTextFg: fieldRef('textAction'),
+  fieldTextFgDisabled: fieldRef('textMuted'),
+  fieldNeutralTextBg: transparent,
+  fieldNeutralTextBgPressed: fieldRef('surfaceSecondary'),
+  fieldNeutralTextFg: fieldRef('textPrimary'),
+  fieldNeutralTextFgDisabled: fieldRef('textMuted'),
+  fieldRoundBg: fieldRef('surfacePrimary'),
+  fieldRoundBgPressed: fieldRef('surfaceSecondary'),
+  fieldRoundBgDisabled: fieldRef('surfacePrimary'),
+  fieldRoundBorder: fieldRef('borderPrimary'),
+  fieldRoundFg: fieldRef('textPrimary'),
+  fieldRoundFgPressed: fieldRef('textSecondary'),
+  fieldRoundFgDisabled: fieldRef('textMuted'),
 } as const;
 
 /** <IconButton> (Header) — 40px circle (NoonBackButton). CSS: var(--nk-icon-button-<key>). */
@@ -476,6 +648,26 @@ export const iconButton = {
   subtleBorder: ref.color('border'),
   plainBg: transparent,
   badgeOffset: -2,
+  // ── Field DS M-IconButton (@field-ds/components Button/IconButton.tsx): circle, H40 pad 10 / H36 pad 8, icon 20.
+  // `variant="fieldDefault" | "fieldGhost" | "fieldAction"`; pressed + disabled bg = surface/secondary.
+  fieldIconSize: 20,
+  fieldH40Padding: ref.space('s10'),
+  fieldH36Padding: ref.space('s8'),
+  fieldPressScale: 0.98,
+  fieldPressColorDuration: 120,
+  fieldBgPressed: fieldRef('surfaceSecondary'),
+  fieldBgDisabled: fieldRef('surfaceSecondary'),
+  fieldFgDisabled: fieldRef('textMuted'),
+  fieldBorderDisabled: fieldRef('borderSubtle'),
+  fieldDefaultBg: fieldRef('surfacePrimary'),
+  fieldDefaultBorder: fieldRef('borderSubtle'),
+  fieldDefaultFg: fieldRef('textPrimary'),
+  fieldGhostBg: fieldRef('surfacePrimary'),
+  fieldGhostFg: fieldRef('textPrimary'),
+  fieldActionBg: fieldRef('surfaceActionSubtle'),
+  fieldActionBgPressed: fieldRef('surfaceActionSubtle'),
+  fieldActionBorder: fieldRef('borderAction'),
+  fieldActionFg: fieldRef('textAction'),
 } as const;
 
 /** Count badge on IconButton / TabBar. CSS: var(--nk-badge-<key>). */
@@ -619,6 +811,52 @@ export const tabBar = {
   badgeEnd: -8,
   badgeLeft: 'calc(50% + 6px)',
   badgeFont: `400 13px/18px -apple-system, BlinkMacSystemFont, system-ui, sans-serif`,
+  // Liquid Glass bar (the default): bappzaar `noon/ios/liquid-upgrade` (UIDesignRequiresCompatibility false) — the same
+  // native UITabBar, which iOS 26 draws as a floating glass platter; NoonApp.getTab on iOS 26: labels 10pt semibold,
+  // no iconInsets. The platter geometry is UIKit's (not in bappzaar): 62 high, 21 from the sides, its bottom 13 below
+  // the home-indicator inset, so platter + gap = layout.tabBar + inset (83 on a 34-inset phone) like the opaque bar.
+  glassHeight: 62,
+  glassInsetX: 21,
+  glassLift: 13, // platter bottom = max(glassBottomMin, inset − glassLift) — computed in TabBar.module.css (the inset is set below the root)
+  glassBottomMin: 8,
+  glassRadius: ref.radius('full'),
+  glassBg: ref.palette('whiteAlpha64'), // translucent tint over the blurred content
+  glassBgFallback: ref.palette('whiteAlpha95'), // no backdrop-filter / reduced transparency
+  glassBlur: 'blur(14px) saturate(180%)',
+  glassRim: ref.palette('whiteAlpha70'), // 1px specular rim
+  glassShadow: `0 8px 28px ${ref.palette('blackAlpha12')}, 0 0 0 0.5px ${ref.palette('blackAlpha6')}`,
+  glassHighlight: `inset 0 1px 0 ${ref.palette('whiteAlpha90')}, inset 0 -1px 1px ${ref.palette('whiteAlpha40')}`,
+  glassSheen: ref.palette('whiteAlpha50'), // top-left specular gradient
+  glassLens: ref.palette('blackAlpha6'), // selected-item capsule
+  glassLensInset: 4,
+  glassIconScale: 0.875, // the 32pt tab webps at 28
+  glassGap: 2,
+  glassPressScale: 1.08, // the lens swells under the finger
+  // tab switch: the lens slides from the old tab to the new one on a slightly underdamped spring and stretches like a
+  // droplet on the way (scaleX up by glassLensStretch per tab travelled, capped; scaleY down by glassLensSquash), the
+  // icon tints cross-fade over glassTintFade (iOS 26 UITabBar selection)
+  glassLensStiffness: 320,
+  glassLensDamping: 26,
+  glassLensStretch: 0.14,
+  glassLensStretchMax: 0.4,
+  glassLensSquash: 0.1,
+  glassLensMorph: 0.42, // s, the stretch → settle keyframes
+  glassTintFade: 0.2, // s
+  glassHideShadow: 16, // hide travel = platter + its bottom gap + this (the shadow)
+  /** FLOATING_BOTTOM_GAP: docked / floating sticky content sits this far above the bar */
+  floatingGap: 10,
+  // one glass for every floating element (TabBar, PDP card, ActionBar surface="glass"); fills inside it
+  glassInnerFill: ref.palette('whiteAlpha40'), // controls on the glass (QTY box, quantity chips)
+  // GlassFade — under the floating containers: progressive blur (4 masked layers) + a white gradient, so what scrolls
+  // under the glass blends into it instead of showing a hard edge
+  fadeExtend: 48, // how far above the container the fade starts
+  fadeBlur1: 'blur(1px)',
+  fadeBlur2: 'blur(2px)',
+  fadeBlur3: 'blur(4px)',
+  fadeBlur4: 'blur(8px)',
+  fadeFrom: ref.palette('whiteAlpha0'),
+  fadeMid: ref.palette('whiteAlpha60'),
+  fadeTo: ref.palette('whiteAlpha90'),
 } as const;
 
 /** <QuickAdd> on ProductCard (NoonProductBoxAddToCart). CSS: var(--nk-quick-add-<key>). */
@@ -773,7 +1011,85 @@ export const snackbar = {
   inset: 12,
 } as const;
 
-export const tokens = { colors, palette, spacing, radius, fontSize, fontFamily, fontWeight, type, shadow, layout, button, iconButton, badge, pill, stepper, searchBar, tabBar, quickAdd, needHelp, sheet, eta, snackbar };
+
+/**
+ * Field Design System (@field-ds/tokens — the coded Origin DS, github.com/ayaneshu/field-design-system) colours, named
+ * after the Field semantic token (`colour.<group>.<name>` → `<group><Name>`). CSS: var(--nk-field-<key>).
+ * Field grey names sit one step from the kit's: Field text secondary #475067 = kit `textMuted`, Field tertiary #666D85 =
+ * kit `textSecondary`, Field muted #989FB3 = kit `textTertiary`. Field components and `variant="field*"` props use these;
+ * mapping notes in .claude/skills/noon-ui/references/field-ds.md.
+ */
+export const field = {
+  textPrimary: ref.palette('blueGray900'), // text-n-icon/primary #1D2539
+  textSecondary: ref.palette('blueGray700'), // text-n-icon/secondary #475067 (= kit textMuted)
+  textTertiary: ref.palette('slateGray'), // text-n-icon/tertiary #666D85 (= kit textSecondary)
+  textMuted: ref.palette('bluishGrey'), // text-n-icon/muted #989FB3 (= kit textTertiary)
+  textOnSurfaceBold: ref.palette('white'), // text-n-icon/on-surface-bold
+  textOnSurfaceSubtle: ref.palette('whiteAlpha80'), // text-n-icon/on-surface-subtle
+  textAction: ref.palette('primaryBlue'), // text-n-icon/action #0F61FF
+  textSupermall: ref.palette('rocketBlueSapphire'), // text-n-icon/supermall #2122B8
+  textError: ref.palette('dangerRed'), // text-n-icon/error #D92626
+  textWarning: ref.palette('sunsetOrange'), // text-n-icon/warning #E5641A
+  textYellowLight: ref.palette('yellowColor'), // text-n-icon/yellow-light #FEEE00
+  textYellowDark: ref.palette('fieldYellowDark'), // text-n-icon/yellow-dark #A36200
+  textSuccess: ref.palette('deepGreen'), // text-n-icon/success #0F8857
+  textSuccessBold: ref.palette('baseGreen800'), // text-n-icon/success_bold #0B623F
+  textPurple: ref.palette('fieldPurple700'), // base purple/700 #AD24DB (InfoBanner purple)
+  surfacePrimary: ref.palette('white'), // surface/primary
+  surfaceSecondary: ref.palette('secondaryBackgroundColor'), // surface/secondary #F9F9FB
+  surfaceTertiary: ref.palette('antiFlashWhite'), // surface/tertiary #F2F3F7
+  surfaceMuted: ref.palette('lightGreyColor'), // surface/muted #EAECF0
+  surfaceTertiaryInverted: ref.palette('gray800'), // surface/tertiary-inverted #343D54
+  surfaceSecondaryInverted: ref.palette('blueGray900'), // surface/secondary-inverted #1D2539
+  surfacePrimaryInverted: ref.palette('blueGray1000'), // surface/primary-inverted #101628
+  surfaceAbsoluteBlack: ref.palette('black'), // surface/absolute_black
+  surfaceActionSubtle: ref.palette('borderGray'), // surface/action-subtle #EBF4FF
+  surfaceActionBold: ref.palette('azureBlue'), // surface/action-bold #0F7EFF
+  surfaceActionExtrabold: ref.palette('primaryBlue'), // surface/action-extrabold #0F61FF
+  surfaceSupermallSubtle: ref.palette('originSupermallSubtle'), // surface/supermall-subtle #EDEEFD
+  surfaceSupermallBold: ref.palette('rocketBlueSapphire'), // surface/supermall-bold #2122B8
+  surfaceErrorSubtle: ref.palette('noonErrorSubtle'), // surface/error-subtle #FFF0F0
+  surfaceErrorBold: ref.palette('dangerRed'), // surface/error-bold #D92626
+  surfaceErrorExtrabold: ref.palette('red800'), // surface/error-extrabold #B81414
+  surfaceWarningSubtle: ref.palette('warningSurface'), // surface/warning-subtle #FFF1E0
+  surfaceWarningBold: ref.palette('sunsetOrange'), // surface/warning-bold #E5641A
+  surfaceYellowSubtle: ref.palette('paleYellowGradient'), // surface/yellow-subtle #FEFDC8
+  surfaceYellowMild: ref.palette('fieldYellowMild'), // surface/yellow-mild #FFF7C2
+  surfaceBrandPrimary: ref.palette('yellowColor'), // surface/brand-primary #FEEE00
+  surfaceYellowBold: ref.palette('fieldYellowBold'), // surface/yellow-bold #F5C400
+  surfaceSuccessSubtle: ref.palette('noonSuccessSubtle'), // surface/success-subtle #E3FCF2
+  surfaceSuccessBold: ref.palette('deepGreen'), // surface/success-bold #0F8857
+  surfaceSuccessExtrabold: ref.palette('fieldSuccessExtrabold'), // surface/success-extrabold #083F3B
+  surfacePurpleSubtle: ref.palette('lavenderMist'), // base purple/100 #FBF0FE (InfoBanner purple)
+  surfaceOverlaySubtle: ref.palette('blackAlpha24'), // surface/overlay-subtle
+  surfaceOverlayBold: ref.palette('blackAlpha80'), // surface/overlay-bold
+  borderWhite: ref.palette('white'), // border/white
+  borderOverlay: ref.palette('whiteAlpha8'), // border/overlay
+  borderPrimary: ref.palette('lightGreyColor'), // border/primary #EAECF0
+  borderSubtle: ref.palette('antiFlashWhite'), // border/subtle #F2F3F7
+  borderMedium: ref.palette('lightGrey'), // border/medium #D0D4DD
+  borderBold: ref.palette('slateGray'), // border/bold #666D85
+  borderExtrabold: ref.palette('blueGray1000'), // border/extrabold #101628
+  borderAction: ref.palette('paleBlue'), // border/action #D6E9FF
+  borderActionBold: ref.palette('primaryBlue'), // border/action-bold #0F61FF
+  borderSupermall: ref.palette('fieldBorderSupermall'), // border/supermall #C0C2F6
+  borderError: ref.palette('red200'), // border/error #FED2D2
+  borderErrorBold: ref.palette('dangerRed'), // border/error_bold #D92626
+  borderWarning: ref.palette('warningBorder'), // border/warning #FEDBB4
+  borderYellow: ref.palette('fieldYellowMild'), // border/yellow #FFF7C2
+  borderSuccess: ref.palette('fieldBorderSuccess'), // border/success #CBF6E5
+  borderSuccessBold: ref.palette('deepGreen'), // border/success_bold #0F8857
+  // letter-spacing per text-style family (font shorthands can't carry it)
+  trackingH: -0.25, // H40 … H20
+  trackingH16: -0.15, // H18, H16
+  trackingB16: -0.15, // B16
+  trackingB: -0.1, // B14 … B11
+  trackingA17: -0.25, // A17 (A16 … A12 = 0)
+  // elevation
+  shadowSm: '0 1px 3px rgba(0, 0, 0, 0.06)', // token-lint-ignore — Field elevation Sm (switch thumb, search bar)
+} as const;
+
+export const tokens = { colors, palette, spacing, radius, fontSize, fontFamily, fontWeight, type, shadow, layout, button, iconButton, badge, pill, stepper, searchBar, tabBar, quickAdd, needHelp, sheet, eta, snackbar, field };
 export type Tokens = typeof tokens;
 
 type Widen<T> = { [K in keyof T]?: T[K] extends object ? Widen<T[K]> : string | number };

@@ -117,9 +117,14 @@ export function FiltersSheet() {
     if (list && last) setSpacer(Math.max(100, list.clientHeight - last.offsetHeight));
   }, [facet, groups, height]);
 
-  // keep the active sidebar row centred (scrollToIndex viewPosition 0.5)
+  // keep the active sidebar row centred (scrollToIndex viewPosition 0.5). Scrolls the sidebar only: scrollIntoView also
+  // scrolls every ancestor, and while the sheet is still rising that dragged the navigator root (and the PLP) up.
   useEffect(() => {
-    sideRef.current?.querySelector('[data-active]')?.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' });
+    const side = sideRef.current;
+    const row = side?.querySelector<HTMLElement>('[data-active]');
+    if (!side || !row) return;
+    const top = row.getBoundingClientRect().top - side.getBoundingClientRect().top + side.scrollTop - (side.clientHeight - row.offsetHeight) / 2;
+    side.scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' });
   }, [active, reduce]);
 
   const jump = (id: GroupId) => {

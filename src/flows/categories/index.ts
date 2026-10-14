@@ -17,7 +17,7 @@ export const categoriesFlow = defineFlow({
     'Categories tab, 1:1 with master + the live UAE CMS: search bar, pre-search banner, then a 3-column grid of 29 category tiles. Tapping a tile opens its sub-category list under that row. Sub-categories open the PLP.',
   initial: 'categories',
   tokens: categoriesFlowTokens,
-  tabBar: { tab: 'categories', screens: ['categories', 'expanded', 'loading', 'error'] },
+  tabBar: { tab: 'categories', screens: ['categories', 'expanded', 'loading', 'error'], scrollHide: false }, // no ScrollVisibilityProvider on NoonCategoriesScreen
   screens: [
     {
       id: 'categories',

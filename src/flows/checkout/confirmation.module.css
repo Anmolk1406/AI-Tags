@@ -104,8 +104,12 @@
   border-radius: 18px;
   overflow: hidden;
 }
+/* justifyContent flex-start: a <button> centres its content vertically unless it is a flex container, which pushed the
+   title 9.5px down under the body card (top 36) */
 .shipHeaderContainer {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   width: 100%;
   height: 50px;
   padding: 7px var(--nk-space-s12) 0;

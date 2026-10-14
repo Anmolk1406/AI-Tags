@@ -9,6 +9,9 @@ const cartLayer = (page) => page.locator('[data-route="cart/cart"]').last();
 export const cartTotal = async (page) => money(await cartLayer(page).locator('[class*=footer] button[aria-expanded]').innerText());
 export const cartLines = (page) => cartLayer(page).locator('[class*=_card_]:has([aria-label="Select item"])');
 const tabTo = async (page, label, route) => {
+  // the glass tab bar hides on scroll (ScrollVisibilityProvider): scroll the screen back to the top first, as a user would
+  await (await top(page)).locator('[data-screen-scroll]').first().evaluate((el) => el.scrollTo({ top: 0 })).catch(() => undefined);
+  await page.waitForTimeout(400);
   await tap(page, (await top(page)).locator('nav').getByRole('button', { name: label, exact: true }), { scroll: false });
   await waitRoute(page, route);
   await page.waitForTimeout(1400);

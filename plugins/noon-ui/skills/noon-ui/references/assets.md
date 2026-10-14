@@ -96,7 +96,7 @@ Locale variants: pick by direction at runtime, e.g. `document.documentElement.di
 | Tabs / app | `home categories account search camera mic scan bell settings help chat` |
 | Actions | `plus minus trash edit copy upload filter sort bookmark imagePlus` |
 | Delivery / orders | `truck package packageCheck packageOpen box returns pin clock calendar building phone` |
-| Status | `check checkCircle info alert shield lock zap flame sparkles star` |
+| Status | `check checkCircle info alert shield lock zap flame trendingUp sparkles star` |
 | Locale / files | `globe language logout file` |
 
 Add a glyph: add a key to `icons` in `Icon.tsx` (a lucide icon or your own SVG component); never import `lucide-react` in a flow. For real noon artwork (account menu, payment, AFS) use the files in `icons/`, `returns/`, `shared/` with `<img>` or `MaskIcon`.

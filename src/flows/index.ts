@@ -3,6 +3,7 @@
  * the playground and export it from the library. Order = sidebar order.
  */
 import type { FlowDef } from '../kit/types';
+import { fielddsFlow } from './fieldds';
 import { homeFlow } from './home';
 import { searchFlow } from './search';
 import { categoriesFlow } from './categories';
@@ -21,6 +22,6 @@ import { cardsFlow } from './cards';
 import { noononeFlow } from './noonone';
 import { membershipFlow } from './membership';
 
-export { homeFlow, searchFlow, categoriesFlow, dealsFlow, plpFlow, pdpFlow, cartFlow, checkoutFlow, ordersFlow, returnsFlow, reviewsFlow, accountFlow, addressFlow, cardsFlow, noononeFlow, membershipFlow, wishlistFlow };
+export { homeFlow, searchFlow, categoriesFlow, dealsFlow, plpFlow, pdpFlow, cartFlow, checkoutFlow, ordersFlow, returnsFlow, reviewsFlow, accountFlow, addressFlow, cardsFlow, noononeFlow, membershipFlow, wishlistFlow, fielddsFlow };
 
-export const allFlows: FlowDef[] = [homeFlow, searchFlow, categoriesFlow, dealsFlow, plpFlow, pdpFlow, cartFlow, checkoutFlow, ordersFlow, returnsFlow, reviewsFlow, accountFlow, addressFlow, cardsFlow, noononeFlow, membershipFlow, wishlistFlow];
+export const allFlows: FlowDef[] = [homeFlow, searchFlow, categoriesFlow, dealsFlow, plpFlow, pdpFlow, cartFlow, checkoutFlow, ordersFlow, returnsFlow, reviewsFlow, accountFlow, addressFlow, cardsFlow, noononeFlow, membershipFlow, wishlistFlow, fielddsFlow];

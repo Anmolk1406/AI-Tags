@@ -6,8 +6,8 @@
 .hidable { position: absolute; top: 100%; left: 0; right: 0; z-index: 2; overflow: hidden; pointer-events: none; }
 /* fulfillmentHeaderContainer: white + NoonStyles.shadow() (1, 1, black 0.04, RN default radius 3) */
 .hidableInner { pointer-events: auto; background: var(--nk-color-bg-surface); box-shadow: 1px 1px 3px var(--nk-palette-black-alpha4); transform: translateY(calc(var(--plp-header-hide, 0) * -100%)); }
-/* the same spot as the search screen's bar (padding calc(inset + 4px) 16px …), so it never moves on the hand-off */
-.barRow { padding: 4px 16px 0; }
+/* searchButtonContainer: px 16, pb 12 · pt 4 puts it at the same spot as the search screen's bar (padding calc(inset + 4px) 16px …), so it never moves on the hand-off */
+.barRow { padding: 4px var(--nk-space-s16) var(--nk-space-s12); }
 
 /* marketplace strip (82:17411): 60h, tabs 96 wide, gap 12, padding 0 12 */
 /* NoonFulfillmentTabs (bappzaar, 1:1): container white, paddingTop 8; content row gap 12, padding 0 16, min height 55, centred;

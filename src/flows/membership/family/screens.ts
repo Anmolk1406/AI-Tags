@@ -1,10 +1,11 @@
 import type { ScreenDef } from '../../../kit/types';
+import { lazyScreen } from '../../../kit/lazyScreen';
 import { overlayScreen } from '../transitions';
-import { FamilyPlansScreen } from './FamilyPlansScreen';
-import { FamilyReviewOverlay } from './FamilyReviewOverlay';
-import { LeaveFamilyPlanScreen } from './LeaveFamilyPlanScreen';
-import { RemoveMemberOverlay } from './RemoveMemberOverlay';
-import { SharePlanInviteScreen } from './SharePlanInviteScreen';
+const FamilyPlansScreen = lazyScreen(() => import('./FamilyPlansScreen'), 'FamilyPlansScreen');
+const FamilyReviewOverlay = lazyScreen(() => import('./FamilyReviewOverlay'), 'FamilyReviewOverlay');
+const LeaveFamilyPlanScreen = lazyScreen(() => import('./LeaveFamilyPlanScreen'), 'LeaveFamilyPlanScreen');
+const RemoveMemberOverlay = lazyScreen(() => import('./RemoveMemberOverlay'), 'RemoveMemberOverlay');
+const SharePlanInviteScreen = lazyScreen(() => import('./SharePlanInviteScreen'), 'SharePlanInviteScreen');
 
 /** family screens of the membership flow (see family/MAPPING.md). */
 export const familyScreens: ScreenDef[] = [

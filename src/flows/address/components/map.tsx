@@ -281,6 +281,7 @@ export function FloatingOverlay({
         style={{ pointerEvents: expanded ? 'auto' : 'none' }}
         initial={slideIn ? { backgroundColor: palette.blackAlpha0 } : false}
         animate={{ backgroundColor: expanded ? palette.blackAlpha80 : palette.blackAlpha0 }}
+        exit={slideIn ? { backgroundColor: palette.blackAlpha0 } : undefined}
         transition={{ duration: 0.3, ease: OPACITY_EASE }}
         onClick={expanded ? onOverlayClose : undefined}
       />
@@ -300,6 +301,8 @@ export function FloatingOverlay({
           backgroundColor: bg,
           ...(closing ? { scaleY: 1.35, marginLeft: 0, marginRight: 0 } : { scaleY: 1 }),
         }}
+        // slideIn: leaves the way it came in (back down below the screen) when the screen is popped
+        exit={slideIn ? { y: SCREEN_HEIGHT } : undefined}
         style={{ transformOrigin: 'bottom' }}
         transition={{
           height: { type: 'spring', mass: 1, stiffness: 300, damping: 28 },

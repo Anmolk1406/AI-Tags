@@ -88,6 +88,7 @@ System icon from a noon / Figma design → `OriginIcon` (catalogue in `reference
 | `onScroll` | `(y: number) => void` | — |
 | `contentStyle` | `CSSProperties` (merged last into the scroll div) | — |
 | `overlay` | `ReactNode` (floats over the content, above the footer, e.g. `NeedHelpButton`; the layer lets taps through) | — |
+| `floatingFooter` | `boolean` (the footer floats over the content — the list scrolls behind it, NoonNativeStickyBar — and the content is padded by its height; for see-through footers such as `ActionBar surface="glass"`) | — |
 
 ```tsx
 // src/flows/plp/ListingScreen.tsx
@@ -295,7 +296,7 @@ Gotchas: button resets live in `global.css` under `:where(.nk-pressable)` (zero 
 | `className`, `style` | | — |
 | `flipRtl` | `boolean` (mirror in RTL) | — |
 
-Names: `back arrowLeft chevronRight chevronDown chevronUp search camera mic heart share cart home categories account deals plus minus trash star close filter sort pin truck package packageCheck packageOpen returns card gift bell settings shield logout globe language check checkCircle info tag percent clock wallet edit copy upload arrowUp store zap lock chat help sparkles imagePlus flame receipt file more calendar phone alert bookmark scan crown building box`.
+Names: `back arrowLeft chevronRight chevronDown chevronUp search camera mic heart share cart home categories account deals plus minus trash star close filter sort pin truck package packageCheck packageOpen returns card gift bell settings shield logout globe language check checkCircle info tag percent clock wallet edit copy upload arrowUp store zap lock chat help sparkles imagePlus flame trendingUp receipt file more calendar phone alert bookmark scan crown building box`.
 
 ```tsx
 // src/flows/checkout/LearnMoreScreen.tsx
@@ -780,14 +781,24 @@ const [scrolled, setScrolled] = useState(false);
 
 ## TabBar
 
-`src/components/TabBar/TabBar.tsx`. Bottom tabs Home · Categories · Deals · Account · Cart with the app's tab webps, cart count badge from `useDemoStore().cartCount`, `nav.switchTab` on press. Prop: `active: TabId` (required).
+`src/components/TabBar/TabBar.tsx`. Bottom tabs Home · Categories · Deals · Account · Cart with the app's tab webps, cart count badge from `useDemoStore().cartCount`, `nav.switchTab` on press.
 
-You don't render it yourself: `src/kit/Navigator.tsx` renders `<TabBar active={tab} />` for the root screen of a flow whose `defineFlow` has `tabBar: { tab, screens }`, e.g. `src/flows/home/index.ts`: `tabBar: { tab: 'home', screens: ['home'] }`. On that screen pass `withTabBar` to `Screen`.
+| Prop | Type | Default |
+|---|---|---|
+| `active` | `TabId` (required) | — |
+| `variant` | unset = **Liquid Glass** · `'classic'` (opaque pre-iOS-26 bar) · `'field'` (Field M-Bottomnav) | glass |
+| `autoHide` | glass: hide on scroll, following the vertical scroll of the `<Screen>` it sits in | `false` (the navigator sets it on tab roots) |
+| `covered` | autoHide: the screen is covered → release, bar restored | — |
+
+You don't render it yourself: `src/kit/Navigator.tsx` renders it for the root screen of a flow whose `defineFlow` has `tabBar: { tab, screens, variant?, scrollHide? }`, e.g. `src/flows/home/index.ts`: `tabBar: { tab: 'home', screens: ['home'] }`. On that screen pass `withTabBar` to `Screen`.
+
+**Liquid Glass (default)** — bappzaar `noon/ios/liquid-upgrade` (iOS 26; `UIDesignRequiresCompatibility` false): the same native UITabBar, which iOS 26 draws as a floating glass platter. 62 high, 21 from the sides, its bottom 13 below the home-indicator inset (platter + gap = `layout.tabBar` + inset, so every screen's reserved bottom space still fits); backdrop blur + saturate over a translucent white tint, a specular rim and sheen; icons only at 7/8 of the classic size, no labels (the tab name is the aria-label); the selected tab sits in a lens capsule that swells under the finger (1.08). Switching tabs replicates the iOS 26 selection: each tab root draws its own bar, and the new bar starts the lens on the tab it was tapped from, slides it over on a slightly underdamped spring (`glassLensStiffness` 320 / `glassLensDamping` 26) with a droplet stretch (scaleX +0.14 per tab travelled, max +0.4; scaleY −0.1; 0.42s), clipped to the platter so the overshoot squashes into the rim, while the icon tints cross-fade (0.2s). Reduced motion: no slide, instant tint. Content scrolls behind it. Hide on scroll (`tabBar.scrollHide`, default true; categories off) = ScrollVisibilityProvider 1:1 (`src/kit/tabBarScroll.ts`: shown at the top / above 150, hides after 64 down, returns after 24 up); the bar publishes `--nk-tab-hide` (0 → 1) on the screen so docked footers follow it (`ActionBar aboveTabBar`, cart sticky bar). Docked content sits `--nk-tab-bar-floating-gap` (10, FLOATING_BOTTOM_GAP) above the bar. Glass falls back to near-opaque white without `backdrop-filter` or with reduced transparency. Demo: `fieldds/glass`.
 
 Gotchas:
 - Tab labels and icons are fixed in `TabBar.tsx` (dynamic tab falls back to "Deals").
-- The look is bappzaar's native bar 1:1 (NoonApp.getTab / getTabOptions → react-native-navigation UITabBar): 49pt row, opaque white, shadow 0 −3 4 at 0.08, no indicator; icons at native size (32, deals 25) with iconInsets top 3; labels semibold 14 in both states, `charcoalGreyColor` #404553 → `sapphire` #1155CB; cart badge = the native badge, an 18-high `accentColor` capsule with 13pt white system text (no ring) at the icon's top-right. Tabs switch instantly. The 2025 Figma nav (43×4 indicator, 12/20 labels) is not used.
-- `.bar` is `position: absolute; bottom: 0`. To show it under a pushed screen's footer (Figma PDP), wrap `<TabBar active="home" />` in a `position: relative` box of height `calc(var(--nk-layout-tab-bar) + var(--nk-inset-bottom))`.
+- The platter geometry and material are UIKit's, not in bappzaar (iOS draws them); the values here approximate the iOS 26 tab bar. A screen that hides the bar itself (PLP `--plp-tab-hide`, PDP `--pdp-tab-hide`) renders `<TabBar>` without `autoHide`.
+- `variant="classic"` is bappzaar master's native bar 1:1 (NoonApp.getTab / getTabOptions → react-native-navigation UITabBar): 49pt row, opaque white, shadow 0 −3 4 at 0.08, no indicator; icons at native size (32, deals 25) with iconInsets top 3; labels semibold 14 in both states, `charcoalGreyColor` #404553 → `sapphire` #1155CB; cart badge = the native badge, an 18-high `accentColor` capsule with 13pt white system text (no ring) at the icon's top-right. Tabs switch instantly. The 2025 Figma nav (43×4 indicator, 12/20 labels) is not used.
+- `.bar` / the glass dock are `position: absolute; bottom: 0`. To show it under a pushed screen's footer (Figma PDP), wrap `<TabBar active="home" />` in a `position: relative` box of height `calc(var(--nk-layout-tab-bar) + var(--nk-inset-bottom))`.
 
 ## Skeleton
 
@@ -975,6 +986,153 @@ Gotchas: for a plain message use `nav.toast(title, { type, subtitle, onSubtitleP
 
 ---
 
+## Field Design System (Origin, coded)
+
+[Field Design System](https://github.com/ayaneshu/field-design-system) is the coded Origin DS (`M-*` components). The
+kit carries it as **opt-in variants** on the existing components plus five new components; the default look of every
+existing component is unchanged, so ported screens stay 1:1. Use the Field pieces for new Origin-era screens (design-rules
+§0). Mapping, token notes and gaps: [`references/field-ds.md`](references/field-ds.md). Gallery: route `fieldds/gallery`. Colours are the
+`field` token group (`var(--nk-field-<key>)`, `field.<key>`); type `fieldB14Medium` … (`var(--nk-type-field-b14-medium)`,
+letter-spacing `var(--nk-field-tracking-b)`); motion `fieldMotion` (`src/motion/presets.ts`).
+
+| Field (M-*) | Kit |
+|---|---|
+| PrimaryButton · SecondaryButton · SecondaryNeutralButton · NeutralButton · TextButton · NeutralTextButton · RoundButton | `Button variant="fieldPrimary" \| "fieldSecondary" \| "fieldSecondaryNeutral" \| "fieldNeutral" \| "fieldText" \| "fieldNeutralText" \| "fieldRound"` + `fieldSize="H56" \| "H52" \| "H48" \| "H40" \| "H36" \| "H32" \| "A14" \| "A12"` |
+| IconButton | `IconButton variant="fieldDefault" \| "fieldGhost" \| "fieldAction"`, `size={40 \| 36}`, `disabled` |
+| PageHeader (title, title-center) | `Header variant="field"` (+ `image`) |
+| ActionBar | `ActionBar` (new); `SheetFooter layout tone leading` |
+| BottomSheet | the navigator's Origin sheet + `SheetHeader` / `SheetBody` / `SheetFooter` (already) |
+| Toast | `nav.toast(title, { action: 'close' })` → `Snackbar action="close" onClose` |
+| BottomNav | `TabBar variant="field"` (flow `tabBar: { …, variant: 'field' }`) |
+| Checkbox · Radio | `Checkbox variant="field" onChange` · `Radio` (new) |
+| Toggle (on/off) | `Switch variant="field" size={16 \| 20 \| 24}` |
+| Switch (2–4 options) | `Segmented variant="field" size={40 \| 48}` |
+| FilterChip | `Pill variant="fieldChip"` (+ `onClear`, `disabled`, `fieldIcon`, `fieldTrailingIcon`) |
+| InfoBanner | `StatusChip variant="field" size shape` (tones + `supermall`, `purple`) |
+| RatingInput | `Stars variant="field" onChange size={20 \| 28 \| 32} clearable` |
+| InputText · InputTextarea | `TextField` · `TextArea` (new) |
+| SearchBar | `SearchInput variant="field" fieldSize="H48" \| "H44" elevation iconLeft iconRight iconRightTwo` |
+| ListItem | `ListRow variant="field" size leading titleSlot trailing` |
+| Accordion | `Accordion` (new) |
+| Divider | `Divider emphasis="low" \| "high"`, `DashedDivider emphasis gap` |
+
+Gotcha: Field's names differ from the kit's. Field **Switch** is the kit `Segmented`, Field **Toggle** is the kit
+`Switch`, Field **FilterChip** is `Pill`, **InfoBanner** is `StatusChip`, **ListItem** is `ListRow`.
+
+```tsx
+<Button variant="fieldPrimary" fieldSize="H52" block loading={busy}>Continue</Button>
+<Switch variant="field" value={on} onChange={setOn} label="Notifications" />
+<Pill variant="fieldChip" selected={n > 0} count={n} onPress={open} onClear={clearAll}>Filter</Pill>
+<StatusChip variant="field" tone="supermall" size="large">supermall</StatusChip>
+<Screen footer={<ActionBar layout="split" tone="neutral" secondary={{ label: 'Reset', onPress: reset }} primary={{ label: 'Apply', onPress: apply }} />}>
+```
+
+## GlassFade and the shared glass
+
+`src/components/Glass/`. **One Liquid Glass material** for every floating element: `Glass.module.css` `.glass` (tint, `backdrop-filter`, rim, shadow, highlight, sheen; reduced-transparency / no-backdrop fallback) — compose it in CSS (`composes: glass from '…/components/Glass/Glass.module.css'`) and add the geometry. Used by the glass `TabBar`, the PDP sticky card (`SfAtcBar`) and `ActionBar surface="glass"`; controls on the glass use `--nk-tab-bar-glass-inner-fill` (whiteAlpha40) instead of white. Don't hand-roll another glass.
+
+`GlassFade` (`className?`, `style?`): the layer under floating glass containers — a progressive blur (four masked backdrop blurs, 1 → 8px, stronger towards the bottom) under a transparent → white gradient (`fadeFrom` → `fadeMid` → `fadeTo`), so content scrolling under the glass blends in. Absolute at the bottom of its positioned parent; set `top` / `height` (`--nk-tab-bar-fade-extend`, 48, above the container). The glass `TabBar` brings one; a sticky footer that brings its own marks itself `data-glass-footer` and the tab bar's fade hides (one fade per screen).
+
+```tsx
+<div className={styles.sticky} data-glass-footer="">
+  <GlassFade className={styles.fade} /> {/* .fade { top: calc(-1 * var(--nk-tab-bar-fade-extend)); } */}
+  <div className={styles.card}>…</div>
+</div>
+```
+
+## Radio
+
+`src/components/Radio/Radio.tsx`. Field M-Radio: off = white disc + 1px `border/medium` ring, on = `text-n-icon/action`
+#0F61FF disc with a white tick drawn in (select 220ms, recede 180ms, tick after 120ms); about 44px touch target.
+
+| Prop | Type | Default |
+|---|---|---|
+| `checked` | `boolean` (required) | — |
+| `onChange` | `(checked: true) => void`; fires only when an unselected radio is tapped. Omit → a visual span inside your own pressable row | — |
+| `size` | `16 \| 20 \| 24` | `24` |
+| `disabled` | `boolean` | `false` |
+| `label` | `string` (aria-label) | — |
+
+```tsx
+<Radio checked={plan === 'fast'} onChange={() => setPlan('fast')} label="Fast delivery" size={20} />
+```
+
+## ActionBar
+
+`src/components/ActionBar/ActionBar.tsx`. Field M-ActionBar: the footer of a screen or sheet. White, padding 12, bottom
+inset below it.
+
+| Prop | Type | Default |
+|---|---|---|
+| `layout` | `'single' \| 'stacked' \| 'split' \| 'leadingTrailing'` (stacked gap 12; split flex 1 gap 12; leadingTrailing = `leading` slot + primary at H48, gap 8; others H52) | `'single'` |
+| `tone` | `'action'` (fieldPrimary / fieldSecondary) `\| 'neutral'` (fieldNeutral / fieldSecondaryNeutral) | `'action'` |
+| `primary` · `secondary` | `{ label, onPress, disabled?, loading?, icon?, iconRight? }` | — |
+| `top` | `ReactNode` above the buttons (single / stacked) | — |
+| `leading` | `ReactNode` (leadingTrailing; in split it replaces the secondary) | — |
+| `inset` | `boolean` (adds `var(--nk-inset-bottom)`) | `true` |
+
+```tsx
+<ActionBar layout="leadingTrailing" leading={<Money value={249} bold />} primary={{ label: 'Add to cart', onPress: add }} />
+```
+
+| `surface` | `'solid'` · `'glass'` (liquid-upgrade embedded sticky bar: clear glass, r24, running on behind the bottom tab) | `'solid'` |
+| `aboveTabBar` | dock the content 10 above the glass tab bar and follow it while it hides on scroll | — |
+
+`SheetFooter` takes the same `layout` / `tone` / `leading` (opt-in; without them it renders as before). A glass footer needs content behind it: put it in `<Screen floatingFooter footer={…}>` (the footer floats over the content, which is padded by its height).
+
+## Accordion
+
+`src/components/Accordion/Accordion.tsx`. Field M-Accordion: r12 card; header min 44, padding 12, #F9F9FB, B14
+SemiBold title, optional leading icon, 20px chevron turning 180°; body #F9F9FB padding 12 under a 1px gap; height +
+opacity 320ms open / 260ms close (`fieldMotion.ease.standard`).
+
+| Prop | Type | Default |
+|---|---|---|
+| `title` | `ReactNode` (required) | — |
+| `children` | `ReactNode` (a string renders as B14 Regular) | — |
+| `expanded` · `onExpandedChange` | controlled | — |
+| `defaultExpanded` | `boolean` | `false` |
+| `iconLeft` | `OriginIconName \| ReactNode` | — |
+
+```tsx
+<Accordion title="Specifications" iconLeft="info-circle" defaultExpanded>Water resistant to 50m.</Accordion>
+```
+
+## TextField
+
+`src/components/TextField/TextField.tsx`. Field M-InputText: 48h (inline label 56), r12, 1px border (`border/primary`
+→ `border/medium` on focus, 160ms; error `border/error_bold`), padding 0 16, B14 Medium text, 20px slots. Ref → `<input>`.
+`FieldLabel` and `FieldHelper` (`TextField/parts.tsx`) are the shared label and helper rows of TextField and TextArea;
+internal, not exported from the package.
+
+| Prop | Type | Default |
+|---|---|---|
+| `value` · `defaultValue` · `onChange` | `string` · `string` · `(value: string) => void` | — · `''` · — |
+| `label` · `labelMode` · `required` | `ReactNode` · `'external' \| 'inline' \| 'none'` · `boolean` | — · `'external'` · — |
+| `placeholder` · `helperText` | `string` · `ReactNode` | — |
+| `error` | `boolean \| string` (a string replaces the helper) | `false` |
+| `maxLength` · `showCounter` | `number` · `boolean` | — |
+| `leftSlot` · `rightSlot` | `ReactNode` (20×20) | — |
+| `disabled` · `readOnly` | `boolean` | `false` |
+| `type` · `inputMode` · `autoComplete` · `autoFocus` · `name` · `id` · `onSubmit` | input attributes; `onSubmit(value)` on Enter | `type="text"` |
+
+```tsx
+<TextField label="Email" required value={email} onChange={setEmail} error={bad && 'Enter a valid email'} helperText="We'll send the receipt here" />
+```
+
+## TextArea
+
+`src/components/TextArea/TextArea.tsx`. Field M-InputTextarea: min 180h, r12, padding 16/14, same label, helper,
+error and disabled states as `TextField`; grows to `maxHeight`, then scrolls; counter "n/max". Ref → `<textarea>`.
+Props: `value`, `defaultValue`, `onChange(value)`, `label`, `required`, `placeholder`, `helperText`, `error`,
+`disabled`, `readOnly`, `maxLength`, `showCounter`, `minHeight` (180), `maxHeight`, `rows` (6), `autoFocus`, `name`, `id`.
+
+```tsx
+<TextArea label="Delivery note" maxLength={200} showCounter value={note} onChange={setNote} />
+```
+
+---
+
 ## Search before you create
 
 Before you write any new component (shared or flow-local), search for one that already does the job. Run all three; it takes seconds:
@@ -994,7 +1152,7 @@ Then decide, in this order:
 1. **A shared component fits** (same role; differences are props, a `className` or a flow token override) → use it. Don't wrap it in a flow-local copy to change a colour.
 2. **A shared component almost fits** (one missing prop / variant used by the source design) → use it and report the missing prop; adding it to `src/components` is a separate, backward-compatible change (new optional prop, default = current behaviour).
 3. **A flow-local component in another flow fits** → don't copy it. Import it only if the flows are siblings in the same area (membership ↔ noonone); otherwise build yours flow-local and note it as a promotion candidate (below).
-4. **Nothing fits** → build it flow-local in `src/flows/<flow>/components/`, then follow "Building a new component".
+4. **Nothing fits** → don't invent a look. Pills, chips, tabs, toggles, badges, buttons, cards, rows and sheets always come from the existing design languages (`references/design-rules.md` §0). Name the closest existing component and what differs, and ask. Build a new one (flow-local in `src/flows/<flow>/components/`, then "Building a new component") only when the user explicitly asks for it, or confirms after you ask. A flow-local composition of existing pieces (a section, a card body) needs no ask.
 
 Say which of the four you chose, and why, in the plan (SKILL.md workflow step 5).
 

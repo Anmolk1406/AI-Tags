@@ -1,13 +1,14 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { useEffect, useState, type ReactNode } from 'react';
-import { easing, handoff } from '../../motion/presets';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { easing, fieldMotion, handoff } from '../../motion/presets';
 import { Pressable } from '../Pressable/Pressable';
+import { OriginIcon } from '../Icon/OriginIcon';
 import searchIcon from '@assets/icons/noon-search-bar.webp';
 import cameraIcon from '@assets/icons/noon-search-bar-camera.webp';
 // bappzaar NoonThemeManager.icons.back() / ThemeManager.icons.clearInput() (@3x)
 import backIcon from '@assets/shared/search-bar/back.webp';
 import clearIcon from '@assets/shared/search-bar/clear-input.webp';
-import { searchBar as t } from '../../foundations/tokens';
+import { field, searchBar as t } from '../../foundations/tokens';
 import styles from './SearchBar.module.css';
 
 /**
@@ -99,17 +100,7 @@ export function SearchBarButton({
  * S-curve over 320ms (re-run it by changing `key`). `onFieldPress` makes the field a read-only button
  * (the PLP's search bar: tapping it goes back to editing) and keeps the camera instead of the clear (x).
  */
-export function SearchInput({
-  value,
-  onChange,
-  onBack,
-  autoFocus,
-  placeholder = 'What are you looking for?',
-  right,
-  onSubmit,
-  onFieldPress,
-  fill,
-}: {
+export interface SearchInputProps {
   value: string;
   onChange: (v: string) => void;
   onBack?: () => void;
@@ -119,7 +110,22 @@ export function SearchInput({
   onSubmit?: (v: string) => void;
   onFieldPress?: () => void;
   fill?: { from: number; key: number };
-}) {
+  /** `field`: Field DS M-SearchBar look (opt-in); `default` (NoonSearchScreen) is unchanged */
+  variant?: 'default' | 'field';
+  /** field variant: `H48` (padding 12, 24 icons, B14 Medium, default) · `H44` (padding 10 / 12, 20 icons, B12 Medium) */
+  fieldSize?: 'H48' | 'H44';
+  /** field variant: Sm elevation shadow */
+  elevation?: boolean;
+  /** field variant: leading icon; default Origin `search` (or a back arrow with `onBack`); `null` removes it */
+  iconLeft?: ReactNode | null;
+  /** field variant: first trailing icon (default: `right`; the clear (x) replaces it while typing unless set) */
+  iconRight?: ReactNode;
+  /** field variant: second trailing icon, after a 1 × 24 borderSubtle divider */
+  iconRightTwo?: ReactNode;
+}
+
+/** the handoff "picked suggestion" fill, shared by both SearchInput looks */
+function useFill(value: string, fill?: { from: number; key: number }) {
   const [filling, setFilling] = useState(false);
   useEffect(() => {
     if (!fill || fill.from >= value.length) return;
@@ -128,6 +134,44 @@ export function SearchInput({
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fill?.key]);
+  return filling;
+}
+
+function FillCopy({ value, fill }: { value: string; fill: { from: number; key: number } }) {
+  return (
+    <span className={styles.fillCopy} aria-hidden>
+      <span>{value.slice(0, fill.from)}</span>
+      <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.32, ease: handoff.easeInOut }}>
+        {value.slice(fill.from)}
+      </motion.span>
+    </span>
+  );
+}
+
+/**
+ * Editable search field. Default: NoonSearchScreen (52h, r12, back icon inside). `variant="field"` (opt-in): Field DS
+ * M-SearchBar (`@field-ds/components` SearchBar/SearchBar.tsx, Figma 892:244) — H48 (padding 12, 24px icons, B14
+ * Medium) or H44 (padding 10 / 12, 20px icons, B12 Medium), surfacePrimary, 1px borderSubtle, r12, gap 8, optional Sm
+ * `elevation`, Origin `search` icon (Field tertiary → primary once focused or typed), `iconRight` + `iconRightTwo`
+ * after a 1 × 24 divider, auto clear (x) while typing, placeholder Field textPrimary at rest / textTertiary focused,
+ * press scale .98 over 160ms. `fill`, `onFieldPress`, `onBack`, `onSubmit` work in both looks.
+ */
+export function SearchInput(props: SearchInputProps) {
+  return props.variant === 'field' ? <FieldSearchInput {...props} /> : <KitSearchInput {...props} />;
+}
+
+function KitSearchInput({
+  value,
+  onChange,
+  onBack,
+  autoFocus,
+  placeholder = 'What are you looking for?',
+  right,
+  onSubmit,
+  onFieldPress,
+  fill,
+}: SearchInputProps) {
+  const filling = useFill(value, fill);
   const showClear = !!value && !onFieldPress;
   return (
     <div className={`${styles.bar} ${styles.input}`}>
@@ -149,14 +193,7 @@ export function SearchInput({
           onKeyDown={(e) => e.key === 'Enter' && onSubmit?.(value)}
           style={filling ? { color: 'transparent' } : undefined}
         />
-        {filling && fill && (
-          <span className={styles.fillCopy} aria-hidden>
-            <span>{value.slice(0, fill.from)}</span>
-            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.32, ease: handoff.easeInOut }}>
-              {value.slice(fill.from)}
-            </motion.span>
-          </span>
-        )}
+        {filling && fill && <FillCopy value={value} fill={fill} />}
       </span>
       {showClear ? (
         <Pressable onClick={() => onChange('')} aria-label="Clear" style={{ display: 'flex' }}>
@@ -168,5 +205,105 @@ export function SearchInput({
         right ?? <img src={cameraIcon} alt="" width={24} height={24} />
       )}
     </div>
+  );
+}
+
+function FieldSearchInput({
+  value,
+  onChange,
+  onBack,
+  autoFocus,
+  placeholder = 'What are you looking for?',
+  right,
+  onSubmit,
+  onFieldPress,
+  fill,
+  fieldSize = 'H48',
+  elevation,
+  iconLeft,
+  iconRight,
+  iconRightTwo,
+}: SearchInputProps) {
+  const filling = useFill(value, fill);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [focused, setFocused] = useState(false);
+  const icon = fieldSize === 'H44' ? 20 : 24;
+  const active = focused || !!value;
+  const lead =
+    iconLeft === null ? null : iconLeft !== undefined ? (
+      iconLeft
+    ) : onBack ? (
+      <Pressable onClick={onBack} aria-label="Back" style={{ display: 'flex' }}>
+        <OriginIcon name="arrow-left" size={icon} color={field.textPrimary} className={styles.flipRtl} />
+      </Pressable>
+    ) : (
+      <OriginIcon name="search" size={icon} color={active ? field.textPrimary : field.textTertiary} />
+    );
+  const showClear = iconRight === undefined && !!value && !onFieldPress;
+  const trail = showClear ? (
+    <Pressable
+      onClick={() => {
+        onChange('');
+        inputRef.current?.focus();
+      }}
+      aria-label="Clear search"
+      style={{ display: 'flex' }}
+    >
+      <OriginIcon name="cross" size={icon} color={field.textTertiary} />
+    </Pressable>
+  ) : (
+    iconRight ?? right
+  );
+  const slot = { width: icon, height: icon };
+  return (
+    <motion.div
+      className={`${styles.fieldBar}${elevation ? ` ${styles.fieldElevated}` : ''}`}
+      data-size={fieldSize}
+      data-focused={focused || undefined}
+      whileTap={{ scale: fieldMotion.pressScale }}
+      transition={{ duration: fieldMotion.duration.sm, ease: fieldMotion.ease.standard }}
+      onClick={() => inputRef.current?.focus()}
+    >
+      {lead != null && (
+        <span className={styles.fieldSlot} style={slot}>
+          {lead}
+        </span>
+      )}
+      <span className={styles.fieldWrap}>
+        <input
+          ref={inputRef}
+          type="search"
+          enterKeyHint="search"
+          className={`${styles.field} ${styles.fieldInput}`}
+          value={value}
+          placeholder={placeholder}
+          aria-label={placeholder}
+          autoFocus={autoFocus}
+          autoCapitalize="none"
+          autoCorrect="off"
+          readOnly={!!onFieldPress}
+          onClick={onFieldPress}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          onChange={(e) => onChange(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && onSubmit?.(value)}
+          style={filling ? { color: 'transparent' } : undefined}
+        />
+        {filling && fill && <FillCopy value={value} fill={fill} />}
+      </span>
+      {trail != null && (
+        <span className={styles.fieldSlot} style={slot}>
+          {trail}
+        </span>
+      )}
+      {iconRightTwo != null && (
+        <>
+          <span className={styles.fieldDivider} />
+          <span className={styles.fieldSlot} style={slot}>
+            {iconRightTwo}
+          </span>
+        </>
+      )}
+    </motion.div>
   );
 }

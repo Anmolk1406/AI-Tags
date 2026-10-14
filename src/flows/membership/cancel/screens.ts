@@ -1,7 +1,14 @@
 import type { ScreenDef } from '../../../kit/types';
+import { lazyScreen } from '../../../kit/lazyScreen';
 import { overlayScreen } from '../transitions';
-import { CancelScreen } from './CancelScreen';
-import { CancelSheetScreen, ConfirmOfferOverlayScreen, GroupSavingsOverlayScreen, LeaveFamilyOverlayScreen, LoseAccessOverlayScreen, PlanOptionsOverlayScreen, UnusedSeatsOverlayScreen } from './overlays';
+const CancelScreen = lazyScreen(() => import('./CancelScreen'), 'CancelScreen');
+const CancelSheetScreen = lazyScreen(() => import('./overlays'), 'CancelSheetScreen');
+const ConfirmOfferOverlayScreen = lazyScreen(() => import('./overlays'), 'ConfirmOfferOverlayScreen');
+const GroupSavingsOverlayScreen = lazyScreen(() => import('./overlays'), 'GroupSavingsOverlayScreen');
+const LeaveFamilyOverlayScreen = lazyScreen(() => import('./overlays'), 'LeaveFamilyOverlayScreen');
+const LoseAccessOverlayScreen = lazyScreen(() => import('./overlays'), 'LoseAccessOverlayScreen');
+const PlanOptionsOverlayScreen = lazyScreen(() => import('./overlays'), 'PlanOptionsOverlayScreen');
+const UnusedSeatsOverlayScreen = lazyScreen(() => import('./overlays'), 'UnusedSeatsOverlayScreen');
 
 const src = 'features/vip/screens';
 

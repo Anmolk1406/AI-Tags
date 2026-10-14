@@ -1,11 +1,12 @@
 import type { ScreenDef } from '../../../kit/types';
+import { lazyScreen } from '../../../kit/lazyScreen';
 import { overlayScreen } from '../transitions';
-import { ChangePlanScreen } from './ChangePlanScreen';
-import { InfoOverlay } from './InfoOverlay';
-import { InvoiceScreen } from './InvoiceScreen';
-import { ReviewPlanOverlay } from './ReviewPlanOverlay';
-import { SwitchPlanOverlay } from './SwitchPlanOverlay';
-import { UpgradePlanScreen } from './UpgradePlanScreen';
+const ChangePlanScreen = lazyScreen(() => import('./ChangePlanScreen'), 'ChangePlanScreen');
+const InfoOverlay = lazyScreen(() => import('./InfoOverlay'), 'InfoOverlay');
+const InvoiceScreen = lazyScreen(() => import('./InvoiceScreen'), 'InvoiceScreen');
+const ReviewPlanOverlay = lazyScreen(() => import('./ReviewPlanOverlay'), 'ReviewPlanOverlay');
+const SwitchPlanOverlay = lazyScreen(() => import('./SwitchPlanOverlay'), 'SwitchPlanOverlay');
+const UpgradePlanScreen = lazyScreen(() => import('./UpgradePlanScreen'), 'UpgradePlanScreen');
 
 /** plans screens of the membership flow (see plans/MAPPING.md). */
 export const plansScreens: ScreenDef[] = [

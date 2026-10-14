@@ -14,62 +14,21 @@
 
 | Screen | Presentation | URL | Truth · verified | Module | Tests |
 |---|---|---|---|---|---|
-| `scr:cards/cards` Saved cards | screen | /cards | bappzaar* · never | `CardsScreen.tsx` | 0 |
-| `scr:cards/actions` Card actions | screen | — | bappzaar* · never | `CardsScreen.tsx` (select) | 0 |
-| `scr:cards/delete` Delete confirmation | screen | — | bappzaar* · never | `CardsScreen.tsx` (action, select) | 0 |
-| `scr:cards/empty` No saved cards | screen | — | bappzaar* · never | `CardsScreen.tsx` (seed) | 1 |
-| `scr:cards/many` Many cards (sections) | screen | — | bappzaar* · never | `CardsScreen.tsx` (seed) | 0 |
-| `scr:cards/add` Add card | screen | /add-card | bappzaar* · never | `AddCardScreen.tsx` | 1 |
-| `scr:cards/form` Add card — form | screen | — | bappzaar* · never | `AddCardScreen.tsx` (manual) | 1 |
-| `scr:cards/success` Card saved | screen · fade | — | bappzaar* · never | `AddCardSuccessScreen.tsx` | 0 |
+| `scr:cards/cards` Saved cards | screen | /cards | bappzaar* · never | ? | 0 |
+| `scr:cards/actions` Card actions | screen | — | bappzaar* · never | ? (select) | 0 |
+| `scr:cards/delete` Delete confirmation | screen | — | bappzaar* · never | ? (action, select) | 0 |
+| `scr:cards/empty` No saved cards | screen | — | bappzaar* · never | ? (seed) | 0 |
+| `scr:cards/many` Many cards (sections) | screen | — | bappzaar* · never | ? (seed) | 0 |
+| `scr:cards/add` Add card | screen | /add-card | bappzaar* · never | ? | 0 |
+| `scr:cards/form` Add card — form | screen | — | bappzaar* · never | ? (manual) | 0 |
+| `scr:cards/success` Card saved | screen · fade | — | bappzaar* · never | ? | 0 |
 
 `*` truth inferred from `source`. Tests = journeys + visual references (every screen also runs in `check:routes`). In nav lines, `~` = target resolved through a const / helper / ternary (reachable, runtime-dependent); no mark = a literal `nav.*('…')` call.
 
-## `cards/cards` · `cards/actions` · `cards/delete` · `cards/empty` · `cards/many`
+## `cards/cards` · `cards/actions` · `cards/delete` · `cards/empty` · `cards/many` · `cards/add` · `cards/form` · `cards/success`
 
-- Module `src/flows/cards/CardsScreen.tsx` (shared by 5 screens; params pick the state) · 14 own files, 40 in the import closure <!-- count-ok -->
+- Module `?` (shared by 8 screens; params pick the state) · 0 own files, 0 in the import closure <!-- count-ok -->
 - Source: features/payment/screens/PaymentCardsV2Screen (+ components/PaymentScrollableHeader, PaymentAnimatedListCard, PaymentCard, PaymentCardShimmer, PaymentCardsSectionTitle, screens/PaymentCardActionsScreen, hooks/usePayment…
-- Styles: cards.module.css, components/components.module.css
-- Data / helpers: data.ts, store.ts, tokens.ts, utils.ts
-- Shared components: `MaskIcon`, `Screen`, `Spinner`
-- Flow components: `AnimatedListCard`, `CardActionsOverlay`, `EmptyCards`, `HeaderButton`, `PaymentButtonV2`, `PaymentCard`, `PaymentCardShimmer`, `PaymentScreenHeader`, `PaymentScrollableHeader`, `SectionTitle`
-- Tokens (79): colors 12 · flow:cards 22 · fontFamily 1 · local 2 · palette 12 · radius 5 · spacing 9 · type 16
-- Icons: — · assets 24
-- State / data: `store:cards`, `data:user`
-- Nav out: push `cards/add`
-- `cards`: in ← `cards/success` · docs `resources/flows/other-flows.md:60-66`, `../checkout/spec.md:125-142`, `../account/spec.md:63-84`
-- `actions`: docs `resources/flows/other-flows.md:60-66`
-- `delete`: docs `resources/flows/other-flows.md:60-66`
-- `empty`: tests `test:journey/cards-empty-cta` · docs `resources/flows/other-flows.md:60-66`
-- `many`: docs `resources/flows/other-flows.md:60-66`
-
-## `cards/add` · `cards/form`
-
-- Module `src/flows/cards/AddCardScreen.tsx` (shared by 2 screens; params pick the state) · 11 own files, 39 in the import closure <!-- count-ok -->
-- Source: features/payment/screens/PaymentCardManualAdditionScreen (+ components/PaymentCardAdditionOptions, PaymentCardAdditionOption, PaymentScanOptions, PaymentCardFormV2, PaymentTextInputV2, PaymentSwitchV2, PaymentCardTypeLo…
-- Styles: addCard.module.css, components/components.module.css
-- Data / helpers: data.ts, store.ts, tokens.ts, utils.ts
-- Shared components: `MaskIcon`, `Screen`, `Spinner`, `Switch`
-- Flow components: `AdditionContainer`, `AdditionOption`, `CardBrands`, `CardTypeLogo`, `EnterManuallyField`, `HeaderButton`, `LockNote`, `PaymentButtonV2`, `PaymentCardFormV2`, `PaymentScreenHeader`, `ScanCardIcon`, `ScanOptionButton`, `TapCardIcon`
-- Tokens (81): colors 13 · flow:cards 22 · fontFamily 1 · local 2 · palette 12 · radius 5 · spacing 9 · type 17
-- Motion: `transition/fade`
-- Icons: — · assets 24
-- State / data: `store:cards`, `data:user`
-- Nav out: replace `cards/success`
-- `add`: in ← `cards/actions`, `cards/cards`, `cards/delete`, `cards/empty`, `cards/many` · tests `test:journey/cards-empty-cta` · docs `resources/flows/other-flows.md:60-66`, `../checkout/spec.md:125-142`
-- `form`: tests `test:journey/cards-empty-cta` · docs `resources/flows/other-flows.md:60-66`
-
-## `cards/success`
-
-- Module `src/flows/cards/AddCardSuccessScreen.tsx` · 9 own files, 36 in the import closure
-- Source: features/payment/screens/PaymentCardAdditionSuccessScreen (lottie save_card/v4/en/reveal)
-- Styles: components/components.module.css, success.module.css
-- Data / helpers: data.ts, store.ts, tokens.ts, utils.ts
-- Shared components: `Lottie`, `MaskIcon`, `Screen`, `Spinner`
-- Flow components: `HeaderButton`, `PaymentScreenHeader`
-- Tokens (79): colors 12 · flow:cards 22 · fontFamily 1 · local 2 · palette 12 · radius 5 · spacing 9 · type 16
-- Motion: `transition/fade`
-- Icons: — · assets 24
-- State / data: `store:cards`, `data:user`
-- Nav out: reset `cards/cards`
-- `success`: in ← `cards/add`, `cards/form` · docs `resources/flows/other-flows.md:60-66`
+- Shared components: —
+- Flow components: —
+- Tokens (0): —

@@ -21,7 +21,7 @@
 /* NoonNativeStickyBar (placement embedded): floats at the bottom and follows the tab bar — slides down by the tab
    height when ScrollVisibilityProvider hides the bar (--pdp-tab-hide 0 → 1, 0.15s ease-out); the tab bar itself also
    drops the home-indicator inset (SfAtcBar .tabs) */
-.stickyBar { position: absolute; left: 0; right: 0; bottom: 0; transform: translateY(calc(var(--pdp-tab-hide, 0) * var(--nk-layout-tab-bar))); }
+.stickyBar { position: absolute; left: 0; right: 0; bottom: 0; transform: translateY(calc(var(--pdp-tab-hide, 0) * (var(--nk-layout-tab-bar) + var(--nk-tab-bar-floating-gap)))); pointer-events: none; }
 /* sections scroll over the pinned gallery (SfGallery .pin is z-index 0) */
 .list > * { position: relative; z-index: 1; }
 /* bappzaar bottomWrapper: content starts 20 above the gallery bottom (the first card's own 8 top margin included), and
@@ -287,14 +287,14 @@
 .atcLabelHidden { visibility: hidden; }
 .atcLoader { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
 .qtySelector { overflow: hidden; }
-.qtySelectorInner { display: flex; flex-direction: column; gap: var(--nk-space-s12); padding: var(--nk-space-s8) var(--nk-space-s12) var(--nk-space-s16); border-radius: var(--nk-radius-r20) var(--nk-radius-r20) 0 0; background: var(--nk-color-bg-surface); }
+.qtySelectorInner { display: flex; flex-direction: column; gap: var(--nk-space-s12); padding: var(--nk-space-s8) var(--nk-space-s12) var(--nk-space-s16); border-radius: var(--nk-radius-r20) var(--nk-radius-r20) 0 0; background: none; } /* on the sticky card's glass */
 .qtyHeader { display: flex; align-items: center; justify-content: space-between; }
 .qtyHeaderText { font: var(--nk-type-pdp-text15-bold); color: var(--nk-color-text-body); }
 .qtyClose { composes: btnReset; padding: var(--nk-space-s10); display: flex; }
 .qtyItems { display: flex; overflow-x: auto; scrollbar-width: none; padding: var(--nk-space-s2) 0; }
 .qtyItems::-webkit-scrollbar { display: none; }
-.qtyItem { composes: btnReset; flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-inline-end: var(--nk-space-s12); padding: var(--nk-space-s10) var(--nk-space-s12); border: 1px solid var(--nk-color-border); border-radius: var(--nk-radius-r10); font: var(--nk-type-text12-regular-lh18); color: var(--nk-color-text-body); }
-.qtyItem[data-selected] { border: var(--nk-layout-pdp-border-selected) solid var(--nk-palette-sky-blue); background: var(--nk-color-bg-surface); box-shadow: var(--nk-shadow-pdp-qty-selected); color: var(--nk-color-brand-blue); }
+.qtyItem { composes: btnReset; flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-inline-end: var(--nk-space-s12); padding: var(--nk-space-s10) var(--nk-space-s12); border: 1px solid var(--nk-color-border); border-radius: var(--nk-radius-r10); font: var(--nk-type-text12-regular-lh18); color: var(--nk-color-text-body); background: var(--nk-tab-bar-glass-inner-fill); }
+.qtyItem[data-selected] { border: var(--nk-layout-pdp-border-selected) solid var(--nk-palette-sky-blue); background: var(--nk-tab-bar-glass-inner-fill); box-shadow: var(--nk-shadow-pdp-qty-selected); color: var(--nk-color-brand-blue); }
 
 /* ── Quick cart sheet (NoonQuickCartScreen) ── */
 .quickCart { display: flex; flex-direction: column; overflow: hidden auto; scrollbar-width: none; background: var(--nk-color-bg-surface); }

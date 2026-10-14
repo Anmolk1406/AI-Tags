@@ -67,7 +67,7 @@ Every screen we port is **analysed, mapped, then implemented** — never eyeball
 
 Reuse before you create: `Button` (incl. NoonButton presets `noon` / `noonSecondary` / `noonGhost` / `noonDotted`, `loading`, `titleCase`), `Text`, `Screen`, `Header`, `SearchBarButton`, `Switch`, `Checkbox`, `Spinner`, `Toast`, `HtmlText` (server HTML tags), `Divider` / `DashedDivider` / `DottedDivider`, `MaskIcon`, `Skeleton`, `ProductCard`, `Price`, `Tag` / `MarketplaceTag`, `TabBar`… A component used by two flows belongs in `src/components` (one folder, tokens only, doc comment naming its bappzaar/Figma source and variants). Flow-specific compositions stay in the flow.
 
-Navigation: `useNav()` → `push / sheet / back / replace / reset / switchTab / toast`. Cross-flow state: `useDemoStore()` (cart, wishlist, coupon), `useMembership()` (noon One). Flow state: `createStore`.
+Navigation: `useNav()` → `push / sheet / back / replace / reset / switchTab / toast / preload`; `useIsTop()` for "is this screen on top". Cross-flow state: `useDemoStore()` (cart, wishlist, coupon), `useMembership()` (noon One). Flow state: `createStore`.
 
 ## Assets
 
