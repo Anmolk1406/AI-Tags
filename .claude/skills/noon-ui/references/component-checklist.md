@@ -12,6 +12,8 @@ Run this in stage E (`design-workflow.md`) for every section of the design, and 
 
 ## 2. Map every value to a token
 
+Pick by role first ([`design-rules.md`](design-rules.md): colour per role, gutter 12 / 15 / 16 by job, card r16 padding 12, gap 8 / 4 / 12), then look the token up.
+
 - [ ] Colours: `var(--nk-color-*)` / `--nk-palette-*`, `ref.color()`; no new hex in components or flow CSS/TSX (`scripts/token-map.json` maps a literal to its token).
 - [ ] Type: `var(--nk-type-*)` or `<Text variant>`; no raw `font:` / `font-size`.
 - [ ] Space, radius, shadow, layout: `--nk-space-*`, `--nk-radius-*`, `--nk-shadow-*`, `--nk-layout-*`.

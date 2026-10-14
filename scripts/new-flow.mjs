@@ -109,9 +109,10 @@ export function ${Name}InfoSheet() {
   );
 }
 `,
-  [`${id}.module.css`]: `.hero { margin: 12px; padding: 24px 16px; border-radius: var(--nk-radius-r16); display: flex; flex-direction: column; gap: 6px; }
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.footer { background: var(--nk-color-bg-surface); padding: 12px 16px calc(var(--nk-inset-bottom) + 8px); box-shadow: var(--nk-shadow-bottom-bar); }
+  [`${id}.module.css`]: `/* values follow .claude/skills/noon-ui/references/design-rules.md: gutter 12, card r16, tokens only */
+.hero { margin: var(--nk-space-s12); padding: var(--nk-space-s24) var(--nk-space-s16); border-radius: var(--nk-radius-r16); display: flex; flex-direction: column; gap: var(--nk-space-s6); }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--nk-space-s12); }
+.footer { background: var(--nk-color-bg-surface); padding: var(--nk-space-s12) var(--nk-space-s12) calc(var(--nk-inset-bottom) + var(--nk-space-s8)); box-shadow: var(--nk-shadow-bottom-bar); }
 `,
   'index.ts': `import { defineFlow } from '../../kit/registry';
 import { lazyScreen } from '../../kit/lazyScreen';

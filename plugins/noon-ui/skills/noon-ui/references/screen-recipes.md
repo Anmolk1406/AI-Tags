@@ -402,6 +402,8 @@ Dividers: `Divider`, `DashedDivider { color, inset, margin }`, `DottedDivider` b
 
 ## Spacing rhythm (from real flows)
 
+The enforced version, with radius, colour and type rules and the counts behind them: [`references/design-rules.md`](references/design-rules.md).
+
 | What | Value | Seen in |
 |---|---|---|
 | Card side gutter | 12 | `SectionCard`, PDP cards, PLP grid, checkout content, home grid |

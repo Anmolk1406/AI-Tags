@@ -29,6 +29,11 @@
   box-shadow: 0 2px 0 0 var(--nk-eta-minutes-shadow); /* token-lint-ignore — Origin hard shadow geometry, colour is a token */
   color: var(--nk-eta-on-bold);
 }
+/* the wrapper clips artwork to 24; the pill is 24 itself, so let its 2px hard shadow show below */
+.eta[data-type='minutes'],
+.eta[data-type='supermall'] {
+  overflow: visible;
+}
 .eta[data-type='supermall'] .pill {
   background: var(--nk-eta-supermall-bg);
   box-shadow: 0 2px 0 0 var(--nk-eta-supermall-shadow); /* token-lint-ignore — Origin hard shadow geometry, colour is a token */

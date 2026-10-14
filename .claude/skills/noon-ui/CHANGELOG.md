@@ -4,6 +4,7 @@ Changes to the noon-ui skill and its screen skills. Add a line whenever a refere
 
 ## Unreleased
 
+- Design rules: new `references/design-rules.md` (component per job, colour token per role, page background per layout, spacing scale and gutters, radius per element, type per use, Button variant per job), backed by the generated `references/design-usage.generated.md` / `.json` (`scripts/design-usage.mjs`, run by `resources:build`). SKILL.md steps 6 and 9, house rules, component-checklist and screen-recipes point to it; `npm run lint:design` (in `skill:check`) holds existing flows at `scripts/design-baseline.json` and requires 0 findings for a new flow.
 - address: new screen `address/selectSheet` (isBottomSheet address book from the home header) in the flows.md catalogue; `ScreenDef.transparent`.
 - cart spec / brief: the coupon block follows bappzaar master `NoonCouponInput` (layout, states, screen loader on apply / remove) instead of the Figma frame.
 - returns spec: the details tracking box shows Cancel return only while `allowCancel`, the refunded "Track refund" action and dated stages.
