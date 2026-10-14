@@ -51,7 +51,7 @@ Occurrences in flow code (JSX elements, props or calls).
 | loading · Skeleton | 98 | 9 of 18 |
 | enter/exit · AnimatePresence | 97 | 15 of 18 |
 | imperative · animate() / useAnimate | 93 | 11 of 18 |
-| press · whileTap | 71 | 10 of 18 |
+| press · whileTap | 72 | 10 of 18 |
 | haptics | 35 | orders, plp, reviews |
 | loading · Spinner | 32 | 9 of 18 |
 | celebration · Lottie | 26 | 11 of 18 |
@@ -90,14 +90,14 @@ Shared components that move on their own (counted under `(components)`, not abov
 
 ## 4. Where timing comes from
 
-Preset references in flow code: **244**. Raw timing literals (duration / spring / ease / stagger written inline): **284**. CSS: 31 `transition`, 3 `animation`, 3 `@keyframes`.
+Preset references in flow code: **244**. Raw timing literals (duration / spring / ease / stagger written inline): **287**. CSS: 31 `transition`, 3 `animation`, 3 `@keyframes`.
 
 | Flow | Preset refs | Raw literals | CSS transition / animation / keyframes |
 |---|---|---|---|
 | account | 6 | 15 | 3 / 0 / 0 |
 | address | 6 | 45 | 2 / 0 / 0 |
 | cards | 0 | 17 | 0 / 0 / 0 |
-| cart | 12 | 26 | 3 / 0 / 0 |
+| cart | 12 | 29 | 3 / 0 / 0 |
 | categories | 0 | 0 | 0 / 0 / 1 |
 | checkout | 14 | 45 | 14 / 0 / 0 |
 | deals | 0 | 0 | 0 / 0 / 0 |
@@ -159,9 +159,9 @@ Preset references in flow code: **244**. Raw timing literals (duration / spring 
 | 0.15s (css) | 21 | `duration.fast` |
 | 0.2s | 19 |  |
 | 0.15s | 15 | `duration.fast` |
-| 0.2s (css) | 12 |  |
+| 0s | 12 |  |
+| 0.2s (css) | 11 |  |
 | 0.35s | 10 |  |
-| 0s | 10 |  |
 | 0.5s | 9 |  |
 | 1.2s | 6 |  |
 | 0.3s (css) | 5 | `duration.medium` |
@@ -182,6 +182,7 @@ Preset references in flow code: **244**. Raw timing literals (duration / spring 
 | 420/30 | 1 | address |  |
 | 100/10/1 | 1 | address |  |
 | 300/28/1 | 1 | cards |  |
+| 340/36/1 | 1 | cart |  |
 | 500/25 | 1 | checkout |  |
 | 380/39 | 1 | home |  |
 | 500/30 | 1 | home |  |

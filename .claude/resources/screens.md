@@ -86,7 +86,7 @@ initial `cart/cart` · group Shopping · tab `cart` on `cart`, `empty`, `loading
 
 - docs: `src/flows/cart/FIGMA-MAPPING.md`
 - data / token files: `data.bundles.ts`, `data.couponTray.ts`, `data.variants.ts`
-- components/: CartCarousel, CartFooter, CartGroup, CartHeader, CartIcon, CartItem, CartSnackBar, CartWave, CobrandCards, CouponInput, DiscountTags, DynamicInvoice, FreeGifts, GroupProgressBar, InactiveGroup, ItemPoint, NoonOneLogo, NoonOneNudge, PaymentOffers, QuantitySelector, SalesCallout, VariantOptionChip, couponTray/BestPriceSection, couponTray/TiersProgressBar, couponTray/TrayOffer, couponTray/UnlockCriteria
+- components/: CartCarousel, CartFooter, CartGlassFooter, CartGroup, CartHeader, CartIcon, CartItem, CartSnackBar, CartWave, CobrandCards, CouponInput, DiscountTags, DynamicInvoice, FreeGifts, GroupProgressBar, InactiveGroup, ItemPoint, NoonOneLogo, NoonOneNudge, PaymentOffers, QuantitySelector, SalesCallout, VariantOptionChip, couponTray/BestPriceSection, couponTray/TiersProgressBar, couponTray/TrayOffer, couponTray/UnlockCriteria
 
 | Route | Title | Presentation | URL | Truth | Verified | Source |
 |---|---|---|---|---|---|---|

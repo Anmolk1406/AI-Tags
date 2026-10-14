@@ -4,7 +4,7 @@
 
 The source of truth for component **names, props, types, defaults and variants**. Hand-written guidance (when to use, gotchas, examples) is in `components.md`; when the two disagree, this file is right and `components.md` is stale.
 
-60 shared components exported from `src/components/index.ts` · 361 flow-local components in `src/flows/*/components/`. "—" = no static default; `?` = optional. Variants = props typed as a union of string literals.
+60 shared components exported from `src/components/index.ts` · 362 flow-local components in `src/flows/*/components/`. "—" = no static default; `?` = optional. Variants = props typed as a union of string literals.
 
 ## Shared components
 
@@ -876,7 +876,7 @@ Variants:
 
 ### TabBar
 
-`src/components/TabBar/TabBar.tsx:76` · props `TabBarProps`
+`src/components/TabBar/TabBar.tsx:77` · props `TabBarProps`
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
@@ -1182,7 +1182,8 @@ Search these before you create a component (`components.md` → "Search before y
 | cards | `HeaderButton` | `src/flows/cards/components/primitives.tsx:50` | `icon` `onPress` `transparent` `reversed` `label` |
 | cards | `AdditionContainer` | `src/flows/cards/components/primitives.tsx:59` | `title` `className` `children` |
 | cart | `CartCarousel` | `src/flows/cart/components/CartCarousel.tsx:9` | `title` `sponsored` `items` |
-| cart | `CartFooter` | `src/flows/cart/components/CartFooter.tsx:22` | `totals` `cart` `isTabRoot` `disabled` `onCheckout` `onHeightChange` |
+| cart | `CartFooter` | `src/flows/cart/components/CartFooter.tsx:25` | `totals` `cart` `isTabRoot` `disabled` `onCheckout` `onHeightChange` |
+| cart | `CartGlassFooter` | `src/flows/cart/components/CartGlassFooter.tsx:32` | `totals` `cart` `disabled` `onCheckout` `onHeightChange` |
 | cart | `CartGroup` | `src/flows/cart/components/CartGroup.tsx:35` | `type` `lines` `subtotal` `onMovedToWishlist` |
 | cart | `CartHeader` | `src/flows/cart/components/CartHeader.tsx:17` | `scrollY` `hidden` `showBackButton` |
 | cart | `CartIcon` | `src/flows/cart/components/CartIcon.tsx:19` | `name` `size` `color` `style` `flipRtl` |
@@ -1192,7 +1193,7 @@ Search these before you create a component (`components.md` → "Search before y
 | cart | `CobrandCards` | `src/flows/cart/components/CobrandCards.tsx:11` | `cards` |
 | cart | `CouponInput` | `src/flows/cart/components/CouponInput.tsx:19` | `onBusyChange` |
 | cart | `DiscountTags` | `src/flows/cart/components/DiscountTags.tsx:11` | `tags` `onOpen` |
-| cart | `DynamicInvoice` | `src/flows/cart/components/DynamicInvoice.tsx:12` | `sections` |
+| cart | `DynamicInvoice` | `src/flows/cart/components/DynamicInvoice.tsx:12` | `sections` `part` |
 | cart | `FreeGifts` | `src/flows/cart/components/FreeGifts.tsx:17` | `product` `unlockAt` `current` |
 | cart | `GroupProgressBar` | `src/flows/cart/components/GroupProgressBar.tsx:21` | `message` `current` `threshold` `shouldHide` `showButton` `onAdd` `animateIn` `trackColor` `fillColor` `addVariant` `addBorder` `addInk` |
 | cart | `InactiveGroup` | `src/flows/cart/components/InactiveGroup.tsx:23` | `onMovedToWishlist` |

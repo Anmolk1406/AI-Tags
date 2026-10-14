@@ -8,6 +8,7 @@ import { tabBar as tb } from '../../foundations/tokens';
 import { OriginIcon } from '../Icon/OriginIcon';
 import type { OriginIconName } from '../Icon/originIcons';
 import { Pressable } from '../Pressable/Pressable';
+import { MaskIcon } from '../MaskIcon/MaskIcon';
 import { GlassFade } from '../Glass/Glass';
 import { useNav } from '../../kit/Navigator';
 import type { TabId } from '../../kit/types';
@@ -183,28 +184,13 @@ function GlassTabBar({ active, autoHide, covered }: { active: TabId; autoHide?: 
                 <span className={styles.glassIcon}>
                   {/* outline and filled cross-fade: the outline fades out as the filled icon fades in (the selected webps
                       are not drawn to cover the outline, so leaving it at full opacity shows it behind the filled one) */}
-                  <motion.img
-                    src={t.icon}
-                    alt=""
-                    width={size}
-                    height={size}
-                    draggable={false}
-                    className={styles.icon}
-                    initial={{ opacity: t.id === from ? 0 : 1 }}
-                    animate={{ opacity: on ? 0 : 1 }}
-                    transition={tint}
-                  />
-                  <motion.img
-                    src={t.selected}
-                    alt=""
-                    width={size}
-                    height={size}
-                    draggable={false}
-                    className={styles.glassIconSelected}
-                    initial={{ opacity: t.id === from ? 1 : 0 }}
-                    animate={{ opacity: on ? 1 : 0 }}
-                    transition={tint}
-                  />
+                  {/* both states in one colour (`tabBar.glassIcon`, #1D2539): the tab webps as masks, outline ↔ filled */}
+                  <motion.span className={styles.glassIconLayer} initial={{ opacity: t.id === from ? 0 : 1 }} animate={{ opacity: on ? 0 : 1 }} transition={tint}>
+                    <MaskIcon src={t.icon} size={size} color={tb.glassIcon} />
+                  </motion.span>
+                  <motion.span className={styles.glassIconSelected} initial={{ opacity: t.id === from ? 1 : 0 }} animate={{ opacity: on ? 1 : 0 }} transition={tint}>
+                    <MaskIcon src={t.selected} size={size} color={tb.glassIcon} />
+                  </motion.span>
                   {t.id === 'cart' && cartCount > 0 && <span className={styles.badge}>{cartCount}</span>}
                 </span>
               </motion.span>

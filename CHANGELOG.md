@@ -6,6 +6,8 @@ All notable changes to `@noon/flow-kit`. Format: [Keep a Changelog](https://keep
 
 ### Added
 
+- Cart tab order summary (`CartGlassFooter`): one continuous motion — the savings tab grows into the green "You're saving" panel on a single spring while the card rises behind it to reveal the summary; reversed on close.
+- Glass TabBar icons: #1D2539 (`tabBar.glassIcon`) for selected and unselected tabs; the filled icon marks the selection. Cart badge #1D2539 with a white ring (`glassBadgeBg`, `glassBadgeBorder`).
 - Cart tab: the order summary now expands out of the floating glass footer card (one container growing upward) instead of sliding up from the bottom of the screen.
 - Cart sticky footer on Liquid Glass (tab root): a floating glass card as wide as the tab bar, r16, docked 10 above it, the savings tab on its top-left and one GlassFade under it (bappzaar liquid-upgrade NoonCartScreen `isLiquidGlass`: stickyBarLiquidGlass, footerLiquidGlass).
 - One Liquid Glass material (`src/components/Glass`, `.glass`) shared by the glass TabBar, the PDP sticky card and `ActionBar surface="glass"` (the PDP quantity picker and controls now sit on the glass); new `GlassFade`: a progressive blur + white gradient under floating glass containers so the content behind blends in.

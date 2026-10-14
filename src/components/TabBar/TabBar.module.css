@@ -44,7 +44,18 @@
 .glassTrack { position: absolute; inset: var(--nk-tab-bar-glass-lens-inset); overflow: hidden; border-radius: var(--nk-tab-bar-glass-radius); pointer-events: none; }
 .glassLensSlot { position: absolute; top: 0; bottom: 0; left: 0; display: block; }
 .glassLens { position: absolute; inset: 0; border-radius: var(--nk-tab-bar-glass-radius); background: var(--nk-tab-bar-glass-lens); }
-.glassIconSelected { position: absolute; inset: 0; margin: auto; display: block; }
+/* outline and filled layers share one box (flex, no inline line box) so the icon doesn't shift when it fills */
+.glassIconLayer { display: flex; align-items: center; justify-content: center; }
+.glassIconSelected { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
 .glassItem { position: relative; display: flex; flex-direction: column; align-items: center; gap: var(--nk-tab-bar-glass-gap); }
 .glassIcon { position: relative; display: flex; align-items: center; justify-content: center; }
-.glassIcon .badge { top: -4px; left: calc(50% + 4px); }
+/* glass badge: an 18 circle for one digit (a capsule from two), the number centred; the white ring is drawn outside
+   (box-shadow) so it doesn't eat into the circle */
+.glassIcon .badge {
+  top: -4px; left: calc(50% + 4px);
+  display: flex; align-items: center; justify-content: center;
+  min-width: var(--nk-badge-size); height: var(--nk-badge-size); padding: 0 var(--nk-space-s4);
+  border: 0; border-radius: var(--nk-radius-full); line-height: 1;
+  background: var(--nk-tab-bar-glass-badge-bg);
+  box-shadow: 0 0 0 var(--nk-tab-bar-glass-badge-border-width) var(--nk-tab-bar-glass-badge-border);
+}

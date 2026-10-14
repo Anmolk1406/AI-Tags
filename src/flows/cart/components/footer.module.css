@@ -8,13 +8,6 @@
    + the tab-bar frame width), the footer a card with r16 on every corner and paddingBottom 10 (footerLiquidGlass), on the
    shared glass; the savings tab stays on its top-left (footerSavingsContainerLiquidGlass) */
 .stickyBar[data-tab] { margin-inline: var(--nk-tab-bar-glass-inset-x); }
-.glassFooter { composes: glass from '../../../components/Glass/Glass.module.css'; }
-.footer.glassFooter { border-radius: var(--nk-radius-r16); overflow: hidden; transition: background-color 0.2s; }
-/* open: the summary reads on near-opaque white over the dimmed page */
-.footer.glassFooter[data-open] { background: var(--nk-color-bg-surface); }
-/* the order summary inside the card: grows from its top edge (height 0 → auto), scrolls past maxHeight */
-.invoiceExpand { overflow: hidden; }
-.invoiceExpand .invoiceScroll { padding-top: var(--nk-space-s12); }
 /* the fade: full screen width, from fadeExtend above the card to the screen bottom */
 .stickyBar .fade { top: calc(-1 * var(--nk-tab-bar-fade-extend)); left: calc(-1 * var(--nk-tab-bar-glass-inset-x)); right: calc(-1 * var(--nk-tab-bar-glass-inset-x)); bottom: calc(-1 * (var(--nk-layout-tab-bar) + var(--nk-inset-bottom) + var(--nk-tab-bar-floating-gap))); }
 
@@ -34,7 +27,7 @@
 
 /* Figma "Cart Sticky footer" (127:40220): white, r12 top, 72 high (py 10), px 12, gap 12, drop shadow 0 −4 10 black 8% */
 .footer { position: relative; z-index: 5; padding: 10px 0 calc(var(--nk-inset-bottom) + 10px); border-radius: var(--nk-radius-r12) var(--nk-radius-r12) 0 0; transition: box-shadow 0.3s; }
-.footer:not(.glassFooter) { background: var(--nk-color-bg-surface); box-shadow: var(--nk-shadow-cart-footer); }
+.footer { background: var(--nk-color-bg-surface); box-shadow: var(--nk-shadow-cart-footer); }
 .footer[data-open] { box-shadow: none; }
 .stickyBar[data-tab] .footer { padding-bottom: 10px; }
 .footerContent { display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s12); height: 52px; padding: 0 var(--nk-space-s12); }

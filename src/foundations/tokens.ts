@@ -828,6 +828,10 @@ export const tabBar = {
   glassHighlight: `inset 0 1px 0 ${ref.palette('whiteAlpha90')}, inset 0 -1px 1px ${ref.palette('whiteAlpha40')}`,
   glassSheen: ref.palette('whiteAlpha50'), // top-left specular gradient
   glassLens: ref.palette('blackAlpha6'), // selected-item capsule
+  glassIcon: ref.palette('blueGray900'), // #1D2539 — tab icons, selected and unselected (the filled shape marks the selection)
+  glassBadgeBg: ref.palette('blueGray900'), // #1D2539 cart count badge
+  glassBadgeBorder: ref.palette('white'), // ring that lifts it off the icon
+  glassBadgeBorderWidth: 1.5,
   glassLensInset: 4,
   glassIconScale: 0.875, // the 32pt tab webps at 28
   glassGap: 2,
