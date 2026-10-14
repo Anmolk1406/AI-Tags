@@ -6,6 +6,7 @@ All notable changes to `@noon/flow-kit`. Format: [Keep a Changelog](https://keep
 
 ### Added
 
+- World-class UI bar for the skills: `.claude/resources/references/` (15 pattern files — home feed, search, listing, PDP, cart, checkout, tracking, membership, account, sheets, navigation, toasts, states, sign-in, reviews — each with the strongest Mobbin-linked screens from Airbnb, Apple, Revolut, Uber, Amazon, Instacart, Zara, talabat, Careem, Linear, Duolingo and peers, the bar, the noon build and what to avoid) and the craft gate `noon-ui/references/craft-rubric.md`, wired into SKILL.md, design-workflow, research, the screen skills, the DESIGN.md template and CLAUDE.md.
 - Cart tab order summary (`CartGlassFooter`): one continuous motion — the savings tab grows into the green "You're saving" panel on a single spring while the card rises behind it to reveal the summary; reversed on close.
 - Glass TabBar icons: #1D2539 (`tabBar.glassIcon`) for selected and unselected tabs; the filled icon marks the selection. Cart badge #1D2539 with a white ring (`glassBadgeBg`, `glassBadgeBorder`).
 - Cart tab: the order summary now expands out of the floating glass footer card (one container growing upward) instead of sliding up from the bottom of the screen.

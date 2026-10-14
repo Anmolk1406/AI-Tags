@@ -10,7 +10,7 @@ JSX uses across all flows, and how many flows use each. A component in many flow
 
 | Component | Uses | Flows | Which |
 |---|---|---|---|
-| `Pressable` | 194 | 15 | all but cards, checkout, fieldds |
+| `Pressable` | 196 | 15 | all but cards, checkout, fieldds |
 | `HtmlText` | 152 | 5 | cart, checkout, membership, noonone, pdp |
 | `OriginIcon` | 122 | 7 | fieldds, home, noonone, orders, pdp, plp, reviews |
 | `Skeleton` | 98 | 9 | all but cards, categories, deals, fieldds, home, orders, pdp, returns, search |
@@ -137,7 +137,7 @@ Which token each role reaches for (CSS `color` = text, `background` = surface, `
 | `color-success` | 25 | 2% | 8 |
 | `color-primary` | 22 | 1% | 9 |
 
-### surface (1426 declarations, 100% tokenised)
+### surface (1427 declarations, 100% tokenised)
 
 | Token | Uses | Share | Flows |
 |---|---|---|---|
@@ -329,7 +329,7 @@ What `node scripts/design-usage.mjs --check` counts. Existing flows are held at 
 | account |  | 7 | 6 | 3 | 14 | 188 | 4 | 19 | 241 |
 | address |  | 57 | 2 | 14 | 26 | 168 | 3 | 9 | 279 |
 | cards |  | 3 | 3 | 7 | 5 | 26 | 2 | 5 | 51 |
-| cart |  | 12 | 6 | 38 | 7 | 186 | 5 | 19 | 273 |
+| cart |  | 12 | 6 | 36 | 7 | 182 | 5 | 19 | 267 |
 | categories |  |  |  | 1 |  |  |  |  | 1 |
 | checkout |  | 1 | 7 | 50 | 38 | 19 | 9 | 3 | 127 |
 | deals |  |  |  |  |  | 16 |  | 2 | 18 |

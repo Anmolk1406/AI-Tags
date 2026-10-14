@@ -66,3 +66,4 @@ New pieces (gap → closest existing → extension; flow-local or shared): <none
 | `npm run skill:check` | <…> |
 | `check:routes` / journeys | <…> |
 | Screenshots vs reference | <compared with … / no reference: rendered, not visually verified> |
+| Craft gate (`craft-rubric.md`) | <pattern file + 2–3 references compared; failed checks → fixes; open items> |

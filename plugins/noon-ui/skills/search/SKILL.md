@@ -21,6 +21,7 @@ For a new screen, a redesign or an open-ended idea, run the research-first desig
 | Figma analysis | None: there is no Figma for search. The code is the spec — `src/flows/search` and `src/flows/plp` are bappzaar 1:1 ports (`NoonSearchScreen`, `NoonSearchSuggestionRow`, `NoonRecentlySearchedModule`, `ListingScreen` → `NoonCatalogList`, `NoonFiltersScreenV2`) with the UI and motion of github.com/saswata2002/Brand-Widget-PLP (marketplace strip, brand widget, ProtoPie handoff timings in `handoff` + their `tokens.ts`) |
 | Current implementation | `src/flows/search/` — `SearchScreen.tsx`, `data.ts`, `tokens.ts`, `components/` (`RecentSearches`, `SuggestionRow`); routes `search/search` (page `/search`), `search/suggestions` |
 | Results implementation | `src/flows/plp/` — `ListingScreen.tsx`, `FiltersSheet.tsx`, `SortSheet.tsx`, `store.ts`, `data.ts`, `brands.ts`, `tokens.ts`, `components/` (`NavPills` → `RevealChip`, `SkeletonCard`, `MarketplaceStrip`; `BrandWidget` kept but not rendered); routes `plp/listing` (page `/plp`), `plp/filters`, `plp/sort` |
+| World-class bar | `../noon-ui/resources/references/search.md` + `../noon-ui/resources/references/listing-filters.md` — the strongest screens from the reference set (Mobbin-linked), what makes them great, how to build it with noon; read before designing, then pass `../noon-ui/references/craft-rubric.md` against them before done |
 | Design system | `../noon-ui/references/tokens.md`, `components.md`, `assets.md`, `motion.md`, `screen-recipes.md`, `flows.md` (Search and PLP blueprints) |
 
 ## Steps

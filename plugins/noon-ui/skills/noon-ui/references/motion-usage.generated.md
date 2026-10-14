@@ -45,7 +45,7 @@ Occurrences in flow code (JSX elements, props or calls).
 
 | Purpose · mechanism | Uses | Flows |
 |---|---|---|
-| press · Pressable | 194 | 15 of 18 |
+| press · Pressable | 196 | 15 of 18 |
 | enter · initial→animate | 159 | 16 of 18 |
 | scroll-linked · useScroll / useTransform | 113 | 12 of 18 |
 | loading · Skeleton | 98 | 9 of 18 |
@@ -73,7 +73,7 @@ Shared components that move on their own (counted under `(components)`, not abov
 
 | Scale | Uses | Flows |
 |---|---|---|
-| `1` | 42 | 10 of 18 |
+| `1` | 44 | 10 of 18 |
 | `0.98` | 39 | 10 of 18 |
 | `0.97` | 11 | account, address, home, plp |
 | `0.96` | 11 | account, home, orders, returns |

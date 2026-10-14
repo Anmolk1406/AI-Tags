@@ -19,6 +19,7 @@ For a new screen, a redesign or an open-ended idea, run the research-first desig
 | Figma analysis | `references/figma-cart-checkout.md` — Checkout 2.0, file `zURu7GI7sq77fjdXKrouvo`, frame `14288:183972`: §2.3 anatomy, §5 motion cues, §6 delta, §7 build guidance (shared with Cart 2.0) |
 | Node-by-node mapping | `src/flows/checkout/FIGMA-MAPPING.md` (Figma variables → tokens, every section and the dock); bappzaar master port in `src/flows/checkout/MAPPING.md` |
 | Current implementation | `src/flows/checkout/` — `CheckoutScreen.tsx` (`ALL_FLOWS_SECTIONS` default, `FIGMA_SECTIONS`, `MASTER_SECTIONS`), 21 step / post-order screens, `components/`, `store.ts`, `store.delivery.ts`, `store.rewards.ts`, `totals.ts`, `data*.ts`, `tokens.ts` (route `checkout/checkout`, page `/checkout`) |
+| World-class bar | `.claude/resources/references/checkout-payment.md` + `.claude/resources/references/bottom-sheets.md` — the strongest screens from the reference set (Mobbin-linked), what makes them great, how to build it with noon; read before designing, then pass `../noon-ui/references/craft-rubric.md` against them before done |
 | Design system | `../noon-ui/references/tokens.md`, `../noon-ui/references/components.md`, `../noon-ui/references/assets.md`, `../noon-ui/references/motion.md`, `../noon-ui/references/screen-recipes.md`, `../noon-ui/references/flows.md` (checkout catalogue + Checkout blueprint) |
 
 ## Steps

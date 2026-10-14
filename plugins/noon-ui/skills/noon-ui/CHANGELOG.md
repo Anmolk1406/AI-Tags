@@ -4,6 +4,7 @@ Changes to the noon-ui skill and its screen skills. Add a line whenever a refere
 
 ## Unreleased
 
+- New `references/craft-rubric.md` (quality gate) and the reference library `.claude/resources/references/`; SKILL.md step 9, design-workflow B / G, research.md "Start from the library", every screen skill's Sources ("World-class bar"), DESIGN.md template craft-gate row.
 - cart spec: the Cart-tab footer is a floating glass card (liquid-upgrade).
 - components.md "GlassFade and the shared glass" (one glass material, `GlassFade`, `data-glass-footer`); tokens.md glass fills and fade tokens.
 - pdp blueprint: `SfAtcBar` is a floating glass card above the glass tab bar (liquid-upgrade).

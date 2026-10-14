@@ -21,6 +21,7 @@ For a new screen, a redesign or an open-ended idea, run the research-first desig
 | Visual reference | PDS one-flows `pds-noon-as.vercel.app/one-flows?screen=orderlisting` (list + details V1–V4), measured with Playwright on 2026-10-12; every value in `src/flows/orders/MAPPING.md` → "PDS reference" |
 | Behaviour reference | bappzaar master `features/o2d/screens/O2DOrdersV2Screen` (pinned list header, filter chips), `O2DOrderTrackingScreen` (per-state content, action codes), `O2DOrderCancelItemsScreen` (cancel), `features/o2d/components/NoonOrderDeliveryProgressOverlay` (updates sheet) — tables in `MAPPING.md` → "States", "List header and filter pills" |
 | Current implementation | `src/flows/orders/` — `index.ts`, `OrdersListScreen.tsx`, `OrderTrackingScreen.tsx` (`useOrderAction`, `RiderBlock`, `DeliveringTo`), `UpdatesSheet.tsx`, `OrderCancelScreen.tsx`, `components/`, `data.ts`, `tokens.ts`, `motion.ts`, `assets.ts` |
+| World-class bar | `../noon-ui/resources/references/order-tracking.md` + `../noon-ui/resources/references/empty-error-loading.md` — the strongest screens from the reference set (Mobbin-linked), what makes them great, how to build it with noon; read before designing, then pass `../noon-ui/references/craft-rubric.md` against them before done |
 | Design system | `../noon-ui/references/tokens.md`, `components.md`, `motion.md`, `screen-recipes.md`, `flows.md` (orders catalogue entry and the "Orders & tracking" blueprint) |
 
 ## Steps

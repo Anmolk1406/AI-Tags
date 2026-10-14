@@ -20,6 +20,7 @@ For a new screen, a redesign or an open-ended idea, run the research-first desig
 | Flow specification | `spec.md` (screens, module catalogue, ordering rules, data, acceptance) |
 | Figma analysis | `references/figma-homepage-2025.md` — Homepage Revamp 2025, file `iRE9RwO94eMAyW3j3XKNXW`, screen `1337:5102` (wrapper `1337:7139`): every section with measurements, variables → tokens, components → kit, delta vs code |
 | Current implementation | `src/flows/home/` — `HomeScreen.tsx`, `data.ts`, `tokens.ts`, `components/` (bappzaar 1:1 port, route `home/home`, page `/homepage`) |
+| World-class bar | `../noon-ui/resources/references/home-feed.md` + `../noon-ui/resources/references/navigation-tabbar.md` — the strongest screens from the reference set (Mobbin-linked), what makes them great, how to build it with noon; read before designing, then pass `../noon-ui/references/craft-rubric.md` against them before done |
 | Design system | `../noon-ui/references/tokens.md`, `components.md`, `assets.md`, `motion.md`, `screen-recipes.md` |
 
 ## Steps

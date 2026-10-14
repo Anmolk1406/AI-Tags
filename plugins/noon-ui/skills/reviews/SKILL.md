@@ -23,6 +23,7 @@ For a new screen, a redesign or an open-ended idea, run the research-first desig
 | Flow graph and helpers | `src/flows/reviews/README.md`, `src/flows/reviews/store.ts` (`openReview`, `reviewsNav`, `reviewsActions`, `useReviewParams`) |
 | Current implementation | `src/flows/reviews/` — `index.ts`, nine `*Screen.tsx`, `components/` (exported from `components/index.ts`), `data.ts`, `tokens.ts` + `tokens.motion.ts`, `tokens.ai.ts`, `tokens.keyboard.ts`, `tokens.draft.ts`, `assets.ts` |
 | Entry point | `src/flows/orders/components/StarRating.tsx` (the only caller of `openReview`) |
+| World-class bar | `../noon-ui/resources/references/reviews-ratings.md` + `../noon-ui/resources/references/feedback-toasts.md` — the strongest screens from the reference set (Mobbin-linked), what makes them great, how to build it with noon; read before designing, then pass `../noon-ui/references/craft-rubric.md` against them before done |
 | Design system | `../noon-ui/references/tokens.md`, `components.md`, `motion.md`, `screen-recipes.md`, `flows.md` (reviews catalogue entry) |
 
 ## Steps

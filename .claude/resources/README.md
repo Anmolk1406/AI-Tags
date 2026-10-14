@@ -10,6 +10,7 @@ Shared material the noon skills load **on demand**. It describes what is on the 
 | `patterns.md` | the shopping hand-off graph, where state goes, area token files vs param variants, scroll/tab bar, motion reuse | hand-written |
 | `tooling.md` | lazy screens, tab bar scroll, `screenTruth`, which check proves what, how to add a journey or visual reference | hand-written |
 | `flows/<flow>.md` | per-flow brief: what the screen is now, pieces, state, recipes, gotchas, known drift | hand-written |
+| `references/<pattern>.md` | the **world-class bar** per pattern (home feed, search, listing, PDP, cart, checkout, tracking, membership, account, sheets, navigation, toasts, states, sign-in, reviews): best-in-class screens via Mobbin links, what makes each great, how to build it with noon, what to avoid; used with `noon-ui/references/craft-rubric.md` | hand-written from Mobbin research (`references/README.md`; refresh with `Last researched` dates) |
 | `flows/categories-views.md` | every view the Categories tab links to: 29 tiles, each sub banner's link, where the app opens it, page type and sections | **generated** from `data.live.ts` + `linkRouting.ts` (+ `cms-pages.json` after `npm run categories:fetch`) |
 
 ## Which skill reads what

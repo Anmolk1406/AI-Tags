@@ -26,6 +26,7 @@ When unsure, treat it as the bigger size. A 1:1 port from bappzaar or Figma is r
 ## B — Research
 
 - **Repo first.** If an existing noon flow already solves the pattern, that's the answer; note it and move on.
+- **The reference library.** Read the pattern file in `.claude/resources/references/` (`README.md` lists them: home feed, search, listing, PDP, cart, checkout, tracking, membership, account, sheets, navigation, toasts, states, sign-in, reviews). It is the bar: the strongest screens from Airbnb, Apple, Revolut, Uber, Amazon, Shop, Instacart, Zara, talabat, Careem, Linear, Arc, Things and Duolingo, what makes each great, and how to build it with noon. Take structure and interaction, never branding.
 - **Prior research.** Check the flow's `DESIGN.md` → Research and `.claude/resources/` before searching again.
 - **Mobbin, when connected.** For patterns new to noon, research them with Mobbin (how, when and the fallback: `research.md`). Mobbin is a reference, never the design system.
 - Record each significant decision's source and why, in `DESIGN.md` → Research (or the reply for medium requests).
@@ -57,7 +58,7 @@ Follow `SKILL.md` → Workflow steps 4–8 and the house rules. Real interaction
 
 ## G — Validate
 
-Run, then read the results (`verify.md`): `npm run verify`, `npm run lint:tokens -- -v src/flows/<flow>`, `node scripts/check-duplicates.mjs src/flows/<flow>`, `npm run skill:check`, `PORT=<port> npm run check:routes`, the flow's journeys (`npm run test:journeys -- <area>`), and screenshots of every new screen and state with `node .claude/skills/noon-ui/scripts/snap.mjs <flow>`, compared with the reference or the closest noon screen (`npm run visual:ref` when a reference exists). Fix and re-run. Record the results in `DESIGN.md` → Validation. Report what failed or couldn't be run; never call a screen visually verified without a reference comparison.
+Run, then read the results (`verify.md`): `npm run verify`, `npm run lint:tokens -- -v src/flows/<flow>`, `node scripts/check-duplicates.mjs src/flows/<flow>`, `npm run skill:check`, `PORT=<port> npm run check:routes`, the flow's journeys (`npm run test:journeys -- <area>`), and screenshots of every new screen and state with `node .claude/skills/noon-ui/scripts/snap.mjs <flow>`, compared with the reference or the closest noon screen (`npm run visual:ref` when a reference exists). Fix and re-run. Then run the **craft gate** (`craft-rubric.md`): score the screenshots against 2–3 references from the pattern file, fix every failed check, re-shoot. Record the results and the craft review in `DESIGN.md` → Validation. Report what failed or couldn't be run; never call a screen visually verified without a reference comparison.
 
 ## Progress updates
 

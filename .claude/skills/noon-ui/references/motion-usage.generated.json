@@ -30,7 +30,7 @@
     "results-fade": 1
   },
   "purpose": {
-    "press · Pressable": 194,
+    "press · Pressable": 196,
     "layout · layout / layoutId": 22,
     "loading · Spinner": 32,
     "enter/exit · AnimatePresence": 97,
@@ -106,7 +106,7 @@
     "duration.slow": 2
   },
   "pressScale": {
-    "1": 42,
+    "1": 44,
     "0.98": 39,
     "0.99": 7,
     "0.97": 11,
@@ -333,7 +333,7 @@
       "purpose": {
         "enter · initial→animate": 27,
         "loading · Spinner": 9,
-        "press · Pressable": 6,
+        "press · Pressable": 8,
         "loading · Skeleton": 17,
         "celebration · Lottie": 4,
         "press · whileTap": 10,

@@ -22,6 +22,7 @@ For a new screen, a redesign or an open-ended idea, run the research-first desig
 | Figma analysis | `../checkout/references/figma-cart-checkout.md` — Cart 2.0, file `BaWAAGW7zmdSTkXNXqPcAJ`: `10575:94058` Phase I default, `14812:276687` Best price, `12112:209179` Error. §2.1–2.2 anatomy with measurements, §3 variables → tokens, §4 components → kit, §5 motion, §6 delta vs code, §7 build guidance |
 | Current implementation | `src/flows/cart/` — `index.ts`, `CartScreen.tsx` (`SECTIONS`, `GROUP_ORDER`, `EmptyCart`, `CartLoading`), `tokens.ts` (`cartTokens`, `cartFigmaColors`, `cartFlowTokens`, `groupTheme`), `data.ts`, `components/`, `FIGMA-MAPPING.md` (bappzaar 1:1 port restyled to Cart 2.0, route `cart/cart`, page `/cart`) |
 | Cart state | `src/kit/DemoStore.tsx` — `useDemoStore()` (`cart`, `cartTotals`, `coupon`, `inactiveCart`), `CartGroupType`, `cartGroupOf`, `computeCartTotals`, `FREE_DELIVERY_THRESHOLD` |
+| World-class bar | `../noon-ui/resources/references/cart.md` + `../noon-ui/resources/references/feedback-toasts.md` — the strongest screens from the reference set (Mobbin-linked), what makes them great, how to build it with noon; read before designing, then pass `../noon-ui/references/craft-rubric.md` against them before done |
 | Design system | `../noon-ui/references/tokens.md`, `components.md`, `motion.md`, `screen-recipes.md`, `flows.md` (cart catalogue entry and Cart blueprint) |
 
 ## Steps

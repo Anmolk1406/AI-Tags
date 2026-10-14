@@ -2,6 +2,10 @@
 
 Mobbin is a library of real app screens and flows. Through its MCP server Claude can search it during stage B of `references/design-workflow.md`. It is a **research reference only**: noon's tokens, components, icons and existing flows stay the source of truth.
 
+## Start from the library
+
+`.claude/resources/references/` already holds the researched bar for the common patterns (one file per pattern, Mobbin-linked). Read that file first; search Mobbin only for what it doesn't cover, and add what you find back to it (same template, `Last researched` date) so the next task starts there.
+
 ## Is Mobbin available?
 
 1. Look for the tools `mcp__mobbin__search_screens` and `mcp__mobbin__search_flows` in the session (if tools load on demand, run a tool search for "mobbin").

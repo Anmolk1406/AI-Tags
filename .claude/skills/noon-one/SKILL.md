@@ -21,6 +21,7 @@ For a new screen, a redesign or an open-ended idea, run the research-first desig
 | Current implementation | `src/flows/noonone/` — `index.ts`, `screens.{landing,plans,payment,offers,entry}.ts`, `screens/*.tsx`, `components/{landing,plans,payment,offers,entry}/`, `components/VIPOverlay.tsx`, `components/VIPButton.tsx`, `store.ts`, `data*.ts`, `tokens.ts`, `transitions.ts` |
 | Membership state | `src/kit/membership.ts` — `membershipStore`, `useIsNoonOneMember`, `useMembership`, `useMembershipEligibility`, `noonOneJourneyActions` |
 | Management (not this skill) | `src/flows/membership/` (`membership/manage` and its plans / cancel / family / perks areas, `MAPPING.md`); catalogue in `../noon-ui/references/flows.md` → "membership" |
+| World-class bar | `.claude/resources/references/membership-subscription.md` + `.claude/resources/references/bottom-sheets.md` — the strongest screens from the reference set (Mobbin-linked), what makes them great, how to build it with noon; read before designing, then pass `../noon-ui/references/craft-rubric.md` against them before done |
 | Design system | `../noon-ui/references/tokens.md`, `components.md`, `motion.md`, `screen-recipes.md`, `flows.md` (noonone catalogue entry, "Membership / subscription" blueprint) |
 
 ## Steps

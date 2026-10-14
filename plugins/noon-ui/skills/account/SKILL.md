@@ -21,6 +21,7 @@ For a new screen, a redesign or an open-ended idea, run the research-first desig
 | Behaviour + look | bappzaar master `ba159e20381` (2026-10-12): `marketplaces/noon/screens/NoonAccountScreen` and `marketplaces/noon/components/NoonAccount/*`, mapped property by property in `src/flows/account/MAPPING.md` (profile card, edit ring, noon One strip, action cards) |
 | Current implementation | `src/flows/account/` — `index.ts`, `AccountScreen.tsx`, the inner `*Screen.tsx` / `*Sheet.tsx`, `components/`, `data.ts` (`accountSection`, `settingsSection`, `securitySection`, `copy`), `store.ts`, `icons.tsx`, `tokens.ts` |
 | Cross-flow state | `src/kit/membership.ts` (`useIsNoonOneMember`, `useMembership`, `useMembershipEligibility`), `src/kit/DemoStore.tsx` (`wishlist`) |
+| World-class bar | `../noon-ui/resources/references/account-settings.md` + `../noon-ui/resources/references/onboarding-signin.md` — the strongest screens from the reference set (Mobbin-linked), what makes them great, how to build it with noon; read before designing, then pass `../noon-ui/references/craft-rubric.md` against them before done |
 | Design system | `../noon-ui/references/tokens.md`, `components.md`, `motion.md`, `screen-recipes.md`, `flows.md` (account catalogue entry and the "Account / profile" blueprint) |
 
 ## Steps
