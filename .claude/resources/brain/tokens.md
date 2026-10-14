@@ -7,15 +7,15 @@ Values, meaning and Figma mapping: `.claude/skills/noon-ui/references/tokens.md`
 | Group | CSS prefix | Tokens | Used | Most used |
 |---|---|---|---|---|
 | `tokgrp:colors` | `--nk-color-` | 68 | 60 | `--nk-color-badge` 152, `--nk-color-bg-disabled` 152, `--nk-color-bg-info` 152, `--nk-color-bg-inverse` 152 |
-| `tokgrp:palette` | `--nk-palette-absolute-` | 484 | 268 | `--nk-palette-absolute-apricot` 152, `--nk-palette-accent-blue` 152, `--nk-palette-accent-color` 152, `--nk-palette-anti-flash-white` 152 |
-| `tokgrp:spacing` | `--nk-space-` | 22 | 21 | `--nk-space-s2` 152, `--nk-space-s24` 152, `--nk-space-s4` 152, `--nk-space-s12` 138 |
+| `tokgrp:palette` | `--nk-palette-absolute-` | 484 | 269 | `--nk-palette-absolute-apricot` 152, `--nk-palette-accent-blue` 152, `--nk-palette-accent-color` 152, `--nk-palette-anti-flash-white` 152 |
+| `tokgrp:spacing` | `--nk-space-` | 22 | 21 | `--nk-space-s2` 152, `--nk-space-s24` 152, `--nk-space-s4` 152, `--nk-space-s12` 139 |
 | `tokgrp:radius` | `--nk-radius-` | 15 | 14 | `--nk-radius-full` 152, `--nk-radius-r10` 152, `--nk-radius-r12` 152, `--nk-radius-r14` 152 |
 | `tokgrp:fontSize` | `--nk-font-size-` | 18 | 11 | `--nk-font-size-body` 152, `--nk-font-size-caption` 62, `--nk-font-size-body-large` 61, `--nk-font-size-body-small` 61 |
 | `tokgrp:fontFamily` | `--nk-font-` | 3 | 1 | `--nk-font-family` 152 |
 | `tokgrp:fontWeight` | `--nk-font-weight-` | 5 | 5 | `--nk-font-weight-semibold` 152, `--nk-font-weight-bold` 68, `--nk-font-weight-medium` 59, `--nk-font-weight-regular` 35 |
 | `tokgrp:type` | `--nk-type-` | 76 | 72 | `--nk-type-body` 152, `--nk-type-body-bold` 152, `--nk-type-body-large` 152, `--nk-type-caption-bold` 152 |
 | `tokgrp:shadow` | `--nk-shadow-` | 10 | 9 | `--nk-shadow-floating` 152, `--nk-shadow-sheet` 152, `--nk-shadow-snackbar` 152, `--nk-shadow-tab-bar` 152 |
-| `tokgrp:layout` | `--nk-layout-device-` | 8 | 4 | `--nk-layout-tab-bar` 152, `--nk-layout-device-width` 17, `--nk-layout-header` 13, `--nk-layout-device-height` 7 |
+| `tokgrp:layout` | `--nk-layout-device-` | 8 | 4 | `--nk-layout-tab-bar` 152, `--nk-layout-device-width` 17, `--nk-layout-header` 13, `--nk-layout-device-height` 8 |
 | `tokgrp:button` | `--nk-button-` | 106 | 91 | `--nk-button-border-width` 24, `--nk-button-bright-bg` 24, `--nk-button-bright-bg-disabled` 24, `--nk-button-bright-border` 24 |
 | `tokgrp:iconButton` | `--nk-icon-button-` | 14 | 13 | `--nk-icon-button-border-width` 12, `--nk-icon-button-outline-bg` 12, `--nk-icon-button-outline-border` 12, `--nk-icon-button-radius` 12 |
 | `tokgrp:badge` | `--nk-badge-` | 8 | 6 | `--nk-badge-bg` 148, `--nk-badge-fg` 148, `--nk-badge-padding-x` 148, `--nk-badge-radius` 148 |
@@ -45,7 +45,7 @@ Values, meaning and Figma mapping: `.claude/skills/noon-ui/references/tokens.md`
 | `flow:noonone` | 467 | `src/flows/noonone/tokens.ts` |
 | `flow:orders` | 18 | `src/flows/orders/tokens.ts` |
 | `flow:pdp` | 245 | `src/flows/pdp/tokens.ts` |
-| `flow:plp` | 8 | `src/flows/plp/tokens.ts` |
+| `flow:plp` | 14 | `src/flows/plp/tokens.ts` |
 | `flow:returns` | 48 | `src/flows/returns/tokens.ts` |
 | `flow:reviews` | 55 | `src/flows/reviews/tokens.ts` |
 | `flow:search` | 1 | `src/flows/search/tokens.ts` |

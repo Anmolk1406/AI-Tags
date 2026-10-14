@@ -7,6 +7,7 @@ import brandInactive from '@assets/plp/navpills/brand-inactive.png';
 import priceActive from '@assets/plp/navpills/price-active.png';
 import priceInactive from '@assets/plp/navpills/price-inactive.png';
 import type { FacetId, Filters } from '../data';
+import { leafCategory } from '../data';
 import { CatalogNavPill, type CatalogNavPillHandle } from './CatalogNavPill';
 import { RevealChip } from './NavPills';
 import styles from '../plp.module.css';
@@ -107,7 +108,7 @@ function quickPills(results: Product[]): { facet: 'brand' | 'category'; id: stri
   const brands = count((p) => p.brand)
     .slice(0, 8)
     .map((b) => ({ facet: 'brand' as const, id: b, name: b }));
-  const [category] = count((p) => p.category);
+  const [category] = count(leafCategory);
   if (!category) return brands;
   return [...brands.slice(0, 3), { facet: 'category' as const, id: category, name: category }, ...brands.slice(3)];
 }

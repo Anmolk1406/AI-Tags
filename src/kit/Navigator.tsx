@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, useDragControls, type PanInfo } from 'motion/react';
-import { createContext, Suspense, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { createContext, Suspense, useCallback, useContext, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { getTransition as getTransitionRaw, reducedTransition, type TransitionName } from '../motion/transitions';
 import { duration, easing, spring } from '../motion/presets';
 import { useReduceMotion } from '../motion/reducedMotion';
@@ -352,7 +352,14 @@ function SheetLayer({ children, options, onDismiss, isTop, zIndex, reduce }: { c
         onDragEnd={onDragEnd}
         data-sheet={layout}
         // classic: the column is the sheet, so `surface` fills it (grabber zone included)
-        style={layout === 'classic' && options.surface ? { background: options.surface } : undefined}
+        style={
+          layout === 'classic' && options.surface
+            ? { background: options.surface }
+            : layout === 'floating'
+              ? // per-screen floating geometry (e.g. a gorhom `detached` sheet: inset 8, bottom 36)
+                ({ ...(options.inset != null && { '--nk-sheet-floating-inset': `${options.inset}px` }), ...(options.bottomGap != null && { '--nk-sheet-floating-bottom-gap': `${options.bottomGap}px` }) } as CSSProperties)
+              : undefined
+        }
       >
         <SheetCtx.Provider value={ctx}>
           {layout === 'origin' ? (

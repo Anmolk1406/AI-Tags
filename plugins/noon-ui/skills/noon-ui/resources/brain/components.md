@@ -26,7 +26,7 @@ Props and variants: `references/component-api.generated.md` (search the name). U
 | `cmp:ListGroup` | `src/components/ListRow/ListRow.tsx:48` | 0 | — | DashedDivider, Icon, Pressable |
 | `cmp:ListRow` | `src/components/ListRow/ListRow.tsx:8` | 0 | — | DashedDivider, Icon, Pressable |
 | `cmp:Lottie` | `src/components/Lottie/Lottie.tsx:124` | 51 | account, address, cards, cart, checkout, membership, noonone, pdp, returns, reviews, search, wishlist | — |
-| `cmp:MarketplaceTag` | `src/components/Tag/MarketplaceTag.tsx:56` | 22 | cart, checkout, deals, home, orders, pdp, plp, returns, search, wishlist | — |
+| `cmp:MarketplaceTag` | `src/components/Tag/MarketplaceTag.tsx:56` | 23 | cart, checkout, deals, home, orders, pdp, plp, returns, search, wishlist | — |
 | `cmp:MarketplaceWordmark` | `src/components/Tag/MarketplaceTag.tsx:84` | 1 | orders | — |
 | `cmp:MaskIcon` | `src/components/MaskIcon/MaskIcon.tsx:7` | 149 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist | — |
 | `cmp:Money` | `src/components/Price/Price.tsx:48` | 0 | — | — |
@@ -59,7 +59,7 @@ Props and variants: `references/component-api.generated.md` (search the name). U
 | `cmp:StatusChip` | `src/components/Tag/Tag.tsx:44` | 0 | — | Icon, MarketplaceTag |
 | `cmp:Switch` | `src/components/Switch/Switch.tsx:42` | 7 | account, cards, checkout, reviews | — |
 | `cmp:TabBar` | `src/components/TabBar/TabBar.tsx:36` | 148 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist | — |
-| `cmp:Text` | `src/components/Text/Text.tsx:23` | 14 | cart, deals, home, pdp, plp, search, wishlist | — |
+| `cmp:Text` | `src/components/Text/Text.tsx:23` | 13 | cart, deals, home, pdp, plp, search, wishlist | — |
 | `cmp:Toast` | `src/components/Toast/Toast.tsx:26` | 13 | address, cart, checkout | — |
 | `cmp:WishlistHeart` | `src/components/WishlistHeart/WishlistHeart.tsx:15` | 12 | cart, deals, home, pdp, plp, search, wishlist | Icon |
 

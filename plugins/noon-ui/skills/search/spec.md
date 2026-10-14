@@ -45,7 +45,7 @@ Rows 2–3 show only while the trimmed query is empty; row 4 replaces them while
 
 | Sheet | Kit | Spec |
 |---|---|---|
-| Filters (`plp/filters`) | `FiltersSheet.tsx` + `filters.module.css` | 600h; title "Filters" `titleSmall` in `plpTokens.filters.title` (no close: the sheet has a grabber); "Search across filters" field 44h r12 on `--nk-color-bg-subtle`; sidebar 116 wide, active row `--nk-palette-alice-blue` with 3px `--nk-color-brand-blue` end border and count dot; option card `--nk-palette-filter-container-background` r16 with `Pill variant="filter"`; footer Clear All (0.4) / Show N results (0.6), 56h r14, `plpText18SemiboldLh1` |
+| Filters (`plp/filters`) | `FiltersSheet.tsx` + `filters.module.css` | bappzaar NoonFiltersScreenV2 1:1 (`src/flows/plp/MAPPING.md` → Filters sheet; ref `visual/refs/plp-filters.png`): floating sheet (`inset 8`, `bottomGap 36`, 85% of the screen above it, handle closes, no close button); title "Filters"; "Search across filters" (sidebar slides out, matches bold, empty state, Clear selection); 25% sidebar starting with Sort By, blue dot on groups with a value; ONE scroll of every group (sticky grey headers, sidebar tap scrolls + flashes, scroll-spy): Sort By pills, Delivery fulfilment cards (supermall / express / Global), Arrives by, Category (leaf), Brand, Price range, Product Rating cards, Deals; options scoped to the query's results; footer Clear All (0.4) / Show N results (0.6, "4K+"), 56h r14 |
 | Sort (`plp/sort`) | `SortSheet.tsx` | "Sort by" `titleSmall` `textMuted`; six `sortOptions` rows padding `14px 16px`, selected 600 in `--nk-color-brand-blue`; 20px radio ring `--nk-color-border-strong`, dot shared via `layoutId="sort-radio"` |
 
 ## Data

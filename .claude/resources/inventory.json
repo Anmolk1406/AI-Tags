@@ -20,8 +20,8 @@
       "reference": 2,
       "figma": 10
     },
-    "truthExplicit": 14,
-    "truthInferred": 138,
+    "truthExplicit": 15,
+    "truthInferred": 137,
     "verified": 5,
     "unverified": 147
   },
@@ -323,10 +323,10 @@
             "/filters"
           ],
           "truth": "bappzaar",
-          "truthExplicit": false,
+          "truthExplicit": true,
           "label": "reference-backed",
           "verified": null,
-          "source": "marketplaces/noon/screens/NoonFiltersScreenV2, components/NoonFiltersV2"
+          "source": "marketplaces/noon/screens/NoonFiltersScreenV2, components/NoonFiltersV2 (FilterHeader, FilterContainer, FilterFulfillmentCard, FilterNavPill, FilterCard, FilterSortSection, FilterRangeSlider); live app reference 2026-10-14 (visual/refs/plp-filters.png)"
         },
         {
           "route": "plp/sort",

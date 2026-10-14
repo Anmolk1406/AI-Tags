@@ -164,7 +164,7 @@ export async function backTo(page, route, max = 5) {
 /** Tap the scrim of the top sheet, above the sheet body. */
 export async function scrimTap(page) {
   const layer = await top(page);
-  const scrim = layer.locator('[class*=scrim]').first();
+  const scrim = layer.locator('[class*=scrim i]').first();
   const box = await scrim.boundingBox({ timeout: 4000 }).catch(() => null);
   if (!box) throw new AssertionError('no scrim on the top sheet');
   await page.mouse.click(box.x + box.width / 2, box.y + 24);

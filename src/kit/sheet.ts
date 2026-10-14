@@ -15,5 +15,5 @@ export const useSheet = () => useContext(SheetCtx);
 
 export const resolveSheet = (o: SheetOptions | SheetOptions['layout'] | undefined) => {
   const opts = typeof o === 'string' ? { layout: o } : (o ?? {});
-  return { layout: opts.layout ?? 'origin', grabber: opts.grabber ?? true, surface: opts.surface, dismissible: opts.dismissible ?? true } as const;
+  return { layout: opts.layout ?? 'origin', grabber: opts.grabber ?? true, surface: opts.surface, dismissible: opts.dismissible ?? true, inset: opts.inset, bottomGap: opts.bottomGap } as const;
 };

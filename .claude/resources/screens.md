@@ -62,7 +62,7 @@ initial `plp/listing` · group Shopping
 | Route | Title | Presentation | URL | Truth | Verified | Source |
 |---|---|---|---|---|---|---|
 | `plp/listing` | Listing | screen | /plp /listing | bappzaar | 2026-10-12 | src/screens/ListingScreen, marketplaces/noon/components/NoonCatalogList (renderHeader, renderFulfillmentTabs)… |
-| `plp/filters` | Filters | sheet | /filters | bappzaar* |  | marketplaces/noon/screens/NoonFiltersScreenV2, components/NoonFiltersV2 |
+| `plp/filters` | Filters | sheet | /filters | bappzaar |  | marketplaces/noon/screens/NoonFiltersScreenV2, components/NoonFiltersV2 (FilterHeader, FilterContainer, Filte… |
 | `plp/sort` | Sort | sheet |  | bappzaar* |  | marketplaces/noon/components/NoonFiltersV2/FilterSortSection |
 
 ## pdp · Product page (PDP)

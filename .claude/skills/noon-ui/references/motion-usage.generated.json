@@ -30,11 +30,11 @@
     "results-fade": 1
   },
   "purpose": {
-    "press · Pressable": 188,
+    "press · Pressable": 194,
     "layout · layout / layoutId": 18,
     "loading · Spinner": 32,
     "enter/exit · AnimatePresence": 96,
-    "enter · initial→animate": 160,
+    "enter · initial→animate": 158,
     "loading · Skeleton": 98,
     "autoplay · setInterval": 21,
     "drag · drag= / useDragControls": 12,
@@ -106,7 +106,7 @@
     "duration.slow": 2
   },
   "pressScale": {
-    "1": 36,
+    "1": 42,
     "0.98": 39,
     "0.99": 7,
     "0.97": 11,
@@ -127,7 +127,7 @@
   "durations": {
     "0.06s": 3,
     "0.3s": 40,
-    "0.25s": 18,
+    "0.25s": 21,
     "0.2s": 19,
     "3s": 1,
     "0.2s (css)": 11,
@@ -144,7 +144,7 @@
     "1.6s": 1,
     "0.9s": 1,
     "0.8s": 2,
-    "0.4s": 3,
+    "0.4s": 4,
     "0.55s": 2,
     "0.16s": 1,
     "0.3s (css)": 5,
@@ -159,12 +159,13 @@
     "0.48s": 2,
     "0.25s (css)": 1,
     "0.42s": 1,
-    "0.18s": 2,
+    "1.9s": 2,
     "0.36s": 1,
     "0.396s": 1,
     "0.32s": 1,
     "1.1s": 1,
     "0.34s": 1,
+    "0.18s": 1,
     "0.08s": 1
   },
   "springs": {
@@ -186,7 +187,7 @@
   },
   "eases": {
     "[0.25,0.1,0.25,1]": 7,
-    "'easeInOut'": 17,
+    "'easeInOut'": 18,
     "[0.455,0.03,0.515,0.955]": 5,
     "'linear'": 17,
     "[0.215,0.61,0.355,1]": 8,
@@ -196,7 +197,7 @@
     "[0.5,1,0.89,1]": 3,
     "[0.32,0.72,0,1]": 2,
     "[0.7,0,0.84,0]": 1,
-    "'easeOut'": 2,
+    "'easeOut'": 3,
     "[0.16,1,0.3,1]": 1,
     "[0,0,0.58,1]": 1
   },
@@ -605,9 +606,9 @@
         }
       },
       "purpose": {
-        "press · Pressable": 8,
+        "press · Pressable": 14,
         "enter/exit · AnimatePresence": 1,
-        "enter · initial→animate": 6,
+        "enter · initial→animate": 4,
         "layout · layout / layoutId": 2,
         "recipe · SkeletonReveal": 1,
         "imperative · animate() / useAnimate": 21,
@@ -617,7 +618,7 @@
         "loading · Skeleton": 6
       },
       "presets": 37,
-      "raw": 7,
+      "raw": 14,
       "css": {
         "transition": 0,
         "animation": 0,

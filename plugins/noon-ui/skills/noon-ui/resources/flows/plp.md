@@ -7,7 +7,7 @@ Read with `resources/screens.md` and `src/flows/plp/MAPPING.md` (bappzaar master
 - `plp/listing`
   - URL `/plp` or `/listing`; default `{ query: 'Best sellers' }`.
   - Truth `bappzaar`, verified 2026-10-12.
-- `plp/filters`: sheet; the `facet` param picks the starting facet.
+- `plp/filters`: floating sheet (bappzaar NoonFiltersScreenV2, MAPPING.md → Filters sheet); one scroll of every group with a scroll-spy sidebar (Sort By first); the `facet` param picks the group it opens on (default Delivery). Sort is part of the draft and commits with Show N results.
 - `plp/sort`: sheet.
 
 ## Anatomy of `plp/listing`

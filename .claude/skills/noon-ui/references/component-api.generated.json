@@ -6170,7 +6170,7 @@
       "flow": "plp",
       "name": "CatalogListHeader",
       "file": "src/flows/plp/components/CatalogListHeader.tsx",
-      "line": 29,
+      "line": 30,
       "doc": "The PLP header with the fulfilment tabs on (NoonCatalogList.renderHeader → NoonCatalogListHeader): the custom pills Filter · Sort · divider (getCustomNavPills),",
       "props": [
         "sortLabel",

@@ -17,18 +17,19 @@ export default [
   {
     name: 'sheet-dismiss',
     area: 'sheets',
-    title: 'PLP Filters / Sort sheets close via their Close button, a scrim tap and a drag down on the grabber',
+    title: 'PLP Filters / Sort sheets close via a tap on the floating handle (Filters has no close button, as in bappzaar), a scrim tap and a drag down on the grabber',
     async run(page, shot) {
       await open(page, 'plp/listing?query=phone', { settle: 2200, expectRoute: 'plp/listing' });
-      // Filters: Close button
+      // Filters: floating sheet (OverlayBottomSheet isFloating) — the handle closes it on tap; there is no Close button
       await tap(page, pills(page).first(), { scroll: false });
       await waitRoute(page, 'plp/filters');
       await page.waitForTimeout(600);
       expect(await isSheetOnTop(page), 'plp/filters is not presented as a sheet');
       await shot('filters-open');
-      await (await top(page)).getByRole('button', { name: 'Close', exact: true }).click();
-      await expectClosed(page, 'plp/listing', 'Close');
-      await shot('closed-by-button');
+      expect((await (await top(page)).getByRole('button', { name: 'Close', exact: true }).count()) === 0, 'the Filters sheet shows a Close button (bappzaar has none)');
+      await (await top(page)).locator('[class*=floatingHandleZone]').first().click();
+      await expectClosed(page, 'plp/listing', 'handle tap');
+      await shot('closed-by-handle');
       // Filters: scrim tap
       await tap(page, pills(page).first(), { scroll: false });
       await waitRoute(page, 'plp/filters');

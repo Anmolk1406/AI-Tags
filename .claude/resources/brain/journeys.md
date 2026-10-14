@@ -36,7 +36,7 @@ Edges come from static `nav.*('…')` calls in each screen's import closure (dyn
 | `test:journey/noonone-start-trial` Account noon One strip → landing (non-member) → Start trial → plan details → Start free t… | noonone | `account/account`, `noonone/landing`, `noonone/planDetails` |
 | `test:journey/noonone-plans-tabs` Landing → View other plans → plan select: tier tabs swap the plan cards; tapping a plan s… | noonone | `noonone/landing`, `noonone/plans` |
 | `test:journey/orders-pinned-filter` Orders: header stays pinned on scroll; Delivered / Cancelled chips filter the history, ta… | orders | `orders/list` |
-| `test:journey/sheet-dismiss` PLP Filters / Sort sheets close via their Close button, a scrim tap and a drag down on th… | sheets | `plp/filters`, `plp/listing`, `plp/sort` |
+| `test:journey/sheet-dismiss` PLP Filters / Sort sheets close via a tap on the floating handle (Filters has no close bu… | sheets | `plp/filters`, `plp/listing`, `plp/sort` |
 | `test:journey/pdp-variants-size-warning` Variants sheet: ADD TO CART without a size warns and adds nothing; pick a size → closes, … | sheets | `pdp/detail`, `pdp/variants` |
 | `test:journey/home-address-sheet` Home address tap opens the address book over home (isBottomSheet); picking another addres… | sheets | `address/selectSheet`, `home/home` |
 | `test:journey/search-to-plp` Search → results hand-off: no empty frame, the bar stays put, results load | shopping | `plp/listing`, `search/search` |
@@ -66,6 +66,7 @@ Edges come from static `nav.*('…')` calls in each screen's import closure (dyn
 |---|---|---|
 | `test:visual/account-action-cards-empty` | `account/account` | Figma 4NvyqO60K7Xn4gRJrkWmzQ · 8886:66691 (Accounts, My Orders / My Wishlist), exported 2026-10-13 |
 | `test:visual/cart-sticky-footer` | `cart/cart` | Figma Af34gfmhQ1D0wstXUEHSIF · 127:40209 (All flows, Cart sticky footer + savings wave), exported 2026-10-13 |
+| `test:visual/plp-filters` | `plp/listing` | noon app (iOS, live), PLP "phone" → Filter, screenshot 2026-10-14 (bappzaar NoonFiltersScreenV2) |
 
 ## Coverage per flow
 

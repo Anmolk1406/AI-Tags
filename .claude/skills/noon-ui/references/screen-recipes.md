@@ -260,6 +260,8 @@ Rules:
 
 Example: `checkout/learn-more` (NoonCheckoutLearnMoreScreen). The screen renders its own content exactly as the port does.
 
+A gorhom `detached` sheet (e.g. NoonFiltersScreenV2: marginHorizontal 8, bottomInset 36) uses the same frame with its own geometry: `sheet: { layout: 'floating', inset: 8, bottomGap: 36 }` (`plp/filters`).
+
 **Classic sheets (the bappzaar ports).** The 39 existing sheet screens set `sheet: 'classic'`: an edge-to-edge white sheet with r24 top corners, the grabber inside it, `max-height: 88%` and bottom inset padding. They keep their current UI, both the sheet frame and their contents (close buttons included): never move an existing sheet to Origin or restyle its header unless the user asks for that sheet. `scripts/sheet-baseline.json` lists them, and `npm run skill:check` fails if one loses `sheet: 'classic'` or if a new sheet sets `'classic'` without being a 1:1 bappzaar port. bappzaar's own rule matches: sheets that swipe to dismiss (OverlayBottomSheet, the gorhom BottomSheet) draw a grabber and never a close button. Only the legacy `Overlay`, which has no drag, uses an X.
 
 Classic list sheet — `src/flows/plp/SortSheet.tsx`:

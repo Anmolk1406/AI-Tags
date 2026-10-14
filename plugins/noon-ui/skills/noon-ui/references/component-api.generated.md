@@ -1170,7 +1170,7 @@ Search these before you create a component (`references/components.md` → "Sear
 | pdp | `SfTrustCard` | `src/flows/pdp/components/storefront/SfTrustCard.tsx:21` | `content` |
 | pdp | `SfVariantsCard` | `src/flows/pdp/components/storefront/SfVariantsCard.tsx:30` | `product` `content` `selection` `loading` `onSelect` `onSizeGuide` `onLearnMore` |
 | plp | `BrandWidget` | `src/flows/plp/components/BrandWidget.tsx:40` | `config` `selected` `landed` `onSelect` `onClear` `children` |
-| plp | `CatalogListHeader` | `src/flows/plp/components/CatalogListHeader.tsx:29` | `sortLabel` `sorted` `nFilters` `filters` `results` `onFilter` `onSort` `onFacet` `onQuick` |
+| plp | `CatalogListHeader` | `src/flows/plp/components/CatalogListHeader.tsx:30` | `sortLabel` `sorted` `nFilters` `filters` `results` `onFilter` `onSort` `onFacet` `onQuick` |
 | plp | `CatalogNavPill` | `src/flows/plp/components/CatalogNavPill.tsx:42` | `kind` `label` `selected` `count` `icon` `onPress` |
 | plp | `MarketplaceStrip` | `src/flows/plp/components/MarketplaceStrip.tsx:37` | `active` `onSelect` |
 | plp | `RevealChip` | `src/flows/plp/components/NavPills.tsx:12` | `index` `children` `skeleton` |

@@ -1,4 +1,4 @@
-import { products as baseProducts, type Product } from '../../data';
+import { leafName, products as baseProducts, type Product } from '../../data';
 import { phoneProducts } from '../../data';
 
 /** The PLP's catalogue: the shared demo products plus the brand widget's phones (src/mocks/phones.ts). */
@@ -15,39 +15,71 @@ export const sortOptions: { id: SortId; label: string }[] = [
   { id: 'discount', label: 'Biggest Discount' },
 ];
 
-export type FacetId = 'category' | 'brand' | 'price' | 'rating' | 'deals' | 'delivery';
+export type FacetId = 'delivery' | 'arrives' | 'category' | 'brand' | 'price' | 'rating' | 'deals';
+
+/** NoonFiltersV2 renderer per group (FilterPageRenderers / FilterGroupRenderers): fulfilment cards, pills, rating cards, range slider */
+export type FacetKind = 'fulfillment' | 'pills' | 'cards' | 'range';
+
+export interface FacetOption {
+  id: string;
+  label: string;
+  test: (p: Product) => boolean;
+  /** fulfilment card logo (FilterFulfillmentCard `image_url` + `background_color`) */
+  logo?: 'supermall' | 'express' | 'global';
+}
 
 export interface Facet {
   id: FacetId;
   label: string;
-  options: { id: string; label: string; test: (p: Product) => boolean }[];
+  kind: FacetKind;
+  options: FacetOption[];
 }
+
+/** leaf category name ("Smartphones"), the category the live filters list; falls back to the top category */
+export const leafCategory = (p: Product) => leafName(p.categoryId) ?? p.category;
+
+/** price facet value is one `"min-max"` string (FilterRangeSlider) */
+export const priceRange = (v?: string) => {
+  const [min, max] = (v ?? '').split('-').map(Number);
+  return Number.isFinite(min) && Number.isFinite(max) ? { min, max } : null;
+};
+export const priceBounds = { min: Math.floor(Math.min(...products.map((p) => p.price))), max: Math.ceil(Math.max(...products.map((p) => p.price))) };
 
 const uniq = <T,>(a: T[]) => [...new Set(a)];
 
+/** Group order and copy follow the live search filters (bappzaar NoonFiltersScreenV2; "phone" search, 2026-10-14 reference). */
 export const facets: Facet[] = [
-  { id: 'category', label: 'Category', options: uniq(products.map((p) => p.category)).map((c) => ({ id: c, label: c, test: (p) => p.category === c })) },
-  { id: 'brand', label: 'Brand', options: uniq(products.map((p) => p.brand)).map((b) => ({ id: b, label: b, test: (p) => p.brand === b })) },
+  {
+    id: 'delivery',
+    label: 'Delivery',
+    kind: 'fulfillment',
+    options: [
+      { id: 'supermall', label: 'Direct from brand', logo: 'supermall', test: (p) => !!p.supermall },
+      { id: 'express', label: 'Fulfilled by noon', logo: 'express', test: (p) => !!p.express },
+      { id: 'global', label: 'Sourced Globally', logo: 'global', test: (p) => !p.express && !p.supermall },
+    ],
+  },
+  { id: 'arrives', label: 'Arrives by', kind: 'pills', options: [{ id: 'today', label: 'Today', test: (p) => /today|get in/i.test(p.delivery ?? '') }] },
+  { id: 'category', label: 'Category', kind: 'pills', options: uniq(products.map(leafCategory)).map((c) => ({ id: c, label: c, test: (p) => leafCategory(p) === c })) },
+  { id: 'brand', label: 'Brand', kind: 'pills', options: uniq(products.map((p) => p.brand)).map((b) => ({ id: b, label: b, test: (p) => p.brand === b })) },
   {
     id: 'price',
     label: 'Price',
-    options: [
-      { id: 'u500', label: 'Under  500', test: (p) => p.price < 500 },
-      { id: '500-1500', label: ' 500 – 1,500', test: (p) => p.price >= 500 && p.price <= 1500 },
-      { id: 'o1500', label: 'Over  1,500', test: (p) => p.price > 1500 },
-    ],
+    kind: 'range',
+    options: [],
   },
   {
     id: 'rating',
     label: 'Product Rating',
+    kind: 'cards',
     options: [
       { id: '4.5', label: '4.5 & above', test: (p) => p.rating >= 4.5 },
       { id: '4', label: '4 & above', test: (p) => p.rating >= 4 },
+      { id: '3', label: '3 & above', test: (p) => p.rating >= 3 },
     ],
   },
   // deal_tag facet (the live "Deals" nav pill): products on a deal = with a was-price
-  { id: 'deals', label: 'Deals', options: [{ id: 'sale', label: 'On sale', test: (p) => !!p.was && p.was > p.price }] },
-  { id: 'delivery', label: 'Delivery Mode', options: [{ id: 'express', label: 'express', test: (p) => !!p.express }] },
+  { id: 'deals', label: 'Deals', kind: 'pills', options: [{ id: 'sale', label: 'On sale', test: (p) => !!p.was && p.was > p.price }] },
 ];
 
 export type Filters = Partial<Record<FacetId, string[]>>;
@@ -57,6 +89,10 @@ export function applyFilters(list: Product[], filters: Filters) {
     facets.every((f) => {
       const sel = filters[f.id];
       if (!sel?.length) return true;
+      if (f.kind === 'range') {
+        const r = priceRange(sel[0]);
+        return !r || (p.price >= r.min && p.price <= r.max);
+      }
       return f.options.filter((o) => sel.includes(o.id)).some((o) => o.test(p));
     }),
   );

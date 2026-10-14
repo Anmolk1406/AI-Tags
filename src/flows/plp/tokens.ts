@@ -85,11 +85,19 @@ export const plpFlowTokens: TokenOverrides = {
   colors: {
     bgPage: '#FFFFFF',
     // NoonFilterPillBackAnimation GLASS_GRADIENT_COLORS, (0, 0) → (75, 30), stops 0 / 0.34 / 0.68 / 1
+    // NoonFiltersV2 fulfilment card logo boxes (API `background_color`, sampled from the live app 2026-10-14)
+    plpFulfilSupermall: 'var(--nk-palette-rocket-blue-sapphire)',
+    plpFulfilExpress: 'var(--nk-palette-yellow-color)',
+    plpFulfilGlobal: '#E7DEF0',
+    // NoonDualThumbSlider rail / selected rail rgba(56, 102, 223)
+    plpRangeRail: 'var(--nk-palette-noon-grey3)',
+    plpRangeFill: 'var(--nk-palette-accent-color)',
     plpFilterGlass: 'linear-gradient(to bottom right, rgba(238, 240, 244, 0.72) 0%, rgba(255, 255, 255, 0.98) 34%, rgba(231, 234, 240, 0.58) 68%, rgba(255, 255, 255, 0.9) 100%)',
   },
   // one-off type combos (token lint cleanup)
   type: {
     plpText18SemiboldLh1: { size: 18, line: '1', weight: 600 }, // filters Clear / Show
+    plpText16MediumLh20: { size: 16, line: 20, weight: 500 }, // filters search input
     plpText17BoldLh20: { size: 17, line: 20, weight: 700 }, // brand card price
     plpText11SemiboldLh14: { size: 11, line: 14, weight: 600 }, // brand card "% off"
     plpText8BoldLh11: { size: 8, line: 11, weight: 700 }, // brand letter badge

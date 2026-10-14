@@ -4,7 +4,7 @@
 
 Quote counts from here instead of typing them: `scripts/check-inventory.mjs` fails when a doc states a flow / screen / route count the registry disagrees with.
 
-**17 flows · 152 screens (routes).** Coverage: 11 spec · 6 brief. Provenance: 150 reference-backed · 2 kit-backed · 0 inferred. Truth: 6 mixed · 134 bappzaar · 2 reference · 10 figma (14 explicit, 138 inferred from `source`). Verified side by side: 5 of 152.
+**17 flows · 152 screens (routes).** Coverage: 11 spec · 6 brief. Provenance: 150 reference-backed · 2 kit-backed · 0 inferred. Truth: 6 mixed · 134 bappzaar · 2 reference · 10 figma (15 explicit, 137 inferred from `source`). Verified side by side: 5 of 152.
 
 ## Labels
 
@@ -86,7 +86,7 @@ Never compared side by side with their reference, as far as the registry records
 - `membership` (24): `manage`, `upgrade`, `reviewPlan`, `switchPlan`, `info`, `changePlan`, `invoice`, `cancel`, `cancelSheet`, `unusedSeats`, `planOptions`, `groupSavings`, `loseAccess`, `leaveFamilyOverlay`, `confirmOffer`, `familyPlans`, `familyReview`, `shareInvite`, `removeMember`, `leaveFamily`, `referrals`, `referralsInput`, `partner`, `yangoCredits`
 - `wishlist` (5): `wishlist`, `no-collections`, `empty`, `loading`, `options`
 
-## Truth inferred from `source` (138)
+## Truth inferred from `source` (137)
 
 No explicit `truth`; `screenTruth()` guessed it from the `source` text. Set `truth` when you next touch the screen.
 
@@ -94,7 +94,7 @@ No explicit `truth`; `screenTruth()` guessed it from the `source` text. Set `tru
 - `search` (1): reference → `suggestions`
 - `categories` (4): bappzaar → `categories`, `expanded`, `loading`, `error`
 - `deals` (1): bappzaar → `deals`
-- `plp` (2): bappzaar → `filters`, `sort`
+- `plp` (1): bappzaar → `sort`
 - `pdp` (3): figma → `deliveryVariants` · bappzaar → `variants`, `added`
 - `cart` (7): bappzaar → `empty`, `loading`, `variants`, `customize`, `discount`, `bundles`, `updates`
 - `checkout` (22): mixed → `checkout` · bappzaar → `promise-info`, `cards-select`, `add-card`, `special-emis`, `emi-plans`, `alternate-phone`, `alternate-phone-contacts`, `learn-more`, `burn-providers`, `provider-burn`, `provider-burn-otp`, `donation-learn-more`, `earn`, `provider-earn`, `provider-earn-help`, `installation`, `placing`, `confirmation`, `track-steps`, `payment-failure`, `payment-failure-help`

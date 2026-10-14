@@ -45,8 +45,8 @@ Occurrences in flow code (JSX elements, props or calls).
 
 | Purpose · mechanism | Uses | Flows |
 |---|---|---|
-| press · Pressable | 188 | 15 of 17 |
-| enter · initial→animate | 160 | 16 of 17 |
+| press · Pressable | 194 | 15 of 17 |
+| enter · initial→animate | 158 | 16 of 17 |
 | scroll-linked · useScroll / useTransform | 113 | 12 of 17 |
 | loading · Skeleton | 98 | 9 of 17 |
 | enter/exit · AnimatePresence | 96 | 15 of 17 |
@@ -73,8 +73,8 @@ Shared components that move on their own (counted under `(components)`, not abov
 
 | Scale | Uses | Flows |
 |---|---|---|
+| `1` | 42 | 10 of 17 |
 | `0.98` | 39 | 10 of 17 |
-| `1` | 36 | 10 of 17 |
 | `0.97` | 11 | account, address, home, plp |
 | `0.96` | 11 | account, home, orders, returns |
 | `0.99` | 7 | account, noonone, orders, returns |
@@ -90,7 +90,7 @@ Shared components that move on their own (counted under `(components)`, not abov
 
 ## 4. Where timing comes from
 
-Preset references in flow code: **244**. Raw timing literals (duration / spring / ease / stagger written inline): **276**. CSS: 30 `transition`, 3 `animation`, 3 `@keyframes`.
+Preset references in flow code: **244**. Raw timing literals (duration / spring / ease / stagger written inline): **283**. CSS: 30 `transition`, 3 `animation`, 3 `@keyframes`.
 
 | Flow | Preset refs | Raw literals | CSS transition / animation / keyframes |
 |---|---|---|---|
@@ -106,7 +106,7 @@ Preset references in flow code: **244**. Raw timing literals (duration / spring 
 | noonone | 3 | 29 | 0 / 0 / 0 |
 | orders | 33 | 2 | 1 / 0 / 0 |
 | pdp | 16 | 13 | 2 / 3 / 2 |
-| plp | 37 | 7 | 0 / 0 / 0 |
+| plp | 37 | 14 | 0 / 0 / 0 |
 | returns | 12 | 8 | 0 / 0 / 0 |
 | reviews | 67 | 11 | 0 / 0 / 0 |
 | search | 24 | 7 | 0 / 0 / 0 |
@@ -149,14 +149,14 @@ Preset references in flow code: **244**. Raw timing literals (duration / spring 
 
 ### Raw values (the spread a guideline will consolidate)
 
-**102** of the raw literals equal an existing preset (they should be the preset).
+**105** of the raw literals equal an existing preset (they should be the preset).
 
 | Duration | Uses | Equals |
 |---|---|---|
 | 0.3s | 40 | `duration.medium` |
+| 0.25s | 21 | `duration.base` |
 | 0.15s (css) | 21 | `duration.fast` |
 | 0.2s | 19 |  |
-| 0.25s | 18 | `duration.base` |
 | 0.15s | 15 | `duration.fast` |
 | 0.2s (css) | 11 |  |
 | 0.35s | 10 |  |
@@ -165,10 +165,10 @@ Preset references in flow code: **244**. Raw timing literals (duration / spring 
 | 1.2s | 6 |  |
 | 0.3s (css) | 5 | `duration.medium` |
 | 0.45s | 4 | `duration.slow` |
+| 0.4s | 4 |  |
 | 0.1s | 4 | `duration.instant` |
 | 0.06s | 3 |  |
 | 0.6s | 3 | `duration.slower` |
-| 0.4s | 3 |  |
 | 0.12s | 3 |  |
 | 0.8s | 2 |  |
 
@@ -192,7 +192,7 @@ Preset references in flow code: **244**. Raw timing literals (duration / spring 
 
 | Ease | Uses | Equals |
 |---|---|---|
-| `'easeInOut'` | 17 |  |
+| `'easeInOut'` | 18 |  |
 | `'linear'` | 17 |  |
 | `[0.42,0,0.58,1]` | 10 |  |
 | `[0.215,0.61,0.355,1]` | 8 | `easing.out` |
@@ -200,8 +200,8 @@ Preset references in flow code: **244**. Raw timing literals (duration / spring 
 | `[0.455,0.03,0.515,0.955]` | 5 |  |
 | `[0.4,0,0.2,1]` | 3 |  |
 | `[0.5,1,0.89,1]` | 3 |  |
+| `'easeOut'` | 3 |  |
 | `[0.32,0.72,0,1]` | 2 | `easing.ios` |
-| `'easeOut'` | 2 |  |
 | `[0.33,1,0.68,1]` | 1 |  |
 | `[0.7,0,0.84,0]` | 1 |  |
 | `[0.16,1,0.3,1]` | 1 |  |

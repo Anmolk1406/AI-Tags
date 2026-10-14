@@ -28,9 +28,11 @@ export const plpFlow = defineFlow({
       id: 'filters',
       title: 'Filters',
       component: FiltersSheet,
-      presentation: 'sheet', sheet: 'classic',
-      notes: 'Draft-then-commit: the "Show N results" count updates live as you toggle options; Clear All resets the draft.',
-      source: 'marketplaces/noon/screens/NoonFiltersScreenV2, components/NoonFiltersV2',
+      // gorhom `detached` sheet: marginHorizontal 8, bottomInset 36 (NoonFiltersScreenV2 styles.ts / S 1312-1334)
+      presentation: 'sheet', sheet: { layout: 'floating', inset: 8, bottomGap: 36 },
+      notes: 'One list of every group (Sort By, Delivery, Arrives by, Category, Brand, Price, Product Rating, Deals). Tap a sidebar item to scroll to its group (it flashes); scroll and the sidebar follows. Type in "Search across filters" to narrow the groups. Draft-then-commit: "Show N results" applies sort + filters; Clear All resets.',
+      source: 'marketplaces/noon/screens/NoonFiltersScreenV2, components/NoonFiltersV2 (FilterHeader, FilterContainer, FilterFulfillmentCard, FilterNavPill, FilterCard, FilterSortSection, FilterRangeSlider); live app reference 2026-10-14 (visual/refs/plp-filters.png)',
+      truth: 'bappzaar',
     },
     {
       id: 'sort',

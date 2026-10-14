@@ -30,6 +30,10 @@ export interface SheetOptions {
   surface?: string;
   /** default true — tapping the scrim dismisses */
   dismissible?: boolean;
+  /** floating only: side inset in px (default `--nk-sheet-floating-inset`, 12), e.g. 8 for a gorhom `detached` sheet */
+  inset?: number;
+  /** floating only: minimum gap under the sheet in px (default `--nk-sheet-floating-bottom-gap`, 15; the safe area wins if larger) */
+  bottomGap?: number;
 }
 
 export interface ScreenProps<P = Record<string, unknown>> {
