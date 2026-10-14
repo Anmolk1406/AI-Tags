@@ -1,40 +1,41 @@
-import { AnimatePresence, motion } from 'motion/react';
-import { Icon, IconButton, Pressable } from '../../../components';
+import { MaskIcon, Pressable } from '../../../components';
 import { useNav } from '../../../kit/Navigator';
-import { wishlistTokens } from '../tokens';
+import { palette } from '../../../foundations/palette';
+import backIcon from '@assets/wishlist/noon-wishlist-v2-wishlist-back-icon.webp';
+import plusIcon from '@assets/wishlist/noon-wishlist-v2-plus-wishlist-collection.webp';
+import { copy } from '../data';
 import styles from '../wishlist.module.css';
 
 /**
- * NoonWishlistV2Header. When the list scrolls past the "All Saved Items" heading, "Wishlist" fades out
- * and moves up 4px while "All Saved Items" fades in from +4px in the same spot; the Create pill fades out.
+ * NoonWishlistV2Header: bordered 40 back circle · two stacked titles · Create pill.
+ * `progress` (0 → 1) is useNoonWishlistV2HeaderAnimation's interpolation of scrollY over [bottom − 8, bottom + 8] of the
+ * "All Saved Items" heading: "Wishlist" fades out moving to −4, "All Saved Items" fades in from +4, the Create pill fades
+ * with "Wishlist". No timing: it follows the scroll, as in the app.
  */
-export function WishlistHeader({ swapped = false, showCreate = true }: { swapped?: boolean; showCreate?: boolean }) {
+export function WishlistHeader({ progress = 0, showCreate = true }: { progress?: number; showCreate?: boolean }) {
   const nav = useNav();
+  const wishlistOpacity = 1 - progress;
   return (
     <div className={styles.header}>
       <div className={styles.headerRow}>
-        {nav.canGoBack && <IconButton icon="back" onPress={nav.back} label="Back" />}
+        <Pressable className={styles.backButton} onClick={nav.back} aria-label="Back">
+          <MaskIcon src={backIcon} size={20} color={palette.black} />
+        </Pressable>
         <span className={styles.titleSlot}>
-          <AnimatePresence initial={false} mode="popLayout">
-            <motion.span
-              key={swapped ? 'all' : 'wishlist'}
-              className={styles.title}
-              initial={{ opacity: 0, y: 4 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.18 }}
-            >
-              {swapped ? 'All Saved Items' : 'Wishlist'}
-            </motion.span>
-          </AnimatePresence>
+          <span className={styles.title} style={{ opacity: wishlistOpacity, transform: `translateY(${-4 * progress}px)` }} aria-hidden={progress === 1}>
+            {copy.title}
+          </span>
+          <span className={styles.title} style={{ opacity: progress, transform: `translateY(${4 * wishlistOpacity}px)` }} aria-hidden={progress === 0}>
+            {copy.allSavedItems}
+          </span>
         </span>
         {showCreate && (
-          <motion.span animate={{ opacity: swapped ? 0 : 1, scale: swapped ? 0.9 : 1 }} transition={{ duration: 0.18 }} style={{ pointerEvents: swapped ? 'none' : 'auto' }}>
-            <Pressable className={styles.createPill} style={{ background: wishlistTokens.createPill }} onClick={() => nav.toast('Create collection — add a naming sheet in flows/wishlist')}>
-              <Icon name="plus" size={14} strokeWidth={2.6} />
-              Create
+          <span style={{ opacity: wishlistOpacity, pointerEvents: wishlistOpacity === 0 ? 'none' : undefined }}>
+            <Pressable className={styles.createPill} onClick={() => nav.toast('Create collection — the naming sheet is not in this demo')}>
+              <MaskIcon src={plusIcon} size={12} color={palette.white} className={styles.createIcon} />
+              {copy.create}
             </Pressable>
-          </motion.span>
+          </span>
         )}
       </div>
     </div>

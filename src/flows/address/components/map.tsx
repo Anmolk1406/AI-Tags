@@ -208,6 +208,8 @@ export function UnserviceableView({ style }: { style?: CSSProperties }) {
 /* ───────────────────────────── AddressV2FloatingOverlay ───────────────────────────── */
 
 const OPACITY_EASE: [number, number, number, number] = [0.65, 0, 0.35, 1];
+/** ThemeManager.metrics.screenHeight() on the 390 × 844 demo phone (slide-in start) */
+const SCREEN_HEIGHT = 844;
 const fade = { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 }, transition: { duration: 0.2, ease: OPACITY_EASE } };
 
 /**
@@ -225,6 +227,7 @@ export function FloatingOverlay({
   closing,
   collapsedBg = palette.white, // animated (motion) → raw value
   expandedBg = palette.secondaryBackgroundColor,
+  slideIn = false,
 }: {
   expanded: boolean;
   topContent?: ReactNode;
@@ -236,6 +239,8 @@ export function FloatingOverlay({
   closing?: boolean;
   collapsedBg?: string;
   expandedBg?: string;
+  /** withSlideAnimation: the card springs up from below the screen (mass 0.75, stiffness 420, damping 30) and the scrim fades in */
+  slideIn?: boolean;
 }) {
   const innerRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState<number | 'auto'>('auto');
@@ -274,6 +279,7 @@ export function FloatingOverlay({
       <motion.div
         className={styles.scrim}
         style={{ pointerEvents: expanded ? 'auto' : 'none' }}
+        initial={slideIn ? { backgroundColor: palette.blackAlpha0 } : false}
         animate={{ backgroundColor: expanded ? palette.blackAlpha80 : palette.blackAlpha0 }}
         transition={{ duration: 0.3, ease: OPACITY_EASE }}
         onClick={expanded ? onOverlayClose : undefined}
@@ -287,7 +293,9 @@ export function FloatingOverlay({
       </AnimatePresence>
       <motion.div
         className={styles.container}
+        initial={slideIn ? { y: SCREEN_HEIGHT } : false}
         animate={{
+          y: 0,
           height,
           backgroundColor: bg,
           ...(closing ? { scaleY: 1.35, marginLeft: 0, marginRight: 0 } : { scaleY: 1 }),
@@ -295,6 +303,7 @@ export function FloatingOverlay({
         style={{ transformOrigin: 'bottom' }}
         transition={{
           height: { type: 'spring', mass: 1, stiffness: 300, damping: 28 },
+          y: { type: 'spring', mass: 0.75, stiffness: 420, damping: 30 },
           backgroundColor: { duration: 0.3, ease: OPACITY_EASE },
           scaleY: { duration: 0.35 },
           marginLeft: { duration: 0.35 },

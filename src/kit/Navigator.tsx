@@ -270,7 +270,7 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
                 animate={under ? 'covered' : 'shown'}
                 exit="exit"
                 transition={t.transition}
-                style={{ zIndex: i, pointerEvents: isTop ? 'auto' : 'none' }}
+                style={{ zIndex: i, pointerEvents: isTop ? 'auto' : 'none', background: resolved.screen.transparent ? 'transparent' : undefined }}
                 // a covered screen is out of the tab order and the accessibility tree (the sheet / screen on top is modal)
                 inert={!isTop}
                 data-route={entry.route}
@@ -351,6 +351,8 @@ function SheetLayer({ children, options, onDismiss, isTop, zIndex, reduce }: { c
         dragElastic={{ top: 0.05, bottom: 0.8 }}
         onDragEnd={onDragEnd}
         data-sheet={layout}
+        // classic: the column is the sheet, so `surface` fills it (grabber zone included)
+        style={layout === 'classic' && options.surface ? { background: options.surface } : undefined}
       >
         <SheetCtx.Provider value={ctx}>
           {layout === 'origin' ? (

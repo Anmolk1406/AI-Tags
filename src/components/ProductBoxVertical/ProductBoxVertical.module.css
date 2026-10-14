@@ -65,3 +65,8 @@
 /* flagAndDiscountRow: px 8, marginTop 4 → flagAndDeliveryRow (PLP 20 high): ProductFlag 60 × 18 marginRight 4 + delivery 12 / 14 charcoalNavy (b bold), 1 line */
 .flagRow { display: flex; align-items: center; padding: 0 var(--nk-space-s8); margin-top: var(--nk-space-s4); }
 .flagDelivery { flex: 1; min-width: 0; display: flex; align-items: center; min-height: 20px; } /* Origin _ETA badge (18, or 24 for Minutes / Supermall) */
+/* wishlist: one fixed slot (the 24 pill height) so express (18) and supermall / minutes (24) cards keep the same rows below */
+.flagDeliveryFixed { height: var(--nk-eta-pill-height); }
+
+/* wishlist bottomRow: row, center, marginTop 10, px 8, gap 8 (ATC + NoonProductBoxOptionButton) */
+.bottomRow { display: flex; align-items: center; gap: var(--nk-space-s8); margin-top: 10px; padding: 0 var(--nk-space-s8); cursor: default; }

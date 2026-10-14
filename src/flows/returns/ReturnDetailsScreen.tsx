@@ -71,9 +71,11 @@ export function ReturnDetailsScreen({ params }: { params: { productId?: string; 
   const contentOpacity = useTransform(progress, [0.35, 1], [0, 1], { clamp: true });
   const contentY = useTransform(progress, [0.35, 1], [h / 3, 0], { clamp: true });
 
-  const tracking = trackingFor(record.currentStage, record.cancelled);
+  const tracking = trackingFor(record.currentStage, record.cancelled, record.requestedAt);
   const refund = refundDetailsFor(product);
-  const canCancel = !record.cancelled;
+  const canCancel = record.allowCancel && !record.cancelled;
+  // AFSReturnsItemDetailsActionButton: the SD trackingAction only renders for actionCode 'refunded'
+  const trackAction = record.trackingAction?.actionCode === 'refunded' ? record.trackingAction : undefined;
   const showFeedback = record.feedbackRate == null;
   const loading = !hasSuccessHeader && status === 'pending';
 
@@ -136,7 +138,10 @@ export function ReturnDetailsScreen({ params }: { params: { productId?: string; 
                       <Tap className={styles.trackingButton} onPress={() => setOverlay('tracking')}>
                         <TrackingSteps tracking={tracking} />
                       </Tap>
-                      <div className={styles.trackingActions}>{canCancel && <AFSButton size="sm" variant="outline" title={copy.cancelReturn} onPress={() => setOverlay('cancel')} />}</div>
+                      <div className={styles.trackingActions}>
+                        {canCancel && <AFSButton size="sm" variant="outline" title={copy.cancelReturn} onPress={() => setOverlay('cancel')} />}
+                        {trackAction && <AFSButton size="sm" variant="outline" title={trackAction.title} onPress={() => nav.toast(`${trackAction.title} — opens ${trackAction.deepLink} (handleReturnTrackPress)`)} />}
+                      </div>
                     </div>
                   </div>
 

@@ -1,6 +1,6 @@
 import { motion, useMotionValue } from 'motion/react';
 import { useCallback, useEffect, useState } from 'react';
-import { Screen } from '../../components';
+import { Screen, Spinner } from '../../components';
 import { cartGroupOf, useDemoStore, type CartGroupType, type CartLine } from '../../kit/DemoStore';
 import { useNav } from '../../kit/Navigator';
 import { useIsNoonOneMember } from '../../kit/membership';
@@ -42,6 +42,8 @@ export function CartScreen({ params }: ScreenProps<{ state?: 'empty' | 'loading'
   const { cart, cartTotals, cartUpdatesDismissed, dismissCartUpdates } = store;
   const [loading, setLoading] = useState(true);
   const [snack, setSnack] = useState<Product | null>(null);
+  // CART_APPLY_COUPON / CART_REMOVE_COUPON → screenState RELOADING: FeedbackView overlayLoader over the cart
+  const [reloading, setReloading] = useState(false);
   const [footerH, setFooterH] = useState(0);
   const scrollY = useMotionValue(0);
   const forcedEmpty = params?.state === 'empty';
@@ -96,7 +98,7 @@ export function CartScreen({ params }: ScreenProps<{ state?: 'empty' | 'loading'
       case 'secondary_groups':
         return forcedEmpty ? null : <InactiveGroup key={section} onMovedToWishlist={onMovedToWishlist} />;
       case 'coupon_tray':
-        return empty ? null : <CouponInput key={section} />;
+        return empty ? null : <CouponInput key={section} onBusyChange={setReloading} />;
       case 'cobrand_cards':
         return empty ? null : <CobrandCards key={section} cards={cobrandCards} />;
       case 'callouts':
@@ -132,6 +134,11 @@ export function CartScreen({ params }: ScreenProps<{ state?: 'empty' | 'loading'
       {SECTIONS.map(renderSection)}
     </Screen>
     <CartSnackBar product={snack} onHide={hideSnack} onPress={() => nav.push('wishlist/wishlist')} />
+    {reloading && (
+      <div className={styles.reloading}>
+        <Spinner size={28} thickness={3} track="var(--nk-color-border)" color="var(--nk-color-cart-accent-blue)" />
+      </div>
+    )}
     </>
   );
 }

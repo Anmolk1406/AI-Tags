@@ -30,6 +30,7 @@ System icon from a noon / Figma design → `OriginIcon` (catalogue in `icons.md`
 | Row of 5 stars (read-only or tappable) | `Stars` |
 | Product picture (or emoji placeholder) | `ProductImage` |
 | PLP / search results grid card (bappzaar 1:1, `isPLP`) | `ProductBoxVertical` |
+| Wishlist grid card (bappzaar `isWishlist` compact view) | `ProductBoxVertical` with `wishlist` |
 | Carousel / other product tile | `ProductCard` |
 | Figma "SKU" rail card (134 wide, 134×174 image box, 1.2px blue "+", 15/20 price; Homepage 2025, Cart 2.0) | `SkuCard` (shared; `look="cart"` in cart carousels); don't use `ProductCard` for these rails |
 | Quick add-to-cart "+" that expands into a stepper | `QuickAdd` |
@@ -491,7 +492,7 @@ Gotcha: always give it a width plus `height` or `aspect`, otherwise it has no he
 
 ## ProductBoxVertical (PLP)
 
-`src/components/ProductBoxVertical/ProductBoxVertical.tsx`. bappzaar `NoonProductBoxVertical` with `isPLP`, values resolved from its `styles.ts` + NoonTokens / NoonMetrics: white card, 0.5 lightGray hairline (drawn as an overlay so the image keeps the full width), r12, padding-bottom 10 · image box 177 × 241 at 390 (`aspect-ratio: 177 / 241`, contain, 2% black overlay; > 1 `product.images` → paged slider with the PillPager) · `CatalogTag` top-start · `WishlistHeart` 24 at 4 / 4 · `QuickAdd` 36 bottom-end · "{brand} {title}" 14/500 18 inkBlack, 2 lines · rating pill star-first (softGray r6) · price row (sale 16 bold neutralBlack, struck was 12 steelColor without currency, "n% OFF" 12/600 greenOff; PLP precision: ≥ 999.99 no decimals) · `NoonNudgeTag` ticker (13/16 slateBlueGray, enter 300 / hold 1000 / exit 450 ms) · coupon tag · express flag 60 × 18 + delivery 12/14 charcoalNavy in a 20-high row. No press feedback. In a 2-column grid the cell must stretch so both boxes in a row share the taller height (`.cell` in `src/flows/plp/plp.module.css`).
+`src/components/ProductBoxVertical/ProductBoxVertical.tsx`. bappzaar `NoonProductBoxVertical` with `isPLP`, values resolved from its `styles.ts` + NoonTokens / NoonMetrics: white card, 0.5 lightGray hairline (drawn as an overlay so the image keeps the full width), r12, padding-bottom 10 · image box 177 × 241 at 390 (`aspect-ratio: 177 / 241`, contain, 2% black overlay; > 1 `product.images` → paged slider with the PillPager) · `CatalogTag` top-start · `WishlistHeart` 24 at 4 / 4 · `QuickAdd` 36 bottom-end · "{brand} {title}" 14/500 18 inkBlack, 2 lines · rating pill star-first (softGray r6) · price row (sale 16 bold neutralBlack, struck was 12 steelColor without currency, "n% OFF" 12/600 greenOff; PLP precision: ≥ 999.99 no decimals) · `NoonNudgeTag` ticker (13/16 slateBlueGray, enter 300 / hold 1000 / exit 450 ms) · coupon tag · express flag 60 × 18 + delivery 12/14 charcoalNavy in a 20-high row. No press feedback. In a 2-column grid the cell must stretch so both boxes in a row share the taller height (`.cell` in `src/flows/plp/plp.module.css`). `wishlist={{ topEnd, footer }}` is bappzaar's `isWishlist` compact view (Wishlist V2): no catalog tag, quick add, nudges or coupon; `topEnd` replaces the heart and `footer` renders as the bottomRow (mt 10, px 8, gap 8) under the ETA row (`src/flows/wishlist/components/WishlistProductBox.tsx`).
 
 | Prop | Type | Default |
 |---|---|---|

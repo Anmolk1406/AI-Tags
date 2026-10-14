@@ -12,7 +12,7 @@ Values and recipes: `.claude/skills/noon-ui/references/motion.md` · per-flow mo
 | `mo:transition/address-search` | `src/flows/address/transitions.ts` | `address/search` | — |
 | `mo:transition/address-success` | `src/flows/address/transitions.ts` | `address/success` | — |
 | `mo:transition/checkout-alpha` | `src/flows/checkout/transitions.ts` | `checkout/confirmation`, `checkout/placing` | — |
-| `mo:transition/fade` | `src/motion/transitions.ts` | `account/account`, `account/changeCountry`, `account/changeLanguage`, `account/country`, `account/signedOut`, `cards/add`, `cards/form`, `cards/success`, `orders/list`, `reviews/aiLoader`, `reviews/deck`, `reviews/draft` … +6 | — |
+| `mo:transition/fade` | `src/motion/transitions.ts` | `account/account`, `account/changeCountry`, `account/changeLanguage`, `account/country`, `account/signedOut`, `address/selectSheet`, `cards/add`, `cards/form`, `cards/success`, `orders/list`, `reviews/aiLoader`, `reviews/deck` … +7 | — |
 | `mo:transition/fade-up` | `src/motion/transitions.ts` | — | — |
 | `mo:transition/mb-modal` | `src/flows/membership/transitions.ts` | `membership/manage` | — |
 | `mo:transition/mb-overlay` | `src/flows/membership/transitions.ts` | `membership/cancelSheet`, `membership/confirmOffer`, `membership/familyReview`, `membership/groupSavings`, `membership/info`, `membership/leaveFamilyOverlay`, `membership/loseAccess`, `membership/partner`, `membership/planOptions`, `membership/referralsInput`, `membership/removeMember`, `membership/reviewPlan` … +3 | — |
@@ -20,8 +20,8 @@ Values and recipes: `.claude/skills/noon-ui/references/motion.md` · per-flow mo
 | `mo:transition/none` | `src/motion/transitions.ts` | `checkout/checkout`, `checkout/placing` | — |
 | `mo:transition/noonone-instant` | `src/flows/noonone/transitions.ts` | `membership/changePlan`, `membership/familyReview`, `membership/info`, `membership/manage`, `membership/partner`, `membership/referralsInput`, `membership/reviewPlan`, `noonone/acceptInvite`, `noonone/acceptInviteError`, `noonone/addCard`, `noonone/addCvv`, `noonone/bundle` … +12 | — |
 | `mo:transition/noonone-overlay` | `src/flows/noonone/transitions.ts` | `membership/changePlan`, `membership/familyReview`, `membership/info`, `membership/manage`, `membership/partner`, `membership/referralsInput`, `membership/reviewPlan`, `noonone/acceptInvite`, `noonone/acceptInviteError`, `noonone/addCard`, `noonone/addCvv`, `noonone/cartOverlay` … +10 | — |
-| `mo:transition/push` | `src/motion/transitions.ts` | — | 56 screens | <!-- count-ok -->
-| `mo:transition/sheet` | `src/motion/transitions.ts` | `membership/changePlan`, `membership/familyReview`, `membership/info`, `membership/manage`, `membership/partner`, `membership/referralsInput`, `membership/reviewPlan`, `noonone/bundle` | 39 screens | <!-- count-ok -->
+| `mo:transition/push` | `src/motion/transitions.ts` | — | 58 screens | <!-- count-ok -->
+| `mo:transition/sheet` | `src/motion/transitions.ts` | `membership/changePlan`, `membership/familyReview`, `membership/info`, `membership/manage`, `membership/partner`, `membership/referralsInput`, `membership/reviewPlan`, `noonone/bundle` | 41 screens | <!-- count-ok -->
 | `mo:transition/zoom` | `src/motion/transitions.ts` | — | — |
 
 ## Presets, recipes, reduced motion, haptics
@@ -30,17 +30,17 @@ Values and recipes: `.claude/skills/noon-ui/references/motion.md` · per-flow mo
 |---|---|---|
 | `mo:haptics` | 14 | orders, plp, reviews, search |
 | `mo:preset/appleSpring` | 5 | account, home, orders |
-| `mo:preset/duration.base` | 144 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
+| `mo:preset/duration.base` | 148 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
 | `mo:preset/duration.fast` | 8 | account, orders, pdp, plp, reviews, search |
-| `mo:preset/duration.medium` | 144 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
+| `mo:preset/duration.medium` | 148 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
 | `mo:preset/duration.slow` | 16 | home, membership, noonone, plp, reviews, search |
 | `mo:preset/duration.slower` | 1 | orders |
 | `mo:preset/easing.backOut` | 11 | account, categories, deals, home, plp, search |
 | `mo:preset/easing.in` | 11 | account, address, orders, returns |
 | `mo:preset/easing.inOut` | 4 | address, checkout |
-| `mo:preset/easing.ios` | 144 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
-| `mo:preset/easing.out` | 145 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
-| `mo:preset/easing.standard` | 144 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
+| `mo:preset/easing.ios` | 148 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
+| `mo:preset/easing.out` | 149 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
+| `mo:preset/easing.standard` | 148 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
 | `mo:preset/handoff.easeInOut` | 22 | categories, deals, home, membership, noonone, orders, plp, reviews, search |
 | `mo:preset/handoff.easeOut` | 17 | home, membership, noonone, orders, plp, reviews, search |
 | `mo:preset/handoff.fade` | 17 | home, membership, noonone, orders, plp, reviews, search |
@@ -48,11 +48,11 @@ Values and recipes: `.claude/skills/noon-ui/references/motion.md` · per-flow mo
 | `mo:preset/handoff.springs` | 15 | home, membership, noonone, plp, reviews, search |
 | `mo:preset/handoff.stagger` | 5 | orders, plp, search |
 | `mo:preset/handoff.travel` | 4 | orders, search |
-| `mo:preset/pressScale` | 147 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
-| `mo:preset/spring.bouncy` | 28 | account, cart, deals, home, membership, noonone, orders, pdp, plp, reviews, search, wishlist |
-| `mo:preset/spring.gentle` | 144 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
-| `mo:preset/spring.press` | 88 | account, address, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
-| `mo:preset/spring.sheet` | 144 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
+| `mo:preset/pressScale` | 152 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
+| `mo:preset/spring.bouncy` | 29 | account, cart, deals, home, membership, noonone, orders, pdp, plp, reviews, search, wishlist |
+| `mo:preset/spring.gentle` | 148 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
+| `mo:preset/spring.press` | 92 | account, address, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
+| `mo:preset/spring.sheet` | 148 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
 | `mo:preset/supermall.ease` | 12 | orders, reviews |
 | `mo:preset/supermall.press` | 3 | orders |
 | `mo:preset/supermall.reveal` | 3 | orders |
@@ -63,4 +63,4 @@ Values and recipes: `.claude/skills/noon-ui/references/motion.md` · per-flow mo
 | `mo:recipe/FadeIn` | 2 | reviews |
 | `mo:recipe/SkeletonReveal` | 3 | plp, search |
 | `mo:recipe/Stagger` | 10 | home, membership, noonone |
-| `mo:reduced-motion` | 145 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
+| `mo:reduced-motion` | 150 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |

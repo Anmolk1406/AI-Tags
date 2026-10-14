@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { useEffect, useRef, useState, type UIEvent } from 'react';
+import { useEffect, useRef, useState, type ReactNode, type UIEvent } from 'react';
 import { useNav } from '../../kit/Navigator';
 import { currency, etaFor, type Product, type ProductNudge } from '../../data';
 import { EtaBadge } from '../EtaBadge/EtaBadge';
@@ -35,8 +35,22 @@ const plpPrice = (n: number) =>
  * "Best Seller" / catalog tag top-left, favourite 24 at 4 / 4, quick ATC 36 at the bottom-end · "{brand} {name}" 14/500 2 lines ·
  * rating pill (star first) · price row (sale 16 bold, struck was, "n% OFF") · nudge ticker · coupon tag · express flag + delivery line.
  * No press feedback (`activeOpacity={1}`), as in the app.
+ *
+ * `wishlist` = `isWishlist` on Wishlist V2 (`isWishlistCompactView`): no top tags, quick ATC, nudges or coupon; `topEnd`
+ * replaces the favourite (NoonProductBoxCollectionButton) and `footer` is the bottomRow (marginTop 10, px 8, gap 8).
  */
-export function ProductBoxVertical({ product, onPress, quickAdd = true }: { product: Product; onPress?: () => void; quickAdd?: boolean }) {
+export function ProductBoxVertical({
+  product,
+  onPress,
+  quickAdd = true,
+  wishlist,
+}: {
+  product: Product;
+  onPress?: () => void;
+  quickAdd?: boolean;
+  /** Wishlist V2 compact view: `topEnd` in place of the heart, `footer` under the delivery row */
+  wishlist?: { topEnd?: ReactNode; footer?: ReactNode };
+}) {
   const nav = useNav();
   const open = onPress ?? (() => nav.push('pdp/detail', { productId: product.id }));
   const eta = etaFor(product); // Origin _ETA (replaces the express flag + delivery line)
@@ -57,14 +71,12 @@ export function ProductBoxVertical({ product, onPress, quickAdd = true }: { prod
         )}
 
         <div className={styles.imageTop}>
-          <div className={styles.topTags}>{product.tag && <CatalogTag>{product.tag}</CatalogTag>}</div>
-          <div className={styles.topRight}>
-            <WishlistHeart productId={product.id} size={20} />
-          </div>
+          <div className={styles.topTags}>{!wishlist && product.tag && <CatalogTag>{product.tag}</CatalogTag>}</div>
+          <div className={styles.topRight}>{wishlist ? wishlist.topEnd : <WishlistHeart productId={product.id} size={20} />}</div>
         </div>
 
         <div className={styles.imageBottom}>
-          {quickAdd && (
+          {quickAdd && !wishlist && (
             <span className={styles.quickAtc}>
               <QuickAdd productId={product.id} />
             </span>
@@ -97,9 +109,9 @@ export function ProductBoxVertical({ product, onPress, quickAdd = true }: { prod
           )}
         </div>
 
-        {product.nudges && product.nudges.length > 0 && <NudgeTicker nudges={product.nudges} />}
+        {!wishlist && product.nudges && product.nudges.length > 0 && <NudgeTicker nudges={product.nudges} />}
 
-        {product.coupon && (
+        {!wishlist && product.coupon && (
           <div className={styles.coupon}>
             <span className={styles.couponTag}>{product.coupon}</span>
           </div>
@@ -107,10 +119,16 @@ export function ProductBoxVertical({ product, onPress, quickAdd = true }: { prod
       </div>
 
       <div className={styles.flagRow}>
-        <div className={styles.flagDelivery}>
+        <div className={`${styles.flagDelivery} ${wishlist ? styles.flagDeliveryFixed : ''}`}>
           {eta && <EtaBadge {...eta} />}
         </div>
       </div>
+
+      {wishlist?.footer && (
+        <div className={styles.bottomRow} onClick={(e) => e.stopPropagation()}>
+          {wishlist.footer}
+        </div>
+      )}
     </article>
   );
 }

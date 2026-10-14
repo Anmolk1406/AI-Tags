@@ -55,7 +55,7 @@ export function ClassicHomeScreen() {
       <div className={styles.headerContent} style={{ color: dark ? ref.color('textInverse') : undefined }}>
         <motion.div {...collapse}>
           <div className={styles.addressRow}>
-            <Pressable className={styles.address} onClick={() => nav.toast('Address picker — add your own sheet in flows/home')} scale={0.98}>
+            <Pressable className={styles.address} onClick={() => nav.push('address/selectSheet')} scale={0.98}>
               <span className={styles.addressLine1}>
                 <img src={deliveryHomeIcon} alt="" className={styles.addressIcon} data-dark={dark || undefined} />
                 <span className={styles.addressLabel}>{user.address.label}</span>

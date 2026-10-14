@@ -13,7 +13,7 @@ Edges come from static `nav.*('…')` calls in each screen's import closure (dyn
 | `categories` | plp, search |
 | `checkout` | address, home, noonone, orders |
 | `deals` | pdp, plp, search |
-| `home` | pdp, plp, search, wishlist |
+| `home` | address, pdp, plp, search, wishlist |
 | `membership` | account, checkout, home, noonone |
 | `noonone` | checkout, membership |
 | `orders` | noonone, returns, reviews |
@@ -38,6 +38,7 @@ Edges come from static `nav.*('…')` calls in each screen's import closure (dyn
 | `test:journey/orders-pinned-filter` Orders: header stays pinned on scroll; Delivered / Cancelled chips filter the history, ta… | orders | `orders/list` |
 | `test:journey/sheet-dismiss` PLP Filters / Sort sheets close via their Close button, a scrim tap and a drag down on th… | sheets | `plp/filters`, `plp/listing`, `plp/sort` |
 | `test:journey/pdp-variants-size-warning` Variants sheet: ADD TO CART without a size warns and adds nothing; pick a size → closes, … | sheets | `pdp/detail`, `pdp/variants` |
+| `test:journey/home-address-sheet` Home address tap opens the address book over home (isBottomSheet); picking another addres… | sheets | `address/selectSheet`, `home/home` |
 | `test:journey/search-to-plp` Search → results hand-off: no empty frame, the bar stays put, results load | shopping | `plp/listing`, `search/search` |
 | `test:journey/plp-filter` PLP quick pill filters the grid and counts on Filter; tapping again clears it | filters | `plp/filters`, `plp/listing` |
 | `test:journey/plp-filter-sheet` Filters sheet: a facet pick commits on "Show N results", the grid shows N from the top; C… | filters | `plp/filters`, `plp/listing` |
@@ -49,7 +50,8 @@ Edges come from static `nav.*('…')` calls in each screen's import closure (dyn
 | `test:journey/cart-add-from-pdp` PDP Add to cart → quick-cart sheet → View cart: badge +1, the cart lists the product | state | `cart/cart`, `pdp/added`, `pdp/detail`, `pdp/variants` |
 | `test:journey/cart-qty-totals` Cart stepper: + raises the line and the total by the unit price, − brings it back, trash … | state | `cart/cart` |
 | `test:journey/cart-coupon` Cart coupon: APPLY enables on input, NOON10 lowers the total, Remove restores it; a bad c… | state | `cart/cart` |
-| `test:journey/wishlist-toggle` Heart on a home card → the product is on the wishlist screen; un-heart there → gone, and … | state | `home/home`, `wishlist/wishlist` |
+| `test:journey/cart-coupon-tray` Coupon tray: "View available coupons & offers" opens it; Apply closes it and lowers the t… | state | `cart/cart`, `cart/couponTray` |
+| `test:journey/wishlist-toggle` Heart on a home card → the product is on the wishlist screen; ⋮ → Remove item there → gon… | state | `home/home`, `wishlist/options`, `wishlist/wishlist` |
 | `test:journey/cart-empty-state` Removing every cart line shows the empty cart (badge 0, no Checkout); its carousel + adds… | states | `cart/cart` |
 | `test:journey/cart-empty-param` cart/empty renders "Your cart is empty" and the tab badge agrees (0) | states | `cart/empty` |
 | `test:journey/wishlist-empty-cta` Empty wishlist: "Nothing saved yet" + "Start adding items" opens Search | states | `search/search`, `wishlist/empty` |
@@ -75,14 +77,14 @@ Edges come from static `nav.*('…')` calls in each screen's import closure (dyn
 | `deals` | 0/1 | 0/1 |
 | `plp` | 3/3 | 1/3 |
 | `pdp` | 4/4 | 1/4 |
-| `cart` | 2/8 | 1/8 |
+| `cart` | 3/9 | 1/9 |
 | `checkout` | 4/22 | 0/22 |
 | `orders` | 1/4 | 0/4 |
 | `returns` | 0/5 | 0/5 |
 | `reviews` | 0/9 | 0/9 |
 | `account` | 1/17 | 0/17 |
-| `address` | 0/10 | 0/10 |
+| `address` | 1/11 | 0/11 |
 | `cards` | 3/8 | 0/8 |
 | `noonone` | 5/22 | 0/22 |
 | `membership` | 0/24 | 0/24 |
-| `wishlist` | 2/2 | 0/2 |
+| `wishlist` | 3/5 | 0/5 |

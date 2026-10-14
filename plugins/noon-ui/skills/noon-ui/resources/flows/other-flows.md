@@ -36,12 +36,15 @@ Bappzaar VIPManageMembershipV3. Entry `membership/manage` (`/manage-membership`)
 
 ## wishlist
 
-NoonWishlistV2Screen. Screens `wishlist/wishlist` (`/wishlist`) and `wishlist/empty`.
+NoonWishlistV2Screen, 1:1 with bappzaar master (`src/flows/wishlist/MAPPING.md`). Screens `wishlist/wishlist` (`/wishlist`), `wishlist/no-collections`, `wishlist/empty`, `wishlist/loading` and the `wishlist/options` sheet.
 
 - Uses `useDemoStore` for the wishlist and the cart.
-- `WishlistAtc` morphs from add-to-cart into a stepper.
-- `WishlistHeader` swaps its title on scroll.
-- `EmptyState` uses floating hearts in place of the Lottie.
+- Grid cards are the shared `ProductBoxVertical` with `wishlist` (compact view): ⋮ in place of the heart, `WishlistAtc` + share in the bottom row. Removing an item goes through ⋮ → Remove item, as in the app.
+- `WishlistAtc` morphs from add-to-cart into the soft stepper (trash at 1).
+- `WishlistHeader` cross-fades its title with the scroll position (no timing).
+- `ViewCartPill` shows whenever the cart has items and switches to the Cart tab.
+- `EmptyState` plays the real noonWishlistV2EmptyLottie (`src/assets/wishlist/`).
+- Not ported: collection screen, naming / rename / delete, move / copy, share sheet, collection limit error bar.
 
 ## deals
 
@@ -67,5 +70,6 @@ AddressV2. Entry `address/select` (`/addresses`).
 
 - Modals: `address/map` (`/add-address`), `address/create`, `address/update`, `address/search`, `address/locationOff`.
 - Sheets: `address/controls`, `address/locationAccess`.
+- `address/selectSheet`: the home header's address tap. `SelectScreen` with `isBottomSheet` inside `FloatingOverlay` (`slideIn`) on a `transparent` modal over the page; picking an address closes it and toasts through `nav.toast`. The home header text stays the static `user.address`, so it doesn't follow the pick.
 - `addressStore` holds addresses, the default id, location permission, the search → map hand-off and the locate request.
 - `StreetMap` is a fake map. The flow registers its own transitions.

@@ -1,33 +1,55 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { Icon, Pressable, QuantityStepper } from '../../../components';
+import { MaskIcon, Pressable } from '../../../components';
 import { useDemoStore } from '../../../kit/DemoStore';
+import { palette } from '../../../foundations/palette';
+import minusIcon from '@assets/wishlist/minus.webp';
+import plusIcon from '@assets/wishlist/plus.svg';
+import trashIcon from '@assets/wishlist/trash.webp';
+import { copy } from '../data';
 import { wishlistTokens } from '../tokens';
-import { ref } from '../../../foundations/tokens';
+import styles from '../wishlist.module.css';
+
+const MAX_QTY = 10;
 
 /**
- * NoonProductBoxWishlistAddToCart (V2): soft "Add to cart" button that morphs into a soft stepper.
- * Button ↔ stepper fade 140ms in / 90ms out; layout spring damping 16 / stiffness 180.
+ * NoonProductBoxWishlistAddToCart (V2): soft "+ Add to cart" (h 38) that becomes the soft stepper (h 36, 1.2px paleAzure):
+ * trash at qty 1 / minus above, the quantity 18/500 zooming per value (ZoomIn 120 / ZoomOut 80), "+".
+ * FadeIn 140 / FadeOut 90 between the two; LinearTransition spring (mass 1, damping 16, stiffness 180).
  */
 export function WishlistAtc({ productId }: { productId: string }) {
-  const { cart, addToCart, setQty } = useDemoStore();
+  const { cart, addToCart, setQty, removeFromCart } = useDemoStore();
   const qty = cart.find((l) => l.product.id === productId)?.qty ?? 0;
   const a = wishlistTokens.atc;
+  const fade = { initial: { opacity: 0 }, animate: { opacity: 1, transition: { duration: a.fadeIn } }, exit: { opacity: 0, transition: { duration: a.fadeOut } } };
   return (
-    <motion.div layout transition={{ type: 'spring', damping: 16, stiffness: 180 }} style={{ height: a.height, display: 'flex' }} onClick={(e) => e.stopPropagation()}>
-      <AnimatePresence mode="wait" initial={false}>
+    <motion.div className={styles.atcWrap} layout transition={a.layout}>
+      <AnimatePresence mode="popLayout" initial={false}>
         {qty > 0 ? (
-          <motion.div key="stepper" style={{ flex: 1, display: 'flex', alignItems: 'center' }} initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.14 } }} exit={{ opacity: 0, transition: { duration: 0.09 } }}>
-            <QuantityStepper variant="soft" value={qty} width={'100%' as unknown as number} onChange={(v) => setQty(productId, v)} />
+          <motion.div key="quantity-selector" className={styles.stepper} layout transition={a.layout} {...fade}>
+            <Pressable className={styles.stepperButton} onClick={() => (qty === 1 ? removeFromCart(productId) : setQty(productId, qty - 1))} aria-label={qty === 1 ? 'Remove' : 'Decrease quantity'}>
+              <MaskIcon src={qty === 1 ? trashIcon : minusIcon} size={16} color={palette.primaryBlue} />
+            </Pressable>
+            <AnimatePresence mode="popLayout" initial={false}>
+              <motion.span
+                key={qty}
+                className={styles.qty}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1, transition: { duration: 0.12 } }}
+                exit={{ scale: 0, opacity: 0, transition: { duration: 0.08 } }}
+              >
+                {qty}
+              </motion.span>
+            </AnimatePresence>
+            <Pressable className={styles.stepperButton} onClick={() => setQty(productId, qty + 1)} disabled={qty >= MAX_QTY} aria-label="Increase quantity">
+              <MaskIcon src={plusIcon} size={14} color={palette.primaryBlue} />
+            </Pressable>
           </motion.div>
         ) : (
-          <motion.div key="btn" style={{ flex: 1, display: 'flex' }} initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.14 } }} exit={{ opacity: 0, transition: { duration: 0.09 } }}>
-            <Pressable
-              // no toast: the floating View Cart pill is the feedback, as in the app
-              onClick={() => addToCart(productId)}
-              style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, borderRadius: 8, background: a.bg, color: a.ink, padding: '4px 8px', font: ref.type('text14SemiboldLh1') }}
-            >
-              <Icon name="plus" size={14} strokeWidth={2.6} />
-              Add to cart
+          <motion.div key="add-to-cart" className={styles.atcWrap} layout transition={a.layout} {...fade}>
+            {/* no toast: the floating View Cart pill is the feedback, as in the app */}
+            <Pressable className={styles.atc} onClick={() => addToCart(productId)}>
+              <MaskIcon src={plusIcon} size={14} color={palette.primaryBlue} />
+              {copy.addToCart}
             </Pressable>
           </motion.div>
         )}

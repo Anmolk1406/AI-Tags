@@ -62,7 +62,7 @@ Search filters by product title or return number, debounced 300ms.
 |---|---|---|---|
 | 1 | Success header (`success=1`) | `Lottie src={lottieFiles.processing}` → `Lottie name="orderConfirmedCheck"` + `successHeader` title / description | after `detailsFetchDelay`, moves up `successMoveUpDelay` (1.8s) later over `headerRevealDuration` (0.5s, `easing.out`) while the list fades / slides in; scroll scales it to `headerMinScrollScale` |
 | 1′ | Cancel header | error icon + `copy.cancelHeaderTitle` / `cancelHeaderDesc` | replaces the success header after a cancel on this screen |
-| 2 | Tracking box | `TrackingSteps` in a `Tap` (→ timeline overlay) + `AFSButton size="sm" variant="outline"` Cancel return | hidden button when `record.cancelled`; stages from `trackingFor(currentStage, cancelled)` |
+| 2 | Tracking box | `TrackingSteps` in a `Tap` (→ timeline overlay) + `AFSButton size="sm" variant="outline"` Cancel return / SD tracking action | Cancel only while `record.allowCancel` (until pickup); "Track refund" when `trackingAction.actionCode === 'refunded'` (toast for its deep link); stages from `trackingFor(currentStage, cancelled, requestedAt)`, each dated once reached |
 | 3 | Feedback box | `FeedbackWidget` (0–10) | only while `feedbackRate == null`; a score opens the feedback overlay |
 | 4 | Product card | `ProductDetails hideFlags` + `MarketplaceTag kind="express"` + `SummaryButton` rows split by `Dashed` | Refund summary (amount via `formatRefund`) → overlay · Return request summary → `returns/summary` · Order summary → `orders/tracking` · Return policy → overlay |
 | 5 | Footer | `AFSButton size="lg"` | Continue shopping |

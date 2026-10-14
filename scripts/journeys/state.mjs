@@ -159,9 +159,44 @@ export default [
     },
   },
   {
+    name: 'cart-coupon-tray',
+    area: 'state',
+    title: 'Coupon tray: "View available coupons & offers" opens it; Apply closes it and lowers the total; reopen → Remove restores it in place; noon One coupon locked for non-members',
+    async run(page, shot) {
+      await open(page, 'cart/cart', { settle: 2200 });
+      const total0 = await cartTotal(page);
+      await tap(page, cartLayer(page).getByRole('button', { name: /View available coupons/i }));
+      await waitRoute(page, 'cart/couponTray', 'the coupon tray did not open');
+      const tray = page.locator('[class*=sheetLayer] [data-testid=coupon-tray][data-state=ready]');
+      await tray.waitFor({ timeout: 4000 });
+      await page.waitForTimeout(1500); // stagger-in
+      await shot('tray');
+      const one = tray.locator('[data-testid=coupon-tray-offer][data-code=ONE20]');
+      expect((await one.getAttribute('data-state')) === 'locked', 'ONE20 is not locked for a non-member');
+      expect(await one.getByRole('button', { name: /^Apply$/ }).isDisabled(), 'the locked ONE20 Apply is enabled');
+      expect(await one.getByRole('button', { name: /Join One/ }).isVisible(), 'no Join One banner on the noon One coupon');
+      const weekend = tray.locator('[data-testid=coupon-tray-offer][data-code=WEEKEND15]');
+      await weekend.scrollIntoViewIfNeeded();
+      await weekend.getByRole('button', { name: /^Apply$/ }).click();
+      await waitRoute(page, 'cart/cart', 'the tray did not close after Apply', 5000);
+      const total1 = await waitFor(async () => { const t = await cartTotal(page); return t !== total0 && t; }, 'WEEKEND15 did not change the total', 4000);
+      expect(total1 < total0 && total0 - total1 <= 75.01, `WEEKEND15 took ${total0 - total1} off (cap 75)`);
+      await shot('applied');
+      await waitFor(async () => (await page.locator('[class*=sheetLayer]').count()) === 0, 'the tray layer is still mounted after closing', 3000);
+      await tap(page, cartLayer(page).getByRole('button', { name: /View available coupons/i }));
+      await waitRoute(page, 'cart/couponTray', 'the tray did not reopen');
+      const weekend2 = page.locator('[class*=sheetLayer] [data-testid=coupon-tray-offer][data-code=WEEKEND15]');
+      await weekend2.scrollIntoViewIfNeeded();
+      await weekend2.getByRole('button', { name: /^Remove$/ }).click();
+      await waitFor(async () => (await weekend2.getByRole('button', { name: /^Apply$/ }).count()) === 1, 'Remove did not turn back into Apply', 4000);
+      expect((await nav(page)).route === 'cart/couponTray', 'Remove closed the tray (it refreshes in place)');
+      await shot('removed');
+    },
+  },
+  {
     name: 'wishlist-toggle',
     area: 'state',
-    title: 'Heart on a home card → the product is on the wishlist screen; un-heart there → gone, and the home card is un-hearted',
+    title: 'Heart on a home card → the product is on the wishlist screen; ⋮ → Remove item there → gone, and the home card is un-hearted',
     async run(page, shot) {
       await open(page, 'home/home', { settle: 1600 });
       // a stable handle: the n-th article (a :has(label) locator would re-resolve to another card once the label flips)
@@ -184,10 +219,14 @@ export default [
       const wl = page.locator('[data-route="wishlist/wishlist"]').last();
       expect((await wl.innerText()).includes(firstWords(title)), `"${title}" is not on the wishlist screen`);
       await shot('on-wishlist');
-      // un-heart it on the wishlist: find its tile by title
-      const tile = wl.locator(':scope [class]:has(> * [aria-label="Remove from wishlist"]), :scope [class]:has([aria-label="Remove from wishlist"])').filter({ hasText: firstWords(title) }).last();
-      await tap(page, tile.getByRole('button', { name: 'Remove from wishlist' }).first());
-      await waitFor(async () => !(await wl.innerText()).includes(firstWords(title)) || (await wl.getByRole('button', { name: 'Add to wishlist' }).count()) > 0, `"${title}" is still saved after un-hearting`, 4000);
+      // remove it on the wishlist (NoonWishlistV2): its product box's ⋮ → the options sheet → Remove item
+      const box = wl.locator('[data-testid="product_box"]').filter({ hasText: firstWords(title) }).first();
+      await tap(page, box.getByRole('button', { name: 'Item options' }));
+      await waitRoute(page, 'wishlist/options', 'wishlist/options (⋮)');
+      await page.waitForTimeout(500);
+      await tap(page, page.getByRole('button', { name: 'Remove item' }).last(), { scroll: false });
+      await waitRoute(page, 'wishlist/wishlist', 'back on the wishlist after Remove item');
+      await waitFor(async () => !(await wl.innerText()).includes(firstWords(title)), `"${title}" is still saved after Remove item`, 4000);
       await shot('removed-on-wishlist');
       await tap(page, wl.getByRole('button', { name: 'Back', exact: true }).first(), { scroll: false });
       await waitRoute(page, 'home/home');

@@ -8,13 +8,13 @@
 - Folder: `src/flows/home/` · tokens `src/flows/home/tokens.ts` (87 flow vars) <!-- count-ok -->
 - Area data / token / helper files: data.eid.ts, data.feed.ts, data.header.ts, data.modules.ts, data.rails.ts, data.tabs.ts, tokens.eid.ts, tokens.feed.ts, tokens.header.ts, tokens.modules.ts, tokens.rails.ts, tokens.tabs.ts
 - Enters from: `checkout/confirmation` → home · `checkout/track-steps` → home · `membership/cancel` → home · `membership/cancelSheet` → home · `membership/confirmOffer` → home · `membership/groupSavings` → home · `membership/leaveFamilyOverlay` → home · `membership/loseAccess` → home · `membership/planOptions` → home · `membership/unusedSeats` → home · `returns/details` → home · `returns/summary` → home
-- Exits to: `pdp/detail` (from home, classic) · `pdp/variants` (from home, classic) · `plp/listing` (from home, classic) · `search/search` (from home, classic) · `wishlist/wishlist` (from home, classic)
+- Exits to: `address/selectSheet` (from home, classic) · `pdp/detail` (from home, classic) · `pdp/variants` (from home, classic) · `plp/listing` (from home, classic) · `search/search` (from home, classic) · `wishlist/wishlist` (from home, classic)
 
 ## Screens
 
 | Screen | Presentation | URL | Truth · verified | Module | Tests |
 |---|---|---|---|---|---|
-| `scr:home/home` Home | screen | /home /homepage | mixed · 2026-10-12 | `HomeScreen.tsx` | 6 |
+| `scr:home/home` Home | screen | /home /homepage | mixed · 2026-10-12 | `HomeScreen.tsx` | 7 |
 | `scr:home/classic` Home (classic) | screen | /home-classic | bappzaar* · never | `ClassicHomeScreen.tsx` | 0 |
 
 `*` truth inferred from `source`. Tests = journeys + visual references (every screen also runs in `check:routes`). In nav lines, `~` = target resolved through a const / helper / ternary (reachable, runtime-dependent); no mark = a literal `nav.*('…')` call.
@@ -31,8 +31,8 @@
 - Motion: `preset/appleSpring`, `preset/easing.out`, `preset/tween`, `recipe/Stagger`, `reduced-motion`
 - Icons: `arrow-right`, `hourglass` · assets 47
 - State / data: `data:currency`, `data:formatPrice`, `data:getProduct`, `data:user`
-- Nav out: push `pdp/detail` (via ProductCard) · sheet `pdp/variants` (via ProductCard) · push `plp/listing` · push `search/search` · push `wishlist/wishlist`
-- `home`: in ← `checkout/confirmation`, `checkout/track-steps`, `membership/cancel`, `membership/cancelSheet`, `membership/confirmOffer`, `membership/groupSavings`, `membership/leaveFamilyOverlay`, `membership/loseAccess`, `membership/planOptions`, `membership/unusedSeats`, `returns/details`, `returns/summary` · tests `test:journey/back-direct-url`, `test:journey/back-from-pushed`, `test:journey/cart-add-from-card`, `test:journey/checkout-slide-to-pay`, `test:journey/tab-bar-switching`, `test:journey/wishlist-toggle` · docs `resources/flows/home.md:5-16`, `resources/flows/home.md:32-50`, `resources/flows/home.md:51-63`, `../home-page/spec.md:8-15`, `../home-page/spec.md:27-50`, `../home-page/spec.md:51-70`, `../home-page/spec.md:84-89`, `../home-page/spec.md:100-111`, `src/flows/home/FIGMA-MAPPING.md:96-145`, `resources/flows/checkout.md:58-69`, `../checkout/spec.md:171-183`
+- Nav out: push `address/selectSheet` · push `pdp/detail` (via ProductCard) · sheet `pdp/variants` (via ProductCard) · push `plp/listing` · push `search/search` · push `wishlist/wishlist`
+- `home`: in ← `checkout/confirmation`, `checkout/track-steps`, `membership/cancel`, `membership/cancelSheet`, `membership/confirmOffer`, `membership/groupSavings`, `membership/leaveFamilyOverlay`, `membership/loseAccess`, `membership/planOptions`, `membership/unusedSeats`, `returns/details`, `returns/summary` · tests `test:journey/back-direct-url`, `test:journey/back-from-pushed`, `test:journey/cart-add-from-card`, `test:journey/checkout-slide-to-pay`, `test:journey/home-address-sheet`, `test:journey/tab-bar-switching`, `test:journey/wishlist-toggle` · docs `resources/flows/home.md:5-16`, `resources/flows/home.md:32-50`, `resources/flows/home.md:51-63`, `../home-page/spec.md:8-15`, `../home-page/spec.md:27-50`, `../home-page/spec.md:51-70`, `../home-page/spec.md:84-89`, `../home-page/spec.md:100-111`, `src/flows/home/FIGMA-MAPPING.md:96-145`, `resources/flows/checkout.md:58-69`, `../checkout/spec.md:171-183`
 
 ## `home/classic`
 
@@ -46,5 +46,5 @@
 - Motion: `preset/appleSpring`, `preset/easing.out`, `reduced-motion`
 - Icons: — · assets 23
 - State / data: `data:products`, `data:user`
-- Nav out: push `pdp/detail` (via ProductCard) · sheet `pdp/variants` (via ProductCard) · push `plp/listing` · push `search/search` · push `wishlist/wishlist`
+- Nav out: push `address/selectSheet` · push `pdp/detail` (via ProductCard) · sheet `pdp/variants` (via ProductCard) · push `plp/listing` · push `search/search` · push `wishlist/wishlist`
 - `classic`: docs `resources/flows/home.md:5-16`, `../home-page/spec.md:8-15`, `../home-page/spec.md:100-111`

@@ -1,6 +1,6 @@
 # @noon/flow-kit
 
-The noon app as a **React UI kit for clickable prototypes**. It has noon's design tokens, a component library, a motion system and **17 ready-made flows (147 screens)** ported from **bappzaar** (the noon React Native app) and the noon Figma files.
+The noon app as a **React UI kit for clickable prototypes**. It has noon's design tokens, a component library, a motion system and **17 ready-made flows (152 screens)** ported from **bappzaar** (the noon React Native app) and the noon Figma files.
 
 <table>
   <tr>
@@ -76,7 +76,7 @@ Every screen has a URL, so you can link straight to it, bookmark it or paste it 
 | Rate & review | `/reviews/rate` |
 | Wishlist | `/wishlist/wishlist` |
 
-Any screen also opens as `/<flow>/<screen>`; the full list of all 147, with their sources, is in [`.claude/resources/screens.md`](./.claude/resources/screens.md). Back on a page you opened directly goes to its logical parent.
+Any screen also opens as `/<flow>/<screen>`; the full list of all 148, with their sources, is in [`.claude/resources/screens.md`](./.claude/resources/screens.md). Back on a page you opened directly goes to its logical parent.
 
 ## Flows
 

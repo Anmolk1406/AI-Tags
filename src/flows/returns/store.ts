@@ -22,6 +22,8 @@ export interface ReturnRecord {
   feedbackRate: number | null;
   status: HistoryItem['status'];
   trackingAction?: HistoryItem['trackingAction'];
+  /** SD allowActions.cancelReturn: only until the item is picked up */
+  allowCancel: boolean;
 }
 
 /** marker for an uploaded photo drawn with <ProductImage> (products without a real image) */
@@ -45,6 +47,7 @@ function seed(productId: string, patch: Partial<ReturnRecord> = {}): ReturnRecor
     currentStage: 2,
     cancelled: false,
     feedbackRate: null,
+    allowCancel: true,
     status: pickupStatus,
     ...patch,
   };
@@ -52,9 +55,9 @@ function seed(productId: string, patch: Partial<ReturnRecord> = {}): ReturnRecor
 
 const initial = (): ReturnRecord[] => [
   seed('p5'),
-  seed('p3', { requestedAt: 'Sep 28, 2026', currentStage: 4, status: { label: 'Refunded', colorCode: 'green', group: 'completed', icon: 'checkCircle' }, trackingAction: { title: 'Track refund' } }),
-  seed('p7', { requestedAt: 'Sep 24, 2026', currentStage: 3, status: { label: 'Item under inspection', colorCode: 'amber', group: 'in_progress', icon: 'clock' } }),
-  seed('p8', { requestedAt: 'Sep 15, 2026', cancelled: true, status: cancelledStatus }),
+  seed('p3', { requestedAt: 'Sep 28, 2026', currentStage: 4, allowCancel: false, status: { label: 'Refunded', colorCode: 'green', group: 'completed', icon: 'checkCircle' }, trackingAction: { title: 'Track refund', actionCode: 'refunded', deepLink: 'noon://refund-tracking' } }),
+  seed('p7', { requestedAt: 'Sep 24, 2026', currentStage: 3, allowCancel: false, status: { label: 'Item under inspection', colorCode: 'amber', group: 'in_progress', icon: 'clock' } }),
+  seed('p8', { requestedAt: 'Sep 15, 2026', cancelled: true, allowCancel: false, status: cancelledStatus }),
 ];
 
 const store = createStore<{ returns: ReturnRecord[] }>({ returns: initial() });
@@ -64,14 +67,14 @@ export const returnsStore = {
   get: (productId?: string, returnNr?: string) =>
     store.get().returns.find((r) => (returnNr ? r.returnItemNr === returnNr : r.productId === productId)),
   /** createReturn (action create_return) — newest first, like getReturnsHistoryList */
-  create(rec: Omit<ReturnRecord, 'status' | 'currentStage' | 'cancelled' | 'feedbackRate' | 'requestedAt'>) {
-    const next: ReturnRecord = { ...rec, requestedAt: 'Oct 10, 2026', currentStage: 1, cancelled: false, feedbackRate: null, status: { label: 'Return requested', colorCode: 'blue', group: 'in_progress', icon: 'clock' } };
+  create(rec: Omit<ReturnRecord, 'status' | 'currentStage' | 'cancelled' | 'feedbackRate' | 'requestedAt' | 'allowCancel'>) {
+    const next: ReturnRecord = { ...rec, requestedAt: 'Oct 10, 2026', currentStage: 1, cancelled: false, allowCancel: true, feedbackRate: null, status: { label: 'Return requested', colorCode: 'blue', group: 'in_progress', icon: 'clock' } };
     store.patch((s) => ({ returns: [next, ...s.returns.filter((r) => r.returnItemNr !== rec.returnItemNr)] }));
     return next;
   },
   /** cancelReturn */
   cancel(returnItemNr: string) {
-    store.patch((s) => ({ returns: s.returns.map((r) => (r.returnItemNr === returnItemNr ? { ...r, cancelled: true, status: cancelledStatus } : r)) }));
+    store.patch((s) => ({ returns: s.returns.map((r) => (r.returnItemNr === returnItemNr ? { ...r, cancelled: true, allowCancel: false, status: cancelledStatus } : r)) }));
   },
   /** submitReturnFeedback */
   rate(returnItemNr: string, rate: number) {

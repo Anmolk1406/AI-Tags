@@ -95,4 +95,33 @@ export default [
       await shot('added-toast');
     },
   },
+  {
+    name: 'home-address-sheet',
+    area: 'sheets',
+    title: 'Home address tap opens the address book over home (isBottomSheet); picking another address closes it with "Address updated"; a dimmed-page tap closes it',
+    async run(page, shot) {
+      await open(page, 'home/home', { settle: 1600 });
+      const address = (await top(page)).locator('button:has(img[src*="delivery-home"])').first();
+      await tap(page, address, { scroll: false });
+      let n = await waitRoute(page, 'address/selectSheet', 'address/selectSheet (home address tap)');
+      expect(n.stack.join() === 'home/home,address/selectSheet', `stack ${n.stack.join(' → ')}`);
+      const sheet = page.locator('[data-route="address/selectSheet"]').last();
+      await waitFor(async () => (await sheet.getByText('Work', { exact: true }).count()) > 0, 'the saved addresses did not load in the sheet', 4000);
+      await shot('open');
+      // the dimmed page closes it (AddressV2FloatingOverlay onOverlayClose)
+      await sheet.locator('[class*=scrim]').first().click({ position: { x: 20, y: 40 } });
+      n = await waitRoute(page, 'home/home', 'home/home (scrim tap)');
+      expect(n.stack.length === 1, `scrim tap: stack is ${n.stack.join(' → ')}`);
+      await page.waitForTimeout(500);
+      // reopen → pick another address → closes, then the toast
+      await tap(page, (await top(page)).locator('button:has(img[src*="delivery-home"])').first(), { scroll: false });
+      await waitRoute(page, 'address/selectSheet', 'address/selectSheet (reopen)');
+      const again = page.locator('[data-route="address/selectSheet"]').last();
+      await waitFor(async () => (await again.getByText('Work', { exact: true }).count()) > 0, 'the saved addresses did not load on reopen', 4000);
+      await tap(page, again.getByText('Work', { exact: true }).first());
+      await waitRoute(page, 'home/home', 'home/home (address picked)', 4000);
+      await waitFor(async () => (await page.getByText('Address updated').count()) > 0, 'no "Address updated" toast after picking an address', 3000);
+      await shot('picked');
+    },
+  },
 ];

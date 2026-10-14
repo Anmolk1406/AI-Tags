@@ -27,6 +27,22 @@
 .paneInner {
   padding-bottom: calc(var(--nk-inset-bottom) + 12px);
 }
+.paneInnerSheet {
+  padding-bottom: 15px; /* getMainContentStyle(isBottomSheet): paddingBottom 15 */
+}
+/* AddressV2FloatingOverlay expandedContent (isBottomSheet): tabs + panes, scrolling inside the 85% card */
+.sheetBody {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: calc((844px - var(--nk-inset-top) - var(--nk-inset-bottom)) * 0.85 - 2px);
+  overflow: hidden;
+}
+.sheetBody .slider {
+  flex: 1;
+  min-height: 0;
+  height: auto;
+}
 .listContent {
   padding: 0 11px;
 }

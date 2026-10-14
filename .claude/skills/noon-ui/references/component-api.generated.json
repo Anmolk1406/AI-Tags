@@ -1232,8 +1232,8 @@
     {
       "name": "ProductBoxVertical",
       "file": "src/components/ProductBoxVertical/ProductBoxVertical.tsx",
-      "line": 39,
-      "doc": "NoonProductBoxVertical, PLP layout: the search / listing result card, ported 1:1 from bappzaar (`marketplaces/noon/components/NoonProductBox/NoonProductBoxVertical`, rendered by `ProductBox` with `isPLP`). Anatomy, top to bottom: 177 × 241 image box (contain, 2% black overlay; > 1 image → paged slider with the pill pager), \"Best Seller\" / catalog tag top-left, favourite 24 at 4 / 4, quick ATC 36 at the bottom-end · \"{brand} {name}\" 14/500 2 lines · rating pill (star first) · price row (sale 16 bold, struck was, \"n% OFF\") · nudge ticker · coupon tag · express flag + delivery line. No press feedback (`activeOpacity={1}`), as in the app.",
+      "line": 42,
+      "doc": "NoonProductBoxVertical, PLP layout: the search / listing result card, ported 1:1 from bappzaar (`marketplaces/noon/components/NoonProductBox/NoonProductBoxVertical`, rendered by `ProductBox` with `isPLP`). Anatomy, top to bottom: 177 × 241 image box (contain, 2% black overlay; > 1 image → paged slider with the pill pager), \"Best Seller\" / catalog tag top-left, favourite 24 at 4 / 4, quick ATC 36 at the bottom-end · \"{brand} {name}\" 14/500 2 lines · rating pill (star first) · price row (sale 16 bold, struck was, \"n% OFF\") · nudge ticker · coupon tag · express flag + delivery line. No press feedback (`activeOpacity={1}`), as in the app. `wishlist` = `isWishlist` on Wishlist V2 (`isWishlistCompactView`): no top tags, quick ATC, nudges or coupon; `topEnd` replaces the favourite (NoonProductBoxCollectionButton) and `footer` is the bottomRow (marginTop 10, px 8, gap 8).",
       "generic": false,
       "forwardRef": false,
       "props": [
@@ -1252,6 +1252,12 @@
           "type": "boolean",
           "optional": true,
           "default": "true"
+        },
+        {
+          "name": "wishlist",
+          "type": "{ topEnd?: ReactNode; footer?: ReactNode }",
+          "optional": true,
+          "doc": "Wishlist V2 compact view: `topEnd` in place of the heart, `footer` under the delivery row"
         }
       ]
     },
@@ -2882,7 +2888,7 @@
       "flow": "address",
       "name": "FloatingOverlay",
       "file": "src/flows/address/components/map.tsx",
-      "line": 218,
+      "line": 220,
       "doc": "Floating card 12px from the edges, radius 16, sitting on the home-indicator inset.",
       "props": [
         "expanded",
@@ -2893,7 +2899,8 @@
         "onOverlayClose",
         "closing",
         "collapsedBg",
-        "expandedBg"
+        "expandedBg",
+        "slideIn"
       ]
     },
     {
@@ -3551,10 +3558,11 @@
       "flow": "cart",
       "name": "CouponInput",
       "file": "src/flows/cart/components/CouponInput.tsx",
-      "line": 20,
-      "doc": "NoonCouponInput (parentScreen=\"cart\"), Figma \"Coupons\" (10575:94148): white r16 card (py 10) — title 16/20 bold, 56px input box (#F9F9FB, 1px #F2F3F7, r12; bord",
-      "props": [],
-      "variants": {}
+      "line": 19,
+      "doc": "NoonCouponInput (parentScreen=\"cart\"), 1:1 with bappzaar master: a lightGrey r16 outer card holding the white r16 container (16 bold title, 54px secondaryBackgr",
+      "props": [
+        "onBusyChange"
+      ]
     },
     {
       "flow": "cart",
@@ -3725,6 +3733,76 @@
         "isFirst",
         "isLast",
         "onSelect"
+      ]
+    },
+    {
+      "flow": "cart",
+      "name": "BestPriceSection",
+      "file": "src/flows/cart/components/couponTray/BestPriceSection.tsx",
+      "line": 17,
+      "doc": "NoonSalesCouponTrayBestPriceSection — the deep-green card on top: dotted texture, \"Save …\" header (only with 2+ offers), the \"Best price\" Lottie, then the offer",
+      "props": [
+        "bestPrice",
+        "shared",
+        "activeId",
+        "onApply",
+        "onRemove"
+      ]
+    },
+    {
+      "flow": "cart",
+      "name": "TrayItem",
+      "file": "src/flows/cart/components/couponTray/BestPriceSection.tsx",
+      "line": 58,
+      "doc": "NoonSalesCouponTrayAnimatedItem — the first 10 tray rows fade and rise in, 100ms apart (300ms later when the tray opens with data); a row animates once per key,",
+      "props": [
+        "id",
+        "index",
+        "seen",
+        "delayed",
+        "children"
+      ]
+    },
+    {
+      "flow": "cart",
+      "name": "TiersProgressBar",
+      "file": "src/flows/cart/components/couponTray/TiersProgressBar.tsx",
+      "line": 31,
+      "doc": "NoonSalesCouponTrayOfferTiersProgressBar — spend tiers: prompt (+ \"Add products\" while under 100), a 4px track with the tier pills at the end of each equal slot",
+      "props": [
+        "bar",
+        "showAddProducts",
+        "onAddProducts",
+        "disabled"
+      ]
+    },
+    {
+      "flow": "cart",
+      "name": "TrayOffer",
+      "file": "src/flows/cart/components/couponTray/TrayOffer.tsx",
+      "line": 79,
+      "doc": "NoonSalesCouponTrayOffer — one coupon / bank / auto-applied offer card: expiry strip, header (icon, title, code or \"Automatically applies on checkout\", noon One",
+      "props": [
+        "offer",
+        "bestPrice",
+        "shared",
+        "loading",
+        "onApply",
+        "onRemove",
+        "className"
+      ]
+    },
+    {
+      "flow": "cart",
+      "name": "UnlockCriteria",
+      "file": "src/flows/cart/components/couponTray/UnlockCriteria.tsx",
+      "line": 15,
+      "doc": "NoonSalesCouponTrayOfferUnlockCriteria — what's missing to unlock a locked offer: the prompt (+ \"Shop more\") over an amount progress bar or numbered unit chips ",
+      "props": [
+        "criteria",
+        "showShopMore",
+        "onShopMore",
+        "disabled"
       ]
     },
     {
@@ -7244,41 +7322,56 @@
       "flow": "wishlist",
       "name": "CollectionTile",
       "file": "src/flows/wishlist/components/CollectionTile.tsx",
-      "line": 9,
-      "doc": "Collection tile 126×152 with a fanned image stack (side cards ±8°, scale 0.88).",
+      "line": 13,
+      "doc": "NoonWishlistV2CollectionTitle: 126 × 152 tile with the tab, the NoonWishlistV2CollectionImageBackground stack (size 67: centre = previewItems[0] or the placehol",
       "props": [
         "name",
-        "items",
-        "index"
+        "items"
       ]
     },
     {
       "flow": "wishlist",
       "name": "EmptyState",
       "file": "src/flows/wishlist/components/EmptyState.tsx",
-      "line": 18,
-      "doc": "Wishlist empty state — floating hearts stand in for the looping noonWishlistV2EmptyLottie.",
+      "line": 14,
+      "doc": "NoonWishlistV2Empty: the looping noonWishlistV2EmptyLottie (W × W / 0.75) with the text block at 55 % of its height.",
       "props": [],
       "variants": {}
     },
     {
       "flow": "wishlist",
+      "name": "EmptyWishlist",
+      "file": "src/flows/wishlist/components/EmptyState.tsx",
+      "line": 32,
+      "doc": "NoonWishlistV2Screen `isEmpty` branch: the header floats over the top (Create still shown), NoonWishlistV2Empty centred in the screen.",
+      "props": [],
+      "variants": {}
+    },
+    {
+      "flow": "wishlist",
+      "name": "NoCollectionWidget",
+      "file": "src/flows/wishlist/components/NoCollectionWidget.tsx",
+      "line": 12,
+      "doc": "NoonWishlistV2NoCollectionWidget: shown in place of the collections row when there are none; the X dismisses it for the session.",
+      "props": [
+        "onDismiss"
+      ]
+    },
+    {
+      "flow": "wishlist",
       "name": "ViewCartPill",
       "file": "src/flows/wishlist/components/ViewCartPill.tsx",
-      "line": 9,
-      "doc": "Floating \"View Cart\" pill — slides up from the bottom (spring damping 16, stiffness 120, mass 0.7).",
-      "props": [
-        "visible",
-        "lines",
-        "count"
-      ]
+      "line": 14,
+      "doc": "NoonWishlistV2FloatingCartButton: shown while the cart has anything in it (useNoonWishlistV2FloatingCartButton), with the latest cart line's image and the cart ",
+      "props": [],
+      "variants": {}
     },
     {
       "flow": "wishlist",
       "name": "WishlistAtc",
       "file": "src/flows/wishlist/components/WishlistAtc.tsx",
-      "line": 11,
-      "doc": "NoonProductBoxWishlistAddToCart (V2): soft \"Add to cart\" button that morphs into a soft stepper.",
+      "line": 19,
+      "doc": "NoonProductBoxWishlistAddToCart (V2): soft \"+ Add to cart\" (h 38) that becomes the soft stepper (h 36, 1.2px paleAzure): trash at qty 1 / minus above, the quant",
       "props": [
         "productId"
       ]
@@ -7287,11 +7380,21 @@
       "flow": "wishlist",
       "name": "WishlistHeader",
       "file": "src/flows/wishlist/components/WishlistHeader.tsx",
-      "line": 11,
-      "doc": "NoonWishlistV2Header.",
+      "line": 15,
+      "doc": "NoonWishlistV2Header: bordered 40 back circle · two stacked titles · Create pill.",
       "props": [
-        "swapped",
+        "progress",
         "showCreate"
+      ]
+    },
+    {
+      "flow": "wishlist",
+      "name": "WishlistProductBox",
+      "file": "src/flows/wishlist/components/WishlistProductBox.tsx",
+      "line": 18,
+      "doc": "NoonProductBoxVertical with `isWishlist` (Wishlist V2 compact view): the shared PLP box with the ⋮ collection button (→ NoonCollectionOptionScreen, `wishlist/op",
+      "props": [
+        "product"
       ]
     }
   ],

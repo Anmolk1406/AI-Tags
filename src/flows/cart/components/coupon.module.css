@@ -1,30 +1,36 @@
-/* NoonCouponInput — Figma "Coupons" 10575:94148: white r16, py 10; title px 12; "Tray best price" px 12 py 8 → box #F9F9FB r12 h56 px 12 gap 10; dashed divider; offers row px 12 py 4 */
-.outer { position: relative; overflow: hidden; margin: var(--nk-space-s8) var(--nk-space-s12) 0; padding: var(--nk-space-s10) 0; border-radius: var(--nk-radius-r16); background: var(--nk-color-bg-surface); display: flex; flex-direction: column; align-items: center; }
-.container { width: 100%; display: flex; flex-direction: column; row-gap: var(--nk-space-s2); }
-.title { padding: 0 var(--nk-space-s12); font: var(--nk-type-text16-bold-lh20); letter-spacing: -0.16px; color: var(--nk-color-text-ink); }
-.tray { padding: var(--nk-space-s8) var(--nk-space-s12); }
-.row { display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s10); height: 56px; padding: 0 var(--nk-space-s12); background: var(--nk-color-bg-subtle); border-radius: var(--nk-radius-r12); overflow: hidden; border: 1px solid transparent; box-sizing: border-box; transition: border-color 0.2s; }
+/*
+ * NoonCouponInput (parentScreen="cart"), bappzaar master marketplaces/noon/components/NoonCouponInput/styles.ts
+ * + NoonCartScreen styles.couponInputContainer. Values resolved from NoonColors (see FIGMA-MAPPING.md → Coupons).
+ */
+/* outerContainer: lightGreyColor, relative, overflow hidden · couponInputContainer: mt 12, mx 12, r16, 1px lightGreyColor */
+.outer { position: relative; overflow: hidden; margin: var(--nk-space-s12) var(--nk-space-s12) 0; border: 1px solid var(--nk-color-border); border-radius: var(--nk-radius-r16); background: var(--nk-color-border); }
+/* container: white, r16, pt 10, pb 18, px 16 */
+.container { position: relative; padding: var(--nk-space-s10) var(--nk-space-s16) 18px; border-radius: var(--nk-radius-r16); background: var(--nk-color-bg-surface); }
+/* title: mb 10, 16 bold newTextPrimary */
+.title { margin-bottom: var(--nk-space-s10); font: var(--nk-type-text16-bold-lh20); color: var(--nk-color-brand-ink); }
+/* inputButtonRow: row, space-between, secondaryBackground, r12, 1px antiFlashWhite, min-height 54 */
+.row { display: flex; flex-direction: row; justify-content: space-between; min-height: 54px; background: var(--nk-color-bg-subtle); border: 1px solid var(--nk-palette-anti-flash-white); border-radius: var(--nk-radius-r12); overflow: hidden; }
 .success { border-color: var(--nk-color-cart-coupon-success-border); }
 .error { border-color: var(--nk-color-cart-coupon-error-border); }
 .warning { border-color: var(--nk-color-cart-coupon-warning-border); }
-.inner { display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s8); flex: 1; min-width: 0; }
-.appliedIcon { display: flex; align-items: center; }
-/* Input Text: 13/18 Figtree regular Blue-Gray/600, -0.26 */
-.input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; padding: var(--nk-space-s2) 0; font: var(--nk-type-text13-regular-lh18); letter-spacing: -0.26px; color: var(--nk-color-text-ink); }
+.inner { display: flex; flex-direction: row; flex: 1; min-width: 0; }
+/* appliedCouponIconContainer: min-height 52, centred, paddingLeft 12; icon max 16 */
+.appliedIcon { display: flex; align-items: center; min-height: 52px; padding-left: var(--nk-space-s12); }
+[dir='rtl'] .appliedIcon { padding-left: 0; padding-right: var(--nk-space-s12); }
+/* input: 14 semibold newTextPrimary, paddingLeft 12; placeholder slateGray */
+.input { flex: 1; min-width: 0; padding: 0 0 0 var(--nk-space-s12); border: 0; outline: 0; background: transparent; font: var(--nk-type-body-semibold); color: var(--nk-color-brand-ink); }
+[dir='rtl'] .input { padding: 0 var(--nk-space-s12) 0 0; }
 .input::placeholder { color: var(--nk-color-text-secondary); }
 .success .input { color: var(--nk-color-cart-emerald); }
 .error .input { color: var(--nk-color-cart-coupon-error); }
 .warning .input { color: var(--nk-color-cart-coupon-warning); }
-/* APPLY: Tiny/Medium 12/18 +0.12 Blue-Gray/500 */
-.apply { display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s4); padding: 0; border: 0; background: none; cursor: pointer; text-transform: uppercase; font: var(--nk-type-text12-medium-lh18); letter-spacing: 0.12px; color: var(--nk-color-text-body); }
+/* applyButtonContainer: row, centred, gap 4, px 12 · applyButtonText: uppercase 12 semibold gray800; disabled bluishGrey */
+.apply { display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s4); padding: 0 var(--nk-space-s12); border: 0; background: none; cursor: pointer; text-transform: uppercase; font: var(--nk-type-caption-bold); color: var(--nk-color-text-body); }
 .applyDisabled { color: var(--nk-color-text-tertiary); cursor: default; }
-.feedback { overflow: hidden; padding: var(--nk-space-s4) var(--nk-space-s2) 0; }
-.divider { display: block; width: 325px; max-width: calc(100% - 26px); height: 1px; margin: var(--nk-space-s4) 0; }
-.offers { display: flex; flex-direction: row; align-items: center; justify-content: space-between; column-gap: var(--nk-space-s8); width: 100%; padding: var(--nk-space-s4) var(--nk-space-s12); border: 0; background: none; cursor: pointer; box-sizing: border-box; }
+/* couponFeedbackContainer: px 2, pt 2 */
+.feedback { padding: 2px 2px 0; }
+/* availableOffersContainer: mx 16, my 12 · button: row, space-between, gap 8 · content: row, gap 8 */
+.offers { display: flex; flex-direction: row; align-items: center; justify-content: space-between; column-gap: var(--nk-space-s8); width: calc(100% - 32px); margin: var(--nk-space-s12) var(--nk-space-s16); padding: 0; border: 0; background: none; cursor: pointer; }
 .offersContent { flex: 1; display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s8); min-width: 0; }
-/* 32px Blue/50 circle, p 6.4, 19.2px percent badge */
-.offersBadge { width: 32px; height: 32px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: var(--nk-radius-full); background: var(--nk-palette-alice-blue); }
-.offersBadge img { display: block; }
-.offersText { flex-shrink: 1; font: var(--nk-type-body-semibold); letter-spacing: -0.14px; color: var(--nk-color-text-ink); text-align: start; }
-.offersChevron { width: 20px; height: 20px; transform: rotate(-90deg); flex-shrink: 0; }
-[dir='rtl'] .offersChevron { transform: rotate(90deg); }
+/* availableOffersText: 14 semibold newTextPrimary */
+.offersText { flex-shrink: 1; font: var(--nk-type-body-semibold); color: var(--nk-color-brand-ink); text-align: start; }

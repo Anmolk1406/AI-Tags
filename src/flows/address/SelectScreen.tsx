@@ -5,6 +5,7 @@ import { useNav } from '../../kit/Navigator';
 import type { ScreenProps } from '../../kit/types';
 import { icons, images } from './assets';
 import { AddressToastHost, GradientTitle } from './components/primitives';
+import { FloatingOverlay } from './components/map';
 import {
   AddAddressButton,
   AddressCard,
@@ -32,13 +33,21 @@ export interface SelectParams {
   demoToast?: string;
   /** skip the initial skeleton */
   skipLoading?: boolean;
+  /** home / global entry (NoonAddressSelector.changeAddress): the list in AddressV2FloatingOverlay over the current page */
+  isBottomSheet?: boolean;
 }
 
 const TAB_PANE_WIDTH = 390;
+/** getTabWidth(isBottomSheet): screenWidth − AddressOverlayStylings.EDGE_SPACING · 2 */
+const SHEET_PANE_WIDTH = 390 - 12 * 2;
+/** TabSwitcher isBottomSheet: (screenWidth − 40) / tabs − 12 */
+const SHEET_TAB_WIDTH = (390 - 40) / 2 - 12;
 
 /**
- * AddressV2SelectScreen (account entry: isBottomSheet false, doesChangeDefaultAddress true).
- * Header "Address Book", tab switcher, search field, add-new button, saved address cards.
+ * AddressV2SelectScreen. Account entry (isBottomSheet false, doesChangeDefaultAddress true): header "Address Book",
+ * tab switcher, search field, add-new button, saved address cards. Home entry (`isBottomSheet`, `address/selectSheet`):
+ * the same tabs and list inside AddressV2FloatingOverlay (withSlideAnimation, expanded) over the page; a new default
+ * address closes it (closeBottomSheet: dismissModal alpha 1 → 0, 200 ms) and then shows the toast.
  */
 export function SelectScreen({ params }: ScreenProps<SelectParams>) {
   const nav = useNav();
@@ -108,11 +117,19 @@ export function SelectScreen({ params }: ScreenProps<SelectParams>) {
   }, [debounced]);
 
   const busy = !!loadingCode;
+  const isBottomSheet = !!params.isBottomSheet;
+  const paneWidth = isBottomSheet ? SHEET_PANE_WIDTH : TAB_PANE_WIDTH;
+  // closeBottomSheet → toast on the page below (the sheet's toast host leaves with it)
+  const closeWithToast = (message: string) => {
+    nav.back();
+    setTimeout(() => nav.toast(message), 220);
+  };
 
   const openMap = (params: Record<string, unknown>) => nav.push('address/map', params);
 
   const onAddressPress = (id: number, code: string) => {
     if (id === defaultId) {
+      if (isBottomSheet) return closeWithToast(t.address_v2_selected_address_toast_message);
       addressStore.toast(t.address_v2_selected_address_toast_message);
       return;
     }
@@ -121,6 +138,7 @@ export function SelectScreen({ params }: ScreenProps<SelectParams>) {
     setTimeout(() => {
       addressStore.setDefault(id);
       addressStore.setLoading(null);
+      if (isBottomSheet) return closeWithToast(t.address_v2_changed_default_address_toast_message);
       addressStore.toast(t.address_v2_changed_default_address_toast_message);
     }, 700);
   };
@@ -132,7 +150,7 @@ export function SelectScreen({ params }: ScreenProps<SelectParams>) {
     const showEmpty = addresses.length === 0 && !query;
     return (
       <div className={`nk-scroll ${styles.pane}`}>
-        <div className={styles.paneInner}>
+        <div className={isBottomSheet ? styles.paneInnerSheet : styles.paneInner}>
           <SearchInput value={query} onChange={setQuery} disabled={busy} style={{ margin: '0 11px 6px' }} />
           <div className={styles.listContent}>
             {!query && (
@@ -195,7 +213,7 @@ export function SelectScreen({ params }: ScreenProps<SelectParams>) {
     if (isLoading) return <ListingLoading />;
     return (
       <div className={`nk-scroll ${styles.pane}`}>
-        <div className={styles.paneInner}>
+        <div className={isBottomSheet ? styles.paneInnerSheet : styles.paneInner}>
           <SearchInput value="" onChange={() => undefined} style={{ margin: '0 11px 6px' }} />
           <div className={styles.collectionHeader}>
             <ListingHeader>
@@ -215,6 +233,35 @@ export function SelectScreen({ params }: ScreenProps<SelectParams>) {
       </div>
     );
   };
+
+  const tabsAndPanes = (
+    <>
+      <div className={styles.tabSwitcherContainer}>
+        <TabSwitcher
+          tabs={[t.address_v2_latlng_tab_title, t.address_v2_collection_tab_title]}
+          selected={tab}
+          onPress={(i) => !isLoading && setTab(i)}
+          tabWidth={isBottomSheet ? SHEET_TAB_WIDTH : addressMetrics.tabWidth}
+        />
+      </div>
+      <motion.div className={styles.slider} style={{ width: paneWidth * 2 }} animate={{ x: -tab * paneWidth }} transition={{ duration: 0.3, ease: [0.455, 0.03, 0.515, 0.955] }}>
+        <div className={styles.tabContent} style={{ width: paneWidth }}>
+          {renderLatLngPane()}
+        </div>
+        <div className={styles.tabContent} style={{ width: paneWidth }}>
+          {renderCollectionPane()}
+        </div>
+      </motion.div>
+    </>
+  );
+
+  if (isBottomSheet) {
+    return (
+      <Screen background="var(--nk-palette-black-alpha0)" safeTop={false} contentStyle={{ overflow: 'hidden', paddingBottom: 0 }}>
+        <FloatingOverlay expanded slideIn onOverlayClose={nav.back} expandedContent={<div className={styles.sheetBody}>{tabsAndPanes}</div>} />
+      </Screen>
+    );
+  }
 
   return (
     <Screen

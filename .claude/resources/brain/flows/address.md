@@ -7,7 +7,7 @@
 - Docs: `.claude/resources/flows/other-flows.md#address`
 - Folder: `src/flows/address/` · tokens `src/flows/address/tokens.ts` (33 flow vars) · store `src/flows/address/store.ts` <!-- count-ok -->
 - Area data / token / helper files: assets.ts, store.ts, transitions.ts
-- Enters from: `cart/cart` → select · `cart/empty` → select · `cart/loading` → select · `checkout/checkout` → select
+- Enters from: `cart/cart` → select · `cart/empty` → select · `cart/loading` → select · `checkout/checkout` → select · `home/classic` → selectSheet · `home/home` → selectSheet
 - Exits to: —
 
 ## Screens
@@ -15,6 +15,7 @@
 | Screen | Presentation | URL | Truth · verified | Module | Tests |
 |---|---|---|---|---|---|
 | `scr:address/select` Address Book | modal | /addresses | bappzaar* · never | `SelectScreen.tsx` | 0 |
+| `scr:address/selectSheet` Address Book (bottom sheet) | modal · fade | — | bappzaar* · never | `SelectScreen.tsx` (isBottomSheet) | 1 |
 | `scr:address/map` Map pin (add) | modal · address-map | /add-address | bappzaar* · never | `MapScreen.tsx` (flow) | 0 |
 | `scr:address/create` Address details (create) | modal · address-map | — | bappzaar* · never | `MapScreen.tsx` (expanded, flow, placeId) | 0 |
 | `scr:address/update` Address details (edit) | modal · address-map | — | bappzaar* · never | `MapScreen.tsx` (addressId, expanded, flow) | 0 |
@@ -27,20 +28,21 @@
 
 `*` truth inferred from `source`. Tests = journeys + visual references (every screen also runs in `check:routes`). In nav lines, `~` = target resolved through a const / helper / ternary (reachable, runtime-dependent); no mark = a literal `nav.*('…')` call.
 
-## `address/select` · `address/locationOff` · `address/toast`
+## `address/select` · `address/selectSheet` · `address/locationOff` · `address/toast`
 
-- Module `src/flows/address/SelectScreen.tsx` (shared by 3 screens; params pick the state) · 10 own files, 40 in the import closure <!-- count-ok -->
+- Module `src/flows/address/SelectScreen.tsx` (shared by 4 screens; params pick the state) · 12 own files, 43 in the import closure <!-- count-ok -->
 - Source: src/screens/AddressV2/SelectScreen/{SelectScreen,Wrapper,styles}.ts(x), components/AddressV2/Select/**, components/AddressV2/Buttons/{AddAddress,LocationNudge}, components/AddressV2/Search/Input, components/TabSwitcher,…
-- Styles: address.module.css, components/primitives.module.css, components/select.module.css
+- Styles: address.module.css, components/map.module.css, components/primitives.module.css, components/select.module.css
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ts
-- Shared components: `DottedDivider`, `MaskIcon`, `Pressable`, `Screen`, `Skeleton`, `Spinner`, `Toast`
-- Flow components: `AddAddressButton`, `AddressCard`, `AddressToastHost`, `GradientTitle`, `IconTap`, `Img`, `ListingEmpty`, `ListingHeader`, `ListingLoading`, `LocationNudge`, `SearchInput`, `SearchResultLoading`, `SearchResultsCard`, `SelectHeader`, `TabSwitcher`
-- Tokens (49): colors 14 · flow:address 20 · local 2 · palette 5 · radius 6 · spacing 2
+- Shared components: `DottedDivider`, `Lottie`, `MaskIcon`, `Pressable`, `Screen`, `Skeleton`, `Spinner`, `Toast`
+- Flow components: `AddAddressButton`, `AddressCard`, `AddressToastHost`, `FloatingOverlay`, `GradientTitle`, `IconTap`, `Img`, `ListingEmpty`, `ListingHeader`, `ListingLoading`, `LocationNudge`, `SearchInput`, `SearchResultLoading`, `SearchResultsCard`, `SelectHeader`, `TabSwitcher`
+- Tokens (67): colors 15 · flow:address 28 · local 2 · palette 14 · radius 6 · spacing 2
 - Icons: — · assets 31
 - State / data: `store:address`, `data:user`
 - Nav out: sheet `address/controls` · push `address/map`
-- `select`: in ← `cart/cart`, `cart/empty`, `cart/loading`, `checkout/checkout` · docs `.claude/resources/flows/other-flows.md:64-72`, `.claude/resources/flows/cart.md:28-53`, `.claude/skills/cart/spec.md:24-32`, `.claude/skills/checkout/spec.md:39-46`, `.claude/skills/checkout/spec.md:51-66`, `src/flows/checkout/FIGMA-MAPPING.md:200-225`, `.claude/skills/account/spec.md:63-84`
-- `locationOff`: docs `.claude/resources/flows/other-flows.md:64-72`
+- `select`: in ← `cart/cart`, `cart/empty`, `cart/loading`, `checkout/checkout` · docs `.claude/resources/flows/other-flows.md:67-76`, `.claude/resources/flows/cart.md:29-54`, `.claude/skills/cart/spec.md:25-33`, `.claude/skills/checkout/spec.md:39-46`, `.claude/skills/checkout/spec.md:51-66`, `src/flows/checkout/FIGMA-MAPPING.md:200-225`, `.claude/skills/account/spec.md:63-84`
+- `selectSheet`: in ← `home/classic`, `home/home` · tests `test:journey/home-address-sheet` · docs `.claude/resources/flows/other-flows.md:67-76`
+- `locationOff`: docs `.claude/resources/flows/other-flows.md:67-76`
 
 ## `address/map` · `address/create` · `address/update`
 
@@ -55,9 +57,9 @@
 - Icons: — · assets 31
 - State / data: `store:address`, `data:user`
 - Nav out: sheet `address/locationAccess` · push `address/search` · push `address/success`
-- `map`: in ← `address/controls`, `address/locationOff`, `address/select`, `address/toast` · docs `.claude/resources/flows/other-flows.md:64-72`, `.claude/skills/checkout/spec.md:125-142`
-- `create`: docs `.claude/resources/flows/other-flows.md:64-72`
-- `update`: docs `.claude/resources/flows/other-flows.md:64-72`
+- `map`: in ← `address/controls`, `address/locationOff`, `address/select`, `address/selectSheet`, `address/toast` · docs `.claude/resources/flows/other-flows.md:67-76`, `.claude/skills/checkout/spec.md:125-142`
+- `create`: docs `.claude/resources/flows/other-flows.md:67-76`
+- `update`: docs `.claude/resources/flows/other-flows.md:67-76`
 
 ## `address/success`
 
@@ -85,7 +87,7 @@
 - Icons: — · assets 31
 - State / data: `store:address`, `data:user`
 - Nav out: push `address/map`
-- `controls`: in ← `address/locationOff`, `address/select`, `address/toast` · docs `.claude/resources/flows/other-flows.md:64-72`
+- `controls`: in ← `address/locationOff`, `address/select`, `address/selectSheet`, `address/toast` · docs `.claude/resources/flows/other-flows.md:67-76`
 
 ## `address/search`
 
@@ -100,7 +102,7 @@
 - Icons: — · assets 31
 - State / data: `store:address`, `data:user`
 - Nav out: sheet `address/locationAccess`
-- `search`: in ← `address/create`, `address/locationAccess`, `address/map`, `address/update` · docs `.claude/resources/flows/other-flows.md:64-72`
+- `search`: in ← `address/create`, `address/locationAccess`, `address/map`, `address/update` · docs `.claude/resources/flows/other-flows.md:67-76`
 
 ## `address/locationAccess`
 
@@ -114,4 +116,4 @@
 - Icons: — · assets 31
 - State / data: `store:address`, `data:user`
 - Nav out: push `address/search`
-- `locationAccess`: in ← `address/create`, `address/map`, `address/search`, `address/update` · docs `.claude/resources/flows/other-flows.md:64-72`
+- `locationAccess`: in ← `address/create`, `address/map`, `address/search`, `address/update` · docs `.claude/resources/flows/other-flows.md:67-76`

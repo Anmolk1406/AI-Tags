@@ -26,7 +26,7 @@ export interface SheetOptions {
   layout?: 'origin' | 'classic' | 'floating';
   /** default true — drag the grabber down to dismiss */
   grabber?: boolean;
-  /** sheet fill (origin), any surface colour, e.g. `var(--nk-color-bg-subtle)` */
+  /** sheet fill (origin, floating and classic, grabber zone included), any surface colour, e.g. `var(--nk-color-bg-subtle)` */
   surface?: string;
   /** default true — tapping the scrim dismisses */
   dismissible?: boolean;
@@ -45,6 +45,11 @@ export interface ScreenDef<P = any> {
   presentation?: Presentation;
   /** sheet framing when presented as a sheet (default: Origin M-BottomSheet); `'classic'` is shorthand for `{ layout: 'classic' }` */
   sheet?: SheetOptions | SheetOptions['layout'];
+  /**
+   * The stack layer has no page background, so the screen below stays visible: for bappzaar modals that draw their own
+   * scrim and floating card over the current page (e.g. AddressV2SelectScreen with `isBottomSheet`). Pair with `transition: 'fade'`.
+   */
+  transparent?: boolean;
   /** default transition when this screen is opened; can be overridden per navigation */
   transition?: TransitionName;
   /** status bar content colour on top of this screen */

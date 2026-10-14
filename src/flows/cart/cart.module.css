@@ -19,3 +19,6 @@
 .loader[data-tab] { padding-bottom: calc(var(--nk-layout-tab-bar) + var(--nk-inset-bottom)); }
 .loaderTrack { width: 100%; height: 4px; overflow: hidden; background: var(--nk-color-cart-loader-bg); }
 .loaderBar { width: 70%; height: 4px; border-radius: var(--nk-radius-r4); background: linear-gradient(90deg, var(--nk-color-cart-loader-bg), var(--nk-color-cta)); }
+
+/* FeedbackView overlayLoader (screenState RELOADING while a coupon is applied / removed): absolute fill, whiteAlpha 0.6, centred Loader */
+.reloading { position: absolute; inset: 0; z-index: 30; display: flex; align-items: center; justify-content: center; background: var(--nk-palette-white-alpha60); }

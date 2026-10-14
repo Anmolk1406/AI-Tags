@@ -11,6 +11,7 @@ Read with `../screens.md` and `src/flows/cart/FIGMA-MAPPING.md` (Cart 2.0, Figma
 - Sheets:
   - `cart/variants` (p6), `cart/customize` (p1), `cart/discount` (p1 + `tagId`)
   - `cart/bundles` (p8), `cart/updates`
+  - `cart/couponTray`: "View available coupons & offers" → the coupon tray revamp (NoonSalesCouponTrayOverlayScreen). Mock tray built from the cart (`data.couponTray.ts`), codes in `cartCoupons`; mapping in `src/flows/cart/components/couponTray/MAPPING.md`.
 
 ## State: all in `useDemoStore()`, no flow store
 
@@ -41,7 +42,7 @@ From `src/kit/DemoStore.tsx`:
   - a tap opens `pdp/detail`.
 - **Other sections**:
   - `InactiveGroup`
-  - `CouponInput` (its offers row is a toast stub)
+  - `CouponInput` (bappzaar master `NoonCouponInput` layout; the offers row opens `cart/couponTray`; apply / remove show the cart screen loader)
   - `CartCarousel` (SKU 134)
   - `FreeGifts` (p5 unlocks at 5000)
   - payment callouts

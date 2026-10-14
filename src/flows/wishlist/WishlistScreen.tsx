@@ -1,78 +1,84 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useRef, useState } from 'react';
-import { ProductCard, Screen } from '../../components';
+import { Screen } from '../../components';
 import { useDemoStore } from '../../kit/DemoStore';
+import type { ScreenProps } from '../../kit/types';
 import { productById } from '../../data';
 import { CollectionTile } from './components/CollectionTile';
-import { EmptyState } from './components/EmptyState';
+import { EmptyState, EmptyWishlist } from './components/EmptyState';
+import { NoCollectionWidget } from './components/NoCollectionWidget';
 import { ViewCartPill } from './components/ViewCartPill';
-import { WishlistAtc } from './components/WishlistAtc';
 import { WishlistHeader } from './components/WishlistHeader';
-import { collections } from './data';
+import { WishlistProductBox } from './components/WishlistProductBox';
+import { collections as demoCollections, copy } from './data';
+import { wishlistTokens } from './tokens';
 import styles from './wishlist.module.css';
 
 /**
- * Wishlist V2 (NoonWishlistV2Screen): header with scroll title swap, collections row,
- * "All Saved Items" 2-col grid with soft ATC → stepper, floating View Cart pill.
+ * NoonWishlistV2Screen: header (title swap on scroll) · collections row (or the no-collection widget) · "All Saved Items"
+ * 2-column grid of wishlist product boxes · floating View Cart pill. `collections: 'none'` shows the widget.
  */
-export function WishlistScreen() {
+export function WishlistScreen({ params }: ScreenProps<{ collections?: 'none' }>) {
   const { wishlist, cart } = useDemoStore();
-  const headingRef = useRef<HTMLHeadingElement>(null);
-  const [swapped, setSwapped] = useState(false);
+  const listHeaderRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState(0);
+  // useState(false) on the screen: dismissing hides the widget until the screen is left
+  const [noCollectionDismissed, setNoCollectionDismissed] = useState(false);
+  const collections = params.collections === 'none' ? [] : demoCollections;
 
   const items = wishlist.map(productById);
-  const wishInCart = cart.filter((l) => wishlist.includes(l.product.id));
-  const count = cart.reduce((n, l) => n + l.qty, 0);
 
   const onScroll = (y: number) => {
     const h = headingRef.current;
-    if (!h) return;
-    // swap once the heading's bottom passes under the header (±8px window)
-    const bottom = h.offsetTop + h.offsetHeight;
-    setSwapped(y > bottom - 8);
+    const header = listHeaderRef.current;
+    if (!h || !header) return;
+    // onAllSavedItemsTitleLayout: y + height inside the list header (its marginTop 16 is not counted)
+    const bottom = h.getBoundingClientRect().bottom - header.getBoundingClientRect().top;
+    const o = wishlistTokens.titleSwitchOffset;
+    setProgress(Math.min(1, Math.max(0, (y - (bottom - o)) / (2 * o))));
   };
 
-  if (!items.length) {
+  if (!items.length && !collections.length) {
     return (
-      <Screen header={<WishlistHeader showCreate={false} />} background="bgSurface">
-        <EmptyState />
-      </Screen>
+      <div className={styles.stage}>
+        <EmptyWishlist />
+        <ViewCartPill />
+      </div>
     );
   }
 
   return (
     // wrapper so the floating pill is positioned against the viewport, not the scroll content
     <div className={styles.stage}>
-    <Screen header={<WishlistHeader swapped={swapped} />} background="bgSurface" onScroll={onScroll}>
-      <div className={styles.listHeader}>
-        <div className="nk-hscroll" style={{ gap: 12, padding: '0 12px', marginBottom: 32 }}>
-          {collections.map((c, i) => (
-            <CollectionTile key={c.id} name={c.name} items={c.items} index={i} />
-          ))}
+      <Screen header={<WishlistHeader progress={progress} />} background="bgSurface" onScroll={onScroll} contentStyle={{ paddingBottom: 'var(--nk-inset-bottom)' }}>
+        <div ref={listHeaderRef} className={styles.listHeader}>
+          {collections.length ? (
+            <div className={`nk-hscroll ${styles.collections}`}>
+              {collections.map((c) => (
+                <CollectionTile key={c.id} name={c.name} items={c.items} />
+              ))}
+            </div>
+          ) : (
+            !noCollectionDismissed && <NoCollectionWidget onDismiss={() => setNoCollectionDismissed(true)} />
+          )}
+          <div ref={headingRef}>
+            <h3 className={styles.sectionTitle}>{copy.allSavedItems}</h3>
+          </div>
         </div>
-        <h3 ref={headingRef} className={styles.sectionTitle}>
-          All Saved Items
-        </h3>
-      </div>
-      <motion.div className={styles.grid} layout>
-        <AnimatePresence initial={false}>
-          {items.map((p, i) => (
-            <motion.div
-              key={p.id}
-              layout
-              className={styles.cell}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0, transition: { type: 'spring', stiffness: 380, damping: 39, delay: Math.min(i, 8) * 0.035 } }}
-              exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
-            >
-              <ProductCard product={p} quickAdd={false} compact />
-              <WishlistAtc productId={p.id} />
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </motion.div>
-    </Screen>
-    <ViewCartPill visible={wishInCart.length > 0} lines={wishInCart} count={count} />
+        <div className={styles.grid} data-pill={cart.length ? '' : undefined}>
+          <AnimatePresence initial={false}>
+            {items.map((p) => (
+              <motion.div key={p.id} layout className={styles.cell} exit={{ opacity: 0, transition: { duration: 0.2 } }}>
+                <WishlistProductBox product={p} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+        {/* ListEmptyComponent: collections but no saved items */}
+        {!items.length && <EmptyState />}
+      </Screen>
+      <ViewCartPill />
     </div>
   );
 }

@@ -29,4 +29,4 @@
 - Icons: — · assets 4
 - State / data: `data:products`
 - Nav out: push `pdp/detail` (via ProductCard) · sheet `pdp/variants` (via ProductCard) · push `plp/listing` · push `search/search`
-- `deals`: docs `.claude/resources/flows/other-flows.md:46-52`
+- `deals`: docs `.claude/resources/flows/other-flows.md:49-55`

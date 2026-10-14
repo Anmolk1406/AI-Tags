@@ -54,7 +54,7 @@ export function HomeHeader({ collapsed }: { collapsed: boolean }) {
       <div className={styles.content}>
         <motion.div initial={false} animate={collapsed ? { height: 0, opacity: 0 } : { height: 'auto', opacity: 1 }} transition={fold} style={{ overflow: 'hidden' }}>
           <div className={styles.addressRow}>
-            <Pressable className={styles.address} onClick={() => nav.toast('Address picker — add your own sheet in flows/home')} scale={0.98}>
+            <Pressable className={styles.address} onClick={() => nav.push('address/selectSheet')} scale={0.98}>
               <span className={styles.addressLine1}>
                 <img src={deliveryHomeIcon} alt="" className={styles.addressIcon} />
                 <span className={styles.addressLabel}>{addressRow.label}</span>

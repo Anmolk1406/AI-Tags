@@ -6,7 +6,7 @@
 
 - Docs: `.claude/skills/search/SKILL.md` · `.claude/skills/search/spec.md` · `.claude/resources/flows/search.md`
 - Folder: `src/flows/search/` · tokens `src/flows/search/tokens.ts` (1 flow vars) <!-- count-ok -->
-- Enters from: `categories/categories` → search · `categories/error` → search · `categories/expanded` → search · `categories/loading` → search · `deals/deals` → search · `home/classic` → search · `home/home` → search · `pdp/detail` → search · `plp/listing` → search · `wishlist/empty` → search · `wishlist/wishlist` → search
+- Enters from: `categories/categories` → search · `categories/error` → search · `categories/expanded` → search · `categories/loading` → search · `deals/deals` → search · `home/classic` → search · `home/home` → search · `pdp/detail` → search · `plp/listing` → search · `wishlist/empty` → search · `wishlist/no-collections` → search · `wishlist/wishlist` → search
 - Exits to: `checkout/checkout` (from search, suggestions) · `noonone/landing` (from search, suggestions) · `pdp/added` (from search, suggestions) · `pdp/detail` (from search, suggestions) · `pdp/variants` (from search, suggestions) · `plp/filters` (from search, suggestions) · `plp/listing` (from search, suggestions) · `plp/sort` (from search, suggestions)
 
 ## Screens
@@ -29,5 +29,5 @@
 - Motion: `preset/handoff.easeInOut`, `preset/handoff.easeOut`, `preset/handoff.fade`, `preset/handoff.spring`, `preset/handoff.travel`, `recipe/BlurSwap`, `transition/results-fade`, `transition/slide-left`
 - State / data: `store:demo`, `store:membership`, `store:plp`, `data:phoneProducts`, `data:products`
 - Nav out: push `checkout/checkout` (via SfAtcBar) · push `noonone/landing` (via VipPreference) · sheet `pdp/added` (via SfAtcBar) · push `pdp/detail` (via ProductBoxVertical) · replace `pdp/detail` (via Sections) · sheet `pdp/variants` (via ProductCard) · sheet `plp/filters` (via ListingScreen) · push `plp/listing` (via Sections) · sheet `plp/sort` (via ListingScreen) · push `search/search` (via SfHeader)
-- `search`: in ← `categories/categories`, `categories/error`, `categories/expanded`, `categories/loading`, `deals/deals`, `home/classic`, `home/home`, `pdp/detail`, `plp/listing`, `search/suggestions`, `wishlist/empty`, `wishlist/wishlist` · tests `test:journey/search-to-plp`, `test:journey/wishlist-empty-cta` · docs `.claude/resources/flows/search.md:5-9`, `.claude/skills/search/spec.md:6-16`, `.claude/skills/search/spec.md:30-43`, `src/flows/pdp/FIGMA-MAPPING.md:7-32`
+- `search`: in ← `categories/categories`, `categories/error`, `categories/expanded`, `categories/loading`, `deals/deals`, `home/classic`, `home/home`, `pdp/detail`, `plp/listing`, `search/suggestions`, `wishlist/empty`, `wishlist/no-collections`, `wishlist/wishlist` · tests `test:journey/search-to-plp`, `test:journey/wishlist-empty-cta` · docs `.claude/resources/flows/search.md:5-9`, `.claude/skills/search/spec.md:6-16`, `.claude/skills/search/spec.md:30-43`, `src/flows/pdp/FIGMA-MAPPING.md:7-32`
 - `suggestions`: docs `.claude/resources/flows/search.md:5-9`, `.claude/skills/search/spec.md:6-16`, `.claude/skills/search/spec.md:102-113`

@@ -35,6 +35,19 @@ export const addressFlow = defineFlow({
       source: `${SRC}/SelectScreen/{SelectScreen,Wrapper,styles}.ts(x), components/AddressV2/Select/**, components/AddressV2/Buttons/{AddAddress,LocationNudge}, components/AddressV2/Search/Input, components/TabSwitcher, components/MapV2/MapScreenHeader`,
     },
     {
+      id: 'selectSheet',
+      title: 'Address Book (bottom sheet)',
+      component: SelectScreen,
+      presentation: 'modal',
+      transition: 'fade',
+      transparent: true,
+      defaultParams: { isBottomSheet: true },
+      parent: 'home/home',
+      notes:
+        'Home header address tap (NoonAddressSelector.changeAddress → AddressV2SelectScreen isBottomSheet). The tabs and saved addresses in the floating overlay over the page: it springs up and dims the page. Tap another address → loader, the sheet closes, then "Address updated"; tap the default → it closes with "Address already selected"; tap the dimmed page to close.',
+      source: `${SRC}/SelectScreen/{SelectScreen,Wrapper,styles}.ts(x) (isBottomSheet), components/AddressV2/AddressFloatingOverlay (withSlideAnimation), marketplaces/noon/components/NoonAddressSelector (changeAddress)`,
+    },
+    {
       id: 'map',
       title: 'Map pin (add)',
       component: MapScreen,

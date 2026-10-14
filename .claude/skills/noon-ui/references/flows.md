@@ -305,6 +305,7 @@ Files: `CartScreen.tsx`, `components/{CartHeader,CartGroup,CartItem,GroupProgres
 | `variants` | Change variant | sheet | `{ productId: 'p6' }` | variant chips → Update Item |
 | `customize` | Customize item | sheet | `{ productId: 'p1' }` | engraving text with counter, Save Message → toast |
 | `discount` | Discount details | sheet | `{ productId, tagId, copyOnly? }` | apply coupon, terms, eligible items carousel |
+| `couponTray` | Coupon tray | sheet | `{ state?: 'loading' \| 'error' \| 'empty' }` | NoonSalesCouponTrayOverlayScreen: best price card, coupons (amount / units unlock, noon One exclusive, expiry timer, cashback tiers), payment offers; Apply closes, Remove refreshes (`components/couponTray/MAPPING.md`) |
 | `bundles` | Bundle details | sheet | `{ productId: 'p8' }` | gradient header + bundle Lottie, items, Combo Total |
 | `updates` | Cart updates | sheet | | price-drop / out-of-stock list |
 
@@ -418,6 +419,7 @@ Files: `SelectScreen.tsx`, `MapScreen.tsx` (358), `SearchScreen.tsx`, `SuccessSc
 | id | title | presentation / transition | params | shows |
 |---|---|---|---|---|
 | `select` | Address Book | modal | | 650ms skeleton → saved address cards (default = blue header), tap → loader + "Address updated" toast; ⋯ → `controls` sheet; search; Delivery / Locker-Pickup tabs; Add new address → `map` |
+| `selectSheet` | Address Book (bottom sheet) | modal, `transparent`, fade | `{ isBottomSheet: true }` | Home header address tap (`NoonAddressSelector.changeAddress`): the same tabs + list in `FloatingOverlay` (`slideIn`) over the page; a pick closes it, then the toast (`nav.toast`); dimmed-page tap closes |
 | `map` | Map pin (add) | modal / `address-map` | `{ flow: 'create' }` | draggable map, pin lift/drop, tooltip, unserviceable state, current location |
 | `create` | Address details (create) | modal / `address-map` | `{ flow, placeId, expanded: true }` | form overlay: Home/Work/Other chips, floating labels, required errors |
 | `update` | Address details (edit) | modal / `address-map` | `{ flow: 'update', addressId, expanded }` | |
@@ -509,14 +511,18 @@ Copy from here for: subscription management, retention/cancel flows, referral pa
 
 ### wishlist · Profile · `wishlist`
 No screen skill (blueprint below + brief in `.claude/resources/flows/other-flows.md`).
-Files: `WishlistScreen.tsx` (78), `EmptyWishlistScreen.tsx`, `components/{WishlistHeader,CollectionTile,WishlistAtc,ViewCartPill,EmptyState}.tsx`, `data.ts` (`collections`).
+1:1 with bappzaar Wishlist V2; every value is resolved in `src/flows/wishlist/MAPPING.md`.
+Files: `WishlistScreen.tsx`, `EmptyWishlistScreen.tsx`, `WishlistLoadingScreen.tsx`, `OptionsSheet.tsx`, `components/{WishlistHeader,CollectionTile,NoCollectionWidget,WishlistProductBox,WishlistAtc,ViewCartPill,EmptyState}.tsx`, `data.ts` (`collections`, `copy`), assets `src/assets/wishlist/`.
 
 | id | title | shows |
 |---|---|---|
-| `wishlist` | Wishlist | `WishlistHeader` (title swaps "Wishlist" → "All Saved Items" on scroll, Create pill fades), collections `nk-hscroll`, 2-col grid of `ProductCard quickAdd={false} compact` + `WishlistAtc` (soft ATC → stepper), `AnimatePresence` exit on un-heart; floating `ViewCartPill` springs up (outside `<Screen>` in a `.stage` wrapper); inline empty state when no items |
-| `empty` | Empty wishlist | `EmptyState`: floating hearts, "Nothing saved yet", "Start adding items" → search |
+| `wishlist` | Wishlist | `WishlistHeader` (bordered back circle; "Wishlist" → "All Saved Items" cross-fade driven by the scroll over ±8 px around the heading, Create pill fades with it), 126 × 152 `CollectionTile`s (fanned 3-card stack), 2-col grid of `WishlistProductBox` (`ProductBoxVertical` `wishlist` compact view: ⋮ → `wishlist/options`, `WishlistAtc` soft ATC → stepper with trash at 1, share), `ViewCartPill` while the cart has items (→ Cart tab); in-list `EmptyState` when collections exist but no items |
+| `no-collections` | Wishlist (no collections) | `WishlistScreen` with `collections: 'none'`: dashed `NoCollectionWidget` (X dismisses) in place of the collections row |
+| `empty` | Empty wishlist | `EmptyWishlist`: header floating on top (Create shown), the noonWishlistV2EmptyLottie with "Nothing saved yet" + "Start adding items" → search |
+| `loading` | Wishlist (loading) | `WishlistLoadingScreen`: the NoonWishlistV2ScreenSkeleton blocks |
+| `options` | Item options | sheet `floating`, transparent surface: antiFlashWhite r24 card, "Organise → Add to collection" (toast), "Remove item" → off the wishlist + "Removed from Wishlist" toast |
 
-Copy from here for: saved-items grids, floating pill CTAs, animated empty states.
+Copy from here for: saved-items grids, floating pill CTAs, Lottie empty states, action-list sheets.
 
 ---
 

@@ -37,11 +37,11 @@
 - Icons: — · assets 24
 - State / data: `store:cards`, `data:user`
 - Nav out: push `cards/add`
-- `cards`: in ← `cards/success` · docs `.claude/resources/flows/other-flows.md:57-63`, `.claude/skills/checkout/spec.md:125-142`, `.claude/skills/account/spec.md:63-84`
-- `actions`: docs `.claude/resources/flows/other-flows.md:57-63`
-- `delete`: docs `.claude/resources/flows/other-flows.md:57-63`
-- `empty`: tests `test:journey/cards-empty-cta` · docs `.claude/resources/flows/other-flows.md:57-63`
-- `many`: docs `.claude/resources/flows/other-flows.md:57-63`
+- `cards`: in ← `cards/success` · docs `.claude/resources/flows/other-flows.md:60-66`, `.claude/skills/checkout/spec.md:125-142`, `.claude/skills/account/spec.md:63-84`
+- `actions`: docs `.claude/resources/flows/other-flows.md:60-66`
+- `delete`: docs `.claude/resources/flows/other-flows.md:60-66`
+- `empty`: tests `test:journey/cards-empty-cta` · docs `.claude/resources/flows/other-flows.md:60-66`
+- `many`: docs `.claude/resources/flows/other-flows.md:60-66`
 
 ## `cards/add` · `cards/form`
 
@@ -56,8 +56,8 @@
 - Icons: — · assets 24
 - State / data: `store:cards`, `data:user`
 - Nav out: replace `cards/success`
-- `add`: in ← `cards/actions`, `cards/cards`, `cards/delete`, `cards/empty`, `cards/many` · tests `test:journey/cards-empty-cta` · docs `.claude/resources/flows/other-flows.md:57-63`, `.claude/skills/checkout/spec.md:125-142`
-- `form`: tests `test:journey/cards-empty-cta` · docs `.claude/resources/flows/other-flows.md:57-63`
+- `add`: in ← `cards/actions`, `cards/cards`, `cards/delete`, `cards/empty`, `cards/many` · tests `test:journey/cards-empty-cta` · docs `.claude/resources/flows/other-flows.md:60-66`, `.claude/skills/checkout/spec.md:125-142`
+- `form`: tests `test:journey/cards-empty-cta` · docs `.claude/resources/flows/other-flows.md:60-66`
 
 ## `cards/success`
 
@@ -72,4 +72,4 @@
 - Icons: — · assets 24
 - State / data: `store:cards`, `data:user`
 - Nav out: reset `cards/cards`
-- `success`: in ← `cards/add`, `cards/form` · docs `.claude/resources/flows/other-flows.md:57-63`
+- `success`: in ← `cards/add`, `cards/form` · docs `.claude/resources/flows/other-flows.md:60-66`

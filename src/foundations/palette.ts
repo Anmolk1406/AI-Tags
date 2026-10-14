@@ -344,6 +344,7 @@ export const palette = {
   whiteAlpha28: 'rgba(255, 255, 255, 0.28)', // NoonTokens.colors.whiteAlpha(0.28)
   whiteAlpha35: 'rgba(255, 255, 255, 0.35)', // NoonTokens.colors.whiteAlpha(0.35)
   whiteAlpha40: 'rgba(255, 255, 255, 0.4)', // NoonTokens.colors.whiteAlpha(0.4)
+  whiteAlpha50: 'rgba(255, 255, 255, 0.5)', // NoonTokens.colors.whiteAlpha(0.5) (NoonProductBoxCollectionButton)
   whiteAlpha60: 'rgba(255, 255, 255, 0.6)', // NoonTokens.colors.whiteAlpha(0.6)
   whiteAlpha64: 'rgba(255, 255, 255, 0.64)', // NoonTokens.colors.whiteAlpha(0.64)
   whiteAlpha70: 'rgba(255, 255, 255, 0.7)', // NoonTokens.colors.whiteAlpha(0.7)

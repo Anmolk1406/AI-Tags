@@ -25,6 +25,8 @@
 .footerContent { display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s12); height: 52px; padding: 0 var(--nk-space-s12); }
 /* Total: 131 wide, pl 4; "Total" Label4 12/14 Medium #666D85 over the price, 4 apart */
 .nudges { flex-shrink: 0; width: 131px; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; row-gap: var(--nk-space-s4); padding: 0 0 0 var(--nk-space-s4); border: 0; background: none; cursor: pointer; text-align: start; }
+/* bappzaar TouchableOpacity / Pressable: no focus ring after a tap (the UA ring showed around Total when the invoice opened) */
+.nudges:focus, .cta:focus { outline: none; }
 .totalLabel { font: var(--nk-type-text12-medium-lh14); letter-spacing: -0.12px; color: var(--nk-color-text-secondary); white-space: nowrap; }
 /* price: H4 20/24 Bold #0E0E0E −0.2, dotted underline */
 .totalPrice { max-width: 100%; overflow: hidden; text-overflow: ellipsis; font: var(--nk-type-text20-bold-lh24); letter-spacing: -0.2px; color: var(--nk-color-text-ink); white-space: nowrap; text-decoration: underline dotted; text-decoration-skip-ink: none; text-underline-position: from-font; }

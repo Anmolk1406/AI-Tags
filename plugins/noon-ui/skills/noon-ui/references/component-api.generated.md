@@ -4,7 +4,7 @@
 
 The source of truth for component **names, props, types, defaults and variants**. Hand-written guidance (when to use, gotchas, examples) is in `references/components.md`; when the two disagree, this file is right and `references/components.md` is stale.
 
-54 shared components exported from `src/components/index.ts` · 353 flow-local components in `src/flows/*/components/`. "—" = no static default; `?` = optional. Variants = props typed as a union of string literals.
+54 shared components exported from `src/components/index.ts` · 361 flow-local components in `src/flows/*/components/`. "—" = no static default; `?` = optional. Variants = props typed as a union of string literals.
 
 ## Shared components
 
@@ -415,15 +415,16 @@ Small "AED 1,234" label
 
 ### ProductBoxVertical
 
-`src/components/ProductBoxVertical/ProductBoxVertical.tsx:39`
+`src/components/ProductBoxVertical/ProductBoxVertical.tsx:42`
 
-NoonProductBoxVertical, PLP layout: the search / listing result card, ported 1:1 from bappzaar (`marketplaces/noon/components/NoonProductBox/NoonProductBoxVertical`, rendered by `ProductBox` with `isPLP`). Anatomy, top to bottom: 177 × 241 image box (contain, 2% black overlay; > 1 image → paged slider with the pill pager), "Best Seller" / catalog tag top-left, favourite 24 at 4 / 4, quick ATC 36 at the bottom-end · "{brand} {name}" 14/500 2 lines · rating pill (star first) · price row (sale 16 bold, struck was, "n% OFF") · nudge ticker · coupon tag · express flag + delivery line. No press feedback (`activeOpacity={1}`), as in the app.
+NoonProductBoxVertical, PLP layout: the search / listing result card, ported 1:1 from bappzaar (`marketplaces/noon/components/NoonProductBox/NoonProductBoxVertical`, rendered by `ProductBox` with `isPLP`). Anatomy, top to bottom: 177 × 241 image box (contain, 2% black overlay; > 1 image → paged slider with the pill pager), "Best Seller" / catalog tag top-left, favourite 24 at 4 / 4, quick ATC 36 at the bottom-end · "{brand} {name}" 14/500 2 lines · rating pill (star first) · price row (sale 16 bold, struck was, "n% OFF") · nudge ticker · coupon tag · express flag + delivery line. No press feedback (`activeOpacity={1}`), as in the app. `wishlist` = `isWishlist` on Wishlist V2 (`isWishlistCompactView`): no top tags, quick ATC, nudges or coupon; `topEnd` replaces the favourite (NoonProductBoxCollectionButton) and `footer` is the bottomRow (marginTop 10, px 8, gap 8).
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
 | `product` | `Product` | — |  |
 | `onPress?` | `() => void` | — |  |
 | `quickAdd?` | `boolean` | `true` |  |
+| `wishlist?` | `{ topEnd?: ReactNode; footer?: ReactNode }` | — | Wishlist V2 compact view: `topEnd` in place of the heart, `footer` under the delivery row |
 
 ### ProductCard
 
@@ -914,7 +915,7 @@ Search these before you create a component (`references/components.md` → "Sear
 | address | `LocationSummary` | `src/flows/address/components/map.tsx:149` | `placeName` `area` `variant` `onChangePress` `style` |
 | address | `LocationLoading` | `src/flows/address/components/map.tsx:177` | — |
 | address | `UnserviceableView` | `src/flows/address/components/map.tsx:192` | `style` |
-| address | `FloatingOverlay` | `src/flows/address/components/map.tsx:218` | `expanded` `topContent` `collapsedContent` `expandedContent` `fixedAction` `onOverlayClose` `closing` `collapsedBg` `expandedBg` |
+| address | `FloatingOverlay` | `src/flows/address/components/map.tsx:220` | `expanded` `topContent` `collapsedContent` `expandedContent` `fixedAction` `onOverlayClose` `closing` `collapsedBg` `expandedBg` `slideIn` |
 | address | `Img` | `src/flows/address/components/primitives.tsx:8` | `src` `width` `height` `style` `className` |
 | address | `OverlayButton` | `src/flows/address/components/primitives.tsx:16` | `title` `onPress` `disabled` `loading` `style` |
 | address | `GradientTitle` | `src/flows/address/components/primitives.tsx:32` | `title` `style` |
@@ -963,7 +964,7 @@ Search these before you create a component (`references/components.md` → "Sear
 | cart | `CartSnackBar` | `src/flows/cart/components/CartSnackBar.tsx:11` | `product` `onHide` `onPress` |
 | cart | `CartWave` | `src/flows/cart/components/CartWave.tsx:2` | `color` `height` `className` `style` |
 | cart | `CobrandCards` | `src/flows/cart/components/CobrandCards.tsx:11` | `cards` |
-| cart | `CouponInput` | `src/flows/cart/components/CouponInput.tsx:20` | — |
+| cart | `CouponInput` | `src/flows/cart/components/CouponInput.tsx:19` | `onBusyChange` |
 | cart | `DiscountTags` | `src/flows/cart/components/DiscountTags.tsx:11` | `tags` `onOpen` |
 | cart | `DynamicInvoice` | `src/flows/cart/components/DynamicInvoice.tsx:12` | `sections` |
 | cart | `FreeGifts` | `src/flows/cart/components/FreeGifts.tsx:17` | `product` `unlockAt` `current` |
@@ -976,6 +977,11 @@ Search these before you create a component (`references/components.md` → "Sear
 | cart | `QuantitySelector` | `src/flows/cart/components/QuantitySelector.tsx:15` | `qty` `min` `max` `disabled` `removeLoading` `onCommit` `onRemove` `onPendingChange` |
 | cart | `SalesCallout` | `src/flows/cart/components/SalesCallout.tsx:13` | `entry` `sheet` `onAction` `lines` `className` `style` `wrapperStyle` `iconSize` `iconRender` `children` |
 | cart | `VariantOptionChip` | `src/flows/cart/components/VariantOptionChip.tsx:6` | `name` `product` `swatch` `isSelected` `isDisabled` `isFirst` `isLast` `onSelect` |
+| cart | `BestPriceSection` | `src/flows/cart/components/couponTray/BestPriceSection.tsx:17` | `bestPrice` `shared` `activeId` `onApply` `onRemove` |
+| cart | `TrayItem` | `src/flows/cart/components/couponTray/BestPriceSection.tsx:58` | `id` `index` `seen` `delayed` `children` |
+| cart | `TiersProgressBar` | `src/flows/cart/components/couponTray/TiersProgressBar.tsx:31` | `bar` `showAddProducts` `onAddProducts` `disabled` |
+| cart | `TrayOffer` | `src/flows/cart/components/couponTray/TrayOffer.tsx:79` | `offer` `bestPrice` `shared` `loading` `onApply` `onRemove` `className` |
+| cart | `UnlockCriteria` | `src/flows/cart/components/couponTray/UnlockCriteria.tsx:15` | `criteria` `showShopMore` `onShopMore` `disabled` |
 | categories | `AdBannerModule` | `src/flows/categories/components/AdBannerModule.tsx:10` | `image` `ratio` `onPress` |
 | categories | `CollapsibleBannerModule` | `src/flows/categories/components/CollapsibleBannerModule.tsx:22` | `title` `banners` `numPerRow` `initialOpen` `scrollerRef` `onSubBannerPress` |
 | categories | `ErrorView` | `src/flows/categories/components/ErrorView.tsx:10` | `onRetry` |
@@ -1240,10 +1246,13 @@ Search these before you create a component (`references/components.md` → "Sear
 | reviews | `ExclamationIcon` | `src/flows/reviews/components/icons.tsx:30` | `size` |
 | search | `RecentSearches` | `src/flows/search/components/RecentSearches.tsx:17` | `items` `editing` `onToggleEdit` `onRemove` `onPress` |
 | search | `SuggestionRow` | `src/flows/search/components/SuggestionRow.tsx:20` | `text` `query` `product` `category` `onPress` `onFill` |
-| wishlist | `CollectionTile` | `src/flows/wishlist/components/CollectionTile.tsx:9` | `name` `items` `index` |
-| wishlist | `EmptyState` | `src/flows/wishlist/components/EmptyState.tsx:18` | — |
-| wishlist | `ViewCartPill` | `src/flows/wishlist/components/ViewCartPill.tsx:9` | `visible` `lines` `count` |
-| wishlist | `WishlistAtc` | `src/flows/wishlist/components/WishlistAtc.tsx:11` | `productId` |
-| wishlist | `WishlistHeader` | `src/flows/wishlist/components/WishlistHeader.tsx:11` | `swapped` `showCreate` |
+| wishlist | `CollectionTile` | `src/flows/wishlist/components/CollectionTile.tsx:13` | `name` `items` |
+| wishlist | `EmptyState` | `src/flows/wishlist/components/EmptyState.tsx:14` | — |
+| wishlist | `EmptyWishlist` | `src/flows/wishlist/components/EmptyState.tsx:32` | — |
+| wishlist | `NoCollectionWidget` | `src/flows/wishlist/components/NoCollectionWidget.tsx:12` | `onDismiss` |
+| wishlist | `ViewCartPill` | `src/flows/wishlist/components/ViewCartPill.tsx:14` | — |
+| wishlist | `WishlistAtc` | `src/flows/wishlist/components/WishlistAtc.tsx:19` | `productId` |
+| wishlist | `WishlistHeader` | `src/flows/wishlist/components/WishlistHeader.tsx:15` | `progress` `showCreate` |
+| wishlist | `WishlistProductBox` | `src/flows/wishlist/components/WishlistProductBox.tsx:18` | `product` |
 
 <!-- external: marketplaces/noon/components/NoonProductBox/NoonProductBoxVertical, src/components/HtmlView/styles.ts, src/components/Loader -->

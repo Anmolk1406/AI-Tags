@@ -394,8 +394,9 @@ From git (`marketplaces/noon/theme/assets`, `src/theme/assets`, @3x): `slim-chev
 | Field | Demo |
 |---|---|
 | `returnItemNr` | `R` + order number digits (e.g. `R40021571220`) |
-| `tracking` | 4 stages *Requested · Pickup · Inspection · Refund*, `currentStage` 2 (1 straight after submit), `colorCode` green, no `iconUrl` (built-in glyph) |
-| `allowActions.cancelReturn` | true until cancelled; `isChatEnabled` false; `trackingAction` null |
+| `tracking` | 4 stages *Requested · Pickup · Inspection · Refund*, `currentStage` 2 (1 straight after submit; seeded p7 3, p3 4), `colorCode` green, no `iconUrl` (built-in glyph); each reached stage (and the scheduled pickup) is dated request date + 0 / 1 / 3 / 4 days |
+| `allowActions.cancelReturn` | `ReturnRecord.allowCancel`: true until picked up (false for the seeded inspection / refunded returns and after a cancel); `isChatEnabled` false |
+| `trackingAction` | refunded p3: `{ title: 'Track refund', actionCode: 'refunded', deepLink }` → outline sm button under the steps (toast for the deep link); otherwise none |
 | `refundDetails` | `AED` + product price, one "Item price" row |
 | `feedbackWidget` | rates 0–10 with 4–5 options each |
 | `returnSummary` | requested date, reason / sub-reason / comment from the submission (or defaults), pickup address = `user` + `user.address`, pickup slot, images = product photo |

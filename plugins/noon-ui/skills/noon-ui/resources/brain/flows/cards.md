@@ -37,11 +37,11 @@
 - Icons: — · assets 24
 - State / data: `store:cards`, `data:user`
 - Nav out: push `cards/add`
-- `cards`: in ← `cards/success` · docs `resources/flows/other-flows.md:57-63`, `../checkout/spec.md:125-142`, `../account/spec.md:63-84`
-- `actions`: docs `resources/flows/other-flows.md:57-63`
-- `delete`: docs `resources/flows/other-flows.md:57-63`
-- `empty`: tests `test:journey/cards-empty-cta` · docs `resources/flows/other-flows.md:57-63`
-- `many`: docs `resources/flows/other-flows.md:57-63`
+- `cards`: in ← `cards/success` · docs `resources/flows/other-flows.md:60-66`, `../checkout/spec.md:125-142`, `../account/spec.md:63-84`
+- `actions`: docs `resources/flows/other-flows.md:60-66`
+- `delete`: docs `resources/flows/other-flows.md:60-66`
+- `empty`: tests `test:journey/cards-empty-cta` · docs `resources/flows/other-flows.md:60-66`
+- `many`: docs `resources/flows/other-flows.md:60-66`
 
 ## `cards/add` · `cards/form`
 
@@ -56,8 +56,8 @@
 - Icons: — · assets 24
 - State / data: `store:cards`, `data:user`
 - Nav out: replace `cards/success`
-- `add`: in ← `cards/actions`, `cards/cards`, `cards/delete`, `cards/empty`, `cards/many` · tests `test:journey/cards-empty-cta` · docs `resources/flows/other-flows.md:57-63`, `../checkout/spec.md:125-142`
-- `form`: tests `test:journey/cards-empty-cta` · docs `resources/flows/other-flows.md:57-63`
+- `add`: in ← `cards/actions`, `cards/cards`, `cards/delete`, `cards/empty`, `cards/many` · tests `test:journey/cards-empty-cta` · docs `resources/flows/other-flows.md:60-66`, `../checkout/spec.md:125-142`
+- `form`: tests `test:journey/cards-empty-cta` · docs `resources/flows/other-flows.md:60-66`
 
 ## `cards/success`
 
@@ -72,4 +72,4 @@
 - Icons: — · assets 24
 - State / data: `store:cards`, `data:user`
 - Nav out: reset `cards/cards`
-- `success`: in ← `cards/add`, `cards/form` · docs `resources/flows/other-flows.md:57-63`
+- `success`: in ← `cards/add`, `cards/form` · docs `resources/flows/other-flows.md:60-66`

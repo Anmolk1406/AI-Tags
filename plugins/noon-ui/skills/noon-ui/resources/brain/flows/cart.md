@@ -4,21 +4,22 @@
 
 **flow:cart** · group Shopping · initial `cart/cart` · tab `cart` · coverage spec
 
-- Docs: `../cart/SKILL.md` · `../cart/spec.md` · `resources/flows/cart.md` · `src/flows/cart/FIGMA-MAPPING.md`
-- Folder: `src/flows/cart/` · tokens `src/flows/cart/tokens.ts` (70 flow vars) <!-- count-ok -->
-- Area data / token / helper files: data.bundles.ts, data.variants.ts
-- Enters from: `pdp/added` → cart · `wishlist/wishlist` → cart
-- Exits to: `address/select` (from cart, empty, loading) · `checkout/checkout` (from cart, empty, loading) · `noonone/cartOverlay` (from cart, empty, loading) · `noonone/landing` (from cart, empty, loading) · `pdp/detail` (from cart, empty, loading, discount) · `pdp/variants` (from discount) · `plp/listing` (from cart, empty, loading, discount) · `wishlist/wishlist` (from cart, empty, loading)
+- Docs: `../cart/SKILL.md` · `../cart/spec.md` · `resources/flows/cart.md` · `src/flows/cart/FIGMA-MAPPING.md` · `src/flows/cart/components/couponTray/MAPPING.md`
+- Folder: `src/flows/cart/` · tokens `src/flows/cart/tokens.ts` (78 flow vars) <!-- count-ok -->
+- Area data / token / helper files: data.bundles.ts, data.couponTray.ts, data.variants.ts
+- Enters from: `pdp/added` → cart · `wishlist/empty` → cart · `wishlist/no-collections` → cart · `wishlist/wishlist` → cart
+- Exits to: `address/select` (from cart, empty, loading) · `checkout/checkout` (from cart, empty, loading) · `noonone/cartOverlay` (from cart, empty, loading) · `noonone/landing` (from cart, empty, loading, couponTray) · `pdp/detail` (from cart, empty, loading, discount) · `pdp/variants` (from discount) · `plp/listing` (from cart, empty, loading, couponTray, discount) · `wishlist/wishlist` (from cart, empty, loading)
 
 ## Screens
 
 | Screen | Presentation | URL | Truth · verified | Module | Tests |
 |---|---|---|---|---|---|
-| `scr:cart/cart` Cart | screen | /cart | mixed · 2026-10-13 | `CartScreen.tsx` | 8 |
+| `scr:cart/cart` Cart | screen | /cart | mixed · 2026-10-13 | `CartScreen.tsx` | 9 |
 | `scr:cart/empty` Cart (empty) | screen | — | bappzaar* · never | `CartScreen.tsx` (state) | 1 |
 | `scr:cart/loading` Cart (loading) | screen | — | bappzaar* · never | `CartScreen.tsx` (state) | 0 |
 | `scr:cart/variants` Change variant | sheet (classic) | — | bappzaar* · never | `VariantsSheet.tsx` (productId) | 0 |
 | `scr:cart/customize` Customize item | sheet (classic) | — | bappzaar* · never | `CustomizeSheet.tsx` (productId) | 0 |
+| `scr:cart/couponTray` Coupon tray | sheet (floating) | — | bappzaar · never | `CouponTraySheet.tsx` | 1 |
 | `scr:cart/discount` Discount details | sheet (classic) | — | bappzaar* · never | `DiscountDetailsSheet.tsx` (productId, tagId) | 0 |
 | `scr:cart/bundles` Bundle details | sheet (classic) | — | bappzaar* · never | `VirtualBundlesSheet.tsx` (productId) | 0 |
 | `scr:cart/updates` Cart updates | sheet (classic) | — | bappzaar* · never | `UpdatesSheet.tsx` | 0 |
@@ -33,14 +34,14 @@
 - Data / helpers: data.ts, invoice.ts, tokens.ts
 - Shared components: `HtmlText`, `Pressable`, `ProductImage`, `Screen`, `SkuCard`, `Spinner`, `Toast`
 - Flow components: `CartCarousel`, `CartFooter`, `CartGroup`, `CartHeader`, `CartIcon`, `CartItem`, `CartSnackBar`, `CobrandCards`, `CouponInput`, `DiscountTags`, `DynamicInvoice`, `FreeGifts`, `GroupProgressBar`, `InactiveGroup`, `ItemPoint`, `NoonOneLogo`, `NoonOneNudge`, `PaymentOffers`, `QuantitySelector`, `SalesCallout`
-- Tokens (152): colors 26 · flow:cart 49 · fontFamily 1 · layout 1 · local 2 · palette 29 · radius 8 · spacing 12 · stepper 1 · type 23
+- Tokens (155): colors 27 · flow:cart 51 · fontFamily 1 · layout 1 · local 2 · palette 31 · radius 7 · spacing 12 · stepper 1 · type 22
 - Motion: `reduced-motion`
-- Icons: — · assets 76
+- Icons: — · assets 73
 - State / data: `store:demo`, `store:membership`, `data:currency`, `data:discountPct`, `data:formatPrice`, `data:products`, `data:user`
-- Nav out: push `address/select` · sheet `cart/bundles` · sheet `cart/customize` · sheet `cart/discount` · sheet `cart/updates` · sheet `cart/variants` · push `checkout/checkout` · push `noonone/cartOverlay` · push `noonone/landing` · push `pdp/detail` (via SkuCard) · push `plp/listing` · push `wishlist/wishlist`
-- `cart`: in ← `pdp/added`, `wishlist/wishlist` · tests `test:journey/back-direct-url`, `test:journey/cart-add-from-card`, `test:journey/cart-add-from-pdp`, `test:journey/cart-checkout`, `test:journey/cart-coupon`, `test:journey/cart-empty-state`, `test:journey/cart-qty-totals`, `test:visual/cart-sticky-footer` · docs `resources/flows/cart.md:5-14`, `resources/flows/cart.md:54-61`, `../cart/spec.md:7-23`, `../cart/spec.md:137-149`, `resources/flows/checkout.md:5-25`, `../checkout/spec.md:6-38`, `../checkout/spec.md:39-46`
-- `empty`: tests `test:journey/cart-empty-param` · docs `resources/flows/cart.md:5-14`, `../cart/spec.md:7-23`, `../cart/spec.md:126-136`
-- `loading`: docs `resources/flows/cart.md:5-14`, `../cart/spec.md:7-23`, `../cart/spec.md:126-136`
+- Nav out: push `address/select` · sheet `cart/bundles` · sheet `cart/couponTray` · sheet `cart/customize` · sheet `cart/discount` · sheet `cart/updates` · sheet `cart/variants` · push `checkout/checkout` · push `noonone/cartOverlay` · push `noonone/landing` · push `pdp/detail` (via SkuCard) · push `plp/listing` · push `wishlist/wishlist`
+- `cart`: in ← `pdp/added`, `wishlist/empty`, `wishlist/no-collections`, `wishlist/wishlist` · tests `test:journey/back-direct-url`, `test:journey/cart-add-from-card`, `test:journey/cart-add-from-pdp`, `test:journey/cart-checkout`, `test:journey/cart-coupon`, `test:journey/cart-coupon-tray`, `test:journey/cart-empty-state`, `test:journey/cart-qty-totals`, `test:visual/cart-sticky-footer` · docs `resources/flows/cart.md:5-15`, `resources/flows/cart.md:55-62`, `../cart/spec.md:7-24`, `../cart/spec.md:139-151`, `resources/flows/checkout.md:5-25`, `../checkout/spec.md:6-38`, `../checkout/spec.md:39-46`
+- `empty`: tests `test:journey/cart-empty-param` · docs `resources/flows/cart.md:5-15`, `../cart/spec.md:7-24`, `../cart/spec.md:128-138`
+- `loading`: docs `resources/flows/cart.md:5-15`, `../cart/spec.md:7-24`, `../cart/spec.md:128-138`
 
 ## `cart/variants`
 
@@ -54,7 +55,7 @@
 - Motion: `preset/tween`
 - Icons: — · assets 1
 - State / data: `store:demo`, `data:currency`, `data:formatPrice`, `data:productById`
-- `variants`: in ← `cart/cart`, `cart/empty`, `cart/loading` · docs `resources/flows/cart.md:5-14`, `../cart/spec.md:7-23`
+- `variants`: in ← `cart/cart`, `cart/empty`, `cart/loading` · docs `resources/flows/cart.md:5-15`, `../cart/spec.md:7-24`
 
 ## `cart/customize`
 
@@ -67,7 +68,22 @@
 - Tokens (21): colors 12 · palette 4 · type 5
 - Icons: — · assets 8
 - State / data: `store:demo`
-- `customize`: in ← `cart/cart`, `cart/empty`, `cart/loading` · docs `resources/flows/cart.md:5-14`, `../cart/spec.md:7-23`
+- `customize`: in ← `cart/cart`, `cart/empty`, `cart/loading` · docs `resources/flows/cart.md:5-15`, `../cart/spec.md:7-24`
+
+## `cart/couponTray`
+
+- Module `src/flows/cart/CouponTraySheet.tsx` · 9 own files, 42 in the import closure
+- Source: marketplaces/noon/screens/NoonSalesCouponTrayOverlayScreen (+ NoonSalesCouponTrayOffer, NoonSalesCouponTrayBestPriceSection, …UnlockCriteria, …TiersProgressBar, …AnimatedItem); see components/couponTray/MAPPING.md
+- Styles: components/couponTray/tray.module.css, couponTray.module.css
+- Data / helpers: data.couponTray.ts, tokens.ts
+- Shared components: `Button`, `HtmlText`, `Lottie`, `MaskIcon`, `Pressable`, `Skeleton`
+- Flow components: `BestPriceSection`, `TiersProgressBar`, `TrayItem`, `TrayOffer`, `UnlockCriteria`
+- Tokens (68): colors 3 · flow:cart 18 · layout 1 · palette 22 · radius 7 · spacing 8 · type 9
+- Motion: `reduced-motion`
+- Icons: — · assets 13
+- State / data: `store:demo`, `store:membership`, `data:currency`, `data:formatPrice`
+- Nav out: push `noonone/landing` · push `plp/listing`
+- `couponTray`: in ← `cart/cart`, `cart/empty`, `cart/loading` · tests `test:journey/cart-coupon-tray` · docs `resources/flows/cart.md:5-15`, `resources/flows/cart.md:29-54`, `../cart/spec.md:7-24`, `../cart/spec.md:34-50`
 
 ## `cart/discount`
 
@@ -82,7 +98,7 @@
 - Icons: — · assets 19
 - State / data: `store:demo`, `data:currency`, `data:formatPrice`, `data:productById`
 - Nav out: push `pdp/detail` (via ProductCard) · sheet `pdp/variants` (via ProductCard) · push `plp/listing`
-- `discount`: in ← `cart/cart`, `cart/empty`, `cart/loading` · docs `resources/flows/cart.md:5-14`, `../cart/spec.md:7-23`, `../cart/spec.md:57-60`
+- `discount`: in ← `cart/cart`, `cart/empty`, `cart/loading` · docs `resources/flows/cart.md:5-15`, `../cart/spec.md:7-24`, `../cart/spec.md:58-61`
 
 ## `cart/bundles`
 
@@ -96,7 +112,7 @@
 - Motion: `preset/tween`
 - Icons: — · assets 8
 - State / data: `data:productById`
-- `bundles`: in ← `cart/cart`, `cart/empty`, `cart/loading` · docs `resources/flows/cart.md:5-14`, `../cart/spec.md:7-23`
+- `bundles`: in ← `cart/cart`, `cart/empty`, `cart/loading` · docs `resources/flows/cart.md:5-15`, `../cart/spec.md:7-24`
 
 ## `cart/updates`
 
@@ -110,4 +126,4 @@
 - Motion: `preset/easing.out`
 - Icons: — · assets 7
 - State / data: `data:currency`, `data:formatPrice`, `data:productById`
-- `updates`: in ← `cart/cart`, `cart/empty`, `cart/loading` · docs `resources/flows/cart.md:5-14`, `../cart/spec.md:7-23`, `../cart/spec.md:33-49`
+- `updates`: in ← `cart/cart`, `cart/empty`, `cart/loading` · docs `resources/flows/cart.md:5-15`, `../cart/spec.md:7-24`, `../cart/spec.md:34-50`

@@ -39,6 +39,9 @@ export const cartAddOns: Record<string, { label: string; price: number }> = {
 export const cartCoupons: Record<string, { pct?: number; flat?: number; cap?: number; min?: number }> = {
   NOON10: { pct: 10, cap: 150 },
   SAVE50: { flat: 50, min: 300 },
+  ONE20: { pct: 20, cap: 100 }, // coupon tray: noon One exclusive
+  WEEKEND15: { pct: 15, cap: 75 }, // coupon tray: expiring coupon
+  BUY3: { pct: 5, cap: 50 }, // coupon tray: unlocks at 3 units
 };
 
 /** Per-group free-delivery threshold + fee (shown by NoonCartGroupProgressBar). */

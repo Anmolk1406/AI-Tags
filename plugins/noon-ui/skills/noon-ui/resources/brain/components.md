@@ -10,39 +10,39 @@ Props and variants: `references/component-api.generated.md` (search the name). U
 |---|---|---|---|---|
 | `cmp:Badge` | `src/components/Tag/Tag.tsx:55` | 4 | home, pdp, search | Icon, MarketplaceTag |
 | `cmp:BottomBar` | `src/components/BottomBar/BottomBar.tsx:5` | 0 | — | — |
-| `cmp:Button` | `src/components/Button/Button.tsx:66` | 23 | account, checkout, orders, reviews | Icon, Pressable, Spinner |
-| `cmp:CatalogTag` | `src/components/Tag/Tag.tsx:7` | 14 | cart, deals, home, pdp, plp, search, wishlist | Icon, MarketplaceTag |
+| `cmp:Button` | `src/components/Button/Button.tsx:66` | 24 | account, cart, checkout, orders, reviews | Icon, Pressable, Spinner |
+| `cmp:CatalogTag` | `src/components/Tag/Tag.tsx:7` | 15 | cart, deals, home, pdp, plp, search, wishlist | Icon, MarketplaceTag |
 | `cmp:Checkbox` | `src/components/Checkbox/Checkbox.tsx:5` | 2 | orders, reviews | — |
-| `cmp:CouponTag` | `src/components/Tag/Tag.tsx:21` | 11 | cart, deals, home, pdp, plp, search, wishlist | Icon, MarketplaceTag |
+| `cmp:CouponTag` | `src/components/Tag/Tag.tsx:21` | 12 | cart, deals, home, pdp, plp, search, wishlist | Icon, MarketplaceTag |
 | `cmp:DashedDivider` | `src/components/Divider/Divider.tsx:13` | 13 | checkout, orders, pdp, reviews, search | — |
 | `cmp:Divider` | `src/components/Divider/Divider.tsx:7` | 5 | orders, pdp, reviews, search | — |
-| `cmp:DottedDivider` | `src/components/Divider/Divider.tsx:33` | 20 | account, address, returns | — |
-| `cmp:EtaBadge` | `src/components/EtaBadge/EtaBadge.tsx:21` | 11 | cart, deals, home, pdp, plp, search, wishlist | OriginIcon |
+| `cmp:DottedDivider` | `src/components/Divider/Divider.tsx:33` | 21 | account, address, returns | — |
+| `cmp:EtaBadge` | `src/components/EtaBadge/EtaBadge.tsx:21` | 12 | cart, deals, home, pdp, plp, search, wishlist | OriginIcon |
 | `cmp:ExpressBadge` | `src/components/Tag/Tag.tsx:16` | 5 | cart, pdp, search | Icon, MarketplaceTag |
 | `cmp:Header` | `src/components/Header/Header.tsx:49` | 4 | account, orders, pdp | Icon, Pressable |
-| `cmp:HtmlText` | `src/components/HtmlText/HtmlText.tsx:50` | 53 | cart, checkout, membership, noonone, pdp, search | — |
-| `cmp:Icon` | `src/components/Icon/Icon.tsx:92` | 58 | account, cart, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist | — |
-| `cmp:IconButton` | `src/components/Header/Header.tsx:9` | 3 | account, wishlist | Icon, Pressable |
+| `cmp:HtmlText` | `src/components/HtmlText/HtmlText.tsx:50` | 54 | cart, checkout, membership, noonone, pdp, search | — |
+| `cmp:Icon` | `src/components/Icon/Icon.tsx:92` | 59 | account, cart, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist | — |
+| `cmp:IconButton` | `src/components/Header/Header.tsx:9` | 1 | account | Icon, Pressable |
 | `cmp:ListGroup` | `src/components/ListRow/ListRow.tsx:48` | 0 | — | DashedDivider, Icon, Pressable |
 | `cmp:ListRow` | `src/components/ListRow/ListRow.tsx:8` | 0 | — | DashedDivider, Icon, Pressable |
-| `cmp:Lottie` | `src/components/Lottie/Lottie.tsx:124` | 43 | account, address, cards, cart, checkout, membership, noonone, pdp, returns, reviews, search | — |
-| `cmp:MarketplaceTag` | `src/components/Tag/MarketplaceTag.tsx:56` | 21 | cart, checkout, deals, home, orders, pdp, plp, returns, search, wishlist | — |
+| `cmp:Lottie` | `src/components/Lottie/Lottie.tsx:124` | 51 | account, address, cards, cart, checkout, membership, noonone, pdp, returns, reviews, search, wishlist | — |
+| `cmp:MarketplaceTag` | `src/components/Tag/MarketplaceTag.tsx:56` | 22 | cart, checkout, deals, home, orders, pdp, plp, returns, search, wishlist | — |
 | `cmp:MarketplaceWordmark` | `src/components/Tag/MarketplaceTag.tsx:84` | 1 | orders | — |
-| `cmp:MaskIcon` | `src/components/MaskIcon/MaskIcon.tsx:7` | 145 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist | — |
+| `cmp:MaskIcon` | `src/components/MaskIcon/MaskIcon.tsx:7` | 149 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist | — |
 | `cmp:Money` | `src/components/Price/Price.tsx:48` | 0 | — | — |
 | `cmp:NeedHelpButton` | `src/components/NeedHelpButton/NeedHelpButton.tsx:20` | 3 | account, orders | OriginIcon, Pressable |
-| `cmp:OriginIcon` | `src/components/Icon/OriginIcon.tsx:15` | 145 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist | MaskIcon |
+| `cmp:OriginIcon` | `src/components/Icon/OriginIcon.tsx:15` | 149 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist | MaskIcon |
 | `cmp:Pill` | `src/components/Pill/Pill.tsx:12` | 3 | plp, search | Icon, Pressable |
 | `cmp:PillRow` | `src/components/Pill/Pill.tsx:49` | 0 | — | Icon, Pressable |
-| `cmp:Pressable` | `src/components/Pressable/Pressable.tsx:17` | 87 | account, address, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist | — |
-| `cmp:Price` | `src/components/Price/Price.tsx:9` | 11 | cart, deals, home, pdp, plp, search, wishlist | — |
-| `cmp:ProductBoxVertical` | `src/components/ProductBoxVertical/ProductBoxVertical.tsx:39` | 3 | plp, search | CatalogTag, EtaBadge, Icon, ProductImage, QuickAdd, WishlistHeart |
-| `cmp:ProductCard` | `src/components/ProductCard/ProductCard.tsx:25` | 6 | cart, deals, home, pdp, wishlist | CatalogTag, CouponTag, EtaBadge, Icon, Price, ProductImage, QuantityStepper, RatingPill, Text, WishlistHeart |
-| `cmp:ProductImage` | `src/components/ProductImage/ProductImage.tsx:9` | 36 | account, cart, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, search, wishlist | — |
-| `cmp:QuantityStepper` | `src/components/QuantityStepper/QuantityStepper.tsx:13` | 11 | cart, deals, home, pdp, plp, search, wishlist | Icon, Pressable |
-| `cmp:QuickAdd` | `src/components/ProductCard/ProductCard.tsx:101` | 6 | home, pdp, plp, search | CatalogTag, CouponTag, EtaBadge, Icon, Price, ProductImage, QuantityStepper, RatingPill, Text, WishlistHeart |
-| `cmp:RatingPill` | `src/components/Rating/Rating.tsx:9` | 11 | cart, deals, home, pdp, plp, search, wishlist | Icon |
-| `cmp:Screen` | `src/components/Screen/Screen.tsx:29` | 87 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist | — |
+| `cmp:Pressable` | `src/components/Pressable/Pressable.tsx:17` | 91 | account, address, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist | — |
+| `cmp:Price` | `src/components/Price/Price.tsx:9` | 12 | cart, deals, home, pdp, plp, search, wishlist | — |
+| `cmp:ProductBoxVertical` | `src/components/ProductBoxVertical/ProductBoxVertical.tsx:42` | 5 | plp, search, wishlist | CatalogTag, EtaBadge, Icon, ProductImage, QuickAdd, WishlistHeart |
+| `cmp:ProductCard` | `src/components/ProductCard/ProductCard.tsx:25` | 5 | cart, deals, home, pdp | CatalogTag, CouponTag, EtaBadge, Icon, Price, ProductImage, QuantityStepper, RatingPill, Text, WishlistHeart |
+| `cmp:ProductImage` | `src/components/ProductImage/ProductImage.tsx:9` | 39 | account, cart, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, search, wishlist | — |
+| `cmp:QuantityStepper` | `src/components/QuantityStepper/QuantityStepper.tsx:13` | 12 | cart, deals, home, pdp, plp, search, wishlist | Icon, Pressable |
+| `cmp:QuickAdd` | `src/components/ProductCard/ProductCard.tsx:101` | 8 | home, pdp, plp, search, wishlist | CatalogTag, CouponTag, EtaBadge, Icon, Price, ProductImage, QuantityStepper, RatingPill, Text, WishlistHeart |
+| `cmp:RatingPill` | `src/components/Rating/Rating.tsx:9` | 12 | cart, deals, home, pdp, plp, search, wishlist | Icon |
+| `cmp:Screen` | `src/components/Screen/Screen.tsx:29` | 90 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist | — |
 | `cmp:SearchBarButton` | `src/components/SearchBar/SearchBar.tsx:21` | 7 | categories, deals, home | Pressable |
 | `cmp:SearchInput` | `src/components/SearchBar/SearchBar.tsx:102` | 3 | plp, search | Pressable |
 | `cmp:SectionCard` | `src/components/SectionCard/SectionCard.tsx:5` | 0 | — | — |
@@ -50,27 +50,27 @@ Props and variants: `references/component-api.generated.md` (search the name). U
 | `cmp:SheetBody` | `src/components/BottomSheet/BottomSheet.tsx:65` | 0 | — | Button, OriginIcon, Pressable |
 | `cmp:SheetFooter` | `src/components/BottomSheet/BottomSheet.tsx:76` | 0 | — | Button, OriginIcon, Pressable |
 | `cmp:SheetHeader` | `src/components/BottomSheet/BottomSheet.tsx:21` | 0 | — | Button, OriginIcon, Pressable |
-| `cmp:Skeleton` | `src/components/Skeleton/Skeleton.tsx:8` | 34 | account, address, cart, checkout, membership, noonone, plp, reviews, search | — |
+| `cmp:Skeleton` | `src/components/Skeleton/Skeleton.tsx:8` | 37 | account, address, cart, checkout, membership, noonone, plp, reviews, search, wishlist | — |
 | `cmp:SkuCard` | `src/components/SkuCard/SkuCard.tsx:52` | 3 | cart | CatalogTag, MaskIcon, ProductImage |
 | `cmp:Snackbar` | `src/components/Snackbar/Snackbar.tsx:30` | 0 | — | OriginIcon |
-| `cmp:SnackbarStack` | `src/components/Snackbar/Snackbar.tsx:62` | 144 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist | OriginIcon |
-| `cmp:Spinner` | `src/components/Spinner/Spinner.tsx:44` | 105 | account, address, cards, cart, checkout, membership, noonone, orders, pdp, returns, reviews, search | — |
+| `cmp:SnackbarStack` | `src/components/Snackbar/Snackbar.tsx:62` | 148 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist | OriginIcon |
+| `cmp:Spinner` | `src/components/Spinner/Spinner.tsx:44` | 107 | account, address, cards, cart, checkout, membership, noonone, orders, pdp, returns, reviews, search | — |
 | `cmp:Stars` | `src/components/Rating/Rating.tsx:38` | 0 | — | Icon |
 | `cmp:StatusChip` | `src/components/Tag/Tag.tsx:44` | 0 | — | Icon, MarketplaceTag |
 | `cmp:Switch` | `src/components/Switch/Switch.tsx:42` | 7 | account, cards, checkout, reviews | — |
-| `cmp:TabBar` | `src/components/TabBar/TabBar.tsx:36` | 144 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist | — |
-| `cmp:Text` | `src/components/Text/Text.tsx:23` | 13 | cart, deals, home, pdp, plp, search, wishlist | — |
-| `cmp:Toast` | `src/components/Toast/Toast.tsx:26` | 12 | address, cart, checkout | — |
-| `cmp:WishlistHeart` | `src/components/WishlistHeart/WishlistHeart.tsx:15` | 11 | cart, deals, home, pdp, plp, search, wishlist | Icon |
+| `cmp:TabBar` | `src/components/TabBar/TabBar.tsx:36` | 148 | account, address, cards, cart, categories, checkout, deals, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist | — |
+| `cmp:Text` | `src/components/Text/Text.tsx:23` | 14 | cart, deals, home, pdp, plp, search, wishlist | — |
+| `cmp:Toast` | `src/components/Toast/Toast.tsx:26` | 13 | address, cart, checkout | — |
+| `cmp:WishlistHeart` | `src/components/WishlistHeart/WishlistHeart.tsx:15` | 12 | cart, deals, home, pdp, plp, search, wishlist | Icon |
 
 ## Flow-local (`src/flows/<flow>/components`)
 
 One line per flow: components and how many screens reach each. Used outside its flow = promotion candidate (see findings.md).
 
 - **account** (12): AccountFooter 2, AccountSection 9, AccountSectionItem 8, ActionCards 1, CountryRow 2, EditRing 1, LanguageRow 2, LanguageSwitcher 0, MenuGroup 2, ProfileCard 1, SheetBody 8, SheetButtons 3
-- **address** (28): AddAddressButton 3, AddressCard 3, AddressDetailsForm 3, AddressToastHost 6, CurrentLocationButton 3, FloatingOverlay 3, GradientTitle 4, IconTap 4, Img 8, ListingEmpty 4, ListingHeader 3, ListingLoading 3, LocateOnMapButton 1, LocationLoading 3, LocationNudge 3, LocationSummary 3, MapPin 3, MapSearchButton 4, OverlayButton 3, SearchCurrentLocationButton 1, SearchInput 3, SearchResult 0, SearchResultLoading 4, SearchResultsCard 4, SelectHeader 3, StreetMap 3, TabSwitcher 3, UnserviceableView 3
+- **address** (28): AddAddressButton 4, AddressCard 4, AddressDetailsForm 3, AddressToastHost 7, CurrentLocationButton 3, FloatingOverlay 7, GradientTitle 5, IconTap 5, Img 9, ListingEmpty 5, ListingHeader 4, ListingLoading 4, LocateOnMapButton 1, LocationLoading 3, LocationNudge 4, LocationSummary 3, MapPin 3, MapSearchButton 4, OverlayButton 3, SearchCurrentLocationButton 1, SearchInput 4, SearchResult 0, SearchResultLoading 5, SearchResultsCard 5, SelectHeader 4, StreetMap 3, TabSwitcher 4, UnserviceableView 3
 - **cards** (22): AdditionContainer 2, AdditionOption 2, AnimatedListCard 5, CardActionsOverlay 5, CardBrands 2, CardTypeLogo 2, EmptyCards 5, EnterManuallyField 2, HeaderButton 8, LockNote 2, PaymentButtonV2 7, PaymentCard 5, PaymentCardFormV2 2, PaymentCardShimmer 5, PaymentScreenHeader 8, PaymentScrollableHeader 5, PaymentSwitchV2 0, PaymentTextInputV2 0, ScanCardIcon 2, ScanOptionButton 2, SectionTitle 5, TapCardIcon 2
-- **cart** (22): CartCarousel 3, CartFooter 3, CartGroup 3, CartHeader 3, CartIcon 4, CartItem 3, CartSnackBar 3, CartWave 0, CobrandCards 3, CouponInput 3, DiscountTags 3, DynamicInvoice 3, FreeGifts 3, GroupProgressBar 3, InactiveGroup 3, ItemPoint 3, NoonOneLogo 3, NoonOneNudge 3, PaymentOffers 3, QuantitySelector 3, SalesCallout 3, VariantOptionChip 1
+- **cart** (27): BestPriceSection 1, CartCarousel 3, CartFooter 3, CartGroup 3, CartHeader 3, CartIcon 4, CartItem 3, CartSnackBar 3, CartWave 0, CobrandCards 3, CouponInput 3, DiscountTags 3, DynamicInvoice 3, FreeGifts 3, GroupProgressBar 3, InactiveGroup 3, ItemPoint 3, NoonOneLogo 3, NoonOneNudge 3, PaymentOffers 3, QuantitySelector 3, SalesCallout 3, TiersProgressBar 1, TrayItem 1, TrayOffer 1, UnlockCriteria 1, VariantOptionChip 1
 - **categories** (4): AdBannerModule 4, CollapsibleBannerModule 4, ErrorView 4, ProgressLoader 4
 - **checkout** (46): AddressCard 1, AmountEntry 1, AmountTicket 1, AvailableBalance 1, BurnSection 1, CheckoutHeader 1, CheckoutShipment 1, CheckoutTag 8, ChevronDot 1, ChevronThick 1, CouponStatus 1, Crescent 4, DeliveryInstruction 1, DetachedAddress 1, Donation 1, DynamicBackground 2, DynamicInvoice 1, EarnCallout 1, EditIcon 0, FormFields 2, FormTitle 3, InfoEditButton 5, InfoIcon 0, ItemContainer 0, NewBadge 1, NoonOneCtaReveal 1, NoonOneSection 1, OtpLoading 0, PaymentCard 3, PaymentMethods 1, PaymentSummary 1, PointsVouchers 1, ProviderCallout 2, ProviderHeader 3, ProviderLogo 6, ProviderTag 0, ReceiverDetails 1, Reloader 1, RetryIcon 1, RichText 2, SavedContact 1, SlideButton 1, SubmitButton 4, TermsNote 1, VerifyOtp 1, VoucherToast 1
 - **home** (29): AdBannerModule 1, AdProductLedDisplay 1, BannerCarousel 1, BannerScroller 1, BrandAdModule 0, BzModuleWrapper 1, CategoryGrid 0, CategoryTile 0, DealTimer 1, DepartmentTabs 0, EasyBannerScroller 1, EidAdBanner 0, EidBanners 1, ExperienceSwitcher 2, HeroBanners 0, HeroCarousel 1, HomeHeader 1, ItemCarousel 1, KeepShopping 0, LaunchModule 0, MegaDeals 1, OfferTickets 0, ProductCarousel 1, ProductRail 0, PromoTicker 0, RailSku 0, RecommendedRail 0, SnappedBannerCarousel 1, Sponsored 1
@@ -82,4 +82,4 @@ One line per flow: components and how many screens reach each. Used outside its 
 - **returns** (34): AFSBackHeader 4, AFSButton 4, AnimatedSection 0, CommentInput 1, ConfirmOverlay 2, Dashed 4, DepthCarousel 1, EstimatedRefundButton 0, EvidenceSection 1, EvidenceSkipOverlay 1, Fade 1, FeedbackOverlay 1, FeedbackWidget 2, ImageGuidelineOverlay 1, Photo 1, PhotoGuideCarousel 1, PickupAddressOverlay 1, PickupSection 1, PolicyOverlay 1, ProductDetails 1, ReasonArt 1, ReasonSection 1, RefundDetailsOverlay 1, RefundSection 1, RefundSummaryOverlay 1, ResolutionSection 1, ReturnsOverlay 3, StepGlyph 2, SummaryButton 1, Svg 3, Tap 5, TrackingSteps 1, TrackingTimelineOverlay 1, UploadImageOverlay 1
 - **reviews** (35): AddPhotos 4, AiToggle 2, AttributeChip 0, AttributeChips 2, CraftingShimmer 0, DraftAction 0, DraftCard 4, DraftProductTop 1, EditReviewSheet 2, ExclamationIcon 3, EyeIcon 4, GrowEditor 1, KeyboardDock 7, MockKeyboard 4, NameToggle 0, NewReviewManual 1, NewReviewMorphHeader 1, NewReviewPicks 1, PastOrderCard 2, PastOrdersTitle 2, PhotoThumbs 1, PinnedEditor 1, ProgressRing 0, RateCheckRow 0, RateFeedbackCard 1, RateQuestionsSkeleton 1, ReviewFooter 7, ReviewHeader 7, ReviewProductHeader 3, ReviewSheet 0, ReviewTextField 5, RewriteSheet 2, SheetEditor 1, SparkleIcon 4, StarRatingInput 8
 - **search** (2): RecentSearches 2, SuggestionRow 2
-- **wishlist** (5): CollectionTile 1, EmptyState 2, ViewCartPill 1, WishlistAtc 1, WishlistHeader 2
+- **wishlist** (8): CollectionTile 2, EmptyState 2, EmptyWishlist 3, NoCollectionWidget 2, ViewCartPill 3, WishlistAtc 2, WishlistHeader 3, WishlistProductBox 2

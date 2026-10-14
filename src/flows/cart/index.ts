@@ -8,6 +8,7 @@ const DiscountDetailsSheet = lazyScreen(() => import('./DiscountDetailsSheet'), 
 const UpdatesSheet = lazyScreen(() => import('./UpdatesSheet'), 'UpdatesSheet');
 const VariantsSheet = lazyScreen(() => import('./VariantsSheet'), 'VariantsSheet');
 const VirtualBundlesSheet = lazyScreen(() => import('./VirtualBundlesSheet'), 'VirtualBundlesSheet');
+const CouponTraySheet = lazyScreen(() => import('./CouponTraySheet'), 'CouponTraySheet');
 
 export const cartFlow = defineFlow({
   id: 'cart',
@@ -60,6 +61,17 @@ export const cartFlow = defineFlow({
       defaultParams: { productId: 'p1' },
       notes: 'Opened from the item’s "Text … Edit" row. Edit the engraving (counter n/20); Save Message → loader → "Changes have been saved successfully" toast, cart row updates.',
       source: 'marketplaces/noon/screens/NoonCartCustomizeOverlayScreen',
+    },
+    {
+      id: 'couponTray',
+      title: 'Coupon tray',
+      component: CouponTraySheet,
+      presentation: 'sheet',
+      // useScrollToClose(…, isFloating true) → OverlayBottomSheet isFloating; contentContainerStyle antiFlashWhite
+      sheet: { layout: 'floating', surface: 'var(--nk-palette-anti-flash-white)' },
+      notes: 'Opened from "View available coupons & offers". Best price card (NOON10 + bank offer), Coupons (SAVE50 locked under 300 with the amount bar, ONE20 noon One exclusive with the Join One banner for non-members, WEEKEND15 with the Ends in timer and expandable text, BUY3 unit chips, cashback tiers bar) and Payment offers. Apply → loader on the offer, tray locked → coupon applied, tray closes; Remove refreshes in place. T&C / Shop more / Add products / Join One close the tray. Params state: loading | error (Try again) | empty.',
+      source: 'marketplaces/noon/screens/NoonSalesCouponTrayOverlayScreen (+ NoonSalesCouponTrayOffer, NoonSalesCouponTrayBestPriceSection, …UnlockCriteria, …TiersProgressBar, …AnimatedItem); see components/couponTray/MAPPING.md',
+      truth: 'bappzaar',
     },
     {
       id: 'discount',

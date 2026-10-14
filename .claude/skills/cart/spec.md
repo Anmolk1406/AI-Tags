@@ -14,6 +14,7 @@ The contract a cart build must meet. Measurements are Figma points on a 375pt fr
 | `cart/variants` | `/cart/variants` | sheet, `{ productId: 'p6' }` | Variant chips → Update Item | exists |
 | `cart/customize` | `/cart/customize` | sheet, `{ productId: 'p1' }` | Engraving text with counter, Save Message → toast | exists |
 | `cart/discount` | `/cart/discount` | sheet, `{ productId, tagId, copyOnly? }` | Apply coupon, terms, eligible items | exists |
+| `cart/couponTray` | `/cart/couponTray` | sheet, `{ state?: 'loading' \| 'error' \| 'empty' }` | Coupon tray (NoonSalesCouponTrayOverlayScreen): best price, coupons, payment offers; Apply / Remove; loading, error, empty | exists |
 | `cart/bundles` | `/cart/bundles` | sheet, `{ productId: 'p8' }` | Bundle header + Lottie, items, Combo Total | exists |
 | `cart/updates` | `/cart/updates` | sheet | Price-drop / out-of-stock list | exists |
 | `cart/error` | `/cart/error` | tab root, `{ state: 'error' }` | Cart error (`12112:209179`) | to build |
@@ -42,7 +43,7 @@ Default order (`SECTIONS` in `src/flows/cart/CartScreen.tsx`). Page `background=
 | 4 | `cms_bottom` | `CartCarousel` | "Don’t miss out on these offers" + "Sponsored"; empty cart: "Customers Also Viewed"; 1px `--nk-color-border-subtle` card, header px 16 `--nk-type-section`; SKU tiles 134 wide, gap 12 |
 | 5 | `wishlist` | `CartCarousel` | "From your wishlist" from `useDemoStore().wishlist` |
 | 6 | `free_gifts` | `FreeGifts` | mint → white card, 80×109 locked image, "left to unlock" bar in `--nk-color-best-price-ink` |
-| 7 | `coupon_tray` | `CouponInput` | "Got a coupon?", h56 input on `--nk-color-bg-subtle`, APPLY, success / error / warning borders, "View available coupons & offers" row |
+| 7 | `coupon_tray` | `CouponInput` | bappzaar master `NoonCouponInput` (not the Figma frame): lightGrey outer card → white r16 card with "Got a coupon?", 54px input on `--nk-color-bg-subtle`, applied tag icon + APPLY / REMOVE, success / error / warning borders and colours, HTML feedback; "View available coupons & offers" on the grey below (green discount icon, thick chevron) → `cart/couponTray` |
 | 8 | `cobrand_cards` | `CobrandCards` | bappzaar NoonCartCobrandCards: paging 351×138 cards (noon One Credit Card: title, diamond-bullet terms, dark "Apply now", card art right), auto-advance 3s until swiped; hidden when empty |
 | 9 | `callouts` | `PaymentOffers` → `SalesCallout` | "Payment offers" (`--nk-type-section`, px 14); row of 259-wide entries (1px `--nk-color-border-subtle`, r16, p8) with 48px r12 tiles: tamara, tabby, bank installments, tax refund + "Learn more"; noon One entry hidden for members |
 | — | Snackbar | `CartSnackBar` (sibling of `<Screen>`) | "Item moved to Wishlist" → `wishlist/wishlist`, 3s |
@@ -99,6 +100,7 @@ Shared per group: progress bar 4 tall (`cartTokens.progress.barHeight`), "+ Add"
 | Size / variant chip | `nav.sheet('cart/variants', { productId })` |
 | "Text … Edit" | `nav.sheet('cart/customize', { productId })` |
 | Discount tag | `nav.sheet('cart/discount', { productId, tagId })` |
+| "View available coupons & offers" | `nav.sheet('cart/couponTray')`; in the tray: Apply → applies the cart coupon and closes · Shop more / Add products → `plp/listing` · Join One → `noonone/landing` |
 | "Bundle & save · View" | `nav.sheet('cart/bundles', { productId })` |
 | Updates banner | `nav.sheet('cart/updates')` |
 | "+ Add" (progress, free gifts), Find Similar, "View all" | `nav.push('plp/listing')` |
@@ -116,7 +118,7 @@ Shared per group: progress bar 4 tall (`cartTokens.progress.barHeight`), "+ Add"
 | Progress fill | `GroupProgressBar`: spring `cartTokens.progress.spring`, shimmer 1.8s × 7 after `delayMs`, on first view (`useInView`) |
 | Qty change | `QuantitySelector` value swap `AnimatePresence mode="popLayout"` (y 8 → 0, exit −8, 0.16s); icons `whileTap={{ scale: 0.85 }}`; commit after `cartTokens.qtyDebounceMs` with the inline `Spinner` |
 | Item removed / warranty added | `CartGroup` `AnimatePresence` height + opacity 0.3s, `layout="position"` |
-| Coupon apply / error | `CouponInput`: shake `x` 0.35s, applied icon spring, feedback height reveal 0.25s |
+| Coupon apply / remove | `CouponInput` → `CartScreen` `.reloading`: master's FeedbackView overlay loader (60% white, centred spinner) while the request runs; no shake, icon spring or feedback reveal (master has none) |
 | Invoice | `CartFooter`: slide `cartTokens.invoice.slideMs` + backdrop `backdropMs`, drag down > 50 closes |
 | Moved to wishlist | `CartSnackBar` spring from below (120/16/0.7), 3s |
 | "+ Add" / Checkout press | `whileTap` scale 0.95 / opacity 0.6 |

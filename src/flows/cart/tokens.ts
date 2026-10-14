@@ -107,6 +107,15 @@ export const cartFlowTokens: TokenOverrides = {
     cartProgressFill: '#000000',
     cartNewBorder: 'rgba(14, 14, 14, 0.07)', // $newBorderColor
     cartLoaderBg: '#F5F7FF', // ProgressLoader background
+    // coupon tray (NoonSalesCouponTrayOverlayScreen, see components/couponTray/MAPPING.md)
+    trayBlueGray400: '#9DA3C4', // blueGray400 — disabled dotted CTA text
+    trayOrange50: '#FFFAF5', // orange50 — unlock criteria / join One banner
+    traySeafoam: '#B7DDCE', // seafoam — added unit chip top shadow
+    trayCloudGray: '#D3D4D8', // cloudGray — unit / tier chip top shadow
+    trayGreen200: '#CBF6E5', // green200 — added unit chip border
+    trayBrightTeal: '#F6FEFB', // brightTeal — tiers bar with an unlocked tier
+    trayBestPriceBg: '#E9FAF3', // bestPriceGreenBackground — best price separator
+    trayBestPriceBorder: '#D0F6E6', // bestPriceBorder — separator plus circle
     ...cartFigmaColors,
   },
   // Figma text styles with no central type token
@@ -153,3 +162,16 @@ export const groupTheme: Record<CartGroupType, GroupTheme> = {
   xborder: { glass: 'var(--nk-color-cart-glass-global)', border: 'var(--nk-palette-purple200)', progressEnd: 'var(--nk-palette-purple200)', progressBg: cart20Progress('var(--nk-palette-purple200)'), track: 'var(--nk-color-border)', fill: 'var(--nk-palette-black)', eta: 'var(--nk-palette-border-primary)' },
   marketplace: { glass: 'var(--nk-color-cart-glass-market)', border: 'var(--nk-palette-green200)', progressEnd: 'var(--nk-palette-green100)', progressBg: cart20Progress('var(--nk-palette-green100)'), track: 'var(--nk-color-border)', fill: 'var(--nk-color-text-strong)', eta: 'var(--nk-palette-border-primary)' },
 };
+
+/** Coupon tray motion (NoonSalesCouponTrayAnimatedItem, NoonSalesCouponTrayOffer, unlock criteria / tiers bars). */
+export const couponTrayMotion = {
+  ease: [0.33, 1, 0.68, 1] as [number, number, number, number], // Easing.bezier(0.33, 1, 0.68, 1)
+  opacityS: 0.3,
+  translateS: 0.55,
+  startY: 10,
+  staggerS: 0.1,
+  delayS: 0.3, // when the tray opens with initialData
+  maxAnimated: 10,
+  expandS: 0.3, // withTiming default
+  barS: 0.5, // progress bars
+} as const;

@@ -35,7 +35,7 @@
 - Icons: — · assets 43
 - State / data: `store:returns`, `data:currency`, `data:getProduct`, `data:productById`, `data:user`
 - Nav out: push `returns/details` · push `returns/returnable`
-- `history`: in ← `returns/details` · docs `.claude/resources/flows/other-flows.md:5-17`, `.claude/skills/returns/spec.md:5-18`, `.claude/skills/returns/spec.md:23-34`, `.claude/skills/returns/spec.md:117-132`, `src/flows/returns/MAPPING.md:16-51`, `src/flows/returns/MAPPING.md:244-269`, `src/flows/returns/MAPPING.md:405-412`, `.claude/skills/account/spec.md:63-84`
+- `history`: in ← `returns/details` · docs `.claude/resources/flows/other-flows.md:5-17`, `.claude/skills/returns/spec.md:5-18`, `.claude/skills/returns/spec.md:23-34`, `.claude/skills/returns/spec.md:117-132`, `src/flows/returns/MAPPING.md:16-51`, `src/flows/returns/MAPPING.md:244-269`, `src/flows/returns/MAPPING.md:406-413`, `.claude/skills/account/spec.md:63-84`
 
 ## `returns/returnable`
 
@@ -96,4 +96,4 @@
 - State / data: `store:returns`, `data:currency`, `data:getProduct`, `data:productById`, `data:user`
 - Nav out: switchTab `home/home` · push `orders/tracking` · reset `returns/history` · push `returns/summary`
 - Route strings (data-driven links): `returns/submit`
-- `details`: in ← `orders/list`, `orders/tracking`, `returns/history`, `returns/submit` · docs `.claude/resources/flows/other-flows.md:5-17`, `.claude/resources/flows/orders.md:45-66`, `.claude/skills/orders/spec.md:74-91`, `src/flows/orders/MAPPING.md:64-92`, `.claude/skills/returns/spec.md:5-18`, `.claude/skills/returns/spec.md:57-70`, `.claude/skills/returns/spec.md:117-132`, `src/flows/returns/MAPPING.md:16-51`, `src/flows/returns/MAPPING.md:98-111`, `src/flows/returns/MAPPING.md:405-412`
+- `details`: in ← `orders/list`, `orders/tracking`, `returns/history`, `returns/submit` · docs `.claude/resources/flows/other-flows.md:5-17`, `.claude/resources/flows/orders.md:45-66`, `.claude/skills/orders/spec.md:74-91`, `src/flows/orders/MAPPING.md:64-92`, `.claude/skills/returns/spec.md:5-18`, `.claude/skills/returns/spec.md:57-70`, `.claude/skills/returns/spec.md:117-132`, `src/flows/returns/MAPPING.md:16-51`, `src/flows/returns/MAPPING.md:98-111`, `src/flows/returns/MAPPING.md:406-413`

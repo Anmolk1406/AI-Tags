@@ -2,28 +2,28 @@
   "generatedBy": ".claude/resources/scripts/build.mjs",
   "totals": {
     "flows": 17,
-    "screens": 147,
-    "routes": 147,
+    "screens": 152,
+    "routes": 152,
     "largestFlow": 24,
     "byCoverage": {
       "spec": 11,
       "brief": 6
     },
     "byLabel": {
-      "reference-backed": 145,
+      "reference-backed": 150,
       "kit-backed": 2,
       "inferred": 0
     },
     "byTruth": {
       "mixed": 6,
-      "bappzaar": 129,
+      "bappzaar": 134,
       "reference": 2,
       "figma": 10
     },
-    "truthExplicit": 8,
-    "truthInferred": 139,
+    "truthExplicit": 14,
+    "truthInferred": 138,
     "verified": 5,
-    "unverified": 142
+    "unverified": 147
   },
   "labelMapping": {
     "reference-backed": "truth bappzaar / figma / mixed / reference, explicit or inferred from a recognisable source (bappzaar master path, Figma <fileKey> · <node>, or reference: / link)",
@@ -434,11 +434,12 @@
       "title": "Cart",
       "group": "Shopping",
       "initial": "cart/cart",
-      "screenCount": 8,
+      "screenCount": 9,
       "coverage": "spec",
       "docs": {
         "mapping": [
-          "src/flows/cart/FIGMA-MAPPING.md"
+          "src/flows/cart/FIGMA-MAPPING.md",
+          "src/flows/cart/components/couponTray/MAPPING.md"
         ],
         "brief": ".claude/resources/flows/cart.md",
         "skills": [
@@ -527,6 +528,17 @@
           "label": "reference-backed",
           "verified": null,
           "source": "marketplaces/noon/screens/NoonCartCustomizeOverlayScreen"
+        },
+        {
+          "route": "cart/couponTray",
+          "title": "Coupon tray",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonSalesCouponTrayOverlayScreen (+ NoonSalesCouponTrayOffer, NoonSalesCouponTrayBestPriceSection, …UnlockCriteria, …TiersProgressBar, …AnimatedItem); see components/couponTray/MAPPING.md"
         },
         {
           "route": "cart/discount",
@@ -1447,7 +1459,7 @@
       "title": "Addresses",
       "group": "Profile",
       "initial": "address/select",
-      "screenCount": 10,
+      "screenCount": 11,
       "coverage": "brief",
       "docs": {
         "mapping": [],
@@ -1480,6 +1492,17 @@
           "label": "reference-backed",
           "verified": null,
           "source": "src/screens/AddressV2/SelectScreen/{SelectScreen,Wrapper,styles}.ts(x), components/AddressV2/Select/**, components/AddressV2/Buttons/{AddAddress,LocationNudge}, components/AddressV2/Search/Input, components/TabSwitcher, components/MapV2/MapScreenHeader"
+        },
+        {
+          "route": "address/selectSheet",
+          "title": "Address Book (bottom sheet)",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "src/screens/AddressV2/SelectScreen/{SelectScreen,Wrapper,styles}.ts(x) (isBottomSheet), components/AddressV2/AddressFloatingOverlay (withSlideAnimation), marketplaces/noon/components/NoonAddressSelector (changeAddress)"
         },
         {
           "route": "address/map",
@@ -2336,10 +2359,12 @@
       "title": "Wishlist",
       "group": "Profile",
       "initial": "wishlist/wishlist",
-      "screenCount": 2,
+      "screenCount": 5,
       "coverage": "brief",
       "docs": {
-        "mapping": [],
+        "mapping": [
+          "src/flows/wishlist/MAPPING.md"
+        ],
         "brief": ".claude/resources/flows/other-flows.md#wishlist",
         "skills": [],
         "specs": [],
@@ -2347,14 +2372,21 @@
       },
       "states": {
         "documented": [
-          "empty"
+          "loading",
+          "empty",
+          "error"
         ],
         "registered": {
+          "loading": [
+            "wishlist/loading"
+          ],
           "empty": [
             "wishlist/empty"
           ]
         },
-        "missing": [],
+        "missing": [
+          "error"
+        ],
         "heuristic": true
       },
       "screens": [
@@ -2366,10 +2398,21 @@
             "/wishlist"
           ],
           "truth": "bappzaar",
-          "truthExplicit": false,
+          "truthExplicit": true,
           "label": "reference-backed",
           "verified": null,
-          "source": "marketplaces/noon/screens/NoonWishlistV2Screen, components/NoonWishlistV2*, NoonProductBoxWishlistAddToCart"
+          "source": "marketplaces/noon/screens/NoonWishlistV2Screen, components/NoonWishlistV2{Header,CollectionTitle,CollectionTitleList,CollectionImageBackground,FloatingCartButton}, NoonProductBox/NoonProductBoxVertical (isWishlist), NoonProductBoxWishlistAddToCart, NoonProductBoxCollectionButton, NoonProductBoxOptionButton"
+        },
+        {
+          "route": "wishlist/no-collections",
+          "title": "Wishlist (no collections)",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/components/NoonWishlistV2NoCollectionWidget"
         },
         {
           "route": "wishlist/empty",
@@ -2377,10 +2420,32 @@
           "presentation": "screen",
           "urls": [],
           "truth": "bappzaar",
-          "truthExplicit": false,
+          "truthExplicit": true,
           "label": "reference-backed",
           "verified": null,
-          "source": "components/NoonWishlistV2Empty"
+          "source": "marketplaces/noon/components/NoonWishlistV2Empty, screens/NoonWishlistV2Screen (isEmpty)"
+        },
+        {
+          "route": "wishlist/loading",
+          "title": "Wishlist (loading)",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/components/NoonWishlistV2ScreenSkeleton"
+        },
+        {
+          "route": "wishlist/options",
+          "title": "Item options",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonWishlistV2CollectionOptionScreen"
         }
       ]
     }

@@ -1,12 +1,13 @@
-import { Screen } from '../../components';
-import { EmptyState } from './components/EmptyState';
-import { WishlistHeader } from './components/WishlistHeader';
+import { EmptyWishlist } from './components/EmptyState';
+import { ViewCartPill } from './components/ViewCartPill';
+import styles from './wishlist.module.css';
 
-/** Empty wishlist — always empty, regardless of the demo store, for presenting the state on its own. */
+/** Empty wishlist (NoonWishlistV2Screen `isEmpty`) — always empty, regardless of the demo store, for presenting the state on its own. */
 export function EmptyWishlistScreen() {
   return (
-    <Screen header={<WishlistHeader showCreate={false} />} background="bgSurface">
-      <EmptyState />
-    </Screen>
+    <div className={styles.stage}>
+      <EmptyWishlist />
+      <ViewCartPill />
+    </div>
   );
 }

@@ -1,27 +1,32 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { ProductImage, Pressable } from '../../../components';
-import type { CartLine } from '../../../kit/DemoStore';
+import { useDemoStore } from '../../../kit/DemoStore';
 import { useNav } from '../../../kit/Navigator';
+import { copy } from '../data';
 import { wishlistTokens } from '../tokens';
 import styles from '../wishlist.module.css';
 
-/** Floating "View Cart" pill — slides up from the bottom (spring damping 16, stiffness 120, mass 0.7). */
-export function ViewCartPill({ visible, lines, count }: { visible: boolean; lines: CartLine[]; count: number }) {
+/**
+ * NoonWishlistV2FloatingCartButton: shown while the cart has anything in it (useNoonWishlistV2FloatingCartButton), with
+ * the latest cart line's image and the cart count. SlideInDown / SlideOutDown spring (damping 16, stiffness 120, mass 0.7).
+ * Tap → the Cart tab.
+ */
+export function ViewCartPill() {
   const nav = useNav();
-  const last = lines.at(-1);
+  const { cart } = useDemoStore();
+  const last = cart.at(-1);
+  const count = cart.reduce((n, l) => n + l.qty, 0);
   return (
     <AnimatePresence>
-      {visible && last && (
-        <motion.div className={styles.viewCartWrap} initial={{ y: 140 }} animate={{ y: 0 }} exit={{ y: 140 }} transition={wishlistTokens.viewCart.spring}>
-          <Pressable className={styles.viewCart} style={{ background: wishlistTokens.viewCart.bg }} onClick={() => nav.push('cart/cart')}>
-            <motion.span key={last.product.id} initial={{ scale: 0.6, rotate: -8 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: 'spring', stiffness: 400, damping: 14 }} style={{ display: 'flex' }}>
-              <ProductImage product={last.product} width={32} height={42} radius={6} emojiScale={0.6} />
-            </motion.span>
+      {last && (
+        <motion.div className={styles.viewCartWrap} initial={{ y: 160 }} animate={{ y: 0 }} exit={{ y: 160 }} transition={wishlistTokens.viewCart.spring}>
+          <Pressable className={styles.viewCart} onClick={() => nav.switchTab('cart')}>
+            <span className={styles.viewCartImage}>
+              <ProductImage product={last.product} width={32} height={42} emojiScale={0.6} fit="cover" />
+            </span>
             <span className={styles.viewCartText}>
-              <span className={styles.viewCartTitle}>View Cart</span>
-              <motion.span key={count} className={styles.viewCartCount} initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}>
-                {count === 1 ? '1 item' : `${count} items`}
-              </motion.span>
+              <span className={styles.viewCartTitle}>{copy.viewCart}</span>
+              <span className={styles.viewCartCount}>{copy.itemCount(count)}</span>
             </span>
           </Pressable>
         </motion.div>

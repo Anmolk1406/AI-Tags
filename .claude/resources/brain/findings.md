@@ -10,9 +10,9 @@
 | warn · foreign-ui | 1 |
 | info · cross-flow-component | 4 |
 | info · nav-dynamic | 7 |
-| info · no-entry | 21 |
+| info · no-entry | 23 |
 | info · promotion-candidate | 63 |
-| info · untested | 119 |
+| info · untested | 121 |
 | info · unused-component | 13 |
 
 ## warn · cross-flow-data
@@ -70,6 +70,8 @@
 - pdp/deliveryVariants: no nav call, route string, URL or flow entry leads here (sidebar / direct URL only, or a dynamic route)
 - search/suggestions: no nav call, route string, URL or flow entry leads here (sidebar / direct URL only, or a dynamic route)
 - wishlist/empty: no nav call, route string, URL or flow entry leads here (sidebar / direct URL only, or a dynamic route)
+- wishlist/loading: no nav call, route string, URL or flow entry leads here (sidebar / direct URL only, or a dynamic route)
+- wishlist/no-collections: no nav call, route string, URL or flow entry leads here (sidebar / direct URL only, or a dynamic route)
 
 ## info · promotion-candidate
 
@@ -219,7 +221,7 @@
 - membership/removeMember: only `check:routes` covers it (no journey, no visual reference)
 - membership/reviewPlan: only `check:routes` covers it (no journey, no visual reference)
 - membership/shareInvite: only `check:routes` covers it (no journey, no visual reference)
-- … +39 more (graph.json → findings)
+- … +41 more (graph.json → findings)
 
 ## info · unused-component
 

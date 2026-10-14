@@ -130,11 +130,15 @@ body pt4 pb12; image 80×109 #F5F7FB r12 (c.cart-freebie-image-bg), photo 40% + 
 title 14/18 500; FREE Label3/Bold Grass/700 + strike; "<b>AED x</b> left to unlock" 14/14; 4px Grass/700 bar on Blue-Gray/300; 57×26 Add.
 Demo data: `freeGift` in `data.ts` (kit product p5, unlocks at an AED 5,000 cart total).
 
-### Coupons — `10575:94148` → `components/CouponInput.tsx`, `coupon.module.css`
-White r16 py10 (no grey outer frame any more); title px12 Label2/Bold #0E0E0E; tray px12 py8 → box #F9F9FB r12 h56 px12 gap 10;
-placeholder 13/18 -0.26 #666D85; APPLY Tiny/Medium 12/18 +0.12 Blue-Gray/500; dashed divider 325 (`coupon-divider-dashed.png`);
-offers row px12 py4: 32px Blue/50 circle + 19.2px percent badge (`coupon-percent-badge.svg`), Label3/Semibold, 20px chevron (`coupon-chevron.svg`, rotated -90° as in Figma).
-State borders (success / error / warning) kept from master.
+### Coupons → `components/CouponInput.tsx`, `coupon.module.css` — **bappzaar master wins** (exception to this frame)
+The user chose master over the Figma frame `10575:94148` for the whole coupon block (2026-10-14). Source: `marketplaces/noon/components/NoonCouponInput/{NoonCouponInput,styles}.tsx` + `NoonCartScreen/styles.ts` `couponInputContainer`.
+Outer card #EAECF0 (lightGreyColor), mt 12 mx 12, r16, 1px #EAECF0 → white container r16, pt 10 pb 18 px 16; title 16 bold #0E0E0E mb 10;
+input row #F9F9FB, 1px #F2F3F7, r12, min-height 54; applied tag icon 16 (`applied-coupon.svg`, min-height 52, pl 12) tinted per state; input 14 semibold #0E0E0E, pl 12, placeholder #666D85;
+APPLY / REMOVE uppercase 12 semibold #343D54 (disabled #989FB3), px 12; feedback pt 2 px 2, HTML 12 −0.12.
+States: success border #9EE9E4, text + icon #13645F · error #FECACA / #B22424 / icon #B22424 · warning #FDE68A / #B45309 / icon #F5AF39.
+Offers row on the grey, mx 16 my 12, gap 8: `discount-icon.svg` #1F7A74, `noon_view_more_available_offers` 14 semibold #0E0E0E, `chevron-thick.svg` #1D2539 (RTL flipped).
+Apply / remove: `CART_APPLY_COUPON` / `CART_REMOVE_COUPON` set `screenState: RELOADING` → FeedbackView `overlayLoader` (absolute fill, `rgba(255,255,255,0.6)`, centred Loader) over the cart (`CartScreen` `.reloading`); no inline spinner, shake or icon pop-in.
+Not modelled: the best-price `trayButtonMessage` (mintGreen300 → mintGreen200 gradient fading in over 1500 ms + HTML message in the offers row; the demo tray sends none) and the offers-row loading skeleton (`isCouponTrayLoading`).
 
 ### Payment offers — `11008:110900`
 Screenshot export of this instance was empty; the kit `paymentCallouts` (incl. the noon One callout owned by the noon One work) keep their content and get the
@@ -194,7 +198,7 @@ Kit screenshots (top and every 700pt) were compared with the frame section by se
 | Global / Express / market | `127:39718` / `127:39732` / `127:39747` | `CartGroup` (unchanged Cart 2.0 theming; `groupTheme.*.progressBg` now holds the −1.08deg gradient) | progress copy per group: "Add ₫ X from Global / Express / Market for free shipping", supermall "… for free service fees" (`progressMessage(…, group)`) |
 | express ETA nudge | `89:44435` | `html.etaExpiry` `<red>` | "Order within" + SemiBold c.danger #DE1C1C |
 | Product Carousel ×2 | `127:39775`, `127:39914` | `CartCarousel` + central `SkuCard look="cart"` (card unchanged) | card 1px c.border-subtle; header px 16; title t.section 16/22 −0.15 c.text-primary |
-| Coupons | `127:40052` | `CouponInput` (unchanged) | margin s.s8 |
+| Coupons | `127:40052` | `CouponInput` — **bappzaar master** (see Coupons above) | master layout, not this frame |
 | Cobrand | `127:40071` | **new** `components/CobrandCards.tsx`, `cobrand.module.css` | 351×138 white r16; title t.section c.text-primary at 12/14; terms t.text12-regular-lh18 −0.1 c.text-muted with the 8px diamond bullet (`cobrand/diamond.svg` + `diamond-light.svg` hard-light + `diamond-shade.svg` multiply); M-NeutralButton h36 px16 py10 r8 c.text-strong, t.caption-bold c.text-inverse; art 257×138 at the right (`cobrand/noon-one-card.webp`, Figma render of `127:40073` incl. its white fades) |
 | Offers for you | `127:40114` | **new** `components/PaymentOffers.tsx` → `SalesCallout` | card pt 12 pb 14 gap 12, title px 14 t.section; row gap 8 px 12; entries 259 wide, 1px c.border-subtle r16 p8 gap 8; tiles 48 r12 (`payment/tamara-tile.webp`, `payment/tabby-tile.webp` = Figma renders; `payment/bank-installments.svg` on c.cart-noon50 → p.pale-yellow-gradient with 1px c.cart-noon300; `payment/tax-refund.svg` on white with 1px p.black-alpha4); copy `html.paymentOffer` (t.caption-bold −0.1 c.text-primary, `<highlight>` "Learn more" c.primary) / `html.paymentOfferRegular` for the bank + tax tiles |
 | Footer · Color waves · Sticky footer | `127:40208`–`127:40220` | `CartFooter` (unchanged, mapped in the section above) | — |

@@ -37,7 +37,7 @@
 .chipText { font: var(--nk-type-returns-text14-semibold); color: var(--nk-color-text-primary); white-space: nowrap; }
 .chipClose { margin-left: var(--nk-space-s4); }
 
-.list { display: flex; flex-direction: column; gap: var(--nk-space-s12); padding-bottom: var(--nk-space-s12); }
+.list { display: flex; flex-direction: column; gap: var(--nk-space-s12); } /* flatListContentContainerStyle: gap 12 only; ListFooterComponent is null unless loading more */
 .itemWrap { padding: 0 var(--nk-space-s12); }
 .card { display: flex !important; flex-direction: column; gap: var(--nk-space-s12); width: 100%; padding: 0 !important; background: var(--nk-color-bg-surface) !important; border: 2px solid var(--nk-color-bg-surface) !important; border-radius: var(--nk-radius-r16); overflow: hidden; text-align: start; }
 .statusStrip { display: flex; align-items: center; gap: var(--nk-space-s8); padding: var(--nk-space-s10) var(--nk-space-s12); background: linear-gradient(to right, var(--strip), var(--nk-color-bg-surface)); }

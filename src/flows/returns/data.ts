@@ -148,14 +148,27 @@ export interface Tracking {
   colorCode: string;
 }
 
-export function trackingFor(currentStage: number, cancelled = false): Tracking {
+/** days after the request each SD stage date falls on (Requested · Pickup · Inspection · Refund) */
+const STAGE_DAY_OFFSETS = [0, 1, 3, 4];
+
+/** "Oct 10, 2026" + n days → "Oct 11" (SD stage `date`) */
+function stageDate(requestedAt: string, days: number) {
+  const d = new Date(requestedAt);
+  if (Number.isNaN(d.getTime())) return '';
+  d.setDate(d.getDate() + days);
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+/** SD tracking: a stage carries its date once it is reached (the pickup date is the scheduled one) */
+export function trackingFor(currentStage: number, cancelled = false, requestedAt = 'Oct 10, 2026'): Tracking {
+  const date = (stage: number) => (stage <= Math.max(currentStage, 2) ? stageDate(requestedAt, STAGE_DAY_OFFSETS[stage - 1]) : '');
   if (cancelled) {
     return {
       currentStage: 2,
       colorCode: 'red',
       stages: [
-        { shortName: 'Requested', date: 'Oct 10', desc: 'We have received your return request.' },
-        { shortName: 'Cancelled', date: 'Oct 10', desc: 'You cancelled this return request. Pickup will not be processed.', colorCode: 'red' },
+        { shortName: 'Requested', date: stageDate(requestedAt, 0), desc: 'We have received your return request.' },
+        { shortName: 'Cancelled', date: stageDate(requestedAt, 0), desc: 'You cancelled this return request. Pickup will not be processed.', colorCode: 'red' },
       ],
     };
   }
@@ -163,10 +176,10 @@ export function trackingFor(currentStage: number, cancelled = false): Tracking {
     currentStage,
     colorCode: 'green',
     stages: [
-      { shortName: 'Requested', date: 'Oct 10', desc: 'We have received your return request.' },
-      { shortName: 'Pickup', date: currentStage >= 2 ? 'Oct 11' : '', desc: 'Our courier will collect the item from your pickup address. Keep it packed with all accessories.' },
-      { shortName: 'Inspection', date: '', desc: 'Once the item reaches our warehouse, we check that it meets the return policy.' },
-      { shortName: 'Refund', date: '', desc: 'Your refund is issued to the selected refund method after inspection.' },
+      { shortName: 'Requested', date: date(1), desc: 'We have received your return request.' },
+      { shortName: 'Pickup', date: date(2), desc: 'Our courier will collect the item from your pickup address. Keep it packed with all accessories.' },
+      { shortName: 'Inspection', date: date(3), desc: 'Once the item reaches our warehouse, we check that it meets the return policy.' },
+      { shortName: 'Refund', date: date(4), desc: 'Your refund is issued to the selected refund method after inspection.' },
     ],
   };
 }
@@ -338,5 +351,6 @@ export interface HistoryItem {
   productId: string;
   returnItemNr: string;
   status: { label: string; colorCode: string; group: string; icon: 'truck' | 'checkCircle' | 'close' | 'clock' };
-  trackingAction?: { title: string };
+  /** SD trackingAction: the details screen shows it as an outline button only for actionCode 'refunded' (opens deepLink) */
+  trackingAction?: { title: string; actionCode?: string; deepLink?: string };
 }
