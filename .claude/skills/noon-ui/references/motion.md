@@ -2,6 +2,8 @@
 
 How screens, sheets, toasts and in-screen elements animate in noon Flow Kit. Sources: `src/motion/presets.ts`, `src/motion/transitions.ts`, `src/motion/recipes.tsx`, `src/motion/reducedMotion.ts`, `src/motion/haptics.ts`, `src/motion/custom/index.ts`, `src/foundations/global.css`, `src/kit/Navigator.tsx`, `src/kit/types.ts`, `src/kit/NoonPrototype.tsx`, `src/components/{Lottie,Pressable,Skeleton,Spinner,Toast,QuantityStepper,Segmented,TabBar,WishlistHeart,Button}`.
 
+Purpose-first view of what moves today, with "use for now" per purpose: [motion-guidelines.md](motion-guidelines.md) (provisional).
+
 ## 1. Principles
 
 | Principle | What the code does |
