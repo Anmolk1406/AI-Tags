@@ -5,7 +5,7 @@ that solves the same problem. This rubric is the gate. Run it after `verify.md` 
 finished; the reference library it compares against is `.claude/resources/references/` (one file per pattern, built from
 Airbnb, Apple, Revolut, Uber, Amazon, Shop, Instacart, Zara, talabat, Careem, Linear, Arc, Things and Duolingo).
 
-Scope: new screens, new sections and restyles. 1:1 ports are judged against their source (`truth`), not this rubric,
+Scope: new screens, new sections and restyles. 1:1 ports are judged against their source (`truth`), not this rubric (but anything added to a port is judged by it, §7),
 unless the user asks to raise them.
 
 ## Procedure
@@ -68,6 +68,25 @@ unless the user asks to raise them.
 - [ ] **It looks like the screens around it.** Put the screenshot next to the closest noon screen: same header, same
   footer, same card treatment, same type scale.
 
+### 7. Doesn't look generated
+These are the tells of a screen an AI added to, seen in practice (a "Buildings near your pin" block on the address map).
+Each one fails the screen, even when the tokens and lints pass.
+- [ ] **No new label style.** No UPPERCASE, letter-spaced eyebrow over a section unless the host screen's source already
+  has one in that place. noon section titles are sentence case `Text variant="section"` / `fieldH16Bold`.
+- [ ] **Chips are for a wrapping row or a horizontal rail, never a vertical list.** Three choices stacked one per line
+  are rows: `ListRow` (or `Radio` rows when one is picked), full width, one gutter. Pills of ragged widths stacked
+  down the left look broken.
+- [ ] **No drawn icons.** Every glyph is an `OriginIcon` (`references/icons.md`). If no icon fits (Origin has no
+  "building"), use the closest one (`location`, `home`) or none, and say so. Never an inline `<svg>` shape.
+- [ ] **The CTA colour belongs to the CTA.** Decoration, borders, chip fills and icons never use the primary-button
+  blue (or another action colour) as a tint; selection uses the component's own selected state.
+- [ ] **An addition never buries the screen's job.** On a map, the map stays the hero: the bottom card stays compact (the
+  port's height ± one row), and floating controls (Current location, search) keep their place and are never clipped
+  or pushed off screen. If more content is needed, it goes in a sheet the card opens, or a horizontal rail.
+- [ ] **Extending a port keeps the port.** Adding to a 1:1 bappzaar / Figma screen means it must look like it shipped in
+  the same release: the same card, row, type and spacing the port uses, placed where the source would put it.
+  Put the before / after screenshots side by side; if the addition is the first thing you notice, it fails.
+
 ## Common fails (and the fix)
 
 | Fail | Fix |
@@ -79,3 +98,8 @@ unless the user asks to raise them.
 | Content hidden behind the sticky footer / tab bar | `Screen floatingFooter` or padding for the footer + tab bar zone |
 | A transition that swaps two different shapes | animate one element's geometry; cross-fade only the content inside |
 | Centred long copy | start-aligned body; centre only short titles / empty states |
+| UPPERCASE tracked eyebrow over a new section | sentence-case `Text variant="section"` (or the host screen's own title style) |
+| Vertical stack of pills / chips | `ListRow` / `Radio` rows in one group; chips only in a wrapping row or rail |
+| Hand-drawn SVG icon because Origin has none | closest `OriginIcon` or no icon; name the gap |
+| Chips / outlines tinted in the CTA blue | neutral `Pill` / `fieldChip` styles; blue only on the primary action |
+| Bottom card grows over the map / hero | keep the card compact; extra choices in a rail or a sheet |

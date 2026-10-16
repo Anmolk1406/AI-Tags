@@ -760,6 +760,20 @@ Gotcha: pass it to `Screen footer`; it already includes the bottom safe area. Ex
 
 `useSheet()` (`src/kit/sheet.ts`) returns `{ layout, grabber, dismiss }` inside a sheet, or `null` when the screen isn't presented as one.
 
+## EmptyState
+
+Empty, no-result and "nothing here yet" states (Visual Library, Figma `4L1MFeexnspo7AmmOx4prT` · 353:148295 /
+353:147847). `illustration` is a name from the family (`searchNoMatch`, `searchFilters`, `ordersEmpty`,
+`supermallNoon`, `cartEmpty`, `boxesHearts`, `returnsClipboard`, `vouchers`, `calendarAlert`); `size="compact"`
+(default: B16 Bold title, B12 body, `fieldText` action) or `"full"` (H18 Bold, B14 Medium, full-width `fieldPrimary`
+H48); `width` overrides the art's display width. Style, catalogue and copy rules: [`illustrations.md`](illustrations.md).
+
+```tsx
+<EmptyState illustration="searchFilters" title="We couldn't find “iphone” in Supermall" body="Try another store or clear the filter" action={{ label: 'Clear filter', onPress: clear }} />
+```
+
+Never an emoji or an enlarged icon for an empty state.
+
 ## NeedHelpButton
 
 `src/components/NeedHelpButton/NeedHelpButton.tsx` — floating help pill (Accounts Figma `4NvyqO60K7Xn4gRJrkWmzQ` · `8924:67388`): white, 2px `--nk-palette-light-blue` ring, full radius, `shadow.floating`, 20px `OriginIcon name="message"` in `--nk-color-brand-blue` + "Need help?" in `text16SemiboldLh20`. Tokens: `needHelp` group (`--nk-need-help-*`). Render it through `Screen`'s `overlay` slot so it floats above the content.

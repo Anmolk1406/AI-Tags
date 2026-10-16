@@ -205,6 +205,8 @@ smaller radius than the card (r16 card → r12 or r8 inside), never a bigger one
 | Big numbers, price | `<Price>` / `<Money>`; `text16-bold-lh20` for totals |
 | Hero / landing title | `title-small` (18/24), `title` (20/26), `title-large` (24/30) |
 
+Which style for which text, hierarchy, price and number rules, contrast and RTL: [`references/typography.md`](references/typography.md).
+
 A size the scale lacks becomes a flow type token (`<flow>Text<size><Weight>Lh<line>` in the flow's `tokens.ts`), only
 when a reference specifies it.
 

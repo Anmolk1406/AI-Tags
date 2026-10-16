@@ -1,0 +1,19 @@
+/* noon Visual Library empty states (Figma 4L1MFeexnspo7AmmOx4prT · 353:148295 compact, 353:147847 full): a 311-wide
+   centred column; text centred, primary #1D2539 title, secondary #475067 body. */
+.root { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 311px; margin: 0 auto; text-align: center; }
+.art { display: block; max-width: 100%; height: auto; flex: none; }
+.copy { display: flex; flex-direction: column; gap: var(--nk-space-s4); width: 100%; }
+.title { margin: 0; color: var(--nk-field-text-primary); }
+.body { margin: 0; color: var(--nk-field-text-secondary); }
+
+/* compact — search no match: 24 between the art and the copy; B16 Bold / B12 Regular */
+.root[data-size='compact'] .copy { margin-top: var(--nk-space-s24); }
+.root[data-size='compact'] .title { font: var(--nk-type-field-b16-bold); letter-spacing: var(--nk-field-tracking-b16); }
+.root[data-size='compact'] .body { font: var(--nk-type-field-b12-regular); letter-spacing: var(--nk-field-tracking-b); }
+.root[data-size='compact'] > :last-child:not(.copy) { margin-top: var(--nk-space-s12); }
+
+/* full — empty page: column gap 8; H18 Bold / B14 Medium with 12 under the copy; then the full-width button */
+.root[data-size='full'] { gap: var(--nk-space-s8); }
+.root[data-size='full'] .copy { padding-bottom: var(--nk-space-s12); }
+.root[data-size='full'] .title { font: var(--nk-type-field-h18-bold); letter-spacing: var(--nk-field-tracking-h16); }
+.root[data-size='full'] .body { font: var(--nk-type-field-b14-medium); letter-spacing: var(--nk-field-tracking-b); }

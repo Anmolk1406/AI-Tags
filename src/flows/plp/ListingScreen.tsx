@@ -1,10 +1,10 @@
 import { motion } from 'motion/react';
 import { memo, useEffect, useMemo, useRef, useState } from 'react';
-import { Pressable, ProductBoxVertical, Screen, SearchInput, TabBar, Text } from '../../components';
+import { EmptyState, ProductBoxVertical, Screen, SearchInput, TabBar, Text } from '../../components';
 import { useIsTop, useNav, useParams } from '../../kit/Navigator';
 import { handoff } from '../../motion/presets';
 import { SkeletonReveal } from '../../motion/recipes';
-import { applyFilters, applySort, countFilters, searchProducts, sortOptions, type Filters } from './data';
+import { applyFilters, applySort, countFilters, emptyResultsCopy, searchProducts, sortOptions, type Filters } from './data';
 import { MarketplaceStrip, type MarketplaceId } from './components/MarketplaceStrip';
 import { CatalogListHeader } from './components/CatalogListHeader';
 import { SkeletonCard } from './components/SkeletonCard';
@@ -93,8 +93,9 @@ export function ListingScreen() {
   const nFilters = countFilters(filters);
   // getCustomNavPills: `${sort_by} : ${name.replace(':', '')}`
   const sortLabel = sort === 'recommended' ? 'Sort' : `Sort by : ${sortOptions.find((s) => s.id === sort)!.label.replace(':', '')}`;
-  const express = !!filters.delivery?.includes('express');
-  const setExpress = (on: boolean) => plpStore.set({ filters: { ...filters, delivery: on ? ['express'] : [] } });
+  // the strip's tab is the Delivery facet (Filters → Delivery): noon = no delivery filter, a marketplace = only that one
+  const stripTabs: MarketplaceId[] = ['supermall', 'express', 'global'];
+  const marketplace: MarketplaceId = filters.delivery?.length === 1 && stripTabs.includes(filters.delivery[0] as MarketplaceId) ? (filters.delivery[0] as MarketplaceId) : 'noon';
 
   // tapping the bar goes back to editing: pop to the search page it came from, or open one on this query
   const editQuery = () => {
@@ -103,7 +104,8 @@ export function ListingScreen() {
     else nav.push('search/search', { q: query });
   };
   const onMarketplace = (id: MarketplaceId) => {
-    if (id === 'noon' || id === 'express') setExpress(id === 'express');
+    if (id === 'noon') plpStore.set({ filters: { ...filters, delivery: [] } });
+    else if (stripTabs.includes(id)) plpStore.set({ filters: { ...filters, delivery: [id] } });
     else nav.toast(`${plpTokens.marketplaces[id].a} — not in this demo`);
   };
 
@@ -117,7 +119,7 @@ export function ListingScreen() {
       {/* HidableView: hangs under the search bar over the list, clipped as it slides up */}
       <div className={styles.hidable}>
         <motion.div ref={scroll.headerRef} className={styles.hidableInner} style={{ '--plp-header-hide': scroll.headerHide } as never} {...belowBar}>
-        <MarketplaceStrip active={express ? 'express' : 'noon'} onSelect={onMarketplace} />
+        <MarketplaceStrip active={marketplace} onSelect={onMarketplace} />
         <CatalogListHeader
           sortLabel={sortLabel}
           sorted={sort !== 'recommended'}
@@ -150,11 +152,14 @@ export function ListingScreen() {
     <Screen ref={scroller} header={header} footer={footer} background="bgSurface" onScroll={scroll.onScroll}>
       <div style={{ height: scroll.headerHeight }} aria-hidden />
       <motion.div {...belowBar}>
-        <div className={styles.meta}>
-          <Text variant="caption" color="textSecondary">
-            {searching ? 'Searching…' : `${list.length} results for`} <b style={{ color: 'var(--nk-color-text-primary)' }}>“{query}”</b>
-          </Text>
-        </div>
+        {/* no count over the empty state: its title already says what was searched */}
+        {(searching || list.length > 0) && (
+          <div className={styles.meta}>
+            <Text variant="caption" color="textSecondary">
+              {searching ? 'Searching…' : `${list.length} results for`} <b style={{ color: 'var(--nk-color-text-primary)' }}>“{query}”</b>
+            </Text>
+          </div>
+        )}
         <>
           <div className={styles.grid}>
             {shown.list.map((p, i) => {
@@ -175,15 +180,14 @@ export function ListingScreen() {
               );
             })}
           </div>
-          {!reloading && shown.list.length === 0 && (
-            <div className={styles.empty}>
-              <span style={{ fontSize: 48 }}>🔍</span>
-              <Text variant="section">No results match your filters</Text>
-              <Pressable onClick={() => plpStore.set({ filters: {} })} style={{ color: 'var(--nk-color-brand-blue)', font: 'var(--nk-type-body-semibold)' }}>
-                Clear all filters
-              </Pressable>
-            </div>
-          )}
+          {!reloading && shown.list.length === 0 && (() => {
+            const copy = emptyResultsCopy(query ?? '', filters);
+            return (
+              <div className={styles.empty}>
+                <EmptyState illustration="searchFilters" title={copy.title} body={copy.body} action={{ label: copy.action, onPress: () => plpStore.set({ filters: {} }) }} />
+              </div>
+            );
+          })()}
         </>
         <div className={styles.tabSpace} />
       </motion.div>

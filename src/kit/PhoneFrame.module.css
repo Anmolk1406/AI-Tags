@@ -3,9 +3,10 @@
 .frameless { transform-origin: top center; flex-shrink: 0; box-shadow: 0 10px 40px var(--nk-palette-charcoal-navy-alpha12); border-radius: 12px; overflow: hidden; }
 .viewport { position: relative; overflow: hidden; background: var(--nk-color-bg-surface); container-type: inline-size; }
 .frameless .viewport { border-radius: 12px; }
-.statusBar { position: absolute; top: 0; left: 0; right: 0; height: 54px; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 6px 30px 0 44px; pointer-events: none; color: var(--nk-palette-black); }
+.statusBar { position: absolute; top: 0; left: 0; right: 0; height: 62px; z-index: 1000; display: flex; align-items: center; justify-content: center; gap: 154px; padding: 21px 24px 19px; box-sizing: border-box; pointer-events: none; color: var(--nk-palette-black); } /* iOS status bar (Figma: 21 / 24 / 19 padding, 154 gap for the island) */
 .statusBar[data-tone='light'] { color: var(--nk-color-text-inverse); }
-.time { font: 600 17px/1 -apple-system, 'SF Pro Text', var(--nk-font-family); letter-spacing: -0.3px; width: 54px; } /* token-lint-ignore: iOS status-bar clock (system font, device chrome, not a noon type style) */
-.sysIcons { display: flex; align-items: center; gap: 6px; }
+.time { flex: 1 0 0; display: flex; justify-content: center; align-items: center; height: 22px; padding-top: 1.5px; box-sizing: border-box; font: 590 17px/22px -apple-system, 'SF Pro Text', 'SF Pro', var(--nk-font-family); letter-spacing: -0.41px; text-align: center; } /* token-lint-ignore: iOS status-bar clock (system font, device chrome, not a noon type style) */
+.sysIcons { flex: 1 0 0; display: flex; justify-content: center; align-items: center; gap: 7px; height: 22px; padding-top: 1px; box-sizing: border-box; } /* Figma pads 1 right too; dropped so the 76 px icon row centres on a whole pixel */
+.sysIcons svg { flex: none; display: block; }
 .homeIndicator { position: absolute; left: 50%; bottom: 8px; width: 140px; height: 5px; margin-left: -70px; border-radius: 3px; background: var(--nk-palette-black); z-index: 1000; pointer-events: none; }
 .homeIndicator[data-tone='light'] { background: var(--nk-color-bg-surface); }

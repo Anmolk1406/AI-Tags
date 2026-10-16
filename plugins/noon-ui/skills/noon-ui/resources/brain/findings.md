@@ -13,7 +13,7 @@
 | info · nav-dynamic | 9 |
 | info · no-entry | 94 |
 | info · untested | 155 |
-| info · unused-component | 38 |
+| info · unused-component | 39 |
 
 ## error · screen-module
 
@@ -311,6 +311,7 @@
 - cmp:DashedDivider (src/components/Divider/Divider.tsx) is not reached from any registered screen
 - cmp:Divider (src/components/Divider/Divider.tsx) is not reached from any registered screen
 - cmp:DottedDivider (src/components/Divider/Divider.tsx) is not reached from any registered screen
+- cmp:EmptyState (src/components/EmptyState/EmptyState.tsx) is not reached from any registered screen
 - cmp:ExpressBadge (src/components/Tag/Tag.tsx) is not reached from any registered screen
 - cmp:Header (src/components/Header/Header.tsx) is not reached from any registered screen
 - cmp:HtmlText (src/components/HtmlText/HtmlText.tsx) is not reached from any registered screen

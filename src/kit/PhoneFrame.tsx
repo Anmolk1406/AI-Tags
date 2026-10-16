@@ -24,9 +24,11 @@ export function PhoneFrame({ children, statusBar = 'dark', frameless, scale = 1,
         <div className={styles.statusBar} data-tone={statusBar}>
           <span className={styles.time}>{time}</span>
           <span className={styles.sysIcons}>
-            <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="1" /><rect x="5" y="5" width="3" height="7" rx="1" /><rect x="10" y="2.5" width="3" height="9.5" rx="1" /><rect x="15" y="0" width="3" height="12" rx="1" /></svg>
-            <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 2.2c2.3 0 4.4.9 6 2.4l1.2-1.3A10.2 10.2 0 0 0 8 .4C5.2.4 2.7 1.5.8 3.3L2 4.6a8.4 8.4 0 0 1 6-2.4Zm0 3.6c1.3 0 2.5.5 3.4 1.3l1.2-1.3A6.6 6.6 0 0 0 8 4c-1.8 0-3.4.7-4.6 1.8l1.2 1.3c.9-.8 2.1-1.3 3.4-1.3Zm0 3.6c-.6 0-1.1.2-1.5.6L8 11.6l1.5-1.6c-.4-.4-.9-.6-1.5-.6Z" /></svg>
-            <svg width="27" height="13" viewBox="0 0 27 13" fill="none"><rect x=".5" y=".5" width="23" height="12" rx="3.5" stroke="currentColor" opacity=".4" /><rect x="2" y="2" width="20" height="9" rx="2" fill="currentColor" /><path d="M25 4.5v4c.8-.3 1.3-1.1 1.3-2s-.5-1.7-1.3-2Z" fill="currentColor" opacity=".4" /></svg>
+            {/* Figma iOS status bar (Cellular 19.2 × 12.23, Wifi 17.14 × 12.33, Battery 27.33 × 13), snapped to whole pixels so
+                the edges stay crisp: every box is 13 high and starts on a pixel, every straight edge sits on a pixel or half pixel */}
+            <svg width="18" height="13" viewBox="0 0 18 13" fill="currentColor" aria-hidden><rect x="0" y="9" width="3" height="4" rx="1" /><rect x="5" y="7" width="3" height="6" rx="1" /><rect x="10" y="4" width="3" height="9" rx="1" /><rect x="15" y="1" width="3" height="12" rx="1" /></svg>
+            <svg width="17" height="13" viewBox="0 -0.5 15.27 11.97" fill="currentColor" aria-hidden><path d="M7.63 2.3c2.2 0 4.33.85 5.93 2.36.12.12.31.12.43 0l1.15-1.17a.32.32 0 0 0 0-.45 10.07 10.07 0 0 0-15.03 0 .32.32 0 0 0 0 .45l1.15 1.17c.12.12.31.12.43 0A8.55 8.55 0 0 1 7.63 2.3Zm0 3.81c1.2 0 2.37.45 3.26 1.26.12.12.31.11.43 0l1.15-1.17a.32.32 0 0 0 0-.46 6.61 6.61 0 0 0-9.68 0 .32.32 0 0 0 0 .46l1.15 1.17c.12.11.31.12.43 0a4.84 4.84 0 0 1 3.26-1.26Zm2.3 2.73a.31.31 0 0 0 0-.46 3.5 3.5 0 0 0-4.6 0 .31.31 0 0 0 0 .46l1.99 2a.32.32 0 0 0 .45 0l2.16-2Z" /></svg>
+            <svg width="27" height="13" viewBox="0 0 27 13" fill="none" aria-hidden><rect x=".5" y=".5" width="24" height="12" rx="3.8" stroke="currentColor" opacity=".35" /><rect x="2" y="2" width="21" height="9" rx="2.5" fill="currentColor" /><path d="M25.5 4.5v4c.9-.3 1.5-1.1 1.5-2s-.6-1.7-1.5-2Z" fill="currentColor" opacity=".4" /></svg>
           </span>
         </div>
         <div className={styles.homeIndicator} data-tone={statusBar} />

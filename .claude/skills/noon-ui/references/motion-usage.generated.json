@@ -30,7 +30,7 @@
     "results-fade": 1
   },
   "purpose": {
-    "press · Pressable": 196,
+    "press · Pressable": 195,
     "layout · layout / layoutId": 22,
     "loading · Spinner": 32,
     "enter/exit · AnimatePresence": 97,
@@ -631,7 +631,7 @@
         }
       },
       "purpose": {
-        "press · Pressable": 14,
+        "press · Pressable": 13,
         "enter/exit · AnimatePresence": 1,
         "enter · initial→animate": 4,
         "layout · layout / layoutId": 2,

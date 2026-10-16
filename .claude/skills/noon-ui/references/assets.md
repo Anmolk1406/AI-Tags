@@ -167,6 +167,11 @@ Flow lotties (pass via `src`):
 
 Checkbox: `shared/icons/checkbox-{checked,unchecked}.webp`, `cart/checkbox-{checked,unchecked}.svg`, `checkout/delivery-checkbox-{checked,unchecked}.svg`. Radio: `shared/icons/radio2-{checked,unchecked}.webp`, `checkout/payment-radio-{checked,unchecked}.webp`, `vip/radio-{checked,unchecked}-black.svg`. Chevrons: `returns/slim-chevron-{left,right}@3x.webp`, `checkout/delivery-chevron-right-blue@3x.webp`, `icons/noon-account-chevron.svg`, `icons/noon-chevron-down.webp`. Tab bar icons: `tabbar/*` (owned by `TabBar`). For plain UI glyphs prefer the `Icon` component or the `Checkbox` / `Switch` components.
 
+### Illustrations (`src/assets/shared/illustrations/`)
+
+The Visual Library family (9 SVGs, transparent, blue only), used through `EmptyState` (`illustrations` map). Catalogue,
+style and when to use each: [`illustrations.md`](illustrations.md).
+
 ## 4. Workflow for a new asset
 
 1. **Search first**: `ls src/assets/*/ | grep -i <word>` or `find src/assets -iname '*<word>*'`. Reuse; if another flow already has it, move it to `src/assets/shared/` and update both imports.

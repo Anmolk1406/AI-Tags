@@ -712,6 +712,68 @@
       }
     },
     {
+      "name": "EmptyState",
+      "file": "src/components/EmptyState/EmptyState.tsx",
+      "line": 58,
+      "doc": "Empty / no-result state from the noon Visual Library: one illustration, a title, one line of help, one action.",
+      "generic": false,
+      "forwardRef": false,
+      "props": [
+        {
+          "name": "illustration",
+          "type": "IllustrationName",
+          "optional": false
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "optional": true,
+          "doc": "override the catalogue display width (height follows the art's ratio)"
+        },
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "optional": false
+        },
+        {
+          "name": "body",
+          "type": "ReactNode",
+          "optional": true
+        },
+        {
+          "name": "size",
+          "type": "'compact' | 'full'",
+          "optional": true,
+          "default": "'compact'",
+          "doc": "`compact` (default): the search no-match layout (353:148295): art, 24 below it B16 Bold title + B12 Regular body, gap 4. `full`: the empty-page layout (353:147847): art, gap 8, H18 Bold title + B14 Medium body (gap 4, 12 under), then a full-width Field primary button."
+        },
+        {
+          "name": "action",
+          "type": "{ label: string; onPress: () => void }",
+          "optional": true,
+          "doc": "the way forward: a Field primary button in `full`, a Field text button in `compact`"
+        }
+      ],
+      "variants": {
+        "illustration": [
+          "boxesHearts",
+          "calendarAlert",
+          "cartEmpty",
+          "ordersEmpty",
+          "returnsClipboard",
+          "searchFilters",
+          "searchNoMatch",
+          "supermallNoon",
+          "vouchers"
+        ],
+        "size": [
+          "compact",
+          "full"
+        ]
+      },
+      "propsType": "EmptyStateProps"
+    },
+    {
       "name": "EtaBadge",
       "file": "src/components/EtaBadge/EtaBadge.tsx",
       "line": 21,

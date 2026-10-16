@@ -139,3 +139,13 @@ export function searchProducts(query?: string) {
 }
 
 export const countFilters = (f: Filters) => Object.values(f).reduce((n, v) => n + (v?.length ?? 0), 0);
+
+/** No results with filters on (Visual Library no-match pattern, Figma 4L1MFeexnspo7AmmOx4prT · 353:148295). */
+const marketplaceNames: Record<string, string> = { supermall: 'Supermall', express: 'express', global: 'Global' };
+export function emptyResultsCopy(query: string, filters: Filters) {
+  const only = filters.delivery?.length === 1 && countFilters(filters) === 1 ? marketplaceNames[filters.delivery[0]] : undefined;
+  const q = query.trim() ? `“${query.trim()}”` : 'anything';
+  return only
+    ? { title: `We couldn't find ${q} in ${only}`, body: 'Try another store or clear the filter', action: 'Clear filter' }
+    : { title: `We couldn't find ${q} with these filters`, body: 'Remove a filter or try a different word', action: 'Clear filters' };
+}

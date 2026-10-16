@@ -10,7 +10,7 @@ JSX uses across all flows, and how many flows use each. A component in many flow
 
 | Component | Uses | Flows | Which |
 |---|---|---|---|
-| `Pressable` | 196 | 15 | all but cards, checkout, fieldds |
+| `Pressable` | 195 | 15 | all but cards, checkout, fieldds |
 | `HtmlText` | 152 | 5 | cart, checkout, membership, noonone, pdp |
 | `OriginIcon` | 122 | 7 | fieldds, home, noonone, orders, pdp, plp, reviews |
 | `Skeleton` | 98 | 9 | all but cards, categories, deals, fieldds, home, orders, pdp, returns, search |
@@ -20,7 +20,7 @@ JSX uses across all flows, and how many flows use each. A component in many flow
 | `ProductImage` | 40 | 10 | all but address, cards, categories, deals, fieldds, membership, plp, reviews |
 | `Spinner` | 32 | 9 | all but categories, deals, fieldds, home, orders, plp, reviews, search, wishlist |
 | `Icon` | 26 | 10 | all but address, cards, cart, categories, fieldds, membership, reviews, wishlist |
-| `Text` | 25 | 6 | deals, fieldds, home, pdp, plp, search |
+| `Text` | 24 | 6 | deals, fieldds, home, pdp, plp, search |
 | `Lottie` | 22 | 11 | all but categories, deals, fieldds, home, orders, plp, search |
 | `DashedDivider` | 18 | 6 | checkout, fieldds, home, orders, pdp, reviews |
 | `MarketplaceTag` | 14 | 5 | checkout, orders, pdp, plp, returns |
@@ -64,7 +64,7 @@ Flow-local names that exist in more than one flow (promotion candidates, or name
 
 | `<Text variant>` | Uses |
 |---|---|
-| `section` | 9 |
+| `section` | 8 |
 | `caption` | 4 |
 | `heading` | 2 |
 | `body` | 2 |
@@ -218,23 +218,23 @@ Values in `padding*`, `margin*`, `gap`/`row-gap`/`column-gap` and offsets (`top`
 | 15 | 107 | 5% | `s15` |
 | 6 | 81 | 4% | `s6` |
 | 14 | 75 | 3% | `s14` |
-| 24 | 59 | 3% | `s24` |
+| 24 | 58 | 3% | `s24` |
 | 20 | 45 | 2% | `s20` |
-| 32 | 20 | 1% | `s32` |
+| 32 | 21 | 1% | `s32` |
 | 7 | 13 | 1% | **off** |
 | 11 | 13 | 1% | **off** |
 
-### gap (1154 values, 87% written as tokens)
+### gap (1153 values, 87% written as tokens)
 
 | Value | Uses | Share | On scale |
 |---|---|---|---|
 | 8 | 306 | 27% | `s8` |
-| 4 | 248 | 21% | `s4` |
+| 4 | 248 | 22% | `s4` |
 | 12 | 229 | 20% | `s12` |
 | 2 | 99 | 9% | `s2` |
 | 6 | 83 | 7% | `s6` |
 | 16 | 69 | 6% | `s16` |
-| 10 | 55 | 5% | `s10` |
+| 10 | 54 | 5% | `s10` |
 | 20 | 16 | 1% | `s20` |
 | 24 | 15 | 1% | `s24` |
 | 14 | 8 | 1% | `s14` |
@@ -339,7 +339,7 @@ What `node scripts/design-usage.mjs --check` counts. Existing flows are held at 
 | noonone |  | 1 | 10 | 46 | 19 | 16 | 11 | 1 | 104 |
 | orders |  |  | 3 | 1 | 5 | 32 | 2 | 5 | 48 |
 | pdp |  |  | 10 | 53 | 4 | 2 | 2 |  | 71 |
-| plp |  |  | 1 | 1 | 6 | 37 | 3 | 6 | 54 |
+| plp |  |  | 1 | 1 | 6 | 34 | 3 | 6 | 51 |
 | returns |  | 1 | 5 | 1 | 7 | 8 | 1 |  | 23 |
 | reviews |  |  |  |  | 3 |  |  |  | 3 |
 | search |  |  |  | 1 |  | 12 |  | 1 | 14 |

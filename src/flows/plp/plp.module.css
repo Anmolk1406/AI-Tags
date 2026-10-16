@@ -33,4 +33,4 @@
 .navDock { position: relative; height: 0; }
 /* ScrollVisibilityProvider → native tab bar: slides off by its height incl. the home-indicator inset (--plp-tab-hide 0 → 1) */
 .navHide { transform: translateY(calc(var(--plp-tab-hide, 0) * (var(--nk-layout-tab-bar) + var(--nk-inset-bottom)))); }
-.empty { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 48px 24px; text-align: center; }
+.empty { padding: var(--nk-space-s48) var(--nk-space-s32); } /* Visual Library no-match: a 311 column, centred */

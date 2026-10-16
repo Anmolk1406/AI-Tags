@@ -4,7 +4,7 @@
 
 The source of truth for component **names, props, types, defaults and variants**. Hand-written guidance (when to use, gotchas, examples) is in `references/components.md`; when the two disagree, this file is right and `references/components.md` is stale.
 
-60 shared components exported from `src/components/index.ts` · 362 flow-local components in `src/flows/*/components/`. "—" = no static default; `?` = optional. Variants = props typed as a union of string literals.
+61 shared components exported from `src/components/index.ts` · 362 flow-local components in `src/flows/*/components/`. "—" = no static default; `?` = optional. Variants = props typed as a union of string literals.
 
 ## Shared components
 
@@ -222,6 +222,25 @@ SVG dashed line (react-native-svg `<Line strokeDasharray>`), 1:1 with bappzaar's
 
 Variants:
 - `cap`: `butt` · `round`
+
+### EmptyState
+
+`src/components/EmptyState/EmptyState.tsx:58` · props `EmptyStateProps`
+
+Empty / no-result state from the noon Visual Library: one illustration, a title, one line of help, one action.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `illustration` | `IllustrationName` | — |  |
+| `width?` | `number` | — | override the catalogue display width (height follows the art's ratio) |
+| `title` | `ReactNode` | — |  |
+| `body?` | `ReactNode` | — |  |
+| `size?` | `'compact' \| 'full'` | `'compact'` | `compact` (default): the search no-match layout (353:148295): art, 24 below it B16 Bold title + B12 Regular body, gap 4. `full`: the empty-page layout (353:147847): art, gap 8, H18 Bold title + B14 Medium body (gap 4, 12 under), then a full-width Field primary button. |
+| `action?` | `{ label: string; onPress: () => void }` | — | the way forward: a Field primary button in `full`, a Field text button in `compact` |
+
+Variants:
+- `illustration`: `boxesHearts` · `calendarAlert` · `cartEmpty` · `ordersEmpty` · `returnsClipboard` · `searchFilters` · `searchNoMatch` · `supermallNoon` · `vouchers`
+- `size`: `compact` · `full`
 
 ### EtaBadge
 

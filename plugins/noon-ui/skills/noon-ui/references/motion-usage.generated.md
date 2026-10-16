@@ -45,7 +45,7 @@ Occurrences in flow code (JSX elements, props or calls).
 
 | Purpose · mechanism | Uses | Flows |
 |---|---|---|
-| press · Pressable | 196 | 15 of 18 |
+| press · Pressable | 195 | 15 of 18 |
 | enter · initial→animate | 159 | 16 of 18 |
 | scroll-linked · useScroll / useTransform | 113 | 12 of 18 |
 | loading · Skeleton | 98 | 9 of 18 |

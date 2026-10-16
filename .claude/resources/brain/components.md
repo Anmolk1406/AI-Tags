@@ -19,6 +19,7 @@ Props and variants: `.claude/skills/noon-ui/references/component-api.generated.m
 | `cmp:DashedDivider` | `src/components/Divider/Divider.tsx:24` | 0 | — | — |
 | `cmp:Divider` | `src/components/Divider/Divider.tsx:13` | 0 | — | — |
 | `cmp:DottedDivider` | `src/components/Divider/Divider.tsx:47` | 0 | — | — |
+| `cmp:EmptyState` | `src/components/EmptyState/EmptyState.tsx:58` | 0 | — | Button |
 | `cmp:EtaBadge` | `src/components/EtaBadge/EtaBadge.tsx:21` | 1 | home | OriginIcon |
 | `cmp:ExpressBadge` | `src/components/Tag/Tag.tsx:18` | 0 | — | Icon, MarketplaceTag, OriginIcon |
 | `cmp:GlassFade` | `src/components/Glass/Glass.tsx:14` | 1 | home | — |

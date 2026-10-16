@@ -8,6 +8,7 @@ export * from './Button/Button';
 export * from './Screen/Screen';
 export * from './Header/Header';
 export * from './SearchBar/SearchBar';
+export * from './EmptyState/EmptyState';
 export * from './NeedHelpButton/NeedHelpButton';
 export * from './Pill/Pill';
 export * from './Price/Price';
