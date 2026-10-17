@@ -1678,7 +1678,7 @@
     {
       "name": "ProductBoxVertical",
       "file": "src/components/ProductBoxVertical/ProductBoxVertical.tsx",
-      "line": 42,
+      "line": 43,
       "doc": "NoonProductBoxVertical, PLP layout: the search / listing result card, ported 1:1 from bappzaar (`marketplaces/noon/components/NoonProductBox/NoonProductBoxVertical`, rendered by `ProductBox` with `isPLP`). Anatomy, top to bottom: 177 × 241 image box (contain, 2% black overlay; > 1 image → paged slider with the pill pager), \"Best Seller\" / catalog tag top-left, favourite 24 at 4 / 4, quick ATC 36 at the bottom-end · \"{brand} {name}\" 14/500 2 lines · rating pill (star first) · price row (sale 16 bold, struck was, \"n% OFF\") · nudge ticker · coupon tag · express flag + delivery line. No press feedback (`activeOpacity={1}`), as in the app. `wishlist` = `isWishlist` on Wishlist V2 (`isWishlistCompactView`): no top tags, quick ATC, nudges or coupon; `topEnd` replaces the favourite (NoonProductBoxCollectionButton) and `footer` is the bottomRow (marginTop 10, px 8, gap 8).",
       "generic": false,
       "forwardRef": false,
@@ -2111,7 +2111,7 @@
     {
       "name": "SearchBarButton",
       "file": "src/components/SearchBar/SearchBar.tsx",
-      "line": 22,
+      "line": 23,
       "doc": "Home search pill (NoonSearchBarButton): 52h, r12, 1px #D7DAE3, 20px search-bar.webp, 24px search-bar-camera.webp. `rotatingWords` reproduces the \"Search <word>\" vertical ticker (30px rows, ease-out-back); `rotatingPrefix` changes \"Search\". `variant=\"2025\"` (opt-in, Homepage Revamp 2025, Figma iRE9RwO94eMAyW3j3XKNXW · 1337:6727): lighter 1px gray400 border, 15/18 Medium placeholder in textProduct, 18 search icon 4 from the text, 12 gaps to a 24 divider and a 20 camera. Pass the Figma artwork through `icons` (search / camera / divider); defaults are unchanged.",
       "generic": false,
       "forwardRef": false,
@@ -2172,7 +2172,7 @@
     {
       "name": "SearchInput",
       "file": "src/components/SearchBar/SearchBar.tsx",
-      "line": 159,
+      "line": 157,
       "doc": "Editable search field. Default: NoonSearchScreen (52h, r12, back icon inside). `variant=\"field\"` (opt-in): Field DS M-SearchBar (`@field-ds/components` SearchBar/SearchBar.tsx, Figma 892:244) — H48 (padding 12, 24px icons, B14 Medium) or H44 (padding 10 / 12, 20px icons, B12 Medium), surfacePrimary, 1px borderSubtle, r12, gap 8, optional Sm `elevation`, Origin `search` icon (Field tertiary → primary once focused or typed), `iconRight` + `iconRightTwo` after a 1 × 24 divider, auto clear (x) while typing, placeholder Field textPrimary at rest / textTertiary focused, press scale .98 over 160ms. `fill`, `onFieldPress`, `onBack`, `onSubmit` work in both looks.",
       "generic": false,
       "forwardRef": false,
@@ -4523,7 +4523,7 @@
       "flow": "cart",
       "name": "CartItem",
       "file": "src/flows/cart/components/CartItem.tsx",
-      "line": 43,
+      "line": 44,
       "doc": "NoonCartItem, restyled to Figma Cart 2.0 \"Cart item\" (Component 120, e.g.",
       "props": [
         "line",
@@ -4569,7 +4569,7 @@
       "flow": "cart",
       "name": "CobrandCards",
       "file": "src/flows/cart/components/CobrandCards.tsx",
-      "line": 11,
+      "line": 12,
       "doc": "NoonCartCobrandCards (master), styled to All flows \"Cobrand\" (Af34gfmhQ1D0wstXUEHSIF · 127:40071): a paging row of 351×138 white r16 cards — title B16/Bold, dia",
       "props": [
         "cards"
@@ -4808,7 +4808,7 @@
       "flow": "cart",
       "name": "TrayOffer",
       "file": "src/flows/cart/components/couponTray/TrayOffer.tsx",
-      "line": 79,
+      "line": 78,
       "doc": "NoonSalesCouponTrayOffer — one coupon / bank / auto-applied offer card: expiry strip, header (icon, title, code or \"Automatically applies on checkout\", noon One",
       "props": [
         "offer",
@@ -5434,6 +5434,220 @@
       "variants": {}
     },
     {
+      "flow": "credits",
+      "name": "NativeTopBar",
+      "file": "src/flows/credits/components/Legacy.tsx",
+      "line": 10,
+      "doc": "react-native-navigation top bar for HeaderTypes CLOSE (logo + \"Cancel\") and BACK (arrow + logo).",
+      "props": [
+        "kind",
+        "onPress"
+      ],
+      "variants": {
+        "kind": [
+          "back",
+          "close"
+        ]
+      }
+    },
+    {
+      "flow": "credits",
+      "name": "PrimaryButton",
+      "file": "src/flows/credits/components/Legacy.tsx",
+      "line": 31,
+      "doc": "src/components/PrimaryButton: h50, r0, #3866DF (disabled #ced1da), 14 bold white, white loader when busy.",
+      "props": [
+        "children",
+        "onPress",
+        "disabled",
+        "loading",
+        "className"
+      ]
+    },
+    {
+      "flow": "credits",
+      "name": "LegacyRadio",
+      "file": "src/flows/credits/components/Legacy.tsx",
+      "line": 40,
+      "doc": "ThemeManager.icons.radioChecked / radioUnchecked (20×20) + label",
+      "props": [
+        "checked",
+        "onPress",
+        "children"
+      ]
+    },
+    {
+      "flow": "credits",
+      "name": "NativeAlert",
+      "file": "src/flows/credits/components/Legacy.tsx",
+      "line": 59,
+      "doc": "Web stand-in for RN `Alert.alert` (the iOS UIAlertController the app shows for the delete confirmation and API errors): dimmed page, a 270-wide frosted card, ti",
+      "props": [
+        "spec",
+        "onClose"
+      ]
+    },
+    {
+      "flow": "credits",
+      "name": "WalletButton",
+      "file": "src/flows/credits/components/WalletUI.tsx",
+      "line": 9,
+      "doc": "PrimaryButton / Button as the wallet styles them: black r12 (primary) or white with a #DFDFDF border (secondary).",
+      "props": [
+        "children",
+        "onPress",
+        "kind",
+        "height",
+        "pad",
+        "disabled",
+        "style"
+      ],
+      "variants": {
+        "kind": [
+          "primary",
+          "secondary"
+        ]
+      }
+    },
+    {
+      "flow": "credits",
+      "name": "WalletError",
+      "file": "src/flows/credits/components/WalletUI.tsx",
+      "line": 18,
+      "doc": "components/WalletError: image, 18/700 title, 13/18 subtitle, optional black button (h50 r12).",
+      "props": [
+        "image",
+        "width",
+        "height",
+        "title",
+        "subtitle",
+        "button",
+        "onPress",
+        "style"
+      ]
+    },
+    {
+      "flow": "credits",
+      "name": "TransactionRow",
+      "file": "src/flows/credits/components/WalletUI.tsx",
+      "line": 38,
+      "doc": "components/WalletTransaction: 56 high row, 40 icon box, 14/600 title + amount html, subtitle html.",
+      "props": [
+        "tx",
+        "onPress",
+        "last"
+      ]
+    },
+    {
+      "flow": "credits",
+      "name": "PendingCard",
+      "file": "src/flows/credits/components/WalletUI.tsx",
+      "line": 56,
+      "doc": "WalletHeading/WalletButtonView: the pending credits card (frosted bar image, icon stack, (N), amount, chevron).",
+      "props": [
+        "header",
+        "onPress"
+      ]
+    },
+    {
+      "flow": "credits",
+      "name": "DefaultView",
+      "file": "src/flows/credits/components/WalletUI.tsx",
+      "line": 84,
+      "doc": "WalletHeading/WalletDefaultView: title + \"N Transactions\" and the amount pill (sheet: 16 bold title, mt 25).",
+      "props": [
+        "title",
+        "count",
+        "amountText",
+        "type",
+        "sheet"
+      ],
+      "variants": {
+        "type": [
+          "EXPIRING",
+          "PENDING"
+        ]
+      }
+    },
+    {
+      "flow": "credits",
+      "name": "AmountPill",
+      "file": "src/flows/credits/components/WalletUI.tsx",
+      "line": 98,
+      "doc": "WalletLabels/WalletBalance: the amount pill; grey on the landing, green (PENDING) or amber (EXPIRING) in the sheets",
+      "props": [
+        "amountText",
+        "type"
+      ],
+      "variants": {
+        "type": [
+          "EXPIRING",
+          "PENDING"
+        ]
+      }
+    },
+    {
+      "flow": "credits",
+      "name": "NoteBox",
+      "file": "src/flows/credits/components/WalletUI.tsx",
+      "line": 107,
+      "doc": "WalletExpiringSeparator / the expiring sheet note: wallet-note icon + 13px #5D5D5D.",
+      "props": [
+        "children",
+        "separator",
+        "sheet"
+      ]
+    },
+    {
+      "flow": "credits",
+      "name": "SkeletonRows",
+      "file": "src/flows/credits/components/WalletUI.tsx",
+      "line": 120,
+      "doc": "WalletTransaction/WalletLoading: 45 square r12, two 20px bars, 40×15 amount.",
+      "props": [
+        "count"
+      ]
+    },
+    {
+      "flow": "credits",
+      "name": "SheetTitleRow",
+      "file": "src/flows/credits/components/WalletUI.tsx",
+      "line": 138,
+      "doc": "Filters / Sort sheet header: 18/700 title + 36px #F2F3F7 close circle.",
+      "props": [
+        "title",
+        "onClose"
+      ]
+    },
+    {
+      "flow": "credits",
+      "name": "RadioRow",
+      "file": "src/flows/credits/components/WalletUI.tsx",
+      "line": 150,
+      "doc": "WalletSortSection / WalletStatusSection row (getFilterButtonStyle): radio, 16px label, \"Default\" pill when selected.",
+      "props": [
+        "label",
+        "selected",
+        "isDefault",
+        "onPress",
+        "tight",
+        "disabled"
+      ]
+    },
+    {
+      "flow": "credits",
+      "name": "ProviderMark",
+      "file": "src/flows/credits/components/WalletUI.tsx",
+      "line": 163,
+      "doc": "Stand-in for the provider's remote logo image (`icons.rounded` 30 round / `icons.wallet` 45 square).",
+      "props": [
+        "provider",
+        "size",
+        "round",
+        "style"
+      ]
+    },
+    {
       "flow": "home",
       "name": "AdBannerModule",
       "file": "src/flows/home/components/AdBannerModule.tsx",
@@ -5558,7 +5772,7 @@
       "flow": "home",
       "name": "DealTimer",
       "file": "src/flows/home/components/DealTimer.tsx",
-      "line": 6,
+      "line": 7,
       "doc": "NoonDeal timer pill: 24h, r12, #404553, 10/600 white digits, \"· {n} left\".",
       "props": [
         "seconds",
@@ -5605,7 +5819,7 @@
       "flow": "home",
       "name": "EidBanners",
       "file": "src/flows/home/components/EidBanners.tsx",
-      "line": 21,
+      "line": 22,
       "doc": "Hero Section Widgets carousel (Figma Af34gfmhQ1D0wstXUEHSIF · 89:34722 creatives), sized like bappzaar's NoonDynamicCarouselModule with the live home CMS layout",
       "props": [],
       "variants": {}
@@ -5614,7 +5828,7 @@
       "flow": "home",
       "name": "EidAdBanner",
       "file": "src/flows/home/components/EidBanners.tsx",
-      "line": 127,
+      "line": 131,
       "doc": "89:34782 — full-width ad banner (bappzaar AdBannerModule → BannerModule): one creative at the CMS ratio, 351×88 r16 with a 12 gutter (Figma; bappzaar pads 15 an",
       "props": [],
       "variants": {}
@@ -5634,7 +5848,7 @@
       "flow": "home",
       "name": "HeroBanners",
       "file": "src/flows/home/components/HeroBanners.tsx",
-      "line": 19,
+      "line": 20,
       "doc": "Hero banners, Homepage Revamp 2025 (Figma 1337:5106): landscape 330×150 r20 cards, gap 9, padding 12, so the next card peeks.",
       "props": [],
       "variants": {}
@@ -5643,7 +5857,7 @@
       "flow": "home",
       "name": "HeroCarousel",
       "file": "src/flows/home/components/HeroCarousel.tsx",
-      "line": 14,
+      "line": 15,
       "doc": "Hero carousel as on the live noon home: portrait cards (244×366), centred with neighbours peeking, snap scrolling, auto-advance every 4s (paused while the user ",
       "props": [
         "onPress"
@@ -5692,7 +5906,7 @@
       "flow": "home",
       "name": "MegaDeals",
       "file": "src/flows/home/components/MegaDeals.tsx",
-      "line": 29,
+      "line": 30,
       "doc": "hpMegaDealModule → NoonMegaDealsModule (marketplaces/noon/components/Module/NoonMegaDealsModule): CMS bg #efeeff, innerPadding top 10.",
       "props": [
         "wrap",
@@ -5741,7 +5955,7 @@
       "flow": "home",
       "name": "PromoTicker",
       "file": "src/flows/home/components/PromoTicker.tsx",
-      "line": 24,
+      "line": 25,
       "doc": "Cashback ticket strip (Figma 1337:5131): 62 tall, r12, white with peach / pink glows, 12pt notches half off both edges, card artwork rotated −46.66°, centred co",
       "props": [],
       "variants": {}
@@ -6610,7 +6824,7 @@
       "flow": "orders",
       "name": "ImageStack",
       "file": "src/flows/orders/components/ImageStack.tsx",
-      "line": 35,
+      "line": 36,
       "doc": "Details hero image stack (PDS reference): a ring of 81×108 r10 cards in a 295×116 box, placed by their offset from the centre card (x 107 · ±46 · ±92 · ±127.5; ",
       "props": [
         "cards",
@@ -6753,7 +6967,7 @@
       "flow": "pdp",
       "name": "RecoCard",
       "file": "src/flows/pdp/components/RecoCard.tsx",
-      "line": 26,
+      "line": 27,
       "doc": "NoonProductBoxVertical, carousel variant (productBoxV2: r10, 0.5px lightGray, 144 wide) with the NoonNudgeTag ticker under the price (`carouselNudge`: 13/16 sla",
       "props": [
         "product"
@@ -6961,7 +7175,7 @@
       "flow": "pdp",
       "name": "SfExtendedWarranty",
       "file": "src/flows/pdp/components/storefront/SfExtendedWarranty.tsx",
-      "line": 99,
+      "line": 96,
       "doc": "Storefront \"Extended warranty\" (Figma 3499:75479 \"Details\"): white r16 card, p12, gap 12; 15/700 title + rotating partner/USP ticker; a scroll row (gap 12) of 2",
       "props": [
         "content",
@@ -7014,7 +7228,7 @@
       "flow": "pdp",
       "name": "SfMainInfo",
       "file": "src/flows/pdp/components/storefront/SfMainInfo.tsx",
-      "line": 58,
+      "line": 59,
       "doc": "Main-Info — New PDP (Figma Af34gfmhQ1D0wstXUEHSIF · 64:5587), same component as Storefront 3499:75133: Accent/100 wrapper (r16, pt 10, gap 8) with the brand str",
       "props": [
         "product",
@@ -7071,7 +7285,7 @@
       "flow": "pdp",
       "name": "SfRecommendations",
       "file": "src/flows/pdp/components/storefront/SfRecommendations.tsx",
-      "line": 36,
+      "line": 37,
       "doc": "Product rail, two looks (New PDP, All flows Af34gfmhQ1D0wstXUEHSIF · 64:5571): - `card` (default; \"Products related to this\" 89:62855, Storefront 3499:75876 / 3",
       "props": [
         "title",
@@ -7090,7 +7304,7 @@
       "flow": "pdp",
       "name": "SfRecoCard",
       "file": "src/flows/pdp/components/storefront/SfRecommendations.tsx",
-      "line": 58,
+      "line": 59,
       "doc": "Figma \"Product card\" (134, 0.5px Blue-Gray/200, r10): 3:4 image box (2% tint, image 87.5% tall) with Best Seller tag, wishlist (16 heart in a 24 white-20% circl",
       "props": [
         "product",
@@ -7258,7 +7472,7 @@
       "flow": "plp",
       "name": "RevealChip",
       "file": "src/flows/plp/components/NavPills.tsx",
-      "line": 12,
+      "line": 13,
       "doc": "PLP chip reveal (Brand Widget PLP handoff): each chip drops 20px into place over its own skeleton pill, 480ms after the page appears + index × 60ms, on the hand",
       "props": [
         "index",

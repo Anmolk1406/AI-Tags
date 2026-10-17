@@ -178,6 +178,13 @@ export function SkeletonReveal({ skeleton, children, delay = 0, loading = false,
   const hidden = useRef(gone);
   if (loading && gone) setGone(false);
   if (gone) hidden.current = true;
+  // belt and braces: the fade's completion callback did not always arrive, and an invisible skeleton keeps its shimmer
+  // running (40 of them on a settled PLP); a timer at the fade's end removes it regardless
+  useEffect(() => {
+    if (loading || gone) return;
+    const t = window.setTimeout(() => setGone(true), ((animateIn ? delay + skeletonAfter : 0) + handoff.fade.io) * 1000 + 80);
+    return () => window.clearTimeout(t);
+  }, [loading, gone, animateIn, delay, skeletonAfter]);
   return (
     <div style={{ position: 'relative', ...style }}>
       {!gone && (

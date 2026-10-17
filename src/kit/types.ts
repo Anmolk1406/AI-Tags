@@ -23,7 +23,12 @@ export type Presentation =
  * A sheet with a grabber never shows a close button; `grabber: false` makes <SheetHeader> show the close (X) instead.
  */
 export interface SheetOptions {
-  layout?: 'origin' | 'classic' | 'floating';
+  /**
+   * `origin` (default) Origin M-BottomSheet · `classic` the kit's first r24 sheet · `floating` bappzaar OverlayBottomSheet
+   * `isFloating` · `gorhom` bappzaar src/components/BottomSheet (@gorhom/bottom-sheet): full width, docked to the bottom,
+   * top corners rounded, handle floating above, black 0.5 backdrop; the screen pads the safe area itself
+   */
+  layout?: 'origin' | 'classic' | 'floating' | 'gorhom';
   /** default true — drag the grabber down to dismiss */
   grabber?: boolean;
   /** sheet fill (origin, floating and classic, grabber zone included), any surface colour, e.g. `var(--nk-color-bg-subtle)` */
@@ -34,6 +39,10 @@ export interface SheetOptions {
   inset?: number;
   /** floating only: minimum gap under the sheet in px (default `--nk-sheet-floating-bottom-gap`, 15; the safe area wins if larger) */
   bottomGap?: number;
+  /** gorhom only: top corner radius in px (default `--nk-sheet-gorhom-radius`, 16) */
+  radius?: number;
+  /** gorhom only: fixed sheet height (a single gorhom snap point), px or a CSS length such as `'60%'`; unset = content height */
+  height?: number | string;
 }
 
 export interface ScreenProps<P = Record<string, unknown>> {
@@ -87,6 +96,11 @@ export interface FlowDef {
   group?: string;
   initial: string;
   screens: ScreenDef[];
+  /**
+   * Screens of other flows this flow hands off to (full 'flow/screen' routes), fetched in idle time when one of its
+   * screens mounts, so the hand-off never slides in an empty frame (the flow's own screens are always fetched).
+   */
+  preload?: Route[];
   /** flow-scoped token overrides — only affect screens of this flow */
   tokens?: TokenOverrides;
   /** screen rendered behind a sheet/modal route when it is opened directly (default: `initial`) */

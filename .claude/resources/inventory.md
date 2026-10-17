@@ -4,7 +4,7 @@
 
 Quote counts from here instead of typing them: `scripts/check-inventory.mjs` fails when a doc states a flow / screen / route count the registry disagrees with.
 
-**18 flows · 156 screens (routes).** Coverage: 11 spec · 6 brief · 1 none. Provenance: 154 reference-backed · 2 kit-backed · 0 inferred. Truth: 6 mixed · 135 bappzaar · 5 reference · 10 figma (19 explicit, 137 inferred from `source`). Verified side by side: 6 of 156.
+**19 flows · 173 screens (routes).** Coverage: 11 spec · 7 brief · 1 none. Provenance: 171 reference-backed · 2 kit-backed · 0 inferred. Truth: 6 mixed · 152 bappzaar · 5 reference · 10 figma (19 explicit, 154 inferred from `source`). Verified side by side: 6 of 173.
 
 ## Labels
 
@@ -36,6 +36,7 @@ Coverage: `spec` = a screen skill with `spec.md` covers the flow · `brief` = a 
 | `account` Account | 17 | spec | `.claude/skills/account/spec.md` | `.claude/resources/flows/account.md` | `MAPPING.md` | 0/17 | 15 reference-backed · 2 kit-backed |
 | `address` Addresses | 11 | brief | — | `.claude/resources/flows/other-flows.md#address` | — | 0/11 | 11 reference-backed |
 | `cards` Manage cards | 8 | brief | — | `.claude/resources/flows/other-flows.md#cards` | — | 0/8 | 8 reference-backed |
+| `credits` noon Credits | 17 | brief | — | `.claude/resources/flows/other-flows.md#credits` | `MAPPING.md` | 0/17 | 17 reference-backed |
 | `noonone` noon One | 22 | spec | `.claude/skills/noon-one/spec.md` | `.claude/resources/flows/other-flows.md#noonone` | `MAPPING.md` | 0/22 | 22 reference-backed |
 | `membership` noon One membership | 24 | brief | — | `.claude/resources/flows/other-flows.md#membership` | `MAPPING.md`, `perks/MAPPING.md` | 0/24 | 24 reference-backed |
 | `wishlist` Wishlist | 5 | brief | — | `.claude/resources/flows/other-flows.md#wishlist` | `MAPPING.md` | 0/5 | 5 reference-backed |
@@ -61,12 +62,13 @@ Documented = the word appears in the flow's spec or brief. Registered = a screen
 | `account` | loading, empty, error, success | — | loading, empty, error, success |
 | `address` | — | success: `address/success`, `address/toast` | — |
 | `cards` | empty, success | empty: `cards/empty`; success: `cards/success` | — |
+| `credits` | success | empty: `credits/empty`; error: `credits/error` | success |
 | `noonone` | loading, empty, error, success | error: `noonone/acceptInviteError`; success: `noonone/success`, `noonone/ocOne` | loading, empty |
 | `membership` | — | — | — |
 | `wishlist` | loading, empty, error | loading: `wishlist/loading`; empty: `wishlist/empty` | error |
 | `fieldds` | — | — | — |
 
-## Screens with no `verified` date (150)
+## Screens with no `verified` date (167)
 
 Never compared side by side with their reference, as far as the registry records. Only set `verified` after a real comparison.
 
@@ -84,12 +86,13 @@ Never compared side by side with their reference, as far as the registry records
 - `account` (17): `account`, `signedOut`, `editProfile`, `birthday`, `nationality`, `security`, `manageDevices`, `changePassword`, `deletion`, `deletionReason`, `notifications`, `preferences`, `policies`, `country`, `changeCountry`, `changeLanguage`, `signOut`
 - `address` (11): `select`, `selectSheet`, `map`, `create`, `update`, `success`, `controls`, `search`, `locationAccess`, `locationOff`, `toast`
 - `cards` (8): `cards`, `actions`, `delete`, `empty`, `many`, `add`, `form`, `success`
+- `credits` (17): `credits`, `negative`, `empty`, `error`, `details`, `pending`, `expiring`, `negative-sheet`, `filters`, `sort`, `topup`, `giftcard`, `bank`, `bank-form`, `bank-confirm`, `bank-otp`, `bank-requested`
 - `noonone` (22): `landing`, `success`, `plans`, `planDetails`, `trialGuide`, `planOption`, `familyPlans`, `payment`, `addCard`, `addCvv`, `mobilePay`, `info`, `generic`, `offers`, `partnerOffer`, `confirmOffer`, `confirmVoucher`, `bundle`, `acceptInvite`, `acceptInviteError`, `cartOverlay`, `ocOne`
 - `membership` (24): `manage`, `upgrade`, `reviewPlan`, `switchPlan`, `info`, `changePlan`, `invoice`, `cancel`, `cancelSheet`, `unusedSeats`, `planOptions`, `groupSavings`, `loseAccess`, `leaveFamilyOverlay`, `confirmOffer`, `familyPlans`, `familyReview`, `shareInvite`, `removeMember`, `leaveFamily`, `referrals`, `referralsInput`, `partner`, `yangoCredits`
 - `wishlist` (5): `wishlist`, `no-collections`, `empty`, `loading`, `options`
 - `fieldds` (4): `gallery`, `sheet`, `tabs`, `glass`
 
-## Truth inferred from `source` (137)
+## Truth inferred from `source` (154)
 
 No explicit `truth`; `screenTruth()` guessed it from the `source` text. Set `truth` when you next touch the screen.
 
@@ -107,6 +110,7 @@ No explicit `truth`; `screenTruth()` guessed it from the `source` text. Set `tru
 - `account` (17): bappzaar → `account`, `signedOut`, `editProfile`, `birthday`, `nationality`, `security`, `manageDevices`, `changePassword`, `deletion`, `deletionReason`, `notifications`, `preferences`, `policies`, `country`, `changeCountry`, `changeLanguage`, `signOut`
 - `address` (11): bappzaar → `select`, `selectSheet`, `map`, `create`, `update`, `success`, `controls`, `search`, `locationAccess`, `locationOff`, `toast`
 - `cards` (8): bappzaar → `cards`, `actions`, `delete`, `empty`, `many`, `add`, `form`, `success`
+- `credits` (17): bappzaar → `credits`, `negative`, `empty`, `error`, `details`, `pending`, `expiring`, `negative-sheet`, `filters`, `sort`, `topup`, `giftcard`, `bank`, `bank-form`, `bank-confirm`, `bank-otp`, `bank-requested`
 - `noonone` (21): bappzaar → `success`, `plans`, `planDetails`, `trialGuide`, `planOption`, `familyPlans`, `payment`, `addCard`, `addCvv`, `mobilePay`, `info`, `generic`, `offers`, `partnerOffer`, `confirmOffer`, `confirmVoucher`, `bundle`, `acceptInvite`, `acceptInviteError`, `cartOverlay`, `ocOne`
 - `membership` (24): bappzaar → `manage`, `upgrade`, `reviewPlan`, `switchPlan`, `info`, `changePlan`, `invoice`, `cancel`, `cancelSheet`, `unusedSeats`, `planOptions`, `groupSavings`, `loseAccess`, `leaveFamilyOverlay`, `confirmOffer`, `familyPlans`, `familyReview`, `shareInvite`, `removeMember`, `leaveFamily`, `referrals`, `referralsInput`, `partner`, `yangoCredits`
 

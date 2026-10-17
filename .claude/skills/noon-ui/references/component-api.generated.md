@@ -4,7 +4,7 @@
 
 The source of truth for component **names, props, types, defaults and variants**. Hand-written guidance (when to use, gotchas, examples) is in `components.md`; when the two disagree, this file is right and `components.md` is stale.
 
-61 shared components exported from `src/components/index.ts` · 362 flow-local components in `src/flows/*/components/`. "—" = no static default; `?` = optional. Variants = props typed as a union of string literals.
+61 shared components exported from `src/components/index.ts` · 377 flow-local components in `src/flows/*/components/`. "—" = no static default; `?` = optional. Variants = props typed as a union of string literals.
 
 ## Shared components
 
@@ -531,7 +531,7 @@ Small "AED 1,234" label
 
 ### ProductBoxVertical
 
-`src/components/ProductBoxVertical/ProductBoxVertical.tsx:42`
+`src/components/ProductBoxVertical/ProductBoxVertical.tsx:43`
 
 NoonProductBoxVertical, PLP layout: the search / listing result card, ported 1:1 from bappzaar (`marketplaces/noon/components/NoonProductBox/NoonProductBoxVertical`, rendered by `ProductBox` with `isPLP`). Anatomy, top to bottom: 177 × 241 image box (contain, 2% black overlay; > 1 image → paged slider with the pill pager), "Best Seller" / catalog tag top-left, favourite 24 at 4 / 4, quick ATC 36 at the bottom-end · "{brand} {name}" 14/500 2 lines · rating pill (star first) · price row (sale 16 bold, struck was, "n% OFF") · nudge ticker · coupon tag · express flag + delivery line. No press feedback (`activeOpacity={1}`), as in the app. `wishlist` = `isWishlist` on Wishlist V2 (`isWishlistCompactView`): no top tags, quick ATC, nudges or coupon; `topEnd` replaces the favourite (NoonProductBoxCollectionButton) and `footer` is the bottomRow (marginTop 10, px 8, gap 8).
 
@@ -678,7 +678,7 @@ Variants:
 
 ### SearchBarButton
 
-`src/components/SearchBar/SearchBar.tsx:22`
+`src/components/SearchBar/SearchBar.tsx:23`
 
 Home search pill (NoonSearchBarButton): 52h, r12, 1px #D7DAE3, 20px search-bar.webp, 24px search-bar-camera.webp. `rotatingWords` reproduces the "Search <word>" vertical ticker (30px rows, ease-out-back); `rotatingPrefix` changes "Search". `variant="2025"` (opt-in, Homepage Revamp 2025, Figma iRE9RwO94eMAyW3j3XKNXW · 1337:6727): lighter 1px gray400 border, 15/18 Medium placeholder in textProduct, 18 search icon 4 from the text, 12 gaps to a 24 divider and a 20 camera. Pass the Figma artwork through `icons` (search / camera / divider); defaults are unchanged.
 
@@ -698,7 +698,7 @@ Variants:
 
 ### SearchInput
 
-`src/components/SearchBar/SearchBar.tsx:159` · props `SearchInputProps`
+`src/components/SearchBar/SearchBar.tsx:157` · props `SearchInputProps`
 
 Editable search field. Default: NoonSearchScreen (52h, r12, back icon inside). `variant="field"` (opt-in): Field DS M-SearchBar (`@field-ds/components` SearchBar/SearchBar.tsx, Figma 892:244) — H48 (padding 12, 24px icons, B14 Medium) or H44 (padding 10 / 12, 20px icons, B12 Medium), surfacePrimary, 1px borderSubtle, r12, gap 8, optional Sm `elevation`, Origin `search` icon (Field tertiary → primary once focused or typed), `iconRight` + `iconRightTwo` after a 1 × 24 divider, auto clear (x) while typing, placeholder Field textPrimary at rest / textTertiary focused, press scale .98 over 160ms. `fill`, `onFieldPress`, `onBack`, `onSubmit` work in both looks.
 
@@ -1206,10 +1206,10 @@ Search these before you create a component (`components.md` → "Search before y
 | cart | `CartGroup` | `src/flows/cart/components/CartGroup.tsx:35` | `type` `lines` `subtotal` `onMovedToWishlist` |
 | cart | `CartHeader` | `src/flows/cart/components/CartHeader.tsx:17` | `scrollY` `hidden` `showBackButton` |
 | cart | `CartIcon` | `src/flows/cart/components/CartIcon.tsx:19` | `name` `size` `color` `style` `flipRtl` |
-| cart | `CartItem` | `src/flows/cart/components/CartItem.tsx:43` | `line` `group` `onMovedToWishlist` `onRemoveStart` |
+| cart | `CartItem` | `src/flows/cart/components/CartItem.tsx:44` | `line` `group` `onMovedToWishlist` `onRemoveStart` |
 | cart | `CartSnackBar` | `src/flows/cart/components/CartSnackBar.tsx:11` | `product` `onHide` `onPress` |
 | cart | `CartWave` | `src/flows/cart/components/CartWave.tsx:2` | `color` `height` `className` `style` |
-| cart | `CobrandCards` | `src/flows/cart/components/CobrandCards.tsx:11` | `cards` |
+| cart | `CobrandCards` | `src/flows/cart/components/CobrandCards.tsx:12` | `cards` |
 | cart | `CouponInput` | `src/flows/cart/components/CouponInput.tsx:19` | `onBusyChange` |
 | cart | `DiscountTags` | `src/flows/cart/components/DiscountTags.tsx:11` | `tags` `onOpen` |
 | cart | `DynamicInvoice` | `src/flows/cart/components/DynamicInvoice.tsx:12` | `sections` `part` |
@@ -1226,7 +1226,7 @@ Search these before you create a component (`components.md` → "Search before y
 | cart | `BestPriceSection` | `src/flows/cart/components/couponTray/BestPriceSection.tsx:17` | `bestPrice` `shared` `activeId` `onApply` `onRemove` |
 | cart | `TrayItem` | `src/flows/cart/components/couponTray/BestPriceSection.tsx:58` | `id` `index` `seen` `delayed` `children` |
 | cart | `TiersProgressBar` | `src/flows/cart/components/couponTray/TiersProgressBar.tsx:31` | `bar` `showAddProducts` `onAddProducts` `disabled` |
-| cart | `TrayOffer` | `src/flows/cart/components/couponTray/TrayOffer.tsx:79` | `offer` `bestPrice` `shared` `loading` `onApply` `onRemove` `className` |
+| cart | `TrayOffer` | `src/flows/cart/components/couponTray/TrayOffer.tsx:78` | `offer` `bestPrice` `shared` `loading` `onApply` `onRemove` `className` |
 | cart | `UnlockCriteria` | `src/flows/cart/components/couponTray/UnlockCriteria.tsx:15` | `criteria` `showShopMore` `onShopMore` `disabled` |
 | categories | `AdBannerModule` | `src/flows/categories/components/AdBannerModule.tsx:10` | `image` `ratio` `onPress` |
 | categories | `CollapsibleBannerModule` | `src/flows/categories/components/CollapsibleBannerModule.tsx:22` | `title` `banners` `numPerRow` `initialOpen` `scrollerRef` `onSubBannerPress` |
@@ -1278,6 +1278,21 @@ Search these before you create a component (`components.md` → "Search before y
 | checkout | `SavedContact` | `src/flows/checkout/components/SavedContact.tsx:5` | `contactInfo` `isChecked` `isPrimary` `onPress` |
 | checkout | `SlideButton` | `src/flows/checkout/components/SlideButton.tsx:56` | `disabled` `ctaText` `onSlideComplete` `onDisabledPress` `resetSignal` |
 | checkout | `VoucherToast` | `src/flows/checkout/components/VoucherToast.tsx:16` | — |
+| credits | `NativeTopBar` | `src/flows/credits/components/Legacy.tsx:10` | `kind` `onPress` |
+| credits | `PrimaryButton` | `src/flows/credits/components/Legacy.tsx:31` | `children` `onPress` `disabled` `loading` `className` |
+| credits | `LegacyRadio` | `src/flows/credits/components/Legacy.tsx:40` | `checked` `onPress` `children` |
+| credits | `NativeAlert` | `src/flows/credits/components/Legacy.tsx:59` | `spec` `onClose` |
+| credits | `WalletButton` | `src/flows/credits/components/WalletUI.tsx:9` | `children` `onPress` `kind` `height` `pad` `disabled` `style` |
+| credits | `WalletError` | `src/flows/credits/components/WalletUI.tsx:18` | `image` `width` `height` `title` `subtitle` `button` `onPress` `style` |
+| credits | `TransactionRow` | `src/flows/credits/components/WalletUI.tsx:38` | `tx` `onPress` `last` |
+| credits | `PendingCard` | `src/flows/credits/components/WalletUI.tsx:56` | `header` `onPress` |
+| credits | `DefaultView` | `src/flows/credits/components/WalletUI.tsx:84` | `title` `count` `amountText` `type` `sheet` |
+| credits | `AmountPill` | `src/flows/credits/components/WalletUI.tsx:98` | `amountText` `type` |
+| credits | `NoteBox` | `src/flows/credits/components/WalletUI.tsx:107` | `children` `separator` `sheet` |
+| credits | `SkeletonRows` | `src/flows/credits/components/WalletUI.tsx:120` | `count` |
+| credits | `SheetTitleRow` | `src/flows/credits/components/WalletUI.tsx:138` | `title` `onClose` |
+| credits | `RadioRow` | `src/flows/credits/components/WalletUI.tsx:150` | `label` `selected` `isDefault` `onPress` `tight` `disabled` |
+| credits | `ProviderMark` | `src/flows/credits/components/WalletUI.tsx:163` | `provider` `size` `round` `style` |
 | home | `AdBannerModule` | `src/flows/home/components/AdBannerModule.tsx:17` | `wrap` `header` `banner` `ad` `creativeAd` `crop` |
 | home | `AdProductLedDisplay` | `src/flows/home/components/AdProductLedDisplay.tsx:15` | `wrap` `product` |
 | home | `SnappedBannerCarousel` | `src/flows/home/components/BannerCarousel.tsx:22` | `wrap` `banners` `flat` |
@@ -1288,23 +1303,23 @@ Search these before you create a component (`components.md` → "Search before y
 | home | `Sponsored` | `src/flows/home/components/BzModuleWrapper.tsx:45` | `bottom` `right` `top` `label` |
 | home | `CategoryGrid` | `src/flows/home/components/CategoryGrid.tsx:16` | — |
 | home | `CategoryTile` | `src/flows/home/components/CategoryGrid.tsx:33` | `tile` |
-| home | `DealTimer` | `src/flows/home/components/DealTimer.tsx:6` | `seconds` `left` |
+| home | `DealTimer` | `src/flows/home/components/DealTimer.tsx:7` | `seconds` `left` |
 | home | `DepartmentTabs` | `src/flows/home/components/DepartmentTabs.tsx:21` | `active` `onChange` |
 | home | `EasyBannerScroller` | `src/flows/home/components/EasyBannerScroller.tsx:19` | `wrap` `header` `numPerView` `rows` `banners` |
-| home | `EidBanners` | `src/flows/home/components/EidBanners.tsx:21` | — |
-| home | `EidAdBanner` | `src/flows/home/components/EidBanners.tsx:127` | — |
+| home | `EidBanners` | `src/flows/home/components/EidBanners.tsx:22` | — |
+| home | `EidAdBanner` | `src/flows/home/components/EidBanners.tsx:131` | — |
 | home | `ExperienceSwitcher` | `src/flows/home/components/ExperienceSwitcher.tsx:9` | `expanded` `selected` |
-| home | `HeroBanners` | `src/flows/home/components/HeroBanners.tsx:19` | — |
-| home | `HeroCarousel` | `src/flows/home/components/HeroCarousel.tsx:14` | `onPress` |
+| home | `HeroBanners` | `src/flows/home/components/HeroBanners.tsx:20` | — |
+| home | `HeroCarousel` | `src/flows/home/components/HeroCarousel.tsx:15` | `onPress` |
 | home | `HomeHeader` | `src/flows/home/components/HomeHeader.tsx:27` | `collapsed` |
 | home | `ItemCarousel` | `src/flows/home/components/ItemCarousel.tsx:15` | `wrap` `header` |
 | home | `KeepShopping` | `src/flows/home/components/KeepShopping.tsx:14` | — |
 | home | `LaunchModule` | `src/flows/home/components/LaunchModule.tsx:10` | — |
-| home | `MegaDeals` | `src/flows/home/components/MegaDeals.tsx:29` | `wrap` `header` |
+| home | `MegaDeals` | `src/flows/home/components/MegaDeals.tsx:30` | `wrap` `header` |
 | home | `OfferTickets` | `src/flows/home/components/OfferTickets.tsx:14` | — |
 | home | `ProductCarousel` | `src/flows/home/components/ProductCarousel.tsx:17` | `wrap` `header` `products` |
 | home | `ProductRail` | `src/flows/home/components/ProductRail.tsx:11` | `title` `items` |
-| home | `PromoTicker` | `src/flows/home/components/PromoTicker.tsx:24` | — |
+| home | `PromoTicker` | `src/flows/home/components/PromoTicker.tsx:25` | — |
 | home | `RecommendedRail` | `src/flows/home/components/RecommendedRail.tsx:16` | — |
 | home | `RailSku` | `src/flows/home/components/RecommendedRail.tsx:47` | `item` |
 | membership | `FamilyMembersSection` | `src/flows/membership/components/FamilyMembersSection.tsx:15` | `ownerName` `members` `section` `maxNumMembers` `isRemoveCtaVisible` `onRemoveMember` `onAddMember` |
@@ -1367,7 +1382,7 @@ Search these before you create a component (`components.md` → "Search before y
 | noonone | `SubscriptionButton` | `src/flows/noonone/components/plans/parts.tsx:89` | `title` `showPayment` `paymentMethod` `onPress` `onPayWith` `isLoading` `disabled` `className` `textClassName` |
 | noonone | `PlanMembers` | `src/flows/noonone/components/plans/parts.tsx:122` | `members` `size` `overlap` `max` `emptyBg` `emptyBorder` `className` |
 | orders | `BillSummary` | `src/flows/orders/components/BillSummary.tsx:14` | `bill` |
-| orders | `ImageStack` | `src/flows/orders/components/ImageStack.tsx:35` | `cards` `centre` `rotate` `express` `dim` |
+| orders | `ImageStack` | `src/flows/orders/components/ImageStack.tsx:36` | `cards` `centre` `rotate` `express` `dim` |
 | orders | `ActiveOrderCard` | `src/flows/orders/components/OrderCards.tsx:24` | `order` |
 | orders | `HistoryOrderCard` | `src/flows/orders/components/OrderCards.tsx:79` | `order` |
 | orders | `PinTiles` | `src/flows/orders/components/PinTiles.tsx:6` | `pin` `delay` |
@@ -1378,7 +1393,7 @@ Search these before you create a component (`components.md` → "Search before y
 | orders | `WindowPill` | `src/flows/orders/components/WindowPill.tsx:17` | `variant` `text` `heatText` `onInfo` |
 | pdp | `Asset` | `src/flows/pdp/components/Asset.tsx:92` | `name` `size` `width` `height` `tint` `flip` `style` `className` |
 | pdp | `DashedLine` | `src/flows/pdp/components/Asset.tsx:105` | `color` `style` |
-| pdp | `RecoCard` | `src/flows/pdp/components/RecoCard.tsx:26` | `product` |
+| pdp | `RecoCard` | `src/flows/pdp/components/RecoCard.tsx:27` | `product` |
 | pdp | `Card` | `src/flows/pdp/components/Sections.tsx:19` | `title` `gap` `contentGap` `className` `children` |
 | pdp | `DeliveryCard` | `src/flows/pdp/components/Sections.tsx:32` | `content` |
 | pdp | `CategoryBestSellerCta` | `src/flows/pdp/components/Sections.tsx:95` | `content` |
@@ -1396,18 +1411,18 @@ Search these before you create a component (`components.md` → "Search before y
 | pdp | `SfBestsellerRow` | `src/flows/pdp/components/storefront/SfBestsellerRow.tsx:27` | `content` |
 | pdp | `SfBundleCard` | `src/flows/pdp/components/storefront/SfBundleCard.tsx:16` | `product` `content` `onPress` |
 | pdp | `SfDeliveryCard` | `src/flows/pdp/components/storefront/SfDeliveryCard.tsx:54` | `content` `variant` `freeShippingMin` |
-| pdp | `SfExtendedWarranty` | `src/flows/pdp/components/storefront/SfExtendedWarranty.tsx:99` | `content` `price` |
+| pdp | `SfExtendedWarranty` | `src/flows/pdp/components/storefront/SfExtendedWarranty.tsx:96` | `content` `price` |
 | pdp | `SfFbtCard` | `src/flows/pdp/components/storefront/SfFbtCard.tsx:21` | `ids` |
 | pdp | `SfFreeGifts` | `src/flows/pdp/components/storefront/SfFreeGifts.tsx:13` | `items` |
 | pdp | `SfGallery` | `src/flows/pdp/components/storefront/SfGallery.tsx:34` | `product` `scrollY` |
 | pdp | `SfHeader` | `src/flows/pdp/components/storefront/SfHeader.tsx:27` | `product` `solid` |
-| pdp | `SfMainInfo` | `src/flows/pdp/components/storefront/SfMainInfo.tsx:58` | `product` `content` `onReviews` |
+| pdp | `SfMainInfo` | `src/flows/pdp/components/storefront/SfMainInfo.tsx:59` | `product` `content` `onReviews` |
 | pdp | `SfNewerModelCard` | `src/flows/pdp/components/storefront/SfNewerModelCard.tsx:50` | `product` `successor` |
 | pdp | `SfPaymentOffers` | `src/flows/pdp/components/storefront/SfPaymentOffers.tsx:24` | `content` |
 | pdp | `SfProductDetails` | `src/flows/pdp/components/storefront/SfProductDetails.tsx:75` | `content` `product` `aiOverview` `onAccordionOpen` |
 | pdp | `SfProductFeatures` | `src/flows/pdp/components/storefront/SfProductFeatures.tsx:30` | `content` `product` |
-| pdp | `SfRecommendations` | `src/flows/pdp/components/storefront/SfRecommendations.tsx:36` | `title` `items` `sponsored` `variant` |
-| pdp | `SfRecoCard` | `src/flows/pdp/components/storefront/SfRecommendations.tsx:58` | `product` `sponsored` |
+| pdp | `SfRecommendations` | `src/flows/pdp/components/storefront/SfRecommendations.tsx:37` | `title` `items` `sponsored` `variant` |
+| pdp | `SfRecoCard` | `src/flows/pdp/components/storefront/SfRecommendations.tsx:59` | `product` `sponsored` |
 | pdp | `SfStars` | `src/flows/pdp/components/storefront/SfReviewsCard.tsx:28` | `rating` `size` |
 | pdp | `SfReviewsCard` | `src/flows/pdp/components/storefront/SfReviewsCard.tsx:52` | `product` `content` |
 | pdp | `SfSellerCard` | `src/flows/pdp/components/storefront/SfSellerCard.tsx:54` | `content` `onOffers` |
@@ -1419,7 +1434,7 @@ Search these before you create a component (`components.md` → "Search before y
 | plp | `CatalogListHeader` | `src/flows/plp/components/CatalogListHeader.tsx:30` | `sortLabel` `sorted` `nFilters` `filters` `results` `onFilter` `onSort` `onFacet` `onQuick` |
 | plp | `CatalogNavPill` | `src/flows/plp/components/CatalogNavPill.tsx:42` | `kind` `label` `selected` `count` `icon` `onPress` |
 | plp | `MarketplaceStrip` | `src/flows/plp/components/MarketplaceStrip.tsx:37` | `active` `onSelect` |
-| plp | `RevealChip` | `src/flows/plp/components/NavPills.tsx:12` | `index` `children` `skeleton` |
+| plp | `RevealChip` | `src/flows/plp/components/NavPills.tsx:13` | `index` `children` `skeleton` |
 | plp | `SkeletonCard` | `src/flows/plp/components/SkeletonCard.tsx:5` | — |
 | returns | `AFSBackHeader` | `src/flows/returns/components/AFSBackHeader.tsx:11` | `title` `onBack` `blur` `solid` `titleClassName` `children` |
 | returns | `AFSButton` | `src/flows/returns/components/AFSButton.tsx:10` | `title` `onPress` `size` `variant` `disabled` `loading` `icon` `className` `style` `textClassName` |

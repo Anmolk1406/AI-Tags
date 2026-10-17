@@ -7,21 +7,21 @@
 - Docs: `.claude/skills/home-page/SKILL.md` · `.claude/skills/home-page/spec.md` · `.claude/resources/flows/home.md` · `src/flows/home/FIGMA-MAPPING.md`
 - Folder: `src/flows/home/` · tokens `src/flows/home/tokens.ts` (87 flow vars) <!-- count-ok -->
 - Area data / token / helper files: data.eid.ts, data.feed.ts, data.header.ts, data.modules.ts, data.rails.ts, data.tabs.ts, tokens.eid.ts, tokens.feed.ts, tokens.header.ts, tokens.modules.ts, tokens.rails.ts, tokens.tabs.ts
-- Enters from: —
-- Exits to: `address/selectSheet` (from home) · `pdp/detail` (from home) · `pdp/variants` (from home) · `plp/listing` (from home) · `search/search` (from home) · `wishlist/wishlist` (from home)
+- Enters from: `checkout/confirmation` → home · `checkout/track-steps` → home · `credits/expiring` → home · `credits/pending` → home · `membership/cancel` → home · `membership/cancelSheet` → home · `membership/confirmOffer` → home · `membership/groupSavings` → home · `membership/leaveFamilyOverlay` → home · `membership/loseAccess` → home · `membership/planOptions` → home · `membership/unusedSeats` → home · `returns/details` → home · `returns/summary` → home
+- Exits to: `address/selectSheet` (from home, classic) · `pdp/detail` (from home, classic) · `pdp/variants` (from home, classic) · `plp/listing` (from home, classic) · `search/search` (from home, classic) · `wishlist/wishlist` (from home, classic)
 
 ## Screens
 
 | Screen | Presentation | URL | Truth · verified | Module | Tests |
 |---|---|---|---|---|---|
 | `scr:home/home` Home | screen | /home /homepage | mixed · 2026-10-12 | `HomeScreen.tsx` | 7 |
-| `scr:home/classic` Home (classic) | screen | /home-classic | bappzaar* · never | ? | 0 |
+| `scr:home/classic` Home (classic) | screen | /home-classic | bappzaar* · never | `ClassicHomeScreen.tsx` | 0 |
 
 `*` truth inferred from `source`. Tests = journeys + visual references (every screen also runs in `check:routes`). In nav lines, `~` = target resolved through a const / helper / ternary (reachable, runtime-dependent); no mark = a literal `nav.*('…')` call.
 
 ## `home/home`
 
-- Module `src/flows/home/HomeScreen.tsx` · 34 own files, 80 in the import closure
+- Module `src/flows/home/HomeScreen.tsx` · 34 own files, 82 in the import closure
 - Source: bappzaar master ba159e20: NoonHomeScreen → NoonHomeToggleContent → Module/ModuleRenderer (live app home CMS payload order); header Figma iRE9RwO94eMAyW3j3XKNXW · 1337:5102 except the ExperienceSwitcher (useExperienceSwi…
 - Styles: components/AdProductLedDisplay.module.css, components/BannerModules.module.css, components/BzModuleWrapper.module.css, components/EidBanners.module.css, components/HomeHeader.module.css, components/ItemCarousel.module.css, components/MegaDeals.module.css, components/ProductCarousel.module.css, home.module.css, home2025.module.css
 - Data / helpers: data.eid.ts, data.feed.ts, data.header.ts, data.ts, tokens.eid.ts, tokens.feed.ts, tokens.header.ts, tokens.modules.ts, tokens.rails.ts, tokens.tabs.ts, tokens.ts
@@ -32,12 +32,19 @@
 - Icons: `arrow-right`, `hourglass` · assets 47
 - State / data: `data:currency`, `data:formatPrice`, `data:getProduct`, `data:user`
 - Nav out: push `address/selectSheet` · push `pdp/detail` (via ProductCard) · sheet `pdp/variants` (via ProductCard) · push `plp/listing` · push `search/search` · push `wishlist/wishlist`
-- `home`: tests `test:journey/back-direct-url`, `test:journey/back-from-pushed`, `test:journey/cart-add-from-card`, `test:journey/checkout-slide-to-pay`, `test:journey/home-address-sheet`, `test:journey/tab-bar-switching`, `test:journey/wishlist-toggle` · docs `.claude/resources/flows/home.md:5-16`, `.claude/resources/flows/home.md:32-50`, `.claude/resources/flows/home.md:51-63`, `.claude/skills/home-page/spec.md:8-15`, `.claude/skills/home-page/spec.md:27-50`, `.claude/skills/home-page/spec.md:51-70`, `.claude/skills/home-page/spec.md:84-89`, `.claude/skills/home-page/spec.md:100-111`, `src/flows/home/FIGMA-MAPPING.md:96-145`, `.claude/resources/flows/checkout.md:58-69`, `.claude/skills/checkout/spec.md:171-183`
+- `home`: in ← `checkout/confirmation`, `checkout/track-steps`, `credits/expiring`, `credits/pending`, `membership/cancel`, `membership/cancelSheet`, `membership/confirmOffer`, `membership/groupSavings`, `membership/leaveFamilyOverlay`, `membership/loseAccess`, `membership/planOptions`, `membership/unusedSeats`, `returns/details`, `returns/summary` · tests `test:journey/back-direct-url`, `test:journey/back-from-pushed`, `test:journey/cart-add-from-card`, `test:journey/checkout-slide-to-pay`, `test:journey/home-address-sheet`, `test:journey/tab-bar-switching`, `test:journey/wishlist-toggle` · docs `.claude/resources/flows/home.md:5-16`, `.claude/resources/flows/home.md:32-50`, `.claude/resources/flows/home.md:51-63`, `.claude/skills/home-page/spec.md:8-15`, `.claude/skills/home-page/spec.md:27-50`, `.claude/skills/home-page/spec.md:51-70`, `.claude/skills/home-page/spec.md:84-89`, `.claude/skills/home-page/spec.md:100-111`, `src/flows/home/FIGMA-MAPPING.md:96-145`, `.claude/resources/flows/checkout.md:58-69`, `.claude/skills/checkout/spec.md:171-183`
 
 ## `home/classic`
 
-- Module `?` · 0 own files, 0 in the import closure
+- Module `src/flows/home/ClassicHomeScreen.tsx` · 13 own files, 59 in the import closure
 - Source: marketplaces/noon/screens/NoonHomeScreen, components/NoonHomeToggle*
-- Shared components: —
-- Flow components: —
-- Tokens (0): —
+- Styles: home.module.css
+- Data / helpers: data.ts, tokens.eid.ts, tokens.feed.ts, tokens.header.ts, tokens.modules.ts, tokens.rails.ts, tokens.tabs.ts, tokens.ts
+- Shared components: `Icon`, `Pressable`, `ProductCard`, `Screen`, `SearchBarButton`, `Text`
+- Flow components: `DealTimer`, `ExperienceSwitcher`, `HeroCarousel`
+- Tokens (32): colors 8 · flow:home 2 · local 1 · palette 15 · type 6
+- Motion: `preset/appleSpring`, `preset/easing.out`, `reduced-motion`
+- Icons: — · assets 23
+- State / data: `data:products`, `data:user`
+- Nav out: push `address/selectSheet` · push `pdp/detail` (via ProductCard) · sheet `pdp/variants` (via ProductCard) · push `plp/listing` · push `search/search` · push `wishlist/wishlist`
+- `classic`: docs `.claude/resources/flows/home.md:5-16`, `.claude/skills/home-page/spec.md:8-15`, `.claude/skills/home-page/spec.md:100-111`

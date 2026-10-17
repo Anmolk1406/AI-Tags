@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { useNav } from '../../kit/Navigator';
 import { Icon, type IconName } from '../Icon/Icon';
 import { Pressable } from '../Pressable/Pressable';
@@ -91,7 +91,10 @@ export interface HeaderProps {
 /** Top bar used by most pushed screens. Includes the top safe-area inset. */
 export function Header({ title, subtitle, back, onBack, right, align = 'center', variant = 'surface', bordered, image, children }: HeaderProps) {
   const nav = useNav();
-  const showBack = back ?? nav.canGoBack;
+  // read once: whether a back exists for this screen is fixed while it is mounted, and reading it in render would
+  // re-render every Header in the stack on each push / back
+  const [canGoBack] = useState(() => nav.canGoBack);
+  const showBack = back ?? canGoBack;
   return (
     <div className={`${styles.header} ${styles[variant]} ${bordered ? styles.bordered : ''}`}>
       <div className={styles.row} data-align={align} data-field={variant === 'field' || undefined}>

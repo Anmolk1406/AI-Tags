@@ -1,0 +1,138 @@
+/* Legacy wallet modals (features/wallet/screens/WalletBank*, features/giftcards GiftCardRedeemScreen) and the shared
+   bappzaar pieces they use: RNN top bar (HeaderTypes CLOSE / BACK), PrimaryButton, TextField, Picker, Overlay. */
+
+/* ── RNN native top bar: white, 44 + status bar, noon logo 86×25; CLOSE = "Cancel", BACK = 24 arrow ── */
+.topBar { padding-top: var(--nk-inset-top); background: var(--nk-color-bg-surface); }
+.topBarRow { position: relative; display: flex; align-items: center; height: 44px; padding: 0 var(--nk-space-s8); }
+.topBarBack { display: flex; padding: var(--nk-space-s4); border: 0; background: none; cursor: pointer; }
+.topBarLogo { display: block; width: 86px; height: 25px; object-fit: contain; margin-inline-start: var(--nk-space-s8); }
+.topBarCancel { margin-inline-start: auto; padding: var(--nk-space-s8); border: 0; background: none; font: 400 17px/22px var(--nk-font-family); color: var(--nk-palette-black); cursor: pointer; } /* token-lint-ignore — iOS UIBarButtonItem 17pt regular */
+.topBarCancel:active, .topBarBack:active { opacity: 0.2; }
+:global([dir='rtl']) .flip { transform: scaleX(-1); }
+
+/* ── PrimaryButton: h50, r0, accent #3866DF, 14 bold white; disabled #ced1da ── */
+.primary { display: flex; align-items: center; justify-content: center; width: 100%; height: 50px; padding: 0 var(--nk-space-s15); border: 0; border-radius: 0; background: var(--nk-color-cta); font: var(--nk-type-body-bold); color: var(--nk-color-text-inverse); cursor: pointer; }
+.primary:disabled { background: var(--nk-palette-gray-color); cursor: default; }
+.primary:not(:disabled):active { opacity: 0.2; }
+
+/* ── WalletBankTransferScreen ── */
+.screen { display: flex; flex-direction: column; flex: 1; min-height: 0; background: var(--nk-color-bg-surface); }
+.warning { display: flex; margin: var(--nk-space-s15) var(--nk-space-s15) 0; padding: var(--nk-space-s10); border: 1px solid var(--nk-palette-orange-color); background: var(--nk-palette-noon-system-orange-tint); }
+.warning img { flex-shrink: 0; width: 20px; height: 21px; }
+.warningText { flex: 1; margin: 0 var(--nk-space-s10); }
+.amountBox { margin: var(--nk-space-s10) var(--nk-space-s20); border-radius: 5px; background: var(--nk-palette-border-primary); } /* design-ignore — bappzaar value */
+.amountTitle { padding: var(--nk-space-s10) var(--nk-space-s20); text-align: center; font: var(--nk-type-credits-legacy15); color: var(--nk-color-text-legacy); }
+.amountRow { display: flex; align-items: center; justify-content: center; }
+.amountCurrency { font: var(--nk-type-credits-legacy17-bold); color: var(--nk-color-text-legacy); }
+.amountInput { width: 80px; padding: var(--nk-space-s2) var(--nk-space-s10); border: 0; border-radius: 5px; background: var(--nk-palette-gray-color); text-align: center; font: var(--nk-type-credits-legacy17-bold); color: var(--nk-color-text-legacy); outline: none; } /* design-ignore — bappzaar value */
+.amountInput:disabled { opacity: 0.5; }
+.amountInput::placeholder { color: var(--nk-color-text-legacy); opacity: 0.6; }
+.amountSeparator { margin: var(--nk-space-s10) var(--nk-space-s20); border-bottom: 0.5px solid var(--nk-palette-gray-color); } /* token-lint-ignore — hairline */
+.withdrawAll { display: flex; align-items: center; justify-content: center; padding: var(--nk-space-s10) var(--nk-space-s20) 0; }
+.radioButton { display: flex; align-items: center; padding: 0; border: 0; background: none; text-align: start; cursor: pointer; }
+.radioButton img { flex-shrink: 0; width: 20px; height: 20px; }
+.radioText { margin: 0 var(--nk-space-s10); font: var(--nk-type-credits-text14); color: var(--nk-color-text-legacy); }
+.amountError { min-height: 16px; padding: var(--nk-space-s10) var(--nk-space-s20); text-align: center; font: var(--nk-type-credits-text14); color: var(--nk-palette-red-color); }
+.amountError:empty { padding: 0; }
+.selectRow { display: flex; align-items: center; justify-content: space-between; margin: var(--nk-space-s10) var(--nk-space-s20); }
+.selectTitle { font: var(--nk-type-credits-text16-bold); color: var(--nk-color-text-legacy); }
+.link { padding: 0; border: 0; background: none; font: var(--nk-type-body-bold); color: var(--nk-color-cta); cursor: pointer; }
+.accounts { flex: 1; min-height: 0; margin: 0 var(--nk-space-s20); overflow-y: auto; border: 0.5px solid var(--nk-color-cta); border-radius: 5px; } /* token-lint-ignore — hairline */
+.terms { margin: var(--nk-space-s10) var(--nk-space-s20); }
+.termsText { margin: 0 var(--nk-space-s10); font: var(--nk-type-credits-text13); color: var(--nk-palette-noon-grey1); }
+.submitWrap { padding-bottom: max(var(--nk-space-s15), var(--nk-inset-bottom)); }
+
+/* ── WalletBankAccountCard ── */
+.card { display: block; width: 100%; padding: var(--nk-space-s10) var(--nk-space-s10) 5px; border: 0; border-bottom: 0.5px solid var(--nk-color-cta); background: none; text-align: start; cursor: pointer; } /* token-lint-ignore — hairline */
+.card[data-last] { border-bottom: 0; }
+.card[data-single] { padding: var(--nk-space-s10); }
+.cardHead { display: flex; align-items: center; }
+.cardHead img { width: 20px; height: 20px; }
+.cardNo { margin: 0 var(--nk-space-s10); font: var(--nk-type-credits-legacy12-bold); color: var(--nk-color-text-legacy); }
+.cardDetails { margin-top: 5px; padding-inline-start: 30px; } /* design-ignore — bappzaar value */
+.cardLine { display: flex; align-items: center; }
+.cardLabel { width: 48%; font: var(--nk-type-credits-text13); color: var(--nk-palette-noon-grey1); }
+.cardValue { flex: 1; min-width: 0; margin: var(--nk-space-s2) 0; padding: 0 var(--nk-space-s2); font: var(--nk-type-credits-legacy13-bold); color: var(--nk-color-text-legacy); overflow-wrap: anywhere; }
+.cardSeparator { height: 1px; margin-top: 5px; background: var(--nk-palette-border-color); } /* design-ignore — bappzaar value */
+.cardActions { display: flex; padding: 0 var(--nk-space-s20); }
+.delete { padding: 3px var(--nk-space-s10) 0; border: 0; background: none; font: var(--nk-type-credits-text13); color: var(--nk-color-cta); cursor: pointer; }
+.delete span { display: block; padding: 5px 0; } /* design-ignore — bappzaar value */
+
+/* ── EmptyView / insufficient / unable ── */
+.empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: var(--nk-space-s10) 30px; text-align: center; } /* design-ignore — bappzaar value */
+.empty img { max-width: 100%; height: auto; }
+.emptyTitle { margin-top: 35px; font: var(--nk-type-credits-text16-bold); color: var(--nk-palette-noon-grey1); } /* design-ignore — bappzaar value */
+.emptyMessage { margin-top: var(--nk-space-s10); font: var(--nk-type-credits-text14); color: var(--nk-palette-noon-grey1); }
+.emptyButton { margin-top: 35px; min-width: 100px; width: auto; } /* design-ignore — bappzaar value */
+.blockedBox { margin: var(--nk-space-s10) var(--nk-space-s20); padding: 30px 0; border-radius: 5px; background: var(--nk-palette-border-primary); } /* design-ignore — bappzaar value */
+.blockedText { margin: 0 var(--nk-space-s15); text-align: center; font: var(--nk-type-credits-legacy14-lh21); color: var(--nk-color-text-legacy); }
+.blockedImage { flex: 1; display: flex; align-items: center; justify-content: center; }
+.blockedImage img { width: 338px; max-width: 100%; height: auto; }
+.blockedButton { padding: 0 var(--nk-space-s15) max(var(--nk-space-s15), var(--nk-inset-bottom)); }
+.loader { flex: 1; display: flex; align-items: center; justify-content: center; color: var(--nk-color-cta); }
+
+/* ── WalletBankForm ── */
+.form { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; }
+.formInner { margin: var(--nk-space-s20); }
+.formTitle { margin: var(--nk-space-s10) 0; font: var(--nk-type-credits-legacy22-bold); color: var(--nk-color-text-legacy); }
+.formSeparator { margin-bottom: var(--nk-space-s20); border-bottom: 0.5px solid var(--nk-palette-border-color); } /* token-lint-ignore — hairline */
+.field { margin-bottom: var(--nk-space-s16); }
+.fieldTitle { padding: var(--nk-space-s4) 0 var(--nk-space-s8); font: var(--nk-type-credits-text14-medium); color: var(--nk-color-text-legacy); }
+.fieldBox { display: flex; padding: 0 var(--nk-space-s15); border: 1px solid var(--nk-palette-noon-grey3); border-radius: var(--nk-radius-r8); }
+.fieldInput { flex: 1; min-width: 0; padding: var(--nk-space-s10) 0; border: 0; background: none; font: var(--nk-type-credits-legacy13-medium); color: var(--nk-color-text-legacy); outline: none; }
+.fieldBelow { min-height: 18px; margin-top: 5px; font: var(--nk-type-credits-legacy12); color: var(--nk-palette-noon-grey1); } /* design-ignore — bappzaar value */
+.fieldBelow[data-error] { color: var(--nk-palette-red-color); }
+.picker { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: var(--nk-space-s16); padding: var(--nk-space-s12); border: 1px solid var(--nk-palette-noon-grey3); border-radius: var(--nk-radius-r8); background: none; cursor: pointer; }
+.pickerValue { margin-inline-end: var(--nk-space-s10); font: var(--nk-type-credits-legacy13-medium); color: var(--nk-color-text-legacy); }
+.formButton { margin: auto var(--nk-space-s20) var(--nk-inset-bottom); padding-top: var(--nk-space-s10); }
+.formButton .primary { border-radius: var(--nk-radius-r4); }
+
+/* ── WalletBankTransferDetailsConfirmScreen (legacy Overlay: r5, floating white X) ── */
+.confirm { position: relative; display: flex; flex-direction: column; min-height: 0; padding-bottom: var(--nk-inset-bottom); }
+.overlayClose { position: absolute; top: calc(-1 * var(--nk-space-s18)); right: 30px; z-index: 3; width: 37px; height: 37px; display: flex; align-items: center; justify-content: center; border: 0; border-radius: var(--nk-radius-r20); background: var(--nk-color-bg-surface); cursor: pointer; }
+.overlayClose img { width: 16px; height: 16px; }
+.confirmTop { padding: var(--nk-space-s20); border-bottom: 0.5px solid var(--nk-palette-border-color); font: var(--nk-type-credits-text16-bold); color: var(--nk-color-text-legacy); } /* token-lint-ignore — hairline */
+.confirmAmount { display: flex; flex-direction: column; align-items: center; padding: var(--nk-space-s10); }
+.confirmAmountLabel { font: var(--nk-type-credits-legacy12); color: var(--nk-color-text-legacy); }
+.confirmAmountValue { margin: 5px var(--nk-space-s10); font: var(--nk-type-credits-legacy28-bold); color: var(--nk-color-text-legacy); } /* design-ignore — bappzaar value */
+.confirmDetails { margin: 0 30px var(--nk-space-s40); padding: var(--nk-space-s10); background: var(--nk-palette-border-primary); } /* design-ignore — bappzaar value */
+.detailLine { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-top: 5px; } /* design-ignore — bappzaar value */
+.detailLabel { width: 50%; margin: var(--nk-space-s2) 0; font: var(--nk-type-credits-text13); color: var(--nk-palette-noon-grey1); }
+.detailValue { flex: 1; min-width: 0; margin: var(--nk-space-s2) 0; text-align: end; font: var(--nk-type-credits-legacy15-bold); color: var(--nk-color-text-legacy); overflow-wrap: anywhere; }
+
+/* ── WalletBankTransferOTPScreen ── */
+.otp { padding: var(--nk-space-s20) var(--nk-space-s15) 0; text-align: center; }
+.otpTitle { font: var(--nk-type-body-bold); color: var(--nk-color-text-legacy); }
+.otpText { margin-top: var(--nk-space-s12); font: var(--nk-type-credits-text13); color: var(--nk-color-text-legacy); }
+.otpPhone { font: var(--nk-type-credits-text13); color: var(--nk-color-text-legacy); }
+.otpInput { display: block; min-width: 150px; width: 150px; margin: var(--nk-space-s15) auto 27px; padding: 5px; border: 0; border-bottom: 1px solid var(--nk-color-credits-legacy-light-blue); background: none; text-align: center; letter-spacing: 10px; font: var(--nk-type-credits-legacy20-bold); color: var(--nk-color-text-legacy); outline: none; } /* token-lint-ignore — letterSpacing 10 */
+.resendRow { display: flex; align-items: center; justify-content: center; white-space: pre; font: var(--nk-type-credits-text13); color: var(--nk-color-text-legacy); }
+.resend { min-width: 60px; padding: var(--nk-space-s15) 0; border: 0; background: none; font: var(--nk-type-credits-text13); color: var(--nk-color-cta); cursor: pointer; }
+.resend:disabled { color: var(--nk-color-text-legacy); opacity: 0.5; cursor: default; }
+.timer { min-width: 16px; text-align: center; font: var(--nk-type-credits-legacy12-bold); color: var(--nk-palette-orange-color); }
+
+/* ── WalletBankTransferRequestedScreen ── */
+.requested { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 45px; text-align: center; } /* design-ignore — bappzaar value */
+.requested img { width: 181px; height: 143px; }
+.requestedTitle { margin-top: 35px; font: var(--nk-type-credits-legacy20-bold); color: var(--nk-color-text-legacy); } /* design-ignore — bappzaar value */
+.requestedText { margin-top: var(--nk-space-s15); font: var(--nk-type-credits-text14); color: var(--nk-palette-noon-grey1); }
+.requestedButton { margin-top: 45px; width: auto; padding: 0 35px; } /* design-ignore — bappzaar value */
+
+/* ── GiftCardRedeemScreen (Tabs + FormikTextInput) ── */
+.tabs { position: relative; display: flex; margin-top: var(--nk-space-s20); }
+.tabsLine { position: absolute; left: 0; right: 0; top: 37px; height: 3px; background: var(--nk-palette-gray-color); }
+.tab { position: relative; flex: 1; height: 40px; display: flex; align-items: center; justify-content: center; padding: 0 var(--nk-space-s10); border: 0; border-bottom: 3px solid transparent; background: none; font: var(--nk-type-body-bold); color: var(--nk-color-text-legacy); cursor: pointer; }
+.tab[data-active] { border-bottom-color: var(--nk-color-cta); color: var(--nk-color-cta); }
+.slide { padding: var(--nk-space-s20) var(--nk-space-s15); }
+.info { display: flex; align-items: flex-start; justify-content: center; margin-bottom: var(--nk-space-s15); padding: var(--nk-space-s15); background: var(--nk-palette-noon-system-orange-tint); }
+.info img { flex-shrink: 0; width: 16px; height: 16px; }
+.infoText { padding-inline-start: var(--nk-space-s10); font: var(--nk-type-credits-text14); color: var(--nk-color-text-legacy); }
+.gcLabel { margin-bottom: var(--nk-space-s8); font: var(--nk-type-body-bold); color: var(--nk-color-text-legacy); }
+.gcInput { width: 100%; margin-bottom: 5px; padding: var(--nk-space-s12); border: 1px solid var(--nk-color-credits-gift-input-border); border-radius: var(--nk-radius-r4); background: var(--nk-color-bg-surface); font: var(--nk-type-credits-text16); color: var(--nk-color-text-legacy); outline: none; } /* design-ignore — bappzaar value */
+.gcError { min-height: 24px; padding: var(--nk-space-s2) 0; font: var(--nk-type-credits-text13); color: var(--nk-palette-red-color); }
+.gcButton { margin: var(--nk-space-s20) var(--nk-space-s15) max(var(--nk-space-s20), var(--nk-inset-bottom)); }
+.gcButton .primary { border-radius: var(--nk-radius-r4); font: var(--nk-type-credits-text16-bold); }
+.gcSuccess { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: var(--nk-space-s40); padding: 0 var(--nk-space-s15); text-align: center; }
+.gcSuccess img { width: 155px; height: 140px; }
+.gcSuccessTitle { padding: var(--nk-space-s15) 0; font: var(--nk-type-credits-legacy19-semibold); color: var(--nk-color-text-legacy); }
+.gcSuccessText { font: var(--nk-type-credits-text14); color: var(--nk-palette-noon-grey1); }

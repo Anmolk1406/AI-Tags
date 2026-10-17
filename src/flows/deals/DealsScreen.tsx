@@ -6,6 +6,7 @@ import homeStyles from '../home/home.module.css';
 import { gridTitle, heroes, rails, strips } from './data';
 import { dealsTokens } from './tokens';
 import styles from './deals.module.css';
+import { Deferred } from '../../kit/Deferred';
 
 const rotate = <T,>(list: T[], by: number) => [...list.slice(by), ...list.slice(0, by)];
 
@@ -55,7 +56,10 @@ export function DealsScreen() {
           ))}
         </div>
 
-        {rails.slice(0, 2).map((rail) => (
+        {/* the first rail paints with the tab switch; the rest of the page mounts a beat later (Deferred) */}
+        <Rail key={rails[0].title} title={rails[0].title} offset={rails[0].offset} />
+        <Deferred minHeight={1200}>
+        {rails.slice(1, 2).map((rail) => (
           <Rail key={rail.title} title={rail.title} offset={rail.offset} />
         ))}
 
@@ -90,6 +94,7 @@ export function DealsScreen() {
             ))}
           </div>
         </section>
+        </Deferred>
       </div>
     </Screen>
   );

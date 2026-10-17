@@ -12,8 +12,13 @@ export interface ScreenTransition {
   initial: TargetAndTransition;
   animate: TargetAndTransition;
   exit: TargetAndTransition;
-  /** applied to the screen below while this one is on top */
+  /** applied to the screen below while this one is on top (transform / opacity only: it animates every frame) */
   under?: TargetAndTransition;
+  /**
+   * how much the screen below darkens while covered (0–1). Drawn as a black overlay whose opacity animates, which the
+   * compositor does for free; a `filter: brightness()` on the whole screen re-rasterised it on every frame.
+   */
+  underDim?: number;
   transition: Transition;
 }
 
@@ -24,7 +29,8 @@ const builtIn = {
     initial: { x: '100%' },
     animate: { x: 0 },
     exit: { x: '100%' },
-    under: { x: '-28%', filter: 'brightness(0.92)' },
+    under: { x: '-28%' },
+    underDim: 0.08,
     transition: iosCurve,
   },
   fade: {
@@ -43,7 +49,8 @@ const builtIn = {
     initial: { y: '100%' },
     animate: { y: 0 },
     exit: { y: '100%' },
-    under: { scale: 0.94, borderRadius: 24, filter: 'brightness(0.85)' },
+    under: { scale: 0.94, borderRadius: 24 },
+    underDim: 0.15,
     transition: iosCurve,
   },
   zoom: {

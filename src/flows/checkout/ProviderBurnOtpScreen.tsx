@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNav } from '../../kit/Navigator';
+import { useDemoStore } from '../../kit/DemoStore';
 import type { ScreenProps } from '../../kit/types';
 import { InfoEditButton } from './components/RewardsPrimitives';
 import { AmountEntry, AmountTicket, AvailableBalance, DynamicBackground, ProviderHeader, SubmitButton, TermsNote, VerifyOtp } from './components/ProviderForm';
@@ -16,6 +17,8 @@ export interface ProviderBurnOtpParams {
   isVouchersProvider?: boolean;
   voucherCode?: string | null;
   phone?: string | null;
+  /** 'page_wallet': redeemed into noon Credits (WalletScreen onRedeemSuccess) instead of the checkout session */
+  plx?: string;
 }
 
 /** server: verifyRedeem + getStatus polling */
@@ -31,6 +34,7 @@ const RESEND_DELAY = 800;
  */
 export function ProviderBurnOtpScreen({ params }: ScreenProps<ProviderBurnOtpParams>) {
   const nav = useNav();
+  const addCredits = useDemoStore((s) => s.addCredits);
   const { total } = useCheckoutTotals();
   const provider = findBurnProvider(params.code ?? '') ?? loyaltyProviders[0];
   const isVouchersProvider = params.isVouchersProvider ?? !!provider.voucherAmount;
@@ -84,6 +88,15 @@ export function ProviderBurnOtpScreen({ params }: ScreenProps<ProviderBurnOtpPar
         return;
       }
       const redeemed = isVouchersProvider ? Number(provider.voucherAmount ?? 0) : Number(amount);
+      if (params.plx === 'page_wallet') {
+        // WalletScreen onRedeemSuccess → onTopupSuccess: close the burn overlays and the top-up sheet, refresh the wallet
+        nav.back();
+        nav.back();
+        nav.back();
+        addCredits(redeemed, provider.title, provider.code);
+        nav.toast(provider.successMessage(redeemed.toFixed(2)), { tone: 'success' });
+        return;
+      }
       // closeBurnOverlay() + closeOverlay() → onRedeemSuccess → getSession → voucher toast
       nav.back();
       nav.back();

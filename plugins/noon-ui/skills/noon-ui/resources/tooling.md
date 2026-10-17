@@ -51,6 +51,17 @@ What the kit gives a flow beyond components and tokens, and the checks that prov
 - `ProductBoxVertical` (`src/components/ProductBoxVertical`) is the bappzaar PLP grid box. Use it for any listing grid.
 - `SearchInput` back / clear / camera are bappzaar artwork in `src/assets/shared/search-bar/`.
 
+## Smoothness probe: `scripts/perf.mjs` (`npm run perf`)
+
+Drives the main journeys (home scroll, tab switches, home → PDP, search → results, filters / sort sheets, PLP → PDP → add to
+cart, cart → checkout, account → addresses → map) in headless Chromium at a 4× CPU slowdown against a served build, and
+prints per step: frames, dropped frames (> 25 ms), the worst frame, long tasks, layouts / style recalcs and script time.
+`--idle` instead measures each tab root sitting still for 3 s and lists the Web Animations still running. Build first
+(`npm run build && npx vite preview --port 4199`), then `npm run perf -- --base http://localhost:4199`. Against the dev
+server the absolute numbers are inflated (unminified, dev React) but hot spots show the same. Treat a worst frame
+over ~120 ms at 4× (≈ 30 ms real) or dropped frames in a plain scroll as a regression; the rules it backs are motion.md
+§6 "Smoothness rules".
+
 ## Checks: which one proves what
 
 | Command | Proves | Notes |

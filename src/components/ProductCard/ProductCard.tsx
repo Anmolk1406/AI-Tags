@@ -99,9 +99,10 @@ export function ProductCard({
  * variants sheet instead (useCart → showVariantsFlyout), which adds and shows the snackbar itself.
  */
 export function QuickAdd({ productId }: { productId: string }) {
-  const { cart, addToCart, setQty } = useDemoStore();
+  const qty = useDemoStore((s) => s.cart.find((l) => l.product.id === productId)?.qty ?? 0);
+  const addToCart = useDemoStore((s) => s.addToCart);
+  const setQty = useDemoStore((s) => s.setQty);
   const nav = useNav();
-  const qty = cart.find((l) => l.product.id === productId)?.qty ?? 0;
   const [expanded, setExpanded] = useState(false);
   const [timer, setTimer] = useState<number>();
 

@@ -1,5 +1,5 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
-import { getProduct, type Product } from '../data';
+import { createContext, useCallback, useContext, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
+import { getProduct, user, type Product } from '../data';
 
 /**
  * Tiny in-memory store so prototypes feel alive across flows:
@@ -58,6 +58,18 @@ export function cartGroupOf(p: Product): CartGroupType {
   if (p.express) return 'express';
   if (p.seller?.startsWith('Global')) return 'xborder';
   return 'marketplace';
+}
+
+/** A noon Credits movement made during the demo (top-up, gift card, bank withdrawal), newest first. */
+export interface CreditEntry {
+  id: string;
+  /** signed: + credited, − debited */
+  amount: number;
+  title: string;
+  /** what it came from, e.g. 'giftcard' | 'voucher' | provider code | 'bank' */
+  source: string;
+  /** ISO date-time */
+  at: string;
 }
 
 export interface CouponState {
@@ -135,7 +147,7 @@ export function computeCartTotals(cart: CartLine[], couponCode?: string | null):
   };
 }
 
-interface DemoStore {
+export interface DemoStore {
   cart: CartLine[];
   cartCount: number;
   /** what the tab bar's cart badge shows: `cartCount`, unless a screen forces a state (e.g. `cart/empty` → 0) */
@@ -166,9 +178,21 @@ interface DemoStore {
   wishlist: string[];
   toggleWishlist: (productId: string) => boolean;
   isWishlisted: (productId: string) => boolean;
+  /** noon Credits balance (seeded from `user.credits`); moves with `addCredits` */
+  credits: number;
+  /** credit movements made in this demo session, newest first (the wallet lists them above its history) */
+  creditEntries: CreditEntry[];
+  /** credit (+) or debit (−) noon Credits, e.g. after a gift card redeem, a points top-up or a bank withdrawal */
+  addCredits: (amount: number, title: string, source: string) => CreditEntry;
 }
 
-const Ctx = createContext<DemoStore | null>(null);
+// the store is published through a tiny external store, so `useDemoStore(selector)` re-renders a consumer only when its
+// slice changes (a heart on each of 18 cards used to re-render on every cart change anywhere)
+interface StoreHandle {
+  get: () => DemoStore;
+  subscribe: (listener: () => void) => () => void;
+}
+const Ctx = createContext<StoreHandle | null>(null);
 
 const byId = (id: string) => getProduct(id)!;
 
@@ -187,6 +211,13 @@ export function DemoStoreProvider({ children, emptyCart = false }: { children: R
   const [coupon, setCoupon] = useState<string | null>(null);
   const [cartUpdatesDismissed, setCartUpdatesDismissed] = useState(false);
   const [wishlist, setWishlist] = useState<string[]>(['p2', 'p6', 'p7']);
+  const [creditEntries, setCreditEntries] = useState<CreditEntry[]>([]);
+  const addCredits = useCallback((amount: number, title: string, source: string) => {
+    const entry: CreditEntry = { id: `CR-${Date.now().toString(36).toUpperCase()}`, amount, title, source, at: new Date().toISOString() };
+    setCreditEntries((e) => [entry, ...e]);
+    return entry;
+  }, []);
+  const credits = useMemo(() => Math.round((user.credits + creditEntries.reduce((n, e) => n + e.amount, 0)) * 100) / 100, [creditEntries]);
 
   const addToCart = useCallback((productId: string, qty = 1) => {
     // any collection (the PLP phones too), by id or sku
@@ -221,14 +252,14 @@ export function DemoStoreProvider({ children, emptyCart = false }: { children: R
 
   const removeInactive = useCallback((productId: string) => setInactiveCart((c) => c.filter((l) => l.product.id !== productId)), []);
 
-  const toggleWishlist = useCallback(
-    (productId: string) => {
-      const next = !wishlist.includes(productId);
-      setWishlist((w) => (next ? [...w, productId] : w.filter((id) => id !== productId)));
-      return next;
-    },
-    [wishlist],
-  );
+  // stable identity: the heart buttons select it and must not re-render when someone else's wishlist state changes
+  const wishlistRef = useRef(wishlist);
+  wishlistRef.current = wishlist;
+  const toggleWishlist = useCallback((productId: string) => {
+    const next = !wishlistRef.current.includes(productId);
+    setWishlist((w) => (next ? [...w, productId] : w.filter((id) => id !== productId)));
+    return next;
+  }, []);
 
   const cartTotals = useMemo(() => computeCartTotals(cart, coupon), [cart, coupon]);
 
@@ -268,17 +299,45 @@ export function DemoStoreProvider({ children, emptyCart = false }: { children: R
       wishlist,
       toggleWishlist,
       isWishlisted: (id) => wishlist.includes(id),
+      credits,
+      creditEntries,
+      addCredits,
     }),
-    [cart, cartBadgeOverride, wishlist, addToCart, setQty, removeFromCart, clearCart, updateLine, moveToWishlist, coupon, applyCoupon, removeCoupon, cartTotals, inactiveCart, removeInactive, cartUpdatesDismissed, dismissCartUpdates, toggleWishlist],
+    [credits, creditEntries, addCredits, cart, cartBadgeOverride, wishlist, addToCart, setQty, removeFromCart, clearCart, updateLine, moveToWishlist, coupon, applyCoupon, removeCoupon, cartTotals, inactiveCart, removeInactive, cartUpdatesDismissed, dismissCartUpdates, toggleWishlist],
   );
 
-  return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
+  // publish: the ref is current during this render (children read it as they render), listeners fire after commit
+  const latest = useRef(value);
+  latest.current = value;
+  const listeners = useRef(new Set<() => void>());
+  useLayoutEffect(() => {
+    listeners.current.forEach((l) => l());
+  }, [value]);
+  const handle = useMemo<StoreHandle>(
+    () => ({
+      get: () => latest.current,
+      subscribe: (l) => {
+        listeners.current.add(l);
+        return () => listeners.current.delete(l);
+      },
+    }),
+    [],
+  );
+
+  return <Ctx.Provider value={handle}>{children}</Ctx.Provider>;
 }
 
-export function useDemoStore() {
-  const v = useContext(Ctx);
-  if (!v) throw new Error('useDemoStore must be used inside <NoonPrototype> / <DemoStoreProvider>');
-  return v;
+/**
+ * The demo store. Without a selector the whole store comes back and the component re-renders on every change; with one,
+ * only when the selected value changes (`Object.is`), so pick primitives or stable references:
+ * `useDemoStore((s) => s.wishlist.includes(id))`, `useDemoStore((s) => s.addToCart)`.
+ */
+export function useDemoStore(): DemoStore;
+export function useDemoStore<T>(selector: (s: DemoStore) => T): T;
+export function useDemoStore<T>(selector?: (s: DemoStore) => T) {
+  const h = useContext(Ctx);
+  if (!h) throw new Error('useDemoStore must be used inside <NoonPrototype> / <DemoStoreProvider>');
+  return useSyncExternalStore(h.subscribe, () => (selector ? selector(h.get()) : h.get()));
 }
 
 /** Live invoice totals (see `CartTotals`). Checkout should read this rather than recomputing. */

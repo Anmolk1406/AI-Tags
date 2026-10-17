@@ -5,6 +5,6 @@ export const user = {
   email: 'ankit@example.com',
   phone: '+971 50 123 4567',
   noonOne: false,
-  credits: 25.5,
+  credits: 248.5, // noon Credits balance (wallet landing, account row, checkout "Use my credits")
   address: { label: 'Home', line: 'Marina Gate 2, Dubai Marina', city: 'Dubai' },
 };

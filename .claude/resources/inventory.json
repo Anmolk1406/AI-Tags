@@ -1,30 +1,30 @@
 {
   "generatedBy": ".claude/resources/scripts/build.mjs",
   "totals": {
-    "flows": 18,
-    "screens": 156,
-    "routes": 156,
+    "flows": 19,
+    "screens": 173,
+    "routes": 173,
     "largestFlow": 24,
     "byCoverage": {
       "spec": 11,
-      "brief": 6,
+      "brief": 7,
       "none": 1
     },
     "byLabel": {
-      "reference-backed": 154,
+      "reference-backed": 171,
       "kit-backed": 2,
       "inferred": 0
     },
     "byTruth": {
       "mixed": 6,
-      "bappzaar": 135,
+      "bappzaar": 152,
       "reference": 5,
       "figma": 10
     },
     "truthExplicit": 19,
-    "truthInferred": 137,
+    "truthInferred": 154,
     "verified": 6,
-    "unverified": 150
+    "unverified": 167
   },
   "labelMapping": {
     "reference-backed": "truth bappzaar / figma / mixed / reference, explicit or inferred from a recognisable source (bappzaar master path, Figma <fileKey> · <node>, or reference: / link)",
@@ -1730,6 +1730,235 @@
           "label": "reference-backed",
           "verified": null,
           "source": "features/payment/screens/PaymentCardAdditionSuccessScreen (lottie save_card/v4/en/reveal)"
+        }
+      ]
+    },
+    {
+      "id": "credits",
+      "title": "noon Credits",
+      "group": "Profile",
+      "initial": "credits/credits",
+      "screenCount": 17,
+      "coverage": "brief",
+      "docs": {
+        "mapping": [
+          "src/flows/credits/MAPPING.md"
+        ],
+        "brief": ".claude/resources/flows/other-flows.md#credits",
+        "skills": [],
+        "specs": [],
+        "blueprint": null
+      },
+      "states": {
+        "documented": [
+          "success"
+        ],
+        "registered": {
+          "empty": [
+            "credits/empty"
+          ],
+          "error": [
+            "credits/error"
+          ]
+        },
+        "missing": [
+          "success"
+        ],
+        "heuristic": true
+      },
+      "screens": [
+        {
+          "route": "credits/credits",
+          "title": "noon Credits",
+          "presentation": "screen",
+          "urls": [
+            "/credits",
+            "/noon-credits",
+            "/wallet"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/wallet/screens/WalletScreen (+ components/WalletScreenHeader, WalletTotalBalance, Screens/WalletLanding/**, WalletTransaction/**)"
+        },
+        {
+          "route": "credits/negative",
+          "title": "Negative balance (landing)",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/wallet/screens/WalletScreen (totalCredits.isNegative + banner NEGATIVE_BALANCE)"
+        },
+        {
+          "route": "credits/empty",
+          "title": "No transactions",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/wallet/components/WalletError (wallet-empty-transactions)"
+        },
+        {
+          "route": "credits/error",
+          "title": "Wallet error",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/wallet/screens/WalletScreen WalletErrorView"
+        },
+        {
+          "route": "credits/details",
+          "title": "Transaction details",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/wallet/screens/WalletTransactionDetailsScreen, components/Screens/WalletTransactionDetails/**"
+        },
+        {
+          "route": "credits/pending",
+          "title": "Pending credits",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/wallet/screens/WalletPendingOrExpiringTransactionsScreen (type PENDING)"
+        },
+        {
+          "route": "credits/expiring",
+          "title": "Expiring credits",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/wallet/screens/WalletPendingOrExpiringTransactionsScreen (type EXPIRING)"
+        },
+        {
+          "route": "credits/negative-sheet",
+          "title": "Negative balance",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/wallet/screens/WalletNegativeBalanceScreen"
+        },
+        {
+          "route": "credits/filters",
+          "title": "Filters",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/wallet/screens/WalletFiltersScreen, components/Screens/WalletFilter/**"
+        },
+        {
+          "route": "credits/sort",
+          "title": "Sort",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/wallet/screens/WalletSortScreen"
+        },
+        {
+          "route": "credits/topup",
+          "title": "Add credits",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/wallet/screens/WalletTopupScreen, components/Screens/WalletTopup/**"
+        },
+        {
+          "route": "credits/giftcard",
+          "title": "Redeem gift card",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/giftcards/screens/GiftCardRedeemSceen/GiftCardRedeemScreen (+ src/components/Tabs, FormikTextInput)"
+        },
+        {
+          "route": "credits/bank",
+          "title": "Withdraw to bank",
+          "presentation": "modal",
+          "urls": [
+            "/bank-transfer"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/wallet/screens/WalletBankTransferScreen, components/WalletBankAccountCard, hooks/useWalletBankTransfer"
+        },
+        {
+          "route": "credits/bank-form",
+          "title": "New bank account",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/wallet/screens/WalletBankFormScreen, components/WalletBankForm (+ validate.ts, constants/WalletIbanConfig.ts)"
+        },
+        {
+          "route": "credits/bank-confirm",
+          "title": "Check details & confirm",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/wallet/screens/WalletBankTransferDetailsConfirmScreen (src/components/Overlay)"
+        },
+        {
+          "route": "credits/bank-otp",
+          "title": "Verify mobile number",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/wallet/screens/WalletBankTransferOTPScreen"
+        },
+        {
+          "route": "credits/bank-requested",
+          "title": "Transfer requested",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/wallet/screens/WalletBankTransferRequestedScreen"
         }
       ]
     },

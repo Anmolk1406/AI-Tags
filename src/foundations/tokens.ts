@@ -938,6 +938,11 @@ export const sheet = {
   floatingBottomGap: 15, // FLOATING_BOTTOM_INSET without a safe area (the home-indicator inset wins)
   floatingHandle: ref.palette('overlaySheetHandle'), // #B7B7B7, 36×4 r2
   floatingHandleOffset: 18, // handleContainer top -18 (on the scrim)
+  // `sheet: 'gorhom'` — bappzaar src/components/BottomSheet (@gorhom/bottom-sheet): full width, docked to the screen
+  // bottom (the content pads the safe area), top corners rounded, the floating handle above it, backdrop black 0.5
+  gorhomScrim: ref.palette('blackAlpha50'),
+  gorhomRadius: ref.radius('r16'), // backgroundStyle borderTopLeft/RightRadius (per screen: `radius`)
+  gorhomTopGap: 60, // the sheet never covers the status bar + handle
 } as const;
 
 /**

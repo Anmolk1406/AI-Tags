@@ -104,7 +104,7 @@ Screen `path`s: categories `all-categories`; returns `returns-history`, `returna
 
 ### Parent flows (Back when opened directly)
 
-`parentOf(route)` = `screen.parent ?? flow.parent ?? (tab root ? none : 'home/home')`. Set today: orders, returns, address, cards, noonone, membership → `account/account`; checkout → `cart/cart`. A new account-area flow (loyalty, rewards) should set `parent: 'account/account'`.
+`parentOf(route)` = `screen.parent ?? flow.parent ?? (tab root ? none : 'home/home')`. Set today: orders, returns, address, cards, credits, noonone, membership → `account/account`; checkout → `cart/cart`. A new account-area flow (loyalty, rewards) should set `parent: 'account/account'`.
 
 ### `source` / `notes`
 
@@ -141,7 +141,7 @@ Use it whenever a sheet or pushed screen must read/write the same state (sheets 
 
 ### DemoStore (`src/kit/DemoStore.tsx`) — `useDemoStore()`
 
-Cross-flow cart/wishlist/coupon state, in memory (refresh resets). `<NoonPrototype emptyCart>` seeds an empty cart.
+Cross-flow cart/wishlist/coupon/noon Credits state, in memory (refresh resets). `<NoonPrototype emptyCart>` seeds an empty cart.
 
 | Member | Signature / shape |
 |---|---|
@@ -159,6 +159,8 @@ Cross-flow cart/wishlist/coupon state, in memory (refresh resets). `<NoonPrototy
 | `wishlist` | `string[]` product ids (seed: products[1], [5], [6]) |
 | `toggleWishlist` | `(productId) => boolean` (new state) |
 | `isWishlisted` | `(productId) => boolean` |
+| `credits` | noon Credits balance: `user.credits` + Σ `creditEntries` |
+| `creditEntries` / `addCredits` | `CreditEntry[]` `{ id, amount, title, source, at }`, newest first / `(amount, title, source) => CreditEntry` (+ credit, − debit) |
 
 Also exported: `useCartTotals()`, `computeCartTotals(cart, code)`, `evaluateCoupon(code, subtotal)`, `cartGroupOf(product) → 'supermall' | 'express' | 'marketplace' | 'xborder'` (supermall when `Product.supermall`), `cartAddOns` (`ew1`, `ew2`), `cartCoupons` (`NOON10` 10% cap 150, `SAVE50` flat 50 min 300), `FREE_DELIVERY_THRESHOLD = 100`, `SHIPPING_FEE = 10`, `FOUPON_VALUE = 15`. Seed cart: p1 (engraving), p6 (`46mm`), p8, p11; inactive: p7.
 
@@ -447,6 +449,24 @@ Files: `CardsScreen.tsx` (298), `AddCardScreen.tsx`, `AddCardSuccessScreen.tsx`,
 | `add` | Add card | | scan / tap / manual options → form, live brand logo |
 | `form` | Add card — form | `{ manual: true }` | |
 | `success` | Card saved | transition `fade` | save_card reveal Lottie |
+
+### credits · Profile · `credits` · parent `account/account`
+No screen skill (brief in `.claude/resources/flows/other-flows.md`, values in `src/flows/credits/MAPPING.md`). bappzaar `features/wallet` + `features/giftcards` GiftCardRedeemScreen. Entry: Account → noon Credits row.
+Files: `CreditsScreen.tsx`, `DetailsSheet.tsx`, `ListSheet.tsx`, `NegativeSheet.tsx`, `FiltersSheet.tsx`, `SortSheet.tsx`, `TopupSheet.tsx`, `GiftCardScreen.tsx`, `BankScreens.tsx`, `components/{WalletUI,Legacy}.tsx`, `store.ts` (`creditsStore`, `queryTransactions`, `setFilters`).
+
+| id | title | params | shows |
+|---|---|---|---|
+| `credits` | noon Credits (`/credits`, `/noon-credits`, `/wallet`) | `{ state?: 'negative' \| 'empty' \| 'error' \| 'list-error' \| 'giftcard-only' \| 'no-topup' \| 'campaign' \| 'loading' }` | header + Withdraw to bank, balance, expiring / negative banner, top-up button with provider logos, Transactions: chips, pending card, rows, separator, page 2 on scroll |
+| `negative` · `empty` · `error` | landing variants | `state` preset | |
+| `details` | Transaction details | `{ code, state?: 'error' }` · sheet `gorhom` 500 | header, description (Withdraw to bank, order link), expiry lots, history timeline |
+| `pending` · `expiring` | Pending / Expiring credits | `{ type }` · sheet `gorhom` 300 / 450 | list with the amount pill; expiring: note + Shop now / View all Expiring Credits |
+| `negative-sheet` | Negative balance | `{ topup? }` · sheet `gorhom` | Add Credits / I'll do it later, or GOT IT |
+| `filters` · `sort` | Filters / Sort | sheet `gorhom` | sort, status, period calendar, prefetching Apply / radio rows |
+| `topup` | Add credits | `{ giftCard?, providers? }` · sheet `gorhom` | Giftcards & Vouchers + providers → `checkout/provider-burn` with `plx: 'page_wallet'` |
+| `giftcard` | Redeem gift card | modal | Gift card / Voucher tabs, REDEEM, success |
+| `bank` · `bank-form` · `bank-confirm` · `bank-otp` · `bank-requested` | Withdraw to bank | `bank`: `{ state?: 'insufficient' \| 'blocked' \| 'no-accounts' }` | amount + accounts + terms → confirm (r5 sheet) → OTP → Transfer Requested |
+
+The balance is `useDemoStore().credits`; every redeem and transfer calls `addCredits()`, so the account row and the wallet move together.
 
 ### noonone · Profile · `landing` · parent `account/account` · `sheetBackdrop` `noonone/landing`
 Screen skill: `/noon-one` (`../../noon-one/spec.md`; acquisition only — management is `membership` below).

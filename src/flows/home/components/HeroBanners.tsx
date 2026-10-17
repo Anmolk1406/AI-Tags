@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Badge, Pressable } from '../../../components';
 import { ref as tok } from '../../../foundations/tokens';
 import { useNav } from '../../../kit/Navigator';
@@ -6,6 +6,7 @@ import { currency } from '../../../data';
 import { heroInterval2025, heroSlides2025, type HeroSlide } from '../data.header';
 import styles from './HeroBanners.module.css';
 import { useReduceMotion } from '../../../motion/reducedMotion';
+import { useInterval } from '../../../motion/useInterval';
 
 /** 330×150 landscape cards, 9 apart (Figma 1337:5106). */
 const W = 330;
@@ -22,17 +23,17 @@ export function HeroBanners() {
   const [held, setHeld] = useState(false);
   const reduce = useReduceMotion();
 
-  useEffect(() => {
-    // no auto-advance under reduced motion (still swipeable)
-    if (held || reduce) return;
-    const t = setInterval(() => {
+  // no auto-advance under reduced motion (still swipeable); paused while the screen is covered (useInterval)
+  useInterval(
+    heroInterval2025,
+    () => {
       const el = ref.current;
       if (!el) return;
       const next = (Math.round(el.scrollLeft / (W + GAP)) + 1) % heroSlides2025.length;
       el.scrollTo({ left: next * (W + GAP), behavior: 'smooth' });
-    }, heroInterval2025);
-    return () => clearInterval(t);
-  }, [held, reduce]);
+    },
+    !held && !reduce,
+  );
 
   return (
     <div

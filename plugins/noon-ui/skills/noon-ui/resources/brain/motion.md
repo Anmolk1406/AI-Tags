@@ -8,46 +8,60 @@ Values and recipes: `references/motion.md` · per-flow motion and reduced-motion
 
 | Transition | Defined in | Opened with it (ScreenDef or nav option) | Default for (no explicit transition; Navigator: sheet → sheet, modal → modal, else push) |
 |---|---|---|---|
-| `mo:transition/address-map` | `src/flows/address/transitions.ts` | — | — |
-| `mo:transition/address-search` | `src/flows/address/transitions.ts` | — | — |
-| `mo:transition/address-success` | `src/flows/address/transitions.ts` | — | — |
-| `mo:transition/checkout-alpha` | `src/flows/checkout/transitions.ts` | — | — |
-| `mo:transition/fade` | `src/motion/transitions.ts` | — | — |
+| `mo:transition/address-map` | `src/flows/address/transitions.ts` | `address/create`, `address/map`, `address/update` | — |
+| `mo:transition/address-search` | `src/flows/address/transitions.ts` | `address/search` | — |
+| `mo:transition/address-success` | `src/flows/address/transitions.ts` | `address/success` | — |
+| `mo:transition/checkout-alpha` | `src/flows/checkout/transitions.ts` | `checkout/confirmation`, `checkout/placing` | — |
+| `mo:transition/fade` | `src/motion/transitions.ts` | `account/account`, `account/changeCountry`, `account/changeLanguage`, `account/country`, `account/signedOut`, `cards/add`, `cards/form`, `cards/success`, `orders/list`, `reviews/aiLoader`, `reviews/deck`, `reviews/draft` … +6 | — |
 | `mo:transition/fade-up` | `src/motion/transitions.ts` | — | — |
-| `mo:transition/mb-modal` | `src/flows/membership/transitions.ts` | — | — |
-| `mo:transition/mb-overlay` | `src/flows/membership/transitions.ts` | — | — |
-| `mo:transition/modal` | `src/motion/transitions.ts` | — | 4 screens | <!-- count-ok -->
-| `mo:transition/none` | `src/motion/transitions.ts` | — | — |
-| `mo:transition/noonone-instant` | `src/flows/noonone/transitions.ts` | — | — |
-| `mo:transition/noonone-overlay` | `src/flows/noonone/transitions.ts` | — | — |
-| `mo:transition/push` | `src/motion/transitions.ts` | — | 61 screens | <!-- count-ok -->
-| `mo:transition/sheet` | `src/motion/transitions.ts` | — | 42 screens | <!-- count-ok -->
+| `mo:transition/mb-modal` | `src/flows/membership/transitions.ts` | `membership/manage` | — |
+| `mo:transition/mb-overlay` | `src/flows/membership/transitions.ts` | `membership/cancelSheet`, `membership/confirmOffer`, `membership/familyReview`, `membership/groupSavings`, `membership/info`, `membership/leaveFamilyOverlay`, `membership/loseAccess`, `membership/partner`, `membership/planOptions`, `membership/referralsInput`, `membership/removeMember`, `membership/reviewPlan` … +3 | — |
+| `mo:transition/modal` | `src/motion/transitions.ts` | `checkout/placing` | 7 screens | <!-- count-ok -->
+| `mo:transition/none` | `src/motion/transitions.ts` | `address/selectSheet`, `checkout/checkout`, `checkout/placing` | — |
+| `mo:transition/noonone-instant` | `src/flows/noonone/transitions.ts` | `membership/changePlan`, `membership/familyReview`, `membership/info`, `membership/manage`, `membership/partner`, `membership/referralsInput`, `membership/reviewPlan`, `noonone/acceptInvite`, `noonone/acceptInviteError`, `noonone/addCard`, `noonone/addCvv`, `noonone/bundle` … +12 | — |
+| `mo:transition/noonone-overlay` | `src/flows/noonone/transitions.ts` | `membership/changePlan`, `membership/familyReview`, `membership/info`, `membership/manage`, `membership/partner`, `membership/referralsInput`, `membership/reviewPlan`, `noonone/acceptInvite`, `noonone/acceptInviteError`, `noonone/addCard`, `noonone/addCvv`, `noonone/cartOverlay` … +10 | — |
+| `mo:transition/push` | `src/motion/transitions.ts` | — | 67 screens | <!-- count-ok -->
+| `mo:transition/sheet` | `src/motion/transitions.ts` | `membership/changePlan`, `membership/familyReview`, `membership/info`, `membership/manage`, `membership/partner`, `membership/referralsInput`, `membership/reviewPlan`, `noonone/bundle` | 50 screens | <!-- count-ok -->
 | `mo:transition/zoom` | `src/motion/transitions.ts` | — | — |
 
 ## Presets, recipes, reduced motion, haptics
 
 | Id | Screens | Flows |
 |---|---|---|
-| `mo:preset/appleSpring` | 1 | home |
-| `mo:preset/duration.base` | 1 | home |
-| `mo:preset/duration.fast` | 1 | home |
-| `mo:preset/duration.medium` | 1 | home |
-| `mo:preset/duration.slow` | 1 | home |
-| `mo:preset/easing.backOut` | 1 | home |
-| `mo:preset/easing.ios` | 1 | home |
-| `mo:preset/easing.out` | 1 | home |
-| `mo:preset/easing.standard` | 1 | home |
-| `mo:preset/fieldMotion` | 1 | home |
-| `mo:preset/handoff.easeInOut` | 1 | home |
-| `mo:preset/handoff.easeOut` | 1 | home |
-| `mo:preset/handoff.fade` | 1 | home |
-| `mo:preset/handoff.spring` | 1 | home |
-| `mo:preset/handoff.springs` | 1 | home |
-| `mo:preset/pressScale` | 1 | home |
-| `mo:preset/spring.bouncy` | 1 | home |
-| `mo:preset/spring.gentle` | 1 | home |
-| `mo:preset/spring.press` | 1 | home |
-| `mo:preset/spring.sheet` | 1 | home |
-| `mo:preset/tween` | 1 | home |
-| `mo:recipe/Stagger` | 1 | home |
-| `mo:reduced-motion` | 1 | home |
+| `mo:haptics` | 14 | orders, plp, reviews, search |
+| `mo:preset/appleSpring` | 5 | account, home, orders |
+| `mo:preset/duration.base` | 169 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
+| `mo:preset/duration.fast` | 169 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
+| `mo:preset/duration.medium` | 169 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
+| `mo:preset/duration.slow` | 16 | home, membership, noonone, plp, reviews, search |
+| `mo:preset/duration.slower` | 1 | orders |
+| `mo:preset/easing.backOut` | 15 | account, categories, deals, fieldds, home, plp, search |
+| `mo:preset/easing.in` | 11 | account, address, orders, returns |
+| `mo:preset/easing.inOut` | 4 | address, checkout |
+| `mo:preset/easing.ios` | 169 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
+| `mo:preset/easing.out` | 170 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
+| `mo:preset/easing.standard` | 169 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
+| `mo:preset/fieldMotion` | 169 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
+| `mo:preset/handoff.easeInOut` | 26 | categories, deals, fieldds, home, membership, noonone, orders, plp, reviews, search |
+| `mo:preset/handoff.easeOut` | 17 | home, membership, noonone, orders, plp, reviews, search |
+| `mo:preset/handoff.fade` | 17 | home, membership, noonone, orders, plp, reviews, search |
+| `mo:preset/handoff.spring` | 17 | home, membership, noonone, orders, plp, reviews, search |
+| `mo:preset/handoff.springs` | 15 | home, membership, noonone, plp, reviews, search |
+| `mo:preset/handoff.stagger` | 5 | orders, plp, search |
+| `mo:preset/handoff.travel` | 4 | orders, search |
+| `mo:preset/pressScale` | 173 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
+| `mo:preset/spring.bouncy` | 169 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
+| `mo:preset/spring.gentle` | 169 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
+| `mo:preset/spring.press` | 169 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
+| `mo:preset/spring.sheet` | 169 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |
+| `mo:preset/supermall.ease` | 12 | orders, reviews |
+| `mo:preset/supermall.press` | 3 | orders |
+| `mo:preset/supermall.reveal` | 3 | orders |
+| `mo:preset/supermall.springs` | 1 | orders |
+| `mo:preset/supermall.swap` | 2 | reviews |
+| `mo:preset/tween` | 9 | cart, checkout, home, pdp, search |
+| `mo:recipe/BlurSwap` | 2 | search |
+| `mo:recipe/FadeIn` | 2 | reviews |
+| `mo:recipe/SkeletonReveal` | 3 | plp, search |
+| `mo:recipe/Stagger` | 10 | home, membership, noonone |
+| `mo:reduced-motion` | 171 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist |

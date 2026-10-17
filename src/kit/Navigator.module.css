@@ -17,6 +17,21 @@
   box-shadow: -12px 0 32px var(--nk-palette-black-alpha8);
 }
 
+/* the darkening of a covered screen (ScreenTransition.underDim): a black layer whose opacity animates */
+.dim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--nk-palette-black);
+  pointer-events: none;
+}
+
+/* a screen fully behind an opaque screen or modal, once the transition has settled: its body is not rendered at all
+   (no style, layout or paint; its own animations stop painting). The tab bar stays, so the next back lands crisp. */
+.screen[data-hidden] .screenBody {
+  content-visibility: hidden;
+}
+
 .screenBody {
   position: relative;
   flex: 1;
@@ -162,6 +177,30 @@
   height: 4px;
   border-radius: 2px;
   background: var(--nk-sheet-floating-handle);
+}
+
+/* bappzaar src/components/BottomSheet (@gorhom/bottom-sheet) — `sheet: 'gorhom'` */
+.gorhomScrim {
+  position: absolute;
+  inset: 0;
+  background: var(--nk-sheet-gorhom-scrim);
+}
+
+.gorhomColumn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100% - var(--nk-sheet-gorhom-top-gap));
+}
+
+.gorhomSheet {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-sheet-gorhom-radius) var(--nk-sheet-gorhom-radius) 0 0;
 }
 
 .toastLayer {

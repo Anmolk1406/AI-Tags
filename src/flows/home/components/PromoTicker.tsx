@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Pressable } from '../../../components';
 import { useNav } from '../../../kit/Navigator';
 import { tween } from '../../../motion/presets';
@@ -12,6 +12,7 @@ import dotActive from '@assets/home/2025/ticker/dot-active.svg';
 import { tickerInterval, tickerMessages } from '../data.header';
 import styles from './PromoTicker.module.css';
 import { useReduceMotion } from '../../../motion/reducedMotion';
+import { useInterval } from '../../../motion/useInterval';
 
 /** The pager shows 3 dots for any count: first message → dot 1, last → dot 3, everything between → dot 2. */
 const dotFor = (i: number, n: number) => (i === 0 ? 0 : i === n - 1 ? 2 : 1);
@@ -29,12 +30,8 @@ export function PromoTicker() {
   const n = tickerMessages.length;
   const m = tickerMessages[i];
 
-  useEffect(() => {
-    // reduced motion: the first message stays (no auto-rotation)
-    if (held || reduce) return;
-    const t = setInterval(() => setI((x) => (x + 1) % n), tickerInterval);
-    return () => clearInterval(t);
-  }, [held, n, reduce]);
+  // reduced motion: the first message stays (no auto-rotation); paused while the screen is covered (useInterval)
+  useInterval(tickerInterval, () => setI((x) => (x + 1) % n), !held && !reduce);
 
   const swap = { initial: { y: 8, opacity: 0 }, animate: { y: 0, opacity: 1 }, exit: { y: -8, opacity: 0 }, transition: tween('fast', 'out') };
   const active = dotFor(i, n);

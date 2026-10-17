@@ -8,6 +8,8 @@ import styles from './components/providerForm.module.css';
 export interface ProviderBurnParams {
   code?: string;
   isVouchersProvider?: boolean;
+  /** trackingParams.plx: 'page_wallet' when opened from the noon Credits top-up sheet (credits flow) */
+  plx?: string;
 }
 
 /** server: requestOtp + getStatus polling (PENDING → SUCCESS) */
@@ -45,7 +47,7 @@ export function ProviderBurnScreen({ params }: ScreenProps<ProviderBurnParams>) 
         return;
       }
       const phone = values.phone ? `+${values.dialCode.replace('+', '')}-${values.phone}` : null;
-      nav.push('checkout/provider-burn-otp', { code: provider.code, isVouchersProvider, voucherCode: values.voucherCode.trim() || null, phone });
+      nav.push('checkout/provider-burn-otp', { code: provider.code, isVouchersProvider, voucherCode: values.voucherCode.trim() || null, phone, plx: params.plx });
     }, REQUEST_OTP_DELAY);
   };
 

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useDemoStore } from '../../kit/DemoStore';
+import { useDemoStore, type DemoStore } from '../../kit/DemoStore';
 import { walletAmount } from './data';
 import { buildShipments, type CheckoutShipment, type ShipmentPromise } from './data.shipment';
 import { useCheckout, type CheckoutState } from './store';
@@ -31,7 +31,7 @@ export interface CheckoutTotals {
 }
 
 /** Built on DemoStore `cartTotals` (single source of truth for cart + checkout) + the checkout-only session bits. */
-export function computeTotals(store: Pick<ReturnType<typeof useDemoStore>, 'cart' | 'cartTotals'>, s: CheckoutState): CheckoutTotals {
+export function computeTotals(store: Pick<DemoStore, 'cart' | 'cartTotals'>, s: CheckoutState): CheckoutTotals {
   const { cart, cartTotals: ct } = store;
   const shipments = buildShipments(cart);
   const selectedPromise: Record<string, ShipmentPromise> = {};

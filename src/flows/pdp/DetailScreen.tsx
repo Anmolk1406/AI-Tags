@@ -34,6 +34,7 @@ import { freebiesFor } from './data.npB';
 import { railCopy } from './data.npE';
 import { pdpTokens } from './tokens';
 import styles from './pdp.module.css';
+import { Deferred } from '../../kit/Deferred';
 
 /**
  * Product detail page — New PDP (Figma Af34gfmhQ1D0wstXUEHSIF · 64:5571), built on the Storefront PDP
@@ -160,6 +161,8 @@ export function DetailScreen({ params }: ScreenProps<{ productId: string; delive
           <SfMainInfo product={shown} content={content} onReviews={() => reviewsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })} />
           <SfBundleCard product={product} content={content} />
           <SfSponsoredRow product={product} content={content} />
+          {/* below the first viewport: mounted one beat after the push, so the slide starts on a light frame */}
+          <Deferred minHeight={2400}>
           <SfDeliveryCard content={content} variant={deliveryVariants.includes(params.delivery as DeliveryVariant) ? params.delivery : undefined} />
           <SfNewerModelCard product={product} />
           <SfFreeGifts items={freebiesFor(product)} />
@@ -206,6 +209,7 @@ export function DetailScreen({ params }: ScreenProps<{ productId: string; delive
           <SfRecommendations variant="bleed" title={copy.moreFrom(product.brand)} items={sameBrand.slice(0, 12)} sponsored />
           <SfRecommendations variant="bleed" title={copy.customersAlsoViewed} items={others.slice(0, 8)} sponsored />
           <SfRecommendations title={railCopy.relatedSponsored} items={related.length ? related : others.slice(8, 20)} sponsored />
+          </Deferred>
         </div>
       </div>
     </Screen>

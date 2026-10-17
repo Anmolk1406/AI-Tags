@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { OriginIcon, Pressable, ProductImage, QuickAdd } from '../../../components';
 import { ref } from '../../../foundations/tokens';
 import { useNav } from '../../../kit/Navigator';
@@ -7,6 +7,7 @@ import { megaDeals, type BzHeader, type BzWrap } from '../data.feed';
 import { bz } from '../tokens.feed';
 import { BzModuleWrapper } from './BzModuleWrapper';
 import styles from './MegaDeals.module.css';
+import { useInterval } from '../../../motion/useInterval';
 
 /** Timer.ts with enableRecursive: an end time in the past rolls forward in 24 h steps → the next 06:00 UTC (10:00 Dubai). */
 function nextReset(now: number) {
@@ -29,10 +30,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
 export function MegaDeals({ wrap, header }: { wrap: BzWrap; header?: BzHeader }) {
   const nav = useNav();
   const [now, setNow] = useState(() => Date.now());
-  useEffect(() => {
-    const t = window.setInterval(() => setNow(Date.now()), 1000);
-    return () => window.clearInterval(t);
-  }, []);
+  useInterval(1000, () => setNow(Date.now()));
   const left = Math.max(0, nextReset(now) - now) / 1000;
   const h = Math.floor(left / 3600);
   const m = Math.floor((left % 3600) / 60);

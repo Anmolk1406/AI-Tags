@@ -1,14 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Icon } from '../../../components';
 import { ref } from '../../../foundations/tokens';
+import { useInterval } from '../../../motion/useInterval';
 
 /** NoonDeal timer pill: 24h, r12, #404553, 10/600 white digits, "· {n} left". */
 export function DealTimer({ seconds = 3 * 3600 + 25 * 60, left }: { seconds?: number; left?: string }) {
   const [s, setS] = useState(seconds);
-  useEffect(() => {
-    const t = setInterval(() => setS((x) => Math.max(0, x - 1)), 1000);
-    return () => clearInterval(t);
-  }, []);
+  useInterval(1000, () => setS((x) => Math.max(0, x - 1)), s > 0);
   const hh = String(Math.floor(s / 3600)).padStart(2, '0');
   const mm = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
   const ss = String(s % 60).padStart(2, '0');

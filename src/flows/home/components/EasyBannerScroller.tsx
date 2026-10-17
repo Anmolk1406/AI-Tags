@@ -2,7 +2,7 @@ import { useInView } from 'motion/react';
 import { useReduceMotion } from '../../../motion/reducedMotion';
 import { useEffect, useRef } from 'react';
 import { Pressable } from '../../../components';
-import { useNav } from '../../../kit/Navigator';
+import { useNav, useScreenActive } from '../../../kit/Navigator';
 import type { BzBanner, BzHeader, BzWrap } from '../data.feed';
 import { bz } from '../tokens.feed';
 import { BzModuleWrapper } from './BzModuleWrapper';
@@ -28,9 +28,11 @@ export function EasyBannerScroller({ wrap, header, numPerView, rows, banners }: 
   const perRow = Math.ceil(banners.length / rows);
   const rowList = Array.from({ length: rows }, (_, r) => banners.filter((_, i) => i % rows === r));
 
+  // the crawl runs only while in view, on the top screen (a covered home kept scrolling for nobody)
+  const active = useScreenActive();
   useEffect(() => {
     const el = railRef.current;
-    if (!el || !inView || reduced) return;
+    if (!el || !inView || reduced || !active) return;
     let raf = 0;
     let last = performance.now();
     let carry = el.scrollLeft;
@@ -47,7 +49,7 @@ export function EasyBannerScroller({ wrap, header, numPerView, rows, banners }: 
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [inView, reduced]);
+  }, [inView, reduced, active]);
 
   const copy = (key: string, ref?: React.Ref<HTMLDivElement>) => (
     <div key={key} ref={ref} className={styles.easyCopy} style={{ gap: iS, paddingInlineEnd: iS }}>

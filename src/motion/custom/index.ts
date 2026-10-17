@@ -19,7 +19,8 @@ registerTransition('scale-up', {
   initial: { scale: 0.85, opacity: 0, borderRadius: 40 },
   animate: { scale: 1, opacity: 1, borderRadius: 0 },
   exit: { scale: 0.85, opacity: 0, borderRadius: 40 },
-  under: { scale: 0.96, filter: 'brightness(0.9)' },
+  under: { scale: 0.96 },
+  underDim: 0.1,
   transition: spring.gentle,
 });
 

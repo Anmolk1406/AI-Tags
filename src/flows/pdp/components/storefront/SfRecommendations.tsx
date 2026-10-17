@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import etaExpressToday from '@assets/pdp/new-pdp/eta-express-today.svg';
 import { OriginIcon, ProductImage, type OriginIconName } from '../../../../components';
 import { ref } from '../../../../foundations/tokens';
@@ -12,6 +12,7 @@ import { pdpTokens } from '../../tokens';
 import { Card } from '../Sections';
 import styles from './SfRecommendations.module.css';
 import { useReduceMotion } from '../../../../motion/reducedMotion';
+import { useInterval } from '../../../../motion/useInterval';
 
 /** Nudge kind → Origin icon + tint (Figma "Nudges - HP": solid/arrow-down-circle, solid/truck, solid/bolt, solid/shopping-cart, solid/check-badge). */
 const nudgeIcon: Record<ProductNudge['kind'], { name: OriginIconName; color: string }> = {
@@ -137,12 +138,8 @@ function SfNudges({ nudges }: { nudges: ProductNudge[] }) {
   const { card } = pdpTokens.nudge;
   const [i, setI] = useState(0);
   const reduce = useReduceMotion();
-  useEffect(() => {
-    // reduced motion: the first nudge stays (no auto-rotation)
-    if (nudges.length < 2 || reduce) return;
-    const t = setInterval(() => setI((n) => (n + 1) % nudges.length), card.enterMs + card.holdMs + card.exitMs);
-    return () => clearInterval(t);
-  }, [nudges.length, card.enterMs, card.holdMs, card.exitMs, reduce]);
+  // reduced motion: the first nudge stays (no auto-rotation); paused while the PDP is covered (useInterval)
+  useInterval(card.enterMs + card.holdMs + card.exitMs, () => setI((n) => (n + 1) % nudges.length), nudges.length > 1 && !reduce);
   const n = nudges[i % nudges.length];
   const icon = nudgeIcon[n.kind];
   return (

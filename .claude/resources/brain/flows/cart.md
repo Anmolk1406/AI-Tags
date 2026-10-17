@@ -7,29 +7,123 @@
 - Docs: `.claude/skills/cart/SKILL.md` · `.claude/skills/cart/spec.md` · `.claude/resources/flows/cart.md` · `src/flows/cart/FIGMA-MAPPING.md` · `src/flows/cart/components/couponTray/MAPPING.md`
 - Folder: `src/flows/cart/` · tokens `src/flows/cart/tokens.ts` (78 flow vars) <!-- count-ok -->
 - Area data / token / helper files: data.bundles.ts, data.couponTray.ts, data.variants.ts
-- Enters from: —
-- Exits to: —
+- Enters from: `pdp/added` → cart · `wishlist/empty` → cart · `wishlist/no-collections` → cart · `wishlist/wishlist` → cart
+- Exits to: `address/select` (from cart, empty, loading) · `checkout/checkout` (from cart, empty, loading) · `noonone/cartOverlay` (from cart, empty, loading) · `noonone/landing` (from cart, empty, loading, couponTray) · `pdp/detail` (from cart, empty, loading, discount) · `pdp/variants` (from discount) · `plp/listing` (from cart, empty, loading, couponTray, discount) · `wishlist/wishlist` (from cart, empty, loading)
 
 ## Screens
 
 | Screen | Presentation | URL | Truth · verified | Module | Tests |
 |---|---|---|---|---|---|
-| `scr:cart/cart` Cart | screen | /cart | mixed · 2026-10-13 | ? | 0 |
-| `scr:cart/empty` Cart (empty) | screen | — | bappzaar* · never | ? (state) | 0 |
-| `scr:cart/loading` Cart (loading) | screen | — | bappzaar* · never | ? (state) | 0 |
-| `scr:cart/variants` Change variant | sheet (classic) | — | bappzaar* · never | ? (productId) | 0 |
-| `scr:cart/customize` Customize item | sheet (classic) | — | bappzaar* · never | ? (productId) | 0 |
-| `scr:cart/couponTray` Coupon tray | sheet (floating) | — | bappzaar · never | ? | 0 |
-| `scr:cart/discount` Discount details | sheet (classic) | — | bappzaar* · never | ? (productId, tagId) | 0 |
-| `scr:cart/bundles` Bundle details | sheet (classic) | — | bappzaar* · never | ? (productId) | 0 |
-| `scr:cart/updates` Cart updates | sheet (classic) | — | bappzaar* · never | ? | 0 |
+| `scr:cart/cart` Cart | screen | /cart | mixed · 2026-10-13 | `CartScreen.tsx` | 9 |
+| `scr:cart/empty` Cart (empty) | screen | — | bappzaar* · never | `CartScreen.tsx` (state) | 1 |
+| `scr:cart/loading` Cart (loading) | screen | — | bappzaar* · never | `CartScreen.tsx` (state) | 0 |
+| `scr:cart/variants` Change variant | sheet (classic) | — | bappzaar* · never | `VariantsSheet.tsx` (productId) | 0 |
+| `scr:cart/customize` Customize item | sheet (classic) | — | bappzaar* · never | `CustomizeSheet.tsx` (productId) | 0 |
+| `scr:cart/couponTray` Coupon tray | sheet (floating) | — | bappzaar · never | `CouponTraySheet.tsx` | 1 |
+| `scr:cart/discount` Discount details | sheet (classic) | — | bappzaar* · never | `DiscountDetailsSheet.tsx` (productId, tagId) | 0 |
+| `scr:cart/bundles` Bundle details | sheet (classic) | — | bappzaar* · never | `VirtualBundlesSheet.tsx` (productId) | 0 |
+| `scr:cart/updates` Cart updates | sheet (classic) | — | bappzaar* · never | `UpdatesSheet.tsx` | 0 |
 
 `*` truth inferred from `source`. Tests = journeys + visual references (every screen also runs in `check:routes`). In nav lines, `~` = target resolved through a const / helper / ternary (reachable, runtime-dependent); no mark = a literal `nav.*('…')` call.
 
-## `cart/cart` · `cart/empty` · `cart/loading` · `cart/variants` · `cart/customize` · `cart/couponTray` · `cart/discount` · `cart/bundles` · `cart/updates`
+## `cart/cart` · `cart/empty` · `cart/loading`
 
-- Module `?` (shared by 9 screens; params pick the state) · 0 own files, 0 in the import closure <!-- count-ok -->
+- Module `src/flows/cart/CartScreen.tsx` (shared by 3 screens; params pick the state) · 39 own files, 82 in the import closure · **imports from other flows:** `src/flows/noonone/components/entry/cartVipPush.ts` <!-- count-ok -->
 - Source: marketplaces/noon/screens/NoonCartScreen; visuals Figma Af34gfmhQ1D0wstXUEHSIF · 127:39687 (All flows "Cart": supermall / Global / express / market groups, carousels, coupon, cobrand cards, payment offers, sticky footer…
-- Shared components: —
+- Styles: cart.module.css, components/callout.module.css, components/cobrand.module.css, components/coupon.module.css, components/footer.module.css, components/glassFooter.module.css, components/group.module.css, components/header.module.css, components/html.module.css, components/inactive.module.css, components/invoice.module.css, components/item.module.css, components/sections.module.css, components/snackbar.module.css
+- Data / helpers: data.ts, invoice.ts, tokens.ts
+- Shared components: `GlassFade`, `HtmlText`, `Pressable`, `ProductImage`, `Screen`, `SkuCard`, `Spinner`, `Toast`
+- Flow components: `CartCarousel`, `CartFooter`, `CartGlassFooter`, `CartGroup`, `CartHeader`, `CartIcon`, `CartItem`, `CartSnackBar`, `CobrandCards`, `CouponInput`, `DiscountTags`, `DynamicInvoice`, `FreeGifts`, `GroupProgressBar`, `InactiveGroup`, `ItemPoint`, `NoonOneLogo`, `NoonOneNudge`, `PaymentOffers`, `QuantitySelector`, `SalesCallout`
+- Tokens (160): colors 27 · flow:cart 52 · fontFamily 1 · layout 1 · local 3 · palette 31 · radius 7 · spacing 12 · stepper 1 · tabBar 3 · type 22
+- Motion: `reduced-motion`
+- Icons: — · assets 73
+- State / data: `store:demo`, `store:membership`, `data:currency`, `data:discountPct`, `data:formatPrice`, `data:products`, `data:user`
+- Nav out: push `address/select` · sheet `cart/bundles` · sheet `cart/couponTray` · sheet `cart/customize` · sheet `cart/discount` · sheet `cart/updates` · sheet `cart/variants` · push `checkout/checkout` · push `noonone/cartOverlay` · push `noonone/landing` · push `pdp/detail` (via SkuCard) · push `plp/listing` · push `wishlist/wishlist`
+- `cart`: in ← `pdp/added`, `wishlist/empty`, `wishlist/no-collections`, `wishlist/wishlist` · tests `test:journey/back-direct-url`, `test:journey/cart-add-from-card`, `test:journey/cart-add-from-pdp`, `test:journey/cart-checkout`, `test:journey/cart-coupon`, `test:journey/cart-coupon-tray`, `test:journey/cart-empty-state`, `test:journey/cart-qty-totals`, `test:visual/cart-sticky-footer` · docs `.claude/resources/flows/cart.md:5-15`, `.claude/resources/flows/cart.md:55-62`, `.claude/skills/cart/spec.md:7-24`, `.claude/skills/cart/spec.md:140-152`, `.claude/resources/flows/checkout.md:5-25`, `.claude/skills/checkout/spec.md:6-38`, `.claude/skills/checkout/spec.md:39-46`
+- `empty`: tests `test:journey/cart-empty-param` · docs `.claude/resources/flows/cart.md:5-15`, `.claude/skills/cart/spec.md:7-24`, `.claude/skills/cart/spec.md:129-139`
+- `loading`: docs `.claude/resources/flows/cart.md:5-15`, `.claude/skills/cart/spec.md:7-24`, `.claude/skills/cart/spec.md:129-139`
+
+## `cart/variants`
+
+- Module `src/flows/cart/VariantsSheet.tsx` · 4 own files, 37 in the import closure
+- Source: marketplaces/noon/screens/NoonCartVariantsOverlayScreen (+ NoonProductCartOptionsSelection chips)
+- Styles: variants.module.css
+- Data / helpers: data.variants.ts
+- Shared components: `ExpressBadge`, `ProductImage`, `Skeleton`, `Spinner`
+- Flow components: `VariantOptionChip`
+- Tokens (38): colors 15 · flow:cart 3 · palette 13 · type 7
+- Motion: `preset/tween`
+- Icons: — · assets 1
+- State / data: `store:demo`, `data:currency`, `data:formatPrice`, `data:productById`
+- `variants`: in ← `cart/cart`, `cart/empty`, `cart/loading` · docs `.claude/resources/flows/cart.md:5-15`, `.claude/skills/cart/spec.md:7-24`
+
+## `cart/customize`
+
+- Module `src/flows/cart/CustomizeSheet.tsx` · 3 own files, 29 in the import closure
+- Source: marketplaces/noon/screens/NoonCartCustomizeOverlayScreen
+- Styles: customize.module.css
+- Data / helpers: data.ts
+- Shared components: `Lottie`
 - Flow components: —
-- Tokens (0): —
+- Tokens (21): colors 12 · palette 4 · type 5
+- Icons: — · assets 8
+- State / data: `store:demo`
+- `customize`: in ← `cart/cart`, `cart/empty`, `cart/loading` · docs `.claude/resources/flows/cart.md:5-15`, `.claude/skills/cart/spec.md:7-24`
+
+## `cart/couponTray`
+
+- Module `src/flows/cart/CouponTraySheet.tsx` · 9 own files, 47 in the import closure
+- Source: marketplaces/noon/screens/NoonSalesCouponTrayOverlayScreen (+ NoonSalesCouponTrayOffer, NoonSalesCouponTrayBestPriceSection, …UnlockCriteria, …TiersProgressBar, …AnimatedItem); see components/couponTray/MAPPING.md
+- Styles: components/couponTray/tray.module.css, couponTray.module.css
+- Data / helpers: data.couponTray.ts, tokens.ts
+- Shared components: `Button`, `HtmlText`, `Lottie`, `MaskIcon`, `Pressable`, `Skeleton`
+- Flow components: `BestPriceSection`, `TiersProgressBar`, `TrayItem`, `TrayOffer`, `UnlockCriteria`
+- Tokens (68): colors 3 · flow:cart 18 · layout 1 · palette 22 · radius 7 · spacing 8 · type 9
+- Motion: `reduced-motion`
+- Icons: — · assets 13
+- State / data: `store:demo`, `store:membership`, `data:currency`, `data:formatPrice`
+- Nav out: push `noonone/landing` · push `plp/listing`
+- `couponTray`: in ← `cart/cart`, `cart/empty`, `cart/loading` · tests `test:journey/cart-coupon-tray` · docs `.claude/resources/flows/cart.md:5-15`, `.claude/resources/flows/cart.md:29-54`, `.claude/skills/cart/spec.md:7-24`, `.claude/skills/cart/spec.md:34-50`
+
+## `cart/discount`
+
+- Module `src/flows/cart/DiscountDetailsSheet.tsx` · 5 own files, 51 in the import closure
+- Source: marketplaces/noon/screens/NoonCartDiscountDetailsOverlayScreen
+- Styles: components/html.module.css, discount.module.css
+- Data / helpers: data.ts
+- Shared components: `HtmlText`, `ProductCard`, `Skeleton`, `Spinner`
+- Flow components: `CartIcon`
+- Tokens (55): colors 20 · flow:cart 12 · palette 7 · radius 1 · spacing 1 · type 14
+- Motion: `preset/tween`
+- Icons: — · assets 19
+- State / data: `store:demo`, `data:currency`, `data:formatPrice`, `data:productById`
+- Nav out: push `pdp/detail` (via ProductCard) · sheet `pdp/variants` (via ProductCard) · push `plp/listing`
+- `discount`: in ← `cart/cart`, `cart/empty`, `cart/loading` · docs `.claude/resources/flows/cart.md:5-15`, `.claude/skills/cart/spec.md:7-24`, `.claude/skills/cart/spec.md:58-61`
+
+## `cart/bundles`
+
+- Module `src/flows/cart/VirtualBundlesSheet.tsx` · 4 own files, 20 in the import closure
+- Source: marketplaces/noon/screens/NoonCartVirtualBundlesOverlayScreen
+- Styles: bundles.module.css
+- Data / helpers: data.bundles.ts, data.ts
+- Shared components: `ExpressBadge`, `HtmlText`, `Lottie`, `ProductImage`
+- Flow components: —
+- Tokens (22): colors 12 · flow:cart 1 · palette 5 · radius 2 · spacing 1 · type 1
+- Motion: `preset/tween`
+- Icons: — · assets 8
+- State / data: `data:productById`
+- `bundles`: in ← `cart/cart`, `cart/empty`, `cart/loading` · docs `.claude/resources/flows/cart.md:5-15`, `.claude/skills/cart/spec.md:7-24`
+
+## `cart/updates`
+
+- Module `src/flows/cart/UpdatesSheet.tsx` · 3 own files, 12 in the import closure
+- Source: marketplaces/noon/screens/NoonCartUpdatesOverlayScreen
+- Styles: updates.module.css
+- Data / helpers: data.ts
+- Shared components: `HtmlText`, `ProductImage`
+- Flow components: —
+- Tokens (22): colors 10 · flow:cart 3 · palette 7 · type 2
+- Motion: `preset/easing.out`
+- Icons: — · assets 7
+- State / data: `data:currency`, `data:formatPrice`, `data:productById`
+- `updates`: in ← `cart/cart`, `cart/empty`, `cart/loading` · docs `.claude/resources/flows/cart.md:5-15`, `.claude/skills/cart/spec.md:7-24`, `.claude/skills/cart/spec.md:34-50`

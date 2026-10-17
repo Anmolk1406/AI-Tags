@@ -475,6 +475,33 @@ Chain `setTimeout`s in one effect, clear them on unmount, then navigate (`src/fl
 - Animate a list that pushes content down with a transform on an opaque layer (`BrandWidget` `pushGrid`), not a height animation that re-lays out the cards.
 - Clean up timers and `animate()` controls in effect cleanups.
 
+### Smoothness rules (measured, Oct 2026: `npm run perf`)
+
+- **Transitions animate transform and opacity only.** A covered screen darkens through `ScreenTransition.underDim` (a black
+  layer whose opacity animates), never `filter: brightness()`; a filter on a full-screen layer re-rasterised it every
+  frame of every push. `borderRadius` on the page under a modal is the one accepted repaint (rare).
+- **A screen fully behind an opaque screen stops rendering** once the cover transition settles (`content-visibility:
+  hidden` on its body, `Navigator.module.css`). Screens marked `transparent: true` keep the page under them rendered.
+- **Auto-rotating content uses `useInterval` / `useStepTimeout`** (`src/motion/useInterval.ts`), never a bare
+  `setInterval` in an effect: they run only while the screen is the top of the stack (`useScreenActive()`) and the tab
+  is visible. Cards that tick (nudges) also gate on `useInView` so only the visible ones animate. Measured before: the
+  PDP kept 52 intervals and the PLP 18 tickers alive under whatever was on top.
+- **Long pages mount in two beats.** The first viewport renders with the push; the rest sits in `<Deferred minHeight>`
+  (`src/kit/Deferred.tsx`) and mounts after the transition settles (PDP from the delivery card down, Deals after the
+  first rail, the home feed after module 3). Keep the first beat to about one viewport.
+- **Select from the demo store** in anything rendered per card: `useDemoStore((s) => s.wishlist.includes(id))`,
+  `useDemoStore((s) => s.addToCart)`. Taking the whole store re-renders the consumer on every cart or wishlist change.
+- **Never read `nav.stack` / `nav.canGoBack` in render** (CLAUDE.md); read once with `useState(() => …)` when the
+  value is fixed for the mounted screen (`CartScreen`, `Header`), or use `useIsTop()`.
+- **Skeletons leave the DOM** when their fade ends (`SkeletonReveal`, `RevealChip`); an invisible shimmer still
+  animates every frame.
+- **Inherited custom properties are not per-frame channels.** The tab bar writes `--nk-tab-hide` on the elements that
+  follow it (`[data-tab]`), not on the screen root: an inherited property written there restyled the whole subtree
+  each frame (2.5× the style cost of a home scroll).
+- Flows declare the screens they hand off to in `FlowDef.preload` (`'flow/screen'` routes); the Navigator fetches a
+  flow's own screens and those hand-offs in idle time when one of its screens mounts, so sheets and next steps never
+  rise empty.
+
 ## 7. Reduced motion
 
 One answer for the whole prototype: `<NoonPrototype reducedMotion>` (default `'user'` = the OS `prefers-reduced-motion`; `'always'`; `'never'`). It sets motion/react's `<MotionConfig reducedMotion>`, and while motion is reduced it marks its root `data-nk-motion="reduce"` (a `display: contents` wrapper). Read it anywhere with `useReduceMotion()` (`src/motion/reducedMotion.ts`, re-exported from `src/motion/recipes.tsx`); it returns `false` outside `<NoonPrototype>`, like motion/react. Do **not** use motion's `useReducedMotion()` (OS only, ignores the prop).

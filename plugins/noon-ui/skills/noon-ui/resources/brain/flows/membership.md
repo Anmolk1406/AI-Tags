@@ -7,44 +7,305 @@
 - Docs: `resources/flows/other-flows.md#membership` · `src/flows/membership/MAPPING.md` · `src/flows/membership/perks/MAPPING.md`
 - Folder: `src/flows/membership/` · tokens `src/flows/membership/tokens.ts` (174 flow vars) · store `src/flows/membership/store.ts` <!-- count-ok -->
 - Area data / token / helper files: assets.ts, links.ts, store.ts, transitions.ts
-- Enters from: —
-- Exits to: —
+- Enters from: `account/account` → manage · `noonone/familyPlans` → manage · `noonone/landing` → manage · `noonone/success` → manage
+- Exits to: `account/account` (from manage, cancel, cancelSheet, unusedSeats, planOptions, groupSavings, loseAccess, leaveFamilyOverlay, confirmOffer) · `checkout/checkout` (from manage, reviewPlan, info, changePlan, familyReview, referralsInput, partner) · `home/home` (from cancel, cancelSheet, unusedSeats, planOptions, groupSavings, loseAccess, leaveFamilyOverlay, confirmOffer) · `noonone/acceptInviteError` (from manage, reviewPlan, info, changePlan, familyReview, referralsInput, partner) · `noonone/addCard` (from manage, reviewPlan, info, changePlan, familyReview, referralsInput, partner) · `noonone/addCvv` (from manage, reviewPlan, info, changePlan, familyReview, referralsInput, partner) · `noonone/confirmVoucher` (from manage, reviewPlan, info, changePlan, familyReview, referralsInput, partner) · `noonone/landing` (from manage, reviewPlan, info, changePlan, familyReview, referralsInput, partner) · `noonone/mobilePay` (from manage, reviewPlan, info, changePlan, familyReview, referralsInput, partner) · `noonone/offers` (from manage, reviewPlan, info, changePlan, familyReview, referralsInput, partner) · `noonone/payment` (from manage, reviewPlan, info, changePlan, familyReview, referralsInput, partner) · `noonone/planDetails` (from manage, reviewPlan, info, changePlan, familyReview, referralsInput, partner) · `noonone/plans` (from manage, reviewPlan, info, changePlan, familyReview, referralsInput, partner) · `noonone/trialGuide` (from manage, reviewPlan, info, changePlan, familyReview, referralsInput, partner)
 
 ## Screens
 
 | Screen | Presentation | URL | Truth · verified | Module | Tests |
 |---|---|---|---|---|---|
-| `scr:membership/manage` Manage membership | screen · mb-modal | /manage-membership /noon-one-manage-membership | bappzaar* · never | ? | 0 |
-| `scr:membership/upgrade` Change plan | screen | /noon-one-upgrade /upgrade-plan | bappzaar* · never | ? | 0 |
-| `scr:membership/reviewPlan` Review and confirm | modal · mb-overlay | — | bappzaar* · never | ? (planId) | 0 |
-| `scr:membership/switchPlan` Switch plan | modal · mb-overlay | — | bappzaar* · never | ? (planId) | 0 |
-| `scr:membership/info` Info overlay | modal · mb-overlay | — | bappzaar* · never | ? | 0 |
-| `scr:membership/changePlan` Choose your plan | screen | /change-plan | bappzaar* · never | ? | 0 |
-| `scr:membership/invoice` View invoice | screen | /invoice /invoices | bappzaar* · never | ? | 0 |
-| `scr:membership/cancel` Cancel membership | screen | /cancel-membership | bappzaar* · never | ? (mode) | 0 |
-| `scr:membership/cancelSheet` Cancel – overlay page | modal · mb-overlay | — | bappzaar* · never | ? (index, mode, state) | 0 |
-| `scr:membership/unusedSeats` Unused seats | modal · mb-overlay | — | bappzaar* · never | ? (mode) | 0 |
-| `scr:membership/planOptions` Switch plan instead | modal · mb-overlay | — | bappzaar* · never | ? (mode) | 0 |
-| `scr:membership/groupSavings` Family group savings | modal · mb-overlay | — | bappzaar* · never | ? (mode) | 0 |
-| `scr:membership/loseAccess` Lose access warning | modal · mb-overlay | — | bappzaar* · never | ? (mode) | 0 |
-| `scr:membership/leaveFamilyOverlay` Leave family plan – confirm | modal · mb-overlay | — | bappzaar* · never | ? (mode) | 0 |
-| `scr:membership/confirmOffer` Confirm retention offer | modal · mb-overlay | — | bappzaar* · never | ? (mode) | 0 |
-| `scr:membership/familyPlans` Family plans | screen | /family-plan /family-plans | bappzaar* · never | ? | 0 |
-| `scr:membership/familyReview` Family plan review | modal · mb-overlay | — | bappzaar* · never | ? (planCode) | 0 |
-| `scr:membership/shareInvite` Share plan invite | screen | /share-invite | bappzaar* · never | ? | 0 |
-| `scr:membership/removeMember` Remove family member | modal · mb-overlay | — | bappzaar* · never | ? (memberId) | 0 |
-| `scr:membership/leaveFamily` Leave family plan | screen | /leave-family | bappzaar* · never | ? | 0 |
-| `scr:membership/referrals` Refer & Earn | screen | /noon-one-referrals /referrals | bappzaar* · never | ? | 0 |
-| `scr:membership/referralsInput` Referral code | modal · mb-overlay | /referral-code | bappzaar* · never | ? (preselectedIndex) | 0 |
-| `scr:membership/partner` Partner offer | modal · mb-overlay | — | bappzaar* · never | ? | 0 |
-| `scr:membership/yangoCredits` Yango Play credits T&C | modal · mb-overlay | — | bappzaar* · never | ? (isTrialValid) | 0 |
+| `scr:membership/manage` Manage membership | screen · mb-modal | /manage-membership /noon-one-manage-membership | bappzaar* · never | `ManageMembershipScreen.tsx` | 0 |
+| `scr:membership/upgrade` Change plan | screen | /noon-one-upgrade /upgrade-plan | bappzaar* · never | `plans/UpgradePlanScreen.tsx` | 0 |
+| `scr:membership/reviewPlan` Review and confirm | modal · mb-overlay | — | bappzaar* · never | `plans/ReviewPlanOverlay.tsx` (planId) | 0 |
+| `scr:membership/switchPlan` Switch plan | modal · mb-overlay | — | bappzaar* · never | `plans/SwitchPlanOverlay.tsx` (planId) | 0 |
+| `scr:membership/info` Info overlay | modal · mb-overlay | — | bappzaar* · never | `plans/InfoOverlay.tsx` | 0 |
+| `scr:membership/changePlan` Choose your plan | screen | /change-plan | bappzaar* · never | `plans/ChangePlanScreen.tsx` | 0 |
+| `scr:membership/invoice` View invoice | screen | /invoice /invoices | bappzaar* · never | `plans/InvoiceScreen.tsx` | 0 |
+| `scr:membership/cancel` Cancel membership | screen | /cancel-membership | bappzaar* · never | `cancel/CancelScreen.tsx` (mode) | 0 |
+| `scr:membership/cancelSheet` Cancel – overlay page | modal · mb-overlay | — | bappzaar* · never | `cancel/overlays.tsx` (index, mode, state) | 0 |
+| `scr:membership/unusedSeats` Unused seats | modal · mb-overlay | — | bappzaar* · never | `cancel/overlays.tsx` (mode) | 0 |
+| `scr:membership/planOptions` Switch plan instead | modal · mb-overlay | — | bappzaar* · never | `cancel/overlays.tsx` (mode) | 0 |
+| `scr:membership/groupSavings` Family group savings | modal · mb-overlay | — | bappzaar* · never | `cancel/overlays.tsx` (mode) | 0 |
+| `scr:membership/loseAccess` Lose access warning | modal · mb-overlay | — | bappzaar* · never | `cancel/overlays.tsx` (mode) | 0 |
+| `scr:membership/leaveFamilyOverlay` Leave family plan – confirm | modal · mb-overlay | — | bappzaar* · never | `cancel/overlays.tsx` (mode) | 0 |
+| `scr:membership/confirmOffer` Confirm retention offer | modal · mb-overlay | — | bappzaar* · never | `cancel/overlays.tsx` (mode) | 0 |
+| `scr:membership/familyPlans` Family plans | screen | /family-plan /family-plans | bappzaar* · never | `family/FamilyPlansScreen.tsx` | 0 |
+| `scr:membership/familyReview` Family plan review | modal · mb-overlay | — | bappzaar* · never | `family/FamilyReviewOverlay.tsx` (planCode) | 0 |
+| `scr:membership/shareInvite` Share plan invite | screen | /share-invite | bappzaar* · never | `family/SharePlanInviteScreen.tsx` | 0 |
+| `scr:membership/removeMember` Remove family member | modal · mb-overlay | — | bappzaar* · never | `family/RemoveMemberOverlay.tsx` (memberId) | 0 |
+| `scr:membership/leaveFamily` Leave family plan | screen | /leave-family | bappzaar* · never | `family/LeaveFamilyPlanScreen.tsx` | 0 |
+| `scr:membership/referrals` Refer & Earn | screen | /noon-one-referrals /referrals | bappzaar* · never | `perks/ReferralsScreen.tsx` | 0 |
+| `scr:membership/referralsInput` Referral code | modal · mb-overlay | /referral-code | bappzaar* · never | `perks/ReferralsInputOverlayScreen.tsx` (preselectedIndex) | 0 |
+| `scr:membership/partner` Partner offer | modal · mb-overlay | — | bappzaar* · never | `perks/PartnerOverlayScreen.tsx` | 0 |
+| `scr:membership/yangoCredits` Yango Play credits T&C | modal · mb-overlay | — | bappzaar* · never | `perks/YangoCreditsOverlayScreen.tsx` (isTrialValid) | 0 |
 
 `*` truth inferred from `source`. Tests = journeys + visual references (every screen also runs in `check:routes`). In nav lines, `~` = target resolved through a const / helper / ternary (reachable, runtime-dependent); no mark = a literal `nav.*('…')` call.
 
-## `membership/manage` · `membership/upgrade` · `membership/reviewPlan` · `membership/switchPlan` · `membership/info` · `membership/changePlan` · `membership/invoice` · `membership/cancel` · `membership/cancelSheet` · `membership/unusedSeats` · `membership/planOptions` · `membership/groupSavings` · `membership/loseAccess` · `membership/leaveFamilyOverlay` · `membership/confirmOffer` · `membership/familyPlans` · `membership/familyReview` · `membership/shareInvite` · `membership/removeMember` · `membership/leaveFamily` · `membership/referrals` · `membership/referralsInput` · `membership/partner` · `membership/yangoCredits`
+## `membership/manage`
 
-- Module `?` (shared by 24 screens; params pick the state) · 0 own files, 0 in the import closure <!-- count-ok -->
+- Module `src/flows/membership/ManageMembershipScreen.tsx` · 15 own files, 139 in the import closure · **imports from other flows:** `src/flows/noonone/components/VIPButton.tsx`, `src/flows/noonone/components/VIPOverlay.module.css`, `src/flows/noonone/components/VIPOverlay.tsx`, `src/flows/noonone/components/entry/LegacyOverlay.module.css`, `src/flows/noonone/components/entry/LegacyOverlay.tsx`, `src/flows/noonone/components/landing/DashedLine.tsx` … +77
 - Source: features/vip/screens/VIPManageMembershipV3Screen
-- Shared components: —
+- Styles: components/FamilyMembersSection.module.css, components/ManagePlan.module.css, components/primitives.module.css, manage.module.css
+- Data / helpers: assets.ts, data.ts, links.ts, manageData.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`, `Lottie`, `MaskIcon`, `Screen`, `Spinner`
+- Flow components: `ChevronLeftRounded`, `DashedLine`, `FamilyMembersSection`, `ManagePlan`, `MemberAvatar`, `RowChevron`, `SuccessAnim`, `VipBackButton`, `VipButton`
+- Tokens (53): colors 10 · flow:membership 17 · fontWeight 1 · local 1 · palette 4 · radius 7 · spacing 8 · type 5
+- Motion: `transition/mb-modal`
+- Icons: — · assets 76
+- State / data: `store:demo`, `store:membership`, `store:noonone`, `data:currency`, `data:user`
+- Nav out: reset `account/account` · push `checkout/checkout` (via CartOverlayScreen) · push `membership/cancel` · push `membership/invoice` · push `membership/manage` (via FamilyPlansScreen) · push `membership/removeMember` · push `membership/shareInvite` · push `membership/upgrade` · push `noonone/acceptInviteError` (via AcceptInviteOverlayScreen) · push `noonone/addCard` (via PaymentScreen) · push `noonone/addCvv` (via PaymentScreen) · push `noonone/confirmVoucher` (via OffersOverlayScreen) · push `noonone/landing` (via InfoOverlayScreen) · replace `noonone/landing`~ · push `noonone/mobilePay` (via PaymentScreen) · push `noonone/offers` (via ConfirmVoucherPlanScreen) · push `noonone/payment` (via useQuickPay) · push `noonone/planDetails` (via FamilyPlansScreen) · push `noonone/plans` (via LandingScreen) · push `noonone/trialGuide` (via PaymentScreen)
+- Route strings (data-driven links): `noonone/partnerOffer`
+- `manage`: in ← `account/account`, `membership/cancel`, `membership/cancelSheet`, `membership/changePlan`, `membership/confirmOffer`, `membership/familyPlans`, `membership/familyReview`, `membership/familyReview`, `membership/groupSavings`, `membership/info`, `membership/leaveFamily`, `membership/leaveFamilyOverlay`, `membership/loseAccess`, `membership/partner`, `membership/planOptions`, `membership/referralsInput`, `membership/removeMember`, `membership/reviewPlan`, `membership/reviewPlan`, `membership/shareInvite`, `membership/unusedSeats`, `noonone/familyPlans`, `noonone/landing`, `noonone/success` · docs `resources/flows/other-flows.md:37-46`, `resources/flows/account.md:27-42`, `../account/spec.md:146-156`, `src/flows/account/MAPPING.md:41-55`, `../noon-one/spec.md:59-71`, `../noon-one/spec.md:72-84`, `../noon-one/spec.md:96-109`, `../noon-one/spec.md:134-146`, `../noon-one/spec.md:195-207`, `src/flows/noonone/MAPPING.md:162-167`, `src/flows/noonone/MAPPING.md:588-611`, `src/flows/noonone/MAPPING.md:681-688`, `src/flows/membership/MAPPING.md:75-122`, `src/flows/membership/MAPPING.md:235-244`
+
+## `membership/upgrade`
+
+- Module `src/flows/membership/plans/UpgradePlanScreen.tsx` · 13 own files, 48 in the import closure
+- Source: features/vip/screens/VIPUpgradePlanV2Screen
+- Styles: components/primitives.module.css, plans/plans.module.css
+- Data / helpers: assets.ts, data.ts, manageData.ts, plans/plansData.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`, `Lottie`, `MaskIcon`, `Screen`, `Spinner`
+- Flow components: `ChevronLeftRounded`, `DashedLine`, `VipBackButton`, `VipButton`
+- Tokens (102): colors 17 · flow:membership 35 · fontWeight 2 · local 2 · palette 10 · radius 7 · shadow 1 · spacing 13 · type 15
+- Icons: — · assets 76
+- State / data: `store:membership`, `data:currency`, `data:user`
+- Nav out: push `membership/reviewPlan` · push `membership/switchPlan`
+- `upgrade`: in ← `membership/manage` · docs `src/flows/membership/MAPPING.md:75-122`
+
+## `membership/reviewPlan`
+
+- Module `src/flows/membership/plans/ReviewPlanOverlay.tsx` · 15 own files, 139 in the import closure · **imports from other flows:** `src/flows/noonone/components/VIPButton.tsx`, `src/flows/noonone/components/VIPOverlay.module.css`, `src/flows/noonone/components/VIPOverlay.tsx`, `src/flows/noonone/components/entry/LegacyOverlay.module.css`, `src/flows/noonone/components/entry/LegacyOverlay.tsx`, `src/flows/noonone/components/landing/DashedLine.tsx` … +77
+- Source: features/vip/screens/VIPCancelMembershipV2Screen/VIPReviewCancelUpgradeScreen (via VIPUpgradePlanV2Screen showReviewOverlay)
+- Styles: components/VipOverlay.module.css, components/primitives.module.css, plans/plans.module.css
+- Data / helpers: assets.ts, data.ts, links.ts, manageData.ts, plans/plansData.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`, `Lottie`, `MaskIcon`, `Spinner`
+- Flow components: `ChevronLeftRounded`, `DashedLine`, `VipBackButton`, `VipButton`, `VipOverlay`
+- Tokens (109): colors 17 · flow:membership 41 · fontWeight 2 · local 2 · palette 9 · radius 8 · shadow 1 · spacing 13 · type 16
+- Motion: `transition/mb-overlay`
+- Icons: — · assets 76
+- State / data: `store:demo`, `store:membership`, `store:noonone`, `data:currency`, `data:user`
+- Nav out: push `checkout/checkout` (via CartOverlayScreen) · push `membership/manage` (via FamilyPlansScreen) · reset `membership/manage` · push `noonone/acceptInviteError` (via AcceptInviteOverlayScreen) · push `noonone/addCard` (via PaymentScreen) · push `noonone/addCvv` (via PaymentScreen) · push `noonone/confirmVoucher` (via OffersOverlayScreen) · push `noonone/landing` (via InfoOverlayScreen) · replace `noonone/landing`~ (via store) · push `noonone/mobilePay` (via PaymentScreen) · push `noonone/offers` (via ConfirmVoucherPlanScreen) · push `noonone/payment` (via useQuickPay) · push `noonone/planDetails` (via FamilyPlansScreen) · push `noonone/plans` (via LandingScreen) · push `noonone/trialGuide` (via PaymentScreen)
+- Route strings (data-driven links): `account/account`, `noonone/partnerOffer`
+- `reviewPlan`: in ← `membership/switchPlan`, `membership/upgrade`
+
+## `membership/switchPlan`
+
+- Module `src/flows/membership/plans/SwitchPlanOverlay.tsx` · 13 own files, 44 in the import closure
+- Source: features/vip/screens/VIPSwitchPlanOverlayScreen
+- Styles: components/VipOverlay.module.css, components/primitives.module.css, plans/plans.module.css
+- Data / helpers: assets.ts, data.ts, manageData.ts, plans/plansData.ts, store.ts, tokens.ts
+- Shared components: `Lottie`, `Spinner`
+- Flow components: `ChevronLeftRounded`, `VipButton`, `VipOverlay`
+- Tokens (108): colors 17 · flow:membership 41 · fontWeight 2 · layout 1 · local 2 · palette 9 · radius 8 · shadow 1 · spacing 13 · type 14
+- Motion: `transition/mb-overlay`
+- Icons: — · assets 76
+- State / data: `store:membership`, `data:currency`, `data:user`
+- Nav out: push `membership/reviewPlan`
+- `switchPlan`: in ← `membership/upgrade`
+
+## `membership/info`
+
+- Module `src/flows/membership/plans/InfoOverlay.tsx` · 8 own files, 132 in the import closure · **imports from other flows:** `src/flows/noonone/components/VIPButton.tsx`, `src/flows/noonone/components/VIPOverlay.module.css`, `src/flows/noonone/components/VIPOverlay.tsx`, `src/flows/noonone/components/entry/LegacyOverlay.module.css`, `src/flows/noonone/components/entry/LegacyOverlay.tsx`, `src/flows/noonone/components/landing/DashedLine.tsx` … +77
+- Source: features/vip/screens/VIPInfoOverlayScreen
+- Styles: components/VipOverlay.module.css, plans/plans.module.css
+- Data / helpers: assets.ts, data.ts, links.ts, tokens.ts
+- Shared components: `HtmlText`, `Pressable`
+- Flow components: `VipOverlay`
+- Tokens (97): colors 16 · flow:membership 33 · fontWeight 1 · local 2 · palette 9 · radius 8 · shadow 1 · spacing 13 · type 14
+- Motion: `transition/mb-overlay`
+- Icons: — · assets 76
+- State / data: `store:demo`, `store:membership`, `store:noonone`, `data:currency`, `data:user`
+- Nav out: push `checkout/checkout` (via CartOverlayScreen) · push `membership/cancel` · push `membership/manage` (via FamilyPlansScreen) · push `noonone/acceptInviteError` (via AcceptInviteOverlayScreen) · push `noonone/addCard` (via PaymentScreen) · push `noonone/addCvv` (via PaymentScreen) · push `noonone/confirmVoucher` (via OffersOverlayScreen) · push `noonone/landing` (via InfoOverlayScreen) · replace `noonone/landing`~ (via store) · push `noonone/mobilePay` (via PaymentScreen) · push `noonone/offers` (via ConfirmVoucherPlanScreen) · push `noonone/payment` (via useQuickPay) · push `noonone/planDetails` (via FamilyPlansScreen) · push `noonone/plans` (via LandingScreen) · push `noonone/trialGuide` (via PaymentScreen)
+- Route strings (data-driven links): `account/account`, `noonone/partnerOffer`
+- `info`: in ← `membership/changePlan`, `membership/referralsInput` · docs `src/flows/membership/perks/MAPPING.md:40-61`, `src/flows/membership/perks/MAPPING.md:89-94`
+
+## `membership/changePlan`
+
+- Module `src/flows/membership/plans/ChangePlanScreen.tsx` · 12 own files, 136 in the import closure · **imports from other flows:** `src/flows/noonone/components/VIPButton.tsx`, `src/flows/noonone/components/VIPOverlay.module.css`, `src/flows/noonone/components/VIPOverlay.tsx`, `src/flows/noonone/components/entry/LegacyOverlay.module.css`, `src/flows/noonone/components/entry/LegacyOverlay.tsx`, `src/flows/noonone/components/landing/DashedLine.tsx` … +77
+- Source: features/vip/screens/VIPChangePlanScreen
+- Styles: components/primitives.module.css, plans/plans.module.css
+- Data / helpers: assets.ts, data.ts, links.ts, manageData.ts, plans/plansData.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`, `Lottie`, `Pressable`, `Screen`, `Spinner`
+- Flow components: `ChevronLeftRounded`, `VipButton`
+- Tokens (100): colors 17 · flow:membership 35 · fontWeight 2 · local 2 · palette 9 · radius 7 · shadow 1 · spacing 13 · type 14
+- Icons: — · assets 79
+- State / data: `store:demo`, `store:membership`, `store:noonone`, `data:currency`, `data:user`
+- Nav out: push `checkout/checkout` (via CartOverlayScreen) · push `membership/info` · push `membership/manage` (via FamilyPlansScreen) · push `membership/referralsInput` · push `noonone/acceptInviteError` (via AcceptInviteOverlayScreen) · push `noonone/addCard` (via PaymentScreen) · push `noonone/addCvv` (via PaymentScreen) · push `noonone/confirmVoucher` (via OffersOverlayScreen) · push `noonone/landing` (via InfoOverlayScreen) · replace `noonone/landing`~ (via store) · push `noonone/mobilePay` (via PaymentScreen) · push `noonone/offers` (via ConfirmVoucherPlanScreen) · push `noonone/payment` (via useQuickPay) · push `noonone/planDetails` (via FamilyPlansScreen) · push `noonone/plans` (via LandingScreen) · push `noonone/trialGuide` (via PaymentScreen)
+- Route strings (data-driven links): `account/account`, `noonone/partnerOffer`
+
+## `membership/invoice`
+
+- Module `src/flows/membership/plans/InvoiceScreen.tsx` · 11 own files, 45 in the import closure
+- Source: features/vip/screens/VIPInvoiceScreen
+- Styles: components/primitives.module.css, plans/plans.module.css
+- Data / helpers: assets.ts, data.ts, manageData.ts, plans/plansData.ts, store.ts, tokens.ts
+- Shared components: `Lottie`, `Screen`, `Skeleton`, `Spinner`
+- Flow components: `ChevronLeftRounded`, `VipButton`
+- Tokens (100): colors 17 · flow:membership 35 · fontWeight 2 · local 2 · palette 9 · radius 7 · shadow 1 · spacing 13 · type 14
+- Icons: — · assets 76
+- State / data: `store:membership`, `data:currency`, `data:user`
+- `invoice`: in ← `membership/manage` · docs `src/flows/membership/MAPPING.md:75-122`
+
+## `membership/cancel`
+
+- Module `src/flows/membership/cancel/CancelScreen.tsx` · 14 own files, 49 in the import closure
+- Source: features/vip/screens/VIPCancelMembershipV2Screen (BenefitsScreen, DiscountOfferScreen, SurveyScreen)
+- Styles: cancel/cancel.module.css, cancel/parts.module.css, components/primitives.module.css
+- Data / helpers: assets.ts, cancel/cancelData.ts, cancel/cancelNav.ts, data.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`, `Lottie`, `MaskIcon`, `Screen`, `Spinner`
+- Flow components: `ChevronLeftRounded`, `DashedLine`, `VipBackButton`, `VipButton`
+- Tokens (85): colors 16 · flow:membership 36 · fontWeight 1 · local 2 · palette 11 · radius 5 · spacing 5 · type 9
+- Icons: — · assets 76
+- State / data: `store:membership`, `data:currency`, `data:user`
+- Nav out: push `account/account` · push `home/home` · push `membership/cancel`~ · push `membership/cancelSheet`~ · push `membership/confirmOffer` · push `membership/groupSavings`~ · push `membership/leaveFamilyOverlay`~ · push `membership/loseAccess`~ · reset `membership/manage` · push `membership/planOptions`~ · push `membership/shareInvite` · push `membership/unusedSeats`~
+- `cancel`: in ← `membership/cancelSheet`, `membership/confirmOffer`, `membership/groupSavings`, `membership/info`, `membership/leaveFamily`, `membership/leaveFamilyOverlay`, `membership/loseAccess`, `membership/manage`, `membership/planOptions`, `membership/unusedSeats` · docs `src/flows/membership/MAPPING.md:75-122`
+
+## `membership/cancelSheet` · `membership/unusedSeats` · `membership/planOptions` · `membership/groupSavings` · `membership/loseAccess` · `membership/leaveFamilyOverlay` · `membership/confirmOffer`
+
+- Module `src/flows/membership/cancel/overlays.tsx` (shared by 7 screens; params pick the state) · 18 own files, 53 in the import closure <!-- count-ok -->
+- Source: features/vip/screens/VIPCancelMembershipV2Screen (ReminderScreen, VIPReviewCancelUpgradeScreen)
+- Styles: cancel/cancel.module.css, cancel/overlays.module.css, cancel/parts.module.css, components/VipOverlay.module.css, components/primitives.module.css
+- Data / helpers: assets.ts, cancel/cancelData.ts, cancel/cancelNav.ts, data.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`, `Lottie`, `MaskIcon`, `Screen`, `Spinner`
+- Flow components: `ChevronLeftRounded`, `DashedLine`, `VipBackButton`, `VipButton`, `VipOverlay`
+- Tokens (111): colors 17 · flow:membership 52 · fontWeight 1 · local 2 · palette 13 · radius 7 · spacing 8 · type 11
+- Motion: `transition/mb-overlay`
+- Icons: — · assets 76
+- State / data: `store:membership`, `data:currency`, `data:user`
+- Nav out: push `account/account` · push `home/home` · push `membership/cancel`~ · push `membership/cancelSheet` · push `membership/confirmOffer` · push `membership/groupSavings`~ · push `membership/leaveFamilyOverlay`~ · push `membership/loseAccess`~ · reset `membership/manage` · push `membership/planOptions`~ · push `membership/shareInvite` · push `membership/unusedSeats`~
+- `cancelSheet`: in ← `membership/cancel`, `membership/confirmOffer`, `membership/groupSavings`, `membership/leaveFamilyOverlay`, `membership/loseAccess`, `membership/planOptions`, `membership/unusedSeats`
+- `unusedSeats`: in ← `membership/cancel`, `membership/cancelSheet`, `membership/confirmOffer`, `membership/groupSavings`, `membership/leaveFamilyOverlay`, `membership/loseAccess`, `membership/planOptions`
+- `planOptions`: in ← `membership/cancel`, `membership/cancelSheet`, `membership/confirmOffer`, `membership/groupSavings`, `membership/leaveFamilyOverlay`, `membership/loseAccess`, `membership/unusedSeats`
+- `groupSavings`: in ← `membership/cancel`, `membership/cancelSheet`, `membership/confirmOffer`, `membership/leaveFamilyOverlay`, `membership/loseAccess`, `membership/planOptions`, `membership/unusedSeats`
+- `loseAccess`: in ← `membership/cancel`, `membership/cancelSheet`, `membership/confirmOffer`, `membership/groupSavings`, `membership/leaveFamilyOverlay`, `membership/planOptions`, `membership/unusedSeats`
+- `leaveFamilyOverlay`: in ← `membership/cancel`, `membership/cancelSheet`, `membership/confirmOffer`, `membership/groupSavings`, `membership/loseAccess`, `membership/planOptions`, `membership/unusedSeats`
+- `confirmOffer`: in ← `membership/cancel`, `membership/cancelSheet`, `membership/groupSavings`, `membership/leaveFamilyOverlay`, `membership/loseAccess`, `membership/planOptions`, `membership/unusedSeats`
+
+## `membership/familyPlans`
+
+- Module `src/flows/membership/family/FamilyPlansScreen.tsx` · 11 own files, 47 in the import closure
+- Source: features/vip/screens/VIPFamilyPlansScreen
+- Styles: components/primitives.module.css, family/family.module.css
+- Data / helpers: assets.ts, data.ts, family/familyData.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`, `Lottie`, `Screen`, `Skeleton`, `Spinner`
+- Flow components: `ChevronLeftRounded`, `DashedLine`, `VipBackButton`, `VipButton`
+- Tokens (95): colors 16 · flow:membership 40 · fontWeight 1 · local 2 · palette 5 · radius 8 · spacing 12 · type 11
+- Motion: `reduced-motion`
+- Icons: — · assets 76
+- State / data: `store:membership`, `data:currency`, `data:user`
+- Nav out: push `membership/familyReview` · reset `membership/manage`
+
+## `membership/familyReview`
+
+- Module `src/flows/membership/family/FamilyReviewOverlay.tsx` · 14 own files, 138 in the import closure · **imports from other flows:** `src/flows/noonone/components/VIPButton.tsx`, `src/flows/noonone/components/VIPOverlay.module.css`, `src/flows/noonone/components/VIPOverlay.tsx`, `src/flows/noonone/components/entry/LegacyOverlay.module.css`, `src/flows/noonone/components/entry/LegacyOverlay.tsx`, `src/flows/noonone/components/landing/DashedLine.tsx` … +77
+- Source: features/vip/components/VIPPopups/VIPPlanDetailsPopup (VIPFamilyPlanDetailsPopup)
+- Styles: components/VipOverlay.module.css, components/primitives.module.css, family/family.module.css
+- Data / helpers: assets.ts, data.ts, family/familyData.ts, links.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`, `Lottie`, `Spinner`
+- Flow components: `ChevronLeftRounded`, `DashedLine`, `VipButton`, `VipOverlay`
+- Tokens (102): colors 16 · flow:membership 46 · fontWeight 1 · local 2 · palette 5 · radius 9 · spacing 12 · type 11
+- Motion: `transition/mb-overlay`
+- Icons: — · assets 76
+- State / data: `store:demo`, `store:membership`, `store:noonone`, `data:currency`, `data:user`
+- Nav out: push `checkout/checkout` (via CartOverlayScreen) · push `membership/manage` (via FamilyPlansScreen) · reset `membership/manage` · push `noonone/acceptInviteError` (via AcceptInviteOverlayScreen) · push `noonone/addCard` (via PaymentScreen) · push `noonone/addCvv` (via PaymentScreen) · push `noonone/confirmVoucher` (via OffersOverlayScreen) · push `noonone/landing` (via InfoOverlayScreen) · replace `noonone/landing`~ (via store) · push `noonone/mobilePay` (via PaymentScreen) · push `noonone/offers` (via ConfirmVoucherPlanScreen) · push `noonone/payment` (via useQuickPay) · push `noonone/planDetails` (via FamilyPlansScreen) · push `noonone/plans` (via LandingScreen) · push `noonone/trialGuide` (via PaymentScreen)
+- Route strings (data-driven links): `account/account`, `noonone/partnerOffer`
+- `familyReview`: in ← `membership/familyPlans`, `membership/removeMember`, `membership/shareInvite`
+
+## `membership/shareInvite`
+
+- Module `src/flows/membership/family/SharePlanInviteScreen.tsx` · 12 own files, 48 in the import closure
+- Source: features/vip/screens/VIPSharePlanInviteScreen
+- Styles: components/primitives.module.css, family/family.module.css
+- Data / helpers: assets.ts, data.ts, family/familyData.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`, `Lottie`, `Screen`, `Skeleton`, `Spinner`
+- Flow components: `ChevronLeftRounded`, `DashedLine`, `MemberHexagon`, `VipBackButton`, `VipButton`
+- Tokens (96): colors 16 · flow:membership 41 · fontWeight 1 · local 2 · palette 5 · radius 8 · spacing 12 · type 11
+- Motion: `reduced-motion`
+- Icons: — · assets 76
+- State / data: `store:membership`, `data:currency`, `data:user`
+- Nav out: push `membership/familyReview` · reset `membership/manage`
+- `shareInvite`: in ← `membership/cancel`, `membership/cancelSheet`, `membership/confirmOffer`, `membership/groupSavings`, `membership/leaveFamilyOverlay`, `membership/loseAccess`, `membership/manage`, `membership/planOptions`, `membership/unusedSeats` · docs `src/flows/membership/MAPPING.md:75-122`, `src/flows/membership/MAPPING.md:170-192`
+
+## `membership/removeMember`
+
+- Module `src/flows/membership/family/RemoveMemberOverlay.tsx` · 15 own files, 51 in the import closure
+- Source: features/vip/screens/VIPRemoveFamilyMemberOverlayScreen
+- Styles: components/VipOverlay.module.css, components/primitives.module.css, family/family.module.css
+- Data / helpers: assets.ts, data.ts, family/familyData.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`, `Lottie`, `Screen`, `Skeleton`, `Spinner`
+- Flow components: `ChevronLeftRounded`, `DashedLine`, `MemberHexagon`, `VipBackButton`, `VipButton`, `VipOverlay`
+- Tokens (103): colors 16 · flow:membership 47 · fontWeight 1 · local 2 · palette 5 · radius 9 · spacing 12 · type 11
+- Motion: `reduced-motion`, `transition/mb-overlay`
+- Icons: — · assets 76
+- State / data: `store:membership`, `data:currency`, `data:user`
+- Nav out: push `membership/familyReview` · reset `membership/manage`
+- `removeMember`: in ← `membership/manage` · docs `src/flows/membership/MAPPING.md:75-122`
+
+## `membership/leaveFamily`
+
+- Module `src/flows/membership/family/LeaveFamilyPlanScreen.tsx` · 9 own files, 42 in the import closure
+- Source: features/vip/screens/VIPLeaveFamilyPlanScreen
+- Styles: components/primitives.module.css, family/family.module.css
+- Data / helpers: assets.ts, data.ts, store.ts, tokens.ts
+- Shared components: `Lottie`, `Screen`, `Spinner`
+- Flow components: `ChevronLeftRounded`, `VipBackButton`, `VipButton`
+- Tokens (95): colors 16 · flow:membership 40 · fontWeight 1 · local 2 · palette 5 · radius 8 · spacing 12 · type 11
+- Icons: — · assets 76
+- State / data: `store:membership`, `data:currency`, `data:user`
+- Nav out: push `membership/cancel` · reset `membership/manage`
+
+## `membership/referrals`
+
+- Module `src/flows/membership/perks/ReferralsScreen.tsx` · 7 own files, 37 in the import closure
+- Source: features/vip/screens/VIPReferralsScreen
+- Styles: perks/perks.module.css
+- Data / helpers: assets.ts, data.ts, perks/perksData.ts, store.ts, tokens.ts
+- Shared components: `Screen`
 - Flow components: —
-- Tokens (0): —
+- Tokens (96): colors 15 · flow:membership 40 · local 2 · palette 12 · radius 8 · spacing 11 · type 8
+- Icons: — · assets 77
+- State / data: `store:membership`, `data:currency`, `data:user`
+- Nav out: push `membership/referralsInput`
+
+## `membership/referralsInput`
+
+- Module `src/flows/membership/perks/ReferralsInputOverlayScreen.tsx` · 9 own files, 133 in the import closure · **imports from other flows:** `src/flows/noonone/components/VIPButton.tsx`, `src/flows/noonone/components/VIPOverlay.module.css`, `src/flows/noonone/components/VIPOverlay.tsx`, `src/flows/noonone/components/entry/LegacyOverlay.module.css`, `src/flows/noonone/components/entry/LegacyOverlay.tsx`, `src/flows/noonone/components/landing/DashedLine.tsx` … +77
+- Source: features/vip/screens/VIPReferralsInputOverlayScreen
+- Styles: perks/perks.module.css
+- Data / helpers: assets.ts, data.ts, links.ts, perks/perksData.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`
+- Flow components: —
+- Tokens (96): colors 15 · flow:membership 40 · local 2 · palette 12 · radius 8 · spacing 11 · type 8
+- Motion: `transition/mb-overlay`
+- Icons: — · assets 78
+- State / data: `store:demo`, `store:membership`, `store:noonone`, `data:currency`, `data:user`
+- Nav out: push `checkout/checkout` (via CartOverlayScreen) · push `membership/info` · push `membership/manage` (via FamilyPlansScreen) · push `noonone/acceptInviteError` (via AcceptInviteOverlayScreen) · push `noonone/addCard` (via PaymentScreen) · push `noonone/addCvv` (via PaymentScreen) · push `noonone/confirmVoucher` (via OffersOverlayScreen) · push `noonone/landing` (via InfoOverlayScreen) · replace `noonone/landing`~ (via store) · push `noonone/mobilePay` (via PaymentScreen) · push `noonone/offers` (via ConfirmVoucherPlanScreen) · push `noonone/payment` (via useQuickPay) · push `noonone/planDetails` (via FamilyPlansScreen) · push `noonone/plans` (via LandingScreen) · push `noonone/trialGuide` (via PaymentScreen)
+- Route strings (data-driven links): `account/account`, `noonone/partnerOffer`
+- `referralsInput`: in ← `membership/changePlan`, `membership/referrals`
+
+## `membership/partner`
+
+- Module `src/flows/membership/perks/PartnerOverlayScreen.tsx` · 9 own files, 133 in the import closure · **imports from other flows:** `src/flows/noonone/components/VIPButton.tsx`, `src/flows/noonone/components/VIPOverlay.module.css`, `src/flows/noonone/components/VIPOverlay.tsx`, `src/flows/noonone/components/entry/LegacyOverlay.module.css`, `src/flows/noonone/components/entry/LegacyOverlay.tsx`, `src/flows/noonone/components/landing/DashedLine.tsx` … +77
+- Source: features/vip/screens/VIPPartnerOverlayScreen
+- Styles: perks/perks.module.css
+- Data / helpers: assets.ts, data.ts, links.ts, perks/perksData.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`
+- Flow components: —
+- Tokens (96): colors 15 · flow:membership 40 · local 2 · palette 12 · radius 8 · spacing 11 · type 8
+- Motion: `transition/mb-overlay`
+- Icons: — · assets 77
+- State / data: `store:demo`, `store:membership`, `store:noonone`, `data:currency`, `data:user`
+- Nav out: push `checkout/checkout` (via CartOverlayScreen) · push `membership/manage` (via FamilyPlansScreen) · push `noonone/acceptInviteError` (via AcceptInviteOverlayScreen) · push `noonone/addCard` (via PaymentScreen) · push `noonone/addCvv` (via PaymentScreen) · push `noonone/confirmVoucher` (via OffersOverlayScreen) · push `noonone/landing` (via InfoOverlayScreen) · replace `noonone/landing`~ (via store) · push `noonone/mobilePay` (via PaymentScreen) · push `noonone/offers` (via ConfirmVoucherPlanScreen) · push `noonone/payment` (via useQuickPay) · push `noonone/planDetails` (via FamilyPlansScreen) · push `noonone/plans` (via LandingScreen) · push `noonone/trialGuide` (via PaymentScreen)
+- Route strings (data-driven links): `account/account`, `noonone/partnerOffer`
+
+## `membership/yangoCredits`
+
+- Module `src/flows/membership/perks/YangoCreditsOverlayScreen.tsx` · 10 own files, 41 in the import closure
+- Source: features/vip/screens/VIPYangoCreditsOverlayScreen
+- Styles: components/primitives.module.css, perks/perks.module.css
+- Data / helpers: assets.ts, data.ts, store.ts, tokens.ts
+- Shared components: `Lottie`, `Spinner`
+- Flow components: `ChevronLeftRounded`, `VipButton`
+- Tokens (105): colors 14 · flow:membership 48 · fontWeight 1 · local 2 · palette 13 · radius 8 · spacing 11 · type 8
+- Motion: `transition/mb-overlay`
+- Icons: — · assets 77
+- State / data: `store:membership`, `data:currency`, `data:user`

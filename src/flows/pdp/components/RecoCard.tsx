@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import freeDelivery from '@assets/products/iphone-17-pro/nudge-free-delivery.webp';
 import lowStock from '@assets/products/iphone-17-pro/nudge-low-stock.webp';
 import lowestPrice from '@assets/products/iphone-17-pro/nudge-lowest-price.webp';
@@ -13,6 +13,7 @@ import { spring } from '../../../motion/presets';
 import { pdpTokens } from '../tokens';
 import styles from '../pdp.module.css';
 import { useReduceMotion } from '../../../motion/reducedMotion';
+import { useInterval } from '../../../motion/useInterval';
 
 /** Live nudge icons (mpcms assets on the page), by ProductNudge.kind. */
 export const nudgeIcons: Record<ProductNudge['kind'], string> = { rank, lowestPrice, freeDelivery, lowStock, sellingFast, soldRecently, info: lowestPrice };
@@ -58,12 +59,8 @@ function CardNudges({ nudges }: { nudges: ProductNudge[] }) {
   const { card } = pdpTokens.nudge;
   const [i, setI] = useState(0);
   const reduce = useReduceMotion();
-  useEffect(() => {
-    // reduced motion: the first nudge stays (no auto-rotation)
-    if (nudges.length < 2 || reduce) return;
-    const t = setInterval(() => setI((n) => (n + 1) % nudges.length), card.enterMs + card.holdMs + card.exitMs);
-    return () => clearInterval(t);
-  }, [nudges.length, card.enterMs, card.holdMs, card.exitMs, reduce]);
+  // reduced motion: the first nudge stays (no auto-rotation); one shared, paused-when-covered timer per card
+  useInterval(card.enterMs + card.holdMs + card.exitMs, () => setI((n) => (n + 1) % nudges.length), nudges.length > 1 && !reduce);
   const n = nudges[i];
   return (
     <div className={styles.cardNudge}>

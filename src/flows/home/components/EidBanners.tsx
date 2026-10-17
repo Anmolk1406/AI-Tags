@@ -1,4 +1,5 @@
 import { useReduceMotion } from '../../../motion/reducedMotion';
+import { useInterval } from '../../../motion/useInterval';
 import { useEffect, useRef, useState } from 'react';
 import { Badge, OriginIcon, Pressable } from '../../../components';
 import { ref as tok } from '../../../foundations/tokens';
@@ -23,14 +24,20 @@ export function EidBanners() {
   const [touched, setTouched] = useState(false);
   const reduced = useReduceMotion();
 
+  const visible = useRef(true);
   useEffect(() => {
     const el = railRef.current;
-    if (!el || touched || reduced || eidSlides.length < 2) return;
-    let visible = true;
-    const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting), { threshold: 0.5 });
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => (visible.current = e.isIntersecting), { threshold: 0.5 });
     io.observe(el);
-    const t = window.setInterval(() => {
-      if (!visible) return;
+    return () => io.disconnect();
+  }, []);
+  // autoplay: paused while the screen is covered or the tab hidden (useInterval), and while the rail is off screen
+  useInterval(
+    C.interval,
+    () => {
+      const el = railRef.current;
+      if (!el || !visible.current) return;
       const cards = Array.from(el.children) as HTMLElement[];
       const centre = el.scrollLeft + el.clientWidth / 2;
       const current = cards.reduce((best, c, i) => (Math.abs(c.offsetLeft + c.offsetWidth / 2 - centre) < Math.abs(cards[best].offsetLeft + cards[best].offsetWidth / 2 - centre) ? i : best), 0);
@@ -38,12 +45,9 @@ export function EidBanners() {
       const next = atEnd ? 0 : (current + 1) % cards.length;
       const card = cards[next];
       el.scrollTo({ left: next === 0 ? 0 : card.offsetLeft + card.offsetWidth / 2 - el.clientWidth / 2, behavior: 'smooth' });
-    }, C.interval);
-    return () => {
-      window.clearInterval(t);
-      io.disconnect();
-    };
-  }, [touched, reduced]);
+    },
+    !touched && !reduced && eidSlides.length >= 2,
+  );
 
   return (
     <div ref={railRef} className={`${styles.rail} nk-hscroll`} onPointerDown={() => setTouched(true)} onWheel={() => setTouched(true)} aria-label="Eid offers" role="region">

@@ -10,6 +10,7 @@ import backIcon from '@assets/shared/search-bar/back.webp';
 import clearIcon from '@assets/shared/search-bar/clear-input.webp';
 import { field, searchBar as t } from '../../foundations/tokens';
 import styles from './SearchBar.module.css';
+import { useInterval } from '../../motion/useInterval';
 
 /**
  * Home search pill (NoonSearchBarButton): 52h, r12, 1px #D7DAE3, 20px search-bar.webp, 24px search-bar-camera.webp.
@@ -44,11 +45,8 @@ export function SearchBarButton({
   const iconSize = v2025 && icons?.search ? 18 : t.iconSize;
   const cameraSize = v2025 && icons?.camera ? 20 : t.cameraSize;
   const [i, setI] = useState(0);
-  useEffect(() => {
-    if (!rotatingWords?.length) return;
-    const t = setInterval(() => setI((x) => (x + 1) % rotatingWords.length), 2200);
-    return () => clearInterval(t);
-  }, [rotatingWords]);
+  // paused while the screen is covered or the tab hidden (useInterval)
+  useInterval(2200, () => setI((x) => (x + 1) % (rotatingWords?.length || 1)), !!rotatingWords?.length);
 
   return (
     <Pressable className={`${styles.bar}${v2025 ? ` ${styles.v2025}` : ''}`} style={{ height }} onClick={onPress} scale={t.pressScale}>

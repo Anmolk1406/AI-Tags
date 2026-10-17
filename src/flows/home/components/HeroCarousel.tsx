@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Pressable } from '../../../components';
 import { heroSlides } from '../data';
 import { homeTokens } from '../tokens';
 import styles from '../home.module.css';
 import { useReduceMotion } from '../../../motion/reducedMotion';
+import { useInterval } from '../../../motion/useInterval';
 
 const { heroCardWidth: W, heroCardHeight: H, heroGap: GAP, heroInterval } = homeTokens;
 
@@ -16,17 +17,17 @@ export function HeroCarousel({ onPress }: { onPress?: (query: string) => void })
   const [held, setHeld] = useState(false);
   const reduce = useReduceMotion();
 
-  useEffect(() => {
-    // no auto-advance under reduced motion (still swipeable)
-    if (held || reduce) return;
-    const t = setInterval(() => {
+  // no auto-advance under reduced motion (still swipeable); paused while the screen is covered (useInterval)
+  useInterval(
+    heroInterval,
+    () => {
       const el = ref.current;
       if (!el) return;
       const next = (Math.round(el.scrollLeft / (W + GAP)) + 1) % heroSlides.length;
       el.scrollTo({ left: next * (W + GAP), behavior: 'smooth' });
-    }, heroInterval);
-    return () => clearInterval(t);
-  }, [held, reduce]);
+    },
+    !held && !reduce,
+  );
 
   return (
     <div className={styles.heroWrap}>

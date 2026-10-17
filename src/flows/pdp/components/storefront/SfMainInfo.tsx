@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { Fragment, useLayoutEffect, useRef, useState } from 'react';
 import { OriginIcon, Pressable } from '../../../../components';
 import { useNav } from '../../../../kit/Navigator';
 import { leafName } from '../../../../data';
@@ -11,6 +11,7 @@ import { bestComboSaving, combosFor, npaCopy } from '../../data.npA';
 import { pdpTokens } from '../../tokens';
 import styles from './SfMainInfo.module.css';
 import { useReduceMotion } from '../../../../motion/reducedMotion';
+import { useInterval } from '../../../../motion/useInterval';
 
 /** Storefront copy (Figma 3499:75133); not in data.ts `copy`. */
 const sfCopy = {
@@ -231,11 +232,7 @@ function NudgeTicker({ nudges }: { nudges: string[] }) {
   // reduced motion: the first nudge stays (no auto-rotation)
   const reduce = useReduceMotion();
   const animateIt = nudges.length > 1 && !reduce;
-  useEffect(() => {
-    if (!animateIt) return;
-    const t = setInterval(() => setIdx((n) => (n + 1) % nudges.length), nudge.enterMs + nudge.holdMs + nudge.exitMs);
-    return () => clearInterval(t);
-  }, [animateIt, nudges.length, nudge.enterMs, nudge.holdMs, nudge.exitMs]);
+  useInterval(nudge.enterMs + nudge.holdMs + nudge.exitMs, () => setIdx((n) => (n + 1) % nudges.length), animateIt);
   return (
     <span className={styles.ticker}>
       <AnimatePresence initial={false} mode="wait">

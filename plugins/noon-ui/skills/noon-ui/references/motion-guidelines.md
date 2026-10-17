@@ -1,6 +1,6 @@
 # Motion guidelines (provisional)
 
-> **Status: draft, from current usage.** This file describes what moves in the 18 flows today, organised by purpose,
+> **Status: draft, from current usage.** This file describes what moves in the 19 flows today, organised by purpose,
 > and which choice to make *for now* on a new screen. It will be replaced section by section when the real motion
 > guidelines land: each section ends with a **Pending** line naming what that guideline has to decide. Until then,
 > follow "Use for now"; where a ported flow does something else, the port is the spec for that flow only.
@@ -16,13 +16,13 @@
 
 | How it opens | Today | Use for now |
 |---|---|---|
-| **Push** (`x 100% → 0`, page under drifts `−28%` and dims, 0.42s `easing.ios`) | 58 of 156 screens, by default, in 16 of 18 flows | every full screen reached by a tap |
-| **Sheet** (`spring.sheet`, scrim 0.25s, drag to dismiss) | 41 of 156 screens (8 of 18 flows), all by default for `presentation: 'sheet'` | any bottom sheet; Origin layout for new ones |
-| **Modal** (rises from the bottom, full screen) | 4 of 156 screens by default; 42 `presentation: 'modal'` in total | a full-screen task the user finishes or closes (address create, placing) |
-| **Overlay** (`mb-overlay`, `noonone-overlay`) | 30 of 156 screens, membership and noonone only | only inside those two flows (bappzaar overlay ports) |
-| **Fade** | 8 of 156 screens + 4 nav calls (account, address, cards, reviews) | swapping a state of the same place (signed-out, country, success) |
+| **Push** (`x 100% → 0`, page under drifts `−28%` and dims, 0.42s `easing.ios`) | 67 of 173 screens, by default, in 18 of 19 flows | every full screen reached by a tap |
+| **Sheet** (`spring.sheet`, scrim 0.25s, drag to dismiss) | 50 of 173 screens (10 of 19 flows), all by default for `presentation: 'sheet'` | any bottom sheet; Origin layout for new ones |
+| **Modal** (rises from the bottom, full screen) | 7 of 173 screens by default; 45 `presentation: 'modal'` in total | a full-screen task the user finishes or closes (address create, placing) |
+| **Overlay** (`mb-overlay`, `noonone-overlay`) | 30 of 173 screens, membership and noonone only | only inside those two flows (bappzaar overlay ports) |
+| **Fade** | 7 of 173 screens + 4 nav calls (account, cards, reviews) | swapping a state of the same place (signed-out, country, success) |
 | **Search hand-off** (`slide-left` with `handoff.spring`, `results-fade`) | search → PLP only | anything that should feel like search → results |
-| **None / custom** (`none`, `checkout-alpha`, `address-*`) | 1–3 of 156 screens each | don't reuse; they belong to their port |
+| **None / custom** (`none`, `checkout-alpha`, `address-*`) | 1–3 of 173 screens each | don't reuse; they belong to their port |
 
 A screen never animates its own entry: set `ScreenDef.transition` / `presentation`, or `{ transition }` on the call.
 
@@ -34,9 +34,9 @@ A screen never animates its own entry: set `ScreenDef.transition` / `presentatio
 
 | Scale | Today | Meaning |
 |---|---|---|
-| 0.96 (`pressScale`, `Pressable` default) | most `Pressable`s (188 in 15 of 18 flows) | buttons, icons, chips: the default |
-| 0.98 | 39 + 6 `whileTap` (10 of 18 flows) | wide rows and cards |
-| 1 (no scale) | 36 (10 of 18 flows) | banners and tiles where bappzaar has no feedback (TouchableOpacity 0.7 opacity or none) |
+| 0.96 (`pressScale`, `Pressable` default) | most `Pressable`s (227 in 16 of 19 flows) | buttons, icons, chips: the default |
+| 0.98 | 39 + 6 `whileTap` (10 of 19 flows) | wide rows and cards |
+| 1 (no scale) | 76 (11 of 19 flows) | banners and tiles where bappzaar has no feedback (TouchableOpacity 0.7 opacity or none) |
 | 0.97 · 0.99 · 0.95 · 0.9 · 0.85 | 1–11 each, ports | one-off port values |
 
 **Use for now:** `Pressable` with no `scale` (0.96) for controls, `scale={0.98}` for rows / cards, `scale={1}` only when the reference has no feedback. Never a raw `whileTap` on a new element; a CTA is a `Button`.
@@ -49,8 +49,8 @@ A screen never animates its own entry: set `ScreenDef.transition` / `presentatio
 
 | Mechanism | Today | Typical values |
 |---|---|---|
-| `initial → animate` on mount | 160 uses, 16 of 18 flows | `y 12–20 → 0` + fade, 0.25–0.3s `easing.out`, or `handoff.spring` |
-| `AnimatePresence` (mount / unmount, swaps) | 96 uses, 15 of 18 flows | exits shorter than entrances; `initial={false}` for values that change after mount |
+| `initial → animate` on mount | 161 uses, 17 of 19 flows | `y 12–20 → 0` + fade, 0.25–0.3s `easing.out`, or `handoff.spring` |
+| `AnimatePresence` (mount / unmount, swaps) | 98 uses, 16 of 19 flows | exits shorter than entrances; `initial={false}` for values that change after mount |
 | Recipes `Stagger` / `FadeIn` / `BlurSwap` / `SkeletonReveal` | 4 / 4 / 1 / 1: rarely used, most flows hand-roll the same thing | `Stagger` 35ms, spring 380/39 |
 
 **Use for now:**
@@ -69,8 +69,8 @@ A screen never animates its own entry: set `ScreenDef.transition` / `presentatio
 | Counter / badge / price changes | `AnimatePresence` keyed by value, `spring.bouncy` (orders, pdp, reviews) | the same; `CountUp` for totals |
 | Toggle, segmented, tab indicator | `Switch`, `Segmented`, `TabBar` (shared), `layoutId` underline | the shared components |
 | Selection (pill, payment row) | colour / border cross-fade, no movement | fill + border cross-fade, `supermall.ease.soft`, 0.26s; press dip `supermall.press` |
-| Expand / collapse, reorder | `layout` / `layoutId` (18 uses, 10 of 18 flows), `spring.gentle` | `layout` with `spring.gentle`; transform, not height, for long lists |
-| Drag (sheets, sliders, slide-to-pay) | `drag` / `useDragControls` (12, 9 of 18 flows) | the Navigator sheet; `SlideButton` for slide-to-pay |
+| Expand / collapse, reorder | `layout` / `layoutId` (21 uses, 11 of 19 flows), `spring.gentle` | `layout` with `spring.gentle`; transform, not height, for long lists |
+| Drag (sheets, sliders, slide-to-pay) | `drag` / `useDragControls` (12, 9 of 19 flows) | the Navigator sheet; `SlideButton` for slide-to-pay |
 
 **Pending:** the spring per kind of change (bouncy vs gentle vs press); whether layout animations are allowed on lists.
 
@@ -80,8 +80,8 @@ A screen never animates its own entry: set `ScreenDef.transition` / `presentatio
 
 | Mechanism | Today | Use for now |
 |---|---|---|
-| `Skeleton` blocks → content | 98 uses, 9 of 18 flows | page and section loading; the skeleton fades after its content starts (`reveal.skeletonLag`) |
-| `Spinner` | 32 uses, 9 of 18 flows | inside a control or an overlay only |
+| `Skeleton` blocks → content | 112 uses, 10 of 19 flows | page and section loading; the skeleton fades after its content starts (`reveal.skeletonLag`) |
+| `Spinner` | 36 uses, 10 of 19 flows | inside a control or an overlay only |
 | `Button loading` | 2 (checkout) | any CTA that waits; the button keeps its size |
 | CSS keyframe loaders (`catLoaderSweep`, `pdpAiShimmer`) | 3 `@keyframes` | ports only |
 
@@ -91,7 +91,7 @@ A screen never animates its own entry: set `ScreenDef.transition` / `presentatio
 
 ## 6. Success and celebration
 
-`Lottie` (26 uses, 11 of 18 flows: ATC check, order confirmed, box) and `Confetti`. **Use for now:** an existing Lottie from
+`Lottie` (26 uses, 11 of 19 flows: ATC check, order confirmed, box) and `Confetti`. **Use for now:** an existing Lottie from
 `references/assets.md`, once per success, with a haptic `success`; never a looping celebration.
 
 **Pending:** which moments earn a celebration; Lottie vs native motion.
@@ -100,7 +100,7 @@ A screen never animates its own entry: set `ScreenDef.transition` / `presentatio
 
 ## 7. Scroll-linked motion
 
-`useScroll` / `useTransform` / scroll state (113 uses, 12 of 18 flows): headers collapse (home switcher at 100px, pdp
+`useScroll` / `useTransform` / scroll state (113 uses, 12 of 19 flows): headers collapse (home switcher at 100px, pdp
 gallery pin, noonone header), floating pills fold (`NeedHelpButton`), tab bar hides. **Use for now:** the screen recipe
 "Header that reacts to scroll" (`references/screen-recipes.md` §5) and `NeedHelpButton`; scroll state lives at the screen level
 with the feed memoised under it.
@@ -111,7 +111,7 @@ with the feed memoised under it.
 
 ## 8. Ambient and autoplay
 
-`setInterval` autoplay (21, 9 of 18 flows): banner carousels every 3s (0.45s `easing.out`), hero 4s, tickers 2.2–2.4s;
+`setInterval` autoplay (7 in flow code, 5 of 19 flows, plus the shared carousels): banner carousels every 3s (0.45s `easing.out`), hero 4s, tickers 2.2–2.4s;
 marquees and rAF loops (7: home, checkout, plp, returns). **Use for now:** 3s for carousels, pause on touch, stop under
 reduced motion (`useReduceMotion()`), only while in view.
 

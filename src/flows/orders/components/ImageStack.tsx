@@ -1,11 +1,12 @@
 import { motion } from 'motion/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { MarketplaceTag, OriginIcon } from '../../../components';
 import { ref } from '../../../foundations/tokens';
 import { supermall } from '../../../motion/presets';
 import styles from '../orders.module.css';
 import { ordersTokens, ordersVar } from '../tokens';
 import { useReduceMotion } from '../../../motion/reducedMotion';
+import { useInterval } from '../../../motion/useInterval';
 
 export interface StackCard {
   image: string;
@@ -36,12 +37,8 @@ export function ImageStack({ cards, centre = 0, rotate, express, dim }: { cards:
   const [shift, setShift] = useState(0);
   const n = cards.length;
   const reduce = useReduceMotion();
-  useEffect(() => {
-    // reduced motion: the stack holds still (as V1)
-    if (!rotate || n < 2 || reduce) return;
-    const t = window.setInterval(() => setShift((s) => s + 1), ordersTokens.stackRotateMs);
-    return () => window.clearInterval(t);
-  }, [rotate, n, reduce]);
+  // reduced motion: the stack holds still (as V1); paused while the screen is covered (useInterval)
+  useInterval(ordersTokens.stackRotateMs, () => setShift((s) => s + 1), rotate && n >= 2 && !reduce);
   const c = (centre + shift) % Math.max(n, 1);
   return (
     <div className={styles.stack} style={{ opacity: dim ? 0.5 : 1 }}>

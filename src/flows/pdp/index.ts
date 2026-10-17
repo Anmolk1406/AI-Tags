@@ -10,6 +10,8 @@ const VariantsSheet = lazyScreen(() => import('./VariantsSheet'), 'VariantsSheet
 
 export const pdpFlow = defineFlow({
   id: 'pdp',
+  // hand-offs fetched in idle time when one of this flow's screens mounts, so they never slide in empty (Navigator.preloadAround)
+  preload: ['cart/cart', 'plp/listing'],
   title: 'Product page (PDP)',
   group: 'Shopping',
   description: 'Product detail page (bappzaar master NoonProductDetails): pinned shrinking gallery, product info with best price, delivery, payments, variants, reinforcement badges, overview accordions, additional info, seller, reviews, recommendations, sticky add-to-cart and the quick-cart sheet.',

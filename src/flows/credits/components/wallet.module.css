@@ -1,0 +1,95 @@
+/* bappzaar features/wallet/components/** (values: MAPPING.md). Base Text = Figtree 13 #404553. */
+
+/* ── WalletError (error / empty views) ── */
+.error { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 var(--nk-space-s15); }
+.errorInner { display: flex; flex-direction: column; align-items: center; padding: 0 var(--nk-space-s15); }
+.errorImage { display: block; margin-bottom: var(--nk-space-s20); }
+.errorTitle { font: var(--nk-type-credits-title18-bold); color: var(--nk-color-text-ink); text-align: center; }
+.errorSubtitle { margin-top: var(--nk-space-s10); font: var(--nk-type-credits-text13-lh18); color: var(--nk-color-text-ink); text-align: center; }
+.errorButton { width: 100%; margin-top: var(--nk-space-s20); }
+
+/* ── wallet buttons (PrimaryButton / Button restyled black, r12) ── */
+.button { display: flex; align-items: center; justify-content: center; width: 100%; min-width: 60px; padding: var(--nk-space-s14) var(--nk-space-s10); border: 1px solid transparent; border-radius: var(--nk-radius-r12); font: var(--nk-type-credits-text16-semibold); cursor: pointer; }
+.button[data-height='50'] { height: 50px; padding-block: 0; }
+.button[data-pad='12'] { padding: var(--nk-space-s12) var(--nk-space-s24); }
+.primary { background: var(--nk-color-bg-inverse); color: var(--nk-color-text-inverse); }
+.secondary { background: var(--nk-color-bg-surface); border-color: var(--nk-palette-gray400); color: var(--nk-palette-secondary-text-color); }
+.button:disabled { cursor: default; }
+
+/* ── WalletTransaction row ── */
+.row { display: flex; align-items: center; width: 100%; height: 56px; margin-bottom: var(--nk-space-s14); padding: 0; border: 0; background: none; text-align: start; cursor: pointer; }
+.row[data-last] { margin-bottom: 0; }
+.row:active { opacity: 0.2; }
+.rowIcon { flex-shrink: 0; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-inline-end: var(--nk-space-s8); border: 1px solid var(--nk-color-credits-hairline); border-radius: var(--nk-radius-r8); background: var(--nk-color-bg-subtle); color: var(--nk-color-text-ink); }
+.rowContent { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.rowTitleRow { display: flex; align-items: center; justify-content: space-between; }
+.rowTitle { flex-shrink: 1; min-width: 0; font: var(--nk-type-credits-text14-semibold); color: var(--nk-color-text-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rowAmount { flex-shrink: 0; margin-inline-start: 5px; } /* design-ignore — bappzaar value */
+.rowSubtitle { margin-top: 3px; }
+/* server tags (react-native-htmlview stylesheets) */
+.html :global(green) { color: var(--nk-color-credits-green); }
+.html :global(black) { color: var(--nk-color-text-ink); }
+.html :global(grey) { color: var(--nk-palette-secondary-text-color); }
+.html :global(light) { color: var(--nk-color-credits-light); }
+.html :global(warning) { color: var(--nk-color-credits-warning); }
+.html :global(semibold) { font-weight: var(--nk-font-weight-semibold); }
+
+/* ── WalletButtonView (pending credits card) ── */
+.buttonView { margin-bottom: var(--nk-space-s20); border-radius: var(--nk-radius-r8); overflow: hidden; background-size: cover; background-position: center; }
+.buttonViewInner { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: var(--nk-space-s10) var(--nk-space-s12); border: 0; border-radius: var(--nk-radius-r8); background: none; cursor: pointer; }
+.buttonViewInner:active { opacity: 0.2; }
+.buttonViewLeft { display: flex; align-items: center; }
+.headerIcons { position: relative; display: flex; height: 22px; margin-inline-end: 5px; } /* design-ignore — bappzaar value */
+.headerIcon { position: absolute; top: 0; width: 25px; height: 22px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--nk-palette-border-primary); border-radius: var(--nk-radius-r6); background: var(--nk-color-bg-surface); color: var(--nk-color-text-ink); }
+.buttonViewTitle { font: var(--nk-type-credits-text14-semibold); color: var(--nk-color-text-ink); }
+.buttonViewCount { margin-inline-start: 5px; font: var(--nk-type-credits-text14); color: var(--nk-palette-lighter-spanish-gray-color); } /* design-ignore — bappzaar value */
+.buttonViewRight { display: flex; align-items: center; }
+.buttonViewAmount { margin-inline-end: var(--nk-space-s10); }
+.buttonViewAmount :global(span) { font: var(--nk-type-credits-text14-semibold); color: var(--nk-color-text-ink); }
+:global([dir='rtl']) .flip { transform: scaleX(-1); }
+
+/* ── WalletDefaultView (+ WalletLabels/WalletBalance pill) ── */
+.defaultView { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--nk-space-s20); }
+.defaultView[data-sheet] { margin-top: 25px; } /* design-ignore — bappzaar value */
+.defaultTitle { font: var(--nk-type-credits-text14-semibold); color: var(--nk-color-text-ink); }
+.defaultView[data-sheet] .defaultTitle { font: var(--nk-type-credits-text16-bold); }
+.defaultCount { padding-top: var(--nk-space-s2); font: var(--nk-type-credits-text13); color: var(--nk-palette-lighter-spanish-gray-color); }
+.balancePill { display: flex; align-items: center; justify-content: center; padding: var(--nk-space-s4) var(--nk-space-s8); border-radius: var(--nk-radius-r4); background: var(--nk-color-bg-page); }
+.balancePill :global(span) { font: var(--nk-type-credits-text14-semibold); color: var(--nk-color-text-ink); }
+.balancePill[data-type='PENDING'] { background: var(--nk-palette-kit-green97); }
+.balancePill[data-type='PENDING'] :global(span) { color: var(--nk-palette-dark-green); }
+.balancePill[data-type='EXPIRING'] { background: var(--nk-color-credits-expiring-bg); }
+.balancePill[data-type='EXPIRING'] :global(span) { color: var(--nk-color-credits-warning); }
+
+/* ── notes (expiring separator, sheet note, details note) ── */
+.separatorLine { height: 1px; margin-bottom: var(--nk-space-s18); background: var(--nk-palette-bright-grey-color); }
+.noteBox { display: flex; align-items: center; margin-bottom: var(--nk-space-s20); padding: var(--nk-space-s8); border-radius: var(--nk-radius-r12); background: var(--nk-color-bg-subtle); }
+.noteBox[data-sheet] { padding: var(--nk-space-s10) var(--nk-space-s8); }
+.noteIcon { flex-shrink: 0; width: 16px; height: 16px; margin-inline-end: var(--nk-space-s8); }
+.noteBox[data-sheet] .noteIcon { margin-inline-end: var(--nk-space-s10); }
+.noteText { flex-shrink: 1; font: var(--nk-type-credits-text13); color: var(--nk-palette-secondary-text-color); }
+.noteBox[data-sheet] .noteText { font: var(--nk-type-credits-text13-lh16); }
+
+/* ── WalletLoading skeleton rows ── */
+.skeletonRow { display: flex; align-items: center; height: 45px; margin-bottom: var(--nk-space-s20); }
+.skeletonLines { flex: 1; display: flex; flex-direction: column; gap: 5px; margin: 0 var(--nk-space-s10); } /* design-ignore — bappzaar value */
+
+/* ── sheet title row + 36px close circle (Filters / Sort) ── */
+.sheetTitleRow { display: flex; align-items: center; justify-content: space-between; margin: var(--nk-space-s15) 0; }
+.sheetTitle { font: var(--nk-type-credits-title18-bold); color: var(--nk-color-text-ink); }
+.closeCircle { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border: 0; border-radius: 18px; background: var(--nk-color-bg-page); cursor: pointer; } /* design-ignore — bappzaar value */
+.closeCircle:active { opacity: 0.2; }
+
+/* ── filter radio row (getFilterButtonStyle) ── */
+.radioRow { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: var(--nk-space-s14); border: 0; border-radius: var(--nk-radius-r12); background: var(--nk-color-bg-surface); text-align: start; cursor: pointer; }
+.radioRow[data-selected] { background: var(--nk-color-bg-subtle); }
+.radioRow:not(:disabled):active { opacity: 0.2; }
+.radioRow:disabled { cursor: default; }
+.radioLeft { display: flex; align-items: center; }
+.radioIcon { width: 24px; height: 25px; margin-inline-end: var(--nk-space-s8); }
+.radioRow[data-tight] .radioIcon { margin-inline-end: 5px; } /* design-ignore — bappzaar value */
+.radioLabel { font: var(--nk-type-credits-text16); color: var(--nk-color-text-ink); }
+.defaultPill { padding: var(--nk-space-s2) var(--nk-space-s10); border-radius: var(--nk-radius-r8); background: var(--nk-color-credits-hairline); font: var(--nk-type-credits-text13); color: var(--nk-palette-secondary-text-color); }
+
+/* ── stand-in for remote provider logos ── */
+.logo { display: inline-flex; align-items: center; justify-content: center; font-weight: var(--nk-font-weight-bold); font-style: italic; }

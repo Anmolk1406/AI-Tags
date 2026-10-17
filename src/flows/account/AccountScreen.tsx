@@ -2,7 +2,8 @@ import { motion } from 'motion/react';
 import { memo, useCallback, useState } from 'react';
 import { NeedHelpButton, Pressable, Screen } from '../../components';
 import { useNav } from '../../kit/Navigator';
-import { currency, formatPrice, user } from '../../data';
+import { useDemoStore } from '../../kit/DemoStore';
+import { currency, formatPrice } from '../../data';
 import { AccountFooter } from './components/AccountFooter';
 import { ActionCards } from './components/ActionCards';
 import { AccountSectionItem } from './components/AccountSection';
@@ -43,6 +44,7 @@ export function AccountScreen() {
 /** The page under the pill; memoised so the scroll flag doesn't re-render (and re-animate) every section. */
 const AccountBody = memo(function AccountBody() {
   const nav = useNav();
+  const credits = useDemoStore((s) => s.credits);
   return (
     <>
       <div className={styles.statusCover} />
@@ -54,12 +56,12 @@ const AccountBody = memo(function AccountBody() {
           <ActionCards />
         </motion.div>
         <motion.div {...enter(2)}>
-          <Pressable className={styles.creditsRow} scale={0.98} onClick={() => nav.toast('noon Credits')}>
+          <Pressable className={styles.creditsRow} scale={0.98} onClick={() => nav.push('credits/credits')}>
             <AccountIconImg name="credits" size={20} />
             <span className={styles.creditsLabel}>noon Credits</span>
             <span className={styles.creditsPill}>
               <span>
-                {currency} {formatPrice(user.credits)}
+                {currency} {formatPrice(credits)}
               </span>
               <AccountIconImg name="chevron" size={12} />
             </span>

@@ -164,8 +164,10 @@ export function ListingScreen() {
           <div className={styles.grid}>
             {shown.list.map((p, i) => {
               const rises = i < T.animateFirst;
+              // no `layout` on the cell: the key carries the epoch, so a sort / filter change remounts the cells, and the
+              // layout measurement only cost a forced layout of every cell on each re-render (the push frame)
               return (
-                <motion.div key={`${shown.epoch}-${p.id}`} className={styles.cell} layout="position" transition={{ layout: { duration: 0.36, ease: [0.4, 0, 0.2, 1] } }}>
+                <motion.div key={`${shown.epoch}-${p.id}`} className={styles.cell}>
                   <SkeletonReveal
                     skeleton={<SkeletonCard />}
                     animateIn={rises}

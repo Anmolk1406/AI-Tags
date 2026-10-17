@@ -12,6 +12,8 @@ const CouponTraySheet = lazyScreen(() => import('./CouponTraySheet'), 'CouponTra
 
 export const cartFlow = defineFlow({
   id: 'cart',
+  // hand-offs fetched in idle time when one of this flow's screens mounts, so they never slide in empty (Navigator.preloadAround)
+  preload: ['checkout/checkout'],
   title: 'Cart',
   group: 'Shopping',
   description: 'NoonCartScreen from master: address header, cart-updates banner, supermall / Global / express / market shipment groups with free-delivery progress, item actions, unavailable items, coupon, cobrand cards, payment offers, recommendations, sliding invoice and the sticky checkout footer — plus the cart overlays.',

@@ -1,7 +1,8 @@
 import { motion } from 'motion/react';
-import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
+import { useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
 import { Button, Lottie, MaskIcon } from '../../../../components';
 import { useReduceMotion } from '../../../../motion/recipes';
+import { useInterval } from '../../../../motion/useInterval';
 import iconDiscount from '@assets/cart/coupon-tray/coupon-tray-discount.webp';
 import iconCashback from '@assets/cart/coupon-tray/coupon-tray-cashback.webp';
 import iconBank from '@assets/cart/coupon-tray/coupon-tray-bank.webp';
@@ -54,18 +55,16 @@ const pad = (n: number) => String(n).padStart(2, '0');
 /** Timer digitsOnly: HH:MM:SS until `iso`; calls onExpire once it passes */
 function useCountdown(iso: string | null, onExpire: () => void) {
   const [left, setLeft] = useState(() => (iso ? new Date(iso).getTime() - Date.now() : 0));
-  useEffect(() => {
-    if (!iso) return;
-    const id = window.setInterval(() => {
-      const ms = new Date(iso).getTime() - Date.now();
+  // ticks only while the cart is the top screen (useInterval); stops once expired
+  useInterval(
+    1000,
+    () => {
+      const ms = new Date(iso!).getTime() - Date.now();
       setLeft(ms);
-      if (ms <= 0) {
-        window.clearInterval(id);
-        onExpire();
-      }
-    }, 1000);
-    return () => window.clearInterval(id);
-  }, [iso, onExpire]);
+      if (ms <= 0) onExpire();
+    },
+    !!iso && left > 0,
+  );
   const s = Math.max(0, Math.floor(left / 1000));
   return `${pad(Math.floor(s / 3600))}:${pad(Math.floor((s % 3600) / 60))}:${pad(s % 60)}`;
 }

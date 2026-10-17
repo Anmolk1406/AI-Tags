@@ -1,0 +1,79 @@
+/* bappzaar features/wallet/screens/WalletScreen + components/Screens/WalletLanding/** (MAPPING.md §2) */
+
+/* ── WalletScreenHeader (ScreenView offsetHeader statusbar) ── */
+.headerWrap { padding-top: var(--nk-inset-top); background: var(--nk-color-credits-page); }
+.header { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 0 var(--nk-space-s15) var(--nk-space-s8); }
+.headerLeft { display: flex; align-items: center; }
+.back { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; margin-inline-end: var(--nk-space-s10); border: 0; border-radius: 18px; background: var(--nk-color-bg-page); cursor: pointer; } /* design-ignore — bappzaar value */
+.back:active, .withdraw:active { opacity: 0.2; }
+.title { font: var(--nk-type-credits-title18-bold); color: var(--nk-color-text-ink); }
+.withdraw { min-width: 60px; padding: var(--nk-space-s8); border: 0; border-radius: 18px; background: var(--nk-color-bg-page); font: var(--nk-type-credits-text13-semibold); color: var(--nk-color-text-ink); cursor: pointer; } /* design-ignore — bappzaar value */
+:global([dir='rtl']) .flip { transform: scaleX(-1); }
+
+/* ── success container: the 10px #ECEDF1 gap shows between the top view and the white panel ── */
+.top { position: relative; isolation: isolate; display: flex; flex-direction: column; justify-content: space-between; padding: 0 var(--nk-space-s15) var(--nk-space-s18); border-radius: 0 0 var(--nk-radius-r20) var(--nk-radius-r20); background: var(--nk-color-credits-page); }
+.top[data-campaign] { padding-bottom: var(--nk-space-s10); }
+.topPlaceholder { height: var(--nk-space-s15); flex-shrink: 0; }
+.topFirst { position: relative; display: flex; flex-direction: column; align-items: center; z-index: 2; }
+.topSecond { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; z-index: 2; }
+/* wallet-dotted-bg: 200×350 cover, anchored top-right, 50 above the top view */
+.dots { position: absolute; z-index: -1; top: -50px; right: 0; width: 200px; height: calc(100% + 50px); overflow: hidden; border-radius: 0 0 var(--nk-radius-r20) 0; pointer-events: none; }
+.dots img { display: block; width: 200px; height: 350px; object-fit: cover; }
+:global([dir='rtl']) .dots { right: auto; left: 0; border-radius: 0 0 0 var(--nk-radius-r20); }
+:global([dir='rtl']) .dots img { transform: scaleX(-1); }
+.gap { background: var(--nk-color-credits-gap); }
+
+/* ── WalletTotalBalance: one line, 40 bold, ltr ── */
+.balance { display: flex; justify-content: center; min-height: 50px; direction: ltr; white-space: nowrap; color: var(--nk-color-text-ink); }
+.balance[data-negative] { color: var(--nk-color-credits-negative); }
+.balanceLine { font: var(--nk-type-credits-balance40); }
+.sign { font: var(--nk-type-credits-balance-sign); color: var(--nk-color-credits-negative); margin-right: 3px; }
+.currency { font: var(--nk-type-credits-balance-currency); margin-right: 3px; }
+.decimal { font: var(--nk-type-credits-balance-decimal); }
+
+/* ── WalletBanner (pill + gradient rim + glow) ── */
+.banner { position: relative; display: flex; align-items: center; justify-content: center; }
+.bannerRim { position: relative; z-index: 2; padding: var(--nk-space-s2); border-radius: 18px; background: linear-gradient(to right, var(--nk-color-bg-surface), var(--nk-color-credits-warning-rim)); } /* design-ignore — bappzaar value */
+.banner[data-type='NEGATIVE_BALANCE'] .bannerRim { background: linear-gradient(to right, var(--nk-color-bg-surface), var(--nk-color-credits-danger-rim)); }
+:global([dir='rtl']) .bannerRim { background: linear-gradient(to left, var(--nk-color-bg-surface), var(--nk-color-credits-warning-rim)); }
+.bannerPill { display: flex; align-items: center; justify-content: center; padding: var(--nk-space-s4) var(--nk-space-s12); border-radius: 18px; background: var(--nk-color-credits-warning-pill); } /* design-ignore — bappzaar value */
+.banner[data-type='NEGATIVE_BALANCE'] .bannerPill { background: var(--nk-color-credits-danger-pill); }
+.bannerText :global(normal) { font: var(--nk-type-credits-text13-lh20); color: var(--nk-color-text-ink); }
+.bannerText :global(danger) { color: var(--nk-color-credits-danger); }
+.bannerText :global(underline) { text-decoration: underline; }
+.bannerText :global(a) { text-decoration: none; color: inherit; cursor: pointer; }
+.bannerChevron { margin-inline-start: var(--nk-space-s10); }
+.glow { position: absolute; z-index: -1; left: 50%; top: 50%; width: 417px; height: 177px; transform: translate(-50%, -50%); pointer-events: none; object-fit: contain; }
+
+/* ── WalletTopup button ── */
+.topup { position: relative; display: flex; flex-direction: column; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; }
+.topup:active .topupButton, .topup:active .logos { opacity: 0.4; }
+.topupButton { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; width: 100%; height: 48px; padding: 0 var(--nk-space-s12); border-radius: var(--nk-radius-r12); background: var(--nk-color-bg-inverse); }
+.topupTitle { margin-inline-start: 5px; font: var(--nk-type-credits-text14-semibold); color: var(--nk-color-text-inverse); } /* design-ignore — bappzaar value */
+.logos { position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; height: 35px; margin-inline-end: 5px; border: 1px solid var(--nk-palette-black); background: var(--nk-color-credits-logos-pill); } /* design-ignore — bappzaar value */
+.logosRow { position: relative; height: 30px; }
+.logosRow > * { position: absolute; top: 0; }
+.plus { position: absolute; top: 0; right: calc(-1 * var(--nk-space-s10)); width: 20px; height: 20px; }
+.campaign { position: relative; z-index: 0; top: calc(-1 * var(--nk-space-s10)); display: flex; align-items: center; justify-content: center; gap: var(--nk-space-s6); padding: var(--nk-space-s18) var(--nk-space-s8) var(--nk-space-s8); border-radius: 0 0 var(--nk-radius-r12) var(--nk-radius-r12); font: var(--nk-type-credits-text13); color: var(--nk-color-text-inverse); }
+
+/* ── white panel: 16 spacer, "Transactions", chips ── */
+.panelHead { padding-top: var(--nk-space-s16); border-radius: var(--nk-radius-r20) var(--nk-radius-r20) 0 0; background: var(--nk-color-bg-surface); }
+.txTitle { margin: 0 0 var(--nk-space-s15) var(--nk-space-s20); font: var(--nk-type-credits-text16-bold); color: var(--nk-color-text-ink); }
+.chipsWrap { padding: 0 var(--nk-space-s20); }
+.chips { display: flex; align-items: center; gap: 5px; margin-bottom: var(--nk-space-s20); padding-bottom: var(--nk-space-s2); overflow-x: auto; scrollbar-width: none; } /* design-ignore — bappzaar value */
+.chips::-webkit-scrollbar { display: none; }
+.chip { flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-bottom: var(--nk-space-s2); padding: 7px var(--nk-space-s8); border: 1px solid var(--nk-palette-bright-grey-color); border-radius: var(--nk-radius-r8); background: none; font: var(--nk-type-credits-text14); color: var(--nk-color-text-ink); cursor: pointer; white-space: nowrap; } /* design-ignore — bappzaar value */
+.chip:active { opacity: 0.2; }
+.chip[data-active] { border-color: var(--nk-color-credits-chip-active); background: var(--nk-color-bg-subtle); font: var(--nk-type-credits-text14-semibold); }
+.chipLabel { margin: 0 5px; } /* design-ignore — bappzaar value */
+.clear { flex-shrink: 0; margin-inline-start: 7px; padding: 0; border: 0; background: none; font: var(--nk-type-credits-text14-semibold); color: var(--nk-palette-deep-red-color); cursor: pointer; } /* design-ignore — bappzaar value */
+
+/* ── WalletList ── */
+.list { min-height: 100%; padding: 0 var(--nk-space-s20) calc(var(--nk-space-s20) + var(--nk-inset-bottom)); background: var(--nk-color-bg-surface); }
+.list[data-fill] { display: flex; flex-direction: column; }
+.listState { flex: 1; display: flex; align-items: center; justify-content: center; padding-bottom: var(--nk-space-s40); }
+.moreLoader { padding: var(--nk-space-s16) 0; }
+
+/* ── screen loading skeleton (WalletLandingScreenTransactionsSectionLoading) ── */
+.loading { display: flex; flex-direction: column; margin: 0 var(--nk-space-s20); }
+.screenError { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 100%; background: var(--nk-color-credits-page); }

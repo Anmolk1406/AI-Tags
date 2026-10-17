@@ -4,6 +4,8 @@ Changes to the noon-ui skill and its screen skills. Add a line whenever a refere
 
 ## Unreleased
 
+- noon Credits (`credits` flow): flows.md catalogue entry, the DemoStore `credits` / `addCredits` rows, screen-recipes §6 "Gorhom sheets" (`sheet: { layout: 'gorhom' }`), tokens.md `sheet.gorhom*`, brief in resources/flows/other-flows.md.
+- motion.md §6 "Smoothness rules": transitions on transform/opacity only (`underDim`), covered screens stop rendering, `useInterval` / `useStepTimeout` for auto-rotating content, `Deferred` for long pages, store selectors per card, no stack reads in render, skeletons leave the DOM, `--nk-tab-hide` on followers, `FlowDef.preload`. tooling.md: `npm run perf`.
 - New `references/illustrations.md`: the noon illustration family from the Visual Library (Figma `4L1MFeexnspo7AmmOx4prT`) — style, 9-piece catalogue, `EmptyState` compact / full layouts, empty-state copy; linked from SKILL.md, components.md (EmptyState) and assets.md.
 - New `references/typography.md`: typography guidelines from a census of the kit's text styles plus Apple HIG, Material 3, WCAG 2.2, Baymard and Arabic typesetting guidance; linked from SKILL.md and design-rules §5.
 - New `references/craft-rubric.md` (quality gate) and the reference library `.claude/resources/references/`; SKILL.md step 9, design-workflow B / G, research.md "Start from the library", every screen skill's Sources ("World-class bar"), DESIGN.md template craft-gate row.

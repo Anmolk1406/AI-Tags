@@ -13,9 +13,10 @@ const heart = ref.palette('pink600');
  * particle burst (web stand-in for the favouriteAnimatedV2 lottie).
  */
 export function WishlistHeart({ productId, size = 24, box: boxSize, variant = 'card', toast = true }: { productId: string; size?: number; /** circle diameter (card default `size + 4`); bappzaar NoonFavourite wrapper is 24 */ box?: number; variant?: 'card' | 'button'; toast?: boolean }) {
-  const { isWishlisted, toggleWishlist } = useDemoStore();
+  // select, don't take the store: 18 hearts on a PLP re-rendered on every cart change otherwise
+  const on = useDemoStore((s) => s.wishlist.includes(productId));
+  const toggleWishlist = useDemoStore((s) => s.toggleWishlist);
   const nav = useNav();
-  const on = isWishlisted(productId);
   const box = variant === 'button' ? 40 : (boxSize ?? size + 4);
   return (
     <motion.button

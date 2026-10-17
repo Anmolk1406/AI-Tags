@@ -1,0 +1,11 @@
+/* iOS UIAlertController (RN Alert.alert) stand-in: system font, 270 wide, r14, frosted, hairline-separated buttons. */
+.scrim { position: absolute; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; background: var(--nk-palette-black-alpha24); }
+.card { width: 270px; overflow: hidden; border-radius: var(--nk-radius-r14); background: var(--nk-palette-white-alpha95); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); text-align: center; }
+.body { padding: var(--nk-space-s20) var(--nk-space-s16) var(--nk-space-s18); }
+.title { font: 600 17px/22px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; color: var(--nk-palette-black); } /* token-lint-ignore — iOS system alert title */
+.message { margin-top: var(--nk-space-s2); font: 400 13px/16px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; color: var(--nk-palette-black); } /* token-lint-ignore — iOS system alert message */
+.buttons { display: flex; border-top: 0.5px solid var(--nk-color-border-strong); } /* token-lint-ignore — hairline */
+.button { flex: 1; height: 44px; border: 0; background: none; font: 600 17px/22px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; color: var(--nk-color-link); cursor: pointer; } /* token-lint-ignore — iOS system alert button */
+.button + .button { border-inline-start: 0.5px solid var(--nk-color-border-strong); } /* token-lint-ignore — hairline */
+.button[data-cancel] { font-weight: 400; }
+.button:active { background: var(--nk-palette-black-alpha6); }

@@ -1,0 +1,121 @@
+/* bappzaar features/wallet sheets (src/components/BottomSheet → kit sheet layout 'gorhom'). MAPPING.md §3–§8. */
+
+.fill { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.scroll { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
+.scroll::-webkit-scrollbar { display: none; }
+.html :global(green) { color: var(--nk-color-credits-green); }
+.html :global(black) { color: var(--nk-color-text-ink); }
+.html :global(grey) { color: var(--nk-palette-secondary-text-color); }
+.html :global(light) { color: var(--nk-color-credits-light); }
+.html :global(warning) { color: var(--nk-color-credits-warning); }
+.html :global(semibold) { font-weight: var(--nk-font-weight-semibold); }
+
+/* ── WalletTransactionDetailsScreen (snap 500, #F5F6F8, r20) ── */
+.detailsRoot { background: var(--nk-color-credits-sheet-grey); border-radius: var(--nk-radius-r20) var(--nk-radius-r20) 0 0; }
+.detailsLoading { padding: var(--nk-space-s20) var(--nk-space-s15); }
+.loadingHeader { display: flex; align-items: center; justify-content: space-between; }
+.loadingLines { flex: 1; display: flex; flex-direction: column; gap: var(--nk-space-s10); margin: 0 var(--nk-space-s20); }
+.loadingBlocks { display: flex; flex-direction: column; gap: var(--nk-space-s20); margin-top: var(--nk-space-s10); }
+.detailsError { flex: 1; display: flex; align-items: center; justify-content: center; padding: 0 var(--nk-space-s15) var(--nk-space-s20); }
+.detailsHeader { display: flex; align-items: center; flex-shrink: 0; margin-bottom: var(--nk-space-s10); padding: var(--nk-space-s20) var(--nk-space-s20) var(--nk-space-s12); }
+.detailsIcon { flex-shrink: 0; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--nk-color-credits-icon-border); border-radius: var(--nk-radius-r8); background: var(--nk-color-bg-surface); color: var(--nk-color-text-ink); }
+.detailsHead { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: space-between; }
+.detailsText { flex: 1; min-width: 0; margin-inline-start: var(--nk-space-s10); display: flex; flex-direction: column; }
+.detailsTitle { font: var(--nk-type-credits-text16-semibold); color: var(--nk-color-text-ink); }
+.detailsSubtitle { padding-top: 3px; }
+.detailsAmount { flex-shrink: 0; margin-inline-start: 5px; } /* design-ignore — bappzaar value */
+.detailsBody { padding: 0 var(--nk-space-s15) calc(var(--nk-space-s20) + var(--nk-inset-bottom)); }
+.card { margin-bottom: var(--nk-space-s15); padding: var(--nk-space-s12); border-radius: var(--nk-radius-r12); background: var(--nk-color-bg-surface); }
+.card[data-flush] { padding: 0; }
+.sub { padding: var(--nk-space-s12); }
+.descText { font: var(--nk-type-credits-text14); color: var(--nk-color-text-ink); }
+.spacer { height: var(--nk-space-s10); }
+.withdrawPill { display: inline-flex; align-items: center; padding: var(--nk-space-s4) var(--nk-space-s8); border: 1px solid var(--nk-color-credits-withdraw-border); border-radius: var(--nk-radius-r12); background: var(--nk-color-credits-withdraw-bg); cursor: pointer; }
+.withdrawPill:active { opacity: 0.2; }
+.withdrawLabel { margin: 0 var(--nk-space-s4); font: var(--nk-type-credits-text13); color: var(--nk-color-text-ink); }
+:global([dir='rtl']) .flip { transform: scaleX(-1); }
+.noteRow { display: flex; align-items: center; }
+.noteRow img { flex-shrink: 0; width: 16px; height: 16px; }
+.noteText { flex-shrink: 1; margin-inline-start: 5px; font: var(--nk-type-credits-text13); color: var(--nk-palette-secondary-text-color); } /* design-ignore — bappzaar value */
+.dashed { height: 1.5px; background-image: linear-gradient(to right, var(--nk-palette-bright-grey-color) 3px, transparent 3px); background-size: 6px 1.5px; } /* token-lint-ignore — 3px dashes / 3px gaps, height 1.5 */
+.orderRow { display: flex; align-items: center; justify-content: space-between; padding: var(--nk-space-s12); }
+.orderNr { flex-shrink: 1; min-width: 0; font: var(--nk-type-credits-text14-medium); color: var(--nk-palette-secondary-text-color); }
+.viewOrder { display: flex; align-items: center; gap: var(--nk-space-s8); padding: 0; border: 0; background: none; font: var(--nk-type-credits-text13-semibold); color: var(--nk-palette-secondary-text-color); cursor: pointer; }
+.viewOrder:active { opacity: 0.2; }
+.lot { margin-bottom: var(--nk-space-s14); }
+.lot:last-of-type { margin-bottom: 0; }
+.lot :global(normal) { color: var(--nk-color-text-ink); }
+.lot :global(grey) { color: var(--nk-palette-lighter-spanish-gray-color); }
+.lot :global(warning) { color: var(--nk-color-credits-warning-dark); }
+.historyTitle { margin-bottom: var(--nk-space-s10); font: var(--nk-type-credits-text14); color: var(--nk-color-credits-muted); }
+.timeline { display: flex; align-items: stretch; }
+.rail { position: relative; top: var(--nk-space-s2); flex-shrink: 0; width: 20px; display: flex; flex-direction: column; align-items: center; margin-inline-end: 5px; color: var(--nk-color-text-ink); } /* design-ignore — bappzaar value */
+.railLine { flex: 1; width: 1.5px; margin: var(--nk-space-s2) 0; background-image: linear-gradient(to bottom, var(--nk-color-border-strong) 60%, transparent 60%); background-size: 1.5px 10px; } /* token-lint-ignore — dashed 1.5px connector */
+.timelineContent { flex: 1; min-width: 0; padding-bottom: var(--nk-space-s16); }
+.timeline:last-child .timelineContent { padding-bottom: 0; }
+.timelineTop { display: flex; align-items: center; justify-content: space-between; }
+.timelineTitle { flex-shrink: 1; min-width: 0; font: var(--nk-type-credits-text14-medium); color: var(--nk-color-text-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.timelineSubtitle { margin-top: var(--nk-space-s4); }
+.timelineSubtitle :global(black) { color: var(--nk-color-credits-muted); }
+
+/* ── WalletPendingOrExpiringTransactionsScreen (r16; 300 / 450) ── */
+.listLoading { padding: var(--nk-space-s15) var(--nk-space-s15) 0; }
+.sheetList { padding: 0 var(--nk-space-s15) 50px; } /* design-ignore — bappzaar value */
+.sheetEmpty { flex: 1; display: flex; align-items: center; justify-content: center; }
+.sheetFooter { flex-shrink: 0; display: flex; flex-direction: column; gap: var(--nk-space-s10); margin-top: var(--nk-space-s10); padding: 0 var(--nk-space-s15) max(var(--nk-space-s20), var(--nk-inset-bottom)); }
+
+/* ── WalletNegativeBalanceScreen (content height, r16) ── */
+.negative { padding: var(--nk-space-s40) var(--nk-space-s15) max(var(--nk-space-s15), var(--nk-inset-bottom)); }
+.negativeButtons { display: flex; flex-direction: column; gap: var(--nk-space-s10); margin-top: 50px; } /* design-ignore — bappzaar value */
+
+/* ── WalletSortScreen / WalletTopupScreen (content height) ── */
+.content { padding: 0 var(--nk-space-s15) max(var(--nk-space-s15), var(--nk-inset-bottom)); }
+.topupTitle { margin-top: 25px; font: var(--nk-type-credits-title18-bold); color: var(--nk-color-text-ink); } /* design-ignore — bappzaar value */
+.points { margin-top: var(--nk-space-s10); padding: var(--nk-space-s12); border-radius: var(--nk-radius-r12); background: var(--nk-color-bg-surface); }
+.pointsSubtitle { margin-bottom: var(--nk-space-s10); font: var(--nk-type-credits-text13); color: var(--nk-palette-secondary-text-color); }
+.option { display: flex; align-items: center; width: 100%; height: 49px; margin-bottom: var(--nk-space-s8); padding: 0; border: 1px solid var(--nk-palette-bright-grey-color); border-radius: var(--nk-radius-r8); background: var(--nk-palette-soft-white-color); text-align: start; cursor: pointer; overflow: hidden; }
+.option:active { opacity: 0.2; }
+.optionIcon { flex-shrink: 0; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; }
+.optionMain { flex: 1; display: flex; align-items: center; justify-content: space-between; padding: 0 var(--nk-space-s10); }
+.optionTitle { font: var(--nk-type-credits-text14-semibold); color: var(--nk-color-text-ink); }
+
+/* ── WalletFiltersScreen (60% snap, r20) ── */
+.filtersHeader { flex-shrink: 0; padding: 0 var(--nk-space-s15); }
+.filtersBody { padding: 0 var(--nk-space-s15) 120px; } /* design-ignore — bappzaar value */
+.sectionTitle { margin-bottom: var(--nk-space-s10); font: var(--nk-type-credits-text16-semibold); color: var(--nk-color-text-ink); }
+.divider { height: 2px; margin: var(--nk-space-s20) 0; background: var(--nk-palette-bright-grey-color); }
+.gap8 { height: var(--nk-space-s8); }
+.dateTitleRow { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--nk-space-s10); }
+.dateTitleRow .sectionTitle { margin-bottom: 0; }
+.clearDates { min-width: 60px; padding: 0; border: 0; background: none; font: var(--nk-type-credits-text14-semibold); color: var(--nk-palette-deep-red-color); cursor: pointer; }
+.inputs { display: flex; gap: var(--nk-space-s10); }
+.inputCol { flex: 1; min-width: 0; }
+.inputLabel { margin: 5px 0 var(--nk-space-s8); font: var(--nk-type-credits-text14-semibold); color: var(--nk-color-text-ink); } /* design-ignore — bappzaar value */
+.inputLabel[data-filled] { color: var(--nk-color-credits-date-label-filled); }
+.dateInput { padding: var(--nk-space-s14) var(--nk-space-s12); border: 1px solid var(--nk-palette-gray400); border-radius: var(--nk-radius-r12); font: var(--nk-type-credits-text14-semibold); color: var(--nk-color-text-ink); }
+.dateInput[data-empty] { color: var(--nk-palette-lighter-spanish-gray-color); }
+.filtersFooter { position: absolute; left: 0; right: 0; bottom: 0; display: flex; padding: var(--nk-space-s15) var(--nk-space-s15) max(var(--nk-space-s15), var(--nk-inset-bottom)); background: var(--nk-color-bg-surface); }
+.apply { flex: 1; height: 50px; display: flex; align-items: center; justify-content: center; border: 0; border-radius: var(--nk-radius-r12); background: var(--nk-palette-gray400); font: var(--nk-type-credits-text18-semibold); color: var(--nk-color-text-inverse); cursor: default; }
+.apply[data-changed] { background: var(--nk-color-bg-inverse); cursor: pointer; }
+
+/* react-native-calendars Calendar, period marking (WalletDateSection theme) */
+.calendar { margin-top: var(--nk-space-s8); padding: var(--nk-space-s15) 5px var(--nk-space-s10); border: 1px solid var(--nk-palette-gray400); border-radius: var(--nk-radius-r12); background: var(--nk-color-bg-surface); } /* design-ignore — bappzaar value */
+.calHeader { display: flex; align-items: center; justify-content: center; padding-bottom: 5px; } /* design-ignore — bappzaar value */
+.calArrow { display: flex; padding: var(--nk-space-s10); border: 0; background: none; cursor: pointer; }
+.calMonth { padding: 0 var(--nk-space-s10); font: var(--nk-type-credits-text14-semibold); color: var(--nk-color-text-ink); }
+.calWeekdays { display: grid; grid-template-columns: repeat(7, 1fr); margin-top: var(--nk-space-s10); padding-bottom: var(--nk-space-s15); }
+.calWeekday { text-align: center; font: var(--nk-type-credits-text10-bold); text-transform: uppercase; color: var(--nk-palette-lighter-spanish-gray-color); }
+.calWeek { display: grid; grid-template-columns: repeat(7, 1fr); margin: var(--nk-space-s10) 0; }
+.calDay { position: relative; height: 34px; display: flex; align-items: center; justify-content: center; padding: 0; border: 0; background: none; cursor: pointer; }
+.calDay::before { content: ''; position: absolute; inset: 0; }
+.calDay[data-between]::before { background: var(--nk-color-credits-calendar-range); }
+.calDay[data-start]::before, .calDay[data-end]::before { background: var(--nk-color-link); }
+.calDay[data-start]::before { border-radius: 17px 0 0 17px; left: var(--nk-space-s2); } /* design-ignore — bappzaar value */
+.calDay[data-end]::before { border-radius: 0 17px 17px 0; right: var(--nk-space-s2); } /* design-ignore — bappzaar value */
+.calDay[data-start][data-end]::before { border-radius: 17px; left: var(--nk-space-s2); right: var(--nk-space-s2); } /* design-ignore — bappzaar value */
+.calDay[data-single]::before { left: var(--nk-space-s2); right: var(--nk-space-s2); border-radius: 17px; background: var(--nk-color-credits-calendar-single); } /* design-ignore — bappzaar value */
+.calDayText { position: relative; font: var(--nk-type-credits-text14-semibold); color: var(--nk-color-text-ink); }
+.calDay[data-other] .calDayText { color: var(--nk-color-credits-calendar-disabled); }
+.calDay[data-today] .calDayText { color: var(--nk-color-credits-calendar-today); }
+.calDay[data-between] .calDayText { color: var(--nk-color-credits-calendar-range-text); }
+.calDay[data-start] .calDayText, .calDay[data-end] .calDayText, .calDay[data-single] .calDayText { color: var(--nk-color-text-inverse); }

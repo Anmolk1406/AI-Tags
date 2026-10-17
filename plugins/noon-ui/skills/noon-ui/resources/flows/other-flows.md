@@ -15,6 +15,16 @@ Bappzaar `features/afs/returns` @ `d481712d6d9`. Its MAPPING.md is the AFS metri
 - `returnsStore` holds `returns: ReturnRecord[]`, plus `recordFor` and `pickupAddress`.
 - Links to `orders/tracking` and `pdp/detail`. Overlays are in-screen (`ReturnsOverlay`), not sheets.
 
+## credits (noon Credits)
+
+Bappzaar `features/wallet` (+ `features/giftcards` GiftCardRedeemScreen) @ `ec9be9d3a91`, 17 routes from `credits/credits` (`/credits`). Values in its MAPPING.md.
+
+- Account → noon Credits pushes the landing; every wallet sheet is the new `sheet: { layout: 'gorhom' }` frame (bappzaar `src/components/BottomSheet`).
+- Balance = `useDemoStore().credits`; gift card / voucher redeem, the provider top-up and a bank transfer call `addCredits`.
+- Top-up reuses checkout's `provider-burn` → `provider-burn-otp` with `plx: 'page_wallet'`: success closes both sheets and the top-up sheet and credits the balance instead of the checkout invoice.
+- `creditsStore` holds the list filters (Filters / Sort sheets write them), the saved bank accounts and the amount withdrawn.
+- The bank modal is four modal / pushed screens; WHAT HAPPENS NEXT? pops every `credits/bank*` entry (the CMS page bank-transfer-web is not ported).
+
 ## noonone (acquisition)
 
 Bappzaar `features/vip`. 22 screens, starting from `noonone/landing` (`/noon-one`, `/noonvip`).

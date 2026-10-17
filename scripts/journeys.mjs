@@ -26,8 +26,9 @@ import checkout from './journeys/checkout.mjs';
 import membership from './journeys/noonone.mjs';
 import states from './journeys/states.mjs';
 import orders from './journeys/orders.mjs';
+import credits from './journeys/credits.mjs';
 
-const journeys = [...shopping, ...navigation, ...state, ...sheets, ...checkout, ...membership, ...states, ...orders];
+const journeys = [...shopping, ...navigation, ...state, ...sheets, ...checkout, ...membership, ...states, ...orders, ...credits];
 
 const root = new URL('..', import.meta.url).pathname;
 const outRoot = join(root, 'test-results/journeys');

@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { OriginIcon, Pressable, type OriginIconName } from '../../../../components';
 import { useNav } from '../../../../kit/Navigator';
 import { tween } from '../../../../motion/presets';
@@ -11,6 +11,7 @@ import { pdpSfcTokens } from '../../tokens.sfC';
 import { Card } from '../Sections';
 import styles from './SfExtendedWarranty.module.css';
 import { useReduceMotion } from '../../../../motion/reducedMotion';
+import { useInterval } from '../../../../motion/useInterval';
 
 export const sfWarrantyCopy = {
   title: 'Extended warranty', // Figma 3499:75493
@@ -65,12 +66,8 @@ function UspTicker() {
   const lines = sfWarrantyCopy.usps.length + 1;
   const [i, setI] = useState(0);
   const reduce = useReduceMotion();
-  useEffect(() => {
-    // reduced motion: the first line stays (no auto-rotation)
-    if (reduce) return;
-    const t = setInterval(() => setI((n) => (n + 1) % lines), pdpSfcTokens.tickerMs);
-    return () => clearInterval(t);
-  }, [lines, reduce]);
+  // reduced motion: the first line stays (no auto-rotation); paused while the PDP is covered (useInterval)
+  useInterval(pdpSfcTokens.tickerMs, () => setI((n) => (n + 1) % lines), !reduce);
   return (
     <span className={styles.ticker} aria-live="off">
       <AnimatePresence mode="popLayout" initial={false}>

@@ -8,23 +8,32 @@
 - Folder: `src/flows/categories/` · tokens `src/flows/categories/tokens.ts` (20 flow vars) <!-- count-ok -->
 - Area data / token / helper files: data.live.ts
 - Enters from: —
-- Exits to: —
+- Exits to: `plp/listing` (from categories, expanded, loading, error) · `search/search` (from categories, expanded, loading, error)
 
 ## Screens
 
 | Screen | Presentation | URL | Truth · verified | Module | Tests |
 |---|---|---|---|---|---|
-| `scr:categories/categories` Categories | screen | /all-categories /categories | bappzaar* · never | ? | 0 |
-| `scr:categories/expanded` Category opened | screen | — | bappzaar* · never | ? (open) | 0 |
-| `scr:categories/loading` Loading | screen | — | bappzaar* · never | ? (state) | 0 |
-| `scr:categories/error` Error | screen | — | bappzaar* · never | ? (state) | 0 |
+| `scr:categories/categories` Categories | screen | /all-categories /categories | bappzaar* · never | `CategoriesScreen.tsx` | 0 |
+| `scr:categories/expanded` Category opened | screen | — | bappzaar* · never | `CategoriesScreen.tsx` (open) | 0 |
+| `scr:categories/loading` Loading | screen | — | bappzaar* · never | `CategoriesScreen.tsx` (state) | 0 |
+| `scr:categories/error` Error | screen | — | bappzaar* · never | `CategoriesScreen.tsx` (state) | 1 |
 
 `*` truth inferred from `source`. Tests = journeys + visual references (every screen also runs in `check:routes`). In nav lines, `~` = target resolved through a const / helper / ternary (reachable, runtime-dependent); no mark = a literal `nav.*('…')` call.
 
 ## `categories/categories` · `categories/expanded` · `categories/loading` · `categories/error`
 
-- Module `?` (shared by 4 screens; params pick the state) · 0 own files, 0 in the import closure <!-- count-ok -->
+- Module `src/flows/categories/CategoriesScreen.tsx` (shared by 4 screens; params pick the state) · 9 own files, 39 in the import closure <!-- count-ok -->
 - Source: marketplaces/noon/screens/NoonCategoriesScreen → src/screens/DynamicLoaderScreen (unstructured "/categories") → src/components/StaticPage, src/components/Module/AdBannerModuleV2 + BannerModule, src/components/Module/Col…
-- Shared components: —
-- Flow components: —
-- Tokens (0): —
+- Styles: categories.module.css
+- Data / helpers: data.live.ts, data.ts, tokens.ts
+- Shared components: `Pressable`, `Screen`, `SearchBarButton`
+- Flow components: `AdBannerModule`, `CollapsibleBannerModule`, `ErrorView`, `ProgressLoader`
+- Tokens (38): colors 2 · flow:categories 19 · layout 1 · local 2 · palette 7 · radius 2 · spacing 5
+- Icons: — · assets 1
+- State / data: `data:categoryById`
+- Nav out: push `plp/listing` · push `search/search`
+- `categories`: docs `.claude/resources/flows/categories.md:7-16`, `src/flows/categories/MAPPING.md:189-199`, `src/flows/categories/MAPPING.md:209-215`
+- `expanded`: docs `.claude/resources/flows/categories.md:7-16`, `src/flows/categories/MAPPING.md:189-199`
+- `loading`: docs `.claude/resources/flows/categories.md:7-16`, `src/flows/categories/MAPPING.md:133-144`, `src/flows/categories/MAPPING.md:189-199`
+- `error`: tests `test:journey/categories-error-retry` · docs `.claude/resources/flows/categories.md:7-16`, `src/flows/categories/MAPPING.md:189-199`

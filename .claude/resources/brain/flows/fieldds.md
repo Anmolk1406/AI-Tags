@@ -7,23 +7,31 @@
 - Docs: —
 - Folder: `src/flows/fieldds/` · tokens `src/flows/fieldds/tokens.ts` (0 flow vars) <!-- count-ok -->
 - Enters from: —
-- Exits to: —
+- Exits to: `pdp/detail` (from gallery, sheet, tabs, glass) · `pdp/variants` (from gallery, sheet, tabs, glass)
 
 ## Screens
 
 | Screen | Presentation | URL | Truth · verified | Module | Tests |
 |---|---|---|---|---|---|
-| `scr:fieldds/gallery` Field components | screen | — | reference · never | ? | 0 |
-| `scr:fieldds/sheet` Bottom sheet + action bar | sheet (origin) | — | reference · never | ? | 0 |
-| `scr:fieldds/tabs` Bottom navigation | screen | — | reference · never | ? | 0 |
-| `scr:fieldds/glass` Liquid Glass | screen | — | bappzaar · never | ? | 0 |
+| `scr:fieldds/gallery` Field components | screen | — | reference · never | `FielddsScreen.tsx` | 0 |
+| `scr:fieldds/sheet` Bottom sheet + action bar | sheet (origin) | — | reference · never | `FielddsScreen.tsx` | 0 |
+| `scr:fieldds/tabs` Bottom navigation | screen | — | reference · never | `FielddsScreen.tsx` | 0 |
+| `scr:fieldds/glass` Liquid Glass | screen | — | bappzaar · never | `FielddsScreen.tsx` | 0 |
 
 `*` truth inferred from `source`. Tests = journeys + visual references (every screen also runs in `check:routes`). In nav lines, `~` = target resolved through a const / helper / ternary (reachable, runtime-dependent); no mark = a literal `nav.*('…')` call.
 
 ## `fieldds/gallery` · `fieldds/sheet` · `fieldds/tabs` · `fieldds/glass`
 
-- Module `?` (shared by 4 screens; params pick the state) · 0 own files, 0 in the import closure <!-- count-ok -->
+- Module `src/flows/fieldds/FielddsScreen.tsx` (shared by 4 screens; params pick the state) · 3 own files, 80 in the import closure <!-- count-ok -->
 - Source: reference: github.com/ayaneshu/field-design-system packages/components/src (Button, IconButton, PageHeader, Checkbox, Radio, Toggle, Switch, FilterChip, InfoBanner, RatingInput, SearchBar, InputText, InputTextarea, List…
-- Shared components: —
+- Styles: fieldds.module.css
+- Data / helpers: data.ts
+- Shared components: `Accordion`, `ActionBar`, `Button`, `Checkbox`, `DashedDivider`, `Divider`, `Header`, `IconButton`, `ListRow`, `Money`, `OriginIcon`, `Pill`, `ProductCard`, `Radio`, `Screen`, `SearchInput`, `Segmented`, `SheetBody`, `SheetFooter`, `SheetHeader`, `Stars`, `StatusChip`, `Switch`, `TabBar`, `Text`, `TextArea`, `TextField`
 - Flow components: —
-- Tokens (0): —
+- Tokens (16): colors 1 · field 6 · layout 1 · local 1 · radius 1 · spacing 2 · type 4
+- Icons: `calendar`, `camera`, `location`, `mic`, `notification` · assets 0
+- State / data: `data:products`
+- Nav out: reset `fieldds/glass` · sheet `fieldds/sheet` · push `fieldds/tabs` · push `pdp/detail` (via ProductCard) · sheet `pdp/variants` (via ProductCard)
+- `sheet`: in ← `fieldds/gallery`, `fieldds/glass`, `fieldds/tabs`
+- `tabs`: in ← `fieldds/gallery`, `fieldds/glass`, `fieldds/sheet`
+- `glass`: in ← `fieldds/gallery`, `fieldds/sheet`, `fieldds/tabs`

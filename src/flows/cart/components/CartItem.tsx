@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { HtmlText, ProductImage, Spinner } from '../../../components';
 import { cartAddOns, FOUPON_VALUE, type CartGroupType, type CartLine } from '../../../kit/DemoStore';
 import { useDemoStore } from '../../../kit/DemoStore';
@@ -24,6 +24,7 @@ import { QuantitySelector } from './QuantitySelector';
 import { SalesCallout } from './SalesCallout';
 import styles from './item.module.css';
 import { useReduceMotion } from '../../../motion/reducedMotion';
+import { useInterval } from '../../../motion/useInterval';
 
 export function getExtras(line: CartLine): CartItemExtras {
   const e = cartItemExtras[line.product.id];
@@ -293,12 +294,8 @@ export function CartItem({ line, group, onMovedToWishlist, onRemoveStart }: { li
 function Usps({ usps }: { usps: string[] }) {
   const [i, setI] = useState(0);
   const reduce = useReduceMotion();
-  useEffect(() => {
-    // reduced motion: the first USP stays (no auto-rotation)
-    if (usps.length < 2 || reduce) return;
-    const id = window.setInterval(() => setI((n) => (n + 1) % usps.length), 3000);
-    return () => window.clearInterval(id);
-  }, [usps.length, reduce]);
+  // reduced motion: the first USP stays (no auto-rotation); paused while the cart is covered (useInterval)
+  useInterval(3000, () => setI((n) => (n + 1) % usps.length), usps.length > 1 && !reduce);
   return (
     <div className={styles.usps}>
       <AnimatePresence initial={false} mode="popLayout">

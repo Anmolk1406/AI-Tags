@@ -8,6 +8,8 @@ const source = 'marketplaces/noon/screens/NoonSearchScreen, components/NoonSearc
 
 export const searchFlow = defineFlow({
   id: 'search',
+  // hand-offs fetched in idle time when one of this flow's screens mounts, so they never slide in empty (Navigator.preloadAround)
+  preload: ['plp/listing', 'pdp/detail'],
   title: 'Search',
   group: 'Discovery',
   description: 'Search with presearch (recent searches, trending), live suggestions on the ProtoPie handoff motion (staggered fall-in, in-place crossfades, bottom-up exits), and an in-place hand-off to the PLP.',

@@ -8,7 +8,23 @@ Edges come from static `nav.*('…')` calls in each screen's import closure (dyn
 
 | From flow | → To flows |
 |---|---|
+| `account` | credits, membership, noonone, orders, wishlist |
+| `cart` | address, checkout, noonone, pdp, plp, wishlist |
+| `categories` | plp, search |
+| `checkout` | address, home, noonone, orders |
+| `credits` | checkout, home, orders |
+| `deals` | pdp, plp, search |
+| `fieldds` | pdp |
 | `home` | address, pdp, plp, search, wishlist |
+| `membership` | account, checkout, home, noonone |
+| `noonone` | checkout, membership |
+| `orders` | noonone, returns, reviews |
+| `pdp` | cart, checkout, noonone, plp, search |
+| `plp` | pdp, search |
+| `returns` | home, orders, pdp |
+| `reviews` | orders |
+| `search` | checkout, noonone, pdp, plp |
+| `wishlist` | cart, pdp, search |
 
 ## Journey tests (`npm run test:journeys`)
 
@@ -16,6 +32,9 @@ Edges come from static `nav.*('…')` calls in each screen's import closure (dyn
 |---|---|---|
 | `test:journey/checkout-slide-to-pay` Checkout: card + CVV enable slide to pay; sliding → placing → confirmation, cart cleared;… | checkout | `checkout/checkout`, `checkout/confirmation`, `checkout/placing`, `home/home` |
 | `test:journey/checkout-payment-failure` A declined payment lands on payment-failure; "Try another payment method" returns to chec… | checkout | `checkout/checkout`, `checkout/payment-failure` |
+| `test:journey/credits-topup` Account → noon Credits; redeem a voucher (+50) and SHARE points (+20) — the balance and t… | credits | `account/account`, `credits/credits`, `credits/giftcard`, `credits/topup` |
+| `test:journey/credits-filters` Wallet list: Expiring chip (soonest first + separator), Sort sheet, Filters sheet (Expire… | credits | `credits/credits`, `credits/filters`, `credits/sort` |
+| `test:journey/credits-withdraw` Refund details → Withdraw to bank → amount + account + terms → confirm → OTP → Requested … | credits | `credits/bank`, `credits/credits`, `credits/details` |
 | `test:journey/tab-bar-switching` Tab bar: home → categories → deals → account → cart → home, each a fresh one-screen stack… | navigation | `home/home` |
 | `test:journey/back-from-pushed` Back pops a pushed screen: account → My Orders → Back; home → product card → PDP → Back | navigation | `account/account`, `home/home`, `orders/list`, `pdp/detail` |
 | `test:journey/back-direct-url` A page opened by URL goes Back to its logical parent (screen.parent → flow.parent → home) | navigation | `account/account`, `cart/cart`, `checkout/checkout`, `home/home`, `noonone/landing`, `orders/list`, `pdp/deliveryVariants`, `pdp/detail`, `wishlist/wishlist` |
@@ -59,20 +78,21 @@ Edges come from static `nav.*('…')` calls in each screen's import closure (dyn
 | Flow | Screens with a journey / visual test | Verified side by side |
 |---|---|---|
 | `home` | 1/2 | 1/2 |
-| `search` | 0/2 | 1/2 |
-| `categories` | 0/4 | 0/4 |
+| `search` | 1/2 | 1/2 |
+| `categories` | 1/4 | 0/4 |
 | `deals` | 0/1 | 0/1 |
-| `plp` | 0/3 | 1/3 |
-| `pdp` | 0/4 | 1/4 |
-| `cart` | 0/9 | 1/9 |
-| `checkout` | 0/22 | 1/22 |
-| `orders` | 0/4 | 0/4 |
+| `plp` | 3/3 | 1/3 |
+| `pdp` | 4/4 | 1/4 |
+| `cart` | 3/9 | 1/9 |
+| `checkout` | 4/22 | 1/22 |
+| `orders` | 1/4 | 0/4 |
 | `returns` | 0/5 | 0/5 |
 | `reviews` | 0/9 | 0/9 |
-| `account` | 0/17 | 0/17 |
-| `address` | 0/11 | 0/11 |
-| `cards` | 0/8 | 0/8 |
-| `noonone` | 0/22 | 0/22 |
+| `account` | 1/17 | 0/17 |
+| `address` | 1/11 | 0/11 |
+| `cards` | 3/8 | 0/8 |
+| `credits` | 7/17 | 0/17 |
+| `noonone` | 5/22 | 0/22 |
 | `membership` | 0/24 | 0/24 |
-| `wishlist` | 0/5 | 0/5 |
+| `wishlist` | 3/5 | 0/5 |
 | `fieldds` | 0/4 | 0/4 |

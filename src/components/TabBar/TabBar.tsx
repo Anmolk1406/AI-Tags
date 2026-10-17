@@ -90,7 +90,7 @@ export function TabBar({ active, variant, autoHide, covered }: TabBarProps) {
  */
 function GlassTabBar({ active, autoHide, covered }: { active: TabId; autoHide?: boolean; covered?: boolean }) {
   const nav = useNav();
-  const { cartBadge: cartCount } = useDemoStore();
+  const cartCount = useDemoStore((s) => s.cartBadge);
   const reduced = useReducedMotion();
   const ref = useRef<HTMLElement>(null);
   const hide = useMotionValue(0);
@@ -102,7 +102,15 @@ function GlassTabBar({ active, autoHide, covered }: { active: TabId; autoHide?: 
     if (!autoHide) return;
     const host = ref.current?.parentElement;
     if (!host) return;
-    const to = (v: number) => animate(hide, v, { duration: reducedRef.current ? 0 : duration.fast, ease: tabBarScroll.ease });
+    // the hide value goes to the elements that follow the bar (this dock, docked footers: `[data-tab]`), not to the
+    // screen root: an inherited custom property written there restyled the whole screen subtree on every frame of
+    // the hide (measured: 2.5× the style work of a home scroll). The follower list refreshes when a move starts.
+    let followers: HTMLElement[] = [];
+    const collect = () => (followers = [ref.current, ...host.querySelectorAll<HTMLElement>('[data-tab]')].filter((x): x is HTMLElement => !!x));
+    const to = (v: number) => {
+      collect();
+      return animate(hide, v, { duration: reducedRef.current ? 0 : duration.fast, ease: tabBarScroll.ease });
+    };
     const c = (ctl.current = new TabBarScrollVisibility(tabBarScroll, () => to(1), () => to(0)));
     // scroll doesn't bubble: listen in the capture phase and follow only the screen's own scroller (not rails)
     const onScroll = (e: Event) => {
@@ -111,12 +119,15 @@ function GlassTabBar({ active, autoHide, covered }: { active: TabId; autoHide?: 
       c.onScroll({ y: el.scrollTop, contentHeight: el.scrollHeight, layoutHeight: el.clientHeight });
     };
     host.addEventListener('scroll', onScroll, { capture: true, passive: true });
-    // publish the state on the screen, so docked footers follow the bar (NoonNativeStickyBar followEnabled)
-    const off = hide.on('change', (v) => host.style.setProperty('--nk-tab-hide', String(v)));
+    // publish the state to the followers, so docked footers follow the bar (NoonNativeStickyBar followEnabled)
+    const off = hide.on('change', (v) => {
+      if (!followers.length) collect();
+      for (const el of followers) el.style.setProperty('--nk-tab-hide', String(v));
+    });
     return () => {
       host.removeEventListener('scroll', onScroll, { capture: true });
       off();
-      host.style.removeProperty('--nk-tab-hide');
+      for (const el of followers) el.style.removeProperty('--nk-tab-hide');
     };
   }, [autoHide, hide]);
 
@@ -204,7 +215,7 @@ function GlassTabBar({ active, autoHide, covered }: { active: TabId; autoHide?: 
 
 function NativeTabBar({ active }: { active: TabId }) {
   const nav = useNav();
-  const { cartBadge: cartCount } = useDemoStore();
+  const cartCount = useDemoStore((s) => s.cartBadge);
   return (
     <nav className={styles.bar}>
       {tabs.map((t) => {
@@ -232,7 +243,7 @@ function NativeTabBar({ active }: { active: TabId }) {
  */
 function FieldTabBar({ active }: { active: TabId }) {
   const nav = useNav();
-  const { cartBadge: cartCount } = useDemoStore();
+  const cartCount = useDemoStore((s) => s.cartBadge);
   const reduced = useReducedMotion();
   const select = reduced ? { duration: 0 } : { duration: fieldMotion.duration.lg, ease: fieldMotion.ease.standard };
   const colour = `color ${reduced ? 0 : fieldMotion.duration.base}s cubic-bezier(${fieldMotion.ease.standard.join(',')})`;

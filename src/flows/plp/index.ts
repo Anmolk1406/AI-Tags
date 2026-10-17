@@ -8,6 +8,8 @@ const SortSheet = lazyScreen(() => import('./SortSheet'), 'SortSheet');
 
 export const plpFlow = defineFlow({
   id: 'plp',
+  // hand-offs fetched in idle time when one of this flow's screens mounts, so they never slide in empty (Navigator.preloadAround)
+  preload: ['pdp/detail'],
   title: 'Product listing (PLP)',
   group: 'Shopping',
   description: 'Search / category results: filter & sort pills with chip-reveal motion, skeleton → staggered card rise, filters + sort sheets that drive the grid.',

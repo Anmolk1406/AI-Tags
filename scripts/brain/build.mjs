@@ -34,7 +34,8 @@ const vite = await createServer({
   root, configFile: false, logLevel: 'error', server: { middlewareMode: true, hmr: false, ws: false }, appType: 'custom', assetsInclude: ['**/*.lottie'],
   resolve: { alias: { '@assets': join(root, 'src/assets') } },
   plugins: [{ name: 'brain-lazy-path', transform(code, id) {
-    if (id.endsWith('/src/kit/lazyScreen.ts')) return code.replace('return Object.assign(C, { preload: once });', 'return Object.assign(C, { preload: once, __brain: { load: String(load), name } });');
+    // tag every lazy screen with its loader so the graph can resolve the module (whatever the local component is called)
+    if (id.endsWith('/src/kit/lazyScreen.ts')) return code.replace(/return Object\.assign\((\w+), \{ preload: once \}\);/, 'return Object.assign($1, { preload: once, __brain: { load: String(load), name } });');
   } }],
 });
 let allFlows, screenTruth, pageAliases, tokens, tokensToCssVars, listTransitions, builtInNames;

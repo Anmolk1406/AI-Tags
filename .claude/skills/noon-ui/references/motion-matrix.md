@@ -1,6 +1,6 @@
 # Motion matrix (per flow)
 
-What actually moves in each registered flow (`src/flows/index.ts`, 18 flows), with the code that does it and the reference it came from. Companion to [motion.md](motion.md) (presets, transitions, recipes, rules, reduced motion). Built from the code on 2026-10-13: every `Code` cell was resolved with grep against the working tree; re-run the grep after edits, line numbers drift.
+What actually moves in each registered flow (`src/flows/index.ts`, 19 flows), with the code that does it and the reference it came from. Companion to [motion.md](motion.md) (presets, transitions, recipes, rules, reduced motion). Built from the code on 2026-10-13: every `Code` cell was resolved with grep against the working tree; re-run the grep after edits, line numbers drift.
 
 **Source labels.** `bappzaar` = the flow's MAPPING.md / FIGMA-MAPPING.md or a code / token comment names the bappzaar component and value (cited). `figma` = a Figma node or a named design / prototype reference (Homepage Revamp 2025, Cart 2.0, Checkout 2.0, Storefront PDP, Brand-Widget-PLP ProtoPie handoff, R&R 2.0 prototype) is cited. `kit` = a kit preset or convention with no outside reference (Pressable, Navigator sheet / push, `supermall.reveal` reuse). `unverified` = no authoritative reference found in the repo: the value may be right, but nothing proves it. Exceptions to motion.md's rules are listed only where a cited reference supports them.
 

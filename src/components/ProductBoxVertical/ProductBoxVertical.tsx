@@ -1,5 +1,5 @@
-import { AnimatePresence, motion } from 'motion/react';
-import { useEffect, useRef, useState, type ReactNode, type UIEvent } from 'react';
+import { AnimatePresence, motion, useInView } from 'motion/react';
+import { useRef, useState, type ReactNode, type UIEvent } from 'react';
 import { useNav } from '../../kit/Navigator';
 import { currency, etaFor, type Product, type ProductNudge } from '../../data';
 import { EtaBadge } from '../EtaBadge/EtaBadge';
@@ -16,6 +16,7 @@ import { compact, starColor } from '../Rating/Rating';
 import { CatalogTag } from '../Tag/Tag';
 import { WishlistHeart } from '../WishlistHeart/WishlistHeart';
 import styles from './ProductBoxVertical.module.css';
+import { useStepTimeout } from '../../motion/useInterval';
 
 /** NoonNudgeTag icons by ProductNudge.kind (the mpcms assets the API sends). */
 const nudgeIcons: Record<ProductNudge['kind'], string> = { rank, lowestPrice, freeDelivery, lowStock, sellingFast, soldRecently, info: lowestPrice };
@@ -167,17 +168,24 @@ function ImageSlider({ product, images }: { product: Product; images: string[] }
 function NudgeTicker({ nudges }: { nudges: ProductNudge[] }) {
   const [i, setI] = useState(0);
   const first = useRef(true);
-  const many = nudges.length > 1;
-  useEffect(() => {
-    if (!many) return;
-    // the first change waits enter + hold; later ones also wait for the previous exit (mode="wait")
-    const t = window.setTimeout(() => setI((n) => (n + 1) % nudges.length), first.current ? 1300 : 1750);
-    first.current = false;
-    return () => clearTimeout(t);
-  }, [i, many, nudges.length]);
+  const box = useRef<HTMLDivElement>(null);
+  // only the cards on screen tick: 18 of these animating at once kept a settled PLP in motion every frame
+  const inView = useInView(box, { amount: 0.1 });
+  const many = nudges.length > 1 && inView;
+  // the first change waits enter + hold; later ones also wait for the previous exit (mode="wait"). Re-armed per step
+  // and paused while the screen is covered: 18 of these on a PLP used to tick under every PDP.
+  useStepTimeout(
+    first.current ? 1300 : 1750,
+    () => {
+      first.current = false;
+      setI((n) => (n + 1) % nudges.length);
+    },
+    i,
+    many,
+  );
   const n = nudges[i] ?? nudges[0];
   return (
-    <div className={styles.nudges}>
+    <div ref={box} className={styles.nudges}>
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={i}

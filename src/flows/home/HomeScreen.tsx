@@ -13,6 +13,10 @@ import { MegaDeals } from './components/MegaDeals';
 import { ProductCarousel } from './components/ProductCarousel';
 import { homeFeed, type BzModule } from './data.feed';
 import styles from './home2025.module.css';
+import { Deferred } from '../../kit/Deferred';
+
+/** home feed modules mounted on the first frame (about one viewport); the rest come after the screen settles */
+const FIRST_PAINT_MODULES = 3;
 
 /**
  * Home — the noon app home feed 1:1 with bappzaar master (ba159e20): NoonHomeScreen → NoonHomeToggle header (kept as
@@ -45,9 +49,8 @@ export function HomeScreen() {
 const HomeFeed = memo(function HomeFeed() {
   return (
     <div className={styles.feed}>
-      {homeFeed.filter((m) => !m.hidden).map((m) => (
-        <FeedModule key={m.key} m={m} />
-      ))}
+      {/* the first viewport's modules paint with the screen; the long tail mounts a beat later (Deferred) */}
+      {homeFeed.filter((m) => !m.hidden).map((m, i) => (i < FIRST_PAINT_MODULES ? <FeedModule key={m.key} m={m} /> : <Deferred key={m.key} minHeight={320}><FeedModule m={m} /></Deferred>))}
     </div>
   );
 });

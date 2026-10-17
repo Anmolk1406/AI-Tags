@@ -86,6 +86,7 @@
     "skills:package": "node scripts/package-skills.mjs",
     "icons:import": "node scripts/import-origin-icons.mjs",
     "test:journeys": "node scripts/journeys.mjs",
+    "perf": "node scripts/perf.mjs",
     "visual:ref": "node scripts/visual-ref.mjs",
     "check:inventory": "node scripts/check-inventory.mjs",
     "components:api": "node scripts/component-api.mjs",

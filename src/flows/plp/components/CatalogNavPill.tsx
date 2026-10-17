@@ -63,6 +63,8 @@ export const CatalogNavPill = forwardRef<
       // reduced motion: no attention pass (border, pulse or icon Lottie)
       if (!idleFilter || !attn.current || reduce) return false;
       attn.current.play();
+      // the player is frozen between passes (no per-frame render loop while a stopped icon sits on the screen)
+      lottie.current?.unfreeze();
       lottie.current?.play();
       return true;
     },
@@ -82,7 +84,15 @@ export const CatalogNavPill = forwardRef<
           loop={false}
           speed={FILTER_PILL_LOTTIE_SPEED}
           dotLottieRefCallback={(d) => {
+            if (lottie.current === d) return;
             lottie.current = d;
+            if (!d) return;
+            // stopped, this player still ran a requestAnimationFrame loop every frame (measured: 130+ callbacks per
+            // 3 s on an idle PLP). Frozen it draws nothing; `play()` above unfreezes it for the attention pass.
+            const freeze = () => d.freeze();
+            d.addEventListener('load', freeze);
+            d.addEventListener('complete', freeze);
+            if (d.isLoaded) d.freeze();
           }}
           style={{ width: 19, height: 19 }}
         />

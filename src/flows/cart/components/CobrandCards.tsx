@@ -7,6 +7,7 @@ import diamondShade from '@assets/cart/cobrand/diamond-shade.svg';
 import type { CobrandCard } from '../data';
 import styles from './cobrand.module.css';
 import { useReduceMotion } from '../../../motion/reducedMotion';
+import { useInterval } from '../../../motion/useInterval';
 
 const AUTO_SCROLL_INTERVAL = 3000; // NoonCartCobrandCards AUTO_SCROLL_INTERVAL
 
@@ -38,10 +39,10 @@ export function CobrandCards({ cards }: { cards: CobrandCard[] }) {
   }, [multi, scrollToIndex]);
 
   const reduce = useReduceMotion();
-  useEffect(() => {
-    // reduced motion: no auto-scroll (still swipeable)
-    if (!multi || reduce) return;
-    const id = window.setInterval(() => {
+  // reduced motion: no auto-scroll (still swipeable); paused while the cart is covered (useInterval)
+  useInterval(
+    AUTO_SCROLL_INTERVAL,
+    () => {
       if (stopped.current) return;
       if (index.current < cards.length || index.current >= cards.length * 2) {
         index.current = cards.length + (index.current % cards.length);
@@ -49,9 +50,9 @@ export function CobrandCards({ cards }: { cards: CobrandCard[] }) {
       }
       index.current += 1;
       scrollToIndex(index.current, true);
-    }, AUTO_SCROLL_INTERVAL);
-    return () => window.clearInterval(id);
-  }, [multi, cards.length, scrollToIndex, reduce]);
+    },
+    multi && !reduce,
+  );
 
   // onScrollBeginDrag: the user takes over and auto-scroll stops for good
   const onUserScroll = () => {

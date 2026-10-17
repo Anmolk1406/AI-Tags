@@ -6,26 +6,69 @@
 
 - Docs: `.claude/resources/flows/other-flows.md#wishlist` · `src/flows/wishlist/MAPPING.md`
 - Folder: `src/flows/wishlist/` · tokens `src/flows/wishlist/tokens.ts` (3 flow vars) <!-- count-ok -->
-- Enters from: `home/home` → wishlist
-- Exits to: —
+- Enters from: `account/account` → wishlist · `cart/cart` → wishlist · `cart/empty` → wishlist · `cart/loading` → wishlist · `home/classic` → wishlist · `home/home` → wishlist
+- Exits to: `cart/cart` (from wishlist, no-collections, empty) · `pdp/detail` (from wishlist, no-collections) · `pdp/variants` (from wishlist, no-collections) · `search/search` (from wishlist, no-collections, empty)
 
 ## Screens
 
 | Screen | Presentation | URL | Truth · verified | Module | Tests |
 |---|---|---|---|---|---|
-| `scr:wishlist/wishlist` Wishlist | screen | /wishlist | bappzaar · never | ? | 0 |
-| `scr:wishlist/no-collections` Wishlist (no collections) | screen | — | bappzaar · never | ? (collections) | 0 |
-| `scr:wishlist/empty` Empty wishlist | screen | — | bappzaar · never | ? | 0 |
-| `scr:wishlist/loading` Wishlist (loading) | screen | — | bappzaar · never | ? | 0 |
-| `scr:wishlist/options` Item options | sheet (floating) | — | bappzaar · never | ? | 0 |
+| `scr:wishlist/wishlist` Wishlist | screen | /wishlist | bappzaar · never | `WishlistScreen.tsx` | 2 |
+| `scr:wishlist/no-collections` Wishlist (no collections) | screen | — | bappzaar · never | `WishlistScreen.tsx` (collections) | 0 |
+| `scr:wishlist/empty` Empty wishlist | screen | — | bappzaar · never | `EmptyWishlistScreen.tsx` | 1 |
+| `scr:wishlist/loading` Wishlist (loading) | screen | — | bappzaar · never | `WishlistLoadingScreen.tsx` | 0 |
+| `scr:wishlist/options` Item options | sheet (floating) | — | bappzaar · never | `OptionsSheet.tsx` | 1 |
 
 `*` truth inferred from `source`. Tests = journeys + visual references (every screen also runs in `check:routes`). In nav lines, `~` = target resolved through a const / helper / ternary (reachable, runtime-dependent); no mark = a literal `nav.*('…')` call.
 
-## `wishlist/wishlist` · `wishlist/no-collections` · `wishlist/empty` · `wishlist/loading` · `wishlist/options`
+## `wishlist/wishlist` · `wishlist/no-collections`
 
-- Module `?` (shared by 5 screens; params pick the state) · 0 own files, 0 in the import closure <!-- count-ok -->
+- Module `src/flows/wishlist/WishlistScreen.tsx` (shared by 2 screens; params pick the state) · 11 own files, 58 in the import closure <!-- count-ok -->
 - Source: marketplaces/noon/screens/NoonWishlistV2Screen, components/NoonWishlistV2{Header,CollectionTitle,CollectionTitleList,CollectionImageBackground,FloatingCartButton}, NoonProductBox/NoonProductBoxVertical (isWishlist), Noo…
-- Shared components: —
+- Styles: wishlist.module.css
+- Data / helpers: data.ts, tokens.ts
+- Shared components: `Lottie`, `MaskIcon`, `Pressable`, `ProductBoxVertical`, `ProductImage`, `Screen`
+- Flow components: `CollectionTile`, `EmptyState`, `EmptyWishlist`, `NoCollectionWidget`, `ViewCartPill`, `WishlistAtc`, `WishlistHeader`, `WishlistProductBox`
+- Tokens (47): colors 13 · flow:wishlist 2 · local 2 · palette 9 · radius 5 · spacing 7 · type 9
+- Icons: — · assets 13
+- State / data: `store:demo`, `data:productById`
+- Nav out: switchTab `cart/cart` · push `pdp/detail` (via ProductBoxVertical) · sheet `pdp/variants` (via ProductCard) · push `search/search` · sheet `wishlist/options`
+- `wishlist`: in ← `account/account`, `cart/cart`, `cart/empty`, `cart/loading`, `home/classic`, `home/home` · tests `test:journey/back-direct-url`, `test:journey/wishlist-toggle` · docs `.claude/skills/home-page/spec.md:16-26`, `.claude/resources/flows/other-flows.md:47-58`, `.claude/skills/cart/spec.md:25-33`, `.claude/skills/cart/spec.md:34-50`, `.claude/resources/flows/account.md:27-42`, `src/flows/account/MAPPING.md:56-73`, `src/flows/account/MAPPING.md:74-80`, `src/flows/wishlist/MAPPING.md:5-14`
+
+## `wishlist/empty`
+
+- Module `src/flows/wishlist/EmptyWishlistScreen.tsx` · 7 own files, 36 in the import closure
+- Source: marketplaces/noon/components/NoonWishlistV2Empty, screens/NoonWishlistV2Screen (isEmpty)
+- Styles: wishlist.module.css
+- Data / helpers: data.ts, tokens.ts
+- Shared components: `Lottie`, `MaskIcon`, `Pressable`, `ProductImage`, `Screen`
+- Flow components: `EmptyWishlist`, `ViewCartPill`, `WishlistHeader`
+- Tokens (45): colors 13 · flow:wishlist 2 · local 2 · palette 7 · radius 5 · spacing 7 · type 9
+- Icons: — · assets 4
+- State / data: `store:demo`
+- Nav out: switchTab `cart/cart` · push `search/search`
+- `empty`: tests `test:journey/wishlist-empty-cta` · docs `.claude/resources/flows/other-flows.md:47-58`, `src/flows/wishlist/MAPPING.md:5-14`
+
+## `wishlist/loading`
+
+- Module `src/flows/wishlist/WishlistLoadingScreen.tsx` · 3 own files, 10 in the import closure
+- Source: marketplaces/noon/components/NoonWishlistV2ScreenSkeleton
+- Styles: wishlist.module.css
+- Data / helpers: tokens.ts
+- Shared components: `Screen`, `Skeleton`
 - Flow components: —
-- Tokens (0): —
-- `wishlist`: in ← `home/home`
+- Tokens (45): colors 13 · flow:wishlist 2 · local 2 · palette 6 · radius 6 · spacing 7 · type 9
+- `loading`: docs `.claude/resources/flows/other-flows.md:47-58`, `src/flows/wishlist/MAPPING.md:5-14`
+
+## `wishlist/options`
+
+- Module `src/flows/wishlist/OptionsSheet.tsx` · 3 own files, 29 in the import closure
+- Source: marketplaces/noon/screens/NoonWishlistV2CollectionOptionScreen
+- Styles: wishlist.module.css
+- Data / helpers: data.ts
+- Shared components: `MaskIcon`, `Pressable`, `ProductImage`
+- Flow components: —
+- Tokens (47): colors 13 · flow:wishlist 2 · local 2 · palette 9 · radius 5 · spacing 7 · type 9
+- Icons: — · assets 3
+- State / data: `store:demo`, `data:productById`
+- `options`: in ← `wishlist/no-collections`, `wishlist/wishlist` · tests `test:journey/wishlist-toggle` · docs `.claude/resources/flows/other-flows.md:47-58`, `src/flows/wishlist/MAPPING.md:5-14`

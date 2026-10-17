@@ -51,9 +51,10 @@ export interface SkuCardProps {
  */
 export function SkuCard({ product: p, look = 'feed', badge, sponsored, rating, deliveryNote, fulfilment, imageSize = 122, onPress }: SkuCardProps) {
   const nav = useNav();
-  const { addToCart, toggleWishlist, isWishlisted } = useDemoStore();
+  const addToCart = useDemoStore((s) => s.addToCart);
+  const toggleWishlist = useDemoStore((s) => s.toggleWishlist);
+  const wished = useDemoStore((s) => s.wishlist.includes(p.id));
   const pct = discountPct(p);
-  const wished = isWishlisted(p.id);
   const tag = badge === undefined ? p.tag : badge;
   const pill = fulfilment === undefined ? (p.express ? 'express' : null) : fulfilment;
   const showRating = rating ?? look === 'feed';

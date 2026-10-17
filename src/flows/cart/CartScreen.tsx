@@ -58,7 +58,9 @@ export function CartScreen({ params }: ScreenProps<{ state?: 'empty' | 'loading'
   const lines = forcedEmpty ? [] : cart;
   const empty = lines.length === 0;
   // the tab bar only renders when Cart is the stack root (tab), not when pushed from PDP
-  const isTabRoot = nav.stack[0]?.route === nav.route;
+  // read once: the entry under this screen never changes while it is mounted, and reading the stack in render would
+  // re-render the whole cart on every push / back anywhere in the app
+  const [isTabRoot] = useState(() => nav.stack[0]?.route === nav.route);
   const noonOneMember = useIsNoonOneMember();
   // NoonCartScreen.checkout → showVipPush (noon.VIPCartOverlayScreen) once per session when cart.pushes.vip is set
   const onCheckout = () => (takeCartVipPush(noonOneMember) ? nav.push('noonone/cartOverlay', { coupon: store.coupon }) : nav.push('checkout/checkout', { coupon: store.coupon }));

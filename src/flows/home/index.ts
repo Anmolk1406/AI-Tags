@@ -8,6 +8,8 @@ const ClassicHomeScreen = lazyScreen(() => import('./ClassicHomeScreen'), 'Class
 
 export const homeFlow = defineFlow({
   id: 'home',
+  // hand-offs fetched in idle time when one of this flow's screens mounts, so they never slide in empty (Navigator.preloadAround)
+  preload: ['plp/listing', 'pdp/detail', 'search/search'],
   title: 'Home',
   group: 'Discovery',
   description: 'Home feed 1:1 with the noon app (bappzaar master): experience switcher, address, search, then the live home CMS modules in order — strip carousel, hero carousel, category icons, ad banner, product carousels, offers, mega deals, keep shopping, category sections.',

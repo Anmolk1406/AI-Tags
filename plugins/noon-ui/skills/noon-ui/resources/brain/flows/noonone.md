@@ -7,42 +7,348 @@
 - Docs: `../noon-one/SKILL.md` · `../noon-one/spec.md` · `resources/flows/other-flows.md#noonone` · `src/flows/noonone/MAPPING.md`
 - Folder: `src/flows/noonone/` · tokens `src/flows/noonone/tokens.ts` (467 flow vars) · store `src/flows/noonone/store.ts` <!-- count-ok -->
 - Area data / token / helper files: data.entry.ts, data.landing.ts, data.offers.ts, data.payment.ts, data.plans.ts, store.ts, transitions.ts
-- Enters from: —
-- Exits to: —
+- Enters from: `account/account` → landing · `cart/cart` → landing, cartOverlay · `cart/couponTray` → landing · `cart/empty` → landing, cartOverlay · `cart/loading` → landing, cartOverlay · `checkout/checkout` → plans · `checkout/confirmation` → ocOne · `membership/changePlan` → landing, plans, planDetails, trialGuide, payment, addCard, addCvv, mobilePay, offers, confirmVoucher, acceptInviteError · `membership/familyReview` → landing, plans, planDetails, trialGuide, payment, addCard, addCvv, mobilePay, offers, confirmVoucher, acceptInviteError · `membership/info` → landing, plans, planDetails, trialGuide, payment, addCard, addCvv, mobilePay, offers, confirmVoucher, acceptInviteError · `membership/manage` → landing, plans, planDetails, trialGuide, payment, addCard, addCvv, mobilePay, offers, confirmVoucher, acceptInviteError · `membership/partner` → landing, plans, planDetails, trialGuide, payment, addCard, addCvv, mobilePay, offers, confirmVoucher, acceptInviteError · `membership/referralsInput` → landing, plans, planDetails, trialGuide, payment, addCard, addCvv, mobilePay, offers, confirmVoucher, acceptInviteError · `membership/reviewPlan` → landing, plans, planDetails, trialGuide, payment, addCard, addCvv, mobilePay, offers, confirmVoucher, acceptInviteError · `orders/tracking` → landing · `pdp/deliveryVariants` → landing · `pdp/detail` → landing · `search/search` → landing · `search/suggestions` → landing
+- Exits to: `checkout/checkout` (from cartOverlay) · `membership/manage` (from landing, success, familyPlans)
 
 ## Screens
 
 | Screen | Presentation | URL | Truth · verified | Module | Tests |
 |---|---|---|---|---|---|
-| `scr:noonone/landing` noon One | screen | /noon-one /noonvip | mixed · never | ? | 0 |
-| `scr:noonone/success` Subscribed (success animation) | screen | — | bappzaar* · never | ? (demo) | 0 |
-| `scr:noonone/plans` Choose your plan | screen | /noon-one-all-plans /vip-plans | bappzaar* · never | ? (source) | 0 |
-| `scr:noonone/planDetails` Plan details (trial guide) | modal · noonone-overlay | — | bappzaar* · never | ? (planCode, variant) | 0 |
-| `scr:noonone/trialGuide` Trial guide | modal · noonone-overlay | — | bappzaar* · never | ? | 0 |
-| `scr:noonone/planOption` Plan options | modal · noonone-overlay | — | bappzaar* · never | ? | 0 |
-| `scr:noonone/familyPlans` Family plans | screen | /noon-one-sharing | bappzaar* · never | ? | 0 |
-| `scr:noonone/payment` Payment | screen | — | bappzaar* · never | ? (planCode) | 0 |
-| `scr:noonone/addCard` Add card | modal · noonone-overlay | — | bappzaar* · never | ? | 0 |
-| `scr:noonone/addCvv` Add CVV | modal · noonone-overlay | — | bappzaar* · never | ? (cardId) | 0 |
-| `scr:noonone/mobilePay` Pay with mobile | modal · noonone-overlay | — | bappzaar* · never | ? | 0 |
-| `scr:noonone/info` Info popup | modal · noonone-overlay | — | bappzaar* · never | ? | 0 |
-| `scr:noonone/generic` Generic overlay | modal · noonone-overlay | — | bappzaar* · never | ? | 0 |
-| `scr:noonone/offers` noon One offers | modal · noonone-overlay | /noon-one-bank-offers /noon-one-input-referrals /noon-one-referrals-input /noon-one-vouchers | bappzaar* · never | ? | 0 |
-| `scr:noonone/partnerOffer` Partner offer | screen | /noon-one-partner-offer /noon-one-stc | bappzaar* · never | ? (campaignCode) | 0 |
-| `scr:noonone/confirmOffer` Confirm offer plan | modal · noonone-overlay | — | bappzaar* · never | ? (offer) | 0 |
-| `scr:noonone/confirmVoucher` Confirm voucher plan | modal · noonone-overlay | — | bappzaar* · never | ? (code, offer) | 0 |
-| `scr:noonone/bundle` Bundle (Yango Play) | modal · sheet | /noon-one-bundle | bappzaar* · never | ? (bundlePartnerCode) | 0 |
-| `scr:noonone/acceptInvite` Accept plan invite | modal · noonone-overlay | /noon-one-share-invite | bappzaar* · never | ? | 0 |
-| `scr:noonone/acceptInviteError` Accept invite error | modal · noonone-overlay | — | bappzaar* · never | ? | 0 |
-| `scr:noonone/cartOverlay` Cart overlay | modal · noonone-overlay | — | bappzaar* · never | ? | 0 |
-| `scr:noonone/ocOne` OC One overlay | modal · noonone-overlay | — | bappzaar* · never | ? (status) | 0 |
+| `scr:noonone/landing` noon One | screen | /noon-one /noonvip | mixed · never | `screens/LandingScreen.tsx` | 4 |
+| `scr:noonone/success` Subscribed (success animation) | screen | — | bappzaar* · never | `screens/LandingScreen.tsx` (demo) | 0 |
+| `scr:noonone/plans` Choose your plan | screen | /noon-one-all-plans /vip-plans | bappzaar* · never | `screens/PlanSelectScreen.tsx` (source) | 1 |
+| `scr:noonone/planDetails` Plan details (trial guide) | modal · noonone-overlay | — | bappzaar* · never | `screens/PlanDetailsOverlayScreen.tsx` (planCode, variant) | 1 |
+| `scr:noonone/trialGuide` Trial guide | modal · noonone-overlay | — | bappzaar* · never | `screens/TrialGuideOverlayScreen.tsx` | 0 |
+| `scr:noonone/planOption` Plan options | modal · noonone-overlay | — | bappzaar* · never | `screens/PlanOptionOverlayScreen.tsx` | 0 |
+| `scr:noonone/familyPlans` Family plans | screen | /noon-one-sharing | bappzaar* · never | `screens/FamilyPlansScreen.tsx` | 0 |
+| `scr:noonone/payment` Payment | screen | — | bappzaar* · never | `screens/PaymentScreen.tsx` (planCode) | 0 |
+| `scr:noonone/addCard` Add card | modal · noonone-overlay | — | bappzaar* · never | `screens/AddCardOverlayScreen.tsx` | 0 |
+| `scr:noonone/addCvv` Add CVV | modal · noonone-overlay | — | bappzaar* · never | `screens/AddCvvOverlayScreen.tsx` (cardId) | 0 |
+| `scr:noonone/mobilePay` Pay with mobile | modal · noonone-overlay | — | bappzaar* · never | `screens/MobilePayOverlayScreen.tsx` | 0 |
+| `scr:noonone/info` Info popup | modal · noonone-overlay | — | bappzaar* · never | `screens/InfoOverlayScreen.tsx` | 0 |
+| `scr:noonone/generic` Generic overlay | modal · noonone-overlay | — | bappzaar* · never | `screens/GenericOverlayScreen.tsx` | 0 |
+| `scr:noonone/offers` noon One offers | modal · noonone-overlay | /noon-one-bank-offers /noon-one-input-referrals /noon-one-referrals-input /noon-one-vouchers | bappzaar* · never | `screens/OffersOverlayScreen.tsx` | 0 |
+| `scr:noonone/partnerOffer` Partner offer | screen | /noon-one-partner-offer /noon-one-stc | bappzaar* · never | `screens/OffersV2Screen.tsx` (campaignCode) | 0 |
+| `scr:noonone/confirmOffer` Confirm offer plan | modal · noonone-overlay | — | bappzaar* · never | `screens/ConfirmOfferPlanScreen.tsx` (offer) | 0 |
+| `scr:noonone/confirmVoucher` Confirm voucher plan | modal · noonone-overlay | — | bappzaar* · never | `screens/ConfirmVoucherPlanScreen.tsx` (code, offer) | 0 |
+| `scr:noonone/bundle` Bundle (Yango Play) | modal · sheet | /noon-one-bundle | bappzaar* · never | `screens/BundleScreen.tsx` (bundlePartnerCode) | 0 |
+| `scr:noonone/acceptInvite` Accept plan invite | modal · noonone-overlay | /noon-one-share-invite | bappzaar* · never | `screens/AcceptInviteOverlayScreen.tsx` | 0 |
+| `scr:noonone/acceptInviteError` Accept invite error | modal · noonone-overlay | — | bappzaar* · never | `screens/AcceptInviteErrorOverlayScreen.tsx` | 1 |
+| `scr:noonone/cartOverlay` Cart overlay | modal · noonone-overlay | — | bappzaar* · never | `screens/CartOverlayScreen.tsx` | 1 |
+| `scr:noonone/ocOne` OC One overlay | modal · noonone-overlay | — | bappzaar* · never | `screens/OCOneOverlayScreen.tsx` (status) | 0 |
 
 `*` truth inferred from `source`. Tests = journeys + visual references (every screen also runs in `check:routes`). In nav lines, `~` = target resolved through a const / helper / ternary (reachable, runtime-dependent); no mark = a literal `nav.*('…')` call.
 
-## `noonone/landing` · `noonone/success` · `noonone/plans` · `noonone/planDetails` · `noonone/trialGuide` · `noonone/planOption` · `noonone/familyPlans` · `noonone/payment` · `noonone/addCard` · `noonone/addCvv` · `noonone/mobilePay` · `noonone/info` · `noonone/generic` · `noonone/offers` · `noonone/partnerOffer` · `noonone/confirmOffer` · `noonone/confirmVoucher` · `noonone/bundle` · `noonone/acceptInvite` · `noonone/acceptInviteError` · `noonone/cartOverlay` · `noonone/ocOne`
+## `noonone/landing` · `noonone/success`
 
-- Module `?` (shared by 22 screens; params pick the state) · 0 own files, 0 in the import closure <!-- count-ok -->
+- Module `src/flows/noonone/screens/LandingScreen.tsx` (shared by 2 screens; params pick the state) · 14 own files, 50 in the import closure <!-- count-ok -->
 - Source: Figma Af34gfmhQ1D0wstXUEHSIF · 24:2604 (non-member) · features/vip/components/VIPModules/{VIPMembershipOverviewModule (showDefault), VIPOfferPlanModule, VIPSavingsOverviewModule (V1 overview), VIPBenefitsModule, VIPMark…
+- Styles: components/landing/landing.module.css, components/landing/np.module.css
+- Data / helpers: data.landing.ts, data.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`, `MaskIcon`, `OriginIcon`, `Pressable`, `Screen`, `Spinner`
+- Flow components: `BenefitsModule`, `DashedLine`, `FaqModule`, `Flyout`, `LandingHeader`, `LottieBox`, `MembershipOverviewModule`, `NpBackButton`, `NpModuleRenderer`, `NpStickyFooter`, `SavingsOverviewModule`, `Slider`, `SubscriptionButton`, `TransitionAnim`, `VIPButton`
+- Tokens (241): colors 17 · flow:noonone 184 · fontSize 1 · fontWeight 3 · layout 1 · local 2 · palette 12 · radius 8 · spacing 13
+- Motion: `recipe/Stagger`, `reduced-motion`, `transition/noonone-instant`
+- Icons: `chevron-down`, `chevron-left`, `chevron-right` · assets 52
+- State / data: `store:membership`, `store:noonone`, `data:currency`, `data:user`
+- Nav out: push `membership/manage` · push `noonone/landing`~ · replace `noonone/landing`~ · push `noonone/payment` · push `noonone/planDetails` · push `noonone/plans`
+- Route strings (data-driven links): `noonone/offers`, `noonone/partnerOffer`
+- `landing`: in ← `account/account`, `cart/cart`, `cart/couponTray`, `cart/empty`, `cart/loading`, `membership/changePlan`, `membership/changePlan`, `membership/familyReview`, `membership/familyReview`, `membership/info`, `membership/info`, `membership/manage`, `membership/manage`, `membership/partner`, `membership/partner`, `membership/referralsInput`, `membership/referralsInput`, `membership/reviewPlan`, `membership/reviewPlan`, `noonone/acceptInvite`, `noonone/acceptInvite`, `noonone/acceptInviteError`, `noonone/acceptInviteError`, `noonone/addCard`, `noonone/addCard`, `noonone/addCvv`, `noonone/addCvv`, `noonone/bundle`, `noonone/bundle`, `noonone/cartOverlay`, `noonone/cartOverlay`, `noonone/confirmOffer`, `noonone/confirmOffer`, `noonone/confirmVoucher`, `noonone/confirmVoucher`, `noonone/familyPlans`, `noonone/familyPlans`, `noonone/info`, `noonone/mobilePay`, `noonone/mobilePay`, `noonone/ocOne`, `noonone/offers`, `noonone/offers`, `noonone/partnerOffer`, `noonone/partnerOffer`, `noonone/payment`, `noonone/payment`, `noonone/planDetails`, `noonone/planDetails`, `noonone/plans`, `noonone/plans`, `noonone/success`, `noonone/success`, `orders/tracking`, `pdp/deliveryVariants`, `pdp/detail`, `search/search`, `search/suggestions` · tests `test:journey/back-direct-url`, `test:journey/noonone-invite-error`, `test:journey/noonone-plans-tabs`, `test:journey/noonone-start-trial` · docs `resources/flows/other-flows.md:28-36`, `src/flows/pdp/FIGMA-MAPPING.md:33-44`, `resources/flows/cart.md:29-54`, `../cart/spec.md:95-112`, `src/flows/cart/FIGMA-MAPPING.md:72-88`, `src/flows/cart/FIGMA-MAPPING.md:207-214`, `resources/flows/orders.md:45-66`, `../orders/spec.md:33-59`, `resources/flows/account.md:27-42`, `../account/spec.md:146-156`, `src/flows/account/MAPPING.md:41-55`, `../noon-one/spec.md:9-39`, `../noon-one/spec.md:40-43`, `../noon-one/spec.md:96-109`, `src/flows/noonone/MAPPING.md:20-36`, `src/flows/noonone/MAPPING.md:78-82`, `src/flows/noonone/MAPPING.md:176-202`, `src/flows/noonone/MAPPING.md:588-611`, `src/flows/membership/MAPPING.md:129-133`, `src/flows/membership/MAPPING.md:222-234`, `src/flows/membership/MAPPING.md:235-244`
+- `success`: docs `../noon-one/spec.md:9-39`, `../noon-one/spec.md:147-161`, `src/flows/noonone/MAPPING.md:20-36`, `src/flows/noonone/MAPPING.md:78-82`, `src/flows/noonone/MAPPING.md:176-202`
+
+## `noonone/plans`
+
+- Module `src/flows/noonone/screens/PlanSelectScreen.tsx` · 13 own files, 47 in the import closure
+- Source: features/vip/screens/VIPQuickPlanSelectV3Screen (+ Plan/Plan.tsx, Plan/BundlePlan.tsx), components/VIPSubscriptionButtonV2, src/components/SegmentedControlTabSwitcher
+- Styles: components/plans/PlanCard.module.css, components/plans/plans.module.css, screens/PlanSelectScreen.module.css
+- Data / helpers: components/maskSrc.ts, components/plans/useQuickPay.ts, data.plans.ts, data.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`, `MaskIcon`, `Screen`, `Spinner`
+- Flow components: `BundlePlanCard`, `ChevronLeftRounded`, `DashedBorder`, `PlanCard`, `ScrollHeader`, `SubscriptionButton@plans`, `VIPButton`
+- Tokens (97): colors 12 · flow:noonone 54 · fontSize 1 · fontWeight 4 · local 2 · palette 7 · radius 6 · spacing 11
+- Motion: `preset/easing.out`, `transition/noonone-instant`
+- Icons: — · assets 16
+- State / data: `store:membership`, `store:noonone`, `data:currency`
+- Nav out: push `noonone/landing`~ · replace `noonone/landing`~ · push `noonone/offers` · push `noonone/payment` · push `noonone/planDetails`
+- `plans`: in ← `checkout/checkout`, `membership/changePlan`, `membership/familyReview`, `membership/info`, `membership/manage`, `membership/partner`, `membership/referralsInput`, `membership/reviewPlan`, `noonone/landing`, `noonone/partnerOffer`, `noonone/success` · tests `test:journey/noonone-plans-tabs` · docs `resources/flows/checkout.md:26-42`, `../checkout/spec.md:51-66`, `../checkout/spec.md:67-83`, `../noon-one/spec.md:9-39`, `../noon-one/spec.md:72-84`, `../noon-one/spec.md:96-109`, `../noon-one/spec.md:110-133`, `src/flows/noonone/MAPPING.md:6-19`, `src/flows/noonone/MAPPING.md:20-36`, `src/flows/noonone/MAPPING.md:168-170`, `src/flows/noonone/MAPPING.md:207-213`, `src/flows/noonone/MAPPING.md:588-611`
+
+## `noonone/planDetails`
+
+- Module `src/flows/noonone/screens/PlanDetailsOverlayScreen.tsx` · 13 own files, 45 in the import closure
+- Source: features/vip/utils/VIPPopupUtil.showPlanDetailDialog → screens/VIPGenericOverlayScreen + components/VIPPopups/VIPPlanDetailsPopup (REGULAR · FAMILY_PLAN); variant planSelect = screens/VIPInfoOverlayScreen via VIPUtil.sh…
+- Styles: components/VIPOverlay.module.css, components/plans/plans.module.css, screens/PlanDetailsOverlayScreen.module.css
+- Data / helpers: components/maskSrc.ts, components/plans/useQuickPay.ts, data.plans.ts, data.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`, `MaskIcon`, `Spinner`
+- Flow components: `DashedBorder`, `PlanMembers@plans`, `SubscriptionButton@plans`, `VIPButton`, `VIPOverlay`
+- Tokens (95): colors 13 · flow:noonone 52 · fontSize 1 · fontWeight 4 · local 2 · palette 6 · radius 7 · spacing 10
+- Motion: `transition/noonone-instant`, `transition/noonone-overlay`
+- Icons: — · assets 14
+- State / data: `store:membership`, `store:noonone`, `data:currency`, `data:user`
+- Nav out: push `noonone/landing`~ · replace `noonone/landing`~ · push `noonone/payment`
+- `planDetails`: in ← `membership/changePlan`, `membership/familyReview`, `membership/info`, `membership/manage`, `membership/partner`, `membership/referralsInput`, `membership/reviewPlan`, `noonone/familyPlans`, `noonone/landing`, `noonone/plans`, `noonone/success` · tests `test:journey/noonone-start-trial` · docs `../noon-one/spec.md:9-39`, `../noon-one/spec.md:72-84`, `src/flows/noonone/MAPPING.md:171-175`, `src/flows/noonone/MAPPING.md:176-202`, `src/flows/noonone/MAPPING.md:207-213`, `src/flows/noonone/MAPPING.md:460-464`
+
+## `noonone/trialGuide`
+
+- Module `src/flows/noonone/screens/TrialGuideOverlayScreen.tsx` · 7 own files, 33 in the import closure
+- Source: features/vip/screens/VIPTrialGuideOverlayScreen (opened by VIPPaymentV2Screen/VIPTrialGuideButton)
+- Styles: components/VIPOverlay.module.css, screens/TrialGuideOverlayScreen.module.css
+- Data / helpers: data.plans.ts, data.ts, tokens.ts
 - Shared components: —
-- Flow components: —
-- Tokens (0): —
+- Flow components: `VIPOverlay`
+- Tokens (46): colors 3 · flow:noonone 28 · local 1 · palette 4 · radius 5 · spacing 5
+- Motion: `transition/noonone-overlay`
+- Icons: — · assets 7
+- State / data: `data:currency`
+- `trialGuide`: in ← `membership/changePlan`, `membership/familyReview`, `membership/info`, `membership/manage`, `membership/partner`, `membership/referralsInput`, `membership/reviewPlan`, `noonone/addCvv`, `noonone/payment` · docs `../noon-one/spec.md:9-39`, `../noon-one/spec.md:85-95`, `src/flows/noonone/MAPPING.md:207-213`, `src/flows/noonone/MAPPING.md:484-490`
+
+## `noonone/planOption`
+
+- Module `src/flows/noonone/screens/PlanOptionOverlayScreen.tsx` · 8 own files, 40 in the import closure
+- Source: features/vip/screens/VIPPlanOptionOverlayScreen (VIPUtil.showPlanOptionOverlay)
+- Styles: components/VIPOverlay.module.css, screens/PlanOptionOverlayScreen.module.css
+- Data / helpers: data.plans.ts, data.ts, tokens.ts
+- Shared components: `HtmlText`, `Spinner`
+- Flow components: `VIPButton`, `VIPOverlay`
+- Tokens (48): colors 7 · flow:noonone 26 · fontWeight 2 · local 1 · palette 2 · radius 5 · spacing 5
+- Motion: `transition/noonone-overlay`
+- Icons: — · assets 9
+- State / data: `store:membership`, `data:currency`
+- `planOption`: docs `../noon-one/spec.md:9-39`, `src/flows/noonone/MAPPING.md:207-213`
+
+## `noonone/familyPlans`
+
+- Module `src/flows/noonone/screens/FamilyPlansScreen.tsx` · 9 own files, 43 in the import closure
+- Source: features/vip/screens/VIPFamilyPlansScreen (+ components/VIPPlanMembers, VIPBenefitsModule hideModuleWrapper, VIPExpandableTextModule grouped, VIPScrollEnterView)
+- Styles: components/plans/plans.module.css, screens/FamilyPlansScreen.module.css
+- Data / helpers: data.plans.ts, data.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`, `Screen`, `Spinner`
+- Flow components: `ChevronLeftRounded`, `DashedBorder`, `PlanMembers@plans`, `ScrollHeader`, `SubscriptionButton@plans`, `VIPButton`
+- Tokens (69): colors 11 · flow:noonone 35 · fontWeight 2 · local 2 · palette 3 · radius 5 · spacing 11
+- Motion: `reduced-motion`, `transition/noonone-instant`
+- Icons: — · assets 16
+- State / data: `store:membership`, `store:noonone`, `data:currency`, `data:user`
+- Nav out: push `membership/manage` · push `noonone/landing`~ · replace `noonone/landing`~ · push `noonone/planDetails`
+- `familyPlans`: docs `../noon-one/spec.md:9-39`, `../noon-one/spec.md:72-84`, `src/flows/noonone/MAPPING.md:20-36`, `src/flows/noonone/MAPPING.md:162-167`, `src/flows/noonone/MAPPING.md:207-213`
+
+## `noonone/payment`
+
+- Module `src/flows/noonone/screens/PaymentScreen.tsx` · 8 own files, 42 in the import closure
+- Source: features/vip/screens/VIPPaymentV2Screen (+ VIPPaymentCardSelect, VIPPaymentMobileSelect, VIPTrialGuideButton), components/VIPSubscriptionButtonV2, hooks/useVIPPaymentData
+- Styles: screens/PaymentScreen.module.css
+- Data / helpers: data.payment.ts, data.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`, `Screen`, `Spinner`
+- Flow components: `Reloader`, `VIPButton`
+- Tokens (67): colors 5 · flow:noonone 36 · fontSize 1 · fontWeight 1 · local 2 · palette 11 · radius 4 · spacing 7
+- Motion: `transition/noonone-instant`
+- Icons: — · assets 14
+- State / data: `store:membership`, `store:noonone`, `data:currency`
+- Nav out: push `noonone/addCard` · push `noonone/addCvv` · push `noonone/landing`~ · replace `noonone/landing`~ · push `noonone/mobilePay` · push `noonone/trialGuide`
+- `payment`: in ← `membership/changePlan`, `membership/familyReview`, `membership/info`, `membership/manage`, `membership/partner`, `membership/referralsInput`, `membership/reviewPlan`, `noonone/confirmOffer`, `noonone/confirmVoucher`, `noonone/landing`, `noonone/partnerOffer`, `noonone/planDetails`, `noonone/plans`, `noonone/success` · docs `../noon-one/spec.md:9-39`, `../noon-one/spec.md:85-95`, `../noon-one/spec.md:110-133`, `src/flows/noonone/MAPPING.md:20-36`, `src/flows/noonone/MAPPING.md:171-175`, `src/flows/noonone/MAPPING.md:318-322`, `src/flows/membership/MAPPING.md:75-122`
+
+## `noonone/addCard`
+
+- Module `src/flows/noonone/screens/AddCardOverlayScreen.tsx` · 9 own files, 37 in the import closure
+- Source: features/vip/screens/VIPAddCardOverlayScreen (src/components/Overlay, FormikTextInput, FormikCheckbox, FormikSubmitButton → PrimaryButton)
+- Styles: components/payment/LegacyOverlay.module.css, screens/AddCardOverlayScreen.module.css
+- Data / helpers: data.payment.ts, data.ts, store.ts, tokens.ts
+- Shared components: —
+- Flow components: `LegacyOverlay@payment`, `Reloader`
+- Tokens (41): colors 6 · flow:noonone 21 · local 1 · palette 3 · radius 4 · spacing 6
+- Motion: `transition/noonone-instant`, `transition/noonone-overlay`
+- Icons: — · assets 7
+- State / data: `store:membership`, `store:noonone`, `data:currency`
+- Nav out: push `noonone/landing`~ · replace `noonone/landing`~
+- `addCard`: in ← `membership/changePlan`, `membership/familyReview`, `membership/info`, `membership/manage`, `membership/partner`, `membership/referralsInput`, `membership/reviewPlan`, `noonone/addCvv`, `noonone/payment` · docs `../noon-one/spec.md:9-39`, `../noon-one/spec.md:85-95`, `src/flows/noonone/MAPPING.md:318-322`
+
+## `noonone/addCvv`
+
+- Module `src/flows/noonone/screens/AddCvvOverlayScreen.tsx` · 12 own files, 46 in the import closure
+- Source: features/vip/screens/VIPAddCvvOverlayScreen (src/components/Overlay)
+- Styles: components/payment/LegacyOverlay.module.css, screens/AddCvvOverlayScreen.module.css, screens/PaymentScreen.module.css
+- Data / helpers: data.payment.ts, data.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`, `Screen`, `Spinner`
+- Flow components: `LegacyOverlay@payment`, `Reloader`, `VIPButton`
+- Tokens (80): colors 5 · flow:noonone 46 · fontSize 1 · fontWeight 1 · local 2 · palette 12 · radius 5 · spacing 8
+- Motion: `transition/noonone-instant`, `transition/noonone-overlay`
+- Icons: — · assets 16
+- State / data: `store:membership`, `store:noonone`, `data:currency`
+- Nav out: push `noonone/addCard` · push `noonone/addCvv` · push `noonone/landing`~ · replace `noonone/landing`~ · push `noonone/mobilePay` · push `noonone/trialGuide`
+- `addCvv`: in ← `membership/changePlan`, `membership/familyReview`, `membership/info`, `membership/manage`, `membership/partner`, `membership/referralsInput`, `membership/reviewPlan`, `noonone/payment` · docs `../noon-one/spec.md:9-39`, `../noon-one/spec.md:85-95`, `../noon-one/spec.md:147-161`, `src/flows/noonone/MAPPING.md:318-322`, `src/flows/noonone/MAPPING.md:339-392`
+
+## `noonone/mobilePay`
+
+- Module `src/flows/noonone/screens/MobilePayOverlayScreen.tsx` · 9 own files, 37 in the import closure
+- Source: features/vip/screens/VIPMobilePayOverlayScreen (src/components/Overlay, PhoneInput, SegmentedTextInput), services/VIPBokuService
+- Styles: components/payment/LegacyOverlay.module.css, screens/MobilePayOverlayScreen.module.css
+- Data / helpers: data.payment.ts, data.ts, store.ts, tokens.ts
+- Shared components: —
+- Flow components: `LegacyOverlay@payment`, `Reloader`
+- Tokens (45): colors 4 · flow:noonone 24 · local 1 · palette 4 · radius 5 · spacing 7
+- Motion: `transition/noonone-instant`, `transition/noonone-overlay`
+- Icons: — · assets 4
+- State / data: `store:membership`, `store:noonone`, `data:currency`
+- Nav out: push `noonone/landing`~ · replace `noonone/landing`~
+- `mobilePay`: in ← `membership/changePlan`, `membership/familyReview`, `membership/info`, `membership/manage`, `membership/partner`, `membership/referralsInput`, `membership/reviewPlan`, `noonone/addCvv`, `noonone/payment` · docs `../noon-one/spec.md:9-39`, `../noon-one/spec.md:85-95`, `src/flows/noonone/MAPPING.md:318-322`
+
+## `noonone/info`
+
+- Module `src/flows/noonone/screens/InfoOverlayScreen.tsx` · 7 own files, 36 in the import closure
+- Source: features/vip/screens/VIPInfoOverlayScreen (VIPUtil.showInfoOverlay / showWarningPopup, VIPSubscriptionButtonV2.showWarningPopup)
+- Styles: components/VIPOverlay.module.css, screens/InfoOverlayScreen.module.css
+- Data / helpers: data.payment.ts, data.ts, tokens.ts
+- Shared components: `HtmlText`
+- Flow components: `VIPOverlay`
+- Tokens (49): colors 4 · flow:noonone 28 · local 1 · palette 1 · radius 7 · spacing 8
+- Motion: `transition/noonone-overlay`
+- Icons: — · assets 1
+- State / data: `data:currency`
+- Nav out: push `noonone/landing`
+- `info`: docs `../noon-one/spec.md:9-39`, `../noon-one/spec.md:147-161`, `src/flows/noonone/MAPPING.md:318-322`
+
+## `noonone/generic`
+
+- Module `src/flows/noonone/screens/GenericOverlayScreen.tsx` · 8 own files, 39 in the import closure
+- Source: features/vip/screens/VIPGenericOverlayScreen + components/VIPPopups/VIPInfoPopup, VIPUpdatePopup (utils/VIPPopupUtil)
+- Styles: components/VIPOverlay.module.css, screens/InfoOverlayScreen.module.css
+- Data / helpers: data.payment.ts, data.ts, tokens.ts
+- Shared components: `HtmlText`, `Spinner`
+- Flow components: `VIPButton`, `VIPOverlay`
+- Tokens (50): colors 4 · flow:noonone 28 · local 1 · palette 2 · radius 7 · spacing 8
+- Motion: `transition/noonone-overlay`
+- Icons: — · assets 1
+- State / data: `data:currency`
+- `generic`: docs `../noon-one/spec.md:9-39`, `../noon-one/spec.md:147-161`, `src/flows/noonone/MAPPING.md:318-322`
+
+## `noonone/offers`
+
+- Module `src/flows/noonone/screens/OffersOverlayScreen.tsx` · 14 own files, 46 in the import closure
+- Source: features/vip/screens/VIPOffersOverlayScreen (VIPUtil.showReferralsInputOverlay; components/VIPWave, VIPButton, VIPGenericOverlayScreen success popup)
+- Styles: components/VIPOverlay.module.css, components/offers/inlinePopup.module.css, components/offers/primitives.module.css, screens/OffersOverlayScreen.module.css
+- Data / helpers: components/maskSrc.ts, data.offers.ts, data.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`, `MaskIcon`, `Spinner`
+- Flow components: `ChevronLeft`, `InlinePopup`, `VIPButton`, `VIPOverlay`, `VIPWave`
+- Tokens (70): colors 14 · flow:noonone 34 · fontWeight 1 · layout 1 · local 1 · palette 2 · radius 8 · spacing 8 · type 1
+- Motion: `transition/noonone-instant`, `transition/noonone-overlay`
+- Icons: — · assets 10
+- State / data: `store:membership`, `store:noonone`, `data:currency`
+- Nav out: push `noonone/confirmVoucher` · push `noonone/landing`~ · replace `noonone/landing`~
+- `offers`: in ← `membership/changePlan`, `membership/familyReview`, `membership/info`, `membership/manage`, `membership/partner`, `membership/referralsInput`, `membership/reviewPlan`, `noonone/confirmVoucher`, `noonone/plans` · docs `../noon-one/spec.md:9-39`, `../noon-one/spec.md:44-58`, `../noon-one/spec.md:72-84`, `../noon-one/spec.md:147-161`, `src/flows/noonone/MAPPING.md:20-36`, `src/flows/noonone/MAPPING.md:176-202`, `src/flows/noonone/MAPPING.md:495-503`
+
+## `noonone/partnerOffer`
+
+- Module `src/flows/noonone/screens/OffersV2Screen.tsx` · 12 own files, 46 in the import closure
+- Source: features/vip/screens/VIPOffersV2Screen (+ components/VIPModules/VIPPartnerOfferPlanModule, VIPSubscriptionButtonV2)
+- Styles: components/offers/primitives.module.css, components/offers/subscribe.module.css, screens/OffersV2Screen.module.css
+- Data / helpers: components/maskSrc.ts, data.offers.ts, data.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`, `MaskIcon`, `Pressable`, `Screen`, `Spinner`
+- Flow components: `ChevronLeft`, `SubscribeButton`, `VIPButton`
+- Tokens (59): colors 6 · flow:noonone 26 · fontWeight 2 · layout 1 · local 2 · palette 6 · radius 4 · shadow 2 · spacing 8 · type 2
+- Motion: `transition/noonone-instant`
+- Icons: — · assets 14
+- State / data: `store:membership`, `store:noonone`, `data:currency`
+- Nav out: push `noonone/landing`~ · replace `noonone/landing`~ · push `noonone/payment` · push `noonone/plans`
+- `partnerOffer`: docs `../noon-one/spec.md:9-39`, `../noon-one/spec.md:44-58`, `src/flows/noonone/MAPPING.md:20-36`, `src/flows/noonone/MAPPING.md:176-202`, `src/flows/noonone/MAPPING.md:495-503`
+
+## `noonone/confirmOffer`
+
+- Module `src/flows/noonone/screens/ConfirmOfferPlanScreen.tsx` · 11 own files, 43 in the import closure
+- Source: features/vip/screens/VIPConfirmOfferPlanScreen
+- Styles: components/VIPOverlay.module.css, components/offers/subscribe.module.css, screens/ConfirmOfferPlanScreen.module.css
+- Data / helpers: data.offers.ts, data.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`, `Pressable`, `Spinner`
+- Flow components: `SubscribeButton`, `VIPButton`, `VIPOverlay`
+- Tokens (49): colors 4 · flow:noonone 27 · fontWeight 1 · local 1 · palette 4 · radius 5 · shadow 1 · spacing 6
+- Motion: `transition/noonone-instant`, `transition/noonone-overlay`
+- Icons: — · assets 12
+- State / data: `store:membership`, `store:noonone`, `data:currency`
+- Nav out: push `noonone/landing`~ · replace `noonone/landing`~ · push `noonone/payment`
+- `confirmOffer`: docs `../noon-one/spec.md:9-39`, `src/flows/noonone/MAPPING.md:495-503`
+
+## `noonone/confirmVoucher`
+
+- Module `src/flows/noonone/screens/ConfirmVoucherPlanScreen.tsx` · 14 own files, 46 in the import closure
+- Source: features/vip/screens/VIPConfirmVoucherPlanScreen
+- Styles: components/VIPOverlay.module.css, components/offers/primitives.module.css, components/offers/subscribe.module.css, screens/ConfirmVoucherPlanScreen.module.css
+- Data / helpers: components/maskSrc.ts, data.offers.ts, data.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`, `MaskIcon`, `Pressable`, `Spinner`
+- Flow components: `ChevronLeft`, `SubscribeButton`, `VIPButton`, `VIPDashedBorder`, `VIPOverlay`
+- Tokens (66): colors 8 · flow:noonone 35 · fontWeight 2 · local 1 · palette 4 · radius 7 · spacing 9
+- Motion: `transition/noonone-instant`, `transition/noonone-overlay`
+- Icons: — · assets 13
+- State / data: `store:membership`, `store:noonone`, `data:currency`
+- Nav out: push `noonone/landing`~ · replace `noonone/landing`~ · push `noonone/offers` · push `noonone/payment`
+- `confirmVoucher`: in ← `membership/changePlan`, `membership/familyReview`, `membership/info`, `membership/manage`, `membership/partner`, `membership/referralsInput`, `membership/reviewPlan`, `noonone/offers` · docs `../noon-one/spec.md:9-39`, `src/flows/noonone/MAPPING.md:495-503`
+
+## `noonone/bundle`
+
+- Module `src/flows/noonone/screens/BundleScreen.tsx` · 12 own files, 45 in the import closure
+- Source: features/vip/screens/VIPBundleV2Screen (live: VIPUtil.showBundleScreen always V2; /noon-one-bundle uses V1 VIPBundleScreen for non-yango codes — not ported)
+- Styles: components/offers/primitives.module.css, components/offers/subscribe.module.css, screens/BundleScreen.module.css
+- Data / helpers: components/maskSrc.ts, data.offers.ts, data.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`, `Icon`, `MaskIcon`, `Pressable`, `Spinner`
+- Flow components: `ChevronLeft`, `SubscribeButton`, `VIPButton`
+- Tokens (61): colors 1 · flow:noonone 37 · fontSize 1 · fontWeight 3 · local 2 · palette 3 · radius 4 · spacing 10
+- Motion: `transition/noonone-instant`, `transition/sheet`
+- Icons: — · assets 13
+- State / data: `store:membership`, `store:noonone`, `data:currency`
+- Nav out: push `noonone/landing`~ · replace `noonone/landing`~
+- `bundle`: docs `../noon-one/spec.md:9-39`, `src/flows/noonone/MAPPING.md:6-19`, `src/flows/noonone/MAPPING.md:20-36`, `src/flows/noonone/MAPPING.md:495-503`
+
+## `noonone/acceptInvite`
+
+- Module `src/flows/noonone/screens/AcceptInviteOverlayScreen.tsx` · 12 own files, 47 in the import closure
+- Source: features/vip/screens/VIPAcceptPlanInviteOverlayScreen (+ VIPAcceptInviteOverlaySkeleton, components/VIPMemberInitialHexagon, VIPModules/VIPBenefitsModule hideModuleWrapper)
+- Styles: components/VIPOverlay.module.css, components/offers/primitives.module.css, screens/AcceptInviteOverlayScreen.module.css
+- Data / helpers: components/maskSrc.ts, data.offers.ts, data.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`, `Icon`, `Lottie`, `MaskIcon`, `Skeleton`, `Spinner`
+- Flow components: `VIPButton`, `VIPDashedBorder`, `VIPMemberInitialHexagon`, `VIPOverlay`
+- Tokens (54): colors 10 · flow:noonone 25 · fontWeight 1 · local 1 · palette 1 · radius 4 · spacing 8 · type 4
+- Motion: `transition/noonone-instant`, `transition/noonone-overlay`
+- Icons: — · assets 11
+- State / data: `store:membership`, `store:noonone`, `data:currency`
+- Nav out: push `noonone/acceptInviteError` · push `noonone/landing`~ · replace `noonone/landing`~
+- `acceptInvite`: docs `../noon-one/spec.md:9-39`, `src/flows/noonone/MAPPING.md:20-36`, `src/flows/noonone/MAPPING.md:495-503`
+
+## `noonone/acceptInviteError`
+
+- Module `src/flows/noonone/screens/AcceptInviteErrorOverlayScreen.tsx` · 9 own files, 41 in the import closure
+- Source: features/vip/screens/VIPAcceptInviteErrorOverlayScreen
+- Styles: components/VIPOverlay.module.css, screens/AcceptInviteErrorOverlayScreen.module.css
+- Data / helpers: data.offers.ts, data.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`, `Spinner`
+- Flow components: `VIPButton`, `VIPOverlay`
+- Tokens (39): colors 4 · flow:noonone 19 · local 1 · palette 2 · radius 4 · spacing 8 · type 1
+- Motion: `transition/noonone-instant`, `transition/noonone-overlay`
+- Icons: — · assets 8
+- State / data: `store:membership`, `store:noonone`, `data:currency`
+- Nav out: push `noonone/landing`~ · replace `noonone/landing`~
+- `acceptInviteError`: in ← `membership/changePlan`, `membership/familyReview`, `membership/info`, `membership/manage`, `membership/partner`, `membership/referralsInput`, `membership/reviewPlan`, `noonone/acceptInvite` · tests `test:journey/noonone-invite-error` · docs `../noon-one/spec.md:9-39`, `../noon-one/spec.md:147-161`, `src/flows/noonone/MAPPING.md:495-503`
+
+## `noonone/cartOverlay`
+
+- Module `src/flows/noonone/screens/CartOverlayScreen.tsx` · 8 own files, 39 in the import closure
+- Source: features/vip/screens/VIPCartOverlayScreen (opened by marketplaces/noon/screens/NoonCartScreen showVipPush / showOnePush; chrome src/components/Overlay)
+- Styles: components/entry/LegacyOverlay.module.css, screens/CartOverlayScreen.module.css
+- Data / helpers: data.entry.ts, data.ts, store.ts, tokens.ts
+- Shared components: `HtmlText`, `ProductImage`
+- Flow components: `LegacyOverlay`
+- Tokens (37): colors 7 · flow:noonone 24 · local 1 · radius 2 · spacing 3
+- Motion: `transition/noonone-instant`, `transition/noonone-overlay`
+- Icons: — · assets 3
+- State / data: `store:demo`, `store:membership`, `store:noonone`, `data:currency`, `data:products`
+- Nav out: push `checkout/checkout` · push `noonone/landing`~ · replace `noonone/landing`~
+- `cartOverlay`: in ← `cart/cart`, `cart/empty`, `cart/loading` · tests `test:journey/cart-checkout` · docs `resources/flows/cart.md:55-62`, `../cart/spec.md:95-112`, `../checkout/spec.md:125-142`, `../noon-one/spec.md:9-39`, `../noon-one/spec.md:96-109`, `src/flows/noonone/MAPPING.md:588-611`
+
+## `noonone/ocOne`
+
+- Module `src/flows/noonone/screens/OCOneOverlayScreen.tsx` · 7 own files, 33 in the import closure
+- Source: features/vip/screens/OCOneOverlayScreen (opened by marketplaces/noon/screens/NoonOrderConfirmationScreenV3 openOneSubscriptionOverlay)
+- Styles: components/entry/LegacyOverlay.module.css, screens/OCOneOverlayScreen.module.css
+- Data / helpers: data.entry.ts, data.ts, tokens.ts
+- Shared components: —
+- Flow components: `LegacyOverlay`
+- Tokens (39): colors 7 · flow:noonone 22 · local 1 · palette 1 · radius 3 · spacing 5
+- Motion: `transition/noonone-overlay`
+- Icons: — · assets 2
+- State / data: `data:currency`
+- Nav out: push `noonone/landing`
+- `ocOne`: in ← `checkout/confirmation` · docs `../noon-one/spec.md:9-39`, `../noon-one/spec.md:96-109`, `../noon-one/spec.md:147-161`, `src/flows/noonone/MAPPING.md:588-611`

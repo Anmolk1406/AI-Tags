@@ -138,6 +138,24 @@ export function useIsTop(): boolean {
   return useSyncExternalStore(nav.store.subscribe, get);
 }
 
+const noStore = { subscribe: () => () => {}, get: () => true };
+/**
+ * True while this screen is the top of the stack and so the one the user sees: auto-rotating content, timers and
+ * autoplay pause on it (`useInterval`). Outside a Navigator (a component rendered on its own) it is always true.
+ */
+export function useScreenActive(): boolean {
+  const nav = useContext(NavCtx);
+  const entry = useContext(EntryCtx);
+  const last = useRef(true);
+  const get = () => {
+    if (!nav) return true;
+    const s = nav.store.get();
+    if (entry && s.some((e) => e.key === entry.key)) last.current = s.at(-1)?.key === entry.key;
+    return last.current;
+  };
+  return useSyncExternalStore(nav ? nav.store.subscribe : noStore.subscribe, get);
+}
+
 /** Typed params helper: `const { productId } = useParams<{ productId: string }>()` */
 export function useParams<P>() {
   return useNav().params as P;
@@ -193,6 +211,14 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
   const setStack = store.set;
   const [instantExit, setInstantExit] = useState(false);
   const [toasts, setToasts] = useState<Toast[]>([]);
+  // entries whose cover transition has finished: their body stops rendering until they are uncovered
+  const [settled, setSettled] = useState<ReadonlySet<string>>(() => new Set());
+  const settle = useCallback((key: string, on: boolean) => setSettled((prev) => {
+    if (prev.has(key) === on) return prev;
+    const next = new Set(prev);
+    if (on) next.add(key); else next.delete(key);
+    return next;
+  }), []);
   const stackRef = useMemo(() => ({ get current() { return store.get(); } }), [store]);
 
   useEffect(() => onChange?.(stack), [stack, onChange]);
@@ -226,6 +252,19 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
       for (const r of routes) (registry.resolve(r)?.screen.component as { preload?: () => Promise<unknown> } | undefined)?.preload?.().catch(() => undefined);
     },
     [registry],
+  );
+  /** on mount of a screen: fetch the rest of its flow and the screens the flow hands off to, in idle time */
+  const preloadAround = useCallback(
+    (route: Route) => {
+      const r = registry.resolve(route);
+      if (!r) return;
+      const idle: (cb: () => void) => void = 'requestIdleCallback' in window ? (cb) => window.requestIdleCallback(cb, { timeout: 1500 }) : (cb) => setTimeout(cb, 300);
+      idle(() => {
+        for (const sc of r.flow.screens) (sc.component as { preload?: () => Promise<unknown> }).preload?.()?.catch(() => undefined);
+        preload(...(r.flow.preload ?? []));
+      });
+    },
+    [registry, preload],
   );
   const sheet = useCallback<NavApi['sheet']>((route, params) => push(route, params, { presentation: 'sheet' }), [push]);
   /** Logical parent for a screen opened with no history (direct URL / sidebar / reload): screen.parent → flow.parent → home; tab roots have none. */
@@ -320,14 +359,18 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
             const Screen = resolved.screen.component;
             const t = getTransition(entry.transition);
             const isTop = i === stack.length - 1;
-            const content = <ScreenHost entry={entry} Screen={Screen} tokens={resolved.flow.tokens} />;
+            const content = <ScreenHost entry={entry} Screen={Screen} tokens={resolved.flow.tokens} onMount={preloadAround} />;
 
             if (entry.presentation === 'sheet') {
               return <SheetLayer key={entry.key} options={resolveSheet(resolved.screen.sheet)} onDismiss={back} isTop={isTop} zIndex={i} reduce={reduce}>{content}</SheetLayer>;
             }
 
             const cover = coveredBy(i);
-            const under = cover ? getTransition(cover.transition).under : undefined;
+            const coverT = cover ? getTransition(cover.transition) : undefined;
+            const under = coverT?.under;
+            const dim = coverT?.underDim ?? 0;
+            // fully behind an opaque screen whose cover transition has settled: nothing of it shows, skip its rendering
+            const hidden = !!cover && !registry.resolve(cover.route)?.screen.transparent && settled.has(entry.key);
             const tab = i === 0 && resolved.flow.tabBar?.screens.includes(resolved.screen.id) ? resolved.flow.tabBar.tab : undefined;
 
             return (
@@ -337,8 +380,8 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
                 custom={instantExit}
                 variants={{
                   initial: t.initial,
-                  shown: { ...t.animate, x: (t.animate as { x?: number }).x ?? 0, scale: 1, filter: 'brightness(1)', borderRadius: 0 },
-                  covered: { ...(under ?? {}), transition: cover ? getTransition(cover.transition).transition : t.transition },
+                  shown: { ...t.animate, x: (t.animate as { x?: number }).x ?? 0, scale: 1, borderRadius: 0 },
+                  covered: { ...(under ?? {}), transition: coverT ? coverT.transition : t.transition },
                   exit: (instant: boolean) => (instant ? { opacity: 0, transition: { duration: 0.12 } } : { ...t.exit, transition: t.transition }),
                 }}
                 initial="initial"
@@ -349,8 +392,12 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
                 // a covered screen is out of the tab order and the accessibility tree (the sheet / screen on top is modal)
                 inert={!isTop}
                 data-route={entry.route}
+                data-hidden={hidden || undefined}
+                onAnimationComplete={(d) => settle(entry.key, d === 'covered')}
               >
                 <div className={styles.screenBody}>{content}</div>
+                {/* the covered screen darkens through this layer (compositor-only), never through a filter */}
+                <motion.div className={styles.dim} variants={{ initial: { opacity: 0 }, shown: { opacity: 0 }, covered: { opacity: dim } }} transition={coverT?.transition ?? t.transition} style={{ display: dim || under ? undefined : 'none' }} />
                 {tab && <TabBar active={tab} variant={resolved.flow.tabBar?.variant} autoHide={resolved.flow.tabBar?.scrollHide ?? true} covered={!isTop} />}
               </motion.div>
             );
@@ -393,7 +440,9 @@ export function Navigator({ registry, initialRoute, initialParams, onChange, res
  * One stack entry's screen. Memoised on the (stable) entry, so a push, back or toast only renders the screen that
  * changes; the ones underneath keep their tree unless they read the stack through useNav().
  */
-const ScreenHost = memo(function ScreenHost({ entry, Screen, tokens }: { entry: StackEntry; Screen: ComponentType<ScreenProps<any>>; tokens?: TokenOverrides }) {
+const ScreenHost = memo(function ScreenHost({ entry, Screen, tokens, onMount }: { entry: StackEntry; Screen: ComponentType<ScreenProps<any>>; tokens?: TokenOverrides; onMount: (route: Route) => void }) {
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- once per mounted entry
+  useEffect(() => onMount(entry.route), []);
   return (
     <EntryCtx.Provider value={entry}>
       <TokenScope overrides={tokens}>
@@ -417,15 +466,17 @@ function SheetLayer({ children, options, onDismiss, isTop, zIndex, reduce }: { c
     origin: { scrim: styles.originScrim, column: styles.originColumn, zone: styles.originGrabberZone, bar: styles.originGrabber },
     floating: { scrim: styles.floatingScrim, column: styles.floatingColumn, zone: styles.floatingHandleZone, bar: styles.floatingHandle },
     classic: { scrim: styles.scrim, column: styles.sheet, zone: styles.grabberZone, bar: styles.grabber },
+    gorhom: { scrim: styles.gorhomScrim, column: styles.gorhomColumn, zone: styles.floatingHandleZone, bar: styles.floatingHandle },
   }[layout];
   const grabber = options.grabber && (
     // floating: OverlayBottomSheet renderHandle — a Pressable that also closes on tap
-    <div className={cls.zone} onPointerDown={(e) => drag.start(e)} onClick={layout === 'floating' ? onDismiss : undefined}>
+    <div className={cls.zone} onPointerDown={(e) => drag.start(e)} onClick={layout === 'floating' || layout === 'gorhom' ? onDismiss : undefined}>
       <div className={cls.bar} />
     </div>
   );
   return (
-    <motion.div className={styles.sheetLayer} style={{ pointerEvents: isTop ? 'auto' : 'none', zIndex }} initial="hidden" animate="shown" exit="hidden">
+    // a covered sheet is out of the tab order and the accessibility tree, like a covered screen
+    <motion.div className={styles.sheetLayer} style={{ pointerEvents: isTop ? 'auto' : 'none', zIndex }} inert={!isTop} initial="hidden" animate="shown" exit="hidden">
       <motion.div
         className={cls.scrim}
         variants={{ hidden: { opacity: 0 }, shown: { opacity: 1 } }}
@@ -451,7 +502,10 @@ function SheetLayer({ children, options, onDismiss, isTop, zIndex, reduce }: { c
             : layout === 'floating'
               ? // per-screen floating geometry (e.g. a gorhom `detached` sheet: inset 8, bottom 36)
                 ({ ...(options.inset != null && { '--nk-sheet-floating-inset': `${options.inset}px` }), ...(options.bottomGap != null && { '--nk-sheet-floating-bottom-gap': `${options.bottomGap}px` }) } as CSSProperties)
-              : undefined
+              : layout === 'gorhom' && options.height != null
+                ? // a fixed gorhom snap point (px, or % of the screen like gorhom's '60%')
+                  { height: typeof options.height === 'number' ? `${options.height}px` : options.height }
+                : undefined
         }
       >
         <SheetCtx.Provider value={ctx}>
@@ -464,6 +518,17 @@ function SheetLayer({ children, options, onDismiss, isTop, zIndex, reduce }: { c
                 {children}
               </div>
             </>
+          ) : layout === 'gorhom' ? (
+            <div
+              className={styles.gorhomSheet}
+              style={{
+                ...(options.surface && { background: options.surface }),
+                ...(options.radius != null && { '--nk-sheet-gorhom-radius': `${options.radius}px` }),
+              } as CSSProperties}
+            >
+              {grabber}
+              {children}
+            </div>
           ) : layout === 'floating' ? (
             <div className={styles.floatingSheet} style={options.surface ? { background: options.surface } : undefined}>
               {grabber}
