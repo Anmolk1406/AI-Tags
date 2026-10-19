@@ -61,7 +61,7 @@ and ask before building. If the match is flow-local in another flow (e.g. home `
 | Anything tappable that isn't a CTA (row, card, chip, icon) | `Pressable` (`scale` 0.96; 0.98 for wide rows / cards) | 227 uses in 16 of 19 flows; one press feel everywhere | `<button>` / `motion.button` (198 left in pdp, checkout, noonone, cart, membership ports, counted as `raw-button`) |
 | CTA | `Button` with the variant below | the variants carry the colour, radius, disabled and `loading` states | a styled `Pressable` |
 | Text from the server or with `<b>/<highlight>/<steel>` | `HtmlText` | 151 uses; the bappzaar HtmlView tags map to tokens | `dangerouslySetInnerHTML` |
-| System icon | `OriginIcon name` | Origin Design System; 110 uses in the newer flows (home, pdp, orders, reviews, noonone) | lucide `Icon` (28 uses, older flows only) |
+| System icon | `OriginIcon name`, the closest catalogue match even if imperfect (swap only when asked) | Origin Design System; 110 uses in the newer flows (home, pdp, orders, reviews, noonone) | a hand-drawn inline `<svg>` glyph; lucide `Icon` (28 uses, older flows only) |
 | bappzaar webp / svg glyph that needs a colour | `MaskIcon` | 69 uses in 11 of 19 flows | `<img>` + CSS filter |
 | Product picture | `ProductImage` | 40 uses in 10 of 19 flows; contain, placeholder, 2% overlay | `<img>` |
 | Product grid card · rail card · Figma SKU rail | `ProductBoxVertical` · `ProductCard` · `SkuCard` | each is the 1:1 port of one bappzaar / Figma card | a new card |

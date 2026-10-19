@@ -107,6 +107,7 @@ import { OriginIcon } from '../../components';
 - \`filled\` picks \`<name>-filled\` when the pair exists (outline for default / unselected, filled for selected / active, as noon does).
 - \`color\` takes a token (\`ref.color(...)\`, \`var(--nk-*)\`); icons are tinted through a CSS mask, so never recolour by editing the SVG. Multicolour icons (${multicolor.map((n) => `\`${n}\``).join(', ') || 'none'}) render as images and ignore \`color\`.
 - Default size 24; the library is drawn on a 24 grid, so prefer 24 / 20 / 16.
+- **Closest icon first, never a hand-drawn one.** Every icon need is met from this catalogue: pick the closest existing icon even when it isn't a perfect fit for the use case, and swap it only when asked. Never draw an inline \`<svg>\` / \`<path>\` glyph as an icon (craft-rubric §7 "generated tell"); fall back to lucide \`Icon\` only when nothing here is even loosely related, and say so.
 - Prefer these over lucide (\`Icon\`) and over one-off webps when a design uses noon's system icons; keep \`Icon\` for existing flows. A Figma icon called \`M-Icon/System-Icon/<name>\` maps 1:1 to \`<OriginIcon name="<name>" />\`.
 - New icons: export from Figma, then \`npm run icons:import -- <folder>\`; it copies, renames, regenerates the typed list and this file.
 
