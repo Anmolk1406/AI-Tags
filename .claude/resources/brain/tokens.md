@@ -48,7 +48,7 @@ Values, meaning and Figma mapping: `.claude/skills/noon-ui/references/tokens.md`
 | `flow:noonone` | 467 | `src/flows/noonone/tokens.ts` |
 | `flow:orders` | 18 | `src/flows/orders/tokens.ts` |
 | `flow:pdp` | 245 | `src/flows/pdp/tokens.ts` |
-| `flow:plp` | 14 | `src/flows/plp/tokens.ts` |
+| `flow:plp` | 29 | `src/flows/plp/tokens.ts` |
 | `flow:returns` | 48 | `src/flows/returns/tokens.ts` |
 | `flow:reviews` | 55 | `src/flows/reviews/tokens.ts` |
 | `flow:search` | 1 | `src/flows/search/tokens.ts` |

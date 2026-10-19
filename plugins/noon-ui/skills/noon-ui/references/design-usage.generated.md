@@ -10,7 +10,7 @@ JSX uses across all flows, and how many flows use each. A component in many flow
 
 | Component | Uses | Flows | Which |
 |---|---|---|---|
-| `Pressable` | 227 | 16 | all but cards, checkout, fieldds |
+| `Pressable` | 229 | 16 | all but cards, checkout, fieldds |
 | `HtmlText` | 163 | 6 | cart, checkout, credits, membership, noonone, pdp |
 | `OriginIcon` | 126 | 8 | credits, fieldds, home, noonone, orders, pdp, plp, reviews |
 | `Skeleton` | 112 | 10 | all but cards, categories, deals, fieldds, home, orders, pdp, returns, search |
@@ -85,7 +85,7 @@ Flow-local names that exist in more than one flow (promotion candidates, or name
 | `textProduct` | 1 |
 | `textMuted` | 1 |
 
-CSS `font:` declarations: 1627, of which tokenised 95%. Most used `--nk-type-*`:
+CSS `font:` declarations: 1633, of which tokenised 95%. Most used `--nk-type-*`:
 
 | Type token | Uses | Flows |
 |---|---|---|
@@ -118,7 +118,7 @@ CSS `font:` declarations: 1627, of which tokenised 95%. Most used `--nk-type-*`:
 
 Which token each role reaches for (CSS `color` = text, `background` = surface, `border*` = border, `fill`/`stroke` = icon). Raw literals are counted as `raw …`.
 
-### text (1743 declarations, 100% tokenised)
+### text (1748 declarations, 100% tokenised)
 
 | Token | Uses | Share | Flows |
 |---|---|---|---|
@@ -132,16 +132,16 @@ Which token each role reaches for (CSS `color` = text, `background` = surface, `
 | `color-text-body` | 82 | 5% | 10 |
 | `color-text-tertiary` | 53 | 3% | 13 |
 | `palette-white` | 36 | 2% | 4 |
-| `palette-black` | 34 | 2% | 10 |
+| `palette-black` | 35 | 2% | 10 |
 | `color-brand-blue` | 31 | 2% | 7 |
 | `color-success` | 25 | 1% | 8 |
 | `palette-secondary-text-color` | 23 | 1% | 6 |
 
-### surface (1475 declarations, 100% tokenised)
+### surface (1483 declarations, 100% tokenised)
 
 | Token | Uses | Share | Flows |
 |---|---|---|---|
-| `color-bg-surface` | 519 | 35% | 17 |
+| `color-bg-surface` | 520 | 35% | 17 |
 | `color-bg-subtle` | 142 | 10% | 14 |
 | `palette-white` | 51 | 3% | 4 |
 | `color-bg-page` | 28 | 2% | 8 |
@@ -156,7 +156,7 @@ Which token each role reaches for (CSS `color` = text, `background` = surface, `
 | `color-best-price-ink` | 10 | 1% | 3 |
 | `color-bg-pill` | 10 | 1% | 3 |
 
-### border (479 declarations, 100% tokenised)
+### border (480 declarations, 100% tokenised)
 
 | Token | Uses | Share | Flows |
 |---|---|---|---|
@@ -205,18 +205,18 @@ Which token each role reaches for (CSS `color` = text, `background` = surface, `
 
 Values in `padding*`, `margin*`, `gap`/`row-gap`/`column-gap` and offsets (`top`/`inset`…). Tokenised `sN` and raw `Npx` are listed separately so the gap between the scale and the code is visible. Hairlines (1, 0.5, 1.5, 3) are geometry and skipped.
 
-### padding (2399 values, 83% written as tokens)
+### padding (2403 values, 83% written as tokens)
 
 | Value | Uses | Share | On scale |
 |---|---|---|---|
-| 12 | 686 | 29% | `s12` |
-| 16 | 334 | 14% | `s16` |
-| 8 | 308 | 13% | `s8` |
+| 12 | 687 | 29% | `s12` |
+| 16 | 335 | 14% | `s16` |
+| 8 | 309 | 13% | `s8` |
 | 4 | 226 | 9% | `s4` |
 | 10 | 158 | 7% | `s10` |
 | 15 | 137 | 6% | `s15` |
-| 2 | 132 | 6% | `s2` |
-| 6 | 81 | 3% | `s6` |
+| 2 | 132 | 5% | `s2` |
+| 6 | 82 | 3% | `s6` |
 | 14 | 78 | 3% | `s14` |
 | 20 | 61 | 3% | `s20` |
 | 24 | 59 | 2% | `s24` |
@@ -224,12 +224,12 @@ Values in `padding*`, `margin*`, `gap`/`row-gap`/`column-gap` and offsets (`top`
 | 18 | 14 | 1% | `s18` |
 | 7 | 13 | 1% | **off** |
 
-### gap (1159 values, 87% written as tokens)
+### gap (1161 values, 87% written as tokens)
 
 | Value | Uses | Share | On scale |
 |---|---|---|---|
-| 8 | 307 | 26% | `s8` |
-| 4 | 248 | 21% | `s4` |
+| 8 | 308 | 27% | `s8` |
+| 4 | 249 | 21% | `s4` |
 | 12 | 229 | 20% | `s12` |
 | 2 | 99 | 9% | `s2` |
 | 6 | 84 | 7% | `s6` |
@@ -243,18 +243,18 @@ Values in `padding*`, `margin*`, `gap`/`row-gap`/`column-gap` and offsets (`top`
 | 7 | 3 | 0% | **off** |
 | 40 | 3 | 0% | `s40` |
 
-### margin (966 values, 76% written as tokens)
+### margin (972 values, 76% written as tokens)
 
 | Value | Uses | Share | On scale |
 |---|---|---|---|
-| 12 | 195 | 20% | `s12` |
+| 12 | 197 | 20% | `s12` |
 | 8 | 158 | 16% | `s8` |
+| 4 | 106 | 11% | `s4` |
 | 16 | 105 | 11% | `s16` |
-| 4 | 104 | 11% | `s4` |
-| 10 | 77 | 8% | `s10` |
+| 10 | 78 | 8% | `s10` |
 | 15 | 77 | 8% | `s15` |
 | 2 | 55 | 6% | `s2` |
-| 20 | 40 | 4% | `s20` |
+| 20 | 41 | 4% | `s20` |
 | 6 | 39 | 4% | `s6` |
 | 24 | 25 | 3% | `s24` |
 | 5 | 22 | 2% | **off** |
@@ -262,7 +262,7 @@ Values in `padding*`, `margin*`, `gap`/`row-gap`/`column-gap` and offsets (`top`
 | 18 | 8 | 1% | `s18` |
 | 7 | 5 | 1% | **off** |
 
-### offset (355 values, 28% written as tokens)
+### offset (357 values, 28% written as tokens)
 
 | Value | Uses | Share | On scale |
 |---|---|---|---|
@@ -275,7 +275,7 @@ Values in `padding*`, `margin*`, `gap`/`row-gap`/`column-gap` and offsets (`top`
 | 15 | 14 | 4% | `s15` |
 | 5 | 12 | 3% | **off** |
 | 2 | 10 | 3% | `s2` |
-| 18 | 9 | 3% | `s18` |
+| 18 | 10 | 3% | `s18` |
 | 9 | 7 | 2% | **off** |
 | 13 | 7 | 2% | **off** |
 | 24 | 7 | 2% | `s24` |
@@ -287,8 +287,8 @@ Element kind is read from the selector's last class name (card/tile/box/section 
 
 | Kind | Declarations | Top values |
 |---|---|---|
-| other | 460 | r12 ×90 · r16 ×67 · r8 ×54 · full ×39 · r4 ×24 · r20 ×23 |
-| card | 225 | r16 ×90 · r12 ×60 · r8 ×12 · r14 ×11 · r20 ×9 · r6 ×7 |
+| other | 463 | r12 ×90 · r16 ×67 · r8 ×54 · full ×42 · r4 ×24 · r20 ×23 |
+| card | 226 | r16 ×90 · r12 ×60 · r8 ×12 · r14 ×11 · r20 ×9 · r6 ×7 |
 | button | 149 | r12 ×55 · r8 ×24 · r10 ×13 · r16 ×10 · r14 ×8 · r20 ×8 |
 | pill | 91 | r4 ×13 · r12 ×13 · full ×12 · r8 ×11 · r6 ×11 · r10 ×4 |
 | image | 90 | r8 ×37 · r12 ×7 · r6 ×6 · r10 ×6 · r20 ×5 · r4 ×5 |
