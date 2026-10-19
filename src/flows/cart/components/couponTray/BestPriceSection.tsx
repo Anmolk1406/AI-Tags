@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { Lottie, MaskIcon } from '../../../../components';
 import { useReduceMotion } from '../../../../motion/recipes';
 import dots from '@assets/cart/coupon-tray/coupon-tray-best-price-dots.webp';
-import plus from '@assets/cart/coupon-tray/plus.svg';
+import plus from '@assets/cart/plus.svg';
 import bestPriceLottie from '@assets/cart/coupon-tray/coupon-tray-best-price-en.lottie';
 import type { CouponTray } from '../../data.couponTray';
 import { couponTrayMotion as M } from '../../tokens';

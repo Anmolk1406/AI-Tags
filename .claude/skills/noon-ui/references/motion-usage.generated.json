@@ -30,11 +30,11 @@
     "results-fade": 1
   },
   "purpose": {
-    "press · Pressable": 229,
+    "press · Pressable": 227,
     "layout · layout / layoutId": 21,
     "loading · Spinner": 36,
     "enter/exit · AnimatePresence": 98,
-    "enter · initial→animate": 163,
+    "enter · initial→animate": 161,
     "loading · Skeleton": 112,
     "autoplay · setInterval": 7,
     "drag · drag= / useDragControls": 12,
@@ -78,10 +78,10 @@
     "handoff.easeInOut": 8,
     "supermall.springs.return": 1,
     "handoff.travel": 8,
-    "handoff.spring": 12,
-    "handoff.stagger.in": 6,
-    "handoff.fade.out": 4,
-    "handoff.easeOut": 4,
+    "handoff.spring": 10,
+    "handoff.stagger.in": 4,
+    "handoff.fade.out": 3,
+    "handoff.easeOut": 3,
     "duration.slower": 1,
     "duration.medium": 4,
     "supermall.ease.soft": 8,
@@ -130,7 +130,7 @@
     "0.25s": 21,
     "0.2s": 21,
     "3s": 1,
-    "0.2s (css)": 13,
+    "0.2s (css)": 11,
     "0.15s (css)": 21,
     "0.45s": 4,
     "0.15s": 15,
@@ -208,7 +208,7 @@
     "delay i × 0.08s": 1
   },
   "css": {
-    "transition": 32,
+    "transition": 31,
     "animation": 3,
     "keyframes": 3
   },
@@ -656,9 +656,9 @@
         }
       },
       "purpose": {
-        "press · Pressable": 15,
+        "press · Pressable": 13,
         "enter/exit · AnimatePresence": 1,
-        "enter · initial→animate": 6,
+        "enter · initial→animate": 4,
         "recipe · SkeletonReveal": 1,
         "layout · layout / layoutId": 1,
         "imperative · animate() / useAnimate": 21,
@@ -667,10 +667,10 @@
         "haptics": 2,
         "loading · Skeleton": 6
       },
-      "presets": 44,
+      "presets": 38,
       "raw": 12,
       "css": {
-        "transition": 1,
+        "transition": 0,
         "animation": 0,
         "keyframes": 0
       }

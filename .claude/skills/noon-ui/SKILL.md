@@ -1,6 +1,6 @@
 ---
 name: noon-ui
-description: Build noon app screens and whole clickable flows with the @noon/flow-kit UI kit — noon design tokens, central components, assets, motion and the ready-made flows ported from the real noon app. Use this whenever someone asks to build, design, prototype, mock or restyle any noon page, screen or flow ("build a loyalty page", "make a referral screen", "new checkout step", "update orders to match this screenshot"), or shares a reference (Figma, screenshot, competitor app, sketch) to rebuild in noon's design language, even if they never say "flow kit". It routes to a screen skill (/home-page, /search, /cart, /checkout, /pdp, /orders, /returns, /reviews, /account, /noon-one) when one exists. Works inside the flow-kit repo (one folder per flow in src/flows).
+description: Build noon app screens and whole clickable flows with the noon-kit UI kit — noon design tokens, central components, assets, motion and the ready-made flows ported from the real noon app. Use this whenever someone asks to build, design, prototype, mock or restyle any noon page, screen or flow ("build a loyalty page", "make a referral screen", "new checkout step", "update orders to match this screenshot"), or shares a reference (Figma, screenshot, competitor app, sketch) to rebuild in noon's design language, even if they never say "flow kit". It routes to a screen skill (/home-page, /search, /cart, /checkout, /pdp, /orders, /returns, /reviews, /account, /noon-one) when one exists. Works inside the flow-kit repo (one folder per flow in src/flows).
 ---
 
 <!-- planned: pdp/oos, home/campaign -->
@@ -10,6 +10,10 @@ description: Build noon app screens and whole clickable flows with the @noon/flo
 This skill turns "I want to build a <flow> page" into a finished, clickable noon flow in this repo: every screen wrapped in `Screen`, styled only with `--nk-*` tokens, built from the central components and real assets, moving with the kit's transitions and recipes, registered at a URL in the dev preview, and checked visually. When the user shares a reference, you take its **structure and intent** and rebuild it in noon's language; you never copy its colours, fonts or spacing.
 
 The kit ships a catalogue of flows and screens ported 1:1 from bappzaar (the noon React Native app) and the noon Figma files. The exact counts, and which flows have a spec, a brief or only a blueprint, are in the generated `.claude/resources/inventory.md` (`npm run resources:build`); that file is authoritative, so quote it instead of typing numbers. The flows are the quality bar and your first source: open the closest flow before you write anything.
+
+## Outside the kit repo: install `noon-kit`
+
+When the working directory isn't the flow-kit repo (no `src/flows/`), the kit comes from npm: `npm i noon-kit react@19 react-dom@19`, import `noon-kit/style.css` once, render `<NoonPrototype flows={[…]}>` at the root, and add the new screens as a `defineFlow` next to the kit's flows. Imports change from relative paths to the package (`'../../components'` → `'noon-kit/components'`, tokens → `'noon-kit/tokens'`, data and `currency` → `'noon-kit/data'`); every house rule below still applies. The worked example is in the README section "Build with noon-kit in any project". Repo-only tooling (`npm run brain`, `lint:tokens`, `check:routes`, `new-flow`) isn't in the package, so check tokens and icons by hand against `references/tokens.md` and `references/icons.md`.
 
 ## How the skills fit together
 

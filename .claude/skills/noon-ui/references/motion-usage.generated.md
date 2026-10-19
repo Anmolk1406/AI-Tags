@@ -45,8 +45,8 @@ Occurrences in flow code (JSX elements, props or calls).
 
 | Purpose · mechanism | Uses | Flows |
 |---|---|---|
-| press · Pressable | 229 | 16 of 19 |
-| enter · initial→animate | 163 | 17 of 19 |
+| press · Pressable | 227 | 16 of 19 |
+| enter · initial→animate | 161 | 17 of 19 |
 | scroll-linked · useScroll / useTransform | 113 | 12 of 19 |
 | loading · Skeleton | 112 | 10 of 19 |
 | enter/exit · AnimatePresence | 98 | 16 of 19 |
@@ -90,7 +90,7 @@ Shared components that move on their own (counted under `(components)`, not abov
 
 ## 4. Where timing comes from
 
-Preset references in flow code: **251**. Raw timing literals (duration / spring / ease / stagger written inline): **287**. CSS: 32 `transition`, 3 `animation`, 3 `@keyframes`.
+Preset references in flow code: **245**. Raw timing literals (duration / spring / ease / stagger written inline): **287**. CSS: 31 `transition`, 3 `animation`, 3 `@keyframes`.
 
 | Flow | Preset refs | Raw literals | CSS transition / animation / keyframes |
 |---|---|---|---|
@@ -108,7 +108,7 @@ Preset references in flow code: **251**. Raw timing literals (duration / spring 
 | noonone | 3 | 29 | 0 / 0 / 0 |
 | orders | 33 | 2 | 1 / 0 / 0 |
 | pdp | 16 | 13 | 2 / 3 / 2 |
-| plp | 44 | 12 | 1 / 0 / 0 |
+| plp | 38 | 12 | 0 / 0 / 0 |
 | returns | 12 | 8 | 0 / 0 / 0 |
 | reviews | 67 | 11 | 0 / 0 / 0 |
 | search | 24 | 7 | 0 / 0 / 0 |
@@ -124,14 +124,13 @@ Preset references in flow code: **251**. Raw timing literals (duration / spring 
 | `spring.press` | 12 | checkout, pdp, reviews |
 | `pressScale` | 12 | membership, noonone, returns, reviews |
 | `spring.bouncy` | 12 | orders, pdp, reviews |
-| `handoff.spring` | 12 | orders, plp, search |
 | `spring.gentle` | 11 | account, pdp, reviews |
+| `handoff.spring` | 10 | orders, plp, search |
 | `easing.ios` | 10 | plp, reviews |
 | `handoff.easeInOut` | 8 | orders, plp, search |
 | `handoff.travel` | 8 | orders, search |
 | `supermall.ease.soft` | 8 | orders, reviews |
 | `handoff.fade.io` | 7 | orders, plp, search |
-| `handoff.stagger.in` | 6 | orders, plp |
 | `spring.fold` | 6 | reviews |
 | `spring.snappy` | 5 | reviews |
 | `easing.inOut` | 4 | address, checkout |
@@ -140,11 +139,12 @@ Preset references in flow code: **251**. Raw timing literals (duration / spring 
 | `tween(fast, out)` | 4 | home, pdp |
 | `appleSpring` | 4 | home, orders |
 | `supermall.reveal.delay` | 4 | orders |
-| `handoff.fade.out` | 4 | orders, plp, search |
-| `handoff.easeOut` | 4 | orders, plp, search |
+| `handoff.stagger.in` | 4 | orders, plp |
 | `duration.medium` | 4 | orders, plp, reviews |
 | `handoff.io` | 4 | plp |
 | `tween(medium, out)` | 3 | home, pdp |
+| `handoff.fade.out` | 3 | orders, search |
+| `handoff.easeOut` | 3 | orders, search |
 | `handoff.fade.reveal` | 3 | plp |
 | `handoff.springs.pop` | 3 | plp |
 | `supermall.swap.fill` | 3 | reviews |
@@ -160,8 +160,8 @@ Preset references in flow code: **251**. Raw timing literals (duration / spring 
 | 0.2s | 21 |  |
 | 0.15s (css) | 21 | `duration.fast` |
 | 0.15s | 15 | `duration.fast` |
-| 0.2s (css) | 13 |  |
 | 0s | 12 |  |
+| 0.2s (css) | 11 |  |
 | 0.35s | 10 |  |
 | 0.5s | 9 |  |
 | 1.2s | 6 |  |

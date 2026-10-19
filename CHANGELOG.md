@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `@noon/flow-kit`. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versions follow [semver](https://semver.org/).
+All notable changes to `noon-kit`. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versions follow [semver](https://semver.org/).
 
 ## [Unreleased]
 
@@ -43,7 +43,9 @@ All notable changes to `@noon/flow-kit`. Format: [Keep a Changelog](https://keep
 - Reduced motion handled kit-wide from one switch: screen transitions cross-fade and sheets fade in place (`reducedTransition`), CSS animations jump to their end state under `data-nk-motion="reduce"` (`.nk-motion-keep` opts out), Spinner pulses instead of turning, Skeleton is still, Lottie holds a representative frame and still calls `onComplete` on time, carousels, tickers and loops stop. New `useReduceMotion()` (`src/motion/recipes`), `Lottie` prop `reducedMotionFrame`, `useLottieReducedMotion`; skill reference `noon-ui/references/motion-matrix.md` and motion.md §7 (reduced motion + motion checklist).
 
 ### Changed
--- Demo user `credits` is now 248.50 (the noon Credits balance; the account row reads `useDemoStore().credits`).
+
+- The npm package is now `noon-kit` (was `@noon/flow-kit`): `npm install noon-kit`, then import from `noon-kit`, `noon-kit/components`, `noon-kit/tokens`, `noon-kit/data`, `noon-kit/flows` and `noon-kit/style.css`.
+- Demo user `credits` is now 248.50 (the noon Credits balance; the account row reads `useDemoStore().credits`).
 - `checkout/provider-burn` and `provider-burn-otp` take `plx: 'page_wallet'`: opened from the noon Credits top-up, Redeem credits the balance and closes back to the wallet.
 - A sheet covered by another sheet is now `inert` (out of the tab order and the accessibility tree), like a covered screen.
  Smoother interactions across the kit (measured with `npm run perf`, 4× CPU slowdown): pushes no longer animate a full-screen `filter: brightness()` (covered screens darken through a compositor-only `underDim` layer); a screen fully behind an opaque screen stops rendering once the transition settles (`content-visibility: hidden`); the device shadow is a layer behind the squircle instead of a `drop-shadow` filter on the whole phone; the tab bar writes `--nk-tab-hide` on its followers (`[data-tab]`) instead of the screen root; auto-rotating content (search placeholder, hero / Eid carousels, promo ticker, deal timers, cart USPs and cobrand cards, PDP nudges and USP tickers, orders image stack, coupon countdown) runs on `useInterval` / `useStepTimeout`, which pause while the screen is covered or the tab hidden, and PLP card nudges tick only while on screen; the idle filter-pill Lottie is frozen between attention passes; faded skeletons (`SkeletonReveal`, `RevealChip`) leave the DOM; `useDemoStore(selector)` re-renders per-card consumers (`WishlistHeart`, `QuickAdd`, `SkuCard`, tab-bar badge) only when their slice changes; `CartScreen` and `Header` no longer read the stack in render; the PLP grid cells drop `layout="position"`. Long pages mount in two beats with `Deferred` (PDP below the delivery card, Deals after the first rail, home feed after module 3). Flows declare hand-off screens in `FlowDef.preload`; the Navigator fetches a flow's screens and hand-offs in idle time when one mounts. Results: every tab root steady at rest (0 dropped frames, was up to 18); results page, cart, checkout and account scroll with 0–2 dropped frames (was 19–29); tab switches to Home / Deals settle in ≤ 83 ms worst frame (was 150–233); opening a PDP 250 ms worst (was 333).

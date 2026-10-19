@@ -57,7 +57,7 @@ initial `plp/listing` · group Shopping
 
 - docs: `src/flows/plp/MAPPING.md`
 - state / helpers: `scrollStates.ts`, `store.ts`
-- components/: BrandWidget, CatalogListHeader, CatalogNavPill, IphoneRoster, MarketplaceStrip, NavPills, SkeletonCard
+- components/: BrandWidget, CatalogListHeader, CatalogNavPill, MarketplaceStrip, NavPills, SkeletonCard
 
 | Route | Title | Presentation | URL | Truth | Verified | Source |
 |---|---|---|---|---|---|---|

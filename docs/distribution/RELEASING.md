@@ -7,7 +7,7 @@ The noon Flow Kit ships its design knowledge three ways, all built from one sour
 | `plugins/noon-ui/` + `.claude-plugin/marketplace.json` | `npm run release:build` | Claude Code (GitHub marketplace) and, via `plugins/noon-ui/skills/`, any agent that reads Agent Skills |
 | `dist-plugin/noon-ui-<version>.zip` | `npm run release:zip` | uploading the whole plugin in the Claude app (Your plugins → Upload local plugin); manifest at the archive root |
 | `dist-skills/<skill>.zip` | `npm run skills:package` | uploading single skills to the Claude app (Settings → Skills) |
-| `@noon/flow-kit` npm package (`dist-lib/`) | `npm run build:lib` | the React kit itself |
+| `noon-kit` npm package (`dist-lib/`) | `npm run build:lib` | the React kit itself |
 
 **Source of truth:** `.claude/skills/` (skills) and `.claude/resources/` (brain map, briefs, indexes). Never edit `plugins/noon-ui/` or the marketplace file by hand: `npm run release:check` (in CI) fails when they don't match a fresh build. `npm run resources:build` rebuilds the brain map **and** the plugin, so the usual "edit a skill → `resources:build` → `skill:check`" loop keeps it current.
 

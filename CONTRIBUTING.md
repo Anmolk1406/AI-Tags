@@ -1,4 +1,4 @@
-# Contributing to @noon/flow-kit
+# Contributing to noon-kit
 
 Thanks for helping. The kit is useful only while it stays **faithful to the real noon app** and **consistent inside**, so every change follows the same few rules. AI assistants working in this repo follow the same rules via [CLAUDE.md](./CLAUDE.md).
 

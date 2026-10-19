@@ -5,7 +5,7 @@
 **flow:plp** · group Shopping · initial `plp/listing` · coverage spec
 
 - Docs: `../search/SKILL.md` · `../search/spec.md` · `resources/flows/plp.md` · `src/flows/plp/MAPPING.md`
-- Folder: `src/flows/plp/` · tokens `src/flows/plp/tokens.ts` (29 flow vars) · store `src/flows/plp/store.ts` <!-- count-ok -->
+- Folder: `src/flows/plp/` · tokens `src/flows/plp/tokens.ts` (14 flow vars) · store `src/flows/plp/store.ts` <!-- count-ok -->
 - Area data / token / helper files: scrollStates.ts, store.ts
 - Enters from: `cart/cart` → listing · `cart/couponTray` → listing · `cart/discount` → listing · `cart/empty` → listing · `cart/loading` → listing · `categories/categories` → listing · `categories/error` → listing · `categories/expanded` → listing · `categories/loading` → listing · `deals/deals` → listing · `home/classic` → listing · `home/home` → listing · `pdp/deliveryVariants` → listing · `pdp/detail` → listing · `search/search` → listing, filters, sort · `search/suggestions` → listing, filters, sort
 - Exits to: `pdp/detail` (from listing) · `pdp/variants` (from listing) · `search/search` (from listing)
@@ -30,8 +30,8 @@
 - Flow components: `CatalogListHeader`, `CatalogNavPill`, `MarketplaceStrip`, `RevealChip`, `SkeletonCard`
 - Tokens (42): colors 7 · flow:plp 2 · layout 1 · local 2 · palette 16 · pill 1 · radius 2 · spacing 7 · type 4
 - Motion: `haptics`, `preset/duration.fast`, `preset/duration.medium`, `preset/handoff.easeInOut`, `preset/handoff.fade`, `preset/handoff.spring`, `preset/handoff.stagger`, `recipe/SkeletonReveal`, `reduced-motion`
-- Icons: — · assets 15
-- State / data: `store:plp`, `data:getProduct`, `data:leafName`, `data:phoneProducts`, `data:products`
+- Icons: — · assets 12
+- State / data: `store:plp`, `data:leafName`, `data:phoneProducts`, `data:products`
 - Nav out: push `pdp/detail` (via ProductBoxVertical) · sheet `pdp/variants` (via ProductCard) · sheet `plp/filters` · sheet `plp/sort` · push `search/search`
 - `listing`: in ← `cart/cart`, `cart/couponTray`, `cart/discount`, `cart/empty`, `cart/loading`, `categories/categories`, `categories/error`, `categories/expanded`, `categories/loading`, `deals/deals`, `home/classic`, `home/home`, `pdp/deliveryVariants`, `pdp/detail`, `search/search`, `search/suggestions` · tests `test:journey/pdp-add-to-cart`, `test:journey/plp-filter`, `test:journey/plp-filter-sheet`, `test:journey/plp-sort-sheet`, `test:journey/search-to-plp`, `test:journey/sheet-dismiss`, `test:visual/plp-filters` · docs `resources/flows/search.md:24-38`, `../search/spec.md:6-16`, `../search/spec.md:30-43`, `../search/spec.md:114-125`, `resources/flows/categories.md:7-16`, `resources/flows/categories.md:32-49`, `resources/flows/categories.md:50-59`, `resources/flows/categories.md:60-74`, `src/flows/categories/MAPPING.md:209-215`, `resources/flows/other-flows.md:59-65`, `resources/flows/plp.md:5-12`, `resources/flows/plp.md:13-39`, `src/flows/plp/MAPPING.md:3-37`, `src/flows/pdp/FIGMA-MAPPING.md:87-100`, `src/flows/pdp/MAPPING.md:522-551`, `resources/flows/cart.md:29-54`, `../cart/spec.md:34-50`, `../cart/spec.md:62-74`, `../cart/spec.md:95-112`
 
@@ -45,8 +45,8 @@
 - Flow components: —
 - Tokens (57): colors 15 · flow:plp 7 · layout 1 · palette 8 · radius 8 · spacing 9 · type 9
 - Motion: `reduced-motion`
-- Icons: `arrow-left`, `chevron-down`, `cross-circle-filled`, `search`, `star-filled` · assets 4
-- State / data: `store:plp`, `data:getProduct`, `data:leafName`, `data:phoneProducts`, `data:products`
+- Icons: `arrow-left`, `chevron-down`, `cross-circle-filled`, `search`, `star-filled` · assets 1
+- State / data: `store:plp`, `data:leafName`, `data:phoneProducts`, `data:products`
 - `filters`: in ← `plp/listing`, `search/search`, `search/suggestions` · tests `test:journey/plp-filter`, `test:journey/plp-filter-sheet`, `test:journey/plp-sort-sheet`, `test:journey/sheet-dismiss` · docs `../search/spec.md:6-16`, `../search/spec.md:44-50`, `resources/flows/plp.md:5-12`
 
 ## `plp/sort`
@@ -57,6 +57,5 @@
 - Shared components: `Pressable`, `Text`
 - Flow components: —
 - Tokens (5): colors 4 · type 1
-- Icons: — · assets 3
-- State / data: `store:plp`, `data:getProduct`, `data:leafName`, `data:phoneProducts`, `data:products`
+- State / data: `store:plp`, `data:leafName`, `data:phoneProducts`, `data:products`
 - `sort`: in ← `plp/listing`, `search/search`, `search/suggestions` · tests `test:journey/plp-sort-sheet`, `test:journey/sheet-dismiss` · docs `../search/spec.md:6-16`, `../search/spec.md:44-50`, `resources/flows/plp.md:5-12`

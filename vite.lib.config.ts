@@ -4,13 +4,13 @@ import { readdirSync } from 'node:fs';
 import { fileURLToPath, URL } from 'node:url';
 
 /**
- * Library build: lets any React repo `import { NoonPrototype, homeFlow, Button } from '@noon/flow-kit'`.
+ * Library build: lets any React repo `import { NoonPrototype, homeFlow, Button } from 'noon-kit'`.
  *
  * Not Vite "lib mode" on purpose — lib mode base64-inlines every asset (hero images, lotties, fonts) into the
  * JS, which made the package ~23 MB. This is a plain ES build instead:
  * - one module per source file (preserveModules) so consumers tree-shake flows/components they don't import;
  * - assets emitted as files and referenced with `new URL('./x', import.meta.url)` (resolved by Vite / webpack 5);
- * - all CSS in one `noon-flow-kit.css` (exported as `@noon/flow-kit/style.css`).
+ * - all CSS in one `noon-flow-kit.css` (exported as `noon-kit/style.css`).
  */
 export default defineConfig({
   plugins: [react()],

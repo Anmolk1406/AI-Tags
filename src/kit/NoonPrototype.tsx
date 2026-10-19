@@ -38,8 +38,8 @@ export interface NoonPrototypeProps {
 /**
  * Drop-in prototype player. In any React app:
  *
- *   import { NoonPrototype, homeFlow, plpFlow, pdpFlow, cartFlow } from '@noon/flow-kit';
- *   import '@noon/flow-kit/style.css';
+ *   import { NoonPrototype, homeFlow, plpFlow, pdpFlow, cartFlow } from 'noon-kit';
+ *   import 'noon-kit/style.css';
  *   <NoonPrototype flows={[homeFlow, plpFlow, pdpFlow, cartFlow]} initialRoute="home/home" />
  */
 export function NoonPrototype({ flows, initialRoute, initialParams, frame = true, scale = 1, rtl, tokens, emptyCart, reducedMotion = 'user', onRouteChange, resetSignal }: NoonPrototypeProps) {

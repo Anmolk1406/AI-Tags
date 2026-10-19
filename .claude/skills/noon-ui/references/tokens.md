@@ -53,7 +53,7 @@ CSS modules (preferred for layout and styling):
 TSX:
 
 ```tsx
-import { ref, spacing, layout } from '../../foundations/tokens'; // package: '@noon/flow-kit' or '@noon/flow-kit/tokens'
+import { ref, spacing, layout } from '../../foundations/tokens'; // package: 'noon-kit' or 'noon-kit/tokens'
 <Text variant="titleSmall" color="textStrong">Title</Text>            // font: var(--nk-type-title-small); color: var(--nk-color-text-strong)
 <div style={{ background: ref.color('bgPage'), padding: ref.space('s16'), borderRadius: ref.radius('r12') }} />
 const w = layout.deviceWidth / 2.5;                                     // raw numbers when doing maths

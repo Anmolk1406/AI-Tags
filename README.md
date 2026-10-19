@@ -1,6 +1,14 @@
-# @noon/flow-kit
+# noon-kit
+
+[![npm](https://img.shields.io/npm/v/noon-kit)](https://www.npmjs.com/package/noon-kit)
 
 The noon app as a **React UI kit for clickable prototypes**. It has noon's design tokens, a component library, a motion system and **19 ready-made flows (173 screens)** ported from **bappzaar** (the noon React Native app) and the noon Figma files.
+
+```bash
+npm i noon-kit
+```
+
+Building with an AI agent (Claude Code, Cursor, Codex…) in another project? Tell it to read [Build with noon-kit in any project](#build-with-noon-kit-in-any-project).
 
 <table>
   <tr>
@@ -188,12 +196,12 @@ An uploaded plugin does not update itself: upload the zip of each new version. I
 ## Use it as a package
 
 ```bash
-npm install @noon/flow-kit react react-dom
+npm install noon-kit react react-dom
 ```
 
 ```tsx
-import { NoonPrototype, homeFlow, pdpFlow, cartFlow, checkoutFlow } from '@noon/flow-kit';
-import '@noon/flow-kit/style.css';
+import { NoonPrototype, homeFlow, pdpFlow, cartFlow, checkoutFlow } from 'noon-kit';
+import 'noon-kit/style.css';
 
 export default function Demo() {
   return <NoonPrototype flows={[homeFlow, pdpFlow, cartFlow, checkoutFlow]} initialRoute="home/home" />;
@@ -204,15 +212,69 @@ export default function Demo() {
 
 | Import | What it is |
 |---|---|
-| `@noon/flow-kit` | Everything below, plus `NoonPrototype`, `Navigator` / `useNav`, `DemoStore`, `PhoneFrame`, motion presets and recipes, mocks |
-| `@noon/flow-kit/components` | The component library only: Button (+ NoonButton presets), Text, Screen, Header, SearchBar, ProductCard, Price, Tag, Switch, Checkbox, Spinner, Toast, HtmlText, Divider, OriginIcon, Lottie… |
-| `@noon/flow-kit/tokens` | Design tokens as data: `colors`, `palette`, `spacing`, `radius`, `type`, `shadow`, `layout`, component tokens, `ref.*` helpers |
-| `@noon/flow-kit/data` | Shared mock data (products, catalogue) |
-| `@noon/flow-kit/flows` | `allFlows` and every flow definition |
-| `@noon/flow-kit/flows/<id>` | One flow, e.g. `@noon/flow-kit/flows/checkout` (smallest bundle) |
-| `@noon/flow-kit/style.css` | All kit CSS (tokens as CSS variables, fonts, component and flow styles). Import once. |
+| `noon-kit` | Everything below, plus `NoonPrototype`, `Navigator` / `useNav`, `DemoStore`, `PhoneFrame`, motion presets and recipes, mocks |
+| `noon-kit/components` | The component library only: Button (+ NoonButton presets), Text, Screen, Header, SearchBar, ProductCard, Price, Tag, Switch, Checkbox, Spinner, Toast, HtmlText, Divider, OriginIcon, Lottie… |
+| `noon-kit/tokens` | Design tokens as data: `colors`, `palette`, `spacing`, `radius`, `type`, `shadow`, `layout`, component tokens, `ref.*` helpers |
+| `noon-kit/data` | Shared mock data (products, catalogue) |
+| `noon-kit/flows` | `allFlows` and every flow definition |
+| `noon-kit/flows/<id>` | One flow, e.g. `noon-kit/flows/checkout` (smallest bundle) |
+| `noon-kit/style.css` | All kit CSS (tokens as CSS variables, fonts, component and flow styles). Import once. |
 
 The package is ESM with one module per source file and `sideEffects` set, so bundlers only include what you import. Images, Lotties and fonts load on demand.
+
+### Build with noon-kit in any project
+
+These steps are written for AI coding agents as much as for people. Follow them in order to build noon UI in a React project outside this repo.
+
+1. **Install.** `npm i noon-kit react@19 react-dom@19`. A new project can start from `npm create vite@latest my-demo -- --template react-ts`.
+2. **Import the CSS once** at the entry point: `import 'noon-kit/style.css';`.
+3. **Render `NoonPrototype`** at the root. It draws the phone frame, the navigator, the tab bar and the shared demo state (cart, wishlist, membership).
+4. **Add your own screens as a flow** next to the kit's flows. Each screen is a `<Screen header footer>`, built only from `noon-kit/components`:
+
+```tsx
+import { createRoot } from 'react-dom/client';
+import { NoonPrototype, defineFlow, useNav, homeFlow, pdpFlow, cartFlow } from 'noon-kit';
+import { Screen, Header, Text, ActionBar } from 'noon-kit/components';
+import { currency } from 'noon-kit/data';
+import 'noon-kit/style.css';
+
+function ReferralScreen() {
+  const nav = useNav();
+  return (
+    <Screen
+      padded
+      gap={8}
+      header={<Header title="Refer a friend" />}
+      footer={<ActionBar primary={{ label: 'Share invite', onPress: () => nav.push('cart') }} />}
+    >
+      <Text as="h1" variant="titleLarge">Give {currency} 50, get {currency} 50</Text>
+      <Text as="p" color="textSecondary">Your friend gets {currency} 50 off their first order.</Text>
+    </Screen>
+  );
+}
+
+const referralFlow = defineFlow({
+  id: 'referral',
+  title: 'Refer a friend',
+  initial: 'invite',
+  screens: [{ id: 'invite', title: 'Invite', component: ReferralScreen }],
+});
+
+createRoot(document.getElementById('root')!).render(
+  <NoonPrototype flows={[referralFlow, homeFlow, pdpFlow, cartFlow]} initialRoute="referral/invite" />,
+);
+```
+
+**Rules for agents.**
+
+- **Reuse, don't invent.** Use the components in `noon-kit/components` (`Screen`, `Header`, `Text`, `Button`, `ActionBar`, `ProductCard`, `SearchBar`, `Tag`, `Switch`, `Checkbox`, `Toast`, `Skeleton`, `EmptyState`, `OriginIcon`…). Don't hand-roll a pill, chip, card, tab, button or sheet when one exists. Their props are in the package's `.d.ts` files (`node_modules/noon-kit/dist-lib/components/<Name>/<Name>.d.ts`).
+- **Tokens only.** In CSS use the variables from `style.css`: `var(--nk-color-*)`, `var(--nk-space-s12)`, `var(--nk-radius-r16)`, `var(--nk-type-*)`. In TSX use `<Text variant color>`. Never hardcode a hex, font or spacing value that has a token. The full list is in `noon-kit/tokens` (`colors`, `spacing`, `radius`, `type`).
+- **Icons** come from `<OriginIcon name>`. Pick the closest existing icon, and never draw one as an inline `<svg>`.
+- **Prices** use the dirham sign `currency` from `noon-kit/data`, never the text "AED". Products and categories also come from `noon-kit/data`, so don't invent product data.
+- **Navigation** is `useNav()`: `push`, `sheet`, `back`, `replace`, `switchTab`, `toast`. Routes are `flow/screen` (`'cart'`, `'pdp/detail'`, `'referral/invite'`).
+- **Start from the closest kit flow.** `homeFlow`, `plpFlow`, `pdpFlow`, `cartFlow`, `checkoutFlow`, `ordersFlow`, `accountFlow`… are exported from `noon-kit` (or `noon-kit/flows/<id>`). Link into them rather than rebuilding them.
+
+For the full design-system guidance (screen recipes, sheets, motion, the craft checklist), install the [noon-ui skills](#build-screens-with-ai) alongside the package.
 
 **Navigation.** Screens are addressed as `flow/screen`; friendly names live in `src/kit/routes.ts`:
 

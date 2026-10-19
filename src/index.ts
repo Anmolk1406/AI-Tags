@@ -1,8 +1,8 @@
 /**
- * @noon/flow-kit — public API.
+ * noon-kit — public API.
  *
- *   import { NoonPrototype, allFlows } from '@noon/flow-kit';
- *   import '@noon/flow-kit/style.css';
+ *   import { NoonPrototype, allFlows } from 'noon-kit';
+ *   import 'noon-kit/style.css';
  */
 export { NoonPrototype, type NoonPrototypeProps } from './kit/NoonPrototype';
 export { Navigator, useNav, useIsTop, useScreenActive, useParams, TAB_ROUTES, type NavApi } from './kit/Navigator';

@@ -4,6 +4,7 @@ Changes to the noon-ui skill and its screen skills. Add a line whenever a refere
 
 ## Unreleased
 
+- SKILL.md "Outside the kit repo: install `noon-kit`": in another project the kit comes from npm (`npm i noon-kit`), imports switch to `noon-kit/*`, house rules unchanged. README "Build with noon-kit in any project" carries the worked example and the rules for agents.
 - icons.md (and its generator header), design-rules.md system-icon row, CLAUDE.md: every icon need is met from the Origin catalogue with the closest existing icon, swapped only when asked; never a hand-drawn inline SVG glyph.
 - noon Credits (`credits` flow): flows.md catalogue entry, the DemoStore `credits` / `addCredits` rows, screen-recipes §6 "Gorhom sheets" (`sheet: { layout: 'gorhom' }`), tokens.md `sheet.gorhom*`, brief in resources/flows/other-flows.md.
 - motion.md §6 "Smoothness rules": transitions on transform/opacity only (`underDim`), covered screens stop rendering, `useInterval` / `useStepTimeout` for auto-rotating content, `Deferred` for long pages, store selectors per card, no stack reads in render, skeletons leave the DOM, `--nk-tab-hide` on followers, `FlowDef.preload`. tooling.md: `npm run perf`.

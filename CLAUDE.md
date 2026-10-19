@@ -1,6 +1,6 @@
 # noon Flow Kit: conventions for AI-assisted edits
 
-This is a Vite + React 19 + TypeScript prototype kit for noon app demos, published as the npm package `@noon/flow-kit`. It is not production code and it is not bappzaar. Human contributors follow [CONTRIBUTING.md](./CONTRIBUTING.md); the same rules apply to you.
+This is a Vite + React 19 + TypeScript prototype kit for noon app demos, published as the npm package `noon-kit`. It is not production code and it is not bappzaar. Human contributors follow [CONTRIBUTING.md](./CONTRIBUTING.md); the same rules apply to you.
 
 - **Tokens first.** Colours, spacing, radius and type live in `src/foundations/tokens.ts` (raw palette in `palette.ts`). In CSS use `var(--nk-color-<kebab>)`, `var(--nk-space-s12)`, `var(--nk-radius-r16)`, `var(--nk-type-<kebab>)` (font shorthand). In TSX use `<Text variant color>`. Don't hardcode a hex that already exists as a token.
 - **Reuse central components** from `src/components` (import from `'../../components'`): `Button` (incl. NoonButton presets `noon`/`noonSecondary`/`noonGhost`/`noonDotted`, `loading`, `titleCase`), `Spinner`, `Switch`, `Checkbox`, `HtmlText` (server-HTML tags), `Toast` (self-dismissing host), `Divider`/`DashedDivider`/`DottedDivider`, `MaskIcon`, `Skeleton`…; flow-local stores use `createStore` (`src/kit/createStore.ts`). Put flow-only components in `src/flows/<flow>/components/`.

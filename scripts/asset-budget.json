@@ -5,7 +5,7 @@
   "minEdge": 96,
   "psnrMin": 37,
   "allow": {
-    "src/assets/categories/ad-pre-search-banner.webp": "animated pre-search banner (90 frames, 740\u00d780) \u2014 already re-encoded lossy; fewer frames would change the animation"
+    "src/assets/categories/ad-pre-search-banner.webp": "animated pre-search banner (90 frames, 740×80) — already re-encoded lossy; fewer frames would change the animation"
   },
   "skip": {},
   "duplicates": [
@@ -47,6 +47,13 @@
         "src/assets/returns/returns-camera.svg"
       ],
       "reason": "same glyph: the Origin icon library keeps its complete set (OriginIcon name=\"camera\"); the returns flow keeps its own bappzaar asset"
+    },
+    {
+      "files": [
+        "src/assets/icons/origin/delivery-box-info-circle-filled.svg",
+        "src/assets/icons/origin/noon-wallet-filled-v2.svg"
+      ],
+      "reason": "same glyph exported under two Origin names: the Origin icon library keeps its complete set (OriginIcon name=\"delivery-box-info-circle-filled\" / \"noon-wallet-filled-v2\")"
     }
   ],
   "maxEdge": {
