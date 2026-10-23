@@ -4,7 +4,18 @@ All notable changes to `@noon/flow-kit`. Format: [Keep a Changelog](https://keep
 
 ## [Unreleased]
 
+- Yellow Friday × Orbi flow (`/yellow-friday`): a personalised deal journey — signal-led landing, interests sheet, swipe reveal with reasons and price watch, budget-aware bundle builder with swap / surprise me, and the lineup payoff with bonus and share.
+
 ### Added
+
+- noon motion standard in the kit: `src/motion/noonMotion.ts` (`noonSpring` library with the ProtoPie-measured `noon` spring 280.6 / 27.14, `noonEase`, `noonDuration`, `noonStagger`, `noonFollow`, `noonTravel`, `noonPress`, `noonPush`, `noonSheet`, `noonTransition`, `protoPieSpring(T, F)`, WAAPI helpers `springMove` / `fadeTo` / `staggerIn` / `staggerOut` / `stopMotion` / `springAt` / `settleTime` / `springLinear`, and the opt-in `nativeHaptic()` engine) and `src/motion/noonMotion.css` (`--nk-motion-*`, `.nk-motion-transition` / `-press` / `-shake`), exported from the package root. Existing presets, transitions and `<Stagger>` are unchanged.
+- Folder contract for flows: `index.ts` · `screens/` · `components/` · `tokens.ts` · `data.ts`, imports one way (screens → components → tokens / data, no reaching into another flow except its `components/entry/`). `npm run check:structure` (in `verify` and `skill:check`) enforces it for every flow not in `scripts/flow-baseline.json` → `legacyLayout`; `npm run new-flow` scaffolds it; the design guard blocks a new screen or component file at a flow root.
+- No custom colours: `lint:tokens` now fails a new flow on any raw colour / font literal (its `tokens.ts` included) and an older flow when its count rises above its `colourBudget` in `scripts/flow-baseline.json`; an explicitly requested colour is allowed with `// custom-color — <who asked, why>` and listed in a "custom" column. The design guard checks flow `tokens*.ts` too. The `new-flow` scaffold no longer seeds a hex gradient.
+- `npm run handoff -- <flow> [--base main]`: the change summary for a developer — routes, changed files grouped as Screens / Components / Tokens / Data / Routes / Docs / Assets / Shared, token keys added, custom colours, folder-contract status.
+
+### Changed
+
+- Flow token files: raw colours that exactly match a palette value now reference it (`var(--nk-palette-*)`) across the existing flows; values are unchanged.
 
 - noon Credits flow (`credits`, bappzaar `features/wallet` + the gift card redeem, 17 routes, `/credits`): balance with the expiring / negative banner, top-up (gift cards and vouchers, loyalty points through checkout's redeem sheets), transactions with filters, sort, period calendar, pending card and pagination, transaction details, and withdraw to bank (accounts, new account, confirm, OTP, requested). Account → noon Credits opens it.
 - `sheet: { layout: 'gorhom', radius, height }`: bappzaar's shared gorhom `BottomSheet` (full width, docked, top corners rounded, handle above, black 0.5 backdrop); tokens `sheet.gorhom*`.

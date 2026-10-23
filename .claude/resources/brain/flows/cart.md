@@ -7,7 +7,7 @@
 - Docs: `.claude/skills/cart/SKILL.md` · `.claude/skills/cart/spec.md` · `.claude/resources/flows/cart.md` · `src/flows/cart/FIGMA-MAPPING.md` · `src/flows/cart/components/couponTray/MAPPING.md`
 - Folder: `src/flows/cart/` · tokens `src/flows/cart/tokens.ts` (78 flow vars) <!-- count-ok -->
 - Area data / token / helper files: data.bundles.ts, data.couponTray.ts, data.variants.ts
-- Enters from: `pdp/added` → cart · `wishlist/empty` → cart · `wishlist/no-collections` → cart · `wishlist/wishlist` → cart
+- Enters from: `pdp/added` → cart · `wishlist/empty` → cart · `wishlist/no-collections` → cart · `wishlist/wishlist` → cart · `yellowFriday/payoff` → cart
 - Exits to: `address/select` (from cart, empty, loading) · `checkout/checkout` (from cart, empty, loading) · `noonone/cartOverlay` (from cart, empty, loading) · `noonone/landing` (from cart, empty, loading, couponTray) · `pdp/detail` (from cart, empty, loading, discount) · `pdp/variants` (from discount) · `plp/listing` (from cart, empty, loading, couponTray, discount) · `wishlist/wishlist` (from cart, empty, loading)
 
 ## Screens
@@ -34,12 +34,12 @@
 - Data / helpers: data.ts, invoice.ts, tokens.ts
 - Shared components: `GlassFade`, `HtmlText`, `Pressable`, `ProductImage`, `Screen`, `SkuCard`, `Spinner`, `Toast`
 - Flow components: `CartCarousel`, `CartFooter`, `CartGlassFooter`, `CartGroup`, `CartHeader`, `CartIcon`, `CartItem`, `CartSnackBar`, `CobrandCards`, `CouponInput`, `DiscountTags`, `DynamicInvoice`, `FreeGifts`, `GroupProgressBar`, `InactiveGroup`, `ItemPoint`, `NoonOneLogo`, `NoonOneNudge`, `PaymentOffers`, `QuantitySelector`, `SalesCallout`
-- Tokens (160): colors 27 · flow:cart 52 · fontFamily 1 · layout 1 · local 3 · palette 31 · radius 7 · spacing 12 · stepper 1 · tabBar 3 · type 22
+- Tokens (190): colors 27 · flow:cart 52 · fontFamily 1 · layout 1 · local 3 · palette 61 · radius 7 · spacing 12 · stepper 1 · tabBar 3 · type 22
 - Motion: `reduced-motion`
 - Icons: — · assets 73
 - State / data: `store:demo`, `store:membership`, `data:currency`, `data:discountPct`, `data:formatPrice`, `data:products`, `data:user`
 - Nav out: push `address/select` · sheet `cart/bundles` · sheet `cart/couponTray` · sheet `cart/customize` · sheet `cart/discount` · sheet `cart/updates` · sheet `cart/variants` · push `checkout/checkout` · push `noonone/cartOverlay` · push `noonone/landing` · push `pdp/detail` (via SkuCard) · push `plp/listing` · push `wishlist/wishlist`
-- `cart`: in ← `pdp/added`, `wishlist/empty`, `wishlist/no-collections`, `wishlist/wishlist` · tests `test:journey/back-direct-url`, `test:journey/cart-add-from-card`, `test:journey/cart-add-from-pdp`, `test:journey/cart-checkout`, `test:journey/cart-coupon`, `test:journey/cart-coupon-tray`, `test:journey/cart-empty-state`, `test:journey/cart-qty-totals`, `test:visual/cart-sticky-footer` · docs `.claude/resources/flows/cart.md:5-15`, `.claude/resources/flows/cart.md:55-62`, `.claude/skills/cart/spec.md:7-24`, `.claude/skills/cart/spec.md:140-152`, `.claude/resources/flows/checkout.md:5-25`, `.claude/skills/checkout/spec.md:6-38`, `.claude/skills/checkout/spec.md:39-46`
+- `cart`: in ← `pdp/added`, `wishlist/empty`, `wishlist/no-collections`, `wishlist/wishlist`, `yellowFriday/payoff` · tests `test:journey/back-direct-url`, `test:journey/cart-add-from-card`, `test:journey/cart-add-from-pdp`, `test:journey/cart-checkout`, `test:journey/cart-coupon`, `test:journey/cart-coupon-tray`, `test:journey/cart-empty-state`, `test:journey/cart-qty-totals`, `test:visual/cart-sticky-footer` · docs `.claude/resources/flows/cart.md:5-15`, `.claude/resources/flows/cart.md:55-62`, `.claude/skills/cart/spec.md:7-24`, `.claude/skills/cart/spec.md:140-152`, `.claude/resources/flows/checkout.md:5-25`, `.claude/skills/checkout/spec.md:6-38`, `.claude/skills/checkout/spec.md:39-46`
 - `empty`: tests `test:journey/cart-empty-param` · docs `.claude/resources/flows/cart.md:5-15`, `.claude/skills/cart/spec.md:7-24`, `.claude/skills/cart/spec.md:129-139`
 - `loading`: docs `.claude/resources/flows/cart.md:5-15`, `.claude/skills/cart/spec.md:7-24`, `.claude/skills/cart/spec.md:129-139`
 
@@ -78,7 +78,7 @@
 - Data / helpers: data.couponTray.ts, tokens.ts
 - Shared components: `Button`, `HtmlText`, `Lottie`, `MaskIcon`, `Pressable`, `Skeleton`
 - Flow components: `BestPriceSection`, `TiersProgressBar`, `TrayItem`, `TrayOffer`, `UnlockCriteria`
-- Tokens (68): colors 3 · flow:cart 18 · layout 1 · palette 22 · radius 7 · spacing 8 · type 9
+- Tokens (102): colors 3 · flow:cart 18 · layout 1 · palette 56 · radius 7 · spacing 8 · type 9
 - Motion: `reduced-motion`
 - Icons: — · assets 13
 - State / data: `store:demo`, `store:membership`, `data:currency`, `data:formatPrice`

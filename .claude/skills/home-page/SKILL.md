@@ -7,7 +7,7 @@ description: Build or restyle the noon home page and home-style landing pages (c
 
 Builds the noon home feed and any page that speaks its module language. Load `../noon-ui/SKILL.md` first if it isn't loaded: its workflow, house rules and design-system references apply here unchanged. This skill adds the home specification and the checks specific to it.
 
-For a new screen, a redesign or an open-ended idea, run the research-first design workflow before building: `../noon-ui/references/design-workflow.md` (size the request, research the repo and Mobbin per `../noon-ui/references/research.md`, clarify only blocking gaps, write the design direction, build with `../noon-ui/references/component-checklist.md`, validate). Its rules apply here unchanged; this skill's `spec.md` is the starting point for the design direction, and a port from bappzaar or Figma stays analyse → map → implement.
+Every request, whatever its size, runs the research-first design workflow before building: `../noon-ui/references/design-workflow.md` (size the request; research the repo, and **always Mobbin when it's connected**, per `../noon-ui/references/research.md`; **always ask the user clarifying questions and wait for the answers** (design-workflow D); write the design direction, build with `../noon-ui/references/component-checklist.md`, validate). Its rules apply here unchanged; this skill's `spec.md` is the starting point for the design direction, and a port from bappzaar or Figma stays analyse → map → implement.
 
 ## Sources
 

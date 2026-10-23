@@ -15,21 +15,22 @@ Flow and screen counts, and which flows have a screen skill (spec), only a brief
 
 ```
 src/flows/<id>/
-├── index.ts          export const <id>Flow = defineFlow({...})       (required)
-├── tokens.ts         <id>Tokens (JS consts, raw values allowed here) + <id>FlowTokens: TokenOverrides
+├── index.ts          export const <id>Flow = defineFlow({...})       (required, no JSX)
+├── screens/          <Name>Screen.tsx (sheets <Name>Sheet.tsx), one per route, + its .module.css (tokens only)
+├── components/       flow-only components; components/entry/ = parts other flows may embed
+├── tokens.ts         <id>Tokens (var(--nk-*) aliases + measurements; no custom colours) + <id>FlowTokens: TokenOverrides
 ├── data.ts           copy (`t` / `copy` objects) + mock content; may split: data.<area>.ts
 ├── store.ts          flow state via createStore (only if sheets/pushed screens share state)
-├── <Name>Screen.tsx  one component per screen; sheets often <Name>Sheet.tsx
-├── <id>.module.css   styles, tokens only (several modules per flow is normal)
-├── components/       flow-only components
 ├── transitions.ts    optional: registerTransition(...) for flow-specific screen transitions, imported by index.ts
 ├── assets.ts         optional: imports from src/assets/<id>/
 └── MAPPING.md        or FIGMA-MAPPING.md: source → kit value mapping
 ```
 
-Big flows split by area: `noonone/` uses `screens.<area>.ts` (arrays of `ScreenDef`) + `screens/` + `data.<area>.ts`; `membership/` uses sub-folders `plans/ cancel/ family/ perks/`, each with its own `screens.ts`.
+This is the folder contract (`SKILL.md` → "Folder contract", enforced by `npm run check:structure`). Imports run screens → components → tokens / data / store. Flows in `scripts/flow-baseline.json` → `legacyLayout` still keep their screens at the root; new screens in them go in `screens/`.
 
-Scaffold: `npm run new-flow -- <id camelCase> "Title" "Sidebar group"` creates `index.ts`, `tokens.ts`, `data.ts`, `<Name>Screen.tsx` (with `main` + `next` screens), `<id>.module.css`, `components/`, and registers the flow in `src/flows/index.ts`. The generated CSS contains raw px/rgba (footer shadow) — replace with tokens before lint.
+Big flows split by area inside the groups: `screens/<area>/`, `components/<area>/`, `screens.<area>.ts` (arrays of `ScreenDef`), `data.<area>.ts`, `tokens.<area>.ts` (`noonone/` is the model). `membership/`'s root sub-folders `plans/ cancel/ family/ perks/` predate the contract.
+
+Scaffold: `npm run new-flow -- <id camelCase> "Title" "Sidebar group"` creates `index.ts`, `tokens.ts`, `data.ts`, `DESIGN.md`, `screens/<Name>Screen.tsx` (with `main` + `next` screens and an Origin sheet), `screens/<id>.module.css`, `components/`, and registers the flow in `src/flows/index.ts`.
 
 ### `defineFlow(flow: FlowDef)` — `src/kit/registry.ts`, type in `src/kit/types.ts`
 
@@ -272,6 +273,24 @@ File: `DealsScreen.tsx` (118). Reuses `home/data` (`tileRows`, `savingsRows`) an
 | `deals` | Deals | `SearchBarButton` header; cashback strips rail, hero banners rail, category tile rows, `Rail`s of compact `ProductCard`s with "View All" + chevron ("Lowest prices of the year", "Apple bestsellers", "Mega deals", "Bestselling deals", "Trending deals"), savings rail, "Today's Offers & Deals" 2-col grid |
 
 Copy from here for: any offers/campaign page (strips → heroes → tiles → product rails → grid). Smallest complete feed example.
+
+### yellowFriday · Discovery · `landing` · parent `home/home`
+No screen skill; design record `src/flows/yellowFriday/DESIGN.md` (reference brief + Mobbin research). The first flow
+built in the folder contract: `screens/{Landing,Reveal,Build,Payoff}Screen.tsx`, `screens/InterestsSheet.tsx` (+ `SwapSheet`
+in `BuildScreen.tsx`), `components/{Orbi,Countdown}.tsx`, `data.ts` (`copy`, `interests`, `signals`, `picks`,
+`alternatives`), `store.ts` (`yfStore`: interests, saved / skipped / watched picks, budget, swaps; `lineupTotals`),
+`tokens.ts`. Page URLs `/yellow-friday`, `/yf`; preloads `pdp/detail` and `cart/cart`.
+
+| id | title | shows |
+|---|---|---|
+| `landing` | Your Yellow Friday, decoded | Orbi with the signal the picks come from ("Based on iPhone 17 Pro · Not me?"), `Countdown` refresh tiles, "Discover my deals" → `yellowFriday/interests`, "Skip to my picks" → `yellowFriday/reveal`; why-these-picks signals and the picks rail (`SkuCard`) |
+| `interests` | What are you into lately? | sheet: six interest cards, up to two selected ("Tech upgrades" pre-selected), "Show my picks" → reveal |
+| `reveal` | We connected the dots | one pick at a time with its reason chip; swipe or tap to save / skip, "Watch price" (toast); the tray totals saved picks; "Build my find" → build; card → PDP |
+| `build` | Make it yours | budget `Segmented` with an over / within line; rows with Swap (→ `yellowFriday/swap`) and remove; "Surprise me", "Complete the set"; live total, reference and saving in the footer |
+| `swap` | Swap this pick | sheet: the pick and its alternatives as radio rows, "Use this one" (Undo on the row) |
+| `payoff` | Your Yellow Friday lineup is ready | `fade-up`: `Confetti`, haul card with `CountUp` total and saving, bonus card (free express at three picks), share, "Add all to cart" (toast → cart) / "Save picks for later" (wishlist) |
+
+Copy from here for: personalised or guided shopping journeys, swipe-to-decide reveals, budget-aware bundle builders.
 
 ### plp · Shopping · `listing`
 Screen skill: `/search` (`../../search/spec.md` → results listing).

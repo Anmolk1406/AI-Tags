@@ -34,11 +34,13 @@ export const pageAliases: Record<string, Route> = {
   cards: 'cards/cards',
   'add-card': 'cards/add',
   wishlist: 'wishlist/wishlist',
+  'yellow-friday': 'yellowFriday/landing',
 };
 
 /** Reads `/homepage`, `/plp/listing?query=x` or the legacy `#/plp/listing` from a URL. */
 export function parsePageUrl(loc: { pathname: string; hash: string; search: string }): { route?: string; params: Record<string, string> } {
-  const fromHash = decodeURIComponent(loc.hash.replace(/^#\/?/, ''));
+  // a `#figmacapture=…` hash is the Figma capture script's, not a route
+  const fromHash = /^#figmacapture=/.test(loc.hash) ? '' : decodeURIComponent(loc.hash.replace(/^#\/?/, ''));
   const [hashPath, hashQuery = ''] = fromHash.split('?');
   const path = decodeURIComponent(loc.pathname.replace(/^\/+|\/+$/g, '')).replace(/(^|\/)index\.html$/, '');
   const route = hashPath || path || undefined;

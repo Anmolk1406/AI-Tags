@@ -42,7 +42,7 @@ export const ordersTokens = {
 
 export const ordersFlowTokens: TokenOverrides = {
   colors: {
-    bgPage: '#F2F3F7',
+    bgPage: 'var(--nk-palette-anti-flash-white)',
     /** done step disc (reference `#F6FEFB`, no palette entry) */
     ordersStepDoneBg: '#F6FEFB',
     /** refund-credited row border (reference `#E3FCFA`) */

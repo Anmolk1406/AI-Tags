@@ -4,7 +4,7 @@
 
 The source of truth for component **names, props, types, defaults and variants**. Hand-written guidance (when to use, gotchas, examples) is in `components.md`; when the two disagree, this file is right and `components.md` is stale.
 
-61 shared components exported from `src/components/index.ts` · 377 flow-local components in `src/flows/*/components/`. "—" = no static default; `?` = optional. Variants = props typed as a union of string literals.
+61 shared components exported from `src/components/index.ts` · 379 flow-local components in `src/flows/*/components/`. "—" = no static default; `?` = optional. Variants = props typed as a union of string literals.
 
 ## Shared components
 
@@ -1515,5 +1515,7 @@ Search these before you create a component (`components.md` → "Search before y
 | wishlist | `WishlistAtc` | `src/flows/wishlist/components/WishlistAtc.tsx:19` | `productId` |
 | wishlist | `WishlistHeader` | `src/flows/wishlist/components/WishlistHeader.tsx:15` | `progress` `showCreate` |
 | wishlist | `WishlistProductBox` | `src/flows/wishlist/components/WishlistProductBox.tsx:18` | `product` |
+| yellowFriday | `Countdown` | `src/flows/yellowFriday/components/Countdown.tsx:7` | `label` `seconds` |
+| yellowFriday | `Orbi` | `src/flows/yellowFriday/components/Orbi.tsx:11` | `size` `mood` `style` |
 
 <!-- external: marketplaces/noon/components/NoonProductBox/NoonProductBoxVertical, src/components/HtmlView/styles.ts, src/components/Loader -->

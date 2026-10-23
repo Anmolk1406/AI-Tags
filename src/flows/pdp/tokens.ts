@@ -75,7 +75,7 @@ const pdpBaseFlowTokens: TokenOverrides = {
     pdpAiIndigo4: 'rgba(65, 70, 206, 0.04)',
     pdpAiViolet4: 'rgba(191, 61, 235, 0.04)',
     /** shimmer band: white 70% */
-    pdpAiShimmer: 'rgba(255, 255, 255, 0.7)',
+    pdpAiShimmer: 'var(--nk-palette-white-alpha70)',
     /** NoonBuyingOption separator: darkGrayColorAlpha(0.15) */
     pdpBuyOptionSep: 'rgba(128, 128, 128, 0.15)',
     /** NoonColors.errorMessageColor (NoonProductSizeVariantSelection size-missing warning) */

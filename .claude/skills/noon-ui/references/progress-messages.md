@@ -19,7 +19,7 @@ The user should always know which stage the work is in. Claude Code has no separ
 | B Research (Mobbin) | Mobbin tools are being called | "Exploring Mobbin references for order tracking…" |
 | B Research (fallback) | Mobbin isn't connected | "Mobbin isn't connected, so I'm working from noon's own flows." |
 | C Ideate | comparing approaches | "Comparing two layouts for the tracker…" |
-| D Clarify | asking questions | (the questions themselves; no extra message) |
+| D Clarify | asking the clarifying questions (every request) | the questions themselves, then stop: no code until they're answered |
 | E Direction | mapping to components and tokens | "Mapping the screen to noon components and tokens…" |
 | F Implement | writing code | "Building the tracking screen with the shared Stepper…", "Adding motion and states…" |
 | G Validate | running checks and screenshots | "Running the checks…", "Comparing screenshots with the reference…" |

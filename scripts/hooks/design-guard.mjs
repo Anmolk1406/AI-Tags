@@ -7,13 +7,18 @@
 //     styled-components, emotion) — noon uses OriginIcon and src/components
 //   · set a raw font-family — use var(--nk-type-*) / <Text variant>
 //   · write the text "AED" in a string — prices use the dirham sign `currency`
-// Not checked: comments, token definition files (src/foundations/**, src/flows/*/tokens*.ts), src/app/**, lines with
-// `token-lint-ignore — <reason>`. Everything else passes (exit 0). Same rules as scripts/token-lint.mjs and
-// .claude/skills/noon-ui/references/component-checklist.md.
+//   · create a screen or component file at a flow's root — screens go in src/flows/<flow>/screens/, parts in
+//     components/ (folder contract: scripts/check-structure.mjs)
+// Flow token files (src/flows/*/tokens*.ts) are checked too: no custom colour unless the user explicitly asked for it,
+// and then the line says so with `custom-color — <who asked, why>`.
+// Not checked: comments, src/foundations/** (where tokens are defined), src/app/**, lines with
+// `token-lint-ignore — <reason>` or `custom-color — <reason>`. Everything else passes (exit 0). Same rules as
+// scripts/token-lint.mjs and .claude/skills/noon-ui/references/component-checklist.md.
 //
 // Manual test:  echo '{"tool_name":"Edit","tool_input":{"file_path":"src/flows/x/a.tsx","old_string":"","new_string":"color: \"#FF0000\""}}' | node scripts/hooks/design-guard.mjs
 import { readFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
+import { CUSTOM_COLOR } from '../lib/custom-color.mjs';
 
 const root = new URL('../..', import.meta.url).pathname;
 
@@ -38,14 +43,23 @@ const rel = relative(event.cwd ?? root, ti.file_path).replace(/\\/g, '/');
 const relRoot = relative(root, ti.file_path.startsWith('/') ? ti.file_path : join(event.cwd ?? root, ti.file_path)).replace(/\\/g, '/');
 const path = relRoot.startsWith('..') ? rel : relRoot;
 if (!/^src\/.+\.(tsx?|css)$/.test(path)) process.exit(0);
-if (/^src\/(foundations|app)\//.test(path) || /^src\/flows\/[^/]+\/tokens(\.[\w-]+)?\.ts$/.test(path) || /\.d\.ts$/.test(path)) process.exit(0);
+if (/^src\/(foundations|app)\//.test(path) || /\.d\.ts$/.test(path)) process.exit(0);
 
 // the lines this edit adds
 let onDisk = '';
 try {
   onDisk = readFileSync(join(root, path), 'utf8'); // a Write over an existing file only adds the lines that are new
 } catch {
-  /* new file */
+  // new file: screens and components never sit at the flow root
+  const m = /^src\/flows\/([^/]+)\/([^/]+\.tsx|[^/]+\.module\.css)$/.exec(path);
+  if (m) {
+    const where = /(Screen|Sheet)\.tsx$/.test(m[2]) || m[2].endsWith('.css') ? 'screens' : 'components';
+    console.error(
+      `noon design guard blocked creating ${path}:\n  screens live in src/flows/${m[1]}/screens/, flow-only parts in src/flows/${m[1]}/components/ → write src/flows/${m[1]}/${where}/${m[2]}` +
+        `\n\nFolder contract: scripts/check-structure.mjs (index.ts · screens/ · components/ · tokens.ts · data.ts).`,
+    );
+    process.exit(2);
+  }
 }
 const pairs = tool === 'Write' ? [[onDisk, ti.content ?? '']] : tool === 'Edit' ? [[ti.old_string ?? '', ti.new_string ?? '']] : (ti.edits ?? []).map((e) => [e.old_string ?? '', e.new_string ?? '']);
 const added = [];
@@ -59,7 +73,7 @@ if (!added.length) process.exit(0);
 const isCss = path.endsWith('.css');
 let inBlock = false;
 const code = added.map((line) => {
-  if (line.includes('token-lint-ignore')) return '';
+  if (line.includes('token-lint-ignore') || CUSTOM_COLOR.test(line)) return '';
   let out = '';
   let i = 0;
   while (i < line.length) {
@@ -95,7 +109,9 @@ const tokenFor = (hex) => {
   const h = hex.toUpperCase();
   const full = h.length === 4 ? `#${h[1]}${h[1]}${h[2]}${h[2]}${h[3]}${h[3]}` : h;
   const m = map[full] ?? map[h];
-  return m ? ` → ${m.cssVar}` : ' → no token yet: add it to the flow tokens.ts (or palette) with its source';
+  return m
+    ? ` → ${m.cssVar}${m.semantic?.length > 1 ? ` (or ${m.semantic.slice(1).join(' / ')} — pick by role)` : ''}`
+    : ' → no token has this value: use the nearest --nk-color-* by role (references/design-rules.md) and tell the user; if they explicitly asked for this exact colour, keep it with `// custom-color — <who asked, why>`';
 };
 
 const problems = [];
@@ -122,6 +138,7 @@ console.error(
   `noon design guard blocked this edit to ${path}:\n` +
     problems.map((p) => `  ${p}`).join('\n') +
     `\n\nFix it with tokens / OriginIcon / shared components (.claude/skills/noon-ui/references/component-checklist.md). ` +
-    `True geometry or a documented exception: add \`token-lint-ignore — <reason>\` on that line.`,
+    `No custom colours unless the user explicitly asked: then mark the line \`custom-color — <who asked, why>\`. ` +
+    `True geometry: \`token-lint-ignore — <reason>\`.`,
 );
 process.exit(2);

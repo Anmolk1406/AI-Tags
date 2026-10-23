@@ -14,7 +14,7 @@ export const pdpSfCFlowTokens: TokenOverrides = {
     /** "Select" button glow 0 0 4 rgba(0,118,255,.1) (newAccentColor at 10%) */
     pdpSfcSelectGlow: 'rgba(0, 118, 255, 0.1)', // token-lint-ignore — flow token definition (Figma effect)
     /** Bestseller row fill: 119.33deg white 14.8% → emerald/50 #E8FCFA 141.3% */
-    pdpSfcBestsellerBg: 'linear-gradient(119.33deg, #FFFFFF 14.816%, #E8FCFA 141.32%)', // token-lint-ignore — flow token definition (Figma fill)
+    pdpSfcBestsellerBg: 'linear-gradient(119.33deg, var(--nk-palette-white) 14.816%, #E8FCFA 141.32%)', // token-lint-ignore — flow token definition (Figma fill)
   },
   type: {
     /** section titles Noontree Bold 15 / 17 */

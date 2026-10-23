@@ -36,7 +36,7 @@
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ts
 - Shared components: `DottedDivider`, `Lottie`, `MaskIcon`, `Pressable`, `Screen`, `Skeleton`, `Spinner`, `Toast`
 - Flow components: `AddAddressButton`, `AddressCard`, `AddressToastHost`, `FloatingOverlay`, `GradientTitle`, `IconTap`, `Img`, `ListingEmpty`, `ListingHeader`, `ListingLoading`, `LocationNudge`, `SearchInput`, `SearchResultLoading`, `SearchResultsCard`, `SelectHeader`, `TabSwitcher`
-- Tokens (67): colors 15 · flow:address 28 · local 2 · palette 14 · radius 6 · spacing 2
+- Tokens (94): colors 15 · flow:address 28 · local 2 · palette 41 · radius 6 · spacing 2
 - Icons: — · assets 31
 - State / data: `store:address`, `data:user`
 - Nav out: sheet `address/controls` · push `address/map`
@@ -52,7 +52,7 @@
 - Data / helpers: assets.ts, components/mapWorld.ts, data.ts, store.ts, tokens.ts
 - Shared components: `Lottie`, `MaskIcon`, `Pressable`, `Screen`, `Skeleton`, `Spinner`, `Toast`
 - Flow components: `AddressDetailsForm`, `AddressToastHost`, `CurrentLocationButton`, `FloatingOverlay`, `Img`, `LocationLoading`, `LocationSummary`, `MapPin`, `MapSearchButton`, `OverlayButton`, `StreetMap`, `UnserviceableView`
-- Tokens (54): colors 12 · flow:address 16 · fontFamily 1 · local 2 · palette 17 · radius 4 · spacing 2
+- Tokens (80): colors 12 · flow:address 16 · fontFamily 1 · local 2 · palette 43 · radius 4 · spacing 2
 - Motion: `preset/easing.in`, `preset/easing.inOut`, `transition/address-map`
 - Icons: — · assets 31
 - State / data: `store:address`, `data:user`
@@ -97,7 +97,7 @@
 - Data / helpers: assets.ts, components/mapWorld.ts, data.ts, store.ts, tokens.ts
 - Shared components: `DottedDivider`, `Lottie`, `MaskIcon`, `Pressable`, `Screen`, `Skeleton`, `Spinner`, `Toast`
 - Flow components: `GradientTitle`, `IconTap`, `Img`, `ListingEmpty`, `LocateOnMapButton`, `MapSearchButton`, `SearchCurrentLocationButton`, `SearchResultLoading`, `SearchResultsCard`
-- Tokens (67): colors 15 · flow:address 28 · local 2 · palette 14 · radius 6 · spacing 2
+- Tokens (94): colors 15 · flow:address 28 · local 2 · palette 41 · radius 6 · spacing 2
 - Motion: `transition/address-search`
 - Icons: — · assets 31
 - State / data: `store:address`, `data:user`

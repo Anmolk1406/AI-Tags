@@ -1,0 +1,69 @@
+/* noon Motion & Interaction standard as CSS tokens (the `noon-motion` skill; TS twin: src/motion/noonMotion.ts).
+   MOVE = ProtoPie Spring(300, 28) = stiffness 280.6, damping 27.14, mass 1 (ω 16.75, ζ 0.81), 544 ms, 1.3 % overshoot.
+   Scoped to the prototype root like every kit token; reduced motion is handled by global.css (data-nk-motion). */
+.nk-root {
+  /* movement: position, size, scale */
+  --nk-motion-move: linear(0, 0.0311, 0.1073, 0.2084, 0.3197, 0.4312, 0.5364, 0.6314, 0.7143, 0.7845, 0.8425, 0.8891,
+    0.9258, 0.9538, 0.9747, 0.9896, 0.9999, 1.0066, 1.0105, 1.0125, 1.013, 1.0126, 1.0116, 1.0103, 1.0088, 1.0074,
+    1.006, 1.0048, 1.0037, 1.0028, 1.002, 1.0014, 1.001, 1.0006, 1);
+  --nk-motion-move-ms: 544ms;
+
+  /* soft spring: Spring(300, 30), ζ 0.87, 0.4 % overshoot — radius on page drops */
+  --nk-motion-soft: linear(0, 0.0332, 0.1129, 0.2165, 0.3284, 0.4385, 0.5408, 0.6319, 0.7107, 0.777, 0.8315, 0.8754,
+    0.9101, 0.9369, 0.9574, 0.9726, 0.9836, 0.9914, 0.9968, 1.0002, 1.0024, 1.0035, 1.004, 1.0041, 1);
+  --nk-motion-soft-ms: 400ms;
+
+  /* return from a held offset: critically damped ω 15.5 */
+  --nk-motion-return: linear(0, 0.0392, 0.1285, 0.2385, 0.3518, 0.4588, 0.5548, 0.6381, 0.7086, 0.7672, 0.8153, 0.8543,
+    0.8856, 0.9106, 0.9304, 0.946, 0.9582, 0.9677, 0.9752, 0.9809, 0.9854, 0.9888, 0.9915, 0.9935, 0.995, 0.9962,
+    0.9971, 1);
+  --nk-motion-return-ms: 540ms;
+
+  /* fades: in = ProtoPie Ease Out Cubic, out = Ease In Out Cubic (rendered curve) */
+  --nk-motion-fade-in: cubic-bezier(0.33, 1, 0.68, 1);
+  --nk-motion-fade-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --nk-motion-fade-ms: 200ms;
+  --nk-motion-fade-reveal-ms: 300ms;
+  --nk-motion-fade-ground-ms: 400ms;
+
+  /* radius: its own clock */
+  --nk-motion-radius: cubic-bezier(0.65, 0, 0.35, 1);
+  --nk-motion-radius-ms: 200ms;
+
+  /* other named curves */
+  --nk-motion-expand: cubic-bezier(0.4, 0.01, 0, 1.01); /* card → page, 400 ms */
+  --nk-motion-soft-ease: cubic-bezier(0.22, 1, 0.36, 1); /* content reveal, FLIP glides */
+  --nk-motion-ios: cubic-bezier(0.32, 0.72, 0, 1); /* keyboard lift 450 ms, sheet close 280 ms */
+  --nk-motion-shake: cubic-bezier(0.36, 0.07, 0.19, 0.97);
+
+  /* rhythm */
+  --nk-motion-stagger-in: 60ms;
+  --nk-motion-stagger-out: 40ms;
+  --nk-motion-stagger-micro: 20ms;
+  --nk-motion-follow: 100ms;
+  --nk-motion-press: 0.96;
+}
+
+/* property-class transitions: moves on the spring, opacity on the fade, radius on its own clock */
+.nk-motion-transition {
+  transition:
+    transform var(--nk-motion-move-ms) var(--nk-motion-move),
+    translate var(--nk-motion-move-ms) var(--nk-motion-move),
+    scale var(--nk-motion-move-ms) var(--nk-motion-move),
+    opacity var(--nk-motion-fade-ms) var(--nk-motion-fade-in),
+    border-radius var(--nk-motion-radius-ms) var(--nk-motion-radius);
+}
+
+/* press: in fast, out on the spring */
+.nk-motion-press { transition: transform var(--nk-motion-move-ms) var(--nk-motion-move); }
+.nk-motion-press:active { transform: scale(var(--nk-motion-press)); transition-duration: 90ms; transition-timing-function: ease-out; }
+
+/* error shake: 4 / 3 / 2 / 1 px, 340 ms */
+@keyframes nk-motion-shake {
+  0%, 100% { transform: none; }
+  18% { transform: translateX(-4px); }
+  40% { transform: translateX(3px); }
+  62% { transform: translateX(-2px); }
+  82% { transform: translateX(1px); }
+}
+.nk-motion-shake { animation: nk-motion-shake 340ms var(--nk-motion-shake); }

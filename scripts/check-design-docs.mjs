@@ -19,6 +19,8 @@ const asJson = process.argv.includes('--json');
 /** pre-date the design-record rule (2026-10-13); provenance lives in each screen's `source` */
 const BASELINE = new Set(['address', 'cards', 'deals', 'search', 'wishlist']);
 const REQUIRED = ['Request', 'Research', 'Design direction', 'States', 'Validation'];
+/** written before the intake gates (Mobbin mandatory when connected, clarifying questions always; 2026-10-22) */
+const PRE_INTAKE = new Set(['fieldds', 'yellowFriday']);
 
 const filesUnder = (dir, out = []) => {
   for (const f of readdirSync(dir)) {
@@ -32,6 +34,8 @@ const filesUnder = (dir, out = []) => {
 let shared = new Set();
 const apiPath = join(root, '.claude/skills/noon-ui/references/component-api.generated.json');
 if (existsSync(apiPath)) shared = new Set(JSON.parse(readFileSync(apiPath, 'utf8')).shared.map((c) => c.name));
+// the motion recipes (FadeIn, Stagger, Pop, CountUp, Float …) are kit components too
+for (const [, name] of readFileSync(join(root, 'src/motion/recipes.tsx'), 'utf8').matchAll(/^export function ([A-Z]\w*)/gm)) shared.add(name);
 
 const problems = [];
 const warnings = [];
@@ -62,13 +66,23 @@ for (const flow of readdirSync(flowsDir).filter((f) => statSync(join(flowsDir, f
   const research = md.split(/^##\s+Research\b.*$/m)[1]?.split(/^##\s/m)[0] ?? '';
   const mobbinLinks = research.match(/https:\/\/mobbin\.com\/[^\s)]+/g) ?? [];
   const mobbinLine = research.match(/Mobbin:\s*(.+)/i)?.[1] ?? '';
-  if (!mobbinLinks.length && !/not available|not needed/i.test(mobbinLine)) issues.push('Research must cite Mobbin references (mobbin.com links) or say "Mobbin: not available" / "Mobbin: not needed: <why>"');
+  if (PRE_INTAKE.has(flow)) {
+    if (!mobbinLinks.length && !/not available|not needed/i.test(mobbinLine)) issues.push('Research must cite Mobbin references (mobbin.com links) or say "Mobbin: not available" / "Mobbin: not needed: <why>"');
+  } else {
+    // Mobbin is mandatory when connected: links, or why it couldn't run. "not needed" is no longer an answer.
+    if (!mobbinLinks.length && !/not available:\s*\S/i.test(mobbinLine)) issues.push('Research must cite Mobbin references (mobbin.com links); only "Mobbin: not available: <not connected | call failed: why>" excuses it');
+    const clar = md.split(/^##\s+Clarifications\b.*$/m)[1]?.split(/^##\s/m)[0];
+    // table rows after the header and separator whose third cell (Answer) is filled
+    const answered = (clar ?? '').split('\n').filter((l) => /^\|/.test(l) && !/^\|\s*(Question|-)/.test(l) && l.split('|')[3]?.trim());
+    if (clar === undefined) issues.push('missing section: Clarifications (the questions asked before building and the answers; design-workflow.md → D)');
+    else if (!answered.length && !/skip questions/i.test(clar)) issues.push('Clarifications has no answered question (or "User asked to skip questions" + assumptions)');
+  }
 
   const direction = md.split(/^##\s+Design direction\b.*$/m)[1]?.split(/^##\s/m)[0] ?? '';
   const flowSrc = files.filter((f) => /\.(tsx?)$/.test(f)).map((f) => readFileSync(f, 'utf8')).join('\n');
   const named = [...direction.matchAll(/^\|[^|]*\|\s*([^|]*)\|/gm)].flatMap((m) => [...m[1].matchAll(/`<?([A-Z][A-Za-z0-9]+)/g)].map((x) => x[1]));
   const unknown = [...new Set(named)].filter((n) => n !== 'Component' && !shared.has(n) && !new RegExp(`(function|const|class)\\s+${n}\\b`).test(flowSrc));
-  if (unknown.length) issues.push(`Design direction names components that don't exist yet in src/components or the flow: ${unknown.join(', ')} (build them, or list them under "New pieces")`);
+  if (unknown.length) issues.push(`Design direction names components that don't exist yet in src/components, src/motion/recipes.tsx or the flow: ${unknown.join(', ')} (build them, or list them under "New pieces")`);
   for (const i of issues) problems.push(`${rel}: ${i}`);
 }
 

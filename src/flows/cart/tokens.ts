@@ -56,9 +56,9 @@ export const cartFigmaColors = {
   cartProtectGradientEnd: '#FFF7E5',
   cartProtectCrossBg: '#FFF5DF',
   cartSavingsWave: '#E7FBF3', // footer "Color waves" savings tab fill
-  cartWhiteAlpha0: 'rgba(255, 255, 255, 0)',
-  cartWhiteAlpha20: 'rgba(255, 255, 255, 0.2)', // SKU heart chip
-  cartWhiteAlpha80: 'rgba(255, 255, 255, 0.8)', // SKU "Ad" tag
+  cartWhiteAlpha0: 'var(--nk-palette-white-alpha0)',
+  cartWhiteAlpha20: 'var(--nk-palette-white-alpha20)', // SKU heart chip
+  cartWhiteAlpha80: 'var(--nk-palette-white-alpha80)', // SKU "Ad" tag
   cartHeaderTextShadow: 'rgba(0, 0, 0, 0.07)',
   cartGlobalLogoInk: '#3D4048', // "Global" wordmark text
   cartFreebieImageBg: '#F5F7FB', // freebie image tile
@@ -73,40 +73,40 @@ export const cartFigmaColors = {
  */
 export const cartFlowTokens: TokenOverrides = {
   colors: {
-    bgPage: '#F2F3F7', // feedbackView backgroundColor
-    cartEmerald: '#13645F', // emeraldGreen — <highlight>, success coupon
-    cartEmerald700: '#1F7A74', // emeraldGreen700 — discount icon (coupon "available offers")
-    cartSlate600: '#526075', // slate600 — invoice titles
-    cartTextTertiary: '#8D8F92', // NoonColors.textTertiary — invoice <steel>
-    cartSecondaryText: '#5D5D5D', // secondaryTextColor — qty selector icons
-    cartQtyBorder: '#DADCE3', // $noonGrey3 — qty selector + disabled CTA
-    cartBrightGrey: '#EBEBEB', // brightGreyColor — dashed item separator
-    cartDashedInvoice: '#D0D4DD', // invoice dashed separator
-    cartAccentBlue: '#0057FF', // $accentBlue — Checkout CTA
-    cartWishlistPink: '#FF4869', // NoonTokens.colors.watermelonPink (wishlist v2 heart)
-    cartMintWhite: '#E9FBF9', // $mintWhite — discount tag bg
-    cartOliveGray: 'rgba(31, 122, 116, 0.4)', // $oliveGray #1F7A7466 — discount tag dashed border
-    cartOrangeTint: '#FFF8EC', // $noonSystemOrangeTint — cart updates banner
-    cartOrangeBorder: '#FED7AA',
-    cartOrangeLink: '#E04E00',
-    cartCouponError: '#B22424', // darkRed
-    cartCouponErrorBorder: '#FECACA',
-    cartCouponSuccessBorder: '#9EE9E4',
-    cartCouponWarning: '#B45309', // copperColor
-    cartCouponWarningBorder: '#FDE68A',
-    cartToastBg: '#F0FDF1',
-    cartEmerald100: '#D1FAE5', // invoice special section
-    cartNoonGrey4: '#F3F4F8', // $noonGrey4 — customization pill
-    cartBlue: '#3866DF', // $blueColor — customization "Edit"
-    cartSteel: '#7E859B', // steelColor — HtmlView <steel>
-    cartEmerald800: '#115A56', // emeraldGreen800 — best-price coupon <highlight>
-    cartMintGreen300: '#EBFFF4',
-    cartMintGreen200: '#F5FEFA',
-    cartGreenCrystal: '#ECFEF6', // integrated noon One callout
-    cartProgressTrack: '#EAECF0',
-    cartProgressFill: '#000000',
-    cartNewBorder: 'rgba(14, 14, 14, 0.07)', // $newBorderColor
-    cartLoaderBg: '#F5F7FF', // ProgressLoader background
+    bgPage: 'var(--nk-palette-anti-flash-white)', // feedbackView backgroundColor
+    cartEmerald: 'var(--nk-palette-emerald-green)', // emeraldGreen — <highlight>, success coupon
+    cartEmerald700: 'var(--nk-palette-emerald-green700)', // emeraldGreen700 — discount icon (coupon "available offers")
+    cartSlate600: 'var(--nk-palette-slate600)', // slate600 — invoice titles
+    cartTextTertiary: 'var(--nk-palette-text-tertiary)', // NoonColors.textTertiary — invoice <steel>
+    cartSecondaryText: 'var(--nk-palette-secondary-text-color)', // secondaryTextColor — qty selector icons
+    cartQtyBorder: 'var(--nk-palette-noon-grey3)', // $noonGrey3 — qty selector + disabled CTA
+    cartBrightGrey: 'var(--nk-palette-bright-grey-color)', // brightGreyColor — dashed item separator
+    cartDashedInvoice: 'var(--nk-palette-light-grey)', // invoice dashed separator
+    cartAccentBlue: 'var(--nk-palette-accent-blue)', // $accentBlue — Checkout CTA
+    cartWishlistPink: 'var(--nk-palette-watermelon-pink)', // NoonTokens.colors.watermelonPink (wishlist v2 heart)
+    cartMintWhite: 'var(--nk-palette-mint-white)', // $mintWhite — discount tag bg
+    cartOliveGray: 'var(--nk-palette-emerald-green700-alpha40)', // $oliveGray #1F7A7466 — discount tag dashed border
+    cartOrangeTint: 'var(--nk-palette-noon-system-orange-tint)', // $noonSystemOrangeTint — cart updates banner
+    cartOrangeBorder: 'var(--nk-palette-pale-orange)',
+    cartOrangeLink: 'var(--nk-palette-kit-orange44)',
+    cartCouponError: 'var(--nk-palette-dark-red)', // darkRed
+    cartCouponErrorBorder: 'var(--nk-palette-kit-red89)',
+    cartCouponSuccessBorder: 'var(--nk-palette-kit-cyan77)',
+    cartCouponWarning: 'var(--nk-palette-copper-color)', // copperColor
+    cartCouponWarningBorder: 'var(--nk-palette-kit-amber77)',
+    cartToastBg: 'var(--nk-palette-kit-green97)',
+    cartEmerald100: 'var(--nk-palette-emerald100)', // invoice special section
+    cartNoonGrey4: 'var(--nk-palette-ghost-white-color)', // $noonGrey4 — customization pill
+    cartBlue: 'var(--nk-palette-accent-color)', // $blueColor — customization "Edit"
+    cartSteel: 'var(--nk-palette-noon-grey1)', // steelColor — HtmlView <steel>
+    cartEmerald800: 'var(--nk-palette-emerald-green800)', // emeraldGreen800 — best-price coupon <highlight>
+    cartMintGreen300: 'var(--nk-palette-placebo-turquoise)',
+    cartMintGreen200: 'var(--nk-palette-mint-green200)',
+    cartGreenCrystal: 'var(--nk-palette-green-crystal)', // integrated noon One callout
+    cartProgressTrack: 'var(--nk-palette-light-grey-color)',
+    cartProgressFill: 'var(--nk-palette-black)',
+    cartNewBorder: 'var(--nk-palette-new-border-color)', // $newBorderColor
+    cartLoaderBg: 'var(--nk-palette-kit-blue98)', // ProgressLoader background
     // coupon tray (NoonSalesCouponTrayOverlayScreen, see components/couponTray/MAPPING.md)
     trayBlueGray400: '#9DA3C4', // blueGray400 — disabled dotted CTA text
     trayOrange50: '#FFFAF5', // orange50 — unlock criteria / join One banner

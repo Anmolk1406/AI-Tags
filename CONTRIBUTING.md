@@ -31,16 +31,15 @@ A flow folder:
 ```
 flows/<id>/
 ├── index.ts         defineFlow({ id, title, group, initial, parent?, tabBar?, screens: [{ id, title, component, path?, source, notes }] })
-├── tokens.ts        flow-only tokens (the only place raw values may live)
+├── screens/         one <Name>Screen.tsx / <Name>Sheet.tsx per route (each wrapped in <Screen header footer>) + its .module.css
+├── components/      flow-only components (components/entry/ = parts other flows may embed)
+├── tokens.ts        flow-only tokens: var(--nk-*) aliases and measurements; no custom colours (see Tokens)
 ├── data.ts          copy + mock content (server-driven values marked as such)
 ├── store.ts         flow state via createStore (only if needed)
-├── *Screen.tsx      screens, each wrapped in <Screen header footer>
-├── *.module.css     styles — tokens only
-├── components/      flow-only components
 └── MAPPING.md       source → kit mapping (see below)
 ```
 
-Create one with `npm run new-flow -- <id> "Title" "Sidebar group"`.
+Create one with `npm run new-flow -- <id> "Title" "Sidebar group"`. `npm run check:structure` enforces this layout (and that imports run screens → components → tokens / data, never into another flow). Flows listed in `scripts/flow-baseline.json` → `legacyLayout` predate it; put their new screens in `screens/` too, and when you restructure one, run `node scripts/check-structure.mjs --baseline`. Describe your change with `npm run handoff -- <flow> --base main` in the PR.
 
 ## The porting process (bappzaar / Figma → kit)
 
@@ -58,9 +57,9 @@ Every screen we port is **analysed, mapped, then implemented** — never eyeball
 
 - No raw colours or font shorthands in components or flow CSS/TSX. Use CSS variables: `var(--nk-color-*)` (semantic first), `var(--nk-palette-*)`, `var(--nk-type-*)` (font shorthand), `var(--nk-space-*)`, `var(--nk-radius-*)`, component tokens (`--nk-button-*`, `--nk-pill-*`…). In TS use `ref.color('textPrimary')`, `ref.type(...)` etc. (typed — typos fail `tsc`).
 - `scripts/token-map.json` maps any literal you have (hex, rgba, `600 14px/18px`) to the matching token.
-- A value with no token: add it to the flow's `tokens.ts`; if it's clearly global (a design-system colour reused across flows) **append** it to `foundations/palette.ts` / `tokens.ts` under its bappzaar / Figma name. Never rename or remove an existing token — other flows depend on it.
+- A measurement with no token: add it to the flow's `tokens.ts`. **No custom colours**: a colour with no exact token uses the nearest token by role. Only a colour someone explicitly asked for (or a bappzaar / Figma source value in a port) is written raw, once, in the flow's `tokens.ts`, marked `// custom-color — <who asked, why>`; if it's clearly global (reused across flows) **append** it to `foundations/palette.ts` / `tokens.ts` under its bappzaar / Figma name instead. Never rename or remove an existing token — other flows depend on it.
 - Geometry (SVG paths, Figma layer boxes, aspect ratios, 1px hairlines) may stay literal; mark unavoidable lines `// token-lint-ignore — <reason>`.
-- `npm run lint:tokens` (`-- -v <path>` lists findings) must stay at 0 for `src/components` and for the folders you touch.
+- `npm run lint:tokens` (`-- -v <path>` lists findings) must stay at 0 for `src/components` and for any flow newer than `scripts/flow-baseline.json`; an older flow may not rise above its `colourBudget` there (lower it with `node scripts/token-lint.mjs --baseline` after a cleanup).
 - Prices use the dirham sign: `currency` from `src/data` (U+E001, drawn by Noontree), never the text "AED".
 
 ## Components
@@ -77,7 +76,7 @@ Navigation: `useNav()` → `push / sheet / back / replace / reset / switchTab / 
 ## Checks every PR must pass
 
 ```bash
-npm run verify          # typecheck (app + lib) · token lint · library build
+npm run verify          # typecheck (app + lib) · token lint · folder contract · library build
 npm run assets:check    # no duplicate / oversized assets
 npm run dev &           # then, in another shell:
 npm run check:routes    # every registered screen renders, no console errors, no placeholders

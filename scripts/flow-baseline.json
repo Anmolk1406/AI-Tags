@@ -1,0 +1,38 @@
+{
+  "_readme": "Flows that predate the folder contract and the no-custom-colour rule. legacyLayout: flows check:structure skips (written by node scripts/check-structure.mjs --baseline after a migration). colourBudget: raw colour / font literals each older flow may keep; npm run lint:tokens fails above it, so it only goes down (node scripts/token-lint.mjs --baseline). A flow missing from both is held to the full contract.",
+  "legacyLayout": [
+    "account",
+    "address",
+    "cards",
+    "cart",
+    "categories",
+    "checkout",
+    "credits",
+    "deals",
+    "fieldds",
+    "home",
+    "membership",
+    "orders",
+    "pdp",
+    "plp",
+    "returns",
+    "reviews",
+    "search",
+    "wishlist"
+  ],
+  "colourBudget": {
+    "address": 21,
+    "cart": 29,
+    "categories": 1,
+    "checkout": 56,
+    "credits": 29,
+    "home": 41,
+    "membership": 64,
+    "noonone": 127,
+    "orders": 32,
+    "pdp": 7,
+    "plp": 7,
+    "returns": 8,
+    "reviews": 23
+  }
+}

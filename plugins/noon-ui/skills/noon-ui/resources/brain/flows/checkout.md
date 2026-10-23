@@ -47,7 +47,7 @@
 - Data / helpers: data.delivery.ts, data.payment.ts, data.rewards.ts, data.shipment.ts, data.ts, store.delivery.ts, store.rewards.ts, store.ts, tokens.ts, totals.ts, utils.ts
 - Shared components: `Button`, `HtmlText`, `Icon`, `Lottie`, `MarketplaceTag`, `ProductImage`, `Screen`, `Skeleton`, `Spinner`, `Switch`, `Toast`
 - Flow components: `AddressCard`, `BurnSection`, `CheckoutHeader`, `CheckoutShipment`, `CheckoutTag`, `ChevronDot`, `ChevronThick`, `CouponStatus`, `DeliveryInstruction`, `DetachedAddress`, `Donation`, `DynamicInvoice`, `EarnCallout`, `InfoEditButton`, `NewBadge`, `NoonOneCtaReveal`, `NoonOneSection`, `PaymentMethods`, `PaymentSummary`, `PointsVouchers`, `ProviderLogo`, `ReceiverDetails`, `Reloader`, `RichText`, `SlideButton`, `VoucherToast`
-- Tokens (195): colors 23 · flow:checkout 58 · fontFamily 1 · fontSize 4 · fontWeight 2 · local 2 · palette 60 · radius 12 · spacing 12 · type 21
+- Tokens (196): colors 23 · flow:checkout 58 · fontFamily 1 · fontSize 4 · fontWeight 2 · local 2 · palette 61 · radius 12 · spacing 12 · type 21
 - Motion: `preset/easing.out`, `preset/spring.press`, `reduced-motion`, `transition/none`
 - Icons: — · assets 89
 - State / data: `store:address`, `store:checkout`, `store:demo`, `store:membership`, `data:currency`, `data:formatPrice`, `data:user`
@@ -71,7 +71,7 @@
 - Data / helpers: data.payment.ts, data.ts, store.ts, tokens.ts
 - Shared components: `HtmlText`
 - Flow components: `PaymentCard`
-- Tokens (82): colors 13 · flow:checkout 1 · fontSize 1 · fontWeight 1 · palette 40 · radius 4 · spacing 11 · type 11
+- Tokens (83): colors 13 · flow:checkout 1 · fontSize 1 · fontWeight 1 · palette 41 · radius 4 · spacing 11 · type 11
 - Motion: `preset/spring.press`
 - Icons: — · assets 33
 - State / data: `store:checkout`, `data:currency`, `data:formatPrice`, `data:user`
@@ -86,7 +86,7 @@
 - Data / helpers: data.payment.ts, data.ts, store.ts, tokens.ts, validate.ts
 - Shared components: `Spinner`
 - Flow components: —
-- Tokens (72): colors 9 · flow:checkout 1 · palette 39 · radius 2 · spacing 11 · type 10
+- Tokens (73): colors 9 · flow:checkout 1 · palette 40 · radius 2 · spacing 11 · type 10
 - Motion: `preset/easing.out`
 - Icons: — · assets 33
 - State / data: `store:checkout`, `data:currency`, `data:formatPrice`, `data:user`
@@ -100,7 +100,7 @@
 - Data / helpers: data.payment.ts, data.ts, store.ts, tokens.ts
 - Shared components: `Button`, `HtmlText`
 - Flow components: `PaymentCard`
-- Tokens (82): colors 13 · flow:checkout 1 · fontSize 1 · fontWeight 1 · palette 40 · radius 4 · spacing 11 · type 11
+- Tokens (83): colors 13 · flow:checkout 1 · fontSize 1 · fontWeight 1 · palette 41 · radius 4 · spacing 11 · type 11
 - Motion: `preset/spring.press`
 - Icons: — · assets 33
 - State / data: `store:checkout`, `data:currency`, `data:formatPrice`, `data:user`
@@ -114,7 +114,7 @@
 - Data / helpers: data.payment.ts, data.shipment.ts, data.ts, store.ts, tokens.ts, totals.ts
 - Shared components: `Button`, `HtmlText`
 - Flow components: `PaymentCard`
-- Tokens (67): colors 10 · flow:checkout 1 · fontSize 1 · fontWeight 1 · palette 37 · radius 4 · spacing 8 · type 5
+- Tokens (68): colors 10 · flow:checkout 1 · fontSize 1 · fontWeight 1 · palette 38 · radius 4 · spacing 8 · type 5
 - Motion: `preset/spring.press`
 - Icons: — · assets 33
 - State / data: `store:checkout`, `store:demo`, `data:currency`, `data:formatPrice`, `data:user`
@@ -128,7 +128,7 @@
 - Data / helpers: data.delivery.ts, data.ts, store.delivery.ts, store.ts, tokens.ts
 - Shared components: `Button`, `Spinner`
 - Flow components: `SavedContact`
-- Tokens (82): colors 11 · flow:checkout 7 · palette 38 · radius 4 · spacing 8 · type 14
+- Tokens (83): colors 11 · flow:checkout 7 · palette 39 · radius 4 · spacing 8 · type 14
 - Motion: `preset/tween`
 - Icons: — · assets 11
 - State / data: `store:address`, `store:checkout`, `data:currency`, `data:user`
@@ -143,7 +143,7 @@
 - Data / helpers: data.delivery.ts, store.delivery.ts, tokens.ts
 - Shared components: —
 - Flow components: —
-- Tokens (62): colors 4 · flow:checkout 4 · palette 34 · radius 3 · spacing 7 · type 10
+- Tokens (63): colors 4 · flow:checkout 4 · palette 35 · radius 3 · spacing 7 · type 10
 - Icons: — · assets 10
 - `alternate-phone-contacts`: in ← `checkout/alternate-phone`
 
@@ -155,7 +155,7 @@
 - Data / helpers: data.delivery.ts, data.ts, store.ts, tokens.ts
 - Shared components: `Button`, `Icon`
 - Flow components: —
-- Tokens (82): colors 11 · flow:checkout 7 · palette 38 · radius 4 · spacing 8 · type 14
+- Tokens (83): colors 11 · flow:checkout 7 · palette 39 · radius 4 · spacing 8 · type 14
 - Icons: — · assets 13
 - State / data: `store:checkout`, `data:currency`, `data:user`
 - Nav out: push `checkout/alternate-phone` · push `checkout/learn-more`
@@ -169,7 +169,7 @@
 - Data / helpers: data.payment.ts, data.rewards.ts, data.ts, store.rewards.ts, tokens.ts
 - Shared components: `Skeleton`
 - Flow components: `CheckoutTag`, `ProviderCallout`, `ProviderLogo`
-- Tokens (74): colors 7 · flow:checkout 6 · palette 38 · radius 5 · spacing 9 · type 9
+- Tokens (75): colors 7 · flow:checkout 6 · palette 39 · radius 5 · spacing 9 · type 9
 - Icons: — · assets 39
 - State / data: `data:currency`, `data:formatPrice`, `data:user`
 - Nav out: push `checkout/provider-burn`
@@ -183,7 +183,7 @@
 - Data / helpers: data.rewards.ts, tokens.ts
 - Shared components: `Button`, `Skeleton`, `Spinner`
 - Flow components: `CheckoutTag`, `Crescent`, `DynamicBackground`, `FormFields`, `FormTitle`, `InfoEditButton`, `ProviderHeader`, `ProviderLogo`, `SubmitButton`
-- Tokens (80): colors 8 · flow:checkout 5 · palette 37 · radius 6 · spacing 12 · type 12
+- Tokens (81): colors 8 · flow:checkout 5 · palette 38 · radius 6 · spacing 12 · type 12
 - Icons: — · assets 6
 - State / data: `data:currency`, `data:user`
 - Nav out: push `checkout/provider-burn-otp`
@@ -197,7 +197,7 @@
 - Data / helpers: data.rewards.ts, data.shipment.ts, data.ts, store.rewards.ts, store.ts, tokens.ts, totals.ts
 - Shared components: `Button`, `Skeleton`, `Spinner`
 - Flow components: `AmountEntry`, `AmountTicket`, `AvailableBalance`, `CheckoutTag`, `Crescent`, `DynamicBackground`, `InfoEditButton`, `ProviderHeader`, `ProviderLogo`, `SubmitButton`, `TermsNote`, `VerifyOtp`
-- Tokens (80): colors 8 · flow:checkout 5 · palette 37 · radius 6 · spacing 12 · type 12
+- Tokens (81): colors 8 · flow:checkout 5 · palette 38 · radius 6 · spacing 12 · type 12
 - Icons: — · assets 6
 - State / data: `store:checkout`, `store:demo`, `data:currency`, `data:user`
 - `provider-burn-otp`: in ← `checkout/provider-burn`
@@ -223,7 +223,7 @@
 - Data / helpers: data.rewards.ts, tokens.ts
 - Shared components: `Skeleton`
 - Flow components: `CheckoutTag`, `ProviderCallout`
-- Tokens (58): colors 7 · palette 33 · radius 4 · spacing 8 · type 6
+- Tokens (59): colors 7 · palette 34 · radius 4 · spacing 8 · type 6
 - Icons: — · assets 2
 - State / data: `data:currency`, `data:user`
 - Nav out: push `checkout/provider-earn`
@@ -237,7 +237,7 @@
 - Data / helpers: data.rewards.ts, data.ts, store.rewards.ts, store.ts, tokens.ts
 - Shared components: `Button`, `Skeleton`, `Spinner`
 - Flow components: `CheckoutTag`, `Crescent`, `FormFields`, `FormTitle`, `InfoEditButton`, `ProviderHeader`, `ProviderLogo`, `SubmitButton`
-- Tokens (80): colors 8 · flow:checkout 5 · palette 37 · radius 6 · spacing 12 · type 12
+- Tokens (81): colors 8 · flow:checkout 5 · palette 38 · radius 6 · spacing 12 · type 12
 - Icons: — · assets 7
 - State / data: `store:checkout`, `data:currency`, `data:user`
 - Nav out: push `checkout/provider-earn-help`
@@ -251,7 +251,7 @@
 - Data / helpers: data.rewards.ts, tokens.ts
 - Shared components: `Button`, `Skeleton`, `Spinner`
 - Flow components: `CheckoutTag`, `Crescent`, `FormTitle`, `InfoEditButton`, `ProviderLogo`, `RichText`, `SubmitButton`
-- Tokens (80): colors 8 · flow:checkout 5 · palette 37 · radius 6 · spacing 12 · type 12
+- Tokens (81): colors 8 · flow:checkout 5 · palette 38 · radius 6 · spacing 12 · type 12
 - Icons: — · assets 6
 - State / data: `data:currency`, `data:user`
 - `provider-earn-help`: in ← `checkout/provider-earn`
@@ -264,7 +264,7 @@
 - Data / helpers: data.rewards.ts, data.shipment.ts, data.ts, store.ts, tokens.ts, totals.ts
 - Shared components: `Button`, `DashedDivider`, `ProductImage`, `Skeleton`, `Spinner`
 - Flow components: `CheckoutTag`, `RetryIcon`
-- Tokens (69): colors 13 · flow:checkout 1 · palette 35 · radius 4 · spacing 9 · type 7
+- Tokens (70): colors 13 · flow:checkout 1 · palette 36 · radius 4 · spacing 9 · type 7
 - Icons: — · assets 3
 - State / data: `store:checkout`, `store:demo`, `data:currency`, `data:user`
 - `installation`: docs `resources/flows/checkout.md:5-25`, `../checkout/spec.md:6-38`
@@ -277,7 +277,7 @@
 - Data / helpers: data.postorder.ts, data.ts, store.ts, tokens.ts
 - Shared components: `Lottie`
 - Flow components: —
-- Tokens (37): colors 2 · palette 30 · spacing 4 · type 1
+- Tokens (38): colors 2 · palette 31 · spacing 4 · type 1
 - Motion: `preset/easing.inOut`, `preset/easing.out`, `transition/checkout-alpha`, `transition/modal`, `transition/none`
 - Icons: — · assets 7
 - State / data: `store:checkout`, `store:demo`, `data:currency`, `data:user`
@@ -292,7 +292,7 @@
 - Data / helpers: data.postorder.ts, data.shipment.ts, data.ts, store.ts, tokens.ts
 - Shared components: `Icon`, `ProductImage`, `Screen`
 - Flow components: —
-- Tokens (71): colors 9 · flow:checkout 5 · local 2 · palette 32 · radius 4 · spacing 10 · type 9
+- Tokens (72): colors 9 · flow:checkout 5 · local 2 · palette 33 · radius 4 · spacing 10 · type 9
 - Motion: `preset/easing.out`, `reduced-motion`, `transition/checkout-alpha`
 - Icons: — · assets 7
 - State / data: `store:address`, `store:checkout`, `store:demo`, `store:membership`, `data:currency`, `data:productById`, `data:user`
@@ -307,7 +307,7 @@
 - Data / helpers: data.postorder.ts, tokens.ts
 - Shared components: —
 - Flow components: —
-- Tokens (61): colors 7 · flow:checkout 3 · local 2 · palette 31 · radius 2 · spacing 7 · type 9
+- Tokens (62): colors 7 · flow:checkout 3 · local 2 · palette 32 · radius 2 · spacing 7 · type 9
 - Icons: — · assets 7
 - Nav out: reset `home/home`
 
@@ -319,7 +319,7 @@
 - Data / helpers: data.postorder.ts, tokens.ts
 - Shared components: `Button`
 - Flow components: —
-- Tokens (61): colors 7 · flow:checkout 3 · local 2 · palette 31 · radius 2 · spacing 7 · type 9
+- Tokens (62): colors 7 · flow:checkout 3 · local 2 · palette 32 · radius 2 · spacing 7 · type 9
 - Icons: — · assets 7
 - Nav out: push `checkout/payment-failure-help`
 - `payment-failure`: in ← `checkout/placing` · tests `test:journey/checkout-payment-failure`
@@ -332,6 +332,6 @@
 - Data / helpers: data.postorder.ts, tokens.ts
 - Shared components: —
 - Flow components: —
-- Tokens (61): colors 7 · flow:checkout 3 · local 2 · palette 31 · radius 2 · spacing 7 · type 9
+- Tokens (62): colors 7 · flow:checkout 3 · local 2 · palette 32 · radius 2 · spacing 7 · type 9
 - Icons: — · assets 7
 - `payment-failure-help`: in ← `checkout/payment-failure`

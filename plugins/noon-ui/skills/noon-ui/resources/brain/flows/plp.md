@@ -28,7 +28,7 @@
 - Data / helpers: data.ts, scrollStates.ts, store.ts, tokens.ts
 - Shared components: `EmptyState`, `MarketplaceTag`, `Pressable`, `ProductBoxVertical`, `Screen`, `SearchInput`, `Skeleton`, `TabBar`, `Text`
 - Flow components: `CatalogListHeader`, `CatalogNavPill`, `MarketplaceStrip`, `RevealChip`, `SkeletonCard`
-- Tokens (42): colors 7 · flow:plp 2 · layout 1 · local 2 · palette 16 · pill 1 · radius 2 · spacing 7 · type 4
+- Tokens (47): colors 7 · flow:plp 2 · layout 1 · local 2 · palette 21 · pill 1 · radius 2 · spacing 7 · type 4
 - Motion: `haptics`, `preset/duration.fast`, `preset/duration.medium`, `preset/handoff.easeInOut`, `preset/handoff.fade`, `preset/handoff.spring`, `preset/handoff.stagger`, `recipe/SkeletonReveal`, `reduced-motion`
 - Icons: — · assets 12
 - State / data: `store:plp`, `data:leafName`, `data:phoneProducts`, `data:products`

@@ -34,7 +34,7 @@
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ai.ts, tokens.keyboard.ts, tokens.motion.ts, tokens.ts
 - Shared components: `Button`, `Checkbox`, `DashedDivider`, `OriginIcon`, `Pressable`, `Screen`, `Skeleton`, `Switch`
 - Flow components: `AiToggle`, `KeyboardDock`, `RateFeedbackCard`, `RateQuestionsSkeleton`, `ReviewFooter`, `ReviewHeader`, `ReviewProductHeader`, `ReviewTextField`, `StarRatingInput`
-- Tokens (77): colors 14 · flow:reviews 28 · iconButton 5 · layout 1 · local 2 · palette 8 · radius 5 · spacing 9 · type 5
+- Tokens (78): colors 14 · flow:reviews 28 · iconButton 5 · layout 1 · local 2 · palette 9 · radius 5 · spacing 9 · type 5
 - Motion: `haptics`, `preset/duration.fast`, `preset/duration.medium`, `preset/easing.ios`, `preset/easing.out`, `preset/easing.standard`, `preset/supermall.ease`, `transition/fade`
 - Icons: `mic`, `star`, `star-filled` · assets 13
 - State / data: `store:reviews`
@@ -66,7 +66,7 @@
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ai.ts, tokens.draft.ts, tokens.keyboard.ts, tokens.motion.ts, tokens.ts
 - Shared components: `Button`, `DashedDivider`, `MaskIcon`, `OriginIcon`, `Pressable`, `Screen`
 - Flow components: `AddPhotos`, `DraftCard`, `DraftProductTop`, `EditReviewSheet`, `ExclamationIcon`, `EyeIcon`, `KeyboardDock`, `MockKeyboard`, `ReviewFooter`, `ReviewHeader`, `ReviewTextField`, `SparkleIcon`, `StarRatingInput`
-- Tokens (94): colors 16 · flow:reviews 34 · iconButton 5 · layout 1 · local 2 · palette 7 · radius 7 · spacing 13 · type 9
+- Tokens (95): colors 16 · flow:reviews 34 · iconButton 5 · layout 1 · local 2 · palette 8 · radius 7 · spacing 13 · type 9
 - Motion: `haptics`, `preset/duration.medium`, `preset/easing.ios`, `preset/supermall.ease`, `recipe/FadeIn`, `transition/fade`
 - Icons: `cross`, `edit`, `info-circle`, `mic`, `star`, `star-filled` · assets 14
 - State / data: `store:reviews`
@@ -82,7 +82,7 @@
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ai.ts, tokens.draft.ts, tokens.keyboard.ts, tokens.motion.ts, tokens.ts
 - Shared components: `Button`, `DashedDivider`, `OriginIcon`, `Pressable`, `Screen`
 - Flow components: `AddPhotos`, `DraftCard`, `EyeIcon`, `KeyboardDock`, `MockKeyboard`, `ReviewFooter`, `ReviewHeader`, `ReviewProductHeader`, `ReviewTextField`, `SparkleIcon`, `StarRatingInput`
-- Tokens (83): colors 16 · flow:reviews 28 · iconButton 5 · layout 1 · local 2 · palette 6 · radius 6 · spacing 12 · type 7
+- Tokens (84): colors 16 · flow:reviews 28 · iconButton 5 · layout 1 · local 2 · palette 7 · radius 6 · spacing 12 · type 7
 - Motion: `haptics`, `preset/duration.medium`, `preset/easing.ios`, `preset/supermall.ease`, `recipe/FadeIn`, `transition/fade`
 - Icons: `cross`, `edit`, `info-circle`, `mic`, `star`, `star-filled` · assets 13
 - State / data: `store:reviews`
@@ -98,7 +98,7 @@
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ai.ts, tokens.keyboard.ts, tokens.motion.ts, tokens.ts
 - Shared components: `Button`, `DashedDivider`, `OriginIcon`, `Pressable`, `Screen`, `Switch`
 - Flow components: `AddPhotos`, `AiToggle`, `AttributeChips`, `DraftCard`, `ExclamationIcon`, `EyeIcon`, `GrowEditor`, `KeyboardDock`, `MockKeyboard`, `NewReviewManual`, `NewReviewMorphHeader`, `NewReviewPicks`, `PinnedEditor`, `ReviewFooter`, `ReviewTextField`, `RewriteSheet`, `SheetEditor`, `SparkleIcon`, `StarRatingInput`
-- Tokens (109): colors 16 · flow:reviews 41 · iconButton 5 · layout 2 · local 2 · palette 10 · radius 8 · spacing 13 · type 12
+- Tokens (110): colors 16 · flow:reviews 41 · iconButton 5 · layout 2 · local 2 · palette 11 · radius 8 · spacing 13 · type 12
 - Motion: `haptics`, `preset/duration.base`, `preset/duration.medium`, `preset/duration.slow`, `preset/easing.ios`, `preset/spring.press`, `preset/supermall.ease`, `preset/supermall.swap`, `reduced-motion`, `transition/fade`
 - Icons: `chevron-left`, `cross`, `edit`, `info-circle`, `mic`, `star`, `star-filled` · assets 13
 - State / data: `store:reviews`
@@ -114,7 +114,7 @@
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ai.ts, tokens.keyboard.ts, tokens.motion.ts, tokens.ts
 - Shared components: `Button`, `DashedDivider`, `Divider`, `OriginIcon`, `Pressable`, `Screen`
 - Flow components: `AddPhotos`, `AttributeChips`, `DraftCard`, `EditReviewSheet`, `ExclamationIcon`, `EyeIcon`, `KeyboardDock`, `MockKeyboard`, `ReviewFooter`, `ReviewHeader`, `ReviewProductHeader`, `ReviewTextField`, `RewriteSheet`, `SparkleIcon`, `StarRatingInput`
-- Tokens (105): colors 16 · flow:reviews 35 · iconButton 5 · layout 1 · local 2 · palette 10 · radius 9 · spacing 15 · type 12
+- Tokens (106): colors 16 · flow:reviews 35 · iconButton 5 · layout 1 · local 2 · palette 11 · radius 9 · spacing 15 · type 12
 - Motion: `haptics`, `preset/duration.medium`, `preset/easing.ios`, `preset/spring.press`, `preset/supermall.ease`, `preset/supermall.swap`, `transition/fade`
 - Icons: `cross`, `edit`, `info-circle`, `mic`, `star`, `star-filled` · assets 13
 - State / data: `store:reviews`
@@ -130,7 +130,7 @@
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ai.ts, tokens.keyboard.ts, tokens.motion.ts, tokens.ts
 - Shared components: `Lottie`, `OriginIcon`, `Pressable`, `Screen`
 - Flow components: `PhotoThumbs`, `StarRatingInput`
-- Tokens (53): colors 13 · flow:reviews 14 · layout 1 · local 2 · palette 6 · radius 5 · spacing 8 · type 4
+- Tokens (54): colors 13 · flow:reviews 14 · layout 1 · local 2 · palette 7 · radius 5 · spacing 8 · type 4
 - Motion: `haptics`, `preset/duration.medium`, `preset/easing.ios`, `preset/supermall.ease`, `transition/fade`
 - Icons: `cross`, `info-circle`, `star`, `star-filled` · assets 13
 - State / data: `store:reviews`
@@ -146,7 +146,7 @@
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ai.ts, tokens.keyboard.ts, tokens.motion.ts, tokens.ts
 - Shared components: `Button`, `OriginIcon`, `Pressable`, `Screen`
 - Flow components: `KeyboardDock`, `PastOrderCard`, `PastOrdersTitle`, `ReviewFooter`, `ReviewHeader`, `StarRatingInput`
-- Tokens (64): colors 14 · flow:reviews 22 · iconButton 5 · layout 1 · local 2 · palette 6 · radius 3 · spacing 7 · type 4
+- Tokens (65): colors 14 · flow:reviews 22 · iconButton 5 · layout 1 · local 2 · palette 7 · radius 3 · spacing 7 · type 4
 - Motion: `haptics`, `preset/duration.medium`, `preset/easing.ios`, `preset/supermall.ease`, `transition/fade`
 - Icons: `edit`, `mic`, `star`, `star-filled` · assets 13
 - State / data: `store:reviews`
@@ -162,7 +162,7 @@
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ai.ts, tokens.keyboard.ts, tokens.motion.ts, tokens.ts
 - Shared components: `Button`, `OriginIcon`, `Pressable`, `Screen`
 - Flow components: `KeyboardDock`, `PastOrderCard`, `PastOrdersTitle`, `ReviewFooter`, `ReviewHeader`, `StarRatingInput`
-- Tokens (65): colors 14 · flow:reviews 22 · iconButton 5 · layout 1 · local 2 · palette 6 · radius 3 · spacing 8 · type 4
+- Tokens (66): colors 14 · flow:reviews 22 · iconButton 5 · layout 1 · local 2 · palette 7 · radius 3 · spacing 8 · type 4
 - Motion: `haptics`, `preset/duration.medium`, `preset/easing.ios`, `preset/supermall.ease`, `transition/fade`
 - Icons: `edit`, `mic`, `star`, `star-filled` · assets 13
 - State / data: `store:reviews`

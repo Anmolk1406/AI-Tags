@@ -8638,6 +8638,36 @@
       "props": [
         "product"
       ]
+    },
+    {
+      "flow": "yellowFriday",
+      "name": "Countdown",
+      "file": "src/flows/yellowFriday/components/Countdown.tsx",
+      "line": 7,
+      "doc": "\"Picks refresh in 29 : 53 : 10\": three dark tiles, tabular digits, ticking once a second while the screen is on top.",
+      "props": [
+        "label",
+        "seconds"
+      ]
+    },
+    {
+      "flow": "yellowFriday",
+      "name": "Orbi",
+      "file": "src/flows/yellowFriday/components/Orbi.tsx",
+      "line": 11,
+      "doc": "Orbi, noon's assistant, as a flat vector stand-in for the 3D bot (github.com/saswata2002/3D-noon-bot): lacquer ball, yellow helmet with the noon wordmark, pill ",
+      "props": [
+        "size",
+        "mood",
+        "style"
+      ],
+      "variants": {
+        "mood": [
+          "happy",
+          "idle",
+          "think"
+        ]
+      }
     }
   ],
   "inheritedPropNames": [

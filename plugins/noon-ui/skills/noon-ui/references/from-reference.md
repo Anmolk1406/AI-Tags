@@ -45,7 +45,7 @@ When the user says "update the orders flow to look like this":
 
 1. Screenshot the current screens first (`node scripts/shot.mjs orders/list /tmp/before-orders.png`) and keep them for comparison. For a wider change, `npm run visual:snap -- /tmp/base` before you start.
 2. Diff the reference against the current screen section by section, in the mapping table: keep, change, add, remove.
-3. Change the flow's own files (`*Screen.tsx`, `components/`, `*.module.css`, `data.ts`, `tokens.ts`). Do not change a central component's look for one flow; add a prop or variant only if the change is a real noon variant, and check every other flow that uses it.
+3. Change the flow's own files (its screens, `components/`, `*.module.css`, `data.ts`, `tokens.ts`; new screens go in `screens/`). A reference's colours are snapped to tokens, never copied (`SKILL.md` → "No custom colours"). Do not change a central component's look for one flow; add a prop or variant only if the change is a real noon variant, and check every other flow that uses it.
 4. Keep routes, screen ids and `nav.*` targets stable so links from other flows keep working. Update `notes` and `source` in `index.ts`.
 5. Screenshot again, put before, after and the reference side by side, and read all three.
 

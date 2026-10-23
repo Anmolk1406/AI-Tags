@@ -8,7 +8,7 @@ import iconCashback from '@assets/cart/coupon-tray/coupon-tray-cashback.webp';
 import iconBank from '@assets/cart/coupon-tray/coupon-tray-bank.webp';
 import iconOne from '@assets/cart/coupon-tray/coupon-tray-one.webp';
 import chevronDown from '@assets/icons/noon-chevron-down.webp';
-import chevronThick from '@assets/cart/coupon-tray/chevron-thick.svg';
+import chevronThick from '@assets/cart/chevron-thick.svg';
 import applyLoader from '@assets/cart/coupon-tray/coupon-tray-apply-loader.lottie';
 import { trayCopy, type TrayOffer as Offer } from '../../data.couponTray';
 import { couponTrayMotion as M } from '../../tokens';

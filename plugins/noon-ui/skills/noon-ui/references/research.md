@@ -11,18 +11,23 @@ Mobbin is a library of real app screens and flows. Through its MCP server Claude
 1. Look for the tools `mcp__mobbin__search_screens` and `mcp__mobbin__search_flows` in the session (if tools load on demand, run a tool search for "mobbin").
 2. Not listed → **unavailable**. A listed tool whose call fails (auth, network, quota) → **unavailable** for this task.
 3. Say which it is in one line ("Mobbin isn't connected, so I'm using the repo's patterns" / "Researching on Mobbin…"). Never describe Mobbin results you didn't get.
+4. **Available → searching is mandatory** for this request, before you design or edit anything. Not searching while the tools are there is a skipped step, not a judgement call.
 
 The user connects it once in Claude Code (`claude mcp add` with the Mobbin server and their account); the repo can't do it for them.
 
 ## Unavailable: fall back, don't block
 
-Work from the repo (closest noon flow, `.claude/resources/flows/`, the flow's MAPPING docs, earlier `DESIGN.md` research) and whatever the user shared. Ask for a reference only when the pattern is genuinely new to noon and the choice matters. Write `Mobbin: not available` in `DESIGN.md` → Research. Never stop the task because Mobbin is missing.
+Work from the repo (closest noon flow, `.claude/resources/flows/`, the flow's MAPPING docs, earlier `DESIGN.md` research) and whatever the user shared. Ask for a reference in your clarifying questions when the pattern is new to noon. Write `Mobbin: not available: <not connected | call failed: why>` in `DESIGN.md` → Research. Never stop the task because Mobbin is missing.
 
 ## When to search
 
-- The pattern is new to noon (a loyalty tier ladder, a referral tracker, a subscription pause flow), or the user asks for research or alternatives.
-- Skip it for 1:1 ports, small changes, and patterns noon already has (reuse the noon version).
-- Reuse what's recorded: if `DESIGN.md` or a resource brief already answers it, don't search again.
+**Every request, whenever Mobbin is connected.** Depth follows the request size (`references/design-workflow.md`):
+
+- **Small** (copy, one section, a bug with a visible fix): one `search_screens` on the element you change ("cart item quantity stepper"), 3–5 results, one line on what they confirm or suggest.
+- **Medium** (a new section, sheet or state): 2–3 searches across the section and its states, 5–10 results.
+- **Large** (a new screen or flow, a redesign): `search_flows` for the journey plus `search_screens` per key screen, 3–6 references compared per decision, recorded in `DESIGN.md`.
+- **1:1 ports and patterns noon already has**: still search, for the interaction and states the source doesn't show; noon's version stays the default, and anything you'd change goes into the clarifying questions.
+- Earlier research (`DESIGN.md`, `.claude/resources/references/`) narrows the search to what it doesn't cover; it doesn't replace it.
 
 ## How to search
 

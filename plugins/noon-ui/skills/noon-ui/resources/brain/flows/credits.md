@@ -42,7 +42,7 @@
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ts
 - Shared components: `HtmlText`, `OriginIcon`, `Pressable`, `Screen`, `Skeleton`
 - Flow components: `NoteBox`, `PendingCard`, `ProviderMark`, `SkeletonRows`, `TransactionRow`, `WalletError`
-- Tokens (70): colors 6 · flow:credits 32 · fontWeight 2 · local 2 · palette 10 · radius 5 · spacing 13
+- Tokens (78): colors 6 · flow:credits 32 · fontWeight 2 · local 2 · palette 18 · radius 5 · spacing 13
 - Icons: — · assets 38
 - State / data: `store:credits`, `store:demo`, `data:currency`
 - Nav out: push `credits/bank` · sheet `credits/details` · sheet `credits/expiring` · sheet `credits/filters` · push `credits/giftcard` · sheet `credits/negative-sheet` · sheet `credits/pending` · sheet `credits/sort` · sheet `credits/topup`
@@ -59,7 +59,7 @@
 - Data / helpers: assets.ts, data.ts, tokens.ts
 - Shared components: `HtmlText`, `OriginIcon`, `Pressable`, `Skeleton`
 - Flow components: `WalletError`
-- Tokens (68): colors 8 · flow:credits 30 · fontWeight 2 · local 1 · palette 10 · radius 5 · spacing 12
+- Tokens (76): colors 8 · flow:credits 30 · fontWeight 2 · local 1 · palette 18 · radius 5 · spacing 12
 - Icons: — · assets 38
 - State / data: `data:currency`
 - Nav out: push `credits/bank` · push `orders/tracking`
@@ -73,7 +73,7 @@
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ts
 - Shared components: `HtmlText`, `OriginIcon`, `Pressable`, `Skeleton`
 - Flow components: `DefaultView`, `NoteBox`, `SkeletonRows`, `TransactionRow`, `WalletButton`, `WalletError`
-- Tokens (68): colors 8 · flow:credits 30 · fontWeight 2 · local 1 · palette 10 · radius 5 · spacing 12
+- Tokens (76): colors 8 · flow:credits 30 · fontWeight 2 · local 1 · palette 18 · radius 5 · spacing 12
 - Icons: — · assets 38
 - State / data: `store:credits`, `data:currency`
 - Nav out: sheet `credits/details` · switchTab `home/home`
@@ -102,7 +102,7 @@
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ts
 - Shared components: `HtmlText`, `OriginIcon`, `Pressable`, `Skeleton`, `Spinner`
 - Flow components: `RadioRow`, `SheetTitleRow`
-- Tokens (68): colors 8 · flow:credits 30 · fontWeight 2 · local 1 · palette 10 · radius 5 · spacing 12
+- Tokens (76): colors 8 · flow:credits 30 · fontWeight 2 · local 1 · palette 18 · radius 5 · spacing 12
 - Icons: — · assets 38
 - State / data: `store:credits`, `store:demo`, `data:currency`
 - `filters`: in ← `credits/credits`, `credits/empty`, `credits/error`, `credits/negative` · tests `test:journey/credits-filters` · docs `src/flows/credits/MAPPING.md:22-48`
@@ -128,7 +128,7 @@
 - Data / helpers: assets.ts, data.ts, tokens.ts
 - Shared components: `HtmlText`, `OriginIcon`, `Pressable`, `Skeleton`
 - Flow components: `ProviderMark`
-- Tokens (68): colors 8 · flow:credits 30 · fontWeight 2 · local 1 · palette 10 · radius 5 · spacing 12
+- Tokens (76): colors 8 · flow:credits 30 · fontWeight 2 · local 1 · palette 18 · radius 5 · spacing 12
 - Icons: — · assets 38
 - State / data: `data:currency`
 - Nav out: sheet `checkout/provider-burn` · push `credits/giftcard`

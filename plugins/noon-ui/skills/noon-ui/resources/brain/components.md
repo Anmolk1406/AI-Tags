@@ -9,11 +9,11 @@ Props and variants: `references/component-api.generated.md` (search the name). U
 | Component | File | Screens | Flows | Uses |
 |---|---|---|---|---|
 | `cmp:Accordion` | `src/components/Accordion/Accordion.tsx:36` | 4 | fieldds | OriginIcon, Pressable |
-| `cmp:ActionBar` | `src/components/ActionBar/ActionBar.tsx:52` | 4 | fieldds | Button, GlassFade |
+| `cmp:ActionBar` | `src/components/ActionBar/ActionBar.tsx:52` | 7 | fieldds, yellowFriday | Button, GlassFade |
 | `cmp:Badge` | `src/components/Tag/Tag.tsx:154` | 4 | home, pdp, search | Icon, MarketplaceTag, OriginIcon |
 | `cmp:BottomBar` | `src/components/BottomBar/BottomBar.tsx:5` | 0 | — | — |
-| `cmp:Button` | `src/components/Button/Button.tsx:89` | 31 | account, cart, checkout, fieldds, orders, plp, reviews, search | Icon, Pressable, Spinner |
-| `cmp:CatalogTag` | `src/components/Tag/Tag.tsx:9` | 19 | cart, deals, fieldds, home, pdp, plp, search, wishlist | Icon, MarketplaceTag, OriginIcon |
+| `cmp:Button` | `src/components/Button/Button.tsx:89` | 37 | account, cart, checkout, fieldds, orders, plp, reviews, search, yellowFriday | Icon, Pressable, Spinner |
+| `cmp:CatalogTag` | `src/components/Tag/Tag.tsx:9` | 20 | cart, deals, fieldds, home, pdp, plp, search, wishlist, yellowFriday | Icon, MarketplaceTag, OriginIcon |
 | `cmp:Checkbox` | `src/components/Checkbox/Checkbox.tsx:36` | 6 | fieldds, orders, reviews | Pressable |
 | `cmp:CouponTag` | `src/components/Tag/Tag.tsx:23` | 16 | cart, deals, fieldds, home, pdp, plp, search, wishlist | Icon, MarketplaceTag, OriginIcon |
 | `cmp:DashedDivider` | `src/components/Divider/Divider.tsx:24` | 17 | checkout, fieldds, orders, pdp, reviews, search | — |
@@ -22,49 +22,49 @@ Props and variants: `references/component-api.generated.md` (search the name). U
 | `cmp:EmptyState` | `src/components/EmptyState/EmptyState.tsx:58` | 3 | plp, search | Button |
 | `cmp:EtaBadge` | `src/components/EtaBadge/EtaBadge.tsx:21` | 16 | cart, deals, fieldds, home, pdp, plp, search, wishlist | OriginIcon |
 | `cmp:ExpressBadge` | `src/components/Tag/Tag.tsx:18` | 5 | cart, pdp, search | Icon, MarketplaceTag, OriginIcon |
-| `cmp:GlassFade` | `src/components/Glass/Glass.tsx:14` | 169 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist | — |
-| `cmp:Header` | `src/components/Header/Header.tsx:92` | 8 | account, fieldds, orders, pdp | Icon, Pressable |
+| `cmp:GlassFade` | `src/components/Glass/Glass.tsx:14` | 175 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday | — |
+| `cmp:Header` | `src/components/Header/Header.tsx:92` | 13 | account, fieldds, orders, pdp, yellowFriday | Icon, Pressable |
 | `cmp:HtmlText` | `src/components/HtmlText/HtmlText.tsx:50` | 70 | cart, checkout, credits, membership, noonone, pdp, search | — |
-| `cmp:Icon` | `src/components/Icon/Icon.tsx:94` | 63 | account, cart, checkout, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist | — |
-| `cmp:IconButton` | `src/components/Header/Header.tsx:26` | 5 | account, fieldds | Icon, Pressable |
+| `cmp:Icon` | `src/components/Icon/Icon.tsx:94` | 69 | account, cart, checkout, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday | — |
+| `cmp:IconButton` | `src/components/Header/Header.tsx:26` | 6 | account, fieldds, yellowFriday | Icon, Pressable |
 | `cmp:ListGroup` | `src/components/ListRow/ListRow.tsx:96` | 0 | — | DashedDivider, Icon, OriginIcon, Pressable |
 | `cmp:ListRow` | `src/components/ListRow/ListRow.tsx:35` | 4 | fieldds | DashedDivider, Icon, OriginIcon, Pressable |
 | `cmp:Lottie` | `src/components/Lottie/Lottie.tsx:124` | 51 | account, address, cards, cart, checkout, membership, noonone, pdp, returns, reviews, search, wishlist | — |
-| `cmp:MarketplaceTag` | `src/components/Tag/MarketplaceTag.tsx:56` | 27 | cart, checkout, deals, fieldds, home, orders, pdp, plp, returns, search, wishlist | — |
+| `cmp:MarketplaceTag` | `src/components/Tag/MarketplaceTag.tsx:56` | 28 | cart, checkout, deals, fieldds, home, orders, pdp, plp, returns, search, wishlist, yellowFriday | — |
 | `cmp:MarketplaceWordmark` | `src/components/Tag/MarketplaceTag.tsx:84` | 1 | orders | — |
-| `cmp:MaskIcon` | `src/components/MaskIcon/MaskIcon.tsx:7` | 171 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist | — |
+| `cmp:MaskIcon` | `src/components/MaskIcon/MaskIcon.tsx:7` | 177 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday | — |
 | `cmp:Money` | `src/components/Price/Price.tsx:48` | 4 | fieldds | — |
 | `cmp:NeedHelpButton` | `src/components/NeedHelpButton/NeedHelpButton.tsx:20` | 3 | account, orders | OriginIcon, Pressable |
-| `cmp:OriginIcon` | `src/components/Icon/OriginIcon.tsx:15` | 171 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist | MaskIcon |
-| `cmp:Pill` | `src/components/Pill/Pill.tsx:24` | 7 | fieldds, plp, search | Icon, OriginIcon, Pressable |
+| `cmp:OriginIcon` | `src/components/Icon/OriginIcon.tsx:15` | 177 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday | MaskIcon |
+| `cmp:Pill` | `src/components/Pill/Pill.tsx:24` | 9 | fieldds, plp, search, yellowFriday | Icon, OriginIcon, Pressable |
 | `cmp:PillRow` | `src/components/Pill/Pill.tsx:195` | 0 | — | Icon, OriginIcon, Pressable |
-| `cmp:Pressable` | `src/components/Pressable/Pressable.tsx:17` | 169 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist | — |
-| `cmp:Price` | `src/components/Price/Price.tsx:9` | 16 | cart, deals, fieldds, home, pdp, plp, search, wishlist | — |
+| `cmp:Pressable` | `src/components/Pressable/Pressable.tsx:17` | 175 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday | — |
+| `cmp:Price` | `src/components/Price/Price.tsx:9` | 19 | cart, deals, fieldds, home, pdp, plp, search, wishlist, yellowFriday | — |
 | `cmp:ProductBoxVertical` | `src/components/ProductBoxVertical/ProductBoxVertical.tsx:43` | 5 | plp, search, wishlist | CatalogTag, EtaBadge, Icon, ProductImage, QuickAdd, WishlistHeart |
 | `cmp:ProductCard` | `src/components/ProductCard/ProductCard.tsx:25` | 9 | cart, deals, fieldds, home, pdp | CatalogTag, CouponTag, EtaBadge, Icon, Price, ProductImage, QuantityStepper, RatingPill, Text, WishlistHeart |
-| `cmp:ProductImage` | `src/components/ProductImage/ProductImage.tsx:9` | 43 | account, cart, checkout, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, search, wishlist | — |
+| `cmp:ProductImage` | `src/components/ProductImage/ProductImage.tsx:9` | 48 | account, cart, checkout, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, search, wishlist, yellowFriday | — |
 | `cmp:QuantityStepper` | `src/components/QuantityStepper/QuantityStepper.tsx:13` | 16 | cart, deals, fieldds, home, pdp, plp, search, wishlist | Icon, Pressable |
 | `cmp:QuickAdd` | `src/components/ProductCard/ProductCard.tsx:101` | 8 | home, pdp, plp, search, wishlist | CatalogTag, CouponTag, EtaBadge, Icon, Price, ProductImage, QuantityStepper, RatingPill, Text, WishlistHeart |
 | `cmp:Radio` | `src/components/Radio/Radio.tsx:33` | 4 | fieldds | Pressable |
 | `cmp:RatingPill` | `src/components/Rating/Rating.tsx:15` | 16 | cart, deals, fieldds, home, pdp, plp, search, wishlist | Icon, OriginIcon, Pressable |
-| `cmp:Screen` | `src/components/Screen/Screen.tsx:35` | 98 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist | — |
+| `cmp:Screen` | `src/components/Screen/Screen.tsx:35` | 103 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday | — |
 | `cmp:SearchBarButton` | `src/components/SearchBar/SearchBar.tsx:23` | 7 | categories, deals, home | OriginIcon, Pressable |
 | `cmp:SearchInput` | `src/components/SearchBar/SearchBar.tsx:157` | 7 | fieldds, plp, search | OriginIcon, Pressable |
 | `cmp:SectionCard` | `src/components/SectionCard/SectionCard.tsx:5` | 0 | — | — |
-| `cmp:Segmented` | `src/components/Segmented/Segmented.tsx:29` | 4 | fieldds | — |
-| `cmp:SheetBody` | `src/components/BottomSheet/BottomSheet.tsx:66` | 4 | fieldds | ActionBar, Button, OriginIcon, Pressable |
-| `cmp:SheetFooter` | `src/components/BottomSheet/BottomSheet.tsx:82` | 4 | fieldds | ActionBar, Button, OriginIcon, Pressable |
-| `cmp:SheetHeader` | `src/components/BottomSheet/BottomSheet.tsx:22` | 4 | fieldds | ActionBar, Button, OriginIcon, Pressable |
+| `cmp:Segmented` | `src/components/Segmented/Segmented.tsx:29` | 6 | fieldds, yellowFriday | — |
+| `cmp:SheetBody` | `src/components/BottomSheet/BottomSheet.tsx:66` | 7 | fieldds, yellowFriday | ActionBar, Button, OriginIcon, Pressable |
+| `cmp:SheetFooter` | `src/components/BottomSheet/BottomSheet.tsx:82` | 7 | fieldds, yellowFriday | ActionBar, Button, OriginIcon, Pressable |
+| `cmp:SheetHeader` | `src/components/BottomSheet/BottomSheet.tsx:22` | 7 | fieldds, yellowFriday | ActionBar, Button, OriginIcon, Pressable |
 | `cmp:Skeleton` | `src/components/Skeleton/Skeleton.tsx:8` | 48 | account, address, cart, checkout, credits, membership, noonone, plp, reviews, search, wishlist | — |
-| `cmp:SkuCard` | `src/components/SkuCard/SkuCard.tsx:52` | 3 | cart | CatalogTag, MaskIcon, ProductImage |
+| `cmp:SkuCard` | `src/components/SkuCard/SkuCard.tsx:52` | 4 | cart, yellowFriday | CatalogTag, MaskIcon, ProductImage |
 | `cmp:Snackbar` | `src/components/Snackbar/Snackbar.tsx:36` | 0 | — | OriginIcon, Pressable |
-| `cmp:SnackbarStack` | `src/components/Snackbar/Snackbar.tsx:79` | 169 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist | OriginIcon, Pressable |
-| `cmp:Spinner` | `src/components/Spinner/Spinner.tsx:44` | 119 | account, address, cards, cart, checkout, credits, fieldds, membership, noonone, orders, pdp, plp, returns, reviews, search | — |
+| `cmp:SnackbarStack` | `src/components/Snackbar/Snackbar.tsx:79` | 175 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday | OriginIcon, Pressable |
+| `cmp:Spinner` | `src/components/Spinner/Spinner.tsx:44` | 125 | account, address, cards, cart, checkout, credits, fieldds, membership, noonone, orders, pdp, plp, returns, reviews, search, yellowFriday | — |
 | `cmp:Stars` | `src/components/Rating/Rating.tsx:44` | 4 | fieldds | Icon, OriginIcon, Pressable |
 | `cmp:StatusChip` | `src/components/Tag/Tag.tsx:78` | 4 | fieldds | Icon, MarketplaceTag, OriginIcon |
 | `cmp:Switch` | `src/components/Switch/Switch.tsx:55` | 11 | account, cards, checkout, fieldds, reviews | — |
-| `cmp:TabBar` | `src/components/TabBar/TabBar.tsx:77` | 169 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist | GlassFade, MaskIcon, OriginIcon, Pressable |
-| `cmp:Text` | `src/components/Text/Text.tsx:23` | 17 | cart, deals, fieldds, home, pdp, plp, search, wishlist | — |
+| `cmp:TabBar` | `src/components/TabBar/TabBar.tsx:77` | 175 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday | GlassFade, MaskIcon, OriginIcon, Pressable |
+| `cmp:Text` | `src/components/Text/Text.tsx:23` | 23 | cart, deals, fieldds, home, pdp, plp, search, wishlist, yellowFriday | — |
 | `cmp:TextArea` | `src/components/TextArea/TextArea.tsx:62` | 4 | fieldds | — |
 | `cmp:TextField` | `src/components/TextField/TextField.tsx:70` | 4 | fieldds | — |
 | `cmp:Toast` | `src/components/Toast/Toast.tsx:26` | 13 | address, cart, checkout | — |
@@ -91,3 +91,4 @@ One line per flow: components and how many screens reach each. Used outside its 
 - **reviews** (35): AddPhotos 4, AiToggle 2, AttributeChip 0, AttributeChips 2, CraftingShimmer 0, DraftAction 0, DraftCard 4, DraftProductTop 1, EditReviewSheet 2, ExclamationIcon 3, EyeIcon 4, GrowEditor 1, KeyboardDock 7, MockKeyboard 4, NameToggle 0, NewReviewManual 1, NewReviewMorphHeader 1, NewReviewPicks 1, PastOrderCard 2, PastOrdersTitle 2, PhotoThumbs 1, PinnedEditor 1, ProgressRing 0, RateCheckRow 0, RateFeedbackCard 1, RateQuestionsSkeleton 1, ReviewFooter 7, ReviewHeader 7, ReviewProductHeader 3, ReviewSheet 0, ReviewTextField 5, RewriteSheet 2, SheetEditor 1, SparkleIcon 4, StarRatingInput 8
 - **search** (2): RecentSearches 2, SuggestionRow 2
 - **wishlist** (8): CollectionTile 2, EmptyState 2, EmptyWishlist 3, NoCollectionWidget 2, ViewCartPill 3, WishlistAtc 2, WishlistHeader 3, WishlistProductBox 2
+- **yellowFriday** (2): Countdown 1, Orbi 6

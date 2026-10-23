@@ -8,11 +8,12 @@
 |---|---|
 | warn · cross-flow-data | 8 |
 | warn · foreign-ui | 1 |
+| warn · undefined-token | 1 |
 | info · cross-flow-component | 4 |
 | info · nav-dynamic | 9 |
 | info · no-entry | 26 |
 | info · promotion-candidate | 63 |
-| info · untested | 135 |
+| info · untested | 141 |
 | info · unused-component | 5 |
 
 ## warn · cross-flow-data
@@ -29,6 +30,10 @@
 ## warn · foreign-ui
 
 - src/flows/account/ChangePasswordScreen.tsx imports lucide-react (no second design system)
+
+## warn · undefined-token
+
+- src/flows/yellowFriday/screens/yellowFriday.module.css: uses var(nk-ease-out (written without the leading --), which no token, flow token or src declaration defines
 
 ## info · cross-flow-component
 
@@ -226,7 +231,7 @@
 - membership/confirmOffer: only `check:routes` covers it (no journey, no visual reference)
 - membership/familyPlans: only `check:routes` covers it (no journey, no visual reference)
 - membership/familyReview: only `check:routes` covers it (no journey, no visual reference)
-- … +55 more (graph.json → findings)
+- … +61 more (graph.json → findings)
 
 ## info · unused-component
 

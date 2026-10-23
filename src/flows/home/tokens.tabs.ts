@@ -8,7 +8,7 @@ import { appleSpring } from '../../motion/presets';
  */
 
 /** Tile surfaces: light = white 0.35 → 0.50, dark = white 0.10 flat; strokes are 0.5px inside rings fading to transparent. */
-const light = { tileFill: 'linear-gradient(180deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.5) 100%)', tileStroke: 'rgba(255,255,255,0.56)' };
+const light = { tileFill: 'linear-gradient(180deg, var(--nk-palette-white-alpha35) 0%, rgba(255,255,255,0.5) 100%)', tileStroke: 'rgba(255,255,255,0.56)' };
 const dark = { tileFill: 'linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.1) 100%)', tileStroke: 'rgba(255,255,255,0.448)' };
 
 export type TabContentKind = 'cms' | 'tiles' | 'grocery' | 'sponsored' | 'none';
@@ -34,9 +34,9 @@ const blue: TabTheme = { header: ['#D8EFFF', '#D8F5FF'], layout: ['#D9F5FE', '#8
 
 export const homeTabThemes: Record<string, TabTheme> = {
   all: { ...blue, content: 'cms' },
-  electronics: { header: ['#200A39', '#270F48'], addressInk: 'light', statusInk: 'light', layout: ['#29104A', '#5A348D'], ink: 'light', content: 'tiles', headlineColor: '#FFFFFF', tileLabel: 'rgba(255,255,255,0.88)', ...dark },
+  electronics: { header: ['#200A39', '#270F48'], addressInk: 'light', statusInk: 'light', layout: ['#29104A', '#5A348D'], ink: 'light', content: 'tiles', headlineColor: 'var(--nk-palette-white)', tileLabel: 'rgba(255,255,255,0.88)', ...dark },
   grocery: { header: ['#ACF5C4', '#C5F5D5'], layout: ['#C4F4D4', '#7DE19F'], ink: 'dark', content: 'grocery', headlineColor: '#2B612E', tileLabel: '#043F52', ...light },
-  beauty: { header: ['#FFC4E8', '#FFD1ED'], layout: ['#FFD0ED', '#FFBEE6'], ink: 'dark', content: 'tiles', headlineColor: '#B04D8B', tileLabel: '#0E0E0E', ...light },
+  beauty: { header: ['#FFC4E8', '#FFD1ED'], layout: ['#FFD0ED', '#FFBEE6'], ink: 'dark', content: 'tiles', headlineColor: '#B04D8B', tileLabel: 'var(--nk-palette-neutral-black)', ...light },
   fashion: { header: ['#5A94D6', '#1C5597'], addressInk: 'light', layout: ['#1C5597', '#0A3970'], ink: 'light', content: 'sponsored' },
   // not designed yet in Figma: skinned, no content
   wellness: blue,
@@ -64,15 +64,15 @@ export const homeTabsTokens = {
 
 export const homeTabsFlowTokens: TokenOverrides = {
   colors: {
-    homeTabNewBadge: '#F43333', // NEW badge on a tab
-    homeTabCmsBorder: '#F2F3F7', // CMS widget card border / promo tile fill
+    homeTabNewBadge: 'var(--nk-palette-deep-red-color)', // NEW badge on a tab
+    homeTabCmsBorder: 'var(--nk-palette-anti-flash-white)', // CMS widget card border / promo tile fill
     homeTabAjmalBg: '#0C0C04', // Ajmal widget fill
     homeTabBadgeBrown: '#A5622B', // WHOOP "Flash Deal" notch
     homeTabBadgeBlue: '#0580AB', // Nike "Eid offer" notch
-    homeTabBadgeRed: '#D92626', // Ajmal "Flash Deal" notch
-    homeTabSponsoredBorder: '#F9F9FB', // fashion sponsored card border / media fill
-    homeTabSponsoredTitle: '#212121',
-    homeTabAdBg: 'rgba(255, 255, 255, 0.8)', // "Ad" tag
+    homeTabBadgeRed: 'var(--nk-palette-danger-red)', // Ajmal "Flash Deal" notch
+    homeTabSponsoredBorder: 'var(--nk-palette-secondary-background-color)', // fashion sponsored card border / media fill
+    homeTabSponsoredTitle: 'var(--nk-palette-ink-black)',
+    homeTabAdBg: 'var(--nk-palette-white-alpha80)', // "Ad" tag
     homeTabPauseBg: 'rgba(0, 0, 0, 0.65)', // video pause button
   },
   type: {

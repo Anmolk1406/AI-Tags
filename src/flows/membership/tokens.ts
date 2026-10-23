@@ -52,7 +52,7 @@ export const membershipColors = {
   mbFamilyCard: '#FEFEFE',
 
   // ── VIPTransitionAnim (success text)
-  mbAnimTitle: '#02060CEB',
+  mbAnimTitle: 'var(--nk-palette-night-fall)',
   mbAnimSubtitle: '#02060C99',
 
   // ── Cancel membership V2 (VIPCancelMembershipV2Screen/styles.ts)
@@ -114,9 +114,9 @@ export const membershipRadius = {
 
 export const membershipShadow = {
   // VIPStyles.shadow2 (grey, 0 3.2, opacity .1, radius 3.2)
-  mbShadow2: '0 3.2px 6.4px rgba(128, 128, 128, 0.1)',
+  mbShadow2: '0 3.2px 6.4px var(--nk-palette-dark-gray-color-alpha10)',
   // VIPStyles.shadow3 (black, 0 7, opacity .4, radius 8) — sticky CTA containers
-  mbShadow3: '0 7px 16px rgba(0, 0, 0, 0.4)',
+  mbShadow3: '0 7px 16px var(--nk-palette-black-alpha40)',
   mbGlow: '0 2px 8px rgba(38, 181, 124, 0.4)',
 } as const;
 
@@ -190,7 +190,7 @@ export const cancelAreaTokens = {
   radius: {},
   shadow: {
     mbCSoft: '0 0 16px #ECECEC', // shadowColor #ECECEC, opacity 1, radius 8
-    mbCSurvey: '0 2px 60px #EAECF0', // optionsContainer shadow surfaceMuted, radius 30
+    mbCSurvey: '0 2px 60px var(--nk-palette-light-grey-color)', // optionsContainer shadow surfaceMuted, radius 30
     mbCTip: '0 2px 60px #ECECEC', // tipContainer
     mbCHairline: '0 0 16px rgba(236, 236, 236, 0.02)', // unusedBenefitButton (opacity .02)
   },
@@ -232,9 +232,9 @@ export const familyAreaTokens = {
   colors: {
     mbFamDash: '#02060C26', // VIPBenefitsModule / VIPPlanDetailsPopup dashed dividers
     mbFamPayLabel: '#02060C73', // VIPSubscriptionButtonV2 paymentRowHeaderText
-    mbFamReminderTitle: '#F43333', // VIPPlanDetailsPopup reminderTitle
+    mbFamReminderTitle: 'var(--nk-palette-deep-red-color)', // VIPPlanDetailsPopup reminderTitle
     mbFamShimmer: 'rgba(255, 255, 255, 0.55)', // VIPFamilyPlansSkeletonLoader highlight
-    mbFamFaqDash: '#EBEBEB', // VIPExpandableTextModule grouped divider
+    mbFamFaqDash: 'var(--nk-palette-bright-grey-color)', // VIPExpandableTextModule grouped divider
   },
   type: {
     mbFamH24Semibold: { size: 24, line: 32, weight: 600 }, // SharePlanInvite title p (h24 semibold)
@@ -254,7 +254,7 @@ export const familyAreaTokens = {
   },
   radius: {},
   shadow: {
-    mbFamHero: '0 2px 18px rgba(0, 0, 0, 0.09)', // heroImageButton shadow (black, 0 2, .09, radius 9)
+    mbFamHero: '0 2px 18px var(--nk-palette-black-alpha9)', // heroImageButton shadow (black, 0 2, .09, radius 9)
   },
 } satisfies Area;
 // ── end area: family

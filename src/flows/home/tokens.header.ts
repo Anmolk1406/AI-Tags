@@ -13,7 +13,7 @@ export const homeHeaderFlowTokens: TokenOverrides = {
     homeHeaderGradient:
       'radial-gradient(703px 499px at 50% calc(var(--nk-inset-top) - 254px), rgba(212, 239, 246, 1) 10%, rgba(219, 225, 249, 1) 50%, rgba(235, 243, 249, 1) 70%, rgba(181, 228, 242, 0.5) 85%, rgba(128, 213, 234, 0) 100%), var(--nk-palette-white)', // token-lint-ignore — flow token definition (Figma fill)
     // 1337:6715 — white radial fade along the bottom edge (radii 1682×120)
-    homeHeaderFade: 'radial-gradient(1682px 120px at 50% 100%, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%)', // token-lint-ignore — flow token definition (Figma fill)
+    homeHeaderFade: 'radial-gradient(1682px 120px at 50% 100%, var(--nk-palette-white) 0%, var(--nk-palette-white-alpha0) 100%)', // token-lint-ignore — flow token definition (Figma fill)
     // Alpha/GrayA/900 — ticker pager, hero copy
     homeAlphaGray900: 'rgba(14, 14, 14, 0.79)', // token-lint-ignore — Figma variable Alpha/GrayA/900
     // 1337:5107 — welcome hero card (radial #FFF1D2 → #FFFEF5, radii 850×295 from bottom centre)

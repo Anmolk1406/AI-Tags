@@ -6,15 +6,24 @@ Every noon skill follows this workflow. Screen skills add their spec on top; the
 A Understand → B Research → C Ideate → D Clarify → E Design direction → F Implement → G Validate
 ```
 
-## Size the request first
+## Two gates on every request
+
+Whatever the size, before any code:
+
+1. **B — Mobbin research is mandatory when Mobbin is connected** (`references/research.md` → "Is Mobbin available?"). Search, look at the screens, record what you take. Only a missing tool or a failed call skips it, and you say so in one line.
+2. **D — Clarifying questions are always asked.** One round of 1–4 questions, recommended answer first, then **wait** for the answers. Only an explicit "don't ask, just build" from the user in this request skips it; then list your assumptions instead.
+
+## Size the request
+
+The size sets how deep the other stages go; it never removes the two gates.
 
 | Size | Examples | Stages |
 |---|---|---|
-| **Small** | copy or spacing fix, swap an icon, restyle one section to a given reference, a bug | A (read the code) → F → G. Say the assumptions in one line. |
-| **Medium** | a new section or sheet in an existing flow, a new state of a screen | A → B (repo first; Mobbin if the pattern is new to noon) → E (short, in the reply) → F → G |
+| **Small** | copy or spacing fix, swap an icon, restyle one section to a given reference, a bug | A (read the code) → B (one focused Mobbin search on the element you change) → D → F → G |
+| **Medium** | a new section or sheet in an existing flow, a new state of a screen | A → B (repo first, then Mobbin) → D → E (short, in the reply) → F → G |
 | **Large** | a new screen, a new flow, a redesign, anything that adds a component or token | All stages. Write `src/flows/<flow>/DESIGN.md` (template: `templates/DESIGN.md`) and present the design direction before writing code. |
 
-When unsure, treat it as the bigger size. A 1:1 port from bappzaar or Figma is research done: the reference is the source (write `MAPPING.md` / `FIGMA-MAPPING.md`); skip B–D unless the reference leaves real decisions open.
+When unsure, treat it as the bigger size. A 1:1 port from bappzaar or Figma is research on the look done: the reference is the source (write `MAPPING.md` / `FIGMA-MAPPING.md`). Still search Mobbin for the interaction and states the reference doesn't show, and still ask: which reference wins where they disagree, which states and variants to port, what's out of scope.
 
 ## A — Understand
 
@@ -28,16 +37,29 @@ When unsure, treat it as the bigger size. A 1:1 port from bappzaar or Figma is r
 - **Repo first.** If an existing noon flow already solves the pattern, that's the answer; note it and move on.
 - **The reference library.** Read the pattern file in `.claude/resources/references/` (`README.md` lists them: home feed, search, listing, PDP, cart, checkout, tracking, membership, account, sheets, navigation, toasts, states, sign-in, reviews). It is the bar: the strongest screens from Airbnb, Apple, Revolut, Uber, Amazon, Shop, Instacart, Zara, talabat, Careem, Linear, Arc, Things and Duolingo, what makes each great, and how to build it with noon. Take structure and interaction, never branding.
 - **Prior research.** Check the flow's `DESIGN.md` → Research and `.claude/resources/` before searching again.
-- **Mobbin, when connected.** For patterns new to noon, research them with Mobbin (how, when and the fallback: `references/research.md`). Mobbin is a reference, never the design system.
+- **Mobbin, always when connected.** Every request searches Mobbin for the pattern it touches, even when noon already has one (then you're checking noon's version against the best, not replacing it). How, what to record and the fallback when it isn't connected: `references/research.md`. Mobbin is a reference, never the design system.
 - Record each significant decision's source and why, in `DESIGN.md` → Research (or the reply for medium requests).
 
 ## C — Ideate
 
 Only when there's real ambiguity. Two or three approaches that differ in structure or interaction (not colour), each judged on: the user's goal, consistency with noon, accessibility, implementation cost (reuse vs new pieces). Recommend one and say why in two or three lines.
 
-## D — Clarify
+## D — Clarify (always)
 
-Ask only what changes the design: intent or business rule, a missing state or navigation decision, an ambiguous reference, a trade-off with real consequences. Group the questions in one message and offer the recommended answer first. If nothing material is open, state the assumptions and continue.
+Every request gets one round of questions before F, asked after A and B so they're informed by the code and the Mobbin references. Then stop and wait for the answers.
+
+- **How**: one message, 1–4 questions, each with 2–4 concrete options and your recommended one first, saying why in a few words. Use the session's question tool (`AskUserQuestion` in Claude Code; its previews suit layout options taken from the Mobbin references); without one, a numbered list.
+- **What**: what the repo and the references can't answer. Pick the ones that matter for this request:
+  - goal and success: what the user should be able to do, which metric or moment matters;
+  - entry point and exit: which screen leads here, where the user goes after;
+  - scope: which screens, states and variants are in, what's out;
+  - states and edge cases: empty, loading, error, member / non-member, signed out, long content;
+  - references: which wins when the request, Figma, bappzaar and Mobbin disagree;
+  - a real trade-off from C (two layouts that differ in structure, not colour);
+  - a colour or component the kit doesn't have (the closest token or component is the recommended answer).
+- **Never** ask what the code already answers, ask for permission to follow the house rules, or ask questions one at a time across several turns.
+- Record the questions and answers in `DESIGN.md` → Clarifications (or the reply for small and medium requests).
+- Skip only when the user says in this request not to ask; then write your assumptions where the answers would have gone.
 
 ## E — Design direction
 

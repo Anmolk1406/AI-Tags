@@ -12,9 +12,9 @@ export const pdpNpAFlowTokens: TokenOverrides = {
     /** "Đ20 off" in the bundle title (Figma #0A49B8) */
     pdpNpaBundleHighlight: '#0A49B8', // token-lint-ignore — flow token definition (Figma text)
     /** bundle card: white → brand-blue/100 #EBF4FF at 99.7° */
-    pdpNpaBundleFill: 'linear-gradient(99.71deg, #FFFFFF 0%, #EBF4FF 100%)', // token-lint-ignore — flow token definition (Figma fill)
+    pdpNpaBundleFill: 'linear-gradient(99.71deg, var(--nk-palette-white) 0%, var(--nk-palette-border-gray) 100%)', // token-lint-ignore — flow token definition (Figma fill)
     /** "Saving Đ45 with Combo" banner: lightSkyBlue #EAF4FE → white at 51% */
-    pdpNpaComboFill: 'linear-gradient(90deg, #EAF4FE 0%, #FFFFFF 51.07%)', // token-lint-ignore — flow token definition (Figma fill)
+    pdpNpaComboFill: 'linear-gradient(90deg, #EAF4FE 0%, var(--nk-palette-white) 51.07%)', // token-lint-ignore — flow token definition (Figma fill)
     /** "noon's Pick" text: #FEF6D6 → #FDCA2B (70%) → #FEF6D6 (108%) */
     pdpNpaPickText: 'linear-gradient(90deg, #FEF6D6 0%, #FDCA2B 70.42%, #FEF6D6 108.26%)', // token-lint-ignore — flow token definition (Figma text fill)
   },

@@ -29,7 +29,7 @@
 - Data / helpers: assets.ts, data.ts, motion.ts, tokens.ts
 - Shared components: `Button`, `DashedDivider`, `MarketplaceTag`, `MarketplaceWordmark`, `MaskIcon`, `NeedHelpButton`, `OriginIcon`, `Pressable`, `Screen`
 - Flow components: `ActiveOrderCard`, `HistoryOrderCard`, `PinTiles`, `StarRating`, `StatusHeader`, `Thumb`
-- Tokens (91): colors 21 · flow:orders 16 · local 2 · palette 14 · radius 8 · spacing 11 · type 19
+- Tokens (92): colors 21 · flow:orders 16 · local 2 · palette 15 · radius 8 · spacing 11 · type 19
 - Motion: `haptics`, `preset/handoff.easeInOut`, `preset/handoff.easeOut`, `preset/handoff.fade`, `preset/handoff.spring`, `preset/handoff.stagger`, `preset/handoff.travel`, `preset/spring.bouncy`, `preset/supermall.ease`, `preset/supermall.press`, `preset/supermall.reveal`
 - Icons: `call`, `caret-down`, `chevron-left`, `chevron-right`, `currency-note-wave-rewind-circle-filled`, `installation-filled`, `order-box`, `preferences`, `rewind-alt`, `search`, `star`, `star-shield` · assets 22
 - State / data: `store:reviews`, `data:currency`, `data:getProduct`
@@ -45,7 +45,7 @@
 - Data / helpers: assets.ts, data.ts, motion.ts, tokens.ts
 - Shared components: `Button`, `Checkbox`, `DashedDivider`, `Divider`, `MarketplaceTag`, `MaskIcon`, `NeedHelpButton`, `OriginIcon`, `Pressable`, `Screen`
 - Flow components: `BillSummary`, `ImageStack`, `PinTiles`, `Stepper`, `Thumb`, `WindowPill`
-- Tokens (93): colors 20 · flow:orders 16 · local 2 · palette 17 · radius 8 · spacing 11 · type 19
+- Tokens (94): colors 20 · flow:orders 16 · local 2 · palette 18 · radius 8 · spacing 11 · type 19
 - Motion: `haptics`, `preset/appleSpring`, `preset/duration.base`, `preset/duration.medium`, `preset/duration.slower`, `preset/handoff.easeOut`, `preset/handoff.fade`, `preset/handoff.spring`, `preset/handoff.stagger`, `preset/handoff.travel`, `preset/spring.bouncy`, `preset/supermall.ease`, `preset/supermall.press`, `preset/supermall.reveal`, `preset/supermall.springs`, `reduced-motion`
 - Icons: `call-filled`, `chevron-left`, `chevron-right`, `copy`, `coupon-discount-filled`, `door-open-filled`, `download`, `edit-filled`, `home`, `horizontal-three-dot-menu`, `info-circle`, `installation-filled`, `rewind-check`, `rewind-cross`, `star-shield`, `user-circle` · assets 22
 - State / data: `data:currency`, `data:getProduct`

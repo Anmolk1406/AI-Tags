@@ -14,13 +14,21 @@
 ## Research
 
 - Repo patterns: <existing noon screens that already solve part of this, with paths>
-- Mobbin: <"not available" | "not needed: <why>" | the table below>
+- Mobbin: <searched YYYY-MM-DD (queries) + the table below | "not available: not connected" | "not available: call failed: <why>">
 
 | Reference | Pattern seen | Use for noon | Avoid |
 |---|---|---|---|
 | <[app · screen](https://mobbin.com/screens/…)> | <structure / interaction> | <what we take> | <what we don't> |
 
 Takeaways for noon: <2–4 patterns mapped to noon components>
+
+## Clarifications
+
+Asked before building (design-workflow.md → D), recommended answer first; or "User asked to skip questions" + assumptions.
+
+| Question | Options offered | Answer |
+|---|---|---|
+| <question> | <recommended> · <alternative> | <the user's answer> |
 
 ## Approaches
 

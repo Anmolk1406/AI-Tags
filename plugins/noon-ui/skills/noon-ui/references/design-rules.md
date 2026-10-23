@@ -57,18 +57,18 @@ and ask before building. If the match is flow-local in another flow (e.g. home `
 
 | Job | Use | Why (evidence) | Not |
 |---|---|---|---|
-| Root of every screen | `Screen` (+ `Header` on pushed screens) | 19 / 19 flows; owns safe areas, scroll and the page background | a custom scroll div |
-| Anything tappable that isn't a CTA (row, card, chip, icon) | `Pressable` (`scale` 0.96; 0.98 for wide rows / cards) | 227 uses in 16 of 19 flows; one press feel everywhere | `<button>` / `motion.button` (198 left in pdp, checkout, noonone, cart, membership ports, counted as `raw-button`) |
+| Root of every screen | `Screen` (+ `Header` on pushed screens) | 19 / 20 flows; owns safe areas, scroll and the page background | a custom scroll div |
+| Anything tappable that isn't a CTA (row, card, chip, icon) | `Pressable` (`scale` 0.96; 0.98 for wide rows / cards) | 227 uses in 16 of 20 flows; one press feel everywhere | `<button>` / `motion.button` (198 left in pdp, checkout, noonone, cart, membership ports, counted as `raw-button`) |
 | CTA | `Button` with the variant below | the variants carry the colour, radius, disabled and `loading` states | a styled `Pressable` |
 | Text from the server or with `<b>/<highlight>/<steel>` | `HtmlText` | 151 uses; the bappzaar HtmlView tags map to tokens | `dangerouslySetInnerHTML` |
 | System icon | `OriginIcon name` | Origin Design System; 110 uses in the newer flows (home, pdp, orders, reviews, noonone) | lucide `Icon` (28 uses, older flows only) |
-| bappzaar webp / svg glyph that needs a colour | `MaskIcon` | 69 uses in 11 of 19 flows | `<img>` + CSS filter |
-| Product picture | `ProductImage` | 40 uses in 10 of 19 flows; contain, placeholder, 2% overlay | `<img>` |
+| bappzaar webp / svg glyph that needs a colour | `MaskIcon` | 69 uses in 11 of 20 flows | `<img>` + CSS filter |
+| Product picture | `ProductImage` | 40 uses in 10 of 20 flows; contain, placeholder, 2% overlay | `<img>` |
 | Product grid card · rail card · Figma SKU rail | `ProductBoxVertical` · `ProductCard` · `SkuCard` | each is the 1:1 port of one bappzaar / Figma card | a new card |
 | Delivery promise on a product | `EtaBadge` via `etaFor(product)` | Origin `_ETA`; used inside every product card | `ExpressBadge` (only outside the ETA slot) |
-| Fulfilment pill (supermall, market, global) | `MarketplaceTag` | 5 of 19 flows | a coloured span |
-| Loading | `Skeleton` blocks; `Button loading` or `Spinner` inside a control | `Skeleton` 112 uses in 10 of 19 flows | a full-screen spinner for content |
-| Lottie (ATC check, confirmation) | `Lottie` | 11 of 19 flows | gif / video |
+| Fulfilment pill (supermall, market, global) | `MarketplaceTag` | 5 of 20 flows | a coloured span |
+| Loading | `Skeleton` blocks; `Button loading` or `Spinner` inside a control | `Skeleton` 112 uses in 10 of 20 flows | a full-screen spinner for content |
+| Lottie (ATC check, confirmation) | `Lottie` | 11 of 20 flows | gif / video |
 | Divider inside a card | `DashedDivider` (orders, checkout, pdp, home, reviews) or `Divider` hairline; `DottedDivider` for account / address / returns lists | 17 + 9 + 3 uses | a border on the row |
 | Toggle · checkbox · segmented | `Switch` · `Checkbox` · `Segmented` | | custom inputs |
 | Toast / snackbar | `nav.toast(title, { type, subtitle, icon, action })` | Origin M-Toast | a local toast state |
@@ -106,7 +106,7 @@ role is not borrowed for another (`role` finding).
 
 | Use | Token | Share |
 |---|---|---|
-| Titles, names, row labels, most UI text | `text-primary` (#1D2539) | 17%, 14 of 19 flows |
+| Titles, names, row labels, most UI text | `text-primary` (#1D2539) | 17%, 14 of 20 flows |
 | Meta, captions, helper lines | `text-secondary` (#666D85) | 9% |
 | Headings, product titles on cards | `text-strong` (#101628) | 6% |
 | Long body copy, addresses, input values | `text-body` (#343D54) | 5% |
@@ -122,7 +122,7 @@ role is not borrowed for another (`role` finding).
 
 | Use | Token |
 |---|---|
-| Cards, sheets, footers, headers | `bg-surface` (35% of all backgrounds, 17 of 19 flows) |
+| Cards, sheets, footers, headers | `bg-surface` (35% of all backgrounds, 17 of 20 flows) |
 | Pills, inner blocks, icon buttons, inputs on white | `bg-subtle` (#F9F9FB, 10%) |
 | Chips, image placeholders | `bg-muted` |
 | Dark fill (black CTA, dark pill, toast) | `bg-inverse`, not `text-primary` / `text-strong` (the ports' 25 + 13 uses are the drift this rule stops) |

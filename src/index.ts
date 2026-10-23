@@ -26,6 +26,7 @@ export * from './motion/presets';
 import './motion/custom';
 export * from './motion/recipes';
 export { haptics, haptic, type HapticKind } from './motion/haptics';
+export * from './motion/noonMotion';
 export { registerTransition, getTransition, listTransitions, type ScreenTransition, type TransitionName } from './motion/transitions';
 
 export * from './components';

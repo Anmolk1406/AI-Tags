@@ -16,7 +16,7 @@ export const homeModulesFlowTokens: TokenOverrides = {
     homeKeepPurple: '#AF33D9', // token-lint-ignore — Figma Purple/800, "10 Products" chip
     homeKeepTagSoft: 'rgba(255, 255, 255, 0.55)', // token-lint-ignore — "2 days ago" tag on tinted boxes
     // Sponsored brand module
-    homeBrandBg: 'linear-gradient(90.5deg, #111111 0.45%, #414755 51.4%, #111111 99.49%)', // token-lint-ignore — flow token definition (Figma fill)
+    homeBrandBg: 'linear-gradient(90.5deg, var(--nk-palette-kit-gray7) 0.45%, #414755 51.4%, var(--nk-palette-kit-gray7) 99.49%)', // token-lint-ignore — flow token definition (Figma fill)
     homeBrandAdBg: 'rgba(255, 255, 255, 0.1)', // token-lint-ignore — "Ad" tag on the dark module (whiteAlpha10 missing)
     // NEW LAUNCHES
     homeLaunchBg: '#121212', // token-lint-ignore — inset dark card

@@ -1,5 +1,7 @@
 # Motion reference
 
+> **The noon motion standard has landed: [`../noon-motion/SKILL.md`](../noon-motion/SKILL.md).** For new screens and new motion, its values win (one spring 280.6 / 27.14, fade-in `(0.33, 1, 0.68, 1)` and fade-out `(0.65, 0, 0.35, 1)` at 200 ms, stagger 60 / 40 ms, push `slide-left`), taken from `src/motion/noonMotion.ts` / `noonMotion.css`; the mapping from every older value below is in `../noon-motion/references/tokens.md` §5. This file stays the record of what the existing flows use; don't retune them unless asked.
+
 How screens, sheets, toasts and in-screen elements animate in noon Flow Kit. Sources: `src/motion/presets.ts`, `src/motion/transitions.ts`, `src/motion/recipes.tsx`, `src/motion/reducedMotion.ts`, `src/motion/haptics.ts`, `src/motion/custom/index.ts`, `src/foundations/global.css`, `src/kit/Navigator.tsx`, `src/kit/types.ts`, `src/kit/NoonPrototype.tsx`, `src/components/{Lottie,Pressable,Skeleton,Spinner,Toast,QuantityStepper,Segmented,TabBar,WishlistHeart,Button}`.
 
 Purpose-first view of what moves today, with "use for now" per purpose: [motion-guidelines.md](references/motion-guidelines.md) (provisional).

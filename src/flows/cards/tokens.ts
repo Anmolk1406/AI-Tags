@@ -8,28 +8,28 @@ import type { TokenOverrides } from '../../foundations/tokens';
  * Exposed to CSS as --nk-color-cards-* (see `cardsFlowTokens`).
  */
 export const cardsColors = {
-  darkNavy: '#02060C', // PaymentColors.darkNavy — header icons, outline button text
-  newBlack: '#262A33', // PaymentColors.newBlack — action button labels
-  cardBackground: '#C1C1C1', // PaymentColors.cardBackground — card art placeholder / inner shadow
-  tintedIcon: '#2A8DFF', // PaymentColors.tintedIconColor(noon)
-  inputBg: '#F5F7FA', // PaymentTextInputV2 input
-  inputBorder: '#F9F9FB',
-  inputText: '#101628',
-  inputError: '#F43333',
-  disabledBg: '#0E0E0E0A', // PaymentColors.disabledBackgroundColor
-  disabledText: '#0E0E0E3F', // PaymentColors.disabledTextColor
-  switchOff: '#CCCCCC', // PaymentSwitchV2 off track
-  lightSilver: '#F2F2F2', // success gradient start
-  scanButtonBg: 'rgba(255, 255, 255, 0.64)', // PaymentScanOptionButton
-  red: 'rgba(250, 0, 0, 1)', // PaymentColors.redColor — nickname error
-  headerBtnDarkBg: 'rgba(0, 0, 0, 0.6)', // PaymentScreenHeaderButton transparent
-  headerBtnDarkBorder: 'rgba(235, 235, 235, 0.4)', // brightGreyColor(0.4)
-  cardTitleBg: 'rgba(0, 0, 0, 0.6)', // PaymentAnimatedListCard title chip
-  cardTitleBorder: 'rgba(255, 255, 255, 0.16)',
-  cardSelectedBorder: 'rgba(255, 255, 255, 0.28)',
-  successTitleBg: 'rgba(0, 0, 0, 0.5)', // PaymentCardAdditionSuccessScreen title chip
-  listScrim: 'rgba(0, 0, 0, 0.9)', // usePaymentAnimatedBackgroundStyle final colour
-  dashedBorder: '#EAECE0', // NoonTokens.colors.dashedBorderDefault (NoonDashedBorder between scan options)
+  darkNavy: 'var(--nk-palette-dark-navy)', // PaymentColors.darkNavy — header icons, outline button text
+  newBlack: 'var(--nk-palette-new-black)', // PaymentColors.newBlack — action button labels
+  cardBackground: 'var(--nk-palette-kit-gray76)', // PaymentColors.cardBackground — card art placeholder / inner shadow
+  tintedIcon: 'var(--nk-palette-kit-sky58)', // PaymentColors.tintedIconColor(noon)
+  inputBg: 'var(--nk-palette-kit-gray97)', // PaymentTextInputV2 input
+  inputBorder: 'var(--nk-palette-secondary-background-color)',
+  inputText: 'var(--nk-palette-charcoal-navy)',
+  inputError: 'var(--nk-palette-deep-red-color)',
+  disabledBg: 'var(--nk-palette-disabled-background-color)', // PaymentColors.disabledBackgroundColor
+  disabledText: 'var(--nk-palette-neutral-black-hex3-f)', // PaymentColors.disabledTextColor
+  switchOff: 'var(--nk-palette-filter-checkbox-border)', // PaymentSwitchV2 off track
+  lightSilver: 'var(--nk-palette-white-smoke)', // success gradient start
+  scanButtonBg: 'var(--nk-palette-white-alpha64)', // PaymentScanOptionButton
+  red: 'var(--nk-palette-red-color)', // PaymentColors.redColor — nickname error
+  headerBtnDarkBg: 'var(--nk-palette-black-alpha60)', // PaymentScreenHeaderButton transparent
+  headerBtnDarkBorder: 'var(--nk-palette-bright-grey-color-alpha40)', // brightGreyColor(0.4)
+  cardTitleBg: 'var(--nk-palette-black-alpha60)', // PaymentAnimatedListCard title chip
+  cardTitleBorder: 'var(--nk-palette-white-alpha16)',
+  cardSelectedBorder: 'var(--nk-palette-white-alpha28)',
+  successTitleBg: 'var(--nk-palette-black-alpha50)', // PaymentCardAdditionSuccessScreen title chip
+  listScrim: 'var(--nk-palette-black-alpha90)', // usePaymentAnimatedBackgroundStyle final colour
+  dashedBorder: 'var(--nk-palette-dashed-border-default)', // NoonTokens.colors.dashedBorderDefault (NoonDashedBorder between scan options)
 } as const;
 
 /** PaymentMetrics + PaymentAnimationConfig, resolved for the kit's 390 × 844 device (status bar 54, home indicator 34). */

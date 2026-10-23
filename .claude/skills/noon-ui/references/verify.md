@@ -9,7 +9,9 @@ Run from the repo root. The dev server must be running for the browser checks (`
 | Command | What it proves |
 |---|---|
 | `npm run typecheck` | App and library typecheck. Token names used through `ref.*` are typed, so typos fail here. |
-| `npm run lint:tokens` | Raw hex / rgba / font literals per folder. Must be 0 for `src/components`; keep the folders you touched at 0 (`npm run lint:tokens -- -v src/flows/<id>` lists findings). |
+| `npm run lint:tokens` | Raw hex / rgba / font literals per folder. Must be 0 for `src/components`; keep the folders you touched at 0 (`npm run lint:tokens -- -v src/flows/<id>` lists findings). Fails a new flow on any literal (its `tokens.ts` included) and an older flow above its `colourBudget` (`scripts/flow-baseline.json`); `custom-color — <reason>` lines are allowed and counted. |
+| `npm run check:structure` | Folder contract: screens in `screens/`, parts in `components/`, nothing else at the flow root but `index.ts` / `tokens*.ts` / `data*.ts` / `store*.ts` / docs, imports screens → components → tokens / data, none into another flow. Skips `legacyLayout` flows unless named (`-- <flow>`). |
+| `npm run handoff -- <flow>` | Not a check: the summary that closes a build (routes, files by group, new token keys, custom colours, contract status). |
 | `npm run check:routes` | Every registered screen renders with no console errors and no placeholders. |
 | `npm run test:journeys` | Behaviour, not just rendering: `scripts/journeys.mjs` walks the core journeys (search → PLP hand-off with no empty frame and a still bar · PLP quick-pill filter on / off · Sort sheet reorders · PLP → PDP → Add to cart → Back keeps the results · cart summary open / close → Checkout, through the noon One push) and fails on any console error. Checkpoint screenshots in `test-results/journeys/<journey>/`. Starts its own Vite server unless `PORT` is set; `-- <name>` runs one. Add a journey when you build or change a flow's interactions (tap with `tap()` on animating chrome; match buttons by exact name). |
 | `node scripts/shot.mjs <flow>/<screen> /tmp/x.png` | Screenshot of one screen (the 390×844 phone at dpr 2, deterministic capture below) plus `/tmp/x.json` with the profile, steps, scroll and console errors. `--scroll <y\|top\|bottom\|el:<selector>>` to see below the fold, `--click "<selector>"` to open a sheet or tap through, `--type "<text>"`, `--press <Key>`, `--hover "<selector>"`, `--wait <ms>` (steps run in order; scroll is applied last), `--dpr <n>`, `--stage` (old 1400-wide stage with backdrop), `--live` (real clock, live Lottie / GIFs), `--full-motion` (no reduced-motion emulation). |
@@ -69,7 +71,7 @@ Use this for every screen you build or restyle from a Figma frame or a real-app 
 
 **Coverage.** `PORT=<port> npm run visual:ref -- --coverage` writes `test-results/visual-ref/coverage.md` from the registry and the manifest: the screens with references, the Figma/mixed-truth screens without one (add those first), and per-flow counts.
 
-As of 2026-10-17: **173 registered screens, 2 with an external reference, 163 rendered, not visually verified** (the 17 noon Credits routes are rendered and journey-tested, not compared with an app reference).
+As of 2026-10-17: **179 registered screens, 2 with an external reference, 163 rendered, not visually verified** (the 17 noon Credits routes are rendered and journey-tested, not compared with an app reference).
 
 | Screen skill | Routes with a reference (what it covers) | Status 2026-10-13 | Reference next |
 |---|---|---|---|
@@ -102,7 +104,7 @@ Screenshot every screen you built or changed, at the top and scrolled, and every
 
 **Tokens**
 - Colours, type, spacing and radii match neighbouring flows. Put your PNG next to the closest existing screen (`node scripts/shot.mjs orders/list`) and compare rhythm: section gaps, card padding, title sizes.
-- `lint:tokens` is at 0 for the flow folder.
+- `lint:tokens` is at 0 for the flow folder (or only `custom-color` lines the user asked for), and `check:structure -- <flow>` passes.
 
 **Motion**
 - Pushed screens transition, sheets slide up, lists stagger in once and settle, presses give feedback.
