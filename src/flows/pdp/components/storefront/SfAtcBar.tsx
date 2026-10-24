@@ -7,11 +7,10 @@ import { useDemoStore } from '../../../../kit/DemoStore';
 import { useNav } from '../../../../kit/Navigator';
 import type { Product } from '../../../../data';
 import { spring } from '../../../../motion/presets';
-import { copy } from '../../data';
-import { npaCopy } from '../../data.npA';
 import { pdpTokens } from '../../tokens';
 import pdpStyles from '../../pdp.module.css';
 import styles from './SfAtcBar.module.css';
+import { copy, npaCopy, sfCopy } from '../../../../data/copy/pdp';
 
 /**
  * "Bottom Nav" — New PDP (Af34gfmhQ1D0wstXUEHSIF · 104:20387; Storefront 3499:75904): white, top r16, shadow 0 −2 4 black 5% —
@@ -129,7 +128,7 @@ function QuantitySelector({ open, selected, onClose, onSelect }: { open: boolean
           <div className={pdpStyles.qtySelectorInner}>
             <div className={pdpStyles.qtyHeader}>
               <span className={pdpStyles.qtyHeaderText}>{copy.quantity} </span>
-              <button type="button" className={pdpStyles.qtyClose} onClick={onClose} aria-label="Close">
+              <button type="button" className={pdpStyles.qtyClose} onClick={onClose} aria-label={sfCopy.a11y.close}>
                 <OriginIcon name="cross" size={16} color="var(--nk-color-text-muted)" />
               </button>
             </div>

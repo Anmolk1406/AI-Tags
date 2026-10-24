@@ -1,30 +1,30 @@
 {
   "generatedBy": ".claude/resources/scripts/build.mjs",
   "totals": {
-    "flows": 19,
-    "screens": 173,
-    "routes": 173,
+    "flows": 20,
+    "screens": 179,
+    "routes": 179,
     "largestFlow": 24,
     "byCoverage": {
       "spec": 11,
       "brief": 7,
-      "none": 1
+      "none": 2
     },
     "byLabel": {
-      "reference-backed": 171,
+      "reference-backed": 177,
       "kit-backed": 2,
       "inferred": 0
     },
     "byTruth": {
       "mixed": 6,
       "bappzaar": 152,
-      "reference": 5,
+      "reference": 11,
       "figma": 10
     },
-    "truthExplicit": 19,
+    "truthExplicit": 25,
     "truthInferred": 154,
     "verified": 6,
-    "unverified": 167
+    "unverified": 173
   },
   "labelMapping": {
     "reference-backed": "truth bappzaar / figma / mixed / reference, explicit or inferred from a recognisable source (bappzaar master path, Figma <fileKey> · <node>, or reference: / link)",
@@ -2743,6 +2743,98 @@
           "label": "reference-backed",
           "verified": null,
           "source": "bappzaar origin/noon/ios/liquid-upgrade: marketplaces/noon/NoonApp.ts (getTab iOS 26), src/utils/BottomTabs/ScrollVisibilityProvider.ts, marketplaces/noon/components/NoonNativeStickyBar (embedded), ios/noon/NoonStickyBar/NoonStickyBarComponentView.mm"
+        }
+      ]
+    },
+    {
+      "id": "yellowFriday",
+      "title": "Yellow Friday",
+      "group": "Discovery",
+      "initial": "yellowFriday/landing",
+      "screenCount": 6,
+      "coverage": "none",
+      "docs": {
+        "mapping": [],
+        "brief": null,
+        "skills": [],
+        "specs": [],
+        "blueprint": null
+      },
+      "states": {
+        "documented": [],
+        "registered": {},
+        "missing": [],
+        "heuristic": true
+      },
+      "screens": [
+        {
+          "route": "yellowFriday/landing",
+          "title": "Your Yellow Friday, decoded",
+          "presentation": "screen",
+          "urls": [
+            "/yellow-friday",
+            "/yf"
+          ],
+          "truth": "reference",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "reference: Yellow Friday personalized shopping brief (yellow_friday_personalized_shopping.md) + Mobbin research in DESIGN.md"
+        },
+        {
+          "route": "yellowFriday/interests",
+          "title": "What are you into lately?",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "reference",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "reference: Yellow Friday personalized shopping brief (yellow_friday_personalized_shopping.md) + Mobbin research in DESIGN.md"
+        },
+        {
+          "route": "yellowFriday/reveal",
+          "title": "We connected the dots",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "reference",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "reference: Yellow Friday personalized shopping brief (yellow_friday_personalized_shopping.md) + Mobbin research in DESIGN.md"
+        },
+        {
+          "route": "yellowFriday/build",
+          "title": "Make it yours",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "reference",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "reference: Yellow Friday personalized shopping brief (yellow_friday_personalized_shopping.md) + Mobbin research in DESIGN.md"
+        },
+        {
+          "route": "yellowFriday/swap",
+          "title": "Swap this pick",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "reference",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "reference: Yellow Friday personalized shopping brief (yellow_friday_personalized_shopping.md) + Mobbin research in DESIGN.md"
+        },
+        {
+          "route": "yellowFriday/payoff",
+          "title": "Your Yellow Friday lineup is ready",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "reference",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "reference: Yellow Friday personalized shopping brief (yellow_friday_personalized_shopping.md) + Mobbin research in DESIGN.md"
         }
       ]
     }

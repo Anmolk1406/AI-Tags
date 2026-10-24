@@ -13,8 +13,8 @@ import { homeTabsFlowTokens } from './tokens.tabs';
  */
 export const homeTokens = {
   headerBg: {
-    noon: 'linear-gradient(180deg, #FEEE00 0%, #FFF7A6 70%, #FFFFFF 100%)',
-    supermall: 'linear-gradient(180deg, #1D2539 0%, #3A2C6E 70%, #FFFFFF 100%)',
+    noon: 'linear-gradient(180deg, var(--nk-palette-yellow-color) 0%, var(--nk-palette-kit-yellow83) 70%, var(--nk-palette-white) 100%)',
+    supermall: 'linear-gradient(180deg, var(--nk-palette-blue-gray900) 0%, var(--nk-palette-kit-indigo30) 70%, var(--nk-palette-white) 100%)',
   },
   heroCardWidth: 244,
   heroCardHeight: 366,
@@ -47,7 +47,7 @@ export const home2025 = {
 } as const;
 
 const classicFlowTokens: TokenOverrides = {
-  colors: { bgPage: '#FFFFFF' },
+  colors: { bgPage: 'var(--nk-palette-white)' },
   // one-off type combos (token lint cleanup)
   type: {
     homeText11SemiboldLh1: { size: 11, line: '1', weight: 600 }, // DealTimer pill

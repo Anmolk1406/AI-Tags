@@ -52,6 +52,8 @@ for (const f of allFlows) if (f.tokens) for (const v of Object.keys(tokensToCssV
 })(join(root, 'src'));
 
 // ── Collect skill files.
+/** skills that hold a standard rather than a page (no spec.md, not in the screen-skill table) */
+const REFERENCE_SKILLS = new Set(['noon-motion']);
 const skills = readdirSync(skillsRoot, { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name);
 const mdFiles = [];
 (function walk(dir) {
@@ -82,7 +84,10 @@ for (const name of skills) {
   else if (field('description').length > 1024) problems.push(`${name}/SKILL.md: description is ${field('description').length} chars (max 1024)`);
   else if (/[<>]/.test(field('description'))) problems.push(`${name}/SKILL.md: description contains < or > (the Claude app rejects XML-like tags; write e.g. "src/flows" instead of "src/flows/<flow>")`);
   else ok(`${name}: frontmatter`);
-  if (name !== 'noon-ui') {
+  if (REFERENCE_SKILLS.has(name)) {
+    // a reference skill (a standard, not a page): no spec.md or skill-table row, but noon-ui must point to it
+    if (!noonUiSkill.includes(`../${name}/SKILL.md`)) problems.push(`noon-ui/SKILL.md: doesn't link the reference skill ../${name}/SKILL.md`);
+  } else if (name !== 'noon-ui') {
     if (!noonUiSkill.includes(`\`/${name}\``)) problems.push(`noon-ui/SKILL.md: screen skill /${name} is not in the skill table`);
     if (!existsSync(join(skillsRoot, name, 'spec.md'))) problems.push(`${name}/ has no spec.md (flow specification)`);
     // screen skills inherit the research-first design workflow instead of restating it
@@ -409,7 +414,7 @@ for (const file of docFiles) {
       for (const [k, v] of Object.entries(t.values)) if (s.variants?.[k] && !placeholder(v) && !s.variants[k].includes(v)) bad.variants.add(`<${t.name} ${k}="${v}"> (${s.variants[k].join(' | ')})`);
     }
     // motion presets: easing.out, spring.press, duration.fast, haptics.tap, supermall.reveal …; tween('fast', 'standard')
-    for (const m of snippet.matchAll(/(?<![\w.])(easing|duration|spring|supermall|handoff|haptics)\.([a-zA-Z]\w*)/g)) if (!presetGroups[m[1]].has(m[2]) && !/^(ts|tsx|js|mjs|json|md|css|svg|webp|png|lottie)$/.test(m[2]) && !presetUses.has(`${m[1]}.${m[2]}`) && !planned.has(`${m[1]}.${m[2]}`)) bad.presets.add(`${m[1]}.${m[2]}`);
+    for (const m of snippet.matchAll(/(?<![\w.])(easing|duration|spring|supermall|handoff|haptics)\.([a-zA-Z]\w*)/g)) if (!presetGroups[m[1]].has(m[2]) && !/^(ts|tsx|js|mjs|json|md|css|svg|webp|png|lottie|py)$/.test(m[2]) && !presetUses.has(`${m[1]}.${m[2]}`) && !planned.has(`${m[1]}.${m[2]}`)) bad.presets.add(`${m[1]}.${m[2]}`);
     for (const m of snippet.matchAll(/\btween\(\s*'(\w+)'(?:\s*,\s*'(\w+)')?/g)) {
       if (!presetGroups.duration.has(m[1])) bad.presets.add(`tween('${m[1]}')`);
       if (m[2] && !presetGroups.easing.has(m[2])) bad.presets.add(`tween(…, '${m[2]}')`);
@@ -419,7 +424,9 @@ for (const file of docFiles) {
     // assets: @assets/… or …/assets/… with an extension, in code
     for (const m of snippet.matchAll(/(?:@assets|(?<![\w-])(?:\.\.\/)*(?:src\/)?assets)\/([\w./@-]+\.[a-z0-9]{2,6})(?![\w/])/g)) {
       const p = `src/assets/${m[1]}`;
-      if (!/[*<>{}]/.test(p) && !existsSync(join(root, p)) && !planned.has(p) && !planned.has(m[0])) bad.assets.add(m[0]);
+      // a skill's own assets/ folder (noon-motion/assets/…) counts too
+      const own = [dirname(file), join(dirname(file), '..')].some((d) => existsSync(join(d, m[0])));
+      if (!/[*<>{}]/.test(p) && !own && !existsSync(join(root, p)) && !planned.has(p) && !planned.has(m[0])) bad.assets.add(m[0]);
     }
     // navigation targets: nav.push('plp'), nav.sheet('plp/filters'), reset / replace; shot.mjs <route>
     for (const m of snippet.matchAll(/\bnav\.(?:push|sheet|replace|reset)\(\s*'([^']+)'/g)) if (!placeholder(m[1]) && !pageOk(m[1])) bad.nav.add(m[1]);

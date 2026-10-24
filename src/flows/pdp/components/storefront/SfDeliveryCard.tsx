@@ -5,20 +5,13 @@ import globalMap from '@assets/pdp/storefront/b/global-map.webp';
 import { useNav } from '../../../../kit/Navigator';
 import { useIsNoonOneMember } from '../../../../kit/membership';
 import { tween } from '../../../../motion/presets';
-import { currency } from '../../../../data';
-import { copy, money, type PdpContent } from '../../data';
-import { fasterLanesFor, npbCopy, type FasterLane } from '../../data.npB';
+import { currency, type DeliveryLane, money } from '../../../../data';
 import { Asset } from '../Asset';
-import { Card } from '../Sections';
+import { Card } from '../Card';
 import styles from './SfDeliveryCard.module.css';
+import { copy, npbCopy, sfCopy } from '../../../../data/copy/pdp';
+import type { DeliveryVariant, PdpContent } from '../../../../data/views/pdp';
 
-/** Storefront copy not in data.ts `copy` (Figma 3499:75275, PDP Redesign 3583:109620). */
-const sfCopy = {
-  fasterDeliveryOptions: 'Faster Delivery Options',
-  freeTodayWith: 'Get it today for free with',
-  getBy: 'Get by',
-  freeShippingOver: (min: number) => `Free Shipping over ${money(min).replace(/\s+/g, '')}`,
-} as const;
 
 type BuyingOption = NonNullable<PdpContent['buyingOptions']>[number];
 
@@ -29,36 +22,20 @@ type BuyingOption = NonNullable<PdpContent['buyingOptions']>[number];
  * - `market` (3583:110101) / `express` (express only, 3583:110533): one compact row — pill, "Get by {date}", countdown chip
  * - `global` (3583:110179): the compact row with the Global pill + a "Free Shipping over …" strip
  */
-export type DeliveryVariant = 'crossSell' | 'noCrossSell' | 'market' | 'express' | 'global';
-export const deliveryVariants: DeliveryVariant[] = ['crossSell', 'noCrossSell', 'market', 'express', 'global'];
-
-/**
- * The variant a product's data calls for: other-marketplace options → crossSell; faster lanes (rocket options, or the
- * express lane's Today / Tomorrow upgrades — New PDP 64:5590) → noCrossSell; else the single compact lane.
- */
-export function deliveryVariantFor(content: PdpContent): DeliveryVariant {
-  const options = content.buyingOptions ?? [];
-  if (options.some((o) => o.code !== 'rocket')) return 'crossSell';
-  if (fasterLanesFor(content).length) return 'noCrossSell';
-  return content.deliveryLogo === 'rocket' || content.deliveryLogo === 'express' ? 'express' : 'market';
-}
-
-/** "Order in 21 hrs" / "Order in 45 mins" (the compact rows' chip) */
-const orderIn = (min?: number) => (min ? `${copy.orderIn} ${min >= 60 ? `${Math.floor(min / 60)} hrs` : `${min} mins`}` : undefined);
 
 /**
  * Storefront "Delivery information": 15/700 title (+ noon One "member" mark for members in the cross-sell variants),
  * then the variant's body. Same data and behaviour as before: buying-option rows switch SKU (`nav.replace`) or toast,
- * the noon One banner opens the noon One landing, accordions start closed. `variant` defaults to `deliveryVariantFor`.
+ * the noon One banner opens the noon One landing, accordions start closed. `variant` defaults to the one the data calls for (`content.deliveryVariant`).
  */
-export function SfDeliveryCard({ content, variant = deliveryVariantFor(content), freeShippingMin = 99 }: { content: PdpContent; variant?: DeliveryVariant; freeShippingMin?: number }) {
+export function SfDeliveryCard({ content, variant = content.deliveryVariant }: { content: PdpContent; variant?: DeliveryVariant }) {
   const isMember = useIsNoonOneMember();
   const nav = useNav();
   const options = content.buyingOptions ?? [];
-  const faster = fasterLanesFor(content);
+  const faster = content.fasterLanes;
   const other = options.filter((o) => o.code !== 'rocket');
   const crossSell = variant === 'crossSell' || variant === 'noCrossSell';
-  const chip = orderIn(content.orderWithinMin);
+  const chip = content.orderWithinMin ? sfCopy.delivery.orderIn(content.orderWithinMin) : undefined;
 
   return (
     <Card contentGap={12}>
@@ -87,14 +64,14 @@ export function SfDeliveryCard({ content, variant = deliveryVariantFor(content),
               </div>
             </div>
             {faster.length > 0 && (
-              <Accordion title={sfCopy.fasterDeliveryOptions} variant="foot" defaultOpen>
+              <Accordion title={sfCopy.delivery.fasterDeliveryOptions} variant="foot" defaultOpen>
                 <FasterRows lanes={faster} />
               </Accordion>
             )}
           </div>
-          <Pressable className={styles.banner} scale={0.98} onClick={() => nav.push('noonone/landing', { source: '/pdp' })} aria-label={`${sfCopy.freeTodayWith} noon One`}>
+          <Pressable className={styles.banner} scale={0.98} onClick={() => nav.push('noonone/landing', { source: '/pdp' })} aria-label={`${sfCopy.delivery.freeTodayWith} noon One`}>
             <span aria-hidden className={styles.streak} />
-            <span className={styles.bannerText}>{sfCopy.freeTodayWith}</span>
+            <span className={styles.bannerText}>{sfCopy.delivery.freeTodayWith}</span>
             <Asset name="noonOne" width="var(--nk-layout-pdp-noon-one-w)" height="var(--nk-layout-pdp-noon-one-h)" />
             <span className={styles.bannerChevron}>
               <OriginIcon name="chevron-right" size={20} color="var(--nk-color-bg-subtle)" className="pdp-flip" />
@@ -116,14 +93,14 @@ export function SfDeliveryCard({ content, variant = deliveryVariantFor(content),
               ) : (
                 <MarketplaceTag kind={variant === 'global' ? 'global' : 'market'} height={20} />
               )}
-              <HtmlText value={content.delivery.replace(/^Get it( by)?/i, sfCopy.getBy)} className={styles.getBy} />
+              <HtmlText value={content.delivery.replace(/^Get it( by)?/i, sfCopy.delivery.getBy)} className={styles.getBy} />
             </span>
             {chip && <span className={styles.chip}>{chip}</span>}
           </div>
           {variant === 'global' && (
-            <Pressable className={styles.strip} scale={1} onClick={() => nav.toast(sfCopy.freeShippingOver(freeShippingMin))}>
+            <Pressable className={styles.strip} scale={1} onClick={() => nav.toast(sfCopy.delivery.freeShippingOver(content.freeShippingMin))}>
               <img aria-hidden alt="" src={globalMap} className={styles.stripMap} />
-              <span className={styles.stripText}>{sfCopy.freeShippingOver(freeShippingMin)}</span>
+              <span className={styles.stripText}>{sfCopy.delivery.freeShippingOver(content.freeShippingMin)}</span>
               <span className={styles.stripChevron}>
                 <OriginIcon name="chevron-right" size={20} color="var(--nk-color-text-primary)" className="pdp-flip" />
               </span>
@@ -165,7 +142,7 @@ function OptionRows({ options }: { options: BuyingOption[] }) {
  * rows (20 high, gap 10) with "+ ₳ 14.00" at the end, and a white "Select these options on checkout" callout. The lanes are
  * chosen at checkout; a lane that is another offer (bappzaar buying option) still switches to it (`nav.replace`).
  */
-function FasterRows({ lanes }: { lanes: FasterLane[] }) {
+function FasterRows({ lanes }: { lanes: DeliveryLane[] }) {
   const nav = useNav();
   return (
     <>
@@ -180,7 +157,7 @@ function FasterRows({ lanes }: { lanes: FasterLane[] }) {
             onClick={l.productId ? () => nav.replace('pdp/detail', { productId: l.productId! }) : undefined}
           >
             <span className={styles.laneText}>
-              {l.offer ? 'Get' : 'Get it'} <b>{l.day}</b>
+              {l.offer ? sfCopy.delivery.get : sfCopy.delivery.getIt} <b>{l.day}</b>
               {l.note && <span className={styles.laneNote}> {l.note}</span>}
             </span>
             <span className={styles.lanePrice}>

@@ -17,7 +17,7 @@ export const wishlistTokens = {
 } as const;
 
 export const wishlistFlowTokens: TokenOverrides = {
-  colors: { bgPage: '#FFFFFF' },
+  colors: { bgPage: 'var(--nk-palette-white)' },
   // one-off type combos (token lint cleanup)
   type: {
     wishlistText15RegularLh21: { size: 15, line: 21, weight: 400 }, // empty-state subtitle (bodyMedium 400)

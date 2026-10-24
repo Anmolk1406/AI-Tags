@@ -2,14 +2,12 @@ import { Fragment, useState } from 'react';
 import { OriginIcon, ProductImage } from '../../../../components';
 import etaExpressToday from '@assets/pdp/new-pdp/eta-express-today.svg';
 import { useDemoStore } from '../../../../kit/DemoStore';
-import { products, type Product } from '../../../../data';
-import { copy, money } from '../../data';
+import { money, type Product } from '../../../../data';
 import { pdpTokens } from '../../tokens';
-import { Card } from '../Sections';
+import { Card } from '../Card';
 import styles from './SfFbtCard.module.css';
+import { copy, sfCopy } from '../../../../data/copy/pdp';
 
-/** Storefront copy (Figma 3499:75702); sentence case as drawn. */
-const sfCopy = { title: 'Frequently bought together', buyAll: (price: string) => `Buy all for ${price}` } as const;
 
 /**
  * Storefront Frequently bought together (Figma 3499:75702): 15/700 title; equal tiles (140-tall image r8, 1px blue-gray/200,
@@ -18,9 +16,8 @@ const sfCopy = { title: 'Frequently bought together', buyAll: (price: string) =>
  * tile tap toggles the item, the button adds every selected item via useDemoStore().addToCart and shows
  * "Added to cart" for pdpTokens.fbtAddedMs; nothing selected → disabled. < 2 products → null.
  */
-export function SfFbtCard({ ids }: { ids?: string[] }) {
+export function SfFbtCard({ items }: { items: Product[] }) {
   const { addToCart } = useDemoStore();
-  const items = (ids ?? []).map((id) => products.find((p) => p.id === id)).filter((p): p is Product => !!p);
   const [selected, setSelected] = useState<string[]>(items.map((p) => p.id));
   const [added, setAdded] = useState(false);
   if (items.length < 2) return null;
@@ -34,7 +31,7 @@ export function SfFbtCard({ ids }: { ids?: string[] }) {
   const disabled = selected.length === 0;
   return (
     <Card contentGap={12}>
-      <h3 className={styles.title}>{sfCopy.title}</h3>
+      <h3 className={styles.title}>{sfCopy.fbt.title}</h3>
       <div className={styles.list} data-scroll={items.length > 3 || undefined}>
         {items.map((p, i) => {
           const on = selected.includes(p.id);
@@ -66,7 +63,7 @@ export function SfFbtCard({ ids }: { ids?: string[] }) {
                   {p.express && (
                     <span className={styles.eta}>
                       {/* New PDP 64:5732 "HP ETA": the express · Today pill (101.667 × 15) */}
-                      <img src={etaExpressToday} alt="express Today" className={styles.etaImg} />
+                      <img src={etaExpressToday} alt={sfCopy.a11y.expressToday} className={styles.etaImg} />
                     </span>
                   )}
                 </div>
@@ -77,7 +74,7 @@ export function SfFbtCard({ ids }: { ids?: string[] }) {
       </div>
       <button type="button" className={styles.buy} data-added={added || undefined} disabled={disabled} onClick={buy}>
         {added && <OriginIcon name="cart-check-filled" size={20} color="var(--nk-color-link)" />}
-        {added ? copy.addedToCart : disabled ? copy.buyTogether(0) : sfCopy.buyAll(money(total))}
+        {added ? copy.addedToCart : disabled ? copy.buyTogether(0) : sfCopy.fbt.buyAll(money(total))}
       </button>
     </Card>
   );

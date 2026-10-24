@@ -2,7 +2,9 @@
 
 [![npm](https://img.shields.io/npm/v/noon-kit)](https://www.npmjs.com/package/noon-kit)
 
-The noon app as a **React UI kit for clickable prototypes**. It has noon's design tokens, a component library, a motion system and **19 ready-made flows (173 screens)** ported from **bappzaar** (the noon React Native app) and the noon Figma files.
+The noon app as a **React UI kit for clickable prototypes**. It has noon's design tokens, a component library, a motion system and **20 ready-made flows (179 screens)** ported from **bappzaar** (the noon React Native app) and the noon Figma files.
+
+**Guide (PDF):** [docs/guide/noon-flow-kit-guide.pdf](./docs/guide/noon-flow-kit-guide.pdf): set-up, using the skills, page URLs, sharing references, connecting Mobbin, house rules. Source: `docs/guide/guide.html` (`node docs/guide/render.mjs`).
 
 ```bash
 npm i noon-kit

@@ -27,7 +27,7 @@
 - Data / helpers: data.eid.ts, data.feed.ts, data.header.ts, data.ts, tokens.eid.ts, tokens.feed.ts, tokens.header.ts, tokens.modules.ts, tokens.rails.ts, tokens.tabs.ts, tokens.ts
 - Shared components: `Badge`, `OriginIcon`, `Pressable`, `ProductCard`, `ProductImage`, `QuickAdd`, `Screen`, `SearchBarButton`, `Text`
 - Flow components: `AdBannerModule`, `AdProductLedDisplay`, `BannerCarousel`, `BannerScroller`, `BzModuleWrapper`, `EasyBannerScroller`, `EidBanners`, `ExperienceSwitcher`, `HomeHeader`, `ItemCarousel`, `MegaDeals`, `ProductCarousel`, `SnappedBannerCarousel`, `Sponsored`
-- Tokens (86): colors 11 · flow:home 34 · local 1 · palette 18 · radius 7 · spacing 8 · type 7
+- Tokens (104): colors 11 · flow:home 34 · local 1 · palette 36 · radius 7 · spacing 8 · type 7
 - Motion: `preset/appleSpring`, `preset/easing.out`, `preset/tween`, `recipe/Stagger`, `reduced-motion`
 - Icons: `arrow-right`, `hourglass` · assets 47
 - State / data: `data:currency`, `data:formatPrice`, `data:getProduct`, `data:user`
@@ -42,7 +42,7 @@
 - Data / helpers: data.ts, tokens.eid.ts, tokens.feed.ts, tokens.header.ts, tokens.modules.ts, tokens.rails.ts, tokens.tabs.ts, tokens.ts
 - Shared components: `Icon`, `Pressable`, `ProductCard`, `Screen`, `SearchBarButton`, `Text`
 - Flow components: `DealTimer`, `ExperienceSwitcher`, `HeroCarousel`
-- Tokens (32): colors 8 · flow:home 2 · local 1 · palette 15 · type 6
+- Tokens (50): colors 8 · flow:home 2 · local 1 · palette 33 · type 6
 - Motion: `preset/appleSpring`, `preset/easing.out`, `reduced-motion`
 - Icons: — · assets 23
 - State / data: `data:products`, `data:user`

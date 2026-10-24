@@ -2,48 +2,16 @@ import { AnimatePresence, motion } from 'motion/react';
 import { Fragment, useLayoutEffect, useRef, useState } from 'react';
 import { OriginIcon, Pressable } from '../../../../components';
 import { useNav } from '../../../../kit/Navigator';
-import { leafName } from '../../../../data';
-import { formatPrice, type Product } from '../../../../data';
+import { discountPercent, formatPrice, money, showDiscount, type Product } from '../../../../data';
 import bestsellerBadge from '@assets/pdp/new-pdp/bestseller-badge.svg';
 import comboIcon from '@assets/pdp/new-pdp/bundle-combo.gif';
-import { discountPercent, money, showDiscount, type PdpContent } from '../../data';
-import { bestComboSaving, combosFor, npaCopy } from '../../data.npA';
 import { pdpTokens } from '../../tokens';
 import styles from './SfMainInfo.module.css';
 import { useReduceMotion } from '../../../../motion/reducedMotion';
 import { useInterval } from '../../../../motion/useInterval';
+import { npaCopy, sfCopy } from '../../../../data/copy/pdp';
+import type { MainInfoView, PdpContent } from '../../../../data/views/pdp';
 
-/** Storefront copy (Figma 3499:75133); not in data.ts `copy`. */
-const sfCopy = {
-  visitStore: 'Visit Store',
-  reviews: (n: number) => `(${n} reviews)`,
-  prepaidOnly: 'Prepaid Only',
-  vat: '(incl. of VAT)',
-  pct: (n: number) => `${n}% OFF`,
-  lowestPrice: 'Lowest Price in 30 days',
-  bestseller: 'Bestseller',
-  in: 'in',
-  codeCopied: (code: string) => `${code} copied`,
-  priceInfo: 'Price info',
-} as const;
-
-type Coupon = { title: string; code?: string };
-
-/**
- * Coupon rail: SD discount_tags; when the offer has none but a best price (coupon price), one chip is derived
- * from it ("Extra 5% off"). The CODE text comes from `code` ("CODE: SALE200"); copying strips the "CODE:" prefix.
- */
-function couponsFor(product: Product, content: PdpContent): Coupon[] {
-  if (content.discountTags.length) return content.discountTags;
-  if (content.bestPrice) {
-    const pct = Math.round((1 - content.bestPrice.price / product.price) * 100);
-    if (pct > 0) return [{ title: `Extra ${pct}% off` }];
-  }
-  return [];
-}
-
-/** "Prepaid Only" pill: derived (no SD flag in the mocks) — high-value electronics (≥ Đ 3000) are prepaid only. */
-const prepaidOnly = (p: Product) => p.price >= 3000;
 
 /**
  * Main-Info — New PDP (Figma Af34gfmhQ1D0wstXUEHSIF · 64:5587), same component as Storefront 3499:75133: Accent/100 wrapper (r16, pt 10, gap 8) with the
@@ -56,21 +24,19 @@ const prepaidOnly = (p: Product) => p.price >= 3000;
  * Đ2.35/ml"); the bestseller row gets the 16px numbered star badge. Replaces ProductInfo: same props; Visit Store → plp/listing { query: brand },
  * rating → onReviews, coupon → copies the code (toast), bestseller row → the category PLP.
  */
-export function SfMainInfo({ product, content, onReviews }: { product: Product; content: PdpContent; onReviews: () => void }) {
+export function SfMainInfo({ product, content, info, onReviews }: { product: Product; content: PdpContent; info: MainInfoView; onReviews: () => void }) {
   const nav = useNav();
   const price = product.was ?? product.price;
   const sale = product.was ? product.price : undefined;
   const hasDiscount = showDiscount(price, sale);
-  const nudges = content.nudges.length ? content.nudges : product.was ? [sfCopy.lowestPrice] : [];
-  const coupons = couponsFor(product, content);
-  const comboSaving = bestComboSaving(combosFor(product, content));
-  const rank = content.bestSellerTag ? (product.rank ?? rankFromHtml(content.bestSellerTag.html)) : undefined;
-  const rankCategory = content.bestSellerTag ? leafName(content.bestSellerTag.categoryId) : undefined;
+  const { nudges, coupons, prepaidOnly, bestseller } = info;
+  const { comboSaving } = content;
+  const rank = bestseller?.rank;
 
-  const copyCode = (c: Coupon) => {
+  const copyCode = (c: MainInfoView['coupons'][number]) => {
     const code = c.code?.replace(/^CODE:\s*/i, '');
     if (code) void navigator.clipboard?.writeText(code).catch(() => undefined);
-    nav.toast(code ? sfCopy.codeCopied(code) : c.title, { icon: <OriginIcon name="copy" size={18} color="var(--nk-color-text-inverse)" /> });
+    nav.toast(code ? sfCopy.mainInfo.codeCopied(code) : c.title, { icon: <OriginIcon name="copy" size={18} color="var(--nk-color-text-inverse)" /> });
   };
 
   return (
@@ -81,7 +47,7 @@ export function SfMainInfo({ product, content, onReviews }: { product: Product; 
           <span className={styles.brandName}>{content.brand}</span>
         </span>
         <span className={styles.visit}>
-          {sfCopy.visitStore}
+          {sfCopy.mainInfo.visitStore}
           <OriginIcon name="chevron-right" size={16} color="var(--nk-color-brand-blue)" />
         </span>
       </Pressable>
@@ -97,15 +63,15 @@ export function SfMainInfo({ product, content, onReviews }: { product: Product; 
                   <span className={styles.score}>{product.rating}</span>
                   <span className={styles.count}>
                     <span className={styles.countParen}>(</span>
-                    {sfCopy.reviews(product.ratingCount).slice(1)}
+                    {sfCopy.mainInfo.reviews(product.ratingCount).slice(1)}
                   </span>
                 </span>
               </button>
-              {prepaidOnly(product) && (
+              {prepaidOnly && (
                 <span className={styles.pill} data-tone="prepaid">
                   <span className={styles.pillInner}>
                     <OriginIcon name="payment-card-big" size={16} color="var(--nk-color-text-strong)" />
-                    <span className={styles.prepaid}>{sfCopy.prepaidOnly}</span>
+                    <span className={styles.prepaid}>{sfCopy.mainInfo.prepaidOnly}</span>
                   </span>
                 </span>
               )}
@@ -118,10 +84,10 @@ export function SfMainInfo({ product, content, onReviews }: { product: Product; 
               {hasDiscount && (
                 <span className={styles.meta}>
                   <span className={styles.was}>{formatPrice(price)}</span>
-                  <span className={styles.off}>{sfCopy.pct(discountPercent(price, sale))}</span>
-                  <span className={styles.vat}>{sfCopy.vat}</span>
+                  <span className={styles.off}>{sfCopy.mainInfo.pct(discountPercent(price, sale))}</span>
+                  <span className={styles.vat}>{sfCopy.mainInfo.vat}</span>
                   {content.wasPriceSource && (
-                    <button type="button" className={styles.priceInfo} onClick={() => nav.toast(sfCopy.priceInfo)} aria-label={sfCopy.priceInfo}>
+                    <button type="button" className={styles.priceInfo} onClick={() => nav.toast(sfCopy.mainInfo.priceInfo)} aria-label={sfCopy.mainInfo.priceInfo}>
                       <OriginIcon name="info-circle" size={16} color="var(--nk-color-text-secondary)" />
                     </button>
                   )}
@@ -179,16 +145,16 @@ export function SfMainInfo({ product, content, onReviews }: { product: Product; 
             </div>
           )}
 
-          {content.bestSellerTag && (
-            <Pressable className={styles.bestseller} scale={1} onClick={() => nav.push('plp/listing', { query: rankCategory })}>
+          {bestseller && (
+            <Pressable className={styles.bestseller} scale={1} onClick={() => nav.push('plp/listing', { query: bestseller.category })}>
               <span className={styles.bestsellerStart}>
                 <span className={styles.rankBadge} aria-hidden>
                   <img alt="" src={bestsellerBadge} className={styles.rankBadgeImg} />
                   {rank !== undefined && <span className={styles.rankBadgeNum}>{rank}</span>}
                 </span>
                 <span className={styles.bestsellerText}>
-                  {sfCopy.bestseller}
-                  {rank !== undefined && ` #${rank}`} {sfCopy.in} <span className={styles.bestsellerCat}>{rankCategory}</span>
+                  {sfCopy.mainInfo.bestseller}
+                  {rank !== undefined && ` #${rank}`} {sfCopy.mainInfo.in} <span className={styles.bestsellerCat}>{bestseller.category}</span>
                 </span>
               </span>
               <OriginIcon name="chevron-right" size={20} color="var(--nk-color-text-primary)" />
@@ -198,12 +164,6 @@ export function SfMainInfo({ product, content, onReviews }: { product: Product; 
       </div>
     </div>
   );
-}
-
-/** "<b>#38</b> in <a>Smartphones</a>" → 38 (fallback when the product has no `rank`). */
-function rankFromHtml(html: string) {
-  const m = /#(\d+)/.exec(html);
-  return m ? Number(m[1]) : undefined;
 }
 
 /** NoonTextToggle: 2 lines; the down / up chevron shows only when the title needs more than 2 lines. */

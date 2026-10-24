@@ -4,7 +4,7 @@
 
 Quote counts from here instead of typing them: `scripts/check-inventory.mjs` fails when a doc states a flow / screen / route count the registry disagrees with.
 
-**19 flows · 173 screens (routes).** Coverage: 11 spec · 7 brief · 1 none. Provenance: 171 reference-backed · 2 kit-backed · 0 inferred. Truth: 6 mixed · 152 bappzaar · 5 reference · 10 figma (19 explicit, 154 inferred from `source`). Verified side by side: 6 of 173.
+**20 flows · 179 screens (routes).** Coverage: 11 spec · 7 brief · 2 none. Provenance: 177 reference-backed · 2 kit-backed · 0 inferred. Truth: 6 mixed · 152 bappzaar · 11 reference · 10 figma (25 explicit, 154 inferred from `source`). Verified side by side: 6 of 179.
 
 ## Labels
 
@@ -41,6 +41,7 @@ Coverage: `spec` = a screen skill with `spec.md` covers the flow · `brief` = a 
 | `membership` noon One membership | 24 | brief | — | `resources/flows/other-flows.md#membership` | `MAPPING.md`, `perks/MAPPING.md` | 0/24 | 24 reference-backed |
 | `wishlist` Wishlist | 5 | brief | — | `resources/flows/other-flows.md#wishlist` | `MAPPING.md` | 0/5 | 5 reference-backed |
 | `fieldds` Field Design System | 4 | none | — | — | — | 0/4 | 4 reference-backed |
+| `yellowFriday` Yellow Friday | 6 | none | — | — | — | 0/6 | 6 reference-backed |
 
 ## States (detected heuristically)
 
@@ -67,8 +68,9 @@ Documented = the word appears in the flow's spec or brief. Registered = a screen
 | `membership` | — | — | — |
 | `wishlist` | loading, empty, error | loading: `wishlist/loading`; empty: `wishlist/empty` | error |
 | `fieldds` | — | — | — |
+| `yellowFriday` | — | — | — |
 
-## Screens with no `verified` date (167)
+## Screens with no `verified` date (173)
 
 Never compared side by side with their reference, as far as the registry records. Only set `verified` after a real comparison.
 
@@ -91,6 +93,7 @@ Never compared side by side with their reference, as far as the registry records
 - `membership` (24): `manage`, `upgrade`, `reviewPlan`, `switchPlan`, `info`, `changePlan`, `invoice`, `cancel`, `cancelSheet`, `unusedSeats`, `planOptions`, `groupSavings`, `loseAccess`, `leaveFamilyOverlay`, `confirmOffer`, `familyPlans`, `familyReview`, `shareInvite`, `removeMember`, `leaveFamily`, `referrals`, `referralsInput`, `partner`, `yangoCredits`
 - `wishlist` (5): `wishlist`, `no-collections`, `empty`, `loading`, `options`
 - `fieldds` (4): `gallery`, `sheet`, `tabs`, `glass`
+- `yellowFriday` (6): `landing`, `interests`, `reveal`, `build`, `swap`, `payoff`
 
 ## Truth inferred from `source` (154)
 

@@ -63,7 +63,7 @@ export const baseFlowTokens: TokenOverrides = {
     vipHexagonBg: '#FED2D2',
     vipHexagonText: '#C45C5C',
     /** VIPColors.black */
-    vipBlack: '#000000',
+    vipBlack: 'var(--nk-palette-black)',
   },
   radius: {
     /** VIPOverlayBottomSheet OVERLAY_SHEET_RADIUS */
@@ -186,9 +186,9 @@ export const landingFlowTokens: TokenOverrides = {
     /** VIPStatusIndicator DEFAULT_COLOR rgb(15,136,87) ring: radial 0.37 color → 0.685 mixWithWhite(.55) → white, fill 0.3 / stroke 0.4 */
     vipStatusMid: 'rgb(135, 196, 171)',
     /** VIPLandingScreen shadow2: shadowColor grey, offset 3.2, opacity .1, radius 3.2 */
-    vipHeaderShadow: 'rgba(128, 128, 128, 0.1)',
+    vipHeaderShadow: 'var(--nk-palette-dark-gray-color-alpha10)',
     /** member landing bgImg stand-in (server image): noon One banner peach → page */
-    vipBgFrom: '#FEDEA9',
+    vipBgFrom: 'var(--nk-palette-noon-one-banner-peach)',
   },
   layout: {
     /** VIPLandingScreen backButton 39 × 39, header row 40 */
@@ -393,11 +393,11 @@ export const landingNpTokens = {
 export const landingNpFlowTokens: TokenOverrides = {
   colors: {
     /** page background gray/200 */
-    vipNpPage: '#F5F5F5',
+    vipNpPage: 'var(--nk-palette-border-primary)',
     /** landingV2.offerFlyout.backgroundColor (server hex; prod screenshot "Don't miss noon One at the lowest price") */
     vipNpOfferFlyout: '#52875D', // token-lint-ignore — flow token definition (server colour)
     /** value-prop sub text rgba(2,6,12,.75); value-prop title rgba(2,6,12,.92) */
-    vipNpInk92: 'rgba(2, 6, 12, 0.92)',
+    vipNpInk92: 'var(--nk-palette-dark-navy-alpha92)',
     /** marketplace circle border rgba(2,6,12,.05) */
     vipNpInk5: 'rgba(2, 6, 12, 0.05)',
     /** priority-support strip gradient #EBFEFD → white */
@@ -405,13 +405,13 @@ export const landingNpFlowTokens: TokenOverrides = {
     /** value-prop marketplace circles (35px) */
     vipNpMpNoon: '#F7E628',
     vipNpMpFood: '#E5004E',
-    vipNpMpSupermall: '#2122B8',
+    vipNpMpSupermall: 'var(--nk-palette-rocket-blue-sapphire)',
     vipNpMpNownow: '#EF5227',
     vipNpMpMinutes: '#D22D29',
     /** savings widget marketplace tiles (Marketplaces component) */
     vipNpTileNoon: '#FFE600',
     vipNpTileFood: '#FC5190',
-    vipNpTileSupermall: '#2122B8',
+    vipNpTileSupermall: 'var(--nk-palette-rocket-blue-sapphire)',
     vipNpTileNownow: '#EF5227',
     vipNpTileMinutes: '#BB4544',
     /** savings widget radial bg rgba(252,252,252) → white */
@@ -441,7 +441,7 @@ export const landingNpFlowTokens: TokenOverrides = {
   },
   shadow: {
     /** Bottom section drop-shadow 0 −4 17.6 rgba(0,0,0,.1) */
-    vipNpFooter: '0 -4px 17.6px rgba(0, 0, 0, 0.1)',
+    vipNpFooter: '0 -4px 17.6px var(--nk-palette-black-alpha10)',
   },
   layout: {
     /** back button 39.92 circle, border 1.247 */
@@ -591,9 +591,9 @@ export const plansFlowTokens: TokenOverrides = {
     /** VIPUpgradePlanDetailsPopup upcoming tag (#F0FFF9) — family/upgrade review */
     vipMintSoft: '#F0FFF9',
     /** RN shadow black .4 r8 y7 (sticky button containers) */
-    vipStickyShadow: 'rgba(0, 0, 0, 0.4)',
+    vipStickyShadow: 'var(--nk-palette-black-alpha40)',
     /** VIPStyles.shadow2 grey .1 r3.2 y3.2 (scroll header) */
-    vipHeaderShadow: 'rgba(128, 128, 128, 0.1)',
+    vipHeaderShadow: 'var(--nk-palette-dark-gray-color-alpha10)',
   },
   radius: {
     vipPlanInner: 14.5,
@@ -890,11 +890,11 @@ export const offersFlowTokens: TokenOverrides = {
     vipOfYangoAltCard: '#1C1C21',
     vipOfYangoBorder: '#2A2A31',
     vipOfYangoAltText: '#B4B4BE',
-    vipOfYangoGradFrom: '#FFFFFF',
+    vipOfYangoGradFrom: 'var(--nk-palette-white)',
     vipOfYangoGradTo: '#8E8E99',
     vipOfYangoBrand: '#FF3E33',
     /** VIPAcceptPlanInviteOverlayScreen benefits bg white(0.8); skeleton highlight */
-    vipOfWhite80: 'rgba(255, 255, 255, 0.8)',
+    vipOfWhite80: 'var(--nk-palette-white-alpha80)',
     /** partner hero gradients (stc / ENBD demo) */
     vipOfStc: '#4F008C',
     vipOfEnbd: '#003F87',

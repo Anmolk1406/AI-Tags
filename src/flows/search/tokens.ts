@@ -32,5 +32,5 @@ export const searchTokens = {
 } as const;
 
 export const searchFlowTokens: TokenOverrides = {
-  colors: { bgPage: '#FFFFFF' },
+  colors: { bgPage: 'var(--nk-palette-white)' },
 };

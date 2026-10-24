@@ -1,7 +1,8 @@
 import { OriginIcon, Pressable } from '../../../../components';
 import { useNav } from '../../../../kit/Navigator';
-import { npbCopy, type PdpFreebie } from '../../data.npB';
 import styles from './SfFreeGifts.module.css';
+import type { ProductFreebie } from '../../../../data';
+import { npbCopy } from '../../../../data/copy/pdp';
 
 /**
  * "Free gifts for you" (New PDP, Figma Af34gfmhQ1D0wstXUEHSIF · 64:5591) over bappzaar NoonFreebie: white r16 card,
@@ -10,7 +11,7 @@ import styles from './SfFreeGifts.module.css';
  * "View eligible products ›". Tapping a card with eligible products opens them (bappzaar link_url → the catalog);
  * renders nothing without freebies.
  */
-export function SfFreeGifts({ items }: { items: PdpFreebie[] }) {
+export function SfFreeGifts({ items }: { items: ProductFreebie[] }) {
   const nav = useNav();
   if (items.length === 0) return null;
   const several = items.length > 1;

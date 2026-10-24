@@ -7,7 +7,7 @@ import type { TokenOverrides } from '../../foundations/tokens';
  * (src/motion/presets.ts). Times in seconds from the page appearing (= the end of the suggestions' exit).
  */
 export const plpTokens = {
-  headerBg: 'rgba(255, 255, 255, 0.95)',
+  headerBg: 'var(--nk-palette-white-alpha95)',
   pillDivider: 'var(--nk-color-border)',
   /** results timeline */
   timeline: {
@@ -74,16 +74,16 @@ export const plpTokens = {
   },
   filters: {
     sidebarWidth: 116,
-    sidebarText: '#5D5D5D',
-    sidebarActiveBg: '#EFF7FF',
-    sectionBg: '#F4F6FA',
-    title: '#475067',
+    sidebarText: 'var(--nk-palette-secondary-text-color)',
+    sidebarActiveBg: 'var(--nk-palette-alice-blue)',
+    sectionBg: 'var(--nk-palette-filter-container-background)',
+    title: 'var(--nk-palette-slate-blue-gray)',
   },
 } as const;
 
 export const plpFlowTokens: TokenOverrides = {
   colors: {
-    bgPage: '#FFFFFF',
+    bgPage: 'var(--nk-palette-white)',
     // NoonFilterPillBackAnimation GLASS_GRADIENT_COLORS, (0, 0) → (75, 30), stops 0 / 0.34 / 0.68 / 1
     // NoonFiltersV2 fulfilment card logo boxes (API `background_color`, sampled from the live app 2026-10-14)
     plpFulfilSupermall: 'var(--nk-palette-rocket-blue-sapphire)',
@@ -92,7 +92,7 @@ export const plpFlowTokens: TokenOverrides = {
     // NoonDualThumbSlider rail / selected rail rgba(56, 102, 223)
     plpRangeRail: 'var(--nk-palette-noon-grey3)',
     plpRangeFill: 'var(--nk-palette-accent-color)',
-    plpFilterGlass: 'linear-gradient(to bottom right, rgba(238, 240, 244, 0.72) 0%, rgba(255, 255, 255, 0.98) 34%, rgba(231, 234, 240, 0.58) 68%, rgba(255, 255, 255, 0.9) 100%)',
+    plpFilterGlass: 'linear-gradient(to bottom right, rgba(238, 240, 244, 0.72) 0%, rgba(255, 255, 255, 0.98) 34%, rgba(231, 234, 240, 0.58) 68%, var(--nk-palette-white-alpha90) 100%)',
   },
   // one-off type combos (token lint cleanup)
   type: {

@@ -25,7 +25,7 @@
 - Data / helpers: data.ts, tokens.ts
 - Shared components: `Icon`, `Pressable`, `ProductCard`, `Screen`, `SearchBarButton`, `Text`
 - Flow components: —
-- Tokens (7): colors 4 · local 1 · type 2
+- Tokens (8): colors 4 · local 1 · palette 1 · type 2
 - Icons: — · assets 4
 - State / data: `data:products`
 - Nav out: push `pdp/detail` (via ProductCard) · sheet `pdp/variants` (via ProductCard) · push `plp/listing` · push `search/search`

@@ -394,7 +394,7 @@ Checkout does the same with `CheckoutSectionId[]` and a `sections` param. `isTab
 | Container | Where | Spec |
 |---|---|---|
 | `SectionCard { title, right, padding=12, gap=12, margin='0 12px 12px', radius=16, onClick }` | central | white r16 card with optional 16/700 title row — default for a new section |
-| `Card { title, gap, contentGap }` | `pdp/components/Sections.tsx` | same metrics in CSS (`.card` margin `0 s12 s12`, padding `s12`, r16) |
+| `Card { title, gap, contentGap }` | `pdp/components/Card.tsx` | same metrics in CSS (`.card` margin `0 s12 s12`, padding `s12`, r16) |
 | `.block` | orders tracking | white r16, padding 12, gap 8, `blockTitle` = `--nk-type-section` |
 | `AccountSection` / `ListGroup` | account / central | white r14, margin `0 15px`, rows split by dashed/dotted dividers |
 | Order card | orders list | white r16 + 3px white border, status strip, body, action row, `whileTap={{ scale: 0.98 }}` |

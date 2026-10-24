@@ -7,7 +7,7 @@
 - Docs: `.claude/skills/account/SKILL.md` · `.claude/skills/account/spec.md` · `.claude/resources/flows/account.md` · `src/flows/account/MAPPING.md`
 - Folder: `src/flows/account/` · tokens `src/flows/account/tokens.ts` (44 flow vars) · store `src/flows/account/store.ts` <!-- count-ok -->
 - Area data / token / helper files: store.ts
-- Enters from: `membership/cancel` → account · `membership/cancelSheet` → account · `membership/confirmOffer` → account · `membership/groupSavings` → account · `membership/leaveFamilyOverlay` → account · `membership/loseAccess` → account · `membership/manage` → account · `membership/planOptions` → account · `membership/unusedSeats` → account
+- Enters from: `membership/cancel` → account · `membership/cancelSheet` → account · `membership/confirmOffer` → account · `membership/groupSavings` → account · `membership/leaveFamilyOverlay` → account · `membership/loseAccess` → account · `membership/manage` → account · `membership/planOptions` → account · `membership/unusedSeats` → account · `yellowFriday/landing` → account
 - Exits to: `credits/credits` (from account) · `membership/manage` (from account) · `noonone/landing` (from account) · `orders/list` (from account) · `wishlist/wishlist` (from account)
 
 ## Screens
@@ -42,13 +42,13 @@
 - Data / helpers: data.ts, store.ts, tokens.ts
 - Shared components: `DottedDivider`, `Lottie`, `NeedHelpButton`, `Pressable`, `ProductImage`, `Screen`, `Spinner`
 - Flow components: `AccountFooter`, `AccountSection`, `AccountSectionItem`, `ActionCards`, `CountryRow`, `EditRing`, `LanguageRow`, `MenuGroup`, `ProfileCard`
-- Tokens (126): colors 19 · flow:account 40 · fontFamily 1 · local 2 · palette 20 · radius 5 · spacing 6 · type 33
+- Tokens (157): colors 19 · flow:account 40 · fontFamily 1 · local 2 · palette 51 · radius 5 · spacing 6 · type 33
 - Motion: `preset/duration.fast`, `preset/easing.backOut`, `preset/easing.out`, `transition/fade`
 - Icons: — · assets 62
 - State / data: `store:account`, `store:demo`, `store:membership`, `data:currency`, `data:formatPrice`, `data:productById`, `data:user`
 - Nav out: push `account/changeLanguage` · sheet `account/country` · push `account/editProfile` · sheet `account/policies` · sheet `account/signOut` · push `credits/credits` · push `membership/manage` · push `noonone/landing` · push `orders/list` · push `wishlist/wishlist`
 - Route strings (data-driven links): `account/notifications`, `account/preferences`, `account/security`, `address/select`, `cards/cards`, `returns/history`
-- `account`: in ← `account/signedOut`, `membership/cancel`, `membership/cancelSheet`, `membership/confirmOffer`, `membership/groupSavings`, `membership/leaveFamilyOverlay`, `membership/loseAccess`, `membership/manage`, `membership/planOptions`, `membership/unusedSeats` · tests `test:journey/account-orders-empty`, `test:journey/back-direct-url`, `test:journey/back-from-pushed`, `test:journey/credits-topup`, `test:journey/noonone-start-trial`, `test:visual/account-action-cards-empty` · docs `.claude/skills/orders/spec.md:6-16`, `.claude/skills/orders/spec.md:74-91`, `.claude/skills/returns/spec.md:91-109`, `.claude/resources/flows/account.md:5-15`, `.claude/skills/account/spec.md:6-29`, `.claude/skills/account/spec.md:32-50`, `.claude/skills/account/spec.md:63-84`, `.claude/skills/account/spec.md:96-112`, `src/flows/account/MAPPING.md:56-73`
+- `account`: in ← `account/signedOut`, `membership/cancel`, `membership/cancelSheet`, `membership/confirmOffer`, `membership/groupSavings`, `membership/leaveFamilyOverlay`, `membership/loseAccess`, `membership/manage`, `membership/planOptions`, `membership/unusedSeats`, `yellowFriday/landing` · tests `test:journey/account-orders-empty`, `test:journey/back-direct-url`, `test:journey/back-from-pushed`, `test:journey/credits-topup`, `test:journey/noonone-start-trial`, `test:visual/account-action-cards-empty` · docs `.claude/skills/orders/spec.md:6-16`, `.claude/skills/orders/spec.md:74-91`, `.claude/skills/returns/spec.md:91-109`, `.claude/resources/flows/account.md:5-15`, `.claude/skills/account/spec.md:6-29`, `.claude/skills/account/spec.md:32-50`, `.claude/skills/account/spec.md:63-84`, `.claude/skills/account/spec.md:96-112`, `src/flows/account/MAPPING.md:56-73`
 
 ## `account/signedOut`
 
@@ -58,7 +58,7 @@
 - Data / helpers: data.ts, store.ts, tokens.ts
 - Shared components: `Button`, `DottedDivider`, `Pressable`, `Screen`, `Spinner`
 - Flow components: `AccountFooter`, `AccountSection`, `AccountSectionItem`, `CountryRow`, `LanguageRow`, `MenuGroup`
-- Tokens (125): colors 19 · flow:account 39 · fontFamily 1 · local 2 · palette 20 · radius 5 · spacing 6 · type 33
+- Tokens (155): colors 19 · flow:account 39 · fontFamily 1 · local 2 · palette 50 · radius 5 · spacing 6 · type 33
 - Motion: `preset/easing.out`, `reduced-motion`, `transition/fade`
 - Icons: — · assets 61
 - State / data: `store:account`, `data:user`

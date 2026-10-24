@@ -1,22 +1,9 @@
 import { Badge, ExpressBadge, OriginIcon, ProductImage } from '../../../../components';
 import { useNav } from '../../../../kit/Navigator';
-import { products, type Product } from '../../../../data';
-import { money } from '../../data';
+import { money, type Product } from '../../../../data';
 import styles from './SfSponsoredBrandCard.module.css';
+import { sfCopy } from '../../../../data/copy/pdp';
 
-/** Storefront copy (Figma 3499:75701). */
-const sfCopy = { tagline: 'Top quality products', shop: (brand: string) => `Shop ${brand}`, ad: 'Ad' } as const;
-
-/** Max cards in the row. */
-const MAX_CARDS = 8;
-
-/** Sponsored products: same brand (not the current product), topped up from the same category. */
-export function sponsoredBrandProducts(product: Product): Product[] {
-  const others = products.filter((p) => p.id !== product.id);
-  const brand = others.filter((p) => p.brand === product.brand);
-  const category = others.filter((p) => p.category === product.category && p.brand !== product.brand);
-  return [...brand, ...category].slice(0, MAX_CARDS);
-}
 
 /**
  * Storefront sponsored brand carousel (Figma 3499:75701, "Variant Selection" 163 tall): blue-gray/100 frame (r16, 1px white)
@@ -24,13 +11,11 @@ export function sponsoredBrandProducts(product: Product): Product[] {
  * h-scroll of 216-wide horizontal cards (64×71 image, 2-line 12/500 title, 12/700 price, express ETA).
  * New section (no bappzaar / kit counterpart). Header → brand listing; card → that product's PDP. < 1 product → null.
  */
-export function SfSponsoredBrandCard({ product, ids }: { product: Product; ids?: string[] }) {
+export function SfSponsoredBrandCard({ brand, items }: { brand: string; items: Product[] }) {
   const nav = useNav();
-  const items = ids ? ids.map((id) => products.find((p) => p.id === id)).filter((p): p is Product => !!p) : sponsoredBrandProducts(product);
   if (items.length === 0) return null;
-  const brand = product.brand;
   return (
-    <section className={styles.root} aria-label={`${sfCopy.ad}: ${sfCopy.shop(brand)}`}>
+    <section className={styles.root} aria-label={`${sfCopy.brandRow.ad}: ${sfCopy.brandRow.shop(brand)}`}>
       <div className={styles.panel}>
         <div className={styles.header}>
           <button type="button" className={styles.brand} onClick={() => nav.push('plp/listing', { query: brand })}>
@@ -38,15 +23,15 @@ export function SfSponsoredBrandCard({ product, ids }: { product: Product; ids?:
               <span className={styles.logoText}>{brand}</span>
             </span>
             <span className={styles.brandText}>
-              <span className={styles.tagline}>{sfCopy.tagline}</span>
+              <span className={styles.tagline}>{sfCopy.brandRow.tagline}</span>
               <span className={styles.shopRow}>
-                <span className={styles.shop}>{sfCopy.shop(brand)}</span>
+                <span className={styles.shop}>{sfCopy.brandRow.shop(brand)}</span>
                 <OriginIcon name="chevron-right" size={14} color="var(--nk-color-link)" />
               </span>
             </span>
           </button>
           <Badge bg="var(--nk-palette-border-color)" color="var(--nk-color-price-old)">
-            {sfCopy.ad}
+            {sfCopy.brandRow.ad}
           </Badge>
         </div>
         <div className={styles.row}>

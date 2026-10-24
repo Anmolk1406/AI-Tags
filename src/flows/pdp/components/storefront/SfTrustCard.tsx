@@ -1,7 +1,7 @@
 import { OriginIcon, type OriginIconName } from '../../../../components';
-import type { PdpContent } from '../../data';
-import { Card } from '../Sections';
+import { Card } from '../Card';
 import styles from './SfTrustCard.module.css';
+import type { PdpContent } from '../../../../data/views/pdp';
 
 /** offer_badges icon kind → Origin trust icon (Figma "returns low" / "Product as described" / mdi:tick-decagram …). */
 export const sfTrustIcons: Record<PdpContent['offerBadges'][number]['icon'], OriginIconName> = {

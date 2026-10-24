@@ -1,0 +1,4 @@
+/* Countdown: "Picks refresh in 29 : 53 : 10", three dark tiles with tabular digits */
+.countdown { display: flex; align-items: center; gap: var(--nk-space-s6); margin-top: var(--nk-space-s4); }
+.countdownGroup { display: inline-flex; align-items: center; gap: var(--nk-space-s6); }
+.countdownTile { display: inline-flex; align-items: center; justify-content: center; min-width: 34px; height: 30px; padding: 0 var(--nk-space-s6); border-radius: var(--nk-radius-r8); background: var(--nk-color-yf-surface-dark); color: var(--nk-color-text-inverse); font: var(--nk-type-body-bold); font-variant-numeric: tabular-nums; }

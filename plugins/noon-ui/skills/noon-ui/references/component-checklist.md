@@ -18,7 +18,8 @@ Pick by role first ([`references/design-rules.md`](references/design-rules.md): 
 - [ ] Type: `var(--nk-type-*)` or `<Text variant>`; no raw `font:` / `font-size`.
 - [ ] Space, radius, shadow, layout: `--nk-space-*`, `--nk-radius-*`, `--nk-shadow-*`, `--nk-layout-*`.
 - [ ] Motion: presets and recipes from `src/motion` (`references/motion.md`), not ad-hoc springs or keyframes.
-- [ ] A value with no token goes in the flow's `tokens.ts` with a comment naming its source. Geometry that must stay literal gets `// token-lint-ignore — <reason>`.
+- [ ] A measurement with no token goes in the flow's `tokens.ts` with a comment naming its source. A colour with no exact token uses the nearest token by role (say which); only a colour the user explicitly asked for, or a port's source value, is written raw there, marked `// custom-color — <who asked, why>` (`SKILL.md` → "No custom colours"). Geometry that must stay literal gets `// token-lint-ignore — <reason>`.
+- [ ] Files sit in the folder contract: routed screens and sheets in `screens/`, parts in `components/`, values in `tokens.ts`, copy in `data.ts` (`npm run check:structure -- <flow>`).
 
 ## 3. Icons and assets
 

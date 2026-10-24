@@ -13,7 +13,7 @@ import type { TokenOverrides } from '../../foundations/tokens';
  */
 export const checkoutFlowTokens: TokenOverrides = {
   colors: {
-    bgPage: '#F3F4F8', // NoonCheckoutScreen container: $noonGrey4
+    bgPage: 'var(--nk-palette-ghost-white-color)', // NoonCheckoutScreen container: $noonGrey4
 
     // NoonCheckoutShipment promiseTextStyle.highlight '#1F7A74' (emeraldGreen700)
     chkPromiseHighlight: 'var(--nk-palette-emerald-green700)',

@@ -24,9 +24,9 @@ const colors = {
   creditsWarningPill: 'rgba(253, 246, 155, 0.5)', // banner EXPIRING pill #FDF69B80
   creditsWarningRim: 'rgba(255, 250, 186, 0.5)', // banner EXPIRING rim end #FFFABA80
   creditsLogosPill: '#313131', // top-up logos pill rgb(49,49,49)
-  creditsHairline: 'rgba(14, 14, 14, 0.04)', // #0E0E0E0A icon box border / Default pill bg
-  creditsIconBorder: 'rgba(14, 14, 14, 0.07)', // #0E0E0E12 details header icon border
-  creditsChipActive: 'rgba(14, 14, 14, 0.25)', // #0E0E0E3F active chip border
+  creditsHairline: 'var(--nk-palette-primary-alpha4)', // #0E0E0E0A icon box border / Default pill bg
+  creditsIconBorder: 'var(--nk-palette-new-border-color)', // #0E0E0E12 details header icon border
+  creditsChipActive: 'var(--nk-palette-primary-alpha25)', // #0E0E0E3F active chip border
   creditsMuted: 'rgba(14, 14, 14, 0.655)', // #0E0E0EA7 history title / <black> subtitle
   creditsWithdrawBg: '#F4F9FF', // WalletBankWithdraw pill
   creditsWithdrawBorder: '#DCECFF',
@@ -85,10 +85,10 @@ export const creditsFlowTokens: TokenOverrides = { colors, type };
  * the wordmark's initial, like checkout's ProviderLogo stand-ins.
  */
 export const creditsProviders = [
-  { code: 'share', title: 'SHARE points', isVoucher: false, color: '#7B2CBF', ink: 'var(--nk-palette-white)', mark: 'S' },
-  { code: 'skywards', title: 'Skywards Miles', isVoucher: false, color: '#1D1D1B', ink: '#C9A86A', mark: 'S' },
-  { code: 'yougotagift', title: 'YOUGotaGift', isVoucher: true, color: '#E5195E', ink: 'var(--nk-palette-white)', mark: 'Y' },
-  { code: 'flexvoucher', title: 'Flex voucher', isVoucher: true, color: '#0F61FF', ink: 'var(--nk-palette-white)', mark: 'f' },
+  { code: 'share', title: 'SHARE points', isVoucher: false, color: 'var(--nk-palette-kit-violet46)', ink: 'var(--nk-palette-white)', mark: 'S' },
+  { code: 'skywards', title: 'Skywards Miles', isVoucher: false, color: 'var(--nk-palette-kit-gray11)', ink: 'var(--nk-palette-kit-amber60)', mark: 'S' },
+  { code: 'yougotagift', title: 'YOUGotaGift', isVoucher: true, color: 'var(--nk-palette-kit-pink50)', ink: 'var(--nk-palette-white)', mark: 'Y' },
+  { code: 'flexvoucher', title: 'Flex voucher', isVoucher: true, color: 'var(--nk-palette-primary-blue)', ink: 'var(--nk-palette-white)', mark: 'f' },
 ] as const;
 
 /** JS-side values (geometry the screens compute, timings, demo latency). */

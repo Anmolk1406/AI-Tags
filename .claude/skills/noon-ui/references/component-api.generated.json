@@ -6965,19 +6965,9 @@
     },
     {
       "flow": "pdp",
-      "name": "RecoCard",
-      "file": "src/flows/pdp/components/RecoCard.tsx",
-      "line": 27,
-      "doc": "NoonProductBoxVertical, carousel variant (productBoxV2: r10, 0.5px lightGray, 144 wide) with the NoonNudgeTag ticker under the price (`carouselNudge`: 13/16 sla",
-      "props": [
-        "product"
-      ]
-    },
-    {
-      "flow": "pdp",
       "name": "Card",
-      "file": "src/flows/pdp/components/Sections.tsx",
-      "line": 19,
+      "file": "src/flows/pdp/components/Card.tsx",
+      "line": 5,
       "doc": "NoonSectionCard: white, r16, padding 12, margin 0 12 12; optional 16/700 charcoalNavy header.",
       "props": [
         "title",
@@ -6989,126 +6979,9 @@
     },
     {
       "flow": "pdp",
-      "name": "DeliveryCard",
-      "file": "src/flows/pdp/components/Sections.tsx",
-      "line": 32,
-      "doc": "Delivery Information: header (22h) + noon One \"member\"; NoonDeliveryInfoItem (express logo + estimate, countdown chip).",
-      "props": [
-        "content"
-      ]
-    },
-    {
-      "flow": "pdp",
-      "name": "CategoryBestSellerCta",
-      "file": "src/flows/pdp/components/Sections.tsx",
-      "line": 95,
-      "doc": "NoonCategoryBestSeller (bottom CTA, SD best_seller_explore_cta): white → mintCyanLight card, 32px icon, html 14, darkGreenTeal chevron.",
-      "props": [
-        "content"
-      ]
-    },
-    {
-      "flow": "pdp",
-      "name": "FbtCard",
-      "file": "src/flows/pdp/components/Sections.tsx",
-      "line": 121,
-      "doc": "NoonFrequentlyBoughtTogether (white card, header, gap 12 / 8): 100×140 tiles with a 28px check circle (top/end −8), \"+\" between tiles, then \"Buy N items togethe",
-      "props": [
-        "ids"
-      ]
-    },
-    {
-      "flow": "pdp",
-      "name": "PaymentsCard",
-      "file": "src/flows/pdp/components/Sections.tsx",
-      "line": 172,
-      "doc": "NoonPaymentsForYou: SD title; 90×60 logo + html message; >1 item → peeking width.",
-      "props": [
-        "content"
-      ]
-    },
-    {
-      "flow": "pdp",
-      "name": "ReinforcementCard",
-      "file": "src/flows/pdp/components/Sections.tsx",
-      "line": 193,
-      "doc": "NoonPdpReinforcement (SD offer_badges ≥ 2): 28px icon + 12/600 text tiles; 3 visible (3.5 when ≥ 4).",
-      "props": [
-        "content"
-      ]
-    },
-    {
-      "flow": "pdp",
-      "name": "OverviewCard",
-      "file": "src/flows/pdp/components/Sections.tsx",
-      "line": 239,
-      "doc": "NoonProductOverview (inside NoonSectionCard \"Product Overview\", gap 12 / content gap 8).",
-      "props": [
-        "content"
-      ]
-    },
-    {
-      "flow": "pdp",
-      "name": "AdditionalInfoCard",
-      "file": "src/flows/pdp/components/Sections.tsx",
-      "line": 270,
-      "doc": "NoonShippingInfo in \"Additional Information\" (gap 12 / content gap 8): warranty · returns · TDRA rows.",
-      "props": [
-        "content"
-      ]
-    },
-    {
-      "flow": "pdp",
-      "name": "SellerCard",
-      "file": "src/flows/pdp/components/Sections.tsx",
-      "line": 286,
-      "doc": "NoonSeller + NoonDashedBorder + NoonOffers (content gap 16).",
-      "props": [
-        "content",
-        "onOffers"
-      ]
-    },
-    {
-      "flow": "pdp",
-      "name": "Stars",
-      "file": "src/flows/pdp/components/Stars.tsx",
-      "line": 9,
-      "doc": "NoonStarsRating: noonReviewStarEmpty tinted; partial star clipped to the fraction; empty = lightGreyColor.",
-      "props": [
-        "rating",
-        "size",
-        "max"
-      ]
-    },
-    {
-      "flow": "pdp",
-      "name": "VariantsCard",
-      "file": "src/flows/pdp/components/Variants.tsx",
-      "line": 15,
-      "doc": "Variants NoonSectionCard: NoonSizeVariantSelection (fashion sizes) + NoonOptionsSelection (groups).",
-      "props": [
-        "product",
-        "content",
-        "selection",
-        "onSelect",
-        "onSizeGuide",
-        "onLearnMore"
-      ]
-    },
-    {
-      "flow": "pdp",
-      "name": "VipPreference",
-      "file": "src/flows/pdp/components/VipPreference.tsx",
-      "line": 16,
-      "doc": "NoonVIPPreference — under the delivery card when the offer has `shipping_preferences_vip` and the user is not a member: blueGray900 r12 banner, description + \"w",
-      "props": [],
-      "variants": {}
-    },
-    {
-      "flow": "pdp",
       "name": "SfAdditionalInfo",
       "file": "src/flows/pdp/components/storefront/SfAdditionalInfo.tsx",
-      "line": 24,
+      "line": 25,
       "doc": "\"Additional Information\" (New PDP 64:5696 / Storefront 3499:75536, layer \"Trustmarker\"): white r16 card, p12, gap 12; 15/700 title; rows 8 apart — #F9F9FB r8, 4",
       "props": [
         "content"
@@ -7118,7 +6991,7 @@
       "flow": "pdp",
       "name": "SfAtcBar",
       "file": "src/flows/pdp/components/storefront/SfAtcBar.tsx",
-      "line": 28,
+      "line": 27,
       "doc": "\"Bottom Nav\" — New PDP (Af34gfmhQ1D0wstXUEHSIF · 104:20387; Storefront 3499:75904): white, top r16, shadow 0 −2 4 black 5% — in-cart strip (hidden \"Content\" row",
       "props": [
         "product",
@@ -7132,7 +7005,7 @@
       "flow": "pdp",
       "name": "SfBestsellerRow",
       "file": "src/flows/pdp/components/storefront/SfBestsellerRow.tsx",
-      "line": 27,
+      "line": 23,
       "doc": "Bestseller row (New PDP 64:5727, Storefront 3499:75632): r16 card (1px white border, white → emerald/50 gradient), padding 6 · 12 · 6 · 4, gap 10; a 52 × 50 med",
       "props": [
         "content"
@@ -7142,10 +7015,9 @@
       "flow": "pdp",
       "name": "SfBundleCard",
       "file": "src/flows/pdp/components/storefront/SfBundleCard.tsx",
-      "line": 16,
+      "line": 15,
       "doc": "\"Bundle up & Save\" card (New PDP Af34gfmhQ1D0wstXUEHSIF · 84:8457) = bappzaar NoonAvailableBundlesTag: r16 card inset 12 (1px white border, white → brand-blue/1",
       "props": [
-        "product",
         "content",
         "onPress"
       ]
@@ -7154,12 +7026,11 @@
       "flow": "pdp",
       "name": "SfDeliveryCard",
       "file": "src/flows/pdp/components/storefront/SfDeliveryCard.tsx",
-      "line": 54,
+      "line": 26,
       "doc": "Storefront \"Delivery information\": 15/700 title (+ noon One \"member\" mark for members in the cross-sell variants), then the variant's body.",
       "props": [
         "content",
-        "variant",
-        "freeShippingMin"
+        "variant"
       ],
       "variants": {
         "variant": [
@@ -7175,28 +7046,27 @@
       "flow": "pdp",
       "name": "SfExtendedWarranty",
       "file": "src/flows/pdp/components/storefront/SfExtendedWarranty.tsx",
-      "line": 96,
+      "line": 57,
       "doc": "Storefront \"Extended warranty\" (Figma 3499:75479 \"Details\"): white r16 card, p12, gap 12; 15/700 title + rotating partner/USP ticker; a scroll row (gap 12) of 2",
       "props": [
-        "content",
-        "price"
+        "content"
       ]
     },
     {
       "flow": "pdp",
       "name": "SfFbtCard",
       "file": "src/flows/pdp/components/storefront/SfFbtCard.tsx",
-      "line": 21,
+      "line": 19,
       "doc": "Storefront Frequently bought together (Figma 3499:75702): 15/700 title; equal tiles (140-tall image r8, 1px blue-gray/200, 24px check disc at top/end −5) joined",
       "props": [
-        "ids"
+        "items"
       ]
     },
     {
       "flow": "pdp",
       "name": "SfFreeGifts",
       "file": "src/flows/pdp/components/storefront/SfFreeGifts.tsx",
-      "line": 13,
+      "line": 14,
       "doc": "\"Free gifts for you\" (New PDP, Figma Af34gfmhQ1D0wstXUEHSIF · 64:5591) over bappzaar NoonFreebie: white r16 card, 16/700 title, a horizontal rail (px 12, gap 8)",
       "props": [
         "items"
@@ -7206,7 +7076,7 @@
       "flow": "pdp",
       "name": "SfGallery",
       "file": "src/flows/pdp/components/storefront/SfGallery.tsx",
-      "line": 34,
+      "line": 45,
       "doc": "Storefront PDP gallery (Figma 2ldJbjmQq4RkhnrNFCfXQB · 3499:75117 / 3499:75118 \"product-image\"): full width, 375 × 512 (ratio 1.365), starting 40 below the fram",
       "props": [
         "product",
@@ -7228,11 +7098,12 @@
       "flow": "pdp",
       "name": "SfMainInfo",
       "file": "src/flows/pdp/components/storefront/SfMainInfo.tsx",
-      "line": 59,
+      "line": 27,
       "doc": "Main-Info — New PDP (Figma Af34gfmhQ1D0wstXUEHSIF · 64:5587), same component as Storefront 3499:75133: Accent/100 wrapper (r16, pt 10, gap 8) with the brand str",
       "props": [
         "product",
         "content",
+        "info",
         "onReviews"
       ]
     },
@@ -7240,18 +7111,17 @@
       "flow": "pdp",
       "name": "SfNewerModelCard",
       "file": "src/flows/pdp/components/storefront/SfNewerModelCard.tsx",
-      "line": 50,
+      "line": 12,
       "doc": "Storefront \"OrderHistoryItems\" newer-model card (Figma 3499:75229): purple → white \"Newer model available\" strip, 55×68 thumb, 2-line title, price, round chevro",
       "props": [
-        "product",
-        "successor"
+        "newer"
       ]
     },
     {
       "flow": "pdp",
       "name": "SfPaymentOffers",
       "file": "src/flows/pdp/components/storefront/SfPaymentOffers.tsx",
-      "line": 24,
+      "line": 17,
       "doc": "Storefront \"Offers for you\" (Figma 3499:75412): white r16 card, py12, gap 12; 15/700 title (px14); a scroll row (px12, gap 8) of 253 × 64 offer cards (1px blue-",
       "props": [
         "content"
@@ -7261,12 +7131,10 @@
       "flow": "pdp",
       "name": "SfProductDetails",
       "file": "src/flows/pdp/components/storefront/SfProductDetails.tsx",
-      "line": 75,
+      "line": 69,
       "doc": "`onAccordionOpen`: NoonProductOverview → NoonProductDetails.scrollAfterAccordionOpen (page +120, 150ms).",
       "props": [
         "content",
-        "product",
-        "aiOverview",
         "onAccordionOpen"
       ]
     },
@@ -7274,18 +7142,17 @@
       "flow": "pdp",
       "name": "SfProductFeatures",
       "file": "src/flows/pdp/components/storefront/SfProductFeatures.tsx",
-      "line": 30,
-      "doc": "`product` stays in the props for callers; the creatives are content, not product photos.",
+      "line": 26,
+      "doc": "The creatives are brand content, not product photos.",
       "props": [
-        "content",
-        "product"
+        "content"
       ]
     },
     {
       "flow": "pdp",
       "name": "SfRecommendations",
       "file": "src/flows/pdp/components/storefront/SfRecommendations.tsx",
-      "line": 37,
+      "line": 38,
       "doc": "Product rail, two looks (New PDP, All flows Af34gfmhQ1D0wstXUEHSIF · 64:5571): - `card` (default; \"Products related to this\" 89:62855, Storefront 3499:75876 / 3",
       "props": [
         "title",
@@ -7304,7 +7171,7 @@
       "flow": "pdp",
       "name": "SfRecoCard",
       "file": "src/flows/pdp/components/storefront/SfRecommendations.tsx",
-      "line": 59,
+      "line": 60,
       "doc": "Figma \"Product card\" (134, 0.5px Blue-Gray/200, r10): 3:4 image box (2% tint, image 87.5% tall) with Best Seller tag, wishlist (16 heart in a 24 white-20% circl",
       "props": [
         "product",
@@ -7315,7 +7182,7 @@
       "flow": "pdp",
       "name": "SfStars",
       "file": "src/flows/pdp/components/storefront/SfReviewsCard.tsx",
-      "line": 28,
+      "line": 17,
       "doc": "Figma \"Stars\": 5 × `size` star-filled in Emerald/800, half star for a .5 remainder, empty in border grey.",
       "props": [
         "rating",
@@ -7326,7 +7193,7 @@
       "flow": "pdp",
       "name": "SfReviewsCard",
       "file": "src/flows/pdp/components/storefront/SfReviewsCard.tsx",
-      "line": 52,
+      "line": 41,
       "doc": "Storefront \"Product Review Card\" (3499:75703): white r16 card, p12, sections 24 apart — rating summary (15/700 title, 22/800 score + 22 stars, 12/18 note + info",
       "props": [
         "product",
@@ -7337,7 +7204,7 @@
       "flow": "pdp",
       "name": "SfSellerCard",
       "file": "src/flows/pdp/components/storefront/SfSellerCard.tsx",
-      "line": 54,
+      "line": 46,
       "doc": "Seller widget (New PDP 64:5728 / Storefront 3499:75647): white r16 card with shadow/sm; 48px seller logo (NoonSeller `seller-logo.webp`, 1px #F3F5F7 r10) + \"Sol",
       "props": [
         "content",
@@ -7348,22 +7215,20 @@
       "flow": "pdp",
       "name": "SfSponsoredBrandCard",
       "file": "src/flows/pdp/components/storefront/SfSponsoredBrandCard.tsx",
-      "line": 27,
+      "line": 14,
       "doc": "Storefront sponsored brand carousel (Figma 3499:75701, \"Variant Selection\" 163 tall): blue-gray/100 frame (r16, 1px white) around a white r12 panel; header = 44",
       "props": [
-        "product",
-        "ids"
+        "brand",
+        "items"
       ]
     },
     {
       "flow": "pdp",
       "name": "SfSponsoredRow",
       "file": "src/flows/pdp/components/storefront/SfSponsoredRow.tsx",
-      "line": 23,
+      "line": 13,
       "doc": "New PDP sponsored product \"Ads\" / Big Ad (Figma Af34gfmhQ1D0wstXUEHSIF · 64:5589): 351 wide white r14 card, inner 1px gray/200 frame, padding 4 (end 12), gap 12",
       "props": [
-        "product",
-        "content",
         "item"
       ]
     },
@@ -7381,7 +7246,7 @@
       "flow": "pdp",
       "name": "SfVariantsCard",
       "file": "src/flows/pdp/components/storefront/SfVariantsCard.tsx",
-      "line": 30,
+      "line": 33,
       "doc": "Behaviour (bappzaar master NoonProductDetails → NoonSizeVariantSelection / NoonOptionsSelection / NoonSelectionItem): a size tap switches the variant in place (",
       "props": [
         "product",
@@ -8638,6 +8503,36 @@
       "props": [
         "product"
       ]
+    },
+    {
+      "flow": "yellowFriday",
+      "name": "Countdown",
+      "file": "src/flows/yellowFriday/components/Countdown.tsx",
+      "line": 7,
+      "doc": "\"Picks refresh in 29 : 53 : 10\": three dark tiles, tabular digits, ticking once a second while the screen is on top.",
+      "props": [
+        "label",
+        "seconds"
+      ]
+    },
+    {
+      "flow": "yellowFriday",
+      "name": "Orbi",
+      "file": "src/flows/yellowFriday/components/Orbi.tsx",
+      "line": 11,
+      "doc": "Orbi, noon's assistant, as a flat vector stand-in for the 3D bot (github.com/saswata2002/3D-noon-bot): lacquer ball, yellow helmet with the noon wordmark, pill ",
+      "props": [
+        "size",
+        "mood",
+        "style"
+      ],
+      "variants": {
+        "mood": [
+          "happy",
+          "idle",
+          "think"
+        ]
+      }
     }
   ],
   "inheritedPropNames": [

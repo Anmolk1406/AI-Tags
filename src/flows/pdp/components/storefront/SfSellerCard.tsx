@@ -7,21 +7,14 @@ import chevron16 from '@assets/pdp/new-pdp/icons/mini-chevron-right-16.svg';
 import chevron20 from '@assets/pdp/new-pdp/icons/mini-chevron-right-20.svg';
 import appleSellerLogo from '@assets/pdp/new-pdp/seller-logo-apple.png';
 import { useNav } from '../../../../kit/Navigator';
-import { copy, money, type PdpContent } from '../../data';
 import { assets as assetsUrl } from '../Asset';
-import { Card } from '../Sections';
+import { Card } from '../Card';
 import styles from './SfSellerCard.module.css';
+import { money, type SellerInfo, type SellerMetric } from '../../../../data';
+import { copy, sfCopy } from '../../../../data/copy/pdp';
+import type { PdpContent } from '../../../../data/views/pdp';
 
-type Seller = PdpContent['seller'];
-type Metric = Seller['metrics'][number];
-/** Optional Storefront fields the lead may add to PdpContent['seller'] (read defensively until then). */
-type SfSellerExtras = { subtitle?: string; offerCount?: number; offerFrom?: number };
-
-/** Storefront copy not in data.ts `copy` (Figma 3499:75647). */
-const sfCopy = {
-  positiveLabel: 'Positive',
-  offersFrom: (n: number) => `${n} ${n === 1 ? 'offer' : 'offers'} from other sellers from`,
-} as const;
+type Metric = SellerMetric;
 
 type ChipKind = 'returns' | 'ratings' | 'partner' | 'described' | 'other';
 const chipKind = (m: Metric): ChipKind =>
@@ -37,8 +30,7 @@ const sellerLogoFor = (content: PdpContent) => (content.officialStore && content
 const chipOrder = (m: Metric) => ['returns', 'ratings', 'partner', 'described', 'other'].indexOf(chipKind(m));
 
 /** "{n} offers from other sellers from Đ{min}": seller.offerCount / offerFrom, else the buying options; null → generic copy. */
-function offersSummary(content: PdpContent): { count: number; from: number } | null {
-  const s = content.seller as Seller & SfSellerExtras;
+function offersSummary(s: SellerInfo, content: PdpContent): { count: number; from: number } | null {
   if (s.offerCount && s.offerFrom !== undefined) return { count: s.offerCount, from: s.offerFrom };
   const opts = content.buyingOptions ?? [];
   if (opts.length === 0) return null;
@@ -49,13 +41,14 @@ function offersSummary(content: PdpContent): { count: number; from: number } | n
  * Seller widget (New PDP 64:5728 / Storefront 3499:75647): white r16 card with shadow/sm; 48px seller logo (NoonSeller
  * `seller-logo.webp`, 1px #F3F5F7 r10) + "Sold by {name}" ›, rating pill "4.3 (128)" and "74% Positive Seller Ratings";
  * wrapping trust chips (r18); brand subtitle row; dashed divider; alice-blue offers row with the tag glyph.
- * Replaces SellerCard (same props): the seller block toasts the seller name, the offers row calls `onOffers`.
+ * The seller block toasts the seller name, the offers row calls `onOffers`. No seller data → no card.
  */
 export function SfSellerCard({ content, onOffers }: { content: PdpContent; onOffers: () => void }) {
   const nav = useNav();
-  const s = content.seller as Seller & SfSellerExtras;
-  const subtitle = s.subtitle ?? (content.officialStore ? `Official ${content.brand} partner on noon` : undefined);
-  const offers = offersSummary(content);
+  const s = content.seller;
+  if (!s) return null;
+  const subtitle = s.subtitle ?? (content.officialStore ? sfCopy.seller.officialPartner(content.brand) : undefined);
+  const offers = offersSummary(s, content);
   return (
     <Card className={styles.root} contentGap={16}>
       <div className={styles.top}>
@@ -80,7 +73,7 @@ export function SfSellerCard({ content, onOffers }: { content: PdpContent; onOff
               </span>
               <span className={styles.positive}>
                 <span>
-                  <span className={styles.positivePct}>{copy.percent(s.positive)}</span> <span className={styles.positiveWord}>{sfCopy.positiveLabel}</span> {copy.sellerRatings}
+                  <span className={styles.positivePct}>{copy.percent(s.positive)}</span> <span className={styles.positiveWord}>{sfCopy.seller.positiveLabel}</span> {copy.sellerRatings}
                 </span>
               </span>
             </span>
@@ -120,7 +113,7 @@ export function SfSellerCard({ content, onOffers }: { content: PdpContent; onOff
           <span className={styles.offersText}>
             {offers ? (
               <>
-                {sfCopy.offersFrom(offers.count)} <span className={styles.offersPrice}>{money(offers.from)}</span>
+                {sfCopy.seller.offersFrom(offers.count)} <span className={styles.offersPrice}>{money(offers.from)}</span>
               </>
             ) : (
               copy.moreOffers

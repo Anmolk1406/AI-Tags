@@ -102,7 +102,7 @@ Changing method flashes the `Reloader` (`components/payment/Reloader.tsx`); the 
 | Cart nudge / payment offer | `src/flows/cart/components/NoonOneNudge.tsx`, `PaymentOffers.tsx` | → `noonone/landing { source: '/cart' }` | hidden |
 | Checkout section `integrated_noonone` | `src/flows/checkout/components/NoonOneSection.tsx` (+ `NoonOneCtaReveal.tsx`) | `Switch` writes `checkoutEnrollmentStore.enrolled`; nudge → `noonone/plans { source: '/checkout' }` | hidden |
 | Order confirmation | `src/flows/checkout/ConfirmationScreen.tsx` → `useOcOneOverlay` | enrolled at checkout → subscribes (monthly, trial if eligible), after 900ms pushes `noonone/ocOne { status: 'succeeded' }` | — |
-| PDP | `src/flows/pdp/components/storefront/SfDeliveryCard.tsx` banner, `src/flows/pdp/components/VipPreference.tsx` | → `noonone/landing { source: '/pdp' }` | "member" mark in the delivery card |
+| PDP | `src/flows/pdp/components/storefront/SfDeliveryCard.tsx` banner | → `noonone/landing { source: '/pdp' }` | "member" mark in the delivery card |
 | Orders bill | `src/flows/orders/components/BillSummary.tsx` noon One strip | → `noonone/landing` (no `source`) | same |
 
 Not ported (MAPPING.md → Entry points): coupon tray "Get noon One to unlock", coupon card V3, checkout shipment enrolment toast, invoice noon One rows, O2D noon One banner, One Day push trigger (screen supports `isOneDay`, nothing triggers it).

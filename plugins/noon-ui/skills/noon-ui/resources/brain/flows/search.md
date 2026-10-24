@@ -20,7 +20,7 @@
 
 ## `search/search` · `search/suggestions`
 
-- Module `src/flows/search/SearchScreen.tsx` (shared by 2 screens; params pick the state) · 5 own files, 155 in the import closure · **imports from other flows:** `src/flows/noonone/components/maskSrc.ts`, `src/flows/pdp/DetailScreen.tsx`, `src/flows/pdp/components/Asset.tsx`, `src/flows/pdp/components/RecoCard.tsx`, `src/flows/pdp/components/Sections.tsx`, `src/flows/pdp/components/Stars.tsx` … +77 <!-- count-ok -->
+- Module `src/flows/search/SearchScreen.tsx` (shared by 2 screens; params pick the state) · 5 own files, 148 in the import closure · **imports from other flows:** `src/flows/pdp/DetailScreen.tsx`, `src/flows/pdp/components/Asset.tsx`, `src/flows/pdp/components/Card.tsx`, `src/flows/pdp/components/storefront/SfAdditionalInfo.module.css`, `src/flows/pdp/components/storefront/SfAdditionalInfo.tsx`, `src/flows/pdp/components/storefront/SfAtcBar.module.css` … +65 <!-- count-ok -->
 - Source: marketplaces/noon/screens/NoonSearchScreen, components/NoonSearchSuggestionRow, NoonRecentlySearchedModule; motion: github.com/saswata2002/Brand-Widget-PLP (app.js "Search suggestions — ProtoPie handoff motion")
 - Data / helpers: data.ts, tokens.ts
 - Shared components: `Icon`, `Pill`, `Pressable`, `ProductImage`, `Screen`, `SearchInput`, `Text`
@@ -28,6 +28,6 @@
 - Tokens (16): colors 8 · local 1 · palette 3 · type 4
 - Motion: `preset/handoff.easeInOut`, `preset/handoff.easeOut`, `preset/handoff.fade`, `preset/handoff.spring`, `preset/handoff.travel`, `recipe/BlurSwap`, `transition/results-fade`, `transition/slide-left`
 - State / data: `store:demo`, `store:membership`, `store:plp`, `data:phoneProducts`, `data:products`
-- Nav out: push `checkout/checkout` (via SfAtcBar) · push `noonone/landing` (via VipPreference) · sheet `pdp/added` (via SfAtcBar) · push `pdp/detail` (via ProductBoxVertical) · replace `pdp/detail` (via Sections) · sheet `pdp/variants` (via ProductCard) · sheet `plp/filters` (via ListingScreen) · push `plp/listing` (via Sections) · sheet `plp/sort` (via ListingScreen) · push `search/search` (via SfHeader)
+- Nav out: push `checkout/checkout` (via SfAtcBar) · push `noonone/landing` (via SfDeliveryCard) · sheet `pdp/added` (via SfAtcBar) · push `pdp/detail` (via ProductBoxVertical) · replace `pdp/detail` (via SfDeliveryCard) · sheet `pdp/variants` (via ProductCard) · sheet `plp/filters` (via ListingScreen) · push `plp/listing` (via SfBestsellerRow) · sheet `plp/sort` (via ListingScreen) · push `search/search` (via SfHeader)
 - `search`: in ← `categories/categories`, `categories/error`, `categories/expanded`, `categories/loading`, `deals/deals`, `home/classic`, `home/home`, `pdp/detail`, `plp/listing`, `search/suggestions`, `wishlist/empty`, `wishlist/no-collections`, `wishlist/wishlist` · tests `test:journey/search-to-plp`, `test:journey/wishlist-empty-cta` · docs `resources/flows/search.md:5-9`, `../search/spec.md:6-16`, `../search/spec.md:30-43`, `src/flows/pdp/FIGMA-MAPPING.md:7-32`
 - `suggestions`: docs `resources/flows/search.md:5-9`, `../search/spec.md:6-16`, `../search/spec.md:102-113`

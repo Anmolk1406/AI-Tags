@@ -10,45 +10,45 @@ import type { TokenOverrides } from '../../foundations/tokens';
  */
 export const addressColors = {
   // page + cards
-  addrPage: '#F9F9FB', // SelectScreen container / header / statusbar
-  addrCardHeaderSelected: '#EFF7FF', // $addressCardHeaderBackgroundColor
-  addrCardBorderSelected: '#E1EFFF', // $addressCardBorderColor / lavender
-  addrNickname: '#0E0E0E',
-  addrTabTrack: '#F2F3F7',
-  addrTabText: 'rgba(2, 6, 12, 0.6)',
-  addrTabTextActive: 'rgba(2, 6, 12, 0.92)',
-  addrDistanceBg: '#EFF7FF',
-  addrCover: 'rgba(255, 255, 255, 0.6)', // #FFFFFF99 loading cover
+  addrPage: 'var(--nk-palette-secondary-background-color)', // SelectScreen container / header / statusbar
+  addrCardHeaderSelected: 'var(--nk-palette-alice-blue)', // $addressCardHeaderBackgroundColor
+  addrCardBorderSelected: 'var(--nk-palette-lavender)', // $addressCardBorderColor / lavender
+  addrNickname: 'var(--nk-palette-neutral-black)',
+  addrTabTrack: 'var(--nk-palette-anti-flash-white)',
+  addrTabText: 'var(--nk-palette-dark-navy-alpha60)',
+  addrTabTextActive: 'var(--nk-palette-dark-navy-alpha92)',
+  addrDistanceBg: 'var(--nk-palette-alice-blue)',
+  addrCover: 'var(--nk-palette-white-alpha60)', // #FFFFFF99 loading cover
 
   // form
-  addrFormHeader: '#F6F7F9',
-  addrInputBg: '#F5F7FA',
-  addrInputBorder: '#F9F9FB',
-  addrInputError: '#F43333',
-  addrTagBorder: '#F5F6F9',
-  addrRequired: '#FA0000', // $redColor
-  addrDisabled: '#CED1DA', // $grayColor
-  addrNoonGrey1: '#7E859B',
-  addrNoonGrey2: '#9BA0B1',
+  addrFormHeader: 'var(--nk-palette-kit-gray97v2)',
+  addrInputBg: 'var(--nk-palette-kit-gray97)',
+  addrInputBorder: 'var(--nk-palette-secondary-background-color)',
+  addrInputError: 'var(--nk-palette-deep-red-color)',
+  addrTagBorder: 'var(--nk-palette-kit-gray97v3)',
+  addrRequired: 'var(--nk-palette-red-color)', // $redColor
+  addrDisabled: 'var(--nk-palette-gray-color)', // $grayColor
+  addrNoonGrey1: 'var(--nk-palette-noon-grey1)',
+  addrNoonGrey2: 'var(--nk-palette-noon-grey2)',
 
   // map
-  addrMapBg: '#DEDFE2',
-  addrTooltipErrorBg: '#FCE9EF', // AddressColors.lightRed
-  addrTooltipErrorText: '#C30A42', // AddressColors.pinkText
-  addrTooltipWarnBg: '#FFEDD5', // AddressColors.lightYellow
-  addrTooltipWarnText: '#B93D14', // AddressColors.lightOrange
-  addrTooltipArrowError: '#FAEDED',
-  addrOverlayBorder: 'rgba(242, 243, 247, 1)',
-  addrSearchText: '#101628',
-  addrPrimaryText: '#02060C',
-  addrLightGrayish: '#EAECF0',
+  addrMapBg: 'var(--nk-palette-kit-gray88)',
+  addrTooltipErrorBg: 'var(--nk-palette-kit-pink95)', // AddressColors.lightRed
+  addrTooltipErrorText: 'var(--nk-palette-kit-pink40)', // AddressColors.pinkText
+  addrTooltipWarnBg: 'var(--nk-palette-kit-orange92)', // AddressColors.lightYellow
+  addrTooltipWarnText: 'var(--nk-palette-orange800)', // AddressColors.lightOrange
+  addrTooltipArrowError: 'var(--nk-palette-kit-red95)',
+  addrOverlayBorder: 'var(--nk-palette-anti-flash-white)',
+  addrSearchText: 'var(--nk-palette-charcoal-navy)',
+  addrPrimaryText: 'var(--nk-palette-dark-navy)',
+  addrLightGrayish: 'var(--nk-palette-light-grey-color)',
 
   // controls / delete
-  addrControlText: '#262A33',
-  addrDeleteBox: '#FCFCFD',
-  addrHairline: 'rgba(14, 14, 14, 0.07)', // #0E0E0E12
-  addrSuccessBg: 'rgb(251, 251, 251)',
-  addrToastBorder: 'rgba(255, 255, 255, 0.8)',
+  addrControlText: 'var(--nk-palette-new-black)',
+  addrDeleteBox: 'var(--nk-palette-blue-gray50)',
+  addrHairline: 'var(--nk-palette-new-border-color)', // #0E0E0E12
+  addrSuccessBg: 'var(--nk-palette-kit-gray98v2)',
+  addrToastBorder: 'var(--nk-palette-white-alpha80)',
 } as const;
 
 /** Numbers used from TS (AddressOverlayStylings + component metrics). */

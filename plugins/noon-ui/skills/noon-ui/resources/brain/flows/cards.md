@@ -33,7 +33,7 @@
 - Data / helpers: data.ts, store.ts, tokens.ts, utils.ts
 - Shared components: `MaskIcon`, `Screen`, `Spinner`
 - Flow components: `AnimatedListCard`, `CardActionsOverlay`, `EmptyCards`, `HeaderButton`, `PaymentButtonV2`, `PaymentCard`, `PaymentCardShimmer`, `PaymentScreenHeader`, `PaymentScrollableHeader`, `SectionTitle`
-- Tokens (79): colors 12 · flow:cards 22 · fontFamily 1 · local 2 · palette 12 · radius 5 · spacing 9 · type 16
+- Tokens (99): colors 12 · flow:cards 22 · fontFamily 1 · local 2 · palette 32 · radius 5 · spacing 9 · type 16
 - Icons: — · assets 24
 - State / data: `store:cards`, `data:user`
 - Nav out: push `cards/add`
@@ -51,7 +51,7 @@
 - Data / helpers: data.ts, store.ts, tokens.ts, utils.ts
 - Shared components: `MaskIcon`, `Screen`, `Spinner`, `Switch`
 - Flow components: `AdditionContainer`, `AdditionOption`, `CardBrands`, `CardTypeLogo`, `EnterManuallyField`, `HeaderButton`, `LockNote`, `PaymentButtonV2`, `PaymentCardFormV2`, `PaymentScreenHeader`, `ScanCardIcon`, `ScanOptionButton`, `TapCardIcon`
-- Tokens (81): colors 13 · flow:cards 22 · fontFamily 1 · local 2 · palette 12 · radius 5 · spacing 9 · type 17
+- Tokens (101): colors 13 · flow:cards 22 · fontFamily 1 · local 2 · palette 32 · radius 5 · spacing 9 · type 17
 - Motion: `transition/fade`
 - Icons: — · assets 24
 - State / data: `store:cards`, `data:user`
@@ -67,7 +67,7 @@
 - Data / helpers: data.ts, store.ts, tokens.ts, utils.ts
 - Shared components: `Lottie`, `MaskIcon`, `Screen`, `Spinner`
 - Flow components: `HeaderButton`, `PaymentScreenHeader`
-- Tokens (79): colors 12 · flow:cards 22 · fontFamily 1 · local 2 · palette 12 · radius 5 · spacing 9 · type 16
+- Tokens (99): colors 12 · flow:cards 22 · fontFamily 1 · local 2 · palette 32 · radius 5 · spacing 9 · type 16
 - Motion: `transition/fade`
 - Icons: — · assets 24
 - State / data: `store:cards`, `data:user`

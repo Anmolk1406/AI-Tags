@@ -15,7 +15,7 @@ export const pdpSfAFlowTokens: TokenOverrides = {
     /** 360 button border: 🚧 border/secondary rgba(2,6,12,.15) (palette only has darkNavyAlpha10/20) */
     pdpSfaBorderNavy15: 'rgba(2, 6, 12, 0.15)', // token-lint-ignore — flow token definition (Figma stroke)
     /** "noon's exclusive" text fill: gradient #E2E2E2 → white (70%) → #EDEDED (108%) */
-    pdpSfaExclusiveText: 'linear-gradient(90deg, #E2E2E2 0%, #FFFFFF 70%, #EDEDED 108%)', // token-lint-ignore — flow token definition (Figma text fill)
+    pdpSfaExclusiveText: 'linear-gradient(90deg, #E2E2E2 0%, var(--nk-palette-white) 70%, #EDEDED 108%)', // token-lint-ignore — flow token definition (Figma text fill)
   },
   type: {
     /** rating pill: "4.6" / "(34244 reviews)" Noontree SemiBold 13/14 */

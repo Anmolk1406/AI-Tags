@@ -10,10 +10,19 @@
 // The "px" findings (`font-size: 13px`, `border-radius: 10px`, `fontSize: 13`, `borderRadius: 10` with a number that has a
 // token) and "no reason" (a `token-lint-ignore` without `— <reason>`) are reported but never fail the run (yet).
 // Ignored: comments, src/foundations/** (where tokens are defined), and lines carrying `token-lint-ignore`.
-// Literals inside a flow's own tokens.ts (or tokens.<area>.ts) are reported separately ("in tokens.ts") and never fail the run —
-// that file is where flow-scoped tokens live. Replacement lookup: scripts/token-map.json (colors, type, fontSize, radius).
+// Literals inside a flow's own tokens.ts (or tokens.<area>.ts) are reported separately ("in tokens.ts").
+// Replacement lookup: scripts/token-map.json (colors, type, fontSize, radius).
+//
+// No custom colours unless someone asked for one. Per flow (src/flows/<flow>, tokens files included):
+//   · a flow without a budget in scripts/flow-baseline.json → colourBudget (every flow made after the folder contract)
+//     fails on any hex / rgba / font literal;
+//   · a legacy flow fails when its count rises above its budget (it may only go down; lower it with --baseline);
+//   · a line marked `custom-color — <who asked, why>` is an explicitly requested colour: allowed, counted in the
+//     "custom" column and listed by -v, so a developer can find every one (a port's source value counts: cite the path).
+//   node scripts/token-lint.mjs --baseline       rewrite colourBudget to today's counts (after you removed literals)
 import fs from 'node:fs';
 import path from 'node:path';
+import { CUSTOM_COLOR } from './lib/custom-color.mjs';
 
 const args = process.argv.slice(2);
 const verbose = args.includes('-v') || args.includes('--verbose');
@@ -77,6 +86,9 @@ const TS_SIZE = /\b(fontSize|borderRadius|border(?:Top|Bottom|Start|End)(?:Left|
 const map = JSON.parse(fs.readFileSync(path.join(root, 'scripts/token-map.json'), 'utf8'));
 const tokenFor = (prop, n) => (/font/i.test(prop) ? map.fontSize : map.radius)?.[`${n}px`];
 const IGNORE_REASON = /token-lint-ignore\s*(?:[—–:-]+|\()\s*\S/;
+const baselineFile = path.join(root, 'scripts/flow-baseline.json');
+const baseline = fs.existsSync(baselineFile) ? JSON.parse(fs.readFileSync(baselineFile, 'utf8')) : {};
+let budget = baseline.colourBudget ?? {};
 
 function scan(file) {
   const raw = fs.readFileSync(file, 'utf8');
@@ -85,6 +97,10 @@ function scan(file) {
   const rawLines = raw.split('\n');
   const found = [];
   code.forEach((line, i) => {
+    if (CUSTOM_COLOR.test(rawLines[i])) {
+      found.push({ kind: 'custom', line: i + 1, text: rawLines[i].trim().slice(0, 100) });
+      return;
+    }
     if (rawLines[i].includes('token-lint-ignore')) {
       if (!IGNORE_REASON.test(rawLines[i]) && !/token-lint-ignore-file/.test(rawLines[i])) found.push({ kind: 'noReason', line: i + 1, text: rawLines[i].trim().slice(0, 80) });
       return;
@@ -132,9 +148,11 @@ for (const f of files) {
   if (!found.length) continue;
   const inTokens = /^src\/flows\/[^/]+\/tokens(\.[\w-]+)?\.ts$/.test(rel); // tokens.ts or tokens.<area>.ts
   const g = groupOf(rel);
-  const row = groups.get(g) ?? { hex: 0, rgba: 0, font: 0, px: 0, noReason: 0, tokensFile: 0 };
+  const row = groups.get(g) ?? { hex: 0, rgba: 0, font: 0, px: 0, noReason: 0, tokensFile: 0, custom: 0, colour: 0 };
   for (const x of found) {
-    if (inTokens && x.kind !== 'noReason') row.tokensFile++;
+    if (FAILS.has(x.kind)) row.colour++;
+    if (x.kind === 'custom') row.custom++;
+    else if (inTokens && x.kind !== 'noReason') row.tokensFile++;
     else row[x.kind]++;
   }
   groups.set(g, row);
@@ -145,7 +163,7 @@ for (const f of files) {
 if (details.length) console.log(details.join('\n') + '\n');
 const rows = [...groups].sort(([a], [b]) => a.localeCompare(b));
 const pad = (s, n) => String(s).padStart(n);
-console.log(`${'folder'.padEnd(28)}${pad('hex', 6)}${pad('rgba', 6)}${pad('font', 6)}${pad('total', 7)}   in tokens.ts${pad('px', 8)}${pad('no reason', 11)}`);
+console.log(`${'folder'.padEnd(28)}${pad('hex', 6)}${pad('rgba', 6)}${pad('font', 6)}${pad('total', 7)}   in tokens.ts${pad('px', 8)}${pad('no reason', 11)}${pad('custom', 8)}`);
 let total = 0;
 let totalPx = 0;
 let totalNoReason = 0;
@@ -154,12 +172,32 @@ for (const [g, r] of rows) {
   total += t;
   totalPx += r.px;
   totalNoReason += r.noReason;
-  console.log(`${g.padEnd(28)}${pad(r.hex, 6)}${pad(r.rgba, 6)}${pad(r.font, 6)}${pad(t, 7)}   ${String(r.tokensFile || '').padEnd(12)}${pad(r.px || '', 8)}${pad(r.noReason || '', 11)}`);
+  console.log(`${g.padEnd(28)}${pad(r.hex, 6)}${pad(r.rgba, 6)}${pad(r.font, 6)}${pad(t, 7)}   ${String(r.tokensFile || '').padEnd(12)}${pad(r.px || '', 8)}${pad(r.noReason || '', 11)}${pad(r.custom || '', 8)}`);
 }
 console.log(`${'TOTAL'.padEnd(28)}${pad('', 18)}${pad(total, 7)}   ${''.padEnd(12)}${pad(totalPx, 8)}${pad(totalNoReason, 11)}`);
 if (totalPx || totalNoReason) console.log(`\npx = raw font-size / radius with a matching token (advisory) · no reason = token-lint-ignore without "— <reason>" (advisory). -v <path> lists them.`);
+
+// per-flow colour budget (scripts/flow-baseline.json → colourBudget): new flows 0, legacy flows may only go down
+const flowRows = rows.filter(([g]) => g.startsWith('src/flows/')).map(([g, r]) => [g.slice('src/flows/'.length), r]);
+if (args.includes('--baseline')) {
+  const flowNames = fs.readdirSync(path.join(root, 'src/flows'), { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name);
+  baseline.colourBudget = Object.fromEntries(flowNames.sort().map((f) => [f, flowRows.find(([g]) => g === f)?.[1].colour ?? 0]).filter(([, n]) => n > 0));
+  fs.writeFileSync(baselineFile, JSON.stringify(baseline, null, 2) + '\n');
+  budget = baseline.colourBudget; // judge this run against what was just written
+  console.log(`\n✔ scripts/flow-baseline.json → colourBudget rewritten (${Object.keys(baseline.colourBudget).length} legacy flows)`);
+}
+const over = flowRows.filter(([f, r]) => r.colour > (budget[f] ?? 0));
+const under = flowRows.filter(([f, r]) => budget[f] !== undefined && r.colour < budget[f]);
+for (const [f, r] of over)
+  console.error(
+    budget[f] === undefined
+      ? `\n✗ src/flows/${f}: ${r.colour} raw colour / font literal(s) — new flows use tokens only. Use the nearest var(--nk-*) (scripts/token-map.json); if none fits, ask. Only a colour the user explicitly asked for stays, marked \`custom-color — <who asked, why>\`. -v src/flows/${f} lists them.`
+      : `\n✗ src/flows/${f}: ${r.colour} raw colour / font literal(s), budget ${budget[f]} (scripts/flow-baseline.json) — don't add custom colours; use a token, or mark a requested one \`custom-color — <who asked, why>\`.`,
+  );
+if (under.length) console.log(`\n↓ under budget: ${under.map(([f, r]) => `${f} ${r.colour}/${budget[f]}`).join(', ')} — lock it in with node scripts/token-lint.mjs --baseline`);
 if (strictCount) {
   console.error(`\n✗ ${strict}: ${strictCount} raw literal(s) — use tokens (scripts/token-map.json), or mark true geometry with token-lint-ignore.`);
   process.exit(1);
 }
-console.log(`\n✓ ${strict}: no raw colour / font literals`);
+if (over.length) process.exit(1);
+console.log(`\n✓ ${strict}: no raw colour / font literals · flows within their colour budget`);

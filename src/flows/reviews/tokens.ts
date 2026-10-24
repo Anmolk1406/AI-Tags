@@ -57,7 +57,7 @@ const baseFlowTokens: TokenOverrides = {
     reviewsSheet: '0 -2px 16px var(--nk-palette-black-alpha12)', // edit sheet (docked)
     reviewsFloat: '0 4px 24px var(--nk-palette-black-alpha12)', // edit sheet (floating, ReviewDraft A)
     reviewsTopSheet: '0 8px 24px var(--nk-palette-black-alpha12)', // top-sheet editor
-    reviewsKnob: '0 0 4.8px rgba(14, 14, 14, 0.07)', // AI switch knob
+    reviewsKnob: '0 0 4.8px var(--nk-palette-new-border-color)', // AI switch knob
   },
   type: {
     reviewsText14MediumLh20: { size: 14, line: 20, weight: 500 }, // checkbox labels, review text, attribution name

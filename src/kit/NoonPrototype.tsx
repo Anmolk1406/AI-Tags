@@ -10,6 +10,7 @@ import { createRegistry } from './registry';
 import type { FlowDef, Route, StackEntry } from './types';
 import { REDUCED_MOTION_ATTR, useReduceMotion } from '../motion/reducedMotion';
 import '../foundations/global.css';
+import '../motion/noonMotion.css';
 
 export interface NoonPrototypeProps {
   /** flows to register — import only the ones your demo needs */

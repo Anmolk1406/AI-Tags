@@ -1,6 +1,7 @@
 import { animate, motion, useMotionValue, useTransform, type MotionValue, type PanInfo } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import { MaskIcon, Pressable, ProductImage } from '../../../../components';
+import { palette } from '../../../../foundations/palette';
 import { layout } from '../../../../foundations/tokens';
 import { useNav } from '../../../../kit/Navigator';
 import type { Product } from '../../../../data';
@@ -9,7 +10,6 @@ import sparkle1 from '@assets/pdp/new-pdp/pick-sparkle-1.svg';
 import sparkle2 from '@assets/pdp/new-pdp/pick-sparkle-2.svg';
 import sparkle3 from '@assets/pdp/new-pdp/pick-sparkle-3.svg';
 import sparkle4 from '@assets/pdp/new-pdp/pick-sparkle-4.svg';
-import { gallerySlides } from '../../data';
 import { pdpTokens } from '../../tokens';
 import { pdpSfATokens } from '../../tokens.sfA';
 import styles from './SfGallery.module.css';
@@ -18,6 +18,17 @@ const { dots } = pdpSfATokens;
 
 /** "noon's Pick" sparkles (Figma 64:176–180): orange, yellow, two grey, placed by % of the tag box */
 const sparkles = [sparkle1, sparkle2, sparkle3, sparkle4];
+
+/** Gallery slides: real photos when the product has them, else its emoji at different tints / zoom (a placeholder look). */
+const gallerySlides = (p: Product): (Product & { emojiScale?: number })[] =>
+  p.images?.length ? p.images.map((image) => ({ ...p, image })) : emojiSlides(p);
+
+const emojiSlides = (p: Product) => [
+  { ...p, emojiScale: 0.46 },
+  { ...p, tint: palette.kitGray94, emojiScale: 0.62 },
+  { ...p, tint: palette.installationInfoBg, emojiScale: 0.34 },
+  { ...p, tint: palette.antiFlashWhite, emojiScale: 0.52 },
+];
 
 /**
  * Storefront PDP gallery (Figma 2ldJbjmQq4RkhnrNFCfXQB · 3499:75117 / 3499:75118 "product-image"): full width,

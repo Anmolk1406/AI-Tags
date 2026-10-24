@@ -4,7 +4,7 @@
 
 The source of truth for component **names, props, types, defaults and variants**. Hand-written guidance (when to use, gotchas, examples) is in `references/components.md`; when the two disagree, this file is right and `references/components.md` is stale.
 
-61 shared components exported from `src/components/index.ts` · 377 flow-local components in `src/flows/*/components/`. "—" = no static default; `?` = optional. Variants = props typed as a union of string literals.
+61 shared components exported from `src/components/index.ts` · 367 flow-local components in `src/flows/*/components/`. "—" = no static default; `?` = optional. Variants = props typed as a union of string literals.
 
 ## Shared components
 
@@ -1393,43 +1393,31 @@ Search these before you create a component (`references/components.md` → "Sear
 | orders | `WindowPill` | `src/flows/orders/components/WindowPill.tsx:17` | `variant` `text` `heatText` `onInfo` |
 | pdp | `Asset` | `src/flows/pdp/components/Asset.tsx:92` | `name` `size` `width` `height` `tint` `flip` `style` `className` |
 | pdp | `DashedLine` | `src/flows/pdp/components/Asset.tsx:105` | `color` `style` |
-| pdp | `RecoCard` | `src/flows/pdp/components/RecoCard.tsx:27` | `product` |
-| pdp | `Card` | `src/flows/pdp/components/Sections.tsx:19` | `title` `gap` `contentGap` `className` `children` |
-| pdp | `DeliveryCard` | `src/flows/pdp/components/Sections.tsx:32` | `content` |
-| pdp | `CategoryBestSellerCta` | `src/flows/pdp/components/Sections.tsx:95` | `content` |
-| pdp | `FbtCard` | `src/flows/pdp/components/Sections.tsx:121` | `ids` |
-| pdp | `PaymentsCard` | `src/flows/pdp/components/Sections.tsx:172` | `content` |
-| pdp | `ReinforcementCard` | `src/flows/pdp/components/Sections.tsx:193` | `content` |
-| pdp | `OverviewCard` | `src/flows/pdp/components/Sections.tsx:239` | `content` |
-| pdp | `AdditionalInfoCard` | `src/flows/pdp/components/Sections.tsx:270` | `content` |
-| pdp | `SellerCard` | `src/flows/pdp/components/Sections.tsx:286` | `content` `onOffers` |
-| pdp | `Stars` | `src/flows/pdp/components/Stars.tsx:9` | `rating` `size` `max` |
-| pdp | `VariantsCard` | `src/flows/pdp/components/Variants.tsx:15` | `product` `content` `selection` `onSelect` `onSizeGuide` `onLearnMore` |
-| pdp | `VipPreference` | `src/flows/pdp/components/VipPreference.tsx:16` | — |
-| pdp | `SfAdditionalInfo` | `src/flows/pdp/components/storefront/SfAdditionalInfo.tsx:24` | `content` |
-| pdp | `SfAtcBar` | `src/flows/pdp/components/storefront/SfAtcBar.tsx:28` | `product` `showBackToTop` `onBackToTop` `interceptAdd` `buyNow` |
-| pdp | `SfBestsellerRow` | `src/flows/pdp/components/storefront/SfBestsellerRow.tsx:27` | `content` |
-| pdp | `SfBundleCard` | `src/flows/pdp/components/storefront/SfBundleCard.tsx:16` | `product` `content` `onPress` |
-| pdp | `SfDeliveryCard` | `src/flows/pdp/components/storefront/SfDeliveryCard.tsx:54` | `content` `variant` `freeShippingMin` |
-| pdp | `SfExtendedWarranty` | `src/flows/pdp/components/storefront/SfExtendedWarranty.tsx:96` | `content` `price` |
-| pdp | `SfFbtCard` | `src/flows/pdp/components/storefront/SfFbtCard.tsx:21` | `ids` |
-| pdp | `SfFreeGifts` | `src/flows/pdp/components/storefront/SfFreeGifts.tsx:13` | `items` |
-| pdp | `SfGallery` | `src/flows/pdp/components/storefront/SfGallery.tsx:34` | `product` `scrollY` |
+| pdp | `Card` | `src/flows/pdp/components/Card.tsx:5` | `title` `gap` `contentGap` `className` `children` |
+| pdp | `SfAdditionalInfo` | `src/flows/pdp/components/storefront/SfAdditionalInfo.tsx:25` | `content` |
+| pdp | `SfAtcBar` | `src/flows/pdp/components/storefront/SfAtcBar.tsx:27` | `product` `showBackToTop` `onBackToTop` `interceptAdd` `buyNow` |
+| pdp | `SfBestsellerRow` | `src/flows/pdp/components/storefront/SfBestsellerRow.tsx:23` | `content` |
+| pdp | `SfBundleCard` | `src/flows/pdp/components/storefront/SfBundleCard.tsx:15` | `content` `onPress` |
+| pdp | `SfDeliveryCard` | `src/flows/pdp/components/storefront/SfDeliveryCard.tsx:26` | `content` `variant` |
+| pdp | `SfExtendedWarranty` | `src/flows/pdp/components/storefront/SfExtendedWarranty.tsx:57` | `content` |
+| pdp | `SfFbtCard` | `src/flows/pdp/components/storefront/SfFbtCard.tsx:19` | `items` |
+| pdp | `SfFreeGifts` | `src/flows/pdp/components/storefront/SfFreeGifts.tsx:14` | `items` |
+| pdp | `SfGallery` | `src/flows/pdp/components/storefront/SfGallery.tsx:45` | `product` `scrollY` |
 | pdp | `SfHeader` | `src/flows/pdp/components/storefront/SfHeader.tsx:27` | `product` `solid` |
-| pdp | `SfMainInfo` | `src/flows/pdp/components/storefront/SfMainInfo.tsx:59` | `product` `content` `onReviews` |
-| pdp | `SfNewerModelCard` | `src/flows/pdp/components/storefront/SfNewerModelCard.tsx:50` | `product` `successor` |
-| pdp | `SfPaymentOffers` | `src/flows/pdp/components/storefront/SfPaymentOffers.tsx:24` | `content` |
-| pdp | `SfProductDetails` | `src/flows/pdp/components/storefront/SfProductDetails.tsx:75` | `content` `product` `aiOverview` `onAccordionOpen` |
-| pdp | `SfProductFeatures` | `src/flows/pdp/components/storefront/SfProductFeatures.tsx:30` | `content` `product` |
-| pdp | `SfRecommendations` | `src/flows/pdp/components/storefront/SfRecommendations.tsx:37` | `title` `items` `sponsored` `variant` |
-| pdp | `SfRecoCard` | `src/flows/pdp/components/storefront/SfRecommendations.tsx:59` | `product` `sponsored` |
-| pdp | `SfStars` | `src/flows/pdp/components/storefront/SfReviewsCard.tsx:28` | `rating` `size` |
-| pdp | `SfReviewsCard` | `src/flows/pdp/components/storefront/SfReviewsCard.tsx:52` | `product` `content` |
-| pdp | `SfSellerCard` | `src/flows/pdp/components/storefront/SfSellerCard.tsx:54` | `content` `onOffers` |
-| pdp | `SfSponsoredBrandCard` | `src/flows/pdp/components/storefront/SfSponsoredBrandCard.tsx:27` | `product` `ids` |
-| pdp | `SfSponsoredRow` | `src/flows/pdp/components/storefront/SfSponsoredRow.tsx:23` | `product` `content` `item` |
+| pdp | `SfMainInfo` | `src/flows/pdp/components/storefront/SfMainInfo.tsx:27` | `product` `content` `info` `onReviews` |
+| pdp | `SfNewerModelCard` | `src/flows/pdp/components/storefront/SfNewerModelCard.tsx:12` | `newer` |
+| pdp | `SfPaymentOffers` | `src/flows/pdp/components/storefront/SfPaymentOffers.tsx:17` | `content` |
+| pdp | `SfProductDetails` | `src/flows/pdp/components/storefront/SfProductDetails.tsx:69` | `content` `onAccordionOpen` |
+| pdp | `SfProductFeatures` | `src/flows/pdp/components/storefront/SfProductFeatures.tsx:26` | `content` |
+| pdp | `SfRecommendations` | `src/flows/pdp/components/storefront/SfRecommendations.tsx:38` | `title` `items` `sponsored` `variant` |
+| pdp | `SfRecoCard` | `src/flows/pdp/components/storefront/SfRecommendations.tsx:60` | `product` `sponsored` |
+| pdp | `SfStars` | `src/flows/pdp/components/storefront/SfReviewsCard.tsx:17` | `rating` `size` |
+| pdp | `SfReviewsCard` | `src/flows/pdp/components/storefront/SfReviewsCard.tsx:41` | `product` `content` |
+| pdp | `SfSellerCard` | `src/flows/pdp/components/storefront/SfSellerCard.tsx:46` | `content` `onOffers` |
+| pdp | `SfSponsoredBrandCard` | `src/flows/pdp/components/storefront/SfSponsoredBrandCard.tsx:14` | `brand` `items` |
+| pdp | `SfSponsoredRow` | `src/flows/pdp/components/storefront/SfSponsoredRow.tsx:13` | `item` |
 | pdp | `SfTrustCard` | `src/flows/pdp/components/storefront/SfTrustCard.tsx:21` | `content` |
-| pdp | `SfVariantsCard` | `src/flows/pdp/components/storefront/SfVariantsCard.tsx:30` | `product` `content` `selection` `loading` `onSelect` `onSizeGuide` `onLearnMore` |
+| pdp | `SfVariantsCard` | `src/flows/pdp/components/storefront/SfVariantsCard.tsx:33` | `product` `content` `selection` `loading` `onSelect` `onSizeGuide` `onLearnMore` |
 | plp | `BrandWidget` | `src/flows/plp/components/BrandWidget.tsx:40` | `config` `selected` `landed` `onSelect` `onClear` `children` |
 | plp | `CatalogListHeader` | `src/flows/plp/components/CatalogListHeader.tsx:30` | `sortLabel` `sorted` `nFilters` `filters` `results` `onFilter` `onSort` `onFacet` `onQuick` |
 | plp | `CatalogNavPill` | `src/flows/plp/components/CatalogNavPill.tsx:42` | `kind` `label` `selected` `count` `icon` `onPress` |
@@ -1515,5 +1503,7 @@ Search these before you create a component (`references/components.md` → "Sear
 | wishlist | `WishlistAtc` | `src/flows/wishlist/components/WishlistAtc.tsx:19` | `productId` |
 | wishlist | `WishlistHeader` | `src/flows/wishlist/components/WishlistHeader.tsx:15` | `progress` `showCreate` |
 | wishlist | `WishlistProductBox` | `src/flows/wishlist/components/WishlistProductBox.tsx:18` | `product` |
+| yellowFriday | `Countdown` | `src/flows/yellowFriday/components/Countdown.tsx:7` | `label` `seconds` |
+| yellowFriday | `Orbi` | `src/flows/yellowFriday/components/Orbi.tsx:11` | `size` `mood` `style` |
 
 <!-- external: marketplaces/noon/components/NoonProductBox/NoonProductBoxVertical, src/components/HtmlView/styles.ts, src/components/Loader -->

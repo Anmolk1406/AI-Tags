@@ -19,19 +19,19 @@ export const homeFeedFlowTokens: TokenOverrides = {
     // CMS slot tagBgColor of homepage-mega-deals
     homeBzMegaTag: '#9242F8', // token-lint-ignore — CMS tagBgColor
     // NoonMegaDealsSlotItem old price / discount
-    homeBzMegaWas: '#989FB3', // token-lint-ignore — NoonMegaDealsModule styles
-    homeBzMegaOff: '#2DAF32', // token-lint-ignore — NoonMegaDealsModule styles
+    homeBzMegaWas: 'var(--nk-palette-bluish-grey)', // token-lint-ignore — NoonMegaDealsModule styles
+    homeBzMegaOff: 'var(--nk-palette-green-color)', // token-lint-ignore — NoonMegaDealsModule styles
     // NoonItemCarouselModule description pill
-    homeBzItemPillBg: '#F1F7FD', // token-lint-ignore — NoonItemCarouselModule styles
-    homeBzItemPillInk: '#0076FF', // token-lint-ignore — NoonItemCarouselModule styles
-    homeBzItemTitle: '#101628', // token-lint-ignore — NoonItemCarouselModule styles
+    homeBzItemPillBg: 'var(--nk-palette-light-baby-blue)', // token-lint-ignore — NoonItemCarouselModule styles
+    homeBzItemPillInk: 'var(--nk-palette-new-accent-color)', // token-lint-ignore — NoonItemCarouselModule styles
+    homeBzItemTitle: 'var(--nk-palette-charcoal-navy)', // token-lint-ignore — NoonItemCarouselModule styles
     // AdProductLedDisplayCard
-    homeBzPldDivider: '#EAECF0', // token-lint-ignore — AdProductLedDisplayCard styles
-    homeBzPldPrice: '#1D2539', // token-lint-ignore — AdProductLedDisplayCard styles
+    homeBzPldDivider: 'var(--nk-palette-light-grey-color)', // token-lint-ignore — AdProductLedDisplayCard styles
+    homeBzPldPrice: 'var(--nk-palette-blue-gray900)', // token-lint-ignore — AdProductLedDisplayCard styles
     homeBzPldOff: '#02A31E', // token-lint-ignore — AdProductLedDisplayCard styles
     homeBzPldAdBg: 'rgba(38, 38, 38, 0.3)', // token-lint-ignore — Sponsored dark tag
-    homeBzPldAdInk: 'rgba(255, 255, 255, 0.64)', // token-lint-ignore — Sponsored dark tag
-    homeBzPldAdBorder: 'rgba(255, 255, 255, 0.2)', // token-lint-ignore — Sponsored dark tag border
+    homeBzPldAdInk: 'var(--nk-palette-white-alpha64)', // token-lint-ignore — Sponsored dark tag
+    homeBzPldAdBorder: 'var(--nk-palette-white-alpha20)', // token-lint-ignore — Sponsored dark tag border
     // BannerModule scroller / ModuleHeader titles set by the CMS
     homeBzTitleGrey: '#313131', // token-lint-ignore — CMS titleColor (Explore More)
   },

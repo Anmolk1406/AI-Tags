@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>noon Flow Kit · Skills guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=block" rel="stylesheet">
+<style>
+  /* Source of docs/guide/noon-flow-kit-guide.pdf — render with: node docs/guide/render.mjs */
+  :root {
+    --paper: #F7F7F4;
+    --ink: #1B1B1A;
+    --muted: #8C8C88;
+    --soft: #B4B4AF;
+    --line: #E4E4DF;
+    --card: #FFFFFF;
+    --term: #151515;
+    --term-ink: #E9E9E4;
+    --term-dim: #8A8A84;
+    --accent: #3E7A55;
+    --sans: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+    --mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+  }
+  @page { size: 1280px 905px; margin: 0; }
+  /* No blurred box-shadows: Chrome stores them as translucent bitmaps and Preview / PDFKit draw their bounds as boxes. */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+  .page { width: 1280px; height: 905px; padding: 56px 64px 44px; position: relative; overflow: hidden; page-break-after: always; display: flex; flex-direction: column; }
+  .page:last-child { page-break-after: auto; }
+
+  /* header row: tag + rule + page number */
+  .top { display: flex; align-items: center; justify-content: space-between; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
+  .tag { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 14px 8px 12px; border: 1px solid rgba(27,27,26,0.08); border-radius: 999px; background: linear-gradient(180deg, #FFFFFF 0%, #FBFBF8 100%); }
+  .tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #E8B04A; }
+  .tag.dark { color: #F3F1EA; background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.14); }
+  .folio { font-family: var(--mono); font-size: 11px; color: var(--soft); letter-spacing: 0.06em; }
+
+  .head { display: grid; grid-template-columns: 1.55fr 1fr; gap: 64px; padding-top: 30px; }
+  h1 { font-weight: 300; font-size: 50px; line-height: 1.04; letter-spacing: -0.035em; }
+  h1.xl { font-size: 62px; }
+  .lede { font-size: 16px; line-height: 1.45; color: var(--muted); padding-top: 6px; }
+  .lede b { color: var(--ink); font-weight: 500; }
+
+  /* grain gradient panels */
+  .panels { display: grid; gap: 14px; margin-top: auto; }
+  .cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .cols-4 { grid-template-columns: repeat(4, 1fr); }
+  .cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .panel { position: relative; border-radius: 2px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  /* gradient + grain backgrounds: a real <img class="bg"> per panel (added by the script at the end), baked into
+     img/bg-*.jpg by render.mjs. CSS background images become tiled patterns in a Chrome PDF and show seams in Preview. */
+  .panel > img.bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+
+  .phone { height: 88%; width: auto; border-radius: 13.4% / 6.2%; position: relative; z-index: 1; outline: 1px solid rgba(255,255,255,0.35); outline-offset: -1px; }
+  .phone.sm { height: 84%; }
+  .phone.xs { height: 84%; }
+
+  .cap { padding-top: 12px; }
+  .cap h3 { font-weight: 400; font-size: 17px; letter-spacing: -0.01em; }
+  .cap p { font-size: 12.5px; line-height: 1.45; color: var(--muted); margin-top: 4px; max-width: 34ch; }
+  code { font-family: var(--mono); font-size: 0.86em; color: var(--ink); }
+  .float code { font-size: 0.82em; }
+
+  /* floating UI cards on panels */
+  .float { position: relative; z-index: 1; background: var(--card); border-radius: 14px; padding: 16px 18px; width: 82%; border: 1px solid rgba(255,255,255,0.6); }
+  .float .k { font-size: 12px; color: var(--muted); }
+  .float .v { font-size: 13px; margin-top: 3px; }
+  .term { position: relative; z-index: 1; background: var(--term); color: var(--term-ink); border-radius: 14px; border: 1px solid rgba(255,255,255,0.10); padding: 16px 18px 18px; width: 86%; font-family: var(--mono); font-size: 12px; line-height: 1.7; }
+  .term .bar { display: flex; gap: 6px; margin-bottom: 10px; }
+  .term .bar i { width: 8px; height: 8px; border-radius: 50%; background: #3A3A38; display: block; }
+  .term .c { color: var(--term-dim); }
+  .term .p { color: #9FCFA8; }
+  .term .ok { color: #9FCFA8; }
+  .pill { display: inline-block; font-family: var(--mono); font-size: 11px; padding: 3px 8px; border-radius: 999px; background: rgba(255,255,255,0.14); color: #fff; }
+  .chip { position: absolute; z-index: 2; font-size: 11px; background: #fff; color: var(--ink); border-radius: 6px; padding: 4px 8px; }
+
+  /* tables & lists */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  td { padding: 9px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td:first-child { font-family: var(--mono); font-size: 12.5px; width: 150px; }
+  td.m { color: var(--muted); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 30px; }
+  .label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-top: 34px; }
+  .step { border-top: 1px solid var(--ink); padding-top: 12px; }
+  .step .n { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .step h3 { font-weight: 400; font-size: 18px; margin-top: 6px; letter-spacing: -0.01em; }
+  .step p { font-size: 12.5px; color: var(--muted); line-height: 1.45; margin-top: 6px; }
+  .url { display: flex; flex-wrap: wrap; gap: 6px; }
+  .url span { font-family: var(--mono); font-size: 11.5px; padding: 5px 11px; border: 1px solid rgba(27,27,26,0.08); border-radius: 999px; background: var(--card); }
+  ul.plain { list-style: none; }
+  ul.plain li { font-size: 13px; padding: 7px 0; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; gap: 16px; }
+  ul.plain li span:last-child { color: var(--muted); text-align: right; }
+  .foot { margin-top: 18px; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 11px; color: var(--soft); }
+  .note { font-size: 12px; color: var(--muted); }
+  .note b { color: var(--ink); font-weight: 500; }
+
+  /* section eyebrow: number · section · page title hierarchy */
+  .sec { display: flex; align-items: baseline; gap: 10px; }
+  .sec .no { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 26px; border-top: 1px solid var(--line); }
+  .stat { padding-top: 14px; }
+  .stat b { display: block; font-weight: 300; font-size: 40px; letter-spacing: -0.03em; }
+  .stat span { font-size: 12.5px; color: var(--muted); }
+  .prompt { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-family: var(--mono); font-size: 12px; line-height: 1.55; }
+  .prompt .who { display: block; font-family: var(--sans); font-size: 11px; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 4px; }
+  .prompts { display: grid; gap: 10px; align-content: start; grid-auto-rows: min-content; }
+  .anatomy { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 26px; }
+  .anatomy > div { border-top: 1px solid var(--ink); padding-top: 10px; }
+  .anatomy .n { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .anatomy h3 { font-weight: 400; font-size: 17px; margin-top: 4px; }
+  .anatomy p { font-size: 12.5px; color: var(--muted); margin-top: 4px; line-height: 1.45; }
+  .mock { position: relative; z-index: 1; display: flex; gap: 10px; }
+  .mock .m { background: #fff; border-radius: 10px; padding: 12px; width: 120px; font-size: 10px; }
+  .mock .m i { display: block; height: 7px; border-radius: 3px; background: #E7E7E2; margin-top: 6px; }
+  .tree { font-family: var(--mono); font-size: 12px; line-height: 1.75; }
+  .tree .c { color: var(--term-dim); }
+  /* cover */
+  .cover { padding: 0; background: #121211; color: #F3F1EA; }
+  .cover > img.ascii { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .cover .inner { position: relative; z-index: 1; height: 100%; padding: 56px 64px 48px; display: flex; flex-direction: column; }
+  .cover .top { border-bottom-color: rgba(255,255,255,0.12); }
+  .cover .folio { color: rgba(243,241,234,0.45); }
+  .cover h1 { font-size: 96px; line-height: 0.98; letter-spacing: -0.045em; margin-top: auto; max-width: 9.5ch; }
+  .cover h1 em { font-style: normal; color: #FEEE00; }
+  .cover .sub { font-size: 17px; line-height: 1.45; color: rgba(243,241,234,0.62); max-width: 44ch; margin-top: 22px; }
+  .cover .chips { display: flex; gap: 8px; margin-top: 26px; flex-wrap: wrap; }
+  .cover .chips span { font-family: var(--mono); font-size: 11.5px; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.16); background: rgba(255,255,255,0.05); color: rgba(243,241,234,0.85); }
+  /* copy blocks */
+  .copies { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; margin-top: 26px; }
+  .copy { border: 1px solid var(--line); border-radius: 12px; background: var(--card); overflow: hidden; }
+  .copy .h { display: flex; justify-content: space-between; align-items: center; padding: 9px 14px; border-bottom: 1px solid var(--line); font-size: 12px; color: var(--muted); }
+  .copy .h b { color: var(--ink); font-weight: 500; }
+  .copy .h i { font-style: normal; font-family: var(--mono); font-size: 10.5px; padding: 3px 8px; border-radius: 999px; background: #F3F2EE; color: var(--muted); }
+  .copy pre { margin: 0; padding: 11px 14px 12px; font-family: var(--mono); font-size: 12px; line-height: 1.6; color: var(--ink); white-space: pre-wrap; }
+  .copy pre .c { color: var(--soft); }
+  /* step guide */
+  .lane { border-top: 1px solid var(--ink); padding-top: 14px; }
+  .lane .label { margin-bottom: 14px; }
+  .lane ol { list-style: none; counter-reset: s; display: grid; gap: 12px; }
+  .lane li { counter-increment: s; display: grid; grid-template-columns: 30px 1fr; gap: 10px; font-size: 13px; line-height: 1.45; }
+  .lane li::before { content: counter(s, decimal-leading-zero); font-family: var(--mono); font-size: 11px; color: var(--muted); padding-top: 2px; }
+  .lane li b { font-weight: 500; }
+  .lane li code { display: inline-block; margin-top: 3px; padding: 2px 7px; border-radius: 6px; background: #EFEEE9; font-size: 11.5px; }
+  /* the problem page: a dark "before" page, unlike every other slide */
+  .page.dark { background: #161514; color: #EFECE4; }
+  .page.dark .top { border-bottom-color: rgba(255,255,255,0.10); }
+  .page.dark .folio { color: rgba(239,236,228,0.40); }
+  .page.dark .lede { color: rgba(239,236,228,0.58); }
+  .page.dark .lede b { color: #EFECE4; }
+  .page.dark .cap h3 { color: #EFECE4; }
+  .page.dark .cap p { color: rgba(239,236,228,0.52); }
+  .page.dark .tag { color: #EFECE4; background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.14); }
+  .page.dark .tag::before { background: #E5484D; box-shadow: none; }
+  .page.dark h1 em { font-style: normal; color: #E5484D; }
+  .page.dark .float, .page.dark .mock .m { color: var(--ink); }
+  /* install: two ways side by side */
+  .ways { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 26px; }
+  .way { border: 1px solid var(--line); border-radius: 16px; background: var(--card); padding: 18px 20px 6px; }
+  .way-h { display: flex; gap: 12px; align-items: flex-start; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+  .way-h h3 { font-weight: 400; font-size: 20px; letter-spacing: -0.01em; }
+  .way-h p { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+  .badge { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-family: var(--mono); font-size: 12px; background: var(--ink); color: #fff; }
+  ol.flow { list-style: none; counter-reset: f; }
+  ol.flow li { counter-increment: f; position: relative; padding: 12px 0 12px 34px; border-bottom: 1px solid var(--line); font-size: 13.5px; }
+  ol.flow li:last-child { border-bottom: 0; }
+  ol.flow li::before { content: counter(f); position: absolute; left: 0; top: 12px; width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; font-family: var(--mono); font-size: 10.5px; color: var(--muted); }
+  ol.flow li b { font-weight: 500; }
+  ol.flow .m, .both .m { font-size: 12px; color: var(--muted); }
+  ol.flow pre { margin-top: 8px; padding: 9px 12px; background: #F3F2EE; border-radius: 8px; font-family: var(--mono); font-size: 11.5px; line-height: 1.6; white-space: pre-wrap; color: var(--ink); }
+  ol.flow pre .c { color: var(--soft); }
+  .both { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: auto; padding-top: 16px; border-top: 1px solid var(--line); font-size: 13px; }
+  .both b { font-weight: 500; }
+  .both code { padding: 4px 9px; border-radius: 8px; background: #EFEEE9; font-size: 12px; }
+  /* examples */
+  .examples { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 26px; }
+  .ex { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .ex .prompt { min-height: 112px; }
+  .ex .panel { height: 450px; }
+  .ex .phone { height: 88%; max-width: 86%; object-fit: contain; }
+  /* how to use: four phases */
+  .phases { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 30px; }
+  .phase .panel { height: 380px; }
+  .phase .phone { height: 78%; margin-top: 34px; }
+  .phase .cap { padding-top: 14px; }
+  .phase .cap h3 { display: inline; font-size: 19px; margin-left: 8px; }
+  .phase .cap p { max-width: none; margin-top: 6px; }
+  .pn { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .chatbox { position: relative; z-index: 1; width: 86%; display: grid; gap: 10px; }
+  .chatbox .inp { background: #fff; border-radius: 14px; padding: 14px 16px; font-family: var(--mono); font-size: 12px; line-height: 1.55; color: var(--ink); border: 1px solid rgba(255,255,255,0.6); }
+  .chatbox .caret { color: #C8673B; }
+  .chatbox .att { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chatbox .att span { font-family: var(--mono); font-size: 10.5px; padding: 5px 10px; border-radius: 999px; background: rgba(255,255,255,0.88); color: var(--ink); }
+  .chatbox .note-sm { font-family: var(--mono); font-size: 10.5px; color: rgba(27,27,26,0.6); padding-left: 2px; }
+  .chatbox .q { background: #fff; border-radius: 12px; padding: 12px 14px; font-size: 13px; color: var(--ink); border: 1px solid rgba(255,255,255,0.6); }
+  .chatbox .rec { display: block; width: fit-content; margin-top: 8px; font-family: var(--mono); font-size: 10.5px; padding: 4px 9px; border-radius: 999px; background: #EAF3EC; color: #2F6B45; }
+  .chatbox .rec::before { content: 'Recommended · '; color: rgba(47,107,69,0.7); }
+  .bubble { font-size: 13px; line-height: 1.45; padding: 12px 14px; border-radius: 14px; max-width: 92%; }
+  .bubble.me { background: #fff; color: var(--ink); justify-self: end; border-bottom-right-radius: 4px; }
+  .bubble.ai { background: #151515; color: #E9E9E4; justify-self: start; border-bottom-left-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
+  .ship { margin-top: auto; padding-top: 18px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+  .ship-l { display: flex; align-items: center; gap: 14px; }
+  .ship-l code { padding: 6px 11px; border-radius: 8px; background: #EFEEE9; font-size: 12px; }
+  .skills { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; max-width: 640px; }
+  .skills span { font-family: var(--mono); font-size: 11px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); }
+</style>
+</head>
+<body>
+
+<!-- 01 · COVER -->
+<section class="page cover">
+  <img class="ascii" src="img/cover-ascii.png" alt="">
+  <div class="inner">
+    <div class="top"><span class="tag dark">noon Flow Kit · Guide</span><span class="folio">v0.1.0 · 01 / 05</span></div>
+    <h1>noon app <em>UI</em> skill</h1>
+    <p class="sub">Claude skills plus a React kit of the noon app. Describe a page in Claude Code; get a clickable flow in the app's own design, data and motion.</p>
+    <div class="chips"><span>/noon-ui</span><span>11 screen skills</span><span>20 flows</span><span>npm i noon-kit</span></div>
+  </div>
+</section>
+
+<!-- 02 · THE PROBLEM -->
+<section class="page dark">
+  <div class="top"><span class="tag">01 · The problem</span><span class="folio">02 / 05</span></div>
+  <div class="head">
+    <h1>Every prototype starts from <em>zero</em>, and drifts</h1>
+    <p class="lede">Each new idea means rebuilding screens that already exist in the app, then a long refine loop before the actual feature gets any time.</p>
+  </div>
+  <div class="panels cols-3" style="height: 440px;">
+    <div class="panel ash"><div class="term" style="width: 80%;"><div class="bar"><i></i><i></i><i></i></div>
+<span class="c">// new prototype, again</span><br>
+CartScreen.tsx &nbsp;<span class="c">from scratch</span><br>
+Header.tsx &nbsp;&nbsp;&nbsp;&nbsp;<span class="c">rebuilt</span><br>
+color: '#0F61FF' <span class="c">guessed</span><br>
+products.json &nbsp;<span class="c">copied</span></div></div>
+    <div class="panel ember"><div class="float" style="width: 72%;">
+      <div class="k">Review round 4</div>
+      <div class="v" style="margin-top: 8px;">"Spacing doesn't match the app"</div>
+      <div class="v">"That's not our button"</div>
+      <div class="v">"Can the sheet feel like noon?"</div>
+      <div class="v" style="color: var(--muted); margin-top: 6px;">→ rebuild, re-review</div></div></div>
+    <div class="panel slate"><div class="mock">
+      <div class="m">Cart<i></i><i style="width:60%"></i><i style="background:#3866DF;height:16px;border-radius:8px;margin-top:10px"></i></div>
+      <div class="m">Cart<i></i><i style="width:70%"></i><i style="background:#FEEE00;height:16px;border-radius:2px;margin-top:10px"></i></div>
+      <div class="m" style="width:100px">Cart<i></i><i style="width:50%"></i><i style="background:#1D2539;height:16px;border-radius:12px;margin-top:10px"></i></div>
+    </div></div>
+  </div>
+  <div class="panels cols-3" style="margin-top: 0;">
+    <div class="cap"><h3>Built from scratch</h3><p>Headers, cards, carts and data rebuilt for every prototype.</p></div>
+    <div class="cap"><h3>Refine, rebuild, repeat</h3><p>Rounds of fixes to look like noon before the feature gets reviewed.</p></div>
+    <div class="cap"><h3>Every page looks different</h3><p>Three prototypes, three buttons, three spacings. Nothing lines up.</p></div>
+  </div>
+</section>
+
+<!-- 03 · SOLUTION · INSTALL -->
+<section class="page">
+  <div class="top"><span class="tag">02 · Solution · Install</span><span class="folio">03 / 05</span></div>
+  <div class="head">
+    <h1>Pick one way in</h1>
+    <p class="lede"><b>Git</b> if you build and change flows in the kit itself. <b>npm</b> if you want the noon screens inside your own React app. Both get the Claude skills.</p>
+  </div>
+  <div class="ways">
+    <div class="way">
+      <div class="way-h"><span class="badge">A</span><div><h3>The Git way</h3><p>Build new pages in the kit repo with Claude.</p></div></div>
+      <ol class="flow">
+        <li><b>Clone and install</b><pre>git clone https://github.com/arnabdebnath07/noon-app-skill.git
+cd noon-app-skill && npm install</pre></li>
+        <li><b>Run the preview</b><pre>npm run dev            <span class="c"># → localhost:5180/homepage</span></pre></li>
+        <li><b>Open Claude Code in the folder</b> <span class="m">the skills load by themselves</span><pre>claude</pre></li>
+        <li><b>Ask for a page</b><pre>/noon-ui build a loyalty hub with points and rewards</pre></li>
+      </ol>
+    </div>
+    <div class="way">
+      <div class="way-h"><span class="badge">B</span><div><h3>The npm way</h3><p>Use the kit in another React 19 app, skills from the plugin.</p></div></div>
+      <ol class="flow">
+        <li><b>Add the skills to Claude Code</b><pre>claude plugin marketplace add arnabdebnath07/noon-app-skill
+claude plugin install noon-ui@noon-flow-kit</pre></li>
+        <li><b>Install the package</b> <span class="m">noon-kit on npm · React 19</span><pre>npm i noon-kit react react-dom</pre></li>
+        <li><b>Render the flows</b><pre>import { NoonPrototype, homeFlow, pdpFlow, cartFlow }
+  from 'noon-kit';
+import 'noon-kit/style.css';
+
+&lt;NoonPrototype flows={[homeFlow, pdpFlow, cartFlow]}
+  initialRoute="home/home" /&gt;</pre></li>
+      </ol>
+    </div>
+  </div>
+  <div class="both"><span class="tag" style="font-size: 10.5px;">Both · optional</span><span><b>Connect Mobbin for research:</b></span><code>claude mcp add --transport http mobbin https://api.mobbin.com/mcp</code><span class="m">then <code>/mcp</code> → mobbin → Authenticate</span></div>
+</section>
+
+<!-- 04 · SOLUTION · HOW TO USE -->
+<section class="page">
+  <div class="top"><span class="tag">02 · Solution · How to use</span><span class="folio">04 / 05</span></div>
+  <div class="head">
+    <h1>Ask, answer, review, refine</h1>
+    <p class="lede">Four moves in Claude Code. Start with a screen skill such as <b>/pdp</b> or <b>/cart</b>, or <b>/noon-ui</b> for anything new.</p>
+  </div>
+  <div class="phases">
+    <div class="phase">
+      <div class="panel rust"><div class="chatbox">
+        <div class="inp"><span class="caret">&gt;</span> /noon-ui build a loyalty hub: points, tier, rewards, history</div>
+        <div class="att"><span>brief.pdf</span><span>reference.png</span><span>figma.com/…</span></div>
+      </div></div>
+      <div class="cap"><span class="pn">01</span><h3>Ask</h3><p>Say what the page is and what the user does there. Attach a screenshot, Figma link or <code>@file</code> if you have one.</p></div>
+    </div>
+    <div class="phase">
+      <div class="panel sand"><div class="chatbox">
+        <div class="note-sm">Researching on Mobbin · 6 references</div>
+        <div class="q">Where does the hub open from?<span class="rec">Account → noon Points</span></div>
+        <div class="q">Redeem in a sheet or a page?<span class="rec">Sheet</span></div>
+      </div></div>
+      <div class="cap"><span class="pn">02</span><h3>Answer</h3><p>Claude researches, then asks 1–4 questions. Each has a recommended answer; pick it or say what you want.</p></div>
+    </div>
+    <div class="phase">
+      <div class="panel steel"><span class="chip" style="top: 16px; left: 16px;">localhost:5180/cart</span><img class="phone" src="img/cart.jpg" alt=""></div>
+      <div class="cap"><span class="pn">03</span><h3>Review</h3><p>Open the page in the preview. Every screen has a URL; Claude also screenshots and checks each one.</p></div>
+    </div>
+    <div class="phase">
+      <div class="panel forest"><div class="chatbox">
+        <div class="bubble me">The rewards list feels crowded, use the account row spacing.</div>
+        <div class="bubble ai">Updated the rewards rows to the account spacing. Checks pass.</div>
+      </div></div>
+      <div class="cap"><span class="pn">04</span><h3>Refine</h3><p>Follow up in plain words, as many times as you need. Same files, same rules.</p></div>
+    </div>
+  </div>
+  <div class="ship">
+    <div class="ship-l"><span class="label" style="margin: 0;">Then ship</span><code>give me the handoff and push on a new branch</code></div>
+    <div class="skills"><span>/noon-ui</span><span>/home-page</span><span>/search</span><span>/pdp</span><span>/cart</span><span>/checkout</span><span>/orders</span><span>/returns</span><span>/reviews</span><span>/account</span><span>/noon-one</span><span>/noon-motion</span></div>
+  </div>
+</section>
+
+<!-- 05 · EXAMPLES -->
+<section class="page">
+  <div class="top"><span class="tag">03 · Examples</span><span class="folio">05 / 05</span></div>
+  <div class="head">
+    <h1>One prompt, one noon screen</h1>
+    <p class="lede">Prompts in the shape that works best, and screens from the kit they lead to. Copy one, change the details.</p>
+  </div>
+  <div class="examples">
+    <div class="ex">
+      <div class="prompt"><span class="who">Product page</span>/pdp show the page for p7 and check its reviews and specs</div>
+      <div class="panel rust"><img class="phone" src="img/pdp-dior.jpg" alt=""></div>
+    </div>
+    <div class="ex">
+      <div class="prompt"><span class="who">Restyle</span>/cart restyle the shipment card to match @~/Desktop/cart.png</div>
+      <div class="panel steel"><img class="phone" src="img/cart.jpg" alt=""></div>
+    </div>
+    <div class="ex">
+      <div class="prompt"><span class="who">From Figma</span>/orders update order tracking to this frame: figma.com/design/…?node-id=…</div>
+      <div class="panel forest"><img class="phone" src="img/orders.jpg" alt=""></div>
+    </div>
+    <div class="ex">
+      <div class="prompt"><span class="who">New feature</span>/search add recent searches and trending pills under the bar</div>
+      <div class="panel dusk"><img class="phone" src="img/search.jpg" alt=""></div>
+    </div>
+  </div>
+  <div class="foot"><span>github.com/arnabdebnath07/noon-app-skill</span><span>npm i noon-kit · plugin noon-ui@noon-flow-kit</span></div>
+</section>
+
+<script>
+  // a real image behind every gradient panel (see .panel > img.bg)
+  for (const p of document.querySelectorAll('.panel')) {
+    const k = ['rust', 'steel', 'forest', 'sand', 'dusk', 'ash', 'ember', 'slate'].find((c) => p.classList.contains(c));
+    if (!k) continue;
+    const img = document.createElement('img');
+    img.className = 'bg';
+    img.alt = '';
+    img.src = `img/bg-${k}.jpg`;
+    p.prepend(img);
+  }
+</script>
+</body>
+</html>

@@ -97,10 +97,18 @@ for (const [src, out] of map) {
   outputs.set(out, text);
 }
 
+// skills whose scripts/ and assets/ are portable (no repo needed) ship them verbatim: noon-motion's spring.py,
+// pp_extract.py and its drop-in CSS / JS
+const PORTABLE = { 'noon-motion': ['scripts', 'assets'] };
+for (const [s, dirs] of Object.entries(PORTABLE))
+  for (const d of dirs)
+    for (const f of readdirSync(join(skillsSrc, s, d)).filter((n) => /\.(py|js|css)$/.test(n)).sort())
+      outputs.set(join(pluginDir, 'skills', s, d, f), readFileSync(join(skillsSrc, s, d, f), 'utf8'));
+
 // distribution notes bundled with the knowledge (what is portable, what needs Claude Code or the repo)
 outputs.set(join(pluginDir, 'skills', PLUGIN, 'resources', 'DISTRIBUTION.md'), readFileSync(join(root, 'docs/distribution/PACKAGE-NOTES.md'), 'utf8'));
 
-const description = 'noon app design knowledge for building and restyling noon screens and flows with the noon Flow Kit: design tokens, components, motion, Origin Design System parts, flow specs and the brain map, plus screen skills for home, search, PDP, cart, checkout, orders, returns, reviews, account and noon One.';
+const description = 'noon app design knowledge for building and restyling noon screens and flows with the noon Flow Kit: design tokens, components, motion, Origin Design System parts, flow specs and the brain map, plus screen skills for home, search, PDP, cart, checkout, orders, returns, reviews, account and noon One, and the noon motion standard.';
 outputs.set(join(pluginDir, '.claude-plugin', 'plugin.json'), `${JSON.stringify({
   $schema: 'https://anthropic.com/claude-code/plugin.schema.json',
   name: PLUGIN,

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Scaffold a new flow:  npm run new-flow -- loyalty "noon Loyalty" "Profile"
-// Creates src/flows/<id>/{index.ts,tokens.ts,data.ts,<Name>Screen.tsx,<id>.module.css,DESIGN.md} and registers it.
+// Creates the folder contract (scripts/check-structure.mjs) and registers the flow:
+//   src/flows/<id>/{index.ts, tokens.ts, data.ts, DESIGN.md, screens/<Name>Screen.tsx, screens/<id>.module.css, components/}
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -18,17 +19,23 @@ if (existsSync(dir)) {
 }
 const Name = id[0].toUpperCase() + id.slice(1);
 mkdirSync(join(dir, 'components'), { recursive: true });
+mkdirSync(join(dir, 'screens'), { recursive: true });
+writeFileSync(join(dir, 'components/.gitkeep'), '');
 
 const files = {
   'tokens.ts': `import type { TokenOverrides } from '../../foundations/tokens';
 
-/** Tokens only for the ${title} flow. Override any central token, or add your own keys. */
+/**
+ * Tokens only for the ${title} flow: aliases of central tokens (var(--nk-*)) and the flow's own measurements.
+ * No custom colours: if no token fits, use the nearest one and ask. A colour the user explicitly asked for stays,
+ * marked on its line with \`// custom-color — <who asked, why>\`.
+ */
 export const ${id}Tokens = {
-  heroGradient: 'linear-gradient(135deg, #0F61FF, #6E51FF)',
+  heroBackground: 'var(--nk-color-brand)',
 } as const;
 
 export const ${id}FlowTokens: TokenOverrides = {
-  // colors: { bgPage: '#FFFFFF' },
+  // colors: { bgPage: 'var(--nk-palette-white)' },
 };
 `,
   'data.ts': `import { products } from '../../data';
@@ -45,11 +52,11 @@ export const ${id}Copy = {
 
 export const ${id}Products = products.slice(0, 4);
 `,
-  [`${Name}Screen.tsx`]: `import { Button, Header, ProductCard, Screen, SectionCard, SheetBody, SheetFooter, SheetHeader, Text } from '../../components';
-import { useNav } from '../../kit/Navigator';
-import { FadeIn, Stagger } from '../../motion/recipes';
-import { ${id}Copy, ${id}Products } from './data';
-import { ${id}Tokens } from './tokens';
+  [`screens/${Name}Screen.tsx`]: `import { Button, Header, ProductCard, Screen, SectionCard, SheetBody, SheetFooter, SheetHeader, Text } from '../../../components';
+import { useNav } from '../../../kit/Navigator';
+import { FadeIn, Stagger } from '../../../motion/recipes';
+import { ${id}Copy, ${id}Products } from '../data';
+import { ${id}Tokens } from '../tokens';
 import styles from './${id}.module.css';
 
 export function ${Name}Screen() {
@@ -66,9 +73,9 @@ export function ${Name}Screen() {
       }
     >
       <FadeIn>
-        <div className={styles.hero} style={{ background: ${id}Tokens.heroGradient }}>
-          <Text variant="titleLarge" color="textInverse">{${id}Copy.title}</Text>
-          <Text color="textInverse">{${id}Copy.subtitle}</Text>
+        <div className={styles.hero} style={{ background: ${id}Tokens.heroBackground }}>
+          <Text variant="titleLarge">{${id}Copy.title}</Text>
+          <Text color="textSecondary">{${id}Copy.subtitle}</Text>
         </div>
       </FadeIn>
       <SectionCard title="Picked for you">
@@ -109,7 +116,7 @@ export function ${Name}InfoSheet() {
   );
 }
 `,
-  [`${id}.module.css`]: `/* values follow .claude/skills/noon-ui/references/design-rules.md: gutter 12, card r16, tokens only */
+  [`screens/${id}.module.css`]: `/* values follow .claude/skills/noon-ui/references/design-rules.md: gutter 12, card r16, tokens only */
 .hero { margin: var(--nk-space-s12); padding: var(--nk-space-s24) var(--nk-space-s16); border-radius: var(--nk-radius-r16); display: flex; flex-direction: column; gap: var(--nk-space-s6); }
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--nk-space-s12); }
 .footer { background: var(--nk-color-bg-surface); padding: var(--nk-space-s12) var(--nk-space-s12) calc(var(--nk-inset-bottom) + var(--nk-space-s8)); box-shadow: var(--nk-shadow-bottom-bar); }
@@ -118,9 +125,9 @@ export function ${Name}InfoSheet() {
 import { lazyScreen } from '../../kit/lazyScreen';
 
 // screens load on demand (only what a page shows is in its first download)
-const ${Name}Screen = lazyScreen(() => import('./${Name}Screen'), '${Name}Screen');
-const ${Name}NextScreen = lazyScreen(() => import('./${Name}Screen'), '${Name}NextScreen');
-const ${Name}InfoSheet = lazyScreen(() => import('./${Name}Screen'), '${Name}InfoSheet');
+const ${Name}Screen = lazyScreen(() => import('./screens/${Name}Screen'), '${Name}Screen');
+const ${Name}NextScreen = lazyScreen(() => import('./screens/${Name}Screen'), '${Name}NextScreen');
+const ${Name}InfoSheet = lazyScreen(() => import('./screens/${Name}Screen'), '${Name}InfoSheet');
 import { ${id}FlowTokens } from './tokens';
 
 export const ${id}Flow = defineFlow({
@@ -154,4 +161,5 @@ s = s.replace(/export const allFlows: FlowDef\[\] = \[([^\]]*)\];/, (_, names) =
 writeFileSync(reg, s);
 
 console.log(`✔ Created src/flows/${id}  →  open /${id}/main on the dev server`);
+console.log(`  Layout: screens/ (routed screens + sheets) · components/ (flow-only parts) · tokens.ts (no custom colours) · data.ts (copy)`);
 console.log(`  Next: fill in src/flows/${id}/DESIGN.md (.claude/skills/noon-ui/references/design-workflow.md); npm run skill:check fails until it is.`);

@@ -6,14 +6,14 @@ Tokens ≈ characters / 4 (an estimate; the same rule for both sets). **Pointer 
 
 | Task | Ground-truth files | Baseline files · tokens | Baseline recall | Brain files · tokens | Brain recall | Brain query |
 |---|---|---|---|---|---|---|
-| home (home) | 61 | 38 · 71,903 (docs 41,768) | 61/61 (100%) | 17 · 23,775 | 51/61 (84%) | 85 ms |
-| search-results (search + plp) | 25 | 26 · 62,687 (docs 43,837) | 25/25 (100%) | 15 · 18,649 | 24/25 (96%) | 80 ms |
-| pdp (pdp) | 75 | 43 · 113,549 (docs 43,138) | 75/75 (100%) | 15 · 21,549 | 73/75 (97%) | 74 ms |
-| cart (cart) | 52 | 36 · 77,468 (docs 42,522) | 48/52 (92%) | 11 · 14,724 | 52/52 (100%) | 78 ms |
-| checkout (checkout) | 93 | 40 · 106,020 (docs 44,267) | 86/93 (92%) | 12 · 22,190 | 91/93 (98%) | 79 ms |
-| **all** | 306 | 183 · 431,627 | 96% | 70 · 100,887 | 95% | |
+| home (home) | 61 | 38 · 79,814 (docs 49,433) | 61/61 (100%) | 17 · 27,667 | 51/61 (84%) | 91 ms |
+| search-results (search + plp) | 25 | 26 · 72,971 (docs 51,641) | 25/25 (100%) | 15 · 26,321 | 24/25 (96%) | 82 ms |
+| pdp (pdp) | 62 | 38 · 107,995 (docs 51,267) | 62/62 (100%) | 15 · 24,933 | 62/62 (100%) | 78 ms |
+| cart (cart) | 62 | 41 · 93,927 (docs 50,677) | 57/62 (92%) | 12 · 20,542 | 62/62 (100%) | 83 ms |
+| checkout (checkout) | 93 | 40 · 113,759 (docs 51,934) | 86/93 (92%) | 12 · 25,511 | 91/93 (98%) | 77 ms |
+| **all** | 303 | 183 · 468,466 | 96% | 71 · 124,974 | 96% | |
 
-Context size: the brain set is 23% of the baseline (330,740 fewer tokens over 5 tasks).
+Context size: the brain set is 27% of the baseline (343,492 fewer tokens over 5 tasks).
 
 ## Ground-truth files the brain set does not name
 
@@ -21,7 +21,7 @@ The brain set names screen modules and the components of the closest screens; it
 
 - home: `src/flows/home/components/BrandAdModule.module.css`, `src/flows/home/components/CategoryGrid.module.css`, `src/flows/home/components/DepartmentTabs.module.css`, `src/flows/home/components/HeroBanners.module.css`, `src/flows/home/components/KeepShopping.module.css`, `src/flows/home/components/LaunchModule.module.css`, `src/flows/home/components/OfferTickets.module.css`, `src/flows/home/components/ProductRail.module.css`, `src/flows/home/components/PromoTicker.module.css`, `src/flows/home/components/RecommendedRail.module.css`
 - search-results: `src/flows/plp/components/brandWidget.module.css`
-- pdp: `src/flows/pdp/components/RecoCard.tsx`, `src/flows/pdp/components/Stars.tsx`
+- pdp: none
 - cart: none
 - checkout: `src/flows/checkout/components/DeliveryPrimitives.tsx`, `src/flows/checkout/components/ProviderForm.tsx`
 

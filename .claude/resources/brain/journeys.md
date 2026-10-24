@@ -25,6 +25,7 @@ Edges come from static `nav.*('…')` calls in each screen's import closure (dyn
 | `reviews` | orders |
 | `search` | checkout, noonone, pdp, plp |
 | `wishlist` | cart, pdp, search |
+| `yellowFriday` | account, cart, pdp |
 
 ## Journey tests (`npm run test:journeys`)
 
@@ -96,3 +97,4 @@ Edges come from static `nav.*('…')` calls in each screen's import closure (dyn
 | `membership` | 0/24 | 0/24 |
 | `wishlist` | 3/5 | 0/5 |
 | `fieldds` | 0/4 | 0/4 |
+| `yellowFriday` | 0/6 | 0/6 |

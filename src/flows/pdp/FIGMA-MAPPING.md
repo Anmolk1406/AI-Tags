@@ -23,7 +23,7 @@ Components: `src/flows/pdp/components/storefront/Sf*.tsx` (one CSS module each).
 | 3499:75632 | Bestseller row: mint gradient, medal, "Bestseller #N in {category}" | `SfBestsellerRow` (`CategoryBestSellerCta`) | rank parsed from `bestSellerTag`; → category PLP |
 | 3499:75647 | Seller widget: 48 logo box, "Sold by", rating + positive pills, trust chips, subtitle row, "N offers from other sellers" | `SfSellerCard` (`SellerCard`) | offers row → `onOffers` |
 | 3499:75700 | Product Features (A+): banners + copy capped at 610, fade + View More | `SfProductFeatures` (new) | images from `aplusImages` → gallery images; View More / Less |
-| 3499:75701 | Sponsored brand carousel ("Top quality products · Shop {brand}" + Ad) | `SfSponsoredBrandCard` (new) | `sponsoredBrandProducts(product)`; header → brand PLP |
+| 3499:75701 | Sponsored brand carousel ("Top quality products · Shop {brand}" + Ad) | `SfSponsoredBrandCard` (new) | `content.sponsoredBrand` (`pdpView`, `src/data/views/pdp.ts`); header → brand PLP |
 | 3499:75702 | Frequently bought together: tiles with check discs and + joins, "Buy all for …" | `SfFbtCard` (`FbtCard`) | toggle tiles, add selected to cart |
 | 3499:75703 | Reviews: score 22/800 + emerald stars, AI summary (collapsible), Photo Reviews, Top Reviews cards (Verified Buy, variant chips, Helpful), All customer reviews | `SfReviewsCard` (`ReviewsCard`) | more/less, helpful votes kept |
 | 3499:75876 / 75877 | "Similar products", "Top products in {category}" rails: 134-wide cards, 3:4 media, Ad, quick add, rating, price, nudge, express ETA | `SfRecommendations` + `SfRecoCard` (`Recommendations` / `RecoCard`) | Similar = other brands, Top = same brand/category; `sponsored` shows the Ad tag |
@@ -46,7 +46,7 @@ Shared: card `Card` (white r16 p12, gap 12), title 15/700/17 `--nk-color-text-st
 
 Per-section measurements (node → kit token → value) are in the header comment of each `Sf*.tsx` and its tokens file; the shared rules:
 
-- Cards: white, `--nk-radius-r16`, padding `--nk-space-s12`, margin `0 12px 12px` (`Card` from `components/Sections.tsx`); titles 15/700/17 `--nk-color-text-strong` (`--nk-type-pdp-sf*-section-title`).
+- Cards: white, `--nk-radius-r16`, padding `--nk-space-s12`, margin `0 12px 12px` (`Card` from `components/Card.tsx`); titles 15/700/17 `--nk-color-text-strong` (`--nk-type-pdp-sf*-section-title`).
 - Sub-surfaces: `--nk-color-bg-subtle` (accordion rows, info rows), `--nk-palette-alice-blue` (offers, warranty), `--nk-color-bg-pill` (rating pills).
 - Selected tiles: 1px `--nk-color-border-info`; unavailable: dashed `--nk-color-border-strong` on `--nk-color-bg-subtle`, `--nk-color-text-tertiary`.
 - Ad tags: `Badge` bg `--nk-palette-border-color`, colour `--nk-color-price-old`.
@@ -70,7 +70,7 @@ Figma `Af34gfmhQ1D0wstXUEHSIF` · 64:5571 "New PDP", product rails. Component: `
 | Product card (134, 0.5 Blue-Gray/200, r10) | `SfRecoCard` (unchanged structure) | 3:4 media (2% cobalt), Best Seller / catalog tag 20h Emerald/900 br-r10, heart 16 in white-20% circle 6/6, Ad 10/11 Blue-Gray/200 r4 6/6, quick add 24 plus white 1.2 border r8; name 13/17 500 #212121 −0.14, 2 lines; rating 18h pill; price 15/16 700 Blue-Gray/900 +0.07, was 12 Blue-Gray/500 struck, % 12/600 Emerald/800 (−0.12); nudge flipper 16h 12/16 Blue-Gray/700 −0.12; ETA "express Today" 122 × 18 (`src/assets/pdp/new-pdp/eta-express-today.svg`) |
 | Nudge icons (Nudges - HP) | `nudgeIcon` | lowest price `arrow-down-circle-filled` #DE1C1C (`danger`, was emerald), free delivery `truck-filled` Emerald/800, selling out fast `flash-thunder` #D62925 (`pdpNpeNudgeUrgent`), units sold `cart-check-filled` Emerald/800 (was text-secondary), bestseller `verified-filled` Emerald/800 |
 
-bappzaar (NoonRecommendations): `same_brand` → "More from {{brandName}}" (`copy.moreFrom`), `other_brands` → "Customers Also Viewed" (`copy.customersAlsoViewed`), sponsored → "Products related to this" (`railCopy.relatedSponsored`, `data.npE.ts`, `noon_recommended_sponsored_pdp`). Card tap → `pdp/detail` (push), heart → wishlist toast, "+" → add to cart toast, catalog tag (`product.tag`, e.g. Best Seller) top-left.
+bappzaar (NoonRecommendations): `same_brand` → "More from {{brandName}}" (`copy.moreFrom`), `other_brands` → "Customers Also Viewed" (`copy.customersAlsoViewed`), sponsored → "Products related to this" (`railCopy.relatedSponsored` in `src/data/copy/pdp.ts`, `noon_recommended_sponsored_pdp`). Card tap → `pdp/detail` (push), heart → wishlist toast, "+" → add to cart toast, catalog tag (`product.tag`, e.g. Best Seller) top-left.
 
 ## New PDP (All flows 64:5571) — group D
 
@@ -78,7 +78,7 @@ Figma Af34gfmhQ1D0wstXUEHSIF · New PDP: Product features 64:5729, sponsored bra
 
 | Section | Delta → change |
 |---|---|
-| Product features 64:5729 | Body is A+ brand creatives (two 1799 × 4096 banners, r8), not product photos → `SfProductFeatures` uses `content.aplusImages`, else `demoAplusImages` (`data.npD.ts`, `src/assets/pdp/new-pdp/aplus-{1,2}.webp`, 984 wide). bappzaar A+ is SD rich content (MAPPING.md §14), so this stays demo content. Cap 610, white fade, "View More ⌄" / "View Less" unchanged. `product` prop now optional (unused). |
+| Product features 64:5729 | Body is A+ brand creatives (two 1799 × 4096 banners, r8), not product photos → `SfProductFeatures` renders `content.aplusImages` (the product's own creatives in its `content.ts`); without them the card is hidden. The two Figma demo banners (`src/assets/pdp/new-pdp/aplus-{1,2}.webp`) are a realme 12 Pro advert, so they are no longer shown on every product. bappzaar A+ is SD rich content (MAPPING.md §14). Cap 610, white fade, "View More ⌄" / "View Less" unchanged. `product` prop now optional (unused). |
 | Sponsored brand 64:5730 | No delta (logo tile shows the brand name; Figma has the TECV wordmark image). |
 | Extended warranty 64:5731 | Plan 2 USP icons: Date (`calendar-check`) · accident (`warning-triangle`) · Delivery (`truck-noon`), as plan 1 (was check-shield / infinity). Ticker "by PROTECT4LESS → Chosen by 100+ people → Authorised repair centers → Genuine parts guaranteed" unchanged. |
 | FBT 64:5732 | "HP ETA" is the express · Today pill → `eta-express-today.svg` at 15 high (same artwork as the rails' 122 × 18) instead of `ExpressBadge`. |
@@ -86,12 +86,12 @@ Figma Af34gfmhQ1D0wstXUEHSIF · New PDP: Product features 64:5729, sponsored bra
 
 ## New PDP (All flows 64:5571) — group B
 
-Figma Af34gfmhQ1D0wstXUEHSIF · 64:5571 "New PDP". Tokens in `tokens.npB.ts` (`pdpNpb*`), copy / mock data in `data.npB.ts`, asset `src/assets/pdp/new-pdp/b/gift-hamper.webp`.
+Figma Af34gfmhQ1D0wstXUEHSIF · 64:5571 "New PDP". Tokens in `tokens.npB.ts` (`pdpNpb*`), copy in `src/data/copy/pdp.ts` (`npbCopy`), gifts per product in `content.ts` (`freebies`), asset `src/assets/pdp/new-pdp/b/gift-hamper.webp`.
 
 | Figma node | Component | Mapping |
 |---|---|---|
 | 64:5589 Ads (Big Ad) | `SfSponsoredRow` | now the 78-high Big Ad: white r14 card, inner 1px gray/200 frame, p4 / end 12, gap 12; 51.3 × 70 r9 thumb on 3% cobalt (image multiplied at 3.42 / 4.67); title 14/500/18 #212121 two lines; price 16/700 + struck was 12/400 bluish grey + "% OFF" 12/600 irish green + express 47 × 14; "Ad" 6 from the bottom-end corner. Tap → that PDP (unchanged). Was the 35-high Storefront row. |
-| 64:5590 Delivery information | `SfDeliveryCard` | same component / `variant` prop. `deliveryVariantFor` now returns `noCrossSell` for an express lane too (faster lanes from `fasterLanesFor`: rocket buying options, else the Figma Today + 14.00 / Tomorrow [before 12pm] + 12.00). Express row reads "Get by **date**" with the countdown chip at the end; "Faster Delivery Options" starts **open** (chevron up) and lists lanes as text rows (14 regular + 14/600 day, 13 light note, "+ ₳ 14.00" 12/600) over a rule, then the white "Select these options on checkout" callout (info-circle 16). A lane that is another offer still `nav.replace`s. noon One banner / member mark unchanged. `?delivery=` variants unchanged. |
+| 64:5590 Delivery information | `SfDeliveryCard` | same component / `variant` prop. `content.deliveryVariant` is `noCrossSell` for an express lane too (faster lanes `content.fasterLanes`, from `fasterLanesFor` in `src/data/views/pdp.ts`: rocket buying options, else the Figma Today + 14.00 / Tomorrow [before 12pm] + 12.00). Express row reads "Get by **date**" with the countdown chip at the end; "Faster Delivery Options" starts **open** (chevron up) and lists lanes as text rows (14 regular + 14/600 day, 13 light note, "+ ₳ 14.00" 12/600) over a rule, then the white "Select these options on checkout" callout (info-circle 16). A lane that is another offer still `nav.replace`s. noon One banner / member mark unchanged. `?delivery=` variants unchanged. |
 | 84:8406 Newer model available | `SfNewerModelCard` | already matches (same instance as Storefront 3499:75229); no change. |
 | 64:5591 Free gifts for you | `SfFreeGifts` (new) | bappzaar `NoonFreebie`: white r16 card pt16 pb12 gap 12, 16/700 title; rail px12 gap 8 of 284-wide cards (one card fills the row), 1px blue-gray/300 r12 p8: 56 × 55 image box with the sapphire "Free" ribbon (13/16 bold, drop shadow), 15/600 title, 12/500 subtitle, "View eligible products ›" 13/600 accent → `plp/listing` (bappzaar link_url → catalog). Data `freebiesFor(product)` (phones: two Pepsi hampers). Copy: noon_free_gifts_freebie, noon_free_freebie, noon_view_eligible_products_text. |
 | 64:5592 Variant picker | `SfVariantsCard` | same props / selection; options refetch under a loader and switch in place (MAPPING.md → Variant selection behaviour). Group titles 14/600/20; card pb 16. Model Name and Version are text pills even when options carry prices (hug, 14/500, padding 12, scroll); colour cards: 78 image (selected 88 full-width, 12/600 label; unavailable 80, muted); memory tiles r16 in all states: name 14/600 · dashed rule · price 13/600/20 + was 12 struck (no currency) · "% OFF" 12/600/18 success; unavailable "OUT OF STOCK" 11/600 muted. Selected border 1.5px pale azure + shadow. |
@@ -100,7 +100,7 @@ Not drawn in Figma but kept: noon One "member" mark only for members, the countd
 
 ## New PDP (All flows 64:5571) — group C
 
-Figma `Af34gfmhQ1D0wstXUEHSIF` · `64:5571` "New PDP"; tokens `tokens.npC.ts` (`pdpNpc*`), copy / mock `data.npC.ts`, assets `src/assets/pdp/new-pdp/`.
+Figma `Af34gfmhQ1D0wstXUEHSIF` · `64:5571` "New PDP"; tokens `tokens.npC.ts` (`pdpNpc*`), copy `npcCopy` in `src/data/copy/pdp.ts`, the AI overview per product (`content.aiOverview`), assets `src/assets/pdp/new-pdp/`.
 
 | Section (node) | Delta vs Storefront → change |
 |---|---|
@@ -113,7 +113,7 @@ Figma `Af34gfmhQ1D0wstXUEHSIF` · `64:5571` "New PDP"; tokens `tokens.npC.ts` (`
 
 ## New PDP (All flows 64:5571) — group A
 
-Figma `Af34gfmhQ1D0wstXUEHSIF` · header 64:5737, gallery 64:5573, Main-Info 64:5587, bundle card 84:8457, footer 104:20387 / back to top 64:5736. Tokens `tokens.npA.ts` (`pdpNpa*`), copy + combo rule `data.npA.ts`, assets `src/assets/pdp/new-pdp/` (`bundle-combo.gif`, `pick-sparkle-1…4.svg`, `bestseller-badge.svg` shared with group C).
+Figma `Af34gfmhQ1D0wstXUEHSIF` · header 64:5737, gallery 64:5573, Main-Info 64:5587, bundle card 84:8457, footer 104:20387 / back to top 64:5736. Tokens `tokens.npA.ts` (`pdpNpa*`), copy `npaCopy` (`src/data/copy/pdp.ts`), combo rule `combosFor` (`src/data/views/pdp.ts`), assets `src/assets/pdp/new-pdp/` (`bundle-combo.gif`, `pick-sparkle-1…4.svg`, `bestseller-badge.svg` shared with group C).
 
 | Figma | Code | bappzaar behaviour |
 |---|---|---|
@@ -122,7 +122,7 @@ Figma `Af34gfmhQ1D0wstXUEHSIF` · header 64:5737, gallery 64:5573, Main-Info 64:
 | Main-Info brand strip: 17px verified | `SfMainInfo` | Visit Store → brand PLP |
 | Rating pill: 12px star, "4.3" 13/600 + "(" 13/600 + "126 reviews)" 13/500 #343D54 | `.score` / `.count` / `.countParen` | tap → reviews |
 | Price "47% OFF" (was "47%") + "(incl. of VAT)" | `sfCopy.pct` | PdpPrice |
-| "Saving Đ45 with Combo" 32h r8, #EAF4FE → white 51%, 18px combo glyph, 14/500, info 16 | `.combo` (shown when `combosFor()` has a combo) | NoonBundleBanner (banner_text, savings) → NoonBundleHelpScreen; here a toast |
+| "Saving Đ45 with Combo" 32h r8, #EAF4FE → white 51%, 18px combo glyph, 14/500, info 16 | `.combo` (shown when `content.comboSaving` > 0) | NoonBundleBanner (banner_text, savings) → NoonBundleHelpScreen; here a toast |
 | "500ml \| Đ2.35/ml" chip: bg-subtle r4, px 6 py 4, 14/14 #343D54, 12px #D0D4DD dividers | `.highlights` from `content.keyHighlights` | **NoonKeyHighlights restored** |
 | Mega Deal + "Lowest Price in 30 days" (14px arrow-down-circle #CC285C) | `.deal` / `.nudge` | deal_tag + NoonNudgeTag ticker |
 | Coupon chips: #F6FEFD, dashed emerald-700 40%, percent badge 24 #1F7A74, "Extra 15%, CODE: ENDD15" 14/600 one line, 12px chevron | `.coupon` | discount_tags, tap copies the code |
@@ -130,4 +130,4 @@ Figma `Af34gfmhQ1D0wstXUEHSIF` · header 64:5737, gallery 64:5573, Main-Info 64:
 | "Bundle up & Save upto Đ20 off · 2 combos available" 84:8457: r16, 1px white, white → #EBF4FF 99.7°, p 8·8·8·12, 40 icon box (30 glyph), 15/600 + 15/700 #0A49B8, 13/20 #475067, 20 chevron | new `SfBundleCard` | NoonAvailableBundlesTag → NoonAvailableBundlesOverlayScreen; here `onPress` (default toast) |
 | Footer: QTY 48 · "Buy now" #041F62 47h r10 14/700 · "Add to cart" accent | `SfAtcBar` `.buyNow` (`buyNow` prop, default on) | **Buy Now restored**: NoonAddToCartQuantity.onBuyNowPress (Buy Now overlay) → adds qty, `nav.push('checkout')`; size missing → variants sheet first |
 
-Combos (demo rule, `data.npA.ts`): one per FBT accessory (`content.fbt`, max 3), saving = 15% of the accessory price; "upto" = the largest. Not shown in this Figma, so not restored: the best-price block (`content.bestPrice` still feeds the derived "Extra n% off" coupon chip), the gallery video slot in the dots.
+Combos (demo rule, `combosFor` in `src/data/views/pdp.ts`): one per FBT accessory (`content.fbt`, max 3), saving = 15% of the accessory price; "upto" = the largest. Not shown in this Figma, so not restored: the best-price block (`content.bestPrice` still feeds the derived "Extra n% off" coupon chip), the gallery video slot in the dots.

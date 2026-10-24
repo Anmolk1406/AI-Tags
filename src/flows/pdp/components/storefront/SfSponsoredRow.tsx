@@ -1,18 +1,8 @@
 import { Badge, MarketplaceTag, Pressable, ProductImage } from '../../../../components';
 import { useNav } from '../../../../kit/Navigator';
-import { productById, products, type Product } from '../../../../data';
-import { copy, discountPercent, money, type PdpContent } from '../../data';
+import { discountPercent, money, type Product } from '../../../../data';
 import styles from './SfSponsoredRow.module.css';
-
-/**
- * Sponsored accessory (derived; no SD ad slot in the mocks): the first frequently-bought-together item that isn't
- * this product, else the first express product from another category.
- */
-export function sponsoredFor(product: Product, content?: PdpContent): Product | undefined {
-  const fbt = content?.fbt?.find((id) => id !== product.id);
-  if (fbt) return productById(fbt);
-  return products.find((p) => p.id !== product.id && p.express && p.category !== product.category);
-}
+import { copy } from '../../../../data/copy/pdp';
 
 /**
  * New PDP sponsored product "Ads" / Big Ad (Figma Af34gfmhQ1D0wstXUEHSIF · 64:5589): 351 wide white r14 card, inner 1px
@@ -20,9 +10,8 @@ export function sponsoredFor(product: Product, content?: PdpContent): Product | 
  * 14/500/18 #212121 two-line title; 16/700 price + struck was 12 + "% OFF" 12/600 irish green + express 47 × 14;
  * "Ad" tag 6 from the bottom-end corner (#F0F2F7, top-start r4, 11/12 #7E859B). Tap opens that product's PDP.
  */
-export function SfSponsoredRow({ product, content, item }: { product: Product; content?: PdpContent; item?: Product }) {
+export function SfSponsoredRow({ item: ad }: { item?: Product }) {
   const nav = useNav();
-  const ad = item ?? sponsoredFor(product, content);
   if (!ad) return null;
   const off = ad.was && ad.was > ad.price ? discountPercent(ad.was, ad.price) : 0;
   return (

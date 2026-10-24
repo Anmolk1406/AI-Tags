@@ -1,19 +1,13 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useState, type ReactNode } from 'react';
 import { OriginIcon } from '../../../../components';
-import type { Product } from '../../../../data';
 import { duration, easing } from '../../../../motion/presets';
 import aiStar from '@assets/pdp/new-pdp/overview-ai-star.svg';
-import { copy, type PdpContent } from '../../data';
-import { aiOverviewFor, npcCopy, type AiOverview } from '../../data.npC';
 import { Asset } from '../Asset';
-import { Card } from '../Sections';
+import { Card } from '../Card';
 import styles from './SfProductDetails.module.css';
-
-export const sfDetailsCopy = {
-  title: npcCopy.productOverview, // New PDP 84:8034 (noon_product_overview); was "Product Details" in Storefront 3499:75478
-  overview: npcCopy.description, // New PDP 84:8059 (noon_description); was "Overview"
-};
+import { copy, npcCopy, sfCopy } from '../../../../data/copy/pdp';
+import type { PdpContent } from '../../../../data/views/pdp';
 
 const collapse = { duration: duration.fast, ease: easing.out };
 
@@ -47,12 +41,12 @@ function SfAccordion({ title, children, onOpen }: { title: string; children: Rea
  * NoonAiOverviewTitle "Summarised by AI" 14/700 in the 90deg gradient with a white shimmer sweeping across every 2 s;
  * items 10 apart, px 12: 16 × 20 sparkle + "<b>{title}:</b> {description}" 14/20 (title 600 blue-gray/900, text blue-gray/700).
  */
-function AiSummary({ overview }: { overview: AiOverview }) {
+function AiSummary({ items }: { items: NonNullable<PdpContent['aiOverview']> }) {
   return (
     <div className={styles.ai}>
-      <span className={styles.aiTitle}>{overview.title}</span>
+      <span className={styles.aiTitle}>{npcCopy.aiTitle}</span>
       <div className={styles.aiItems}>
-        {overview.items.map((it, i) => (
+        {items.map((it, i) => (
           <div key={`${it.title}-${i}`} className={styles.aiItem}>
             <img alt="" src={aiStar} className={styles.aiStar} />
             <p className={styles.aiText}>
@@ -70,18 +64,18 @@ function AiSummary({ overview }: { overview: AiOverview }) {
  * New PDP "Product Overview" (Figma Af34gfmhQ1D0wstXUEHSIF · 84:8031) over bappzaar NoonProductOverview: white r16 card,
  * padding 16·12, gap 12; 15/700 title (px2); the AI summary (when the product has an `ai_overview`) then the
  * accordions 8 apart — Description (long_description), Highlights (feature bullets), Specifications — all collapsed.
- * `product` feeds the mock ai_overview (data.npC.ts); without it the card shows the accordions only, as before.
+ * The AI summary is `content.aiOverview`; without it the card shows the accordions only, as in the app.
  */
 /** `onAccordionOpen`: NoonProductOverview → NoonProductDetails.scrollAfterAccordionOpen (page +120, 150ms). */
-export function SfProductDetails({ content, product, aiOverview, onAccordionOpen }: { content: PdpContent; product?: Pick<Product, 'category'>; aiOverview?: AiOverview; onAccordionOpen?: () => void }) {
-  const ai = aiOverview ?? (product ? aiOverviewFor(product) : undefined);
+export function SfProductDetails({ content, onAccordionOpen }: { content: PdpContent; onAccordionOpen?: () => void }) {
+  const ai = content.aiOverview;
   return (
     <Card className={styles.card} contentGap={12}>
-      <h3 className={styles.title}>{sfDetailsCopy.title}</h3>
-      {ai && <AiSummary overview={ai} />}
+      <h3 className={styles.title}>{sfCopy.details.title}</h3>
+      {ai && <AiSummary items={ai} />}
       <div className={styles.list}>
         {content.description && (
-          <SfAccordion title={sfDetailsCopy.overview} onOpen={onAccordionOpen}>
+          <SfAccordion title={sfCopy.details.overview} onOpen={onAccordionOpen}>
             <p className={styles.text}>{content.description}</p>
           </SfAccordion>
         )}

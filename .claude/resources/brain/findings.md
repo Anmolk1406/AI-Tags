@@ -8,11 +8,12 @@
 |---|---|
 | warn · cross-flow-data | 8 |
 | warn · foreign-ui | 1 |
-| info · cross-flow-component | 4 |
+| warn · undefined-token | 1 |
+| info · cross-flow-component | 3 |
 | info · nav-dynamic | 9 |
 | info · no-entry | 26 |
-| info · promotion-candidate | 63 |
-| info · untested | 135 |
+| info · promotion-candidate | 61 |
+| info · untested | 141 |
 | info · unused-component | 5 |
 
 ## warn · cross-flow-data
@@ -30,12 +31,15 @@
 
 - src/flows/account/ChangePasswordScreen.tsx imports lucide-react (no second design system)
 
+## warn · undefined-token
+
+- src/flows/yellowFriday/screens/yellowFriday.module.css: uses var(nk-ease-out (written without the leading --), which no token, flow token or src declaration defines
+
 ## info · cross-flow-component
 
 - src/flows/cart/CartScreen.tsx imports src/flows/noonone/components/entry/cartVipPush.ts from flow `noonone` (promotion candidate for src/components)
 - src/flows/checkout/components/NoonOneSection.tsx imports src/flows/noonone/components/entry/checkoutEnrollment.ts from flow `noonone` (promotion candidate for src/components)
 - src/flows/checkout/ConfirmationScreen.tsx imports src/flows/noonone/components/entry/useOcOneOverlay.ts from flow `noonone` (promotion candidate for src/components)
-- src/flows/pdp/components/VipPreference.tsx imports src/flows/noonone/components/maskSrc.ts from flow `noonone` (promotion candidate for src/components)
 
 ## info · nav-dynamic
 
@@ -114,7 +118,6 @@
 - cmp:noonone/VIPWave is used by screens of membership, noonone
 - cmp:pdp/Asset is used by screens of pdp, search
 - cmp:pdp/Card is used by screens of pdp, search
-- cmp:pdp/DashedLine is used by screens of pdp, search
 - cmp:pdp/SfAdditionalInfo is used by screens of pdp, search
 - cmp:pdp/SfAtcBar is used by screens of pdp, search
 - cmp:pdp/SfBestsellerRow is used by screens of pdp, search
@@ -137,7 +140,6 @@
 - cmp:pdp/SfSponsoredRow is used by screens of pdp, search
 - cmp:pdp/SfTrustCard is used by screens of pdp, search
 - cmp:pdp/SfVariantsCard is used by screens of pdp, search
-- cmp:pdp/VipPreference is used by screens of pdp, search
 - cmp:plp/CatalogListHeader is used by screens of plp, search
 - cmp:plp/CatalogNavPill is used by screens of plp, search
 - cmp:plp/MarketplaceStrip is used by screens of plp, search
@@ -226,7 +228,7 @@
 - membership/confirmOffer: only `check:routes` covers it (no journey, no visual reference)
 - membership/familyPlans: only `check:routes` covers it (no journey, no visual reference)
 - membership/familyReview: only `check:routes` covers it (no journey, no visual reference)
-- … +55 more (graph.json → findings)
+- … +61 more (graph.json → findings)
 
 ## info · unused-component
 

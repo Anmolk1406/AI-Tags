@@ -12,41 +12,41 @@ export const accountTokens = {
   cardRadius: 16,
   menuRadius: 14,
   /** NoonAccountProfileHeader: noon One avatar = LinearGradient [paleYellow, noonOneBannerAmber(0.3)] {0,1}→{1,2} — on the 135° line the box spans 50%…150% */
-  avatar: { size: 51, bg: '#F2F2F2', noonOneFrom: '#FFF3C0', noonOneTo: 'rgba(255,168,45,0.3)', noonOneInk: '#794000', noonOneGradient: 'linear-gradient(135deg, #FFF3C0 50%, rgba(255,168,45,0.3) 150%)' },
-  ring: { bg: '#FFF1E0', border: '#FEDBB4', fill: '#FF9741', idle: '#666D85', counter: '#E5641A' },
-  noonOne: { surface: '#FFF3C0', from: '#FEDEA9', to: '#FEF8EC' },
-  heroBlue: 'linear-gradient(160deg, #0F61FF 0%, #3D7BFF 55%, #7CA8FF 100%)',
+  avatar: { size: 51, bg: 'var(--nk-palette-white-smoke)', noonOneFrom: 'var(--nk-palette-pale-yellow-legacy)', noonOneTo: 'var(--nk-palette-noon-one-banner-amber-alpha30)', noonOneInk: 'var(--nk-palette-cocoa-brown)', noonOneGradient: 'linear-gradient(135deg, var(--nk-palette-pale-yellow-legacy) 50%, var(--nk-palette-noon-one-banner-amber-alpha30) 150%)' },
+  ring: { bg: 'var(--nk-palette-warning-surface)', border: 'var(--nk-palette-warning-border)', fill: 'var(--nk-palette-absolute-apricot)', idle: 'var(--nk-palette-slate-gray)', counter: 'var(--nk-palette-sunset-orange)' },
+  noonOne: { surface: 'var(--nk-palette-pale-yellow-legacy)', from: 'var(--nk-palette-noon-one-banner-peach)', to: 'var(--nk-palette-noon-one-banner-cream)' },
+  heroBlue: 'linear-gradient(160deg, var(--nk-palette-primary-blue) 0%, var(--nk-palette-kit-blue62) 55%, var(--nk-palette-kit-blue74) 100%)',
   heroHeight: 320,
-  footerMuted: '#989FB3',
-  subtitle: '#8B8FA8',
+  footerMuted: 'var(--nk-palette-bluish-grey)',
+  subtitle: 'var(--nk-palette-blue-gray500)',
   /** NoonAccountLanguageSwitcher ITEM_WIDTH */
   langItem: 59,
   /** react-native-switch config used by Preferences + Notifications */
-  switch: { circle: 16, barHeight: 20, width: 46, inset: 2, active: '#1D2539', inactive: '#EAECF0' },
+  switch: { circle: 16, barHeight: 20, width: 46, inset: 2, active: 'var(--nk-palette-blue-gray900)', inactive: 'var(--nk-palette-light-grey-color)' },
 } as const;
 
 export const accountFlowTokens: TokenOverrides = {
   colors: {
-    bgPage: '#F2F3F7',
+    bgPage: 'var(--nk-palette-anti-flash-white)',
     // NoonColors values with no matching kit token
-    acctSubtitle: '#8B8FA8', // blueGray500
-    acctOutline: '#E5E7EB', // gray200
-    acctSlate: '#6B7280', // slate500
-    acctNightfall: '#02060CEB', // nightFall
-    acctDisabled: '#CED1DA', // grayColor
-    acctInputBg: '#F5F7FA', // AddressV2FormInput bg
-    acctFieldBg: '#FCFCFD', // blueGray50
-    acctOrangeTint: '#FFF8EC', // noonSystemOrangeTint
-    acctRed: '#FA0000', // redColor
-    acctBadgeFrom: '#FDBA74', // orange300
-    acctBadgeTo: '#F36302', // pumpkinOrange
-    acctBadgeRingFrom: '#FFBE88', // lightApricot
-    acctBadgeRingTo: '#F8913E', // tangerine
-    acctLegacyBorder: '#F0F2F7', // $borderColor (deletion screen)
-    acctPasswordBorder: '#7F8599',
-    acctPasswordMuted: '#B5B7BD',
-    acctTabText: 'rgba(2, 6, 12, 0.6)',
-    acctTabTextActive: 'rgba(2, 6, 12, 0.92)',
+    acctSubtitle: 'var(--nk-palette-blue-gray500)', // blueGray500
+    acctOutline: 'var(--nk-palette-gray200)', // gray200
+    acctSlate: 'var(--nk-palette-slate500)', // slate500
+    acctNightfall: 'var(--nk-palette-night-fall)', // nightFall
+    acctDisabled: 'var(--nk-palette-gray-color)', // grayColor
+    acctInputBg: 'var(--nk-palette-kit-gray97)', // AddressV2FormInput bg
+    acctFieldBg: 'var(--nk-palette-blue-gray50)', // blueGray50
+    acctOrangeTint: 'var(--nk-palette-noon-system-orange-tint)', // noonSystemOrangeTint
+    acctRed: 'var(--nk-palette-red-color)', // redColor
+    acctBadgeFrom: 'var(--nk-palette-orange300)', // orange300
+    acctBadgeTo: 'var(--nk-palette-pumpkin-orange)', // pumpkinOrange
+    acctBadgeRingFrom: 'var(--nk-palette-light-apricot)', // lightApricot
+    acctBadgeRingTo: 'var(--nk-palette-tangerine)', // tangerine
+    acctLegacyBorder: 'var(--nk-palette-border-color)', // $borderColor (deletion screen)
+    acctPasswordBorder: 'var(--nk-palette-kit-slate55)',
+    acctPasswordMuted: 'var(--nk-palette-kit-gray73)',
+    acctTabText: 'var(--nk-palette-dark-navy-alpha60)',
+    acctTabTextActive: 'var(--nk-palette-dark-navy-alpha92)',
   },
   // noon One strip (NoonAccountNoonOne*: RN Text without lineHeight → normal)
   type: {

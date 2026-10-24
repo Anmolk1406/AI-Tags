@@ -4,10 +4,11 @@ import { Icon, ProductImage } from '../../components';
 import { useDemoStore } from '../../kit/DemoStore';
 import { useNav } from '../../kit/Navigator';
 import type { ScreenProps } from '../../kit/types';
-import { currency, formatPrice, productById } from '../../data';
+import { currency, discountPercent, formatPrice, productById, showDiscount } from '../../data';
 import { Asset } from './components/Asset';
-import { copy, discountPercent, pdpContent, showDiscount } from './data';
 import styles from './pdp.module.css';
+import { copy } from '../../data/copy/pdp';
+import { pdpView } from '../../data/views/pdp';
 
 /**
  * NoonVariantsOverlayScreen: header (80px 3:4 image, brand + title 14/18 slateGray, PriceDiscounted 16/700,
@@ -22,7 +23,7 @@ export function VariantsSheet({ params }: ScreenProps<{ productId: string; sizeM
   const nav = useNav();
   const { addToCart } = useDemoStore();
   const product = productById(params.productId);
-  const sizes = pdpContent(product).sizes?.options ?? (product.sizes ?? []).map((name) => ({ name, available: true }));
+  const sizes = pdpView(product).sizeOptions;
   const [size, setSize] = useState<number>(-1);
   const [warn, setWarn] = useState(!!params.sizeMissing);
   const [qty, setQty] = useState(1);

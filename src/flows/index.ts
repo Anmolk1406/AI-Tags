@@ -3,6 +3,7 @@
  * the playground and export it from the library. Order = sidebar order.
  */
 import type { FlowDef } from '../kit/types';
+import { yellowFridayFlow } from './yellowFriday';
 import { fielddsFlow } from './fieldds';
 import { homeFlow } from './home';
 import { searchFlow } from './search';
@@ -23,6 +24,6 @@ import { creditsFlow } from './credits';
 import { noononeFlow } from './noonone';
 import { membershipFlow } from './membership';
 
-export { homeFlow, searchFlow, categoriesFlow, dealsFlow, plpFlow, pdpFlow, cartFlow, checkoutFlow, ordersFlow, returnsFlow, reviewsFlow, accountFlow, addressFlow, cardsFlow, creditsFlow, noononeFlow, membershipFlow, wishlistFlow, fielddsFlow };
+export { homeFlow, searchFlow, categoriesFlow, dealsFlow, plpFlow, pdpFlow, cartFlow, checkoutFlow, ordersFlow, returnsFlow, reviewsFlow, accountFlow, addressFlow, cardsFlow, creditsFlow, noononeFlow, membershipFlow, wishlistFlow, fielddsFlow, yellowFridayFlow };
 
-export const allFlows: FlowDef[] = [homeFlow, searchFlow, categoriesFlow, dealsFlow, plpFlow, pdpFlow, cartFlow, checkoutFlow, ordersFlow, returnsFlow, reviewsFlow, accountFlow, addressFlow, cardsFlow, creditsFlow, noononeFlow, membershipFlow, wishlistFlow, fielddsFlow];
+export const allFlows: FlowDef[] = [homeFlow, searchFlow, categoriesFlow, dealsFlow, plpFlow, pdpFlow, cartFlow, checkoutFlow, ordersFlow, returnsFlow, reviewsFlow, accountFlow, addressFlow, cardsFlow, creditsFlow, noononeFlow, membershipFlow, wishlistFlow, fielddsFlow, yellowFridayFlow];

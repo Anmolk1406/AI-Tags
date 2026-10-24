@@ -4,13 +4,15 @@
     {
       "id": 1,
       "prompt": "I want to build a loyalty page for noon: a hub showing my points and tier, a list of rewards I can redeem, and a history of points earned. Make it clickable.",
-      "expected_output": "A new flow in src/flows/loyalty created with `npm run new-flow`, registered in src/flows/index.ts with a page URL (/loyalty) in src/kit/routes.ts. 3–5 screens (hub, rewards, reward detail as a sheet, history) each wrapped in Screen with Header/footer, built from central components (SectionCard, ListRow, Pill, Tag, Button, Price, Text) plus flow-local components on tokens only. Copy and mock data in data.ts, tier colours/gradient in tokens.ts. Motion via registered transitions, FadeIn/Stagger and CountUp for points. Every ScreenDef has title, notes and source. typecheck, lint:tokens (0 for the flow folder) and check:routes pass, and every screen was screenshotted with scripts/shot.mjs and the PNGs were read.",
+      "expected_output": "Before any code: Mobbin searched (when connected) for loyalty hubs / reward lists, and one round of clarifying questions asked and answered. Then a new flow in src/flows/loyalty created with `npm run new-flow` (screens/, components/, tokens.ts, data.ts), registered in src/flows/index.ts with a page URL (/loyalty) in src/kit/routes.ts. 3–5 screens (hub, rewards, reward detail as a sheet, history) each wrapped in Screen with Header/footer, built from central components (SectionCard, ListRow, Pill, Tag, Button, Price, Text) plus flow-local components on tokens only. Copy and mock data in data.ts; tier colours mapped to existing tokens in tokens.ts (no custom colours). Motion via registered transitions, FadeIn/Stagger and CountUp for points. Every ScreenDef has title, notes and source. typecheck, lint:tokens (0 for the flow folder) and check:routes pass, and every screen was screenshotted with scripts/shot.mjs and the PNGs were read.",
       "files": []
     },
     {
       "id": 2,
       "prompt": "Update the orders list to match this reference screenshot from another shopping app (cards grouped by status with a progress bar and a big 'Track' button).",
-      "files": ["reference.png"],
+      "files": [
+        "reference.png"
+      ],
       "expected_output": "Before screenshots of orders/list taken first. A mapping table (reference element → kit piece → token → status) written in src/flows/orders/MAPPING.md. Changes made only in the orders flow's files; routes and screen ids unchanged. Reference colours, fonts and radii snapped to noon tokens, not copied; buttons are Button, labels are Tag/Pill, prices use Price with the dirham sign. Before, after and reference compared side by side; lint:tokens 0 for src/flows/orders; check:routes clean."
     },
     {
@@ -53,6 +55,12 @@
       "id": 9,
       "prompt": "Add an 'exchange for a different size' option to the return flow: after the reason, let me pick exchange vs refund, and if exchange, choose a new size before pickup.",
       "expected_output": "Loads the returns skill (spec.md, then src/flows/returns/MAPPING.md §11). Extends the existing submission rather than building a new screen: the exchange option goes into resolution.modes in data.ts, and size choice is a new section code in sectionOrder with a component in components/sections/Sections.tsx, a footer case and a summaryRow case in ReturnSubmitScreen.tsx, and a collapsed edit card when done. Any size picker is a ReturnsOverlay, not a nav.sheet route. The record is saved through returnsStore.create, and details opens with success=1. Routes, the /returns alias and the o3/o9 ids are unchanged. Uses AFSButton/Tap, flow tokens in tokens.ts with a MAPPING.md row, and motion from returnsTokens. lint:tokens is 0 for src/flows/returns, check:routes is clean, and screenshots of returns/submit were read.",
+      "files": []
+    },
+    {
+      "id": 10,
+      "prompt": "Add a 'Save for later' button to each cart item.",
+      "expected_output": "Even for this small change, before editing: checks whether the mcp__mobbin__* tools are in the session; if they are, runs at least one Mobbin search (e.g. 'cart item save for later action') and states in one line what the results suggest; if not, says Mobbin isn't connected. Then asks 1–4 clarifying questions in one message with the recommended answer first (e.g. where the action sits: item row vs swipe vs overflow; what happens after: moves to wishlist with a toast vs a 'Saved for later' section; does it count toward free-delivery progress) and waits for the answers. No file is edited before the user answers. After the answers: reuses the cart's existing item actions and Button/Toast, tokens only, updates the cart spec if behaviour changes, and closes with npm run handoff -- cart.",
       "files": []
     }
   ]

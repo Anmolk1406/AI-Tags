@@ -9,5 +9,5 @@ export const dealsTokens = {
 } as const;
 
 export const dealsFlowTokens: TokenOverrides = {
-  colors: { bgPage: '#FFFFFF' },
+  colors: { bgPage: 'var(--nk-palette-white)' },
 };
