@@ -1,6 +1,6 @@
 {
   "name": "noon-kit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "noon app UI kit for clickable prototypes: noon design tokens, a central React component library, a motion system and ready-made flows ported 1:1 from bappzaar (home, search, categories, PLP, PDP, cart, checkout, orders, returns, account, addresses, cards, noon One…).",
   "keywords": [
     "noon",

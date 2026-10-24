@@ -4,6 +4,8 @@ All notable changes to `noon-kit`. Format: [Keep a Changelog](https://keepachang
 
 ## [Unreleased]
 
+## [0.2.0] — 2026-10-24
+
 - Yellow Friday × Orbi flow (`/yellow-friday`): a personalised deal journey — signal-led landing, interests sheet, swipe reveal with reasons and price watch, budget-aware bundle builder with swap / surprise me, and the lineup payoff with bonus and share.
 
 ### Added

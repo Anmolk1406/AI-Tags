@@ -1,4 +1,4 @@
-# noon-ui plugin (noon Flow Kit 0.1.0)
+# noon-ui plugin (noon Flow Kit 0.2.0)
 
 noon app design knowledge for Claude Code and other Agent Skills agents: design tokens, components, Origin Design System parts, motion, flow specs and the brain map, with a hub skill (`noon-ui`) and screen skills for home, search, PDP, cart, checkout, orders, returns, reviews, account and noon One.
 
