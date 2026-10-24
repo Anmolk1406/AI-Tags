@@ -103,12 +103,13 @@ src/flows/<flow>/
   screens/                      PAGES: one <Name>Screen.tsx / <Name>Sheet.tsx per routed screen, + its .module.css
   components/                   flow-only parts (any depth); public entry points for other flows in components/entry/
   tokens.ts · tokens.<area>.ts  TOKENS: var(--nk-*) aliases and measurements; no custom colours
-  data.ts · data.<area>.ts      copy and mock content (products from src/data)
+  data.ts · data.<area>.ts      legacy: copy and mock content; moving to src/data (see "Data layer" below)
   store.ts · transitions.ts · assets.ts · DESIGN.md / MAPPING.md
 ```
 
 - Imports run one way: `screens/` → `components/` → `tokens.ts` / `data.ts` / `store.ts`. A component never imports a screen. No flow imports another flow's files except its `components/entry/`; anything two flows need moves to `src/components` (or `src/data`, `useDemoStore()`).
 - A part used by two flows is promoted to `src/components/<Name>/`, never copied.
+- **Data layer: pages are templates.** Everything a screen shows comes from `src/data`: entity data (products and their page `content.ts`, families, promotions, the user), the flow's copy (`src/data/copy/<flow>.ts`) and the flow's view (`src/data/views/<flow>.ts`, e.g. `pdpView(product)`), which derives everything a section needs. Screens pass view fields to components; components hold no text and compute no data; a section whose data is missing renders nothing. Data never carries colours, icon names or layout (a metric has `tone: 'positive'`, the component picks the colour). The PDP is the reference (`src/flows/pdp` has no data files); move other flows the same way when you next work on them. `src/data/README.md` has the layout.
 - Flows older than the contract are listed in `scripts/flow-baseline.json` → `legacyLayout`. They keep working as they are; when you next restructure one, move its screens into `screens/`, then `node scripts/check-structure.mjs --baseline`. New screens in them already go in `screens/`.
 
 ## No custom colours

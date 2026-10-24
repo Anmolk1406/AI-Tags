@@ -7,12 +7,13 @@ import { useDemoStore } from '../../../../kit/DemoStore';
 import { useNav } from '../../../../kit/Navigator';
 import { currency, discountPct, formatPrice, type Product, type ProductNudge } from '../../../../data';
 import { spring } from '../../../../motion/presets';
-import { copy } from '../../data';
 import { pdpTokens } from '../../tokens';
-import { Card } from '../Sections';
+import { Card } from '../Card';
 import styles from './SfRecommendations.module.css';
 import { useReduceMotion } from '../../../../motion/reducedMotion';
 import { useInterval } from '../../../../motion/useInterval';
+import { copy, sfCopy } from '../../../../data/copy/pdp';
+import { railNudges } from '../../../../data/views/pdp';
 
 /** Nudge kind → Origin icon + tint (Figma "Nudges - HP": solid/arrow-down-circle, solid/truck, solid/bolt, solid/shopping-cart, solid/check-badge). */
 const nudgeIcon: Record<ProductNudge['kind'], { name: OriginIconName; color: string }> = {
@@ -62,7 +63,7 @@ export function SfRecoCard({ product: p, sponsored }: { product: Product; sponso
   const wished = isWishlisted(p.id);
   const pct = discountPct(p);
   const name = p.brand && p.brand !== 'Generic' && !p.title.startsWith(p.brand) ? `${p.brand} ${p.title}` : p.title;
-  const nudges = p.nudges?.length ? p.nudges : p.freeDelivery ? [{ kind: 'freeDelivery' as const, text: 'Free delivery' }] : [];
+  const nudges = railNudges(p);
   const dots = Math.min(p.images?.length ?? 0, 4);
   return (
     <motion.article className={styles.card} whileTap={{ scale: 0.98 }} transition={spring.press} onClick={() => nav.push('pdp/detail', { productId: p.id })}>
@@ -81,7 +82,7 @@ export function SfRecoCard({ product: p, sponsored }: { product: Product; sponso
         <motion.button
           type="button"
           className={styles.heart}
-          aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'}
+          aria-label={wished ? sfCopy.a11y.removeFromWishlist : sfCopy.a11y.addToWishlist}
           aria-pressed={wished}
           whileTap={{ scale: 0.85 }}
           onClick={(e) => {
@@ -127,7 +128,7 @@ export function SfRecoCard({ product: p, sponsored }: { product: Product; sponso
           </span>
           {nudges.length > 0 && <SfNudges nudges={nudges} />}
         </div>
-        {p.express && <img src={etaExpressToday} alt="express Today" className={styles.eta} />}
+        {p.express && <img src={etaExpressToday} alt={sfCopy.a11y.expressToday} className={styles.eta} />}
       </div>
     </motion.article>
   );

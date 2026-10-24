@@ -4,14 +4,13 @@ import { Screen } from '../../components';
 import { useIsTop, useNav } from '../../kit/Navigator';
 import { useTabBarScrollHide } from '../../kit/tabBarScroll';
 import type { ScreenProps } from '../../kit/types';
-import { categoryPath, isInCategory } from '../../data';
-import { fbtFor, productById, products, type Product } from '../../data';
-import type { VariantSelection } from './components/Variants';
+import { productById } from '../../data';
+import type { VariantSelection } from './components/storefront/SfVariantsCard';
 import { SfAdditionalInfo } from './components/storefront/SfAdditionalInfo';
 import { SfAtcBar } from './components/storefront/SfAtcBar';
 import { SfBundleCard } from './components/storefront/SfBundleCard';
 import { SfBestsellerRow } from './components/storefront/SfBestsellerRow';
-import { SfDeliveryCard, deliveryVariants, type DeliveryVariant } from './components/storefront/SfDeliveryCard';
+import { SfDeliveryCard } from './components/storefront/SfDeliveryCard';
 import { SfExtendedWarranty } from './components/storefront/SfExtendedWarranty';
 import { SfFbtCard } from './components/storefront/SfFbtCard';
 import { SfFreeGifts } from './components/storefront/SfFreeGifts';
@@ -29,12 +28,11 @@ import { SfSponsoredBrandCard } from './components/storefront/SfSponsoredBrandCa
 import { SfSponsoredRow } from './components/storefront/SfSponsoredRow';
 import { SfTrustCard } from './components/storefront/SfTrustCard';
 import { SfVariantsCard } from './components/storefront/SfVariantsCard';
-import { copy, pdpContent, type PdpContent } from './data';
-import { freebiesFor } from './data.npB';
-import { railCopy } from './data.npE';
 import { pdpTokens } from './tokens';
 import styles from './pdp.module.css';
 import { Deferred } from '../../kit/Deferred';
+import { copy, railCopy } from '../../data/copy/pdp';
+import { type DeliveryVariant, deliveryVariants, mainInfoView, type PdpContent, pdpView } from '../../data/views/pdp';
 
 /**
  * Product detail page — New PDP (Figma Af34gfmhQ1D0wstXUEHSIF · 64:5571), built on the Storefront PDP
@@ -73,7 +71,7 @@ export function DetailScreen({ params }: ScreenProps<{ productId: string; delive
   const [productId, setProductId] = useState(params.productId);
   useEffect(() => setProductId(params.productId), [params.productId]);
   const product = productById(productId);
-  const content = useMemo(() => pdpContent(product), [product]);
+  const content = useMemo(() => pdpView(product), [product]);
   const scrollRef = useRef<HTMLDivElement>(null);
   const reviewsRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll({ container: scrollRef });
@@ -119,7 +117,6 @@ export function DetailScreen({ params }: ScreenProps<{ productId: string; delive
     setShowTop(v > pdpTokens.backToTopAfter);
   });
 
-  const { sameBrand, others } = recommendations(product);
   // The selected SKU's own price (an option with a price is its own SKU in master, so the price block follows it)
   const shown = useMemo(() => {
     for (const g of content.groups) {
@@ -128,7 +125,7 @@ export function DetailScreen({ params }: ScreenProps<{ productId: string; delive
     }
     return product;
   }, [content, product, selection]);
-  const related = [...others, ...sameBrand].filter((p) => p.category === product.category).slice(0, 12);
+  const info = useMemo(() => mainInfoView(shown, content), [shown, content]);
 
   return (
     <Screen
@@ -158,14 +155,14 @@ export function DetailScreen({ params }: ScreenProps<{ productId: string; delive
         {/* bottomWrapper (marginTop −20) + galleryBottomBackground: the page slides up over the pinned gallery as one
             opaque sheet from the gallery's bottom edge, so the image never shows between the cards */}
         <div className={styles.rest}>
-          <SfMainInfo product={shown} content={content} onReviews={() => reviewsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })} />
-          <SfBundleCard product={product} content={content} />
-          <SfSponsoredRow product={product} content={content} />
+          <SfMainInfo product={shown} content={content} info={info} onReviews={() => reviewsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })} />
+          <SfBundleCard content={content} />
+          <SfSponsoredRow item={content.sponsored} />
           {/* below the first viewport: mounted one beat after the push, so the slide starts on a light frame */}
           <Deferred minHeight={2400}>
           <SfDeliveryCard content={content} variant={deliveryVariants.includes(params.delivery as DeliveryVariant) ? params.delivery : undefined} />
-          <SfNewerModelCard product={product} />
-          <SfFreeGifts items={freebiesFor(product)} />
+          <SfNewerModelCard newer={content.newerModel} />
+          <SfFreeGifts items={content.freebies} />
           <div ref={variantsRef}>
             <SfVariantsCard
               product={product}
@@ -185,7 +182,7 @@ export function DetailScreen({ params }: ScreenProps<{ productId: string; delive
                   if (opt?.productId && opt.productId !== product.id) {
                     anchorTop.current = variantsRef.current?.getBoundingClientRect().top ?? null;
                     setProductId(opt.productId);
-                    setSelection(initialSelection(pdpContent(productById(opt.productId)), prevSize));
+                    setSelection(initialSelection(pdpView(productById(opt.productId)), prevSize));
                   } else setSelection((s) => ({ ...s, [g]: i }));
                 }, OPTION_RELOAD_MS);
               }}
@@ -195,20 +192,20 @@ export function DetailScreen({ params }: ScreenProps<{ productId: string; delive
           </div>
           <SfPaymentOffers content={content} />
           <SfTrustCard content={content} />
-          <SfProductDetails content={content} product={product} onAccordionOpen={() => scrollBy(scrollRef.current, ACCORDION_SCROLL)} />
+          <SfProductDetails content={content} onAccordionOpen={() => scrollBy(scrollRef.current, ACCORDION_SCROLL)} />
           <SfAdditionalInfo content={content} />
           <SfBestsellerRow content={content} />
           <SfSellerCard content={content} onOffers={() => nav.toast(copy.moreOffers)} />
-          <SfProductFeatures content={content} product={product} />
-          <SfSponsoredBrandCard product={product} />
-          <SfExtendedWarranty content={content} price={product.price} />
-          <SfFbtCard key={product.id} ids={content.fbt} />
+          <SfProductFeatures content={content} />
+          <SfSponsoredBrandCard brand={product.brand} items={content.sponsoredBrand} />
+          <SfExtendedWarranty content={content} />
+          <SfFbtCard key={product.id} items={content.fbtItems} />
           <div ref={reviewsRef}>
             <SfReviewsCard product={product} content={content} />
           </div>
-          <SfRecommendations variant="bleed" title={copy.moreFrom(product.brand)} items={sameBrand.slice(0, 12)} sponsored />
-          <SfRecommendations variant="bleed" title={copy.customersAlsoViewed} items={others.slice(0, 8)} sponsored />
-          <SfRecommendations title={railCopy.relatedSponsored} items={related.length ? related : others.slice(8, 20)} sponsored />
+          <SfRecommendations variant="bleed" title={copy.moreFrom(product.brand)} items={content.rails.sameBrand} sponsored />
+          <SfRecommendations variant="bleed" title={copy.customersAlsoViewed} items={content.rails.alsoViewed} sponsored />
+          <SfRecommendations title={railCopy.relatedSponsored} items={content.rails.related} sponsored />
           </Deferred>
         </div>
       </div>
@@ -216,21 +213,3 @@ export function DetailScreen({ params }: ScreenProps<{ productId: string; delive
   );
 }
 
-/**
- * Carousels. Live products (product.sku): "More from {brand}" = live products of the same brand (pdp/carousels
- * same_brand, live order, FBT accessories excluded); "Customers Also Viewed" = other brands in the same level-2
- * category (Mobiles & Accessories → smartphones + cases, like other_brands). Mock products keep brand/category matching.
- */
-function recommendations(product: Product) {
-  const fbt = new Set(Object.values(fbtFor).flat());
-  if (product.sku) {
-    const live = products.filter((p) => p.sku && p.id !== product.id && !fbt.has(p.id));
-    const branch = categoryPath(product.categoryId)[1]?.id;
-    return {
-      sameBrand: live.filter((p) => p.brand === product.brand),
-      others: live.filter((p) => p.brand !== product.brand && (!branch || isInCategory(p.categoryId, branch))),
-    };
-  }
-  const sameBrand = products.filter((p) => !p.sku && p.id !== product.id && (p.brand === product.brand || p.category === product.category));
-  return { sameBrand, others: products.filter((p) => !p.sku && p.id !== product.id && !sameBrand.includes(p)) };
-}

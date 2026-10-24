@@ -7,7 +7,7 @@ How to read the tables:
 - **Kit token** is what the PDP CSS/TSX uses. `--nk-color-*`, `--nk-space-*`, `--nk-radius-*`, `--nk-type-*` and `--nk-shadow-*` are global tokens (`src/foundations/tokens.ts`). `--nk-palette-*` is the raw bappzaar palette (`src/foundations/palette.ts`, same names as `NoonTokens.colors`). Any key with a `pdp` prefix (`--nk-type-pdp-*`, `--nk-layout-pdp-*`, `--nk-radius-pdp-*`, `--nk-space-pdp-*`, `--nk-color-pdp-*`, `--nk-shadow-pdp-*`) is defined in `src/flows/pdp/tokens.ts` → `pdpFlowTokens`. JS-only numbers (motion, thresholds, ratios) are in `pdpTokens`.
 - RN text with no `lineHeight` maps to a `pdp*` type token with `line: 'normal'`.
 - Base RN `Text` (`NoonStyles.baseTextStyle`) is 13px `charcoalGreyColor` #404553 → `--nk-type-pdp-text13` + `--nk-palette-charcoal-grey-color`. Anything without its own colour inherits this.
-- **SD** = server-driven (PDP API `product` / `offer`). The demo value is in `data.ts`.
+- **SD** = server-driven (PDP API `product` / `offer`). The demo value is in the data layer: the product's `src/data/products/<id>/content.ts`, or derived in `src/data/views/pdp.ts`.
 
 FeatureFlags (`src/utils/FeatureFlags.ts`) are A/B buckets from the server. With no bucket every `checkVariant` returns false, so the defaults below are the live ones:
 
@@ -109,7 +109,7 @@ Not ported: pull-to-refresh (`refreshControl`), `scrollToTopListener` (tab re-ta
 | NoonTag `tagInner` | padding / gradient | 3·8 / #666666 → #000000 (x) | `--nk-space-pdp-s3` `--nk-space-s8` / `--nk-palette-catalog-tag-gradient-start` → `-end` |
 | NoonTag `tagText` | font / colour | 14/500 / white | `--nk-type-pdp-text14-medium` / `--nk-color-text-inverse` |
 
-SD: `catalog_tag` = product.tag ("Top Rated"). Images: the kit has no product photos, so it shows `ProductImage` emoji slides (`data.ts gallerySlides`).
+SD: `catalog_tag` = product.tag ("Top Rated"). Images: the kit has no product photos, so it shows `ProductImage` emoji slides (`gallerySlides` in `components/storefront/SfGallery.tsx`).
 
 ## 3. Product info (`NoonProductInfo`)
 
@@ -191,7 +191,7 @@ SD: `estimated_delivery` (p2 "Get it <b>Today</b>"), `estimated_delivery_expires
 |---|---|---|---|
 | `paymentsContainer` | gap | 12 | `--nk-space-s12` |
 | list | gap | 8 | `--nk-space-s8` |
-| item width | | full = sw − 48; >1 items → full − 8 − 50 (peek) | `pdpTokens.payments` |
+| item width | | full = sw − 48; >1 items → full − 8 − 50 (peek) | — (pre-storefront `PaymentsCard`, removed 2026-10-23; `SfPaymentOffers` has its own CSS) |
 | NoonPaymentsForYouItem `container` | border / padding / radius / gap | 1px lightGreyColor / 8 / 12 / 12 | `--nk-color-border` / `--nk-space-s8` / `--nk-radius-r12` / `--nk-space-s12` |
 | `image` | size | 90×60 contain | `--nk-layout-pdp-payment-w/-h` · `tabby.webp`, `tamara.webp` |
 | `defaultHtmlStyle` p / b / a | font / colour | 14 neutralBlack / bold / 600 accentBlue | `--nk-type-pdp-text14` `--nk-color-text-ink` / 700 / `--nk-color-brand-blue` |
@@ -210,8 +210,8 @@ SD: `payment_offers.title` + items (demo "Payments for you", tabby/tamara messag
 | `title` / `selectedVariantName` | font / colour | 14/600 blueGray900 / 14/500 blueGray700 | `--nk-type-pdp-text14-semibold` `--nk-color-text-primary` / `--nk-type-pdp-text14-medium` `--nk-color-text-muted` |
 | `infoContainer` / `infoText` | gap / font / colour | 2 / 13/600 / accentBlue | `--nk-space-s2` / `--nk-type-pdp-text13-semibold` / `--nk-color-brand-blue` · `info.webp` |
 | NoonSelectionItem `wrapper` | margin-end / padding-top | 12 / 4 | `--nk-space-s12` / `--nk-space-s4` |
-| `item` | border / radius / padding / min-width | 1px lightGreyColor / 12 / 12 / sw × .15 | `--nk-color-border` / `--nk-radius-r12` / `--nk-space-s12` / `pdpTokens.variantMinWidth` |
-| chip width (image or priced) | | sw × .3 | `pdpTokens.variantChipWidth` |
+| `item` | border / radius / padding / min-width | 1px lightGreyColor / 12 / 12 / sw × .15 | `--nk-color-border` / `--nk-radius-r12` / `--nk-space-s12` / — (pre-storefront `VariantsCard`, removed; `SfVariantsCard` sizes its chips in CSS) |
+| chip width (image or priced) | | sw × .3 | — (pre-storefront `VariantsCard`, removed) |
 | `itemWithImage` | padding | 8 12 12 | `--nk-space-s8` `--nk-space-s12` |
 | `imageContainer` / `image` | radius / mb / size | 12 / 8 / 77×88 | `--nk-radius-r12` / `--nk-space-s8` / `--nk-layout-pdp-variant-image-w/-h` |
 | `itemSelected` | border | 1.5px paleAzure | `--nk-color-border-info`, width `--nk-layout-pdp-border-selected` |
@@ -248,7 +248,7 @@ Not ported: analytics (`sku_variant_click`, `vs`, `atc_sz_miss`), the sizing-gui
 
 | bappzaar | Property | Master | Kit token |
 |---|---|---|---|
-| item width | | (sw − 48 − 8 × (n−1)) / n (n ≥ 4 → 3.5) | `pdpTokens.reinforcement` |
+| item width | | (sw − 48 − 8 × (n−1)) / n (n ≥ 4 → 3.5) | — (pre-storefront `ReinforcementCard`, removed; `SfTrustCard` has its own CSS) |
 | list gap | | 8 | `--nk-space-s8` |
 | `item` | border / px / py / radius / gap | 1px antiFlashWhite / 8 / 14 / 12 / 4 | `--nk-color-border-subtle` / `--nk-space-s8` / `--nk-space-s14` / `--nk-radius-r12` / `--nk-space-s4` |
 | `icon` | size | 28 | `--nk-layout-pdp-icon28` |
@@ -265,7 +265,7 @@ SD: `offer_badges` (demo: "15 days free returns", "1 year warranty", "TDRA appro
 | NoonAccordion `container` | radius | 12, overflow hidden | `--nk-radius-r12` |
 | `header` | padding / bg | 16·12 / #F9F9FB | `--nk-space-s16` `--nk-space-s12` / `--nk-color-bg-subtle` |
 | `titleWrap` / `titleText` | pr / font / colour | 12 / 14/600 / black | `--nk-space-s12` / `--nk-type-pdp-text14-semibold` / `--nk-palette-black` |
-| `chevron` | size / anim | 16 / rotate 180°, 150ms; height 150ms | `chevron-down.webp` (`--nk-layout-pdp-icon16`) / `pdpTokens.accordionMs` |
+| `chevron` | size / anim | 16 / rotate 180°, 150ms; height 150ms | `chevron-down.webp` (`--nk-layout-pdp-icon16`) / — (`SfAccordion` in `SfProductDetails.tsx` runs on the motion presets) |
 | `contentInner` | bg / mt | #F9F9FB / 1 | `--nk-color-bg-subtle` / `--nk-space-pdp-s1` |
 | `accordionContent` | padding | 0 12 12 | `--nk-space-s12` |
 | initial | | all closed | – |
@@ -442,7 +442,7 @@ Copy `add_to_cart` "ADD TO CART", `QTY`, `noon_size`, `noon_size_missing_add_to_
 - Gallery aspect ratio, dots sizes, parallax ranges and motion timings: numbers in `pdpTokens` (JS).
 - Percentages that come from layout maths (30% spec-name column, 90% separator, chip widths in `pdpTokens`).
 - 1px hairlines (borders, separators, the `+1px` that compensates a removed border) and the 1px tip overlap of the best-value ribbon.
-- Mock image stand-ins in `data.ts`: gallery slide tints and colour swatches (`product.colors`) stand in for SD `image_url`s, since the kit has no product photos.
+- Mock image stand-ins: gallery slide tints (`SfGallery.tsx`) and colour swatches (`product.colors`) stand in for SD `image_url`s, since the kit has no product photos.
 - Gallery swipe spring / drag thresholds: kit interaction (master uses a native pager).
 
 ## Shared follow-ups
@@ -468,14 +468,14 @@ Copy `add_to_cart` "ADD TO CART", `QTY`, `noon_size`, `noon_size_missing_add_to_
 
 ## Live data mapping (noon.com iPhone 17 Pro 1TB Silver, N70211593V)
 
-The default `pdp/detail` (and `/pdp`) is now this live product (`IPHONE_17_PRO_ID`). Capture: `page.json` (JSON-LD Product + BreadcrumbList, rendered text, images) and `api.json` (`mp-customer-discovery-api/api/pdp/carousels`, `mp-trust-api/product-reviews/ai-summary/get`, `product-reviews/sku/images-list`). Product-level fields live on the `Product` in `src/mocks/products.ts`. Offer-level SD content lives in `src/flows/pdp/data.live.ts` → `liveContent()`.
+The default `pdp/detail` (and `/pdp`) is now this live product (`IPHONE_17_PRO_ID`). Capture: `page.json` (JSON-LD Product + BreadcrumbList, rendered text, images) and `api.json` (`mp-customer-discovery-api/api/pdp/carousels`, `mp-trust-api/product-reviews/ai-summary/get`, `product-reviews/sku/images-list`). Product-level fields live on the `Product` in `src/data/products/N70211593V/product.ts`. Page and offer-level SD content live in its `content.ts` (`source.kind: 'captured'`), the family's shared text, reviews and swatches in `src/data/families/iphone-17-pro.ts`; `pdpView()` (`src/data/views/pdp.ts`) assembles them.
 
 | Web field (source) | PDP slot / master component | Kit data field |
 |---|---|---|
 | `Product.name` (JSON-LD) | NoonTextToggle title | `Product.title` |
 | `brand.name` | NoonStoreHeader (no official tick: none on the page) | `Product.brand`, `PdpContent.officialStore = false` |
 | `sku`, `offers.url ?o=` | (analytics / routing id) | `Product.sku`, `Product.id`, `Product.offerCode` |
-| `image[]` ×4 | NoonGallery slides (660×900 webp, `contain`) | `Product.images` → `gallerySlides()` |
+| `image[]` ×4 | NoonGallery slides (660×900 webp, `contain`) | `Product.images` → `gallerySlides()` (`SfGallery.tsx`) |
 | `aggregateRating 4.5 / 34297` | NoonProductRating "4.5 (34.3K ratings)", NoonRatingsOverview, "All reviews (34.3K)" | `Product.rating`, `Product.ratingCount`, `PdpContent.commentCount` (offer has no own reviews, so the product aggregate is used) |
 | `offers.price 6549` (no was) | PriceDiscounted: sale only. Master shows "(Incl. VAT)" only inside the discount row, so it is not shown here | `Product.price` |
 | "Free Delivery", "Only 1 left in stock" | NoonNudgeTag ticker next to the deal tag | `Product.nudges` (kinds `freeDelivery` / `lowStock`), `Product.stockLeft`, `Product.freeDelivery` |

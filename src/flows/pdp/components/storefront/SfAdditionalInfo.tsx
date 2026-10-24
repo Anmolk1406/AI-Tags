@@ -3,9 +3,10 @@ import verifiedFilled from '@assets/pdp/new-pdp/icons/verified-filled-24.svg';
 import salesReturn from '@assets/pdp/new-pdp/icons/sales-return-filled-21.svg';
 import chevronRight from '@assets/pdp/new-pdp/icons/mini-chevron-right-20.svg';
 import { useNav } from '../../../../kit/Navigator';
-import { copy, type PdpContent } from '../../data';
-import { Card } from '../Sections';
+import { Card } from '../Card';
 import styles from './SfAdditionalInfo.module.css';
+import { copy } from '../../../../data/copy/pdp';
+import type { PdpContent } from '../../../../data/views/pdp';
 
 /** additional[].icon → the exact New PDP 64:5696 glyphs: M-Icon/System-Icon/verified-filled 24 (#2567E7) for "TDRA approved",
  * lsicon:sales-return-filled 21 (#0076FF) for the warranty / delivery / returns rows. */

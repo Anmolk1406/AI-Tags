@@ -3,67 +3,28 @@ import { useState } from 'react';
 import { OriginIcon, Pressable, type OriginIconName } from '../../../../components';
 import { useNav } from '../../../../kit/Navigator';
 import { tween } from '../../../../motion/presets';
-import accidentalCreative from '@assets/pdp/storefront/c/warranty-accidental.svg';
-import extendedCreative from '@assets/pdp/storefront/c/warranty-accidental-extended.svg';
 import partnerLogo from '@assets/pdp/storefront/c/protect4less-logo.webp';
-import { money, type PdpContent } from '../../data';
 import { pdpSfcTokens } from '../../tokens.sfC';
-import { Card } from '../Sections';
+import { Card } from '../Card';
 import styles from './SfExtendedWarranty.module.css';
 import { useReduceMotion } from '../../../../motion/reducedMotion';
 import { useInterval } from '../../../../motion/useInterval';
+import { money } from '../../../../data';
+import type { PdpContent, WarrantyPlan } from '../../../../data/views/pdp';
+import { sfCopy } from '../../../../data/copy/pdp';
 
-export const sfWarrantyCopy = {
-  title: 'Extended warranty', // Figma 3499:75493
-  by: 'by', // I3499:75494;1222:216670
-  usps: ['Chosen by 100+ people', 'Authorised repair centers', 'Genuine parts guaranteed'], // USPs animation_final
-  select: 'Select', // I3499:75515;1473:261409
-  selected: 'Selected', // kit state (not in the Figma)
-  added: (name: string) => `${name} added`,
-  removed: (name: string) => `${name} removed`,
+
+/** USP meaning → Origin glyph (New PDP 64:5731: Date / Delivery icons, the accident glyph in the middle). */
+const uspIcon: Record<WarrantyPlan['usps'][number]['icon'], OriginIconName> = {
+  date: 'calendar-check',
+  liquid: 'water-drop',
+  accident: 'warning-triangle',
+  delivery: 'truck-noon',
 };
-
-/** `lines`: the name as Figma breaks it — line 1 full width, line 2 hugging the 16px chevron */
-type Plan = { id: string; validity: string; name: string; lines: [string, string]; creative: string; usps: { icon: OriginIconName; text: string }[]; price: number };
-
-/** Demo plans (Figma 3499:75496 / 75516). Price = share of the product price (floor 49), else the design's 449. */
-export function warrantyPlans(price?: number): Plan[] {
-  const [a, b] = pdpSfcTokens.warrantyShare;
-  const at = (share: number) => (price ? Math.max(pdpSfcTokens.warrantyMin, Math.round(price * share)) : pdpSfcTokens.warrantyFallback);
-  return [
-    {
-      id: 'adp',
-      validity: '1 YEAR',
-      name: 'Accidental Damage Protection',
-      lines: ['Accidental Damage', 'Protection'],
-      creative: accidentalCreative,
-      usps: [
-        { icon: 'calendar-check', text: 'Active from date of purchase' },
-        { icon: 'water-drop', text: 'Covers liquid damages' },
-        { icon: 'truck-noon', text: 'Free pickup & delivery' },
-      ],
-      price: at(a),
-    },
-    {
-      id: 'adp-ew',
-      validity: '1 YEAR ACCIDENTAL + 1 YEAR EXTENDED',
-      name: 'Accidental Damage & Extended Warranty',
-      lines: ['Accidental Damage &', 'Extended Warranty'],
-      creative: extendedCreative,
-      usps: [
-        // New PDP 64:5731: same Date / Delivery icons as plan 1, the accident glyph in the middle
-        { icon: 'calendar-check', text: 'Active from date of purchase' },
-        { icon: 'warning-triangle', text: 'Covers all accidental damages' },
-        { icon: 'truck-noon', text: 'Free pickup & delivery' },
-      ],
-      price: at(b),
-    },
-  ];
-}
 
 /** "by PROTECT4LESS" → USP lines, rotating (y 8 → 0 / −8, tween fast) — Figma "USPs animation_final". */
 function UspTicker() {
-  const lines = sfWarrantyCopy.usps.length + 1;
+  const lines = sfCopy.warranty.usps.length + 1;
   const [i, setI] = useState(0);
   const reduce = useReduceMotion();
   // reduced motion: the first line stays (no auto-rotation); paused while the PDP is covered (useInterval)
@@ -74,11 +35,11 @@ function UspTicker() {
         <motion.span key={i} className={styles.tickerLine} initial={{ y: 8, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -8, opacity: 0 }} transition={tween('fast', 'out')}>
           {i === 0 ? (
             <>
-              {sfWarrantyCopy.by}
-              <img alt="Protect4Less" src={partnerLogo} className={styles.partnerLogo} />
+              {sfCopy.warranty.by}
+              <img alt={sfCopy.a11y.protect4less} src={partnerLogo} className={styles.partnerLogo} />
             </>
           ) : (
-            sfWarrantyCopy.usps[i - 1]
+            sfCopy.warranty.usps[i - 1]
           )}
         </motion.span>
       </AnimatePresence>
@@ -93,21 +54,21 @@ function UspTicker() {
  * then a top-bordered footer with the 16/700 price and a "Select" outline button (r8, padding 8·24).
  * Selecting toggles one plan. No previous component: new section (no SD data yet — plans are derived).
  */
-export function SfExtendedWarranty({ content, price }: { content: PdpContent; price?: number }) {
+export function SfExtendedWarranty({ content }: { content: PdpContent }) {
   const nav = useNav();
   const [selected, setSelected] = useState<string>();
-  // electronics-style products only: the SD shipping items carry a warranty row
-  if (!content.additional.some((a) => a.icon === 'warranty')) return null;
-  const plans = warrantyPlans(price);
-  const toggle = (p: Plan) => {
+  // electronics-style products only (the view gives plans when the SD shipping items carry a warranty row)
+  const plans = content.warrantyPlans;
+  if (!plans.length) return null;
+  const toggle = (p: WarrantyPlan) => {
     const on = selected !== p.id;
     setSelected(on ? p.id : undefined);
-    nav.toast(on ? sfWarrantyCopy.added(p.name) : sfWarrantyCopy.removed(p.name));
+    nav.toast(on ? sfCopy.warranty.added(p.name) : sfCopy.warranty.removed(p.name));
   };
   return (
     <Card contentGap={12}>
       <div className={styles.head}>
-        <h3 className={styles.title}>{sfWarrantyCopy.title}</h3>
+        <h3 className={styles.title}>{sfCopy.warranty.title}</h3>
         <UspTicker />
       </div>
       <div className={styles.row}>
@@ -128,7 +89,7 @@ export function SfExtendedWarranty({ content, price }: { content: PdpContent; pr
               <div className={styles.usps}>
                 {p.usps.map((u) => (
                   <div key={u.text} className={styles.usp}>
-                    <OriginIcon name={u.icon} size={18} color="var(--nk-palette-secondary-text-color)" />
+                    <OriginIcon name={uspIcon[u.icon]} size={18} color="var(--nk-palette-secondary-text-color)" />
                     <span className={styles.uspText}>{u.text}</span>
                   </div>
                 ))}
@@ -136,7 +97,7 @@ export function SfExtendedWarranty({ content, price }: { content: PdpContent; pr
               <div className={styles.footer}>
                 <span className={styles.price}>{money(p.price)}</span>
                 <Pressable className={styles.select} data-selected={selected === p.id || undefined} aria-pressed={selected === p.id} onClick={() => toggle(p)}>
-                  {selected === p.id ? sfWarrantyCopy.selected : sfWarrantyCopy.select}
+                  {selected === p.id ? sfCopy.warranty.selected : sfCopy.warranty.select}
                 </Pressable>
               </div>
             </div>

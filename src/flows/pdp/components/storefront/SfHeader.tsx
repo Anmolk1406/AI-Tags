@@ -5,13 +5,13 @@ import { useDemoStore } from '../../../../kit/DemoStore';
 import { useNav } from '../../../../kit/Navigator';
 import type { Product } from '../../../../data';
 import { spring } from '../../../../motion/presets';
-import { copy } from '../../data';
 import { pdpTokens } from '../../tokens';
 import { pdpSfAFlowTokens } from '../../tokens.sfA';
 
 /** the round icon button the search folds into (Figma Icon Button 40) */
 const collapsedW = Number((pdpSfAFlowTokens.layout as Record<string, number>).pdpSfaIconButton);
 import styles from './SfHeader.module.css';
+import { copy, sfCopy } from '../../../../data/copy/pdp';
 
 const ink = 'var(--nk-color-text-ink)';
 
@@ -36,13 +36,13 @@ export function SfHeader({ product, solid }: { product: Product; solid: boolean 
         transition={{ duration: pdpTokens.headerFadeMs / 1000, ease: pdpTokens.headerEase }}
       />
       <div className={styles.stack}>
-        <Pressable className={styles.iconBtn} onClick={nav.back} aria-label="Back">
+        <Pressable className={styles.iconBtn} onClick={nav.back} aria-label={sfCopy.a11y.back}>
           <OriginIcon name="chevron-left" size={20} color={ink} />
         </Pressable>
         <div className={styles.end}>
           <ExpandableSearch expanded={solid} onPress={() => nav.push('search/search')} />
           <HeaderHeart productId={product.id} />
-          <Pressable className={styles.iconBtn} aria-label="Share" onClick={() => nav.toast(copy.linkCopied, { icon: <OriginIcon name="copy" size={18} color="var(--nk-color-text-inverse)" /> })}>
+          <Pressable className={styles.iconBtn} aria-label={sfCopy.a11y.share} onClick={() => nav.toast(copy.linkCopied, { icon: <OriginIcon name="copy" size={18} color="var(--nk-color-text-inverse)" /> })}>
             <OriginIcon name="upload" size={20} color={ink} />
           </Pressable>
         </div>
@@ -92,7 +92,7 @@ function HeaderHeart({ productId }: { productId: string }) {
   return (
     <Pressable
       className={styles.iconBtn}
-      aria-label={on ? 'Remove from wishlist' : 'Add to wishlist'}
+      aria-label={on ? sfCopy.a11y.removeFromWishlist : sfCopy.a11y.addToWishlist}
       aria-pressed={on}
       onClick={() => {
         const added = toggleWishlist(productId);

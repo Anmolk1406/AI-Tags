@@ -11,14 +11,14 @@ JSX uses across all flows, and how many flows use each. A component in many flow
 | Component | Uses | Flows | Which |
 |---|---|---|---|
 | `Pressable` | 240 | 17 | all but cards, checkout, fieldds |
-| `HtmlText` | 163 | 6 | cart, checkout, credits, membership, noonone, pdp |
+| `HtmlText` | 162 | 6 | cart, checkout, credits, membership, noonone, pdp |
 | `OriginIcon` | 126 | 8 | credits, fieldds, home, noonone, orders, pdp, plp, reviews |
 | `Skeleton` | 112 | 10 | all but cards, categories, deals, fieldds, home, orders, pdp, returns, search, yellowFriday |
-| `Text` | 76 | 7 | deals, fieldds, home, pdp, plp, search, yellowFriday |
 | `Screen` | 75 | 20 | all but — |
-| `MaskIcon` | 69 | 11 | all but account, categories, checkout, credits, deals, fieldds, plp, search, yellowFriday |
+| `Text` | 75 | 7 | deals, fieldds, home, pdp, plp, search, yellowFriday |
+| `MaskIcon` | 68 | 11 | all but account, categories, checkout, credits, deals, fieldds, plp, search, yellowFriday |
 | `Button` | 62 | 8 | account, cart, checkout, fieldds, home, orders, reviews, yellowFriday |
-| `ProductImage` | 46 | 11 | all but address, cards, categories, credits, deals, fieldds, membership, plp, reviews |
+| `ProductImage` | 44 | 11 | all but address, cards, categories, credits, deals, fieldds, membership, plp, reviews |
 | `Icon` | 40 | 11 | all but address, cards, cart, categories, credits, fieldds, membership, reviews, wishlist |
 | `Spinner` | 36 | 10 | all but categories, deals, fieldds, home, orders, plp, reviews, search, wishlist, yellowFriday |
 | `Lottie` | 22 | 11 | all but categories, credits, deals, fieldds, home, orders, plp, search, yellowFriday |
@@ -37,7 +37,6 @@ JSX uses across all flows, and how many flows use each. A component in many flow
 | `SkuCard` | 4 | 3 | cart, home, yellowFriday |
 | `SearchBarButton` | 4 | 3 | categories, deals, home |
 | `SearchInput` | 4 | 3 | fieldds, plp, search |
-| `Price` | 4 | 2 | pdp, yellowFriday |
 | `NeedHelpButton` | 3 | 2 | account, orders |
 | `Toast` | 3 | 3 | address, cart, checkout |
 | `ExpressBadge` | 3 | 2 | cart, pdp |
@@ -48,17 +47,18 @@ JSX uses across all flows, and how many flows use each. A component in many flow
 | `SheetHeader` | 3 | 2 | fieldds, yellowFriday |
 | `TabBar` | 3 | 3 | fieldds, pdp, plp |
 | `TextField` | 3 | 1 | fieldds |
+| `Price` | 3 | 1 | yellowFriday |
 | `GlassFade` | 2 | 2 | cart, pdp |
 | `ActionBar` | 2 | 1 | fieldds |
 | `Money` | 2 | 1 | fieldds |
 | `Stars` | 2 | 1 | fieldds |
-| `QuickAdd` | 2 | 2 | home, pdp |
 | `ProductBoxVertical` | 2 | 2 | plp, wishlist |
 | `Accordion` | 1 | 1 | fieldds |
+| `Radio` | 1 | 1 | fieldds |
 
-Exported but used by no flow (9): `BottomBar`, `EtaBadge`, `ListGroup`, `PillRow`, `QuantityStepper`, `SectionCard`, `Snackbar`, `SnackbarStack`, `CouponTag`.
+Exported but used by no flow (12): `BottomBar`, `EtaBadge`, `ListGroup`, `PillRow`, `QuantityStepper`, `RatingPill`, `SectionCard`, `Snackbar`, `SnackbarStack`, `CatalogTag`, `CouponTag`, `WishlistHeart`.
 
-Flow-local names that exist in more than one flow (promotion candidates, or name clashes): `PaymentCard` (cards, checkout), `DynamicInvoice` (cart, checkout), `AdBannerModule` (categories, home), `DashedLine` (noonone, pdp).
+Flow-local names that exist in more than one flow (promotion candidates, or name clashes): `PaymentCard` (cards, checkout), `DynamicInvoice` (cart, checkout), `AdBannerModule` (categories, home).
 
 ## 2. Text: `<Text variant color>` and CSS `font`
 
@@ -73,13 +73,13 @@ Flow-local names that exist in more than one flow (promotion candidates, or name
 | `bodyBold` | 3 |
 | `titleLarge` | 3 |
 | `heading` | 2 |
-| `productTitle` | 2 |
 | `title` | 2 |
 | `bodyMedium` | 1 |
 | `text16BoldLh20` | 1 |
 | `text12RegularLh14` | 1 |
 | `text13SemiboldLh16` | 1 |
 | `text16SemiboldLh20` | 1 |
+| `titleSmall` | 1 |
 
 | `<Text color>` | Uses |
 |---|---|
@@ -90,97 +90,96 @@ Flow-local names that exist in more than one flow (promotion candidates, or name
 | `success` | 3 |
 | `textInverse` | 2 |
 | `priceOld` | 2 |
-| `textProduct` | 1 |
 | `primary` | 1 |
 | `textTertiary` | 1 |
 
-CSS `font:` declarations: 1636, of which tokenised 95%. Most used `--nk-type-*`:
+CSS `font:` declarations: 1557, of which tokenised 95%. Most used `--nk-type-*`:
 
 | Type token | Uses | Flows |
 |---|---|---|
-| `body-semibold` | 53 | 10 |
-| `body` | 50 | 9 |
+| `body-semibold` | 51 | 10 |
 | `text16-bold-lh20` | 48 | 11 |
+| `body` | 47 | 9 |
 | `text14-semibold-lh20` | 36 | 8 |
 | `caption` | 35 | 10 |
-| `text12-regular-lh18` | 34 | 7 |
-| `body-bold` | 31 | 9 |
+| `text12-regular-lh18` | 33 | 7 |
+| `body-bold` | 30 | 9 |
 | `text14-regular-lh20` | 27 | 8 |
 | `caption-bold` | 27 | 9 |
 | `title-small` | 24 | 7 |
 | `text12-semibold-lh14` | 24 | 6 |
 | `text16-semibold-lh20` | 22 | 7 |
-| `product-title` | 22 | 6 |
+| `product-title` | 21 | 6 |
 | `section` | 21 | 9 |
-| `text12-regular-lh14` | 20 | 5 |
 | `text12-medium-lh16` | 19 | 7 |
+| `text12-regular-lh14` | 19 | 5 |
 | `text14-bold-lh20` | 17 | 6 |
 | `text12-medium-lh14` | 17 | 4 |
-| `pdp-text14-semibold` | 17 | 1 |
 | `text13-regular-lh18` | 16 | 5 |
 | `text11-regular-lh14` | 15 | 9 |
 | `credits-text13` | 15 | 1 |
-| `pdp-text14` | 15 | 1 |
 | `text13-semibold-lh16` | 13 | 7 |
+| `text12-medium-lh18` | 12 | 5 |
+| `text13-regular-lh17` | 11 | 4 |
 
 ## 3. Colour by role
 
 Which token each role reaches for (CSS `color` = text, `background` = surface, `border*` = border, `fill`/`stroke` = icon). Raw literals are counted as `raw …`.
 
-### text (1762 declarations, 100% tokenised)
+### text (1674 declarations, 100% tokenised)
 
 | Token | Uses | Share | Flows |
 |---|---|---|---|
-| `color-text-primary` | 292 | 17% | 15 |
-| `color-text-secondary` | 150 | 9% | 14 |
-| `color-text-inverse` | 125 | 7% | 16 |
-| `color-text-legacy` | 107 | 6% | 9 |
-| `color-text-ink` | 101 | 6% | 9 |
-| `color-text-strong` | 98 | 6% | 10 |
-| `color-text-muted` | 94 | 5% | 13 |
-| `color-text-body` | 82 | 5% | 10 |
-| `color-text-tertiary` | 53 | 3% | 13 |
+| `color-text-primary` | 283 | 17% | 15 |
+| `color-text-secondary` | 146 | 9% | 14 |
+| `color-text-inverse` | 123 | 7% | 16 |
+| `color-text-legacy` | 100 | 6% | 9 |
+| `color-text-ink` | 95 | 6% | 9 |
+| `color-text-strong` | 88 | 5% | 10 |
+| `color-text-muted` | 86 | 5% | 13 |
+| `color-text-body` | 76 | 5% | 10 |
+| `color-text-tertiary` | 49 | 3% | 13 |
 | `palette-white` | 36 | 2% | 4 |
-| `palette-black` | 34 | 2% | 10 |
-| `color-brand-blue` | 31 | 2% | 7 |
-| `color-success` | 28 | 2% | 9 |
+| `palette-black` | 32 | 2% | 9 |
+| `color-success` | 27 | 2% | 9 |
 | `color-primary` | 24 | 1% | 10 |
+| `color-brand-blue` | 23 | 1% | 7 |
 
-### surface (1511 declarations, 100% tokenised)
+### surface (1442 declarations, 100% tokenised)
 
 | Token | Uses | Share | Flows |
 |---|---|---|---|
-| `color-bg-surface` | 530 | 35% | 18 |
-| `color-bg-subtle` | 146 | 10% | 15 |
-| `palette-white` | 51 | 3% | 4 |
-| `color-bg-page` | 28 | 2% | 8 |
+| `color-bg-surface` | 513 | 36% | 18 |
+| `color-bg-subtle` | 136 | 9% | 15 |
+| `palette-white` | 51 | 4% | 4 |
+| `color-bg-page` | 27 | 2% | 8 |
 | `color-text-strong` | 25 | 2% | 8 |
-| `color-border` | 22 | 1% | 7 |
-| `palette-alice-blue` | 21 | 1% | 5 |
-| `palette-black` | 20 | 1% | 7 |
+| `color-border` | 20 | 1% | 7 |
+| `palette-black` | 19 | 1% | 7 |
+| `palette-alice-blue` | 18 | 1% | 5 |
 | `palette-anti-flash-white` | 14 | 1% | 4 |
 | `color-brand` | 14 | 1% | 4 |
-| `color-text-primary` | 13 | 1% | 7 |
 | `color-cta` | 13 | 1% | 6 |
-| `color-border-subtle` | 12 | 1% | 6 |
+| `color-text-primary` | 11 | 1% | 7 |
+| `color-border-subtle` | 10 | 1% | 6 |
 | `color-best-price-ink` | 10 | 1% | 3 |
 
-### border (505 declarations, 100% tokenised)
+### border (484 declarations, 100% tokenised)
 
 | Token | Uses | Share | Flows |
 |---|---|---|---|
-| `color-border` | 93 | 18% | 15 |
-| `color-border-subtle` | 62 | 12% | 12 |
-| `color-bg-surface` | 19 | 4% | 8 |
-| `palette-border-primary` | 19 | 4% | 6 |
+| `color-border` | 88 | 18% | 15 |
+| `color-border-subtle` | 58 | 12% | 12 |
+| `color-bg-surface` | 18 | 4% | 8 |
+| `palette-border-primary` | 18 | 4% | 6 |
 | `palette-white` | 16 | 3% | 6 |
-| `color-border-strong` | 15 | 3% | 6 |
+| `color-border-strong` | 14 | 3% | 6 |
 | `palette-bright-grey-color` | 12 | 2% | 6 |
 | `color-link` | 12 | 2% | 2 |
 | `color-bg-page` | 10 | 2% | 3 |
 | `color-bg-subtle` | 9 | 2% | 7 |
-| `palette-border-color` | 9 | 2% | 4 |
-| `color-border-info` | 9 | 2% | 4 |
+| `palette-border-color` | 8 | 2% | 4 |
+| `color-border-info` | 8 | 2% | 4 |
 | `color-brand-blue` | 8 | 2% | 2 |
 | `color-cta` | 6 | 1% | 3 |
 
@@ -214,77 +213,77 @@ Which token each role reaches for (CSS `color` = text, `background` = surface, `
 
 Values in `padding*`, `margin*`, `gap`/`row-gap`/`column-gap` and offsets (`top`/`inset`…). Tokenised `sN` and raw `Npx` are listed separately so the gap between the scale and the code is visible. Hairlines (1, 0.5, 1.5, 3) are geometry and skipped.
 
-### padding (2457 values, 83% written as tokens)
+### padding (2360 values, 82% written as tokens)
 
 | Value | Uses | Share | On scale |
 |---|---|---|---|
-| 12 | 707 | 29% | `s12` |
-| 16 | 340 | 14% | `s16` |
-| 8 | 315 | 13% | `s8` |
-| 4 | 230 | 9% | `s4` |
-| 10 | 166 | 7% | `s10` |
+| 12 | 678 | 29% | `s12` |
+| 16 | 335 | 14% | `s16` |
+| 8 | 290 | 12% | `s8` |
+| 4 | 218 | 9% | `s4` |
+| 10 | 161 | 7% | `s10` |
 | 15 | 137 | 6% | `s15` |
-| 2 | 133 | 5% | `s2` |
-| 6 | 84 | 3% | `s6` |
-| 14 | 82 | 3% | `s14` |
-| 20 | 63 | 3% | `s20` |
-| 24 | 61 | 2% | `s24` |
+| 2 | 126 | 5% | `s2` |
+| 14 | 81 | 3% | `s14` |
+| 6 | 74 | 3% | `s6` |
+| 20 | 61 | 3% | `s20` |
+| 24 | 60 | 3% | `s24` |
 | 32 | 21 | 1% | `s32` |
 | 18 | 14 | 1% | `s18` |
 | 7 | 13 | 1% | **off** |
 
-### gap (1204 values, 88% written as tokens)
+### gap (1135 values, 87% written as tokens)
 
 | Value | Uses | Share | On scale |
 |---|---|---|---|
-| 8 | 322 | 27% | `s8` |
-| 4 | 254 | 21% | `s4` |
-| 12 | 237 | 20% | `s12` |
-| 2 | 102 | 8% | `s2` |
-| 6 | 93 | 8% | `s6` |
-| 16 | 69 | 6% | `s16` |
-| 10 | 60 | 5% | `s10` |
-| 20 | 18 | 1% | `s20` |
-| 24 | 15 | 1% | `s24` |
+| 8 | 304 | 27% | `s8` |
+| 4 | 229 | 20% | `s4` |
+| 12 | 229 | 20% | `s12` |
+| 2 | 95 | 8% | `s2` |
+| 6 | 87 | 8% | `s6` |
+| 16 | 68 | 6% | `s16` |
+| 10 | 59 | 5% | `s10` |
+| 20 | 18 | 2% | `s20` |
+| 24 | 12 | 1% | `s24` |
 | 14 | 8 | 1% | `s14` |
 | 5 | 5 | 0% | **off** |
 | 15 | 4 | 0% | `s15` |
 | 7 | 3 | 0% | **off** |
 | 40 | 3 | 0% | `s40` |
 
-### margin (988 values, 76% written as tokens)
+### margin (953 values, 76% written as tokens)
 
 | Value | Uses | Share | On scale |
 |---|---|---|---|
-| 12 | 205 | 21% | `s12` |
-| 8 | 159 | 16% | `s8` |
-| 16 | 108 | 11% | `s16` |
-| 4 | 107 | 11% | `s4` |
+| 12 | 197 | 21% | `s12` |
+| 8 | 151 | 16% | `s8` |
+| 16 | 107 | 11% | `s16` |
+| 4 | 96 | 10% | `s4` |
 | 10 | 78 | 8% | `s10` |
 | 15 | 77 | 8% | `s15` |
-| 2 | 55 | 6% | `s2` |
+| 2 | 51 | 5% | `s2` |
 | 20 | 41 | 4% | `s20` |
-| 6 | 40 | 4% | `s6` |
-| 24 | 27 | 3% | `s24` |
+| 6 | 38 | 4% | `s6` |
+| 24 | 26 | 3% | `s24` |
 | 5 | 22 | 2% | **off** |
 | 14 | 8 | 1% | `s14` |
 | 18 | 8 | 1% | `s18` |
 | 7 | 5 | 1% | **off** |
 
-### offset (364 values, 29% written as tokens)
+### offset (360 values, 29% written as tokens)
 
 | Value | Uses | Share | On scale |
 |---|---|---|---|
 | 12 | 53 | 15% | `s12` |
-| 4 | 29 | 8% | `s4` |
 | 8 | 29 | 8% | `s8` |
+| 4 | 25 | 7% | `s4` |
 | 6 | 24 | 7% | `s6` |
 | 16 | 21 | 6% | `s16` |
-| 10 | 20 | 5% | `s10` |
+| 10 | 20 | 6% | `s10` |
 | 15 | 14 | 4% | `s15` |
 | 5 | 12 | 3% | **off** |
 | 2 | 10 | 3% | `s2` |
-| 18 | 9 | 2% | `s18` |
+| 18 | 9 | 3% | `s18` |
 | 9 | 7 | 2% | **off** |
 | 13 | 7 | 2% | **off** |
 | 24 | 7 | 2% | `s24` |
@@ -296,15 +295,15 @@ Element kind is read from the selector's last class name (card/tile/box/section 
 
 | Kind | Declarations | Top values |
 |---|---|---|
-| other | 478 | r12 ×91 · r16 ×72 · r8 ×55 · full ×42 · r4 ×27 · r20 ×26 |
-| card | 228 | r16 ×91 · r12 ×60 · r8 ×13 · r14 ×11 · r20 ×9 · r6 ×7 |
-| button | 153 | r12 ×55 · r8 ×24 · r10 ×13 · r16 ×10 · full ×10 · r14 ×8 |
-| image | 95 | r8 ×37 · r12 ×8 · r6 ×6 · full ×6 · r10 ×6 · r20 ×5 |
-| pill | 94 | full ×14 · r4 ×13 · r12 ×13 · r6 ×12 · r8 ×11 · r10 ×4 |
-| sheet | 51 | r16 ×24 · r20 ×8 · r8 ×6 · r12 ×4 · r24 ×3 · r4 ×2 |
+| other | 460 | r12 ×87 · r16 ×71 · r8 ×51 · full ×42 · r4 ×25 · r20 ×22 |
+| card | 219 | r16 ×88 · r12 ×57 · r8 ×12 · r14 ×11 · r20 ×9 · r6 ×7 |
+| button | 152 | r12 ×54 · r8 ×24 · r10 ×13 · r16 ×10 · full ×10 · r14 ×8 |
+| image | 92 | r8 ×35 · r12 ×8 · r6 ×6 · full ×6 · r20 ×5 · r4 ×5 |
+| pill | 84 | full ×14 · r4 ×12 · r6 ×11 · r8 ×10 · r12 ×9 · 20px ×3 |
+| sheet | 50 | r16 ×24 · r20 ×8 · r8 ×5 · r12 ×4 · r24 ×3 · r4 ×2 |
 | footer | 37 | r16 ×21 · r12 ×8 · 12px ×2 · 15px ×2 · r4 ×2 · r8 ×2 |
-| input | 30 | r12 ×12 · r8 ×7 · r14 ×2 · r4 ×2 · r20 ×2 · full ×2 |
 | row | 29 | r12 ×8 · r16 ×4 · r14 ×3 · r8 ×2 · r4 ×2 · 3px ×2 |
+| input | 27 | r12 ×12 · r8 ×7 · r14 ×2 · r4 ×2 · full ×2 · 14px ×1 |
 | page | 15 | r20 ×8 · r12 ×3 · 5px ×2 · r16 ×2 |
 | header | 14 | r16 ×8 · 12px ×2 · r20 ×2 · r12 ×2 |
 
@@ -328,7 +327,7 @@ Element kind is read from the selector's last class name (card/tile/box/section 
 | `checkout` | 1 |
 | `noonSecondary` | 1 |
 
-Icons in flow TSX: `OriginIcon` 126 · lucide `Icon` 40 · `MaskIcon` 69.
+Icons in flow TSX: `OriginIcon` 126 · lucide `Icon` 40 · `MaskIcon` 68.
 
 ## 7. Findings per flow
 
@@ -349,7 +348,7 @@ What `node scripts/design-usage.mjs --check` counts. Existing flows are held at 
 | membership |  |  | 14 | 36 | 8 | 44 | 12 | 5 | 119 |
 | noonone |  | 1 | 10 | 46 | 19 | 16 | 11 | 1 | 104 |
 | orders |  |  | 3 | 1 | 5 | 32 | 2 | 5 | 48 |
-| pdp |  |  | 10 | 53 | 4 | 2 | 2 |  | 71 |
+| pdp |  |  | 7 | 40 | 4 | 2 | 2 |  | 55 |
 | plp |  |  | 1 | 1 | 6 | 34 | 3 | 6 | 51 |
 | returns |  | 1 | 5 | 1 | 7 | 8 | 1 |  | 23 |
 | reviews |  |  |  |  | 3 |  |  |  | 3 |

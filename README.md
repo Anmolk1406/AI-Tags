@@ -2,6 +2,8 @@
 
 The noon app as a **React UI kit for clickable prototypes**. It has noon's design tokens, a component library, a motion system and **20 ready-made flows (179 screens)** ported from **bappzaar** (the noon React Native app) and the noon Figma files.
 
+**Guide (PDF):** [docs/guide/noon-flow-kit-guide.pdf](./docs/guide/noon-flow-kit-guide.pdf): set-up, using the skills, page URLs, sharing references, connecting Mobbin, house rules. Source: `docs/guide/guide.html` (`node docs/guide/render.mjs`).
+
 <table>
   <tr>
     <td align="center"><img src="docs/screens/home.webp" width="180" alt="Home" /><br /><sub>Home · <code>/homepage</code></sub></td>

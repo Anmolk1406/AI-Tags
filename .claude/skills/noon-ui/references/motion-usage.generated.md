@@ -48,12 +48,12 @@ Occurrences in flow code (JSX elements, props or calls).
 | Purpose · mechanism | Uses | Flows |
 |---|---|---|
 | press · Pressable | 240 | 17 of 20 |
-| enter · initial→animate | 166 | 18 of 20 |
+| enter · initial→animate | 164 | 18 of 20 |
 | scroll-linked · useScroll / useTransform | 116 | 13 of 20 |
 | loading · Skeleton | 112 | 10 of 20 |
-| enter/exit · AnimatePresence | 101 | 17 of 20 |
+| enter/exit · AnimatePresence | 99 | 17 of 20 |
 | imperative · animate() / useAnimate | 93 | 11 of 20 |
-| press · whileTap | 73 | 11 of 20 |
+| press · whileTap | 72 | 11 of 20 |
 | loading · Spinner | 36 | 10 of 20 |
 | haptics | 35 | orders, plp, reviews |
 | celebration · Lottie | 26 | 11 of 20 |
@@ -82,8 +82,8 @@ Shared components that move on their own (counted under `(components)`, not abov
 | `0.97` | 12 | account, address, home, plp, yellowFriday |
 | `0.96` | 11 | account, home, orders, returns |
 | `0.99` | 7 | account, noonone, orders, returns |
-| `0.98 (whileTap)` | 6 | checkout, pdp |
 | `0.96 (whileTap)` | 5 | cards, checkout |
+| `0.98 (whileTap)` | 5 | checkout, pdp |
 | `0.97 (whileTap)` | 4 | cards, membership, noonone |
 | `0.95 (whileTap)` | 4 | cart, pdp |
 | `0.85 (whileTap)` | 3 | cart, pdp |
@@ -94,7 +94,7 @@ Shared components that move on their own (counted under `(components)`, not abov
 
 ## 4. Where timing comes from
 
-Preset references in flow code: **251**. Raw timing literals (duration / spring / ease / stagger written inline): **287**. CSS: 32 `transition`, 3 `animation`, 3 `@keyframes`.
+Preset references in flow code: **250**. Raw timing literals (duration / spring / ease / stagger written inline): **285**. CSS: 32 `transition`, 2 `animation`, 2 `@keyframes`.
 
 | Flow | Preset refs | Raw literals | CSS transition / animation / keyframes |
 |---|---|---|---|
@@ -111,7 +111,7 @@ Preset references in flow code: **251**. Raw timing literals (duration / spring 
 | membership | 2 | 36 | 3 / 0 / 0 |
 | noonone | 3 | 29 | 0 / 0 / 0 |
 | orders | 33 | 2 | 1 / 0 / 0 |
-| pdp | 16 | 13 | 2 / 3 / 2 |
+| pdp | 15 | 11 | 2 / 2 / 1 |
 | plp | 38 | 12 | 0 / 0 / 0 |
 | returns | 12 | 8 | 0 / 0 / 0 |
 | reviews | 67 | 11 | 0 / 0 / 0 |
@@ -128,8 +128,8 @@ Preset references in flow code: **251**. Raw timing literals (duration / spring 
 | `spring.bouncy` | 15 | orders, pdp, reviews, yellowFriday |
 | `duration.fast` | 14 | account, home, pdp, plp, reviews |
 | `spring.gentle` | 13 | account, pdp, reviews, yellowFriday |
-| `spring.press` | 12 | checkout, pdp, reviews |
 | `pressScale` | 12 | membership, noonone, returns, reviews |
+| `spring.press` | 11 | checkout, pdp, reviews |
 | `handoff.spring` | 10 | orders, plp, search |
 | `easing.ios` | 10 | plp, reviews |
 | `handoff.easeInOut` | 8 | orders, plp, search |
@@ -201,7 +201,7 @@ Preset references in flow code: **251**. Raw timing literals (duration / spring 
 | Ease | Uses | Equals |
 |---|---|---|
 | `'easeInOut'` | 18 |  |
-| `'linear'` | 17 |  |
+| `'linear'` | 15 |  |
 | `[0.42,0,0.58,1]` | 10 |  |
 | `[0.25,0.1,0.25,1]` | 8 | `easing.standard` |
 | `[0.215,0.61,0.355,1]` | 8 | `easing.out` |

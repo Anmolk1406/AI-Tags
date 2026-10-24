@@ -1,6 +1,11 @@
 <!-- planned: src/flows/pdp/components/NewerModel.tsx, --nk-type-pdp-section-title, --nk-color-pdp-store-strip, pdp/detail-v2, pdp/oos -->
 # PDP (Storefront team): "Legacy-to-New Model Entry Point" design
 
+> **Historical analysis (written before the storefront build).** The "exists" / "missing" columns and the delta tables
+> below describe the kit at analysis time. Every section has since been built as an `Sf*` component in
+> `src/flows/pdp/components/storefront/`, the pre-storefront components named here (`Sections.tsx` cards, `VariantsCard`)
+> were removed on 2026-10-23, and the page's data and copy now live in `src/data/views/pdp.ts` and `src/data/copy/pdp.ts`.
+
 Design reference for building or restyling the noon product page (PDP) to the Storefront team's current Figma. Read this together with `flows.md` (PDP blueprint), `src/flows/pdp/MAPPING.md` (bappzaar values) and `tokens.md`. When this file and bappzaar disagree, ask which source wins. The pdp flow is a 1:1 bappzaar master port, and this design is newer.
 
 ## 1. Sources
@@ -129,7 +134,7 @@ Italics: the Figma uses Figtree *Italic* for meta text (Ad labels, "in", dates, 
 | 360 Pill Button | none | **missing**: add a 40px round button to `SfGallery`'s footer row (flow-local) |
 | Main-Info (store strip + Info Card) | `SfMainInfo` (`src/flows/pdp/components/storefront/SfMainInfo.tsx`) | exists; strip differs |
 | Rating (info pill) | `.rating` in `SfMainInfo`; central `RatingPill size="lg"` | exists |
-| Ads (sponsored product row) | none | **missing**: proposed `SponsoredProductRow` in `src/flows/pdp/components/Sections.tsx`, using `ProductImage`, `Money`, `ExpressBadge`, `Badge` ("Ad") |
+| Ads (sponsored product row) | none | **built** as `SfSponsoredRow` (`components/storefront/SfSponsoredRow.tsx`, item `content.sponsored`), using `ProductImage`, `Money`, `ExpressBadge`, `Badge` ("Ad") |
 | OrderHistoryItems "Newer model available" | none | **missing**: proposed `NewerModelCard` in `src/flows/pdp/components/NewerModel.tsx`, using `ProductImage`, `Money`, `Icon name="zap"`, `IconButton` / `Pressable` |
 | Product Overview "Product Details" (Highlights ×3) | `OverviewCard` + local `Accordion` (`Sections.tsx`) | exists; copy and metrics differ |
 | Bestseller | `CategoryBestSellerCta` (`Sections.tsx`) | exists; small deltas |
@@ -156,7 +161,7 @@ Italics: the Figma uses Figtree *Italic* for meta text (Ad labels, "in", dates, 
 | Cue in the design | Kit expression |
 |---|---|
 | Successor chin appears "as the first entry point goes out of the view" | Watch the in-page `NewerModelCard` with `useInView` (motion/react) on the PDP scroll ref, or `useMotionValueEvent(scrollY, 'change', …)` the way `DetailScreen` already sets `showTop`. Animate the chin with `AnimatePresence` + `initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}` on `spring.sheet` (like the `SfAtcBar` back-to-top and in-cart strip, which use `spring.press` / `spring.gentle`). The OOS banner stays put. |
-| Accordions open / close | Existing local `Accordion`: height auto + chevron rotate 180°, `pdpTokens.accordionMs` (150ms) |
+| Accordions open / close | `SfAccordion` (`SfProductDetails.tsx`): height auto + chevron rotate 180° |
 | A+ "View More" expands | Animate height from the 610 cap to `auto` with `tween('medium', 'out')` (`src/motion/presets.ts`) and fade the white gradient out |
 | Gallery swipe and dots | Existing `SfGallery` drag + spring 300/34 and `PageController` (150ms ease-out) |
 | Tap on the newer-model card or chin | `Pressable` (`spring.press`), then `nav.push('pdp/detail', { productId })` with the default `push` transition. Use `push`, not `replace`: the user should be able to go back to the old model. |

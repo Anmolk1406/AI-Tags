@@ -437,8 +437,8 @@ Gotcha: `size` only changes the `nav` variant (`sm` height, `lg` height/padding/
 `Money`: inline `currency + formatPrice(value)`, no-wrap. Props: `value: number` (required), `bold?: boolean`.
 
 ```tsx
-// src/flows/pdp/components/RecoCard.tsx
-<Price price={product.price} was={product.was} />
+// src/flows/yellowFriday/screens/RevealScreen.tsx
+<Price price={pick.yf} was={pick.ref} size="lg" />
 ```
 
 Gotchas: never write "AED" or a dollar sign; for custom price layouts use `currency` and `formatPrice` from `src/data`. The currency glyph is 0.7em of the sale font.
@@ -460,11 +460,11 @@ Gotchas: never write "AED" or a dollar sign; for custom price layouts use `curre
 | `onChange` | `(v: number) => void` (makes stars tappable) | — |
 
 ```tsx
-// src/flows/pdp/components/RecoCard.tsx
-{product.rating > 0 && <RatingPill rating={product.rating} count={product.ratingCount} />}
+// src/components/ProductCard/ProductCard.tsx
+<RatingPill rating={product.rating} count={product.ratingCount} />
 ```
 
-Gotcha: `src/flows/pdp/components/Stars.tsx` is a different, flow-local `Stars` (`rating`, `size: IconSize`, `max`); the shared one takes `value`.
+Gotcha: the PDP reviews card draws its own `SfStars` (`components/storefront/SfReviewsCard.tsx`); the shared `Stars` takes `value`.
 
 ## ProductImage
 
@@ -521,9 +521,9 @@ Gotcha: always give it a width plus `height` or `aspect`, otherwise it has no he
 <ProductCard key={p.id} product={p} compact width={homeTokens.carouselCardWidth} />
 // src/flows/plp/ListingScreen.tsx (2-column grid)
 <ProductCard product={p} />
-// src/flows/pdp/components/RecoCard.tsx (custom card reusing the parts)
+// src/components/ProductCard/ProductCard.tsx and src/flows/home/components/MegaDeals.tsx (custom cards reusing the parts)
 <WishlistHeart productId={product.id} />
-<QuickAdd productId={product.id} />
+<QuickAdd productId={p.id} />
 ```
 
 Gotchas: `ProductCard` is the bappzaar NoonProductBoxVertical (0.8 image, 36 quick-add, 16/700 price). The 2025 Figma "SKU" card (home rails, cart carousels, PDP recommendations) has a different footprint; see `SkuCard` in the pick table. Data comes from `Product` in `src/data`; add products there rather than inlining objects. Cart and wishlist state flow through `useDemoStore()` automatically. The grid layout is the caller's (CSS grid in the flow module). RTL mirroring of tag/heart/quick positions is built in.
@@ -673,7 +673,7 @@ Gotcha: never redraw the express/supermall pill with text and a background; the 
 </SectionCard>
 ```
 
-Gotcha: no flow currently imports the shared one. `account/EditProfileScreen.tsx` has a local `SectionCard` (adds `subtitle`) and `pdp/components/Sections.tsx` a local `Card`. For new screens use the shared `SectionCard` and pass `margin`/`padding` rather than writing another.
+Gotcha: no flow currently imports the shared one. `account/EditProfileScreen.tsx` has a local `SectionCard` (adds `subtitle`) and `pdp/components/Card.tsx` a local `Card`. For new screens use the shared `SectionCard` and pass `margin`/`padding` rather than writing another.
 
 ## ListRow and ListGroup
 

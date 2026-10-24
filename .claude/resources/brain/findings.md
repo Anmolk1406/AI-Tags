@@ -9,10 +9,10 @@
 | warn · cross-flow-data | 8 |
 | warn · foreign-ui | 1 |
 | warn · undefined-token | 1 |
-| info · cross-flow-component | 4 |
+| info · cross-flow-component | 3 |
 | info · nav-dynamic | 9 |
 | info · no-entry | 26 |
-| info · promotion-candidate | 63 |
+| info · promotion-candidate | 61 |
 | info · untested | 141 |
 | info · unused-component | 5 |
 
@@ -40,7 +40,6 @@
 - src/flows/cart/CartScreen.tsx imports src/flows/noonone/components/entry/cartVipPush.ts from flow `noonone` (promotion candidate for src/components)
 - src/flows/checkout/components/NoonOneSection.tsx imports src/flows/noonone/components/entry/checkoutEnrollment.ts from flow `noonone` (promotion candidate for src/components)
 - src/flows/checkout/ConfirmationScreen.tsx imports src/flows/noonone/components/entry/useOcOneOverlay.ts from flow `noonone` (promotion candidate for src/components)
-- src/flows/pdp/components/VipPreference.tsx imports src/flows/noonone/components/maskSrc.ts from flow `noonone` (promotion candidate for src/components)
 
 ## info · nav-dynamic
 
@@ -119,7 +118,6 @@
 - cmp:noonone/VIPWave is used by screens of membership, noonone
 - cmp:pdp/Asset is used by screens of pdp, search
 - cmp:pdp/Card is used by screens of pdp, search
-- cmp:pdp/DashedLine is used by screens of pdp, search
 - cmp:pdp/SfAdditionalInfo is used by screens of pdp, search
 - cmp:pdp/SfAtcBar is used by screens of pdp, search
 - cmp:pdp/SfBestsellerRow is used by screens of pdp, search
@@ -142,7 +140,6 @@
 - cmp:pdp/SfSponsoredRow is used by screens of pdp, search
 - cmp:pdp/SfTrustCard is used by screens of pdp, search
 - cmp:pdp/SfVariantsCard is used by screens of pdp, search
-- cmp:pdp/VipPreference is used by screens of pdp, search
 - cmp:plp/CatalogListHeader is used by screens of plp, search
 - cmp:plp/CatalogNavPill is used by screens of plp, search
 - cmp:plp/MarketplaceStrip is used by screens of plp, search

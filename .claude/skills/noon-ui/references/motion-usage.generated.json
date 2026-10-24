@@ -35,12 +35,12 @@
     "press · Pressable": 240,
     "layout · layout / layoutId": 21,
     "loading · Spinner": 36,
-    "enter/exit · AnimatePresence": 101,
-    "enter · initial→animate": 166,
+    "enter/exit · AnimatePresence": 99,
+    "enter · initial→animate": 164,
     "loading · Skeleton": 112,
     "autoplay · setInterval": 7,
     "drag · drag= / useDragControls": 13,
-    "press · whileTap": 73,
+    "press · whileTap": 72,
     "scroll-linked · useScroll / useTransform": 116,
     "imperative · animate() / useAnimate": 93,
     "celebration · Lottie": 26,
@@ -69,7 +69,7 @@
     "spring.damping": 1,
     "spring.stiffness": 1,
     "spring.mass": 1,
-    "spring.press": 12,
+    "spring.press": 11,
     "tween(medium, out)": 3,
     "tween(fast, out)": 4,
     "duration.base": 15,
@@ -123,7 +123,7 @@
     "0.9 (whileTap)": 2,
     "0.95 (whileTap)": 4,
     "0.85 (whileTap)": 3,
-    "0.98 (whileTap)": 6,
+    "0.98 (whileTap)": 5,
     "0.94": 1,
     "0.92": 1,
     "0.99 (whileTap)": 2,
@@ -195,7 +195,7 @@
     "[0.25,0.1,0.25,1]": 8,
     "'easeInOut'": 18,
     "[0.455,0.03,0.515,0.955]": 5,
-    "'linear'": 17,
+    "'linear'": 15,
     "[0.215,0.61,0.355,1]": 8,
     "[0.4,0,0.2,1]": 2,
     "[0.33,1,0.68,1]": 1,
@@ -215,8 +215,8 @@
   },
   "css": {
     "transition": 32,
-    "animation": 3,
-    "keyframes": 3
+    "animation": 2,
+    "keyframes": 2
   },
   "flows": {
     "account": {
@@ -631,22 +631,22 @@
         }
       },
       "purpose": {
-        "enter · initial→animate": 14,
+        "enter · initial→animate": 12,
         "celebration · Lottie": 2,
         "scroll-linked · useScroll / useTransform": 3,
         "imperative · animate() / useAnimate": 2,
-        "press · whileTap": 7,
-        "enter/exit · AnimatePresence": 12,
+        "press · whileTap": 6,
+        "enter/exit · AnimatePresence": 10,
         "press · Pressable": 17,
         "drag · drag= / useDragControls": 1,
         "loading · Spinner": 1
       },
-      "presets": 16,
-      "raw": 13,
+      "presets": 15,
+      "raw": 11,
       "css": {
         "transition": 2,
-        "animation": 3,
-        "keyframes": 2
+        "animation": 2,
+        "keyframes": 1
       }
     },
     "plp": {

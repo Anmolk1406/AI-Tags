@@ -16,7 +16,7 @@ The contract a PDP build must meet. Measurements are Figma points on a 375pt fra
 
 ## Sections (top to bottom)
 
-Every section is a white card: `Card` (`src/flows/pdp/components/Sections.tsx`) — `--nk-color-bg-surface`, `--nk-radius-r16`, padding `--nk-space-s12`, margin `0 12px 12px`, so cards sit inset 12 and 12 apart on `--nk-color-bg-page`. Card titles `--nk-color-text-strong`, 15/700/17 (`--nk-type-pdp-sfb-section-title`, `--nk-type-pdp-sfc-section-title`, `--nk-type-pdp-sfd-section-title` from `tokens.sfB`–`sfD`).
+Every section is a white card: `Card` (`src/flows/pdp/components/Card.tsx`) — `--nk-color-bg-surface`, `--nk-radius-r16`, padding `--nk-space-s12`, margin `0 12px 12px`, so cards sit inset 12 and 12 apart on `--nk-color-bg-page`. Card titles `--nk-color-text-strong`, 15/700/17 (`--nk-type-pdp-sfb-section-title`, `--nk-type-pdp-sfc-section-title`, `--nk-type-pdp-sfd-section-title` from `tokens.sfB`–`sfD`).
 
 ### Current screen (`pdp/detail`, render order of `src/flows/pdp/DetailScreen.tsx`)
 
@@ -30,8 +30,8 @@ All in `src/flows/pdp/components/storefront/`; values per section in `src/flows/
 | 4 | Bundle / combo card | `SfBundleCard` |
 | 5 | Sponsored product (78-high Big Ad + "Ad") | `SfSponsoredRow` |
 | 6 | Delivery information (5 variants, `deliveryVariantFor`) | `SfDeliveryCard` |
-| 7 | Newer model available (`successorFor(product)`) | `SfNewerModelCard` |
-| 8 | Free gifts for you | `SfFreeGifts` (`freebiesFor`) |
+| 7 | Newer model available (`content.newerModel`, from `successorFor`) | `SfNewerModelCard` |
+| 8 | Free gifts for you | `SfFreeGifts` (`content.freebies`) |
 | 9 | Variants (first in-stock size preselected; option tap → loader, in-place switch) | `SfVariantsCard` |
 | 10 | Payment offers | `SfPaymentOffers` |
 | 11 | Trust markers | `SfTrustCard` |
@@ -47,7 +47,7 @@ All in `src/flows/pdp/components/storefront/`; values per section in `src/flows/
 | 21 | "More from {brand}" · "Customers Also Viewed" (bleed bands) · "Products related to this" (card) | `SfRecommendations` + `SfRecoCard` |
 | — | Sticky footer: QTY · Buy now · Add to cart, Back to top, `TabBar active="home"` under it | `SfAtcBar` (in `Screen overlay`) |
 
-The port's earlier section components (`DeliveryCard`, `PaymentsCard`, `ReinforcementCard`, `OverviewCard`, `AdditionalInfoCard`, `CategoryBestSellerCta`, `SellerCard`, `FbtCard` in `components/Sections.tsx`; `VariantsCard` in `components/Variants.tsx`) remain in the folder but are not rendered; reuse `Card` from `Sections.tsx`.
+The port's earlier section components were removed (2026-10-23); every section is a storefront component. Reuse `Card` from `components/Card.tsx`.
 
 ### Storefront 2025 (`pdp/oos`, `930:259766`)
 
@@ -83,11 +83,11 @@ The port's earlier section components (`DeliveryCard`, `PaymentsCard`, `Reinforc
 
 The tab bar under the footer is drawn by `SfAtcBar` itself (`<TabBar active="home" />`), not by the Navigator (which shows `TabBar` only on tab roots); it hides on scroll with `useTabBarScrollHide`.
 
-## Data (`data.ts`)
+## Data (the data layer)
 
-- `pdpContent(product)` returns `PdpContent` (live products via `liveContent` in `src/flows/pdp/data.live.ts`, mock ones via `mockContent`); `productById(id)` from `src/data` (falls back to the first product). Default product `IPHONE_17_PRO_ID`; `p3` is the fashion product that needs a size.
-- Add to `PdpContent` for the Storefront design: `outOfStock?`, `unavailableAtLocation?`, `sponsoredRow?`, `aplusImages?`, `sponsoredBrand?`, `seller.subtitle?`, `seller.offerCount` / `seller.offerFrom` (Figma analysis §6 → `data.ts`). The successor is derived today by `successorFor(product)` (`src/flows/pdp/components/storefront/SfNewerModelCard.tsx`: same brand + line, next generation / tier), so it is always a real product in `src/data`.
-- Copy lives in `copy` (`data.ts`): reuse the existing keys; add the Storefront strings ("Product Details", "Overview", "Visit Store", "Newer model available", "This item is currently out of stock", "Product Features", "View More", "Ad", "Similar Products", "Top products in {category}"). Prices through `Price`, `Money` or `money()`; counts not abbreviated in "(34244 reviews)".
+- `pdpView(product)` (`src/data/views/pdp.ts`) returns `PdpContent`: the product card (`src/data/products/<id>/product.ts`) + its page content (`content.ts`, `ProductContent`, over its variant family's `src/data/families/<family>.ts`) + noon-wide promotions (`src/data/promotions.ts`), plus everything a section derives (combos, delivery lanes and layout, FBT items, sponsored items, newer model, rails, warranty plans, size options). `mainInfoView(shown, content)` follows the selected option. Every product has its own `content.ts` (`source.kind`: `captured` for the iPhone 17 Pro, `written` demo content for the rest); a field it lacks hides its section. `productById(id)` from `src/data` (falls back to the first product). Default product `IPHONE_17_PRO_ID`; `p3` is the fashion product that needs a size.
+- Add to `PdpContent` for the Storefront design: `outOfStock?`, `unavailableAtLocation?`, `sponsoredRow?`, `aplusImages?`, `sponsoredBrand?`, `seller.subtitle?`, `seller.offerCount` / `seller.offerFrom` (Figma analysis §6 → `ProductContent` / `PdpContent`). The successor is derived today by `successorFor(product)` (`src/data/views/pdp.ts`: same brand + line, next generation / tier), so it is always a real product in `src/data`.
+- Copy lives in `src/data/copy/pdp.ts` (`copy`, `npaCopy` … `railCopy`, `sfCopy.<component>`): reuse the existing keys; add the Storefront strings ("Product Details", "Overview", "Visit Store", "Newer model available", "This item is currently out of stock", "Product Features", "View More", "Ad", "Similar Products", "Top products in {category}"). Prices through `Price`, `Money` or `money()`; counts not abbreviated in "(34244 reviews)".
 
 ## Navigation
 
@@ -113,7 +113,7 @@ The tab bar under the footer is drawn by `SfAtcBar` itself (`<TabBar active="hom
 | Header turns solid | `useScroll({ container: scrollRef })` + `useMotionValueEvent`, threshold `pdpTokens.headerChangeAfter − headerInnerHeight`, fade `pdpTokens.headerFadeMs` |
 | Scroll (bappzaar 1:1, `src/flows/pdp/MAPPING.md` → PDP scroll) | gallery pinned by CSS sticky for one image height + shrink `pdpTokens.parallax`; tab bar hides on scroll (`useTabBarScrollHide`, `src/kit/tabBarScroll.ts`) and the sticky ATC bar (`Screen overlay`, `.stickyBar`) follows it; Back to top after one screen height, no transition; overview accordion open → +120 / 150ms |
 | Gallery pager | `SfGallery` drag + spring 300/34, `PageController` dots (`pdpTokens.dots.ms`); port parallax `pdpTokens.parallax` |
-| Accordions | local `Accordion` in `components/Sections.tsx`: height auto + chevron 180°, `pdpTokens.accordionMs` |
+| Accordions | `SfAccordion` in `components/storefront/SfProductDetails.tsx`: height auto + chevron 180° |
 | Successor chin | `useInView` (motion/react) on the in-page newer-model card; `AnimatePresence` `y: '100%'` → 0 on `spring.sheet`; the OOS banner stays put |
 | A+ View More | height 610 → auto with `tween('medium', 'out')`, fade the gradient out |
 | ATC | loading Lottie for `pdpTokens.atcLoadingMs`, then the sheet (`spring.sheet` from the Navigator's `SheetLayer`) |

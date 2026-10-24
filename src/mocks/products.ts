@@ -4,7 +4,8 @@
  */
 export type { Product, ProductNudge, ProductAttributes, VariantFamily } from '../data/types';
 export { currency, discountPct, formatPrice } from '../data/money';
-export { products, liveProducts, homeFeedProducts, productById, fbtFor, IPHONE_17_PRO_ID } from '../data/catalog';
+export { products, liveProducts, homeFeedProducts, productById, IPHONE_17_PRO_ID } from '../data/catalog';
+export { fbtFor } from '../data/content';
 export { variantFamilies } from '../data/variants';
 export { user } from '../data/users';
 export { categories } from '../data/categories';

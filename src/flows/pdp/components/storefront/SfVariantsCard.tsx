@@ -1,12 +1,15 @@
 import { useLayoutEffect, useRef } from 'react';
 import { Spinner } from '../../../../components';
-import { formatPrice, type Product } from '../../../../data';
-import { copy, discountPercent, money, type PdpContent, type VariantGroup, type VariantOption } from '../../data';
-import { Card } from '../Sections';
-import type { VariantSelection } from '../Variants';
+import { discountPercent, formatPrice, money, type Product } from '../../../../data';
+import { Card } from '../Card';
 import styles from './SfVariantsCard.module.css';
+import { copy } from '../../../../data/copy/pdp';
+import type { PdpContent, VariantGroup, VariantOption } from '../../../../data/views/pdp';
 
 type Kind = 'pill' | 'image' | 'price';
+
+
+export type VariantSelection = Record<string, number>;
 
 /** Figma 3499:75276 group order: Model Name → Colour Name → Internal Memory → Version (others keep their place after memory). */
 const orderOf = (name: string) => (/model/i.test(name) ? 0 : /colou?r/i.test(name) ? 1 : /version/i.test(name) ? 3 : 2);

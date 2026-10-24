@@ -70,8 +70,8 @@ initial `plp/listing` · group Shopping
 initial `pdp/detail` · group Shopping
 
 - docs: `src/flows/pdp/FIGMA-MAPPING.md`, `src/flows/pdp/MAPPING.md`
-- data / token files: `data.live.ts`, `data.npA.ts`, `data.npB.ts`, `data.npC.ts`, `data.npD.ts`, `data.npE.ts`, `tokens.npA.ts`, `tokens.npB.ts`, `tokens.npC.ts`, `tokens.npD.ts`, `tokens.npE.ts`, `tokens.sfA.ts`, `tokens.sfB.ts`, `tokens.sfC.ts`, `tokens.sfD.ts`, `tokens.sfE.ts`
-- components/: Asset, RecoCard, Sections, Stars, Variants, VipPreference, storefront/SfAdditionalInfo, storefront/SfAtcBar, storefront/SfBestsellerRow, storefront/SfBundleCard, storefront/SfDeliveryCard, storefront/SfExtendedWarranty, storefront/SfFbtCard, storefront/SfFreeGifts, storefront/SfGallery, storefront/SfHeader, storefront/SfMainInfo, storefront/SfNewerModelCard, storefront/SfPaymentOffers, storefront/SfProductDetails, storefront/SfProductFeatures, storefront/SfRecommendations, storefront/SfReviewsCard, storefront/SfSellerCard, storefront/SfSponsoredBrandCard, storefront/SfSponsoredRow, storefront/SfTrustCard, storefront/SfVariantsCard
+- data / token files: `tokens.npA.ts`, `tokens.npB.ts`, `tokens.npC.ts`, `tokens.npD.ts`, `tokens.npE.ts`, `tokens.sfA.ts`, `tokens.sfB.ts`, `tokens.sfC.ts`, `tokens.sfD.ts`, `tokens.sfE.ts`
+- components/: Asset, Card, storefront/SfAdditionalInfo, storefront/SfAtcBar, storefront/SfBestsellerRow, storefront/SfBundleCard, storefront/SfDeliveryCard, storefront/SfExtendedWarranty, storefront/SfFbtCard, storefront/SfFreeGifts, storefront/SfGallery, storefront/SfHeader, storefront/SfMainInfo, storefront/SfNewerModelCard, storefront/SfPaymentOffers, storefront/SfProductDetails, storefront/SfProductFeatures, storefront/SfRecommendations, storefront/SfReviewsCard, storefront/SfSellerCard, storefront/SfSponsoredBrandCard, storefront/SfSponsoredRow, storefront/SfTrustCard, storefront/SfVariantsCard
 
 | Route | Title | Presentation | URL | Truth | Verified | Source |
 |---|---|---|---|---|---|---|

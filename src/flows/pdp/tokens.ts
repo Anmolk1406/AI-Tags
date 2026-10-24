@@ -41,17 +41,8 @@ export const pdpTokens = {
   aiShimmerMs: 2000,
   /** NoonTextToggle: 2 lines collapsed */
   titleLines: 2,
-  /** NoonSelectionItem: chip width = screen × 0.3, min width = screen × 0.15 */
-  variantChipWidth: 0.3,
-  variantMinWidth: 0.15,
-  /** NoonPaymentsForYou: SECTION_PAD 12, CONTAINER_SPACING 12, COL_GAP 8, PEEK 50 */
-  payments: { sectionPad: 12, containerSpacing: 12, gap: 8, peek: 50 },
-  /** NoonPdpReinforcement: CONTAINER_PADDING 12 + CONTAINER_MARGIN 12, GAP 8; ≥4 items → 3.5 visible */
-  reinforcement: { inset: 24, gap: 8, manyVisible: 3.5 },
   /** NoonQuantitySelector: SECTION_PAD 12, GAP 12, 4.5 visible */
   qty: { sectionPad: 12, gap: 12, maxVisible: 4.5, max: 10 },
-  /** NoonAccordion duration */
-  accordionMs: 150,
   /** NoonProductDetails.onScroll: back to top once scrollY > screenHeight */
   backToTopAfter: layout.deviceHeight,
   /** demo: NoonAddToCartQuantity loading (cart API round-trip) */

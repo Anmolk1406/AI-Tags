@@ -74,7 +74,3 @@ export const listProducts = (q: { collection?: ProductCollection | ProductCollec
 /** The live default PDP product. */
 export const IPHONE_17_PRO_ID = 'N70211593V';
 
-/** FBT offer ids for the iPhone (`fbt_offers`), in live order. */
-export const fbtFor: Record<string, string[]> = {
-  [IPHONE_17_PRO_ID]: ['Z7D7DFFC169EA7DE817A2Z', 'Z49C27F88DD3370F190CAZ', 'ZF1A24406870D3964331CZ'],
-};

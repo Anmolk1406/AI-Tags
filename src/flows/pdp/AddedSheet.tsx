@@ -2,10 +2,11 @@ import { motion } from 'motion/react';
 import { Lottie, ProductCard, ProductImage } from '../../components';
 import { useNav } from '../../kit/Navigator';
 import type { ScreenProps } from '../../kit/types';
-import { productById, products } from '../../data';
-import { copy } from './data';
+import { productById } from '../../data';
 import { pdpTokens } from './tokens';
 import styles from './pdp.module.css';
+import { copy } from '../../data/copy/pdp';
+import { pdpView } from '../../data/views/pdp';
 
 const { quickCart: qc } = pdpTokens;
 
@@ -43,14 +44,11 @@ export function AddedSheet({ params }: ScreenProps<{ productId: string; qty?: nu
         <section className={styles.quickRecs}>
           <h3 className={styles.quickRecsTitle}>{copy.customersAlsoViewed}</h3>
           <div className={styles.recsList}>
-            {products
-              .filter((p) => p.id !== product.id)
-              .slice(0, 6)
-              .map((p) => (
-                <div key={p.id} className={styles.recsItem}>
-                  <ProductCard product={p} compact width={pdpTokens.recoCardWidth()} />
-                </div>
-              ))}
+            {pdpView(product).addedSuggestions.map((p) => (
+              <div key={p.id} className={styles.recsItem}>
+                <ProductCard product={p} compact width={pdpTokens.recoCardWidth()} />
+              </div>
+            ))}
           </div>
         </section>
       )}

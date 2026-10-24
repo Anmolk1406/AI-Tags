@@ -2,27 +2,16 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { Divider, OriginIcon } from '../../../../components';
 import { useNav } from '../../../../kit/Navigator';
-import type { Product } from '../../../../data';
 import { spring } from '../../../../motion/presets';
-import { abbreviate, colorName, copy, score, type PdpContent } from '../../data';
-import { npdCopy } from '../../data.npD';
 import { Asset } from '../Asset';
-import { Card } from '../Sections';
+import { Card } from '../Card';
 import styles from './SfReviewsCard.module.css';
+import { abbreviate, score, type Product } from '../../../../data';
+import { copy, npdCopy, sfCopy } from '../../../../data/copy/pdp';
+import type { PdpContent } from '../../../../data/views/pdp';
 
 type Review = PdpContent['reviews'][number];
 
-/** Storefront copy that is not in data.ts `copy` yet (Figma 3499:75703). */
-const sfCopy = {
-  avgRating: (count: string) => `Avg. rating based on ${count} reviews from trusted sources`,
-  aiTitle: (count: string) => `${count} reviews,`,
-  photoReviews: (n: number) => `Photo Reviews (${n})`,
-  topReviews: (n: string) => `Top Reviews (${n})`,
-  verifiedBuy: 'Verified Buy',
-  fromTrustedSource: 'from trusted source',
-  viewProduct: 'View product',
-  translate: 'Translate to عربي',
-};
 
 /** Figma "Stars": 5 × `size` star-filled in Emerald/800, half star for a .5 remainder, empty in border grey. */
 export function SfStars({ rating, size }: { rating: number; size: 16 | 20 | 22 }) {
@@ -64,7 +53,7 @@ export function SfReviewsCard({ product, content }: { product: Product; content:
               <SfStars rating={Number(score(product.rating))} size={22} />
             </div>
             <span className={styles.note}>
-              {sfCopy.avgRating(abbreviate(product.ratingCount))}
+              {sfCopy.reviews.avgRating(abbreviate(product.ratingCount))}
               <OriginIcon name="info-circle" size={14} color="var(--nk-color-text-muted)" />
             </span>
           </div>
@@ -74,7 +63,7 @@ export function SfReviewsCard({ product, content }: { product: Product; content:
 
       {photos.length > 0 && (
         <div className={styles.section}>
-          <h3 className={styles.title}>{sfCopy.photoReviews(photos.length)}</h3>
+          <h3 className={styles.title}>{sfCopy.reviews.photoReviews(photos.length)}</h3>
           <div className={styles.photoRail}>
             {photos.map((src, i) => (
               <span key={`${src}-${i}`} className={styles.photo}>
@@ -87,9 +76,9 @@ export function SfReviewsCard({ product, content }: { product: Product; content:
 
       {content.reviews.length > 0 && (
         <div className={styles.section}>
-          <h3 className={styles.title}>{sfCopy.topReviews(count)}</h3>
+          <h3 className={styles.title}>{sfCopy.reviews.topReviews(count)}</h3>
           {content.reviews.map((r) => (
-            <SfReviewItem key={r.name} review={r} fallbackChips={purchasedVariant(product)} />
+            <SfReviewItem key={r.name} review={r} fallbackChips={content.purchasedVariant} />
           ))}
           {content.commentCount > 3 && (
             <div className={styles.allReviews}>
@@ -113,7 +102,7 @@ function SfAiSummary({ items, count }: { items: string[]; count: string }) {
     <button type="button" className={styles.ai} onClick={() => setOpen((o) => !o)} aria-expanded={open}>
       <span className={styles.aiHead}>
         <span className={styles.aiTitle}>
-          <span className={styles.aiText}>{sfCopy.aiTitle(count)}</span>
+          <span className={styles.aiText}>{sfCopy.reviews.aiTitle(count)}</span>
           {/* New PDP 64:5733: "summarised by" in solid indigo 92%, " noon AI" in the gradient; no chevron (the row still toggles) */}
           <span className={styles.aiText}>
             <span className={styles.aiBy}>{npdCopy.aiSummarisedBy}</span>
@@ -140,13 +129,6 @@ function SfAiSummary({ items, count }: { items: string[]; count: string }) {
   );
 }
 
-/** What a verified buyer bought, for reviews without their own variant chips: the product's model / colour / storage / version. */
-function purchasedVariant(p: Product): string[] {
-  const a = p.attributes;
-  if (a) return [a.model, a.color, a.storage, a.version].filter((v): v is string => !!v);
-  return [p.colors?.[0] ? colorName(p.colors[0]) : undefined, p.sizes?.[0]].filter((v): v is string => !!v);
-}
-
 /** "Review Card#2": 1px border r16, pt14 px12 pb12, gap 12 — user row + Verified Buy · chips · title / comment / translate · photos · Helpful. */
 function SfReviewItem({ review, fallbackChips = [] }: { review: Review; fallbackChips?: string[] }) {
   const nav = useNav();
@@ -169,7 +151,7 @@ function SfReviewItem({ review, fallbackChips = [] }: { review: Review; fallback
             <SfStars rating={review.rating} size={16} />
             {!review.verified && (
               <span>
-                <span className={styles.dot}>•</span> {sfCopy.fromTrustedSource}
+                <span className={styles.dot}>•</span> {sfCopy.reviews.fromTrustedSource}
               </span>
             )}
             <span>
@@ -180,7 +162,7 @@ function SfReviewItem({ review, fallbackChips = [] }: { review: Review; fallback
         {review.verified && (
           <span className={styles.verified}>
             <OriginIcon name="verified" filled size={12} color="var(--nk-palette-emerald-green)" />
-            {sfCopy.verifiedBuy}
+            {sfCopy.reviews.verifiedBuy}
           </span>
         )}
       </div>
@@ -193,7 +175,7 @@ function SfReviewItem({ review, fallbackChips = [] }: { review: Review; fallback
             </span>
           ))}
           <button type="button" className={`${styles.chip} ${styles.chipLink}`} onClick={() => nav.toast(chips.join(' · '))}>
-            {sfCopy.viewProduct}
+            {sfCopy.reviews.viewProduct}
             <OriginIcon name="chevron-right" size={10} color="var(--nk-color-brand-blue)" />
           </button>
         </div>
@@ -222,8 +204,8 @@ function SfReviewItem({ review, fallbackChips = [] }: { review: Review; fallback
               </button>
             )}
           </div>
-          <button type="button" className={styles.translate} onClick={() => nav.toast(sfCopy.translate)}>
-            {sfCopy.translate}
+          <button type="button" className={styles.translate} onClick={() => nav.toast(sfCopy.reviews.translate)}>
+            {sfCopy.reviews.translate}
           </button>
         </div>
         {review.images && review.images.length > 0 && (

@@ -55,9 +55,4 @@ export const pdpSfCFlowTokens: TokenOverrides = {
 export const pdpSfcTokens = {
   /** USP ticker interval (ms) */
   tickerMs: 2500,
-  /** extended-warranty plan prices as a share of the product price, and their floor */
-  warrantyShare: [0.05, 0.08] as const,
-  warrantyMin: 49,
-  /** design fallback price (dhm 449) when no product price is passed */
-  warrantyFallback: 449,
 };
