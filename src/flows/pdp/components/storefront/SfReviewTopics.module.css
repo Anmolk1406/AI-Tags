@@ -1,6 +1,7 @@
-/* Review topic pills (Figma Or9RuyCtjXRPrnbUJFx7As · 1409:63882) */
+/* Review topic pills (Figma Or9RuyCtjXRPrnbUJFx7As · 1409:63882); with the caret gone the right side gets 10 px (the
+   icon's own inset already pads the left) so the label doesn't sit against the edge */
 .pills { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--nk-space-s8); width: 100%; }
-.pill { appearance: none; border: 0; margin: 0; cursor: pointer; display: inline-flex; align-items: center; gap: var(--nk-space-s2); padding: var(--nk-space-s6); border-radius: var(--nk-radius-r8); background: var(--nk-color-bg-surface); filter: drop-shadow(0 1px 2px var(--nk-color-pdp-sfe-topic-pill-shadow)); }
+.pill { appearance: none; border: 0; margin: 0; cursor: pointer; display: inline-flex; align-items: center; gap: var(--nk-space-s2); padding: var(--nk-space-s6) var(--nk-space-s10) var(--nk-space-s6) var(--nk-space-s6); border-radius: var(--nk-radius-r8); background: var(--nk-color-bg-surface); filter: drop-shadow(0 1px 2px var(--nk-color-pdp-sfe-topic-pill-shadow)); }
 .pillLabel { display: inline-flex; align-items: center; gap: var(--nk-space-s2); font: var(--nk-type-text14-semibold-lh20); letter-spacing: -0.1px; color: var(--nk-color-text-primary); white-space: nowrap; }
 .pill { transform-origin: center; }
 
@@ -13,4 +14,3 @@
 .switcherOption[aria-pressed='true'] { background: var(--nk-color-bg-surface); color: var(--nk-color-text-strong); box-shadow: var(--nk-shadow-card); }
 .switcherReplay { color: var(--nk-color-brand-blue); }
 .switcherReplay:disabled { cursor: default; color: var(--nk-color-text-tertiary); }
-.caret { display: inline-flex; }

@@ -22,8 +22,8 @@
 .topic { flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
 .topic::-webkit-scrollbar { display: none; }
 
-/* sentiment block: pt12, 293 wide centred, 8 apart (Figma 9) */
-.topicHead { flex-shrink: 0; align-self: center; width: 293px; display: flex; flex-direction: column; align-items: center; gap: var(--nk-space-s8); padding-top: var(--nk-space-s12); text-align: center; }
+/* sentiment block: pt20, 293 wide centred, 8 apart (AI-Tags 74N3uH2E094EX3hWw7FDVd · 1632:27199) */
+.topicHead { flex-shrink: 0; align-self: center; width: 293px; display: flex; flex-direction: column; align-items: center; gap: var(--nk-space-s8); padding-top: var(--nk-space-s20); text-align: center; }
 /* the 20 px icon inline before the B16 Bold label, no gap (AI-Tags 74N3uH2E094EX3hWw7FDVd · 1573:20243) */
 .sentiment { display: flex; align-items: center; font: var(--nk-type-pdp-sfe-topic-sentiment); letter-spacing: -0.15px; }
 /* the mark's 20 px slot (MARK_PX); the intro pops it in at the line's centre and slides it here (script) */
@@ -33,12 +33,14 @@
 .markIcon { position: absolute; left: 0; top: 0; display: grid; place-items: center; width: 20px; height: 20px; }
 /* the box round the title (the intro's mask is on it) */
 .titleBox { display: inline-block; }
+/* a neutral title is in the primary text colour (its tilde keeps Blue-Gray/600) — AI-Tags 1632:27203 */
+.sentiment[data-sentiment='neutral'] .titleBox { color: var(--nk-color-text-primary); }
 
-/* the quote: SemiBold 14/22, 293 wide (1573:20246) */
-.quote { width: 293px; margin: 0; font: var(--nk-type-pdp-sfe-topic-quote); letter-spacing: -0.15px; color: var(--nk-color-text-primary); }
+/* the quote: SemiBold 14/22, 293 wide (1573:20246), in text-n-icon/secondary #475067 (AI-Tags 1632:27204) */
+.quote { width: 293px; margin: 0; font: var(--nk-type-pdp-sfe-topic-quote); letter-spacing: -0.15px; color: var(--nk-color-text-muted); }
 
-/* review cards: 24 below the quote, px12, 12 apart; they scroll with the sentiment and quote above them (the whole topic scrolls) */
-.reviews { flex-shrink: 0; display: flex; flex-direction: column; gap: var(--nk-space-s12); margin-top: var(--nk-space-s24); padding: 0 var(--nk-space-s12) var(--nk-space-s12); }
+/* review cards: 32 below the quote (AI-Tags 1632:27199), px12, 12 apart; they scroll with the sentiment and quote above them (the whole topic scrolls) */
+.reviews { flex-shrink: 0; display: flex; flex-direction: column; gap: var(--nk-space-s12); margin-top: var(--nk-space-s32); padding: 0 var(--nk-space-s12) var(--nk-space-s12); }
 
 /* Review card (1421:463): white r16; p12 gap12 body · dashed divider · author row pt8 pb8 px12 */
 .review { flex-shrink: 0; display: flex; flex-direction: column; border-radius: var(--nk-radius-r16); background: var(--nk-color-bg-surface); overflow: hidden; }

@@ -8,7 +8,7 @@ import { useIsTop } from '../../../../kit/Navigator';
 import { haptic } from '../../../../motion/haptics';
 import { noonEase, noonSpring } from '../../../../motion/noonMotion';
 import { useReduceMotion } from '../../../../motion/reducedMotion';
-import { chipHintStore, replayChipHint, setChipHint, type ChipHint } from '../../store';
+import { chipHintStore, replayChipHint, setChipHint, setSwitchMotion, type ChipHint, type SwitchMotion } from '../../store';
 import styles from './SfReviewTopics.module.css';
 
 type Sentiment = ReviewTopic['sentiment'];
@@ -35,14 +35,12 @@ const HINT = {
   /** pulse: one chip after another in reading order — each 1 → 1.08 → 1 over 320 ms, the next starting 90 ms later, so
    *  about three overlap and the wave crosses all eight in ≈1 s */
   pulse: { peak: 1.08, duration: 0.32, step: 0.09 },
-  /** caret nudge: each chip's ▾ dips 4 px and back over 360 ms, 90 ms apart — "this opens" */
-  caret: { dip: 4, duration: 0.36, step: 0.09 },
 };
 
 /**
  * Topic "Pills" under the AI summary bullets (Figma 1409:63882): wrap, 8 apart; white r8, p6, purple 8% drop shadow,
- * trend icon + 14/20 600 Blue-Gray/900 + 14px caret-down in Blue-Gray/400. Tap opens that topic. The first time the
- * block scrolls into view the chips play the selected tap-me hint (chipHintStore: populate · pulse · caret · off).
+ * trend icon + 14/20 600 Blue-Gray/900 (no caret, on request 2026-10-28). Tap opens that topic. The first time the
+ * block scrolls into view the chips play the selected tap-me hint (chipHintStore: populate · pulse · off).
  */
 export function SfTopicPills({ topics, onOpen }: { topics: ReviewTopic[]; onOpen: (index: number) => void }) {
   const [scope, animate] = useAnimate<HTMLDivElement>();
@@ -71,13 +69,9 @@ export function SfTopicPills({ topics, onOpen }: { topics: ReviewTopic[]; onOpen
             { opacity: [0, 1], scale: [HINT.populate.from, 1] },
             { scale: { ...noonSpring.noon, delay: i * HINT.populate.step }, opacity: { duration: 0.2, ease: noonEase.fadeIn, delay: i * HINT.populate.step } },
           );
-        } else if (hint === 'pulse') {
+        } else {
           const p = HINT.pulse;
           animate(chip, { scale: [1, p.peak, 1] }, { duration: p.duration, ease: noonEase.soft, delay: i * p.step });
-        } else {
-          const c = HINT.caret;
-          const caret = chip.querySelector<HTMLElement>('[data-caret]');
-          if (caret) animate(caret, { y: [0, c.dip, 0] }, { duration: c.duration, ease: noonEase.soft, delay: i * c.step });
         }
       });
     };
@@ -85,8 +79,6 @@ export function SfTopicPills({ topics, onOpen }: { topics: ReviewTopic[]; onOpen
     chips.forEach((chip) => {
       chip.style.opacity = hidden ? '0' : '';
       chip.style.transform = '';
-      const caret = chip.querySelector<HTMLElement>('[data-caret]');
-      if (caret) caret.style.transform = '';
     });
     if (inView.current) play();
     const io = new IntersectionObserver(
@@ -120,9 +112,6 @@ export function SfTopicPills({ topics, onOpen }: { topics: ReviewTopic[]; onOpen
               <SfTopicIcon sentiment={t.sentiment} />
               {t.label}
             </span>
-            <span className={styles.caret} data-caret>
-              <OriginIcon name="caret-down" size={14} color="var(--nk-color-text-tertiary)" />
-            </span>
           </motion.button>
         ))}
       </div>
@@ -135,7 +124,6 @@ export function SfTopicPills({ topics, onOpen }: { topics: ReviewTopic[]; onOpen
 const HINT_OPTIONS: { value: ChipHint; label: string }[] = [
   { value: 'populate', label: 'Stagger in' },
   { value: 'pulse', label: 'Pulse 1 by 1' },
-  { value: 'caret', label: 'Caret nudge' },
   { value: 'off', label: 'Off' },
 ];
 
@@ -154,6 +142,27 @@ function ChipHintSwitcher({ hint }: { hint: ChipHint }) {
       <button type="button" className={styles.switcherReplay} onClick={replayChipHint} disabled={hint === 'off'}>
         Replay
       </button>
+    </div>
+  );
+}
+
+const SWITCH_OPTIONS: { value: SwitchMotion; label: string }[] = [
+  { value: 'draw', label: 'Draw' },
+  { value: 'intro', label: 'Intro' },
+];
+
+/** Prototype-only test control in the review-topics sheet: what the mark does on a chip switch (switchMotionStore). */
+export function SwitchMotionSwitcher({ mode }: { mode: SwitchMotion }) {
+  return (
+    <div className={styles.switcher} role="group" aria-label="Chip switch motion test">
+      <span className={styles.switcherLabel}>Chip switch</span>
+      <div className={styles.switcherOptions}>
+        {SWITCH_OPTIONS.map((o) => (
+          <button key={o.value} type="button" className={styles.switcherOption} aria-pressed={mode === o.value} onClick={() => setSwitchMotion(o.value)}>
+            {o.label}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

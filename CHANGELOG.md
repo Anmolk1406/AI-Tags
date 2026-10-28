@@ -4,6 +4,10 @@ All notable changes to `noon-kit`. Format: [Keep a Changelog](https://keepachang
 
 ## [Unreleased]
 
+- `pdp/reviewTopics` (Figma AI-Tags 74N3uH2E094EX3hWw7FDVd · 1632:27193): a neutral sentiment title is in the primary text colour (#1D2539) and the AI quote in Blue-Gray/700 (#475067); the sentiment block sits 20 px below the chips and the reviews 32 px below the quote.
+- `pdp/reviewTopics`: a second chip-switch variant, "Intro", replays the sheet-opening motion on every switch (mark pops in at the centre, slides to its slot, title uncovered behind it); the default "Draw" keeps the in-place trim-path draw. Pick with the sheet's prototype-only "Chip switch" control or `?switch=draw|intro`.
+- `pdp/reviewTopics`: on a chip switch the sentiment mark now draws on in place (trim path: the arrow's shaft, then its head; the tilde left to right) as the new topic fades in.
+- PDP topic chips under the AI review summary no longer show a caret (▾); the "Caret nudge" tap-me hint is removed with it.
 - `pdp/reviewTopics`: the sentiment line reads "Great quality" · "Average durability" · "Poor size" (no "on"), centred with its mark; each topic's first (photo) review is written about that topic (`defaultTopicFirstReviews`, phone-specific copy on the iPhone 17 Pro); the sentiment, quote and reviews now scroll together.
 - The prototype phone is now 375 × 812 (`layout.deviceWidth` / `deviceHeight`), the size of the Figma frames (it was 390 × 844), with square corners: `layout.screenRadius` 0, no rounded clip.
 

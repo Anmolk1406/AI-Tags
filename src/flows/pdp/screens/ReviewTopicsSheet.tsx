@@ -1,16 +1,18 @@
 import { animate, motion, useAnimate, type AnimationPlaybackControls } from 'motion/react';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { flushSync } from 'react-dom';
+import { createPortal, flushSync } from 'react-dom';
 import { DashedDivider, OriginIcon, SheetBody, Skeleton } from '../../../components';
 import { productById, type ReviewTopic } from '../../../data';
 import { radius } from '../../../foundations/tokens';
 import { copy, sfCopy } from '../../../data/copy/pdp';
 import { pdpView } from '../../../data/views/pdp';
+import { useIsTop } from '../../../kit/Navigator';
 import type { ScreenProps } from '../../../kit/types';
 import { haptic } from '../../../motion/haptics';
 import { noonEase, noonSpring, noonStagger, noonTravel } from '../../../motion/noonMotion';
 import { useReduceMotion } from '../../../motion/reducedMotion';
-import { SfTopicIcon, sentimentColor } from '../components/storefront/SfReviewTopics';
+import { SfTopicIcon, SwitchMotionSwitcher, sentimentColor } from '../components/storefront/SfReviewTopics';
+import { switchMotionStore } from '../store';
 import styles from './ReviewTopicsSheet.module.css';
 
 type Params = { productId: string; topic?: number };
@@ -159,13 +161,16 @@ export function ReviewTopicsSheet({ params }: ScreenProps<Params>) {
     haptic('pop');
     if (i === active) return;
     setActive(i);
-    setIntro(false);
     centrePill(i, reduce);
     openRevealed.current = true;
     const id = ++swapId.current;
     window.clearTimeout(holdTimer.current);
     window.clearTimeout(tintTimer.current);
+    // the mark on a switch: draws on in place, or (the `intro` variant) the same motion as opening the sheet — set as
+    // the new topic mounts, so the outgoing one keeps its mark and title while it fades out
+    const withIntro = switchMotionStore.get().mode === 'intro';
     if (reduce || !stage.current) {
+      setIntro(withIntro);
       setShown(i);
       return;
     }
@@ -176,11 +181,14 @@ export function ReviewTopicsSheet({ params }: ScreenProps<Params>) {
     if (id !== swapId.current) return;
     holdTimer.current = window.setTimeout(() => {
       if (id !== swapId.current || !stage.current) return;
+      setIntro(withIntro);
       setShown(i);
       reveal();
     }, SWAP.holdMs);
   };
 
+  const isTop = useIsTop();
+  const switchMode = switchMotionStore.useStore((s) => s.mode);
   const markLoaded = useCallback((label: string) => setLoaded((s) => new Set(s).add(label)), []);
 
   if (topics.length === 0) return null;
@@ -243,6 +251,7 @@ export function ReviewTopicsSheet({ params }: ScreenProps<Params>) {
       <div ref={stage} className={styles.stage} role="tabpanel">
         <TopicBody key={topic.label} topic={topic} entered={entered} intro={intro} loaded={loaded.has(topic.label)} onLoaded={markLoaded} reduce={reduce} />
       </div>
+      {isTop && createPortal(<SwitchMotionSwitcher mode={switchMode} />, document.querySelector('.nk-root') ?? document.body)}
     </SheetBody>
   );
 }
@@ -263,6 +272,18 @@ const MARK_PX = 20;
  * title, so the mask comes off without a visible change.
  */
 const MARK_MOTION = {
+  /** on a chip switch the mark draws on in place (trim path, `draw`) from `atS` into the content's fade-in,
+   *  and, from `popAtS` (once the content is mostly in, so the bounce is seen), growing from `fromScale` on a springy
+   *  spring (ζ 0.4): it overshoots to ≈ 112 % and settles */
+  switchDraw: {
+    atS: 0.1,
+    /** its own, slower draw (so it reads as the stroke being drawn, not a scale): the shaft, then the arms; the tilde */
+    draw: { shaftS: 0.5, armsAtS: 0.34, armsS: 0.42, tildeS: 0.7 },
+    drawEase: [0.45, 0, 0.25, 1] as [number, number, number, number],
+    popAtS: 0.2,
+    fromScale: 0.5,
+    bounce: { type: 'spring', stiffness: 400, damping: 16, mass: 1 } as const,
+  },
   reveal: {
     fromScale: 2.2,
     popAtS: 0.12,
@@ -338,6 +359,10 @@ function featherRamp(ink: string, from: number, to: number, floor = 0) {
   return (from <= to ? stops : stops.reverse()).join(', ');
 }
 
+/** where each mark's stroke starts, as a transform origin in its box: the arrow's tail (grid 7,17 · 7,7 of 24) and the
+ *  tilde's left end (2.81,9.17 of 18) — the switch's bounce grows out of it */
+const MARK_START: Record<ReviewTopic['sentiment'], string> = { positive: '29% 71%', negative: '29% 29%', neutral: '16% 51%' };
+
 /** The mark's strokes, found in its element. */
 function markParts(el: HTMLElement) {
   return {
@@ -385,6 +410,7 @@ function TopicBody({
     if (!wrap) return;
     const dx = row.getBoundingClientRect().width / 2 - MARK_PX / 2;
     wrap.style.transform = `translateX(${dx}px)`;
+    el.style.transformOrigin = '50% 50%';
     animate(el, { scale: r.fromScale, rotate: 0, x: 0, opacity: 0 }, { duration: 0 });
     animate(el, { opacity: [0, 1] }, { duration: 0.08, delay: r.popAtS, ease: noonEase.fadeIn });
     animate(el, { scale: [r.fromScale, 1] }, { ...r.pop, delay: r.popAtS });
@@ -472,20 +498,38 @@ function TopicBody({
     }, r.moveAtS * 1000);
   }, []);
 
-  // the intro plays on the sheet's first topic; on a chip switch (or with reduced motion) the mark simply sits in its
-  // slot and the content's fade-in reveals it
+  // the intro plays on the sheet's first topic; on a chip switch the mark draws on in its slot as the content fades in;
+  // with reduced motion it simply sits there
   useEffect(() => {
     const el = markScope.current;
     if (!el) return;
     const { shaft, arms, tilde } = markParts(el);
     const strokes = [shaft, ...arms, tilde].filter((p): p is SVGPathElement => !!p);
-    if (reduce || !intro) {
+    if (reduce) {
       strokes.forEach((p) => setTrim(p, 1, 0));
       animate(el, { opacity: 1, scale: 1 }, { duration: 0 });
       return;
     }
+    if (!intro) {
+      // a chip switch: the mark sits in its slot and draws on (trim path) as the content fades in — the arrow's shaft
+      // from its tail, then the head's arms; the tilde left to right (MARK_MOTION.switchDraw)
+      animate(el, { opacity: 1, scale: 1 }, { duration: 0 });
+      if (!entered) return;
+      const w = MARK_MOTION.switchDraw;
+      const d = w.draw;
+      strokes.forEach((p) => setTrim(p, 0, 0));
+      // …with a small bounce: it grows from `fromScale` and overshoots a touch before it settles — out of the point the
+      // stroke starts from (the arrow's tail, the tilde's left end), not its centre, so it reads as drawn from that end
+      el.style.transformOrigin = MARK_START[topic.sentiment];
+      animate(el, { scale: w.fromScale }, { duration: 0 });
+      animate(el, { scale: [w.fromScale, 1] }, { ...w.bounce, delay: w.popAtS });
+      if (shaft) animateTrim(shaft, [0, 0], [1, 0], { duration: d.shaftS, delay: w.atS, ease: w.drawEase });
+      arms.forEach((q) => animateTrim(q, [0, 0], [1, 0], { duration: d.armsS, delay: w.atS + d.armsAtS, ease: w.drawEase }));
+      if (tilde) animateTrim(tilde, [0, 0], [1, 0], { duration: d.tildeS, delay: w.atS, ease: w.drawEase });
+      return;
+    }
     if (entered) revealIn(el);
-  }, [entered, intro, reduce, markScope, revealIn]);
+  }, [entered, intro, reduce, markScope, revealIn, topic.sentiment]);
 
   const [scope, animateRows] = useAnimate<HTMLDivElement>();
   // a topic not seen yet: the skeleton stays a little longer than the swap's hold (mock fetch)
