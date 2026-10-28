@@ -6,29 +6,29 @@ Values, meaning and Figma mapping: `.claude/skills/noon-ui/references/tokens.md`
 
 | Group | CSS prefix | Tokens | Used | Most used |
 |---|---|---|---|---|
-| `tokgrp:colors` | `--nk-color-` | 68 | 59 | `--nk-color-badge` 179, `--nk-color-bg-disabled` 179, `--nk-color-bg-info` 179, `--nk-color-bg-inverse` 179 |
-| `tokgrp:palette` | `--nk-palette-absolute-` | 492 | 322 | `--nk-palette-absolute-apricot` 179, `--nk-palette-accent-blue` 179, `--nk-palette-accent-color` 179, `--nk-palette-anti-flash-white` 179 |
-| `tokgrp:spacing` | `--nk-space-` | 22 | 21 | `--nk-space-s10` 179, `--nk-space-s12` 179, `--nk-space-s16` 179, `--nk-space-s2` 179 |
-| `tokgrp:radius` | `--nk-radius-` | 15 | 14 | `--nk-radius-full` 179, `--nk-radius-r10` 179, `--nk-radius-r12` 179, `--nk-radius-r14` 179 |
-| `tokgrp:fontSize` | `--nk-font-size-` | 18 | 11 | `--nk-font-size-body` 179, `--nk-font-size-body-large` 84, `--nk-font-size-body-small` 84, `--nk-font-size-caption` 84 |
-| `tokgrp:fontFamily` | `--nk-font-` | 3 | 1 | `--nk-font-family` 179 |
-| `tokgrp:fontWeight` | `--nk-font-weight-` | 5 | 5 | `--nk-font-weight-semibold` 179, `--nk-font-weight-bold` 90, `--nk-font-weight-medium` 84, `--nk-font-weight-regular` 39 |
-| `tokgrp:type` | `--nk-type-` | 112 | 89 | `--nk-type-body` 179, `--nk-type-body-bold` 179, `--nk-type-body-large` 179, `--nk-type-caption-bold` 179 |
-| `tokgrp:shadow` | `--nk-shadow-` | 10 | 9 | `--nk-shadow-floating` 179, `--nk-shadow-sheet` 179, `--nk-shadow-snackbar` 179, `--nk-shadow-tab-bar` 179 |
-| `tokgrp:layout` | `--nk-layout-device-` | 8 | 4 | `--nk-layout-tab-bar` 179, `--nk-layout-header` 22, `--nk-layout-device-width` 16, `--nk-layout-device-height` 7 |
-| `tokgrp:button` | `--nk-button-` | 228 | 190 | `--nk-button-field-press-ease` 40, `--nk-button-border-width` 37, `--nk-button-bright-bg` 37, `--nk-button-bright-bg-disabled` 37 |
+| `tokgrp:colors` | `--nk-color-` | 68 | 59 | `--nk-color-badge` 180, `--nk-color-bg-disabled` 180, `--nk-color-bg-info` 180, `--nk-color-bg-inverse` 180 |
+| `tokgrp:palette` | `--nk-palette-absolute-` | 492 | 322 | `--nk-palette-absolute-apricot` 180, `--nk-palette-accent-blue` 180, `--nk-palette-accent-color` 180, `--nk-palette-anti-flash-white` 180 |
+| `tokgrp:spacing` | `--nk-space-` | 22 | 21 | `--nk-space-s10` 180, `--nk-space-s12` 180, `--nk-space-s16` 180, `--nk-space-s2` 180 |
+| `tokgrp:radius` | `--nk-radius-` | 15 | 14 | `--nk-radius-full` 180, `--nk-radius-r10` 180, `--nk-radius-r12` 180, `--nk-radius-r14` 180 |
+| `tokgrp:fontSize` | `--nk-font-size-` | 18 | 11 | `--nk-font-size-body` 180, `--nk-font-size-body-large` 84, `--nk-font-size-body-small` 84, `--nk-font-size-caption` 84 |
+| `tokgrp:fontFamily` | `--nk-font-` | 3 | 1 | `--nk-font-family` 180 |
+| `tokgrp:fontWeight` | `--nk-font-weight-` | 5 | 5 | `--nk-font-weight-semibold` 180, `--nk-font-weight-bold` 90, `--nk-font-weight-medium` 84, `--nk-font-weight-regular` 39 |
+| `tokgrp:type` | `--nk-type-` | 112 | 89 | `--nk-type-body` 180, `--nk-type-body-bold` 180, `--nk-type-body-large` 180, `--nk-type-caption-bold` 180 |
+| `tokgrp:shadow` | `--nk-shadow-` | 10 | 9 | `--nk-shadow-floating` 180, `--nk-shadow-sheet` 180, `--nk-shadow-snackbar` 180, `--nk-shadow-tab-bar` 180 |
+| `tokgrp:layout` | `--nk-layout-device-` | 8 | 4 | `--nk-layout-tab-bar` 180, `--nk-layout-device-height` 176, `--nk-layout-header` 22, `--nk-layout-device-width` 16 |
+| `tokgrp:button` | `--nk-button-` | 228 | 190 | `--nk-button-field-press-ease` 41, `--nk-button-border-width` 38, `--nk-button-bright-bg` 38, `--nk-button-bright-bg-disabled` 38 |
 | `tokgrp:iconButton` | `--nk-icon-button-` | 32 | 27 | `--nk-icon-button-border-width` 21, `--nk-icon-button-outline-bg` 21, `--nk-icon-button-outline-border` 21, `--nk-icon-button-radius` 21 |
-| `tokgrp:badge` | `--nk-badge-` | 8 | 6 | `--nk-badge-bg` 175, `--nk-badge-fg` 175, `--nk-badge-padding-x` 175, `--nk-badge-radius` 175 |
+| `tokgrp:badge` | `--nk-badge-` | 8 | 6 | `--nk-badge-bg` 176, `--nk-badge-fg` 176, `--nk-badge-padding-x` 176, `--nk-badge-radius` 176 |
 | `tokgrp:pill` | `--nk-pill-` | 40 | 34 | `--nk-pill-nav-radius` 10, `--nk-pill-bg` 9, `--nk-pill-border` 9, `--nk-pill-border-width` 9 |
 | `tokgrp:stepper` | `--nk-stepper-` | 26 | 1 | `--nk-stepper-disabled-opacity` 3 |
 | `tokgrp:searchBar` | `--nk-search-bar-` | 20 | 16 | `--nk-search-bar-bg` 14, `--nk-search-bar-border` 14, `--nk-search-bar-divider-gap` 14, `--nk-search-bar-divider-height` 14 |
-| `tokgrp:tabBar` | `--nk-tab-bar-` | 59 | 42 | `--nk-tab-bar-badge-font` 175, `--nk-tab-bar-badge-left` 175, `--nk-tab-bar-badge-top` 175, `--nk-tab-bar-bar-shadow` 175 |
+| `tokgrp:tabBar` | `--nk-tab-bar-` | 59 | 42 | `--nk-tab-bar-badge-font` 176, `--nk-tab-bar-badge-left` 176, `--nk-tab-bar-badge-top` 176, `--nk-tab-bar-bar-shadow` 176 |
 | `tokgrp:quickAdd` | `--nk-quick-add-` | 12 | 8 | `--nk-quick-add-bg` 14, `--nk-quick-add-border` 14, `--nk-quick-add-count-fg` 14, `--nk-quick-add-count-font` 14 |
 | `tokgrp:needHelp` | `--nk-need-help-` | 15 | 12 | `--nk-need-help-bg` 3, `--nk-need-help-border` 3, `--nk-need-help-border-width` 3, `--nk-need-help-fg` 3 |
-| `tokgrp:sheet` | `--nk-sheet-` | 36 | 35 | `--nk-sheet-bg` 175, `--nk-sheet-bottom-gap` 175, `--nk-sheet-floating-bottom-gap` 175, `--nk-sheet-floating-handle` 175 |
+| `tokgrp:sheet` | `--nk-sheet-` | 36 | 35 | `--nk-sheet-bg` 176, `--nk-sheet-bottom-gap` 176, `--nk-sheet-floating-bottom-gap` 176, `--nk-sheet-floating-handle` 176 |
 | `tokgrp:eta` | `--nk-eta-` | 24 | 24 | `--nk-eta-chip-gap` 14, `--nk-eta-chip-height` 14, `--nk-eta-chip-padding` 14, `--nk-eta-gap` 14 |
-| `tokgrp:snackbar` | `--nk-snackbar-` | 33 | 32 | `--nk-snackbar-action-bg` 175, `--nk-snackbar-action-font` 175, `--nk-snackbar-action-inset` 175, `--nk-snackbar-action-light-bg` 175 |
-| `tokgrp:field` | `--nk-field-text-` | 65 | 23 | `--nk-field-border-overlay` 175, `--nk-field-surface-primary` 175, `--nk-field-surface-tertiary` 175, `--nk-field-text-action` 175 |
+| `tokgrp:snackbar` | `--nk-snackbar-` | 33 | 32 | `--nk-snackbar-action-bg` 176, `--nk-snackbar-action-font` 176, `--nk-snackbar-action-inset` 176, `--nk-snackbar-action-light-bg` 176 |
+| `tokgrp:field` | `--nk-field-text-` | 65 | 23 | `--nk-field-border-overlay` 176, `--nk-field-surface-primary` 176, `--nk-field-surface-tertiary` 176, `--nk-field-text-action` 176 |
 
 ## Flow token sets
 
@@ -47,7 +47,7 @@ Values, meaning and Figma mapping: `.claude/skills/noon-ui/references/tokens.md`
 | `flow:membership` | 174 | `src/flows/membership/tokens.ts` |
 | `flow:noonone` | 467 | `src/flows/noonone/tokens.ts` |
 | `flow:orders` | 18 | `src/flows/orders/tokens.ts` |
-| `flow:pdp` | 245 | `src/flows/pdp/tokens.ts` |
+| `flow:pdp` | 252 | `src/flows/pdp/tokens.ts` |
 | `flow:plp` | 14 | `src/flows/plp/tokens.ts` |
 | `flow:returns` | 48 | `src/flows/returns/tokens.ts` |
 | `flow:reviews` | 55 | `src/flows/reviews/tokens.ts` |

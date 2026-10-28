@@ -83,7 +83,7 @@ Edges come from static `nav.*('…')` calls in each screen's import closure (dyn
 | `categories` | 1/4 | 0/4 |
 | `deals` | 0/1 | 0/1 |
 | `plp` | 3/3 | 1/3 |
-| `pdp` | 4/4 | 1/4 |
+| `pdp` | 4/5 | 1/5 |
 | `cart` | 3/9 | 1/9 |
 | `checkout` | 4/22 | 1/22 |
 | `orders` | 1/4 | 0/4 |

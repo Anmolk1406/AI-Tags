@@ -330,9 +330,9 @@ export const shadow = {
 } as const;
 
 export const layout = {
-  deviceWidth: 390,
-  deviceHeight: 844,
-  screenRadius: 52, // device screen corner
+  deviceWidth: 375, // the Figma frames' size (375 × 812); was 390 × 844
+  deviceHeight: 812,
+  screenRadius: 0, // device screen corner: square, no rounded clip (was 52)
   screenSmoothing: 1, // Figma corner smoothing (0–1); 1 = 100%
   statusBar: 54,
   homeIndicator: 34,

@@ -28,7 +28,7 @@
 
 ## `cart/cart` · `cart/empty` · `cart/loading`
 
-- Module `src/flows/cart/CartScreen.tsx` (shared by 3 screens; params pick the state) · 39 own files, 82 in the import closure · **imports from other flows:** `src/flows/noonone/components/entry/cartVipPush.ts` <!-- count-ok -->
+- Module `src/flows/cart/CartScreen.tsx` (shared by 3 screens; params pick the state) · 39 own files, 83 in the import closure · **imports from other flows:** `src/flows/noonone/components/entry/cartVipPush.ts` <!-- count-ok -->
 - Source: marketplaces/noon/screens/NoonCartScreen; visuals Figma Af34gfmhQ1D0wstXUEHSIF · 127:39687 (All flows "Cart": supermall / Global / express / market groups, carousels, coupon, cobrand cards, payment offers, sticky footer…
 - Styles: cart.module.css, components/callout.module.css, components/cobrand.module.css, components/coupon.module.css, components/footer.module.css, components/glassFooter.module.css, components/group.module.css, components/header.module.css, components/html.module.css, components/inactive.module.css, components/invoice.module.css, components/item.module.css, components/sections.module.css, components/snackbar.module.css
 - Data / helpers: data.ts, invoice.ts, tokens.ts
@@ -45,7 +45,7 @@
 
 ## `cart/variants`
 
-- Module `src/flows/cart/VariantsSheet.tsx` · 4 own files, 37 in the import closure
+- Module `src/flows/cart/VariantsSheet.tsx` · 4 own files, 38 in the import closure
 - Source: marketplaces/noon/screens/NoonCartVariantsOverlayScreen (+ NoonProductCartOptionsSelection chips)
 - Styles: variants.module.css
 - Data / helpers: data.variants.ts
@@ -59,7 +59,7 @@
 
 ## `cart/customize`
 
-- Module `src/flows/cart/CustomizeSheet.tsx` · 3 own files, 29 in the import closure
+- Module `src/flows/cart/CustomizeSheet.tsx` · 3 own files, 30 in the import closure
 - Source: marketplaces/noon/screens/NoonCartCustomizeOverlayScreen
 - Styles: customize.module.css
 - Data / helpers: data.ts
@@ -72,7 +72,7 @@
 
 ## `cart/couponTray`
 
-- Module `src/flows/cart/CouponTraySheet.tsx` · 9 own files, 47 in the import closure
+- Module `src/flows/cart/CouponTraySheet.tsx` · 9 own files, 48 in the import closure
 - Source: marketplaces/noon/screens/NoonSalesCouponTrayOverlayScreen (+ NoonSalesCouponTrayOffer, NoonSalesCouponTrayBestPriceSection, …UnlockCriteria, …TiersProgressBar, …AnimatedItem); see components/couponTray/MAPPING.md
 - Styles: components/couponTray/tray.module.css, couponTray.module.css
 - Data / helpers: data.couponTray.ts, tokens.ts
@@ -87,7 +87,7 @@
 
 ## `cart/discount`
 
-- Module `src/flows/cart/DiscountDetailsSheet.tsx` · 5 own files, 51 in the import closure
+- Module `src/flows/cart/DiscountDetailsSheet.tsx` · 5 own files, 52 in the import closure
 - Source: marketplaces/noon/screens/NoonCartDiscountDetailsOverlayScreen
 - Styles: components/html.module.css, discount.module.css
 - Data / helpers: data.ts

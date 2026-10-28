@@ -3,9 +3,9 @@
    rectangle and the squircle read the same. */
 .device { position: relative; transform-origin: top center; flex-shrink: 0; }
 .device::before { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: var(--nk-layout-screen-radius, 52px); box-shadow: 0 24px 48px var(--nk-palette-charcoal-navy-alpha16), 0 2px 6px var(--nk-palette-charcoal-navy-alpha8); }
-.frameless { transform-origin: top center; flex-shrink: 0; box-shadow: 0 10px 40px var(--nk-palette-charcoal-navy-alpha12); border-radius: 12px; overflow: hidden; }
+.frameless { transform-origin: top center; flex-shrink: 0; box-shadow: 0 10px 40px var(--nk-palette-charcoal-navy-alpha12); overflow: hidden; }
 .viewport { position: relative; overflow: hidden; background: var(--nk-color-bg-surface); container-type: inline-size; }
-.frameless .viewport { border-radius: 12px; }
+.frameless .viewport { border-radius: 0; }
 .statusBar { position: absolute; top: 0; left: 0; right: 0; height: 62px; z-index: 1000; display: flex; align-items: center; justify-content: center; gap: 154px; padding: 21px 24px 19px; box-sizing: border-box; pointer-events: none; color: var(--nk-palette-black); } /* iOS status bar (Figma: 21 / 24 / 19 padding, 154 gap for the island) */
 .statusBar[data-tone='light'] { color: var(--nk-color-text-inverse); }
 .time { flex: 1 0 0; display: flex; justify-content: center; align-items: center; height: 22px; padding-top: 1.5px; box-sizing: border-box; font: 590 17px/22px -apple-system, 'SF Pro Text', 'SF Pro', var(--nk-font-family); letter-spacing: -0.41px; text-align: center; } /* token-lint-ignore: iOS status-bar clock (system font, device chrome, not a noon type style) */

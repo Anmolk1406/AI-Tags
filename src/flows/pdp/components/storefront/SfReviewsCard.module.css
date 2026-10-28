@@ -22,6 +22,11 @@
 .aiTitle { flex: 1; min-width: 0; display: flex; align-items: center; gap: var(--nk-space-s4); }
 .aiText { font: var(--nk-type-body-semibold); white-space: nowrap; color: transparent; -webkit-background-clip: text; background-clip: text; background-image: linear-gradient(90deg, var(--nk-palette-title-gradient-indigo), var(--nk-palette-title-gradient-violet)); }
 .aiBy { color: var(--nk-palette-title-gradient-indigo); -webkit-text-fill-color: var(--nk-palette-title-gradient-indigo); }
+/* topic summary (1409:63840): solid ink count, details pb14 and 14 between bullets and pills */
+.aiCount { font: var(--nk-type-body-semibold); letter-spacing: -0.14px; color: var(--nk-color-text-ink); white-space: nowrap; }
+/* Figma 1409:63851: bullets → pills 14 apart, pb14 (doubled class: wins over the .aiBody rule further down) */
+.aiBody.aiTopicBody { gap: var(--nk-space-s14); padding-bottom: var(--nk-space-s14); }
+.aiItems { display: flex; flex-direction: column; gap: var(--nk-space-s8); }
 .aiBodyWrap { display: block; overflow: hidden; }
 .aiBody { display: flex; flex-direction: column; gap: var(--nk-space-s8); padding: var(--nk-space-s12); }
 .aiItem { display: flex; align-items: flex-start; gap: 7px; font: var(--nk-type-body); color: var(--nk-color-text-primary); }

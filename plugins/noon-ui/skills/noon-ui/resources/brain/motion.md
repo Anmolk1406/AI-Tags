@@ -21,27 +21,27 @@ Values and recipes: `references/motion.md` · per-flow motion and reduced-motion
 | `mo:transition/noonone-instant` | `src/flows/noonone/transitions.ts` | `membership/changePlan`, `membership/familyReview`, `membership/info`, `membership/manage`, `membership/partner`, `membership/referralsInput`, `membership/reviewPlan`, `noonone/acceptInvite`, `noonone/acceptInviteError`, `noonone/addCard`, `noonone/addCvv`, `noonone/bundle` … +12 | — |
 | `mo:transition/noonone-overlay` | `src/flows/noonone/transitions.ts` | `membership/changePlan`, `membership/familyReview`, `membership/info`, `membership/manage`, `membership/partner`, `membership/referralsInput`, `membership/reviewPlan`, `noonone/acceptInvite`, `noonone/acceptInviteError`, `noonone/addCard`, `noonone/addCvv`, `noonone/cartOverlay` … +10 | — |
 | `mo:transition/push` | `src/motion/transitions.ts` | — | 70 screens | <!-- count-ok -->
-| `mo:transition/sheet` | `src/motion/transitions.ts` | `membership/changePlan`, `membership/familyReview`, `membership/info`, `membership/manage`, `membership/partner`, `membership/referralsInput`, `membership/reviewPlan`, `noonone/bundle` | 52 screens | <!-- count-ok -->
+| `mo:transition/sheet` | `src/motion/transitions.ts` | `membership/changePlan`, `membership/familyReview`, `membership/info`, `membership/manage`, `membership/partner`, `membership/referralsInput`, `membership/reviewPlan`, `noonone/bundle` | 53 screens | <!-- count-ok -->
 | `mo:transition/zoom` | `src/motion/transitions.ts` | — | — |
 
 ## Presets, recipes, reduced motion, haptics
 
 | Id | Screens | Flows |
 |---|---|---|
-| `mo:haptics` | 14 | orders, plp, reviews, search |
+| `mo:haptics` | 16 | orders, pdp, plp, reviews, search |
 | `mo:preset/appleSpring` | 5 | account, home, orders |
-| `mo:preset/duration.base` | 175 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
-| `mo:preset/duration.fast` | 175 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
-| `mo:preset/duration.medium` | 175 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
+| `mo:preset/duration.base` | 176 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
+| `mo:preset/duration.fast` | 176 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
+| `mo:preset/duration.medium` | 176 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
 | `mo:preset/duration.slow` | 21 | home, membership, noonone, plp, reviews, search, yellowFriday |
 | `mo:preset/duration.slower` | 1 | orders |
 | `mo:preset/easing.backOut` | 15 | account, categories, deals, fieldds, home, plp, search |
 | `mo:preset/easing.in` | 11 | account, address, orders, returns |
 | `mo:preset/easing.inOut` | 4 | address, checkout |
-| `mo:preset/easing.ios` | 175 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
-| `mo:preset/easing.out` | 176 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
-| `mo:preset/easing.standard` | 175 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
-| `mo:preset/fieldMotion` | 175 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
+| `mo:preset/easing.ios` | 176 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
+| `mo:preset/easing.out` | 177 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
+| `mo:preset/easing.standard` | 176 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
+| `mo:preset/fieldMotion` | 176 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
 | `mo:preset/handoff.easeInOut` | 31 | categories, deals, fieldds, home, membership, noonone, orders, plp, reviews, search, yellowFriday |
 | `mo:preset/handoff.easeOut` | 22 | home, membership, noonone, orders, plp, reviews, search, yellowFriday |
 | `mo:preset/handoff.fade` | 22 | home, membership, noonone, orders, plp, reviews, search, yellowFriday |
@@ -49,11 +49,11 @@ Values and recipes: `references/motion.md` · per-flow motion and reduced-motion
 | `mo:preset/handoff.springs` | 20 | home, membership, noonone, plp, reviews, search, yellowFriday |
 | `mo:preset/handoff.stagger` | 5 | orders, plp, search |
 | `mo:preset/handoff.travel` | 4 | orders, search |
-| `mo:preset/pressScale` | 179 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
-| `mo:preset/spring.bouncy` | 175 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
-| `mo:preset/spring.gentle` | 175 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
-| `mo:preset/spring.press` | 175 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
-| `mo:preset/spring.sheet` | 175 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
+| `mo:preset/pressScale` | 180 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
+| `mo:preset/spring.bouncy` | 176 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
+| `mo:preset/spring.gentle` | 176 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
+| `mo:preset/spring.press` | 176 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
+| `mo:preset/spring.sheet` | 176 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
 | `mo:preset/supermall.ease` | 12 | orders, reviews |
 | `mo:preset/supermall.press` | 3 | orders |
 | `mo:preset/supermall.reveal` | 3 | orders |
@@ -68,4 +68,4 @@ Values and recipes: `references/motion.md` · per-flow motion and reduced-motion
 | `mo:recipe/Pop` | 1 | yellowFriday |
 | `mo:recipe/SkeletonReveal` | 3 | plp, search |
 | `mo:recipe/Stagger` | 12 | home, membership, noonone, yellowFriday |
-| `mo:reduced-motion` | 177 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |
+| `mo:reduced-motion` | 178 | account, address, cards, cart, categories, checkout, credits, deals, fieldds, home, membership, noonone, orders, pdp, plp, returns, reviews, search, wishlist, yellowFriday |

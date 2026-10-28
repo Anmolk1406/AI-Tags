@@ -18,13 +18,13 @@
 
 | How it opens | Today | Use for now |
 |---|---|---|
-| **Push** (`x 100% → 0`, page under drifts `−28%` and dims, 0.42s `easing.ios`) | 67 of 179 screens, by default, in 18 of 20 flows | every full screen reached by a tap |
-| **Sheet** (`spring.sheet`, scrim 0.25s, drag to dismiss) | 50 of 179 screens (10 of 20 flows), all by default for `presentation: 'sheet'` | any bottom sheet; Origin layout for new ones |
-| **Modal** (rises from the bottom, full screen) | 7 of 179 screens by default; 45 `presentation: 'modal'` in total | a full-screen task the user finishes or closes (address create, placing) |
-| **Overlay** (`mb-overlay`, `noonone-overlay`) | 30 of 179 screens, membership and noonone only | only inside those two flows (bappzaar overlay ports) |
-| **Fade** | 7 of 179 screens + 4 nav calls (account, cards, reviews) | swapping a state of the same place (signed-out, country, success) |
+| **Push** (`x 100% → 0`, page under drifts `−28%` and dims, 0.42s `easing.ios`) | 67 of 180 screens, by default, in 18 of 20 flows | every full screen reached by a tap |
+| **Sheet** (`spring.sheet`, scrim 0.25s, drag to dismiss) | 50 of 180 screens (10 of 20 flows), all by default for `presentation: 'sheet'` | any bottom sheet; Origin layout for new ones |
+| **Modal** (rises from the bottom, full screen) | 7 of 180 screens by default; 45 `presentation: 'modal'` in total | a full-screen task the user finishes or closes (address create, placing) |
+| **Overlay** (`mb-overlay`, `noonone-overlay`) | 30 of 180 screens, membership and noonone only | only inside those two flows (bappzaar overlay ports) |
+| **Fade** | 7 of 180 screens + 4 nav calls (account, cards, reviews) | swapping a state of the same place (signed-out, country, success) |
 | **Search hand-off** (`slide-left` with `handoff.spring`, `results-fade`) | search → PLP only | anything that should feel like search → results |
-| **None / custom** (`none`, `checkout-alpha`, `address-*`) | 1–3 of 179 screens each | don't reuse; they belong to their port |
+| **None / custom** (`none`, `checkout-alpha`, `address-*`) | 1–3 of 180 screens each | don't reuse; they belong to their port |
 
 A screen never animates its own entry: set `ScreenDef.transition` / `presentation`, or `{ transition }` on the call.
 

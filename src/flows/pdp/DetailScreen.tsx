@@ -65,7 +65,13 @@ function initialSelection(content: PdpContent, prev?: { name?: string }): Varian
   return keep >= 0 ? { size: keep } : first >= 0 ? { size: first } : {};
 }
 
-export function DetailScreen({ params }: ScreenProps<{ productId: string; delivery?: DeliveryVariant }>) {
+/** `scrollTo=reviews` (a landing link): the noon AI summary (with its topic chips) opens this far from the phone's top —
+ *  just under the overlay header (status bar + search bar ≈ 108 px) */
+const LANDING_TOP_PX = 120;
+/** …and how long the page keeps them there while the sections above finish laying out (until the user scrolls) */
+const LANDING_PIN_MS = 2500;
+
+export function DetailScreen({ params }: ScreenProps<{ productId: string; delivery?: DeliveryVariant; scrollTo?: 'reviews' }>) {
   const nav = useNav();
   // bappzaar onSelectOption refetches the SKU and updates this same page in place (no navigation, scroll kept)
   const [productId, setProductId] = useState(params.productId);
@@ -88,6 +94,45 @@ export function DetailScreen({ params }: ScreenProps<{ productId: string; delive
   // switch and correct the scroll after the new SKU has laid out (RN keeps the tapped row in view the same way).
   const variantsRef = useRef<HTMLDivElement>(null);
   const anchorTop = useRef<number | null>(null);
+  // `scrollTo=reviews`: open with the review-topic chips in view. The reviews mount in the Deferred block, so wait for the
+  // chips, jump there (no animation: it is where the page opens), and hold them in place while images and deferred
+  // sections above settle — until the user scrolls themselves.
+  useEffect(() => {
+    if (params.scrollTo !== 'reviews') return;
+    const scroller = scrollRef.current;
+    if (!scroller) return;
+    let stop = false;
+    const end = () => (stop = true);
+    scroller.addEventListener('wheel', end, { passive: true });
+    scroller.addEventListener('touchstart', end, { passive: true });
+    scroller.addEventListener('pointerdown', end, { passive: true });
+    const until = performance.now() + LANDING_PIN_MS;
+    let frame = 0;
+    const pin = () => {
+      if (stop) return;
+      // the AI summary block the chips sit in (it holds them once they mount)
+      const chips = reviewsRef.current?.querySelector<HTMLElement>('[data-topic-pills]');
+      const anchor = chips?.closest<HTMLElement>('[data-landing-anchor]') ?? chips;
+      if (anchor) {
+        const top = anchor.getBoundingClientRect().top - scroller.getBoundingClientRect().top + scroller.scrollTop;
+        const to = Math.max(0, Math.min(top - LANDING_TOP_PX, scroller.scrollHeight - scroller.clientHeight));
+        if (Math.abs(scroller.scrollTop - to) > 0.5) {
+          scroller.scrollTop = to;
+          tabs.rebase(scroller.scrollTop); // not a user scroll: the tab bar / sticky bar stay as they are
+        }
+        if (performance.now() > until) return;
+      }
+      frame = requestAnimationFrame(pin);
+    };
+    frame = requestAnimationFrame(pin);
+    return () => {
+      cancelAnimationFrame(frame);
+      scroller.removeEventListener('wheel', end);
+      scroller.removeEventListener('touchstart', end);
+      scroller.removeEventListener('pointerdown', end);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.scrollTo]);
   useLayoutEffect(() => {
     const el = variantsRef.current;
     const scroller = scrollRef.current;

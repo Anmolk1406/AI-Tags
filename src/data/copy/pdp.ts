@@ -173,9 +173,19 @@ export const sfCopy = {
     photoReviews: (n: number) => `Photo Reviews (${n})`,
     topReviews: (n: string) => `Top Reviews (${n})`,
     verifiedBuy: 'Verified Buy',
+    /** pdp/reviewTopics: an opened review's collapse link (Figma AI-Tags 1566:109616) */
+    less: 'less',
     fromTrustedSource: 'from trusted source',
     viewProduct: 'View product',
     translate: 'Translate to عربي',
+    /** pdp/reviewTopics (Figma 1409:63152) */
+    topicsTitle: 'Customers frequently\ntalked about',
+    /** the sheet's sentiment line, named after the open topic ("Great value for money" · "Average durability" · "Poor size") */
+    sentiment: {
+      positive: (topic: string) => `Great ${topic.toLowerCase()}`,
+      neutral: (topic: string) => `Average ${topic.toLowerCase()}`,
+      negative: (topic: string) => `Poor ${topic.toLowerCase()}`,
+    },
   },
   /** SfSponsoredBrandCard */
   brandRow: { tagline: 'Top quality products', shop: (brand: string) => `Shop ${brand}`, ad: 'Ad' } as const,

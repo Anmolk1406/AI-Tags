@@ -41,7 +41,7 @@
 
 ## `noonone/landing` · `noonone/success`
 
-- Module `src/flows/noonone/screens/LandingScreen.tsx` (shared by 2 screens; params pick the state) · 14 own files, 50 in the import closure <!-- count-ok -->
+- Module `src/flows/noonone/screens/LandingScreen.tsx` (shared by 2 screens; params pick the state) · 14 own files, 51 in the import closure <!-- count-ok -->
 - Source: Figma Af34gfmhQ1D0wstXUEHSIF · 24:2604 (non-member) · features/vip/components/VIPModules/{VIPMembershipOverviewModule (showDefault), VIPOfferPlanModule, VIPSavingsOverviewModule (V1 overview), VIPBenefitsModule, VIPMark…
 - Styles: components/landing/landing.module.css, components/landing/np.module.css
 - Data / helpers: data.landing.ts, data.ts, store.ts, tokens.ts
@@ -58,7 +58,7 @@
 
 ## `noonone/plans`
 
-- Module `src/flows/noonone/screens/PlanSelectScreen.tsx` · 13 own files, 47 in the import closure
+- Module `src/flows/noonone/screens/PlanSelectScreen.tsx` · 13 own files, 48 in the import closure
 - Source: features/vip/screens/VIPQuickPlanSelectV3Screen (+ Plan/Plan.tsx, Plan/BundlePlan.tsx), components/VIPSubscriptionButtonV2, src/components/SegmentedControlTabSwitcher
 - Styles: components/plans/PlanCard.module.css, components/plans/plans.module.css, screens/PlanSelectScreen.module.css
 - Data / helpers: components/maskSrc.ts, components/plans/useQuickPay.ts, data.plans.ts, data.ts, store.ts, tokens.ts
@@ -73,7 +73,7 @@
 
 ## `noonone/planDetails`
 
-- Module `src/flows/noonone/screens/PlanDetailsOverlayScreen.tsx` · 13 own files, 45 in the import closure
+- Module `src/flows/noonone/screens/PlanDetailsOverlayScreen.tsx` · 13 own files, 46 in the import closure
 - Source: features/vip/utils/VIPPopupUtil.showPlanDetailDialog → screens/VIPGenericOverlayScreen + components/VIPPopups/VIPPlanDetailsPopup (REGULAR · FAMILY_PLAN); variant planSelect = screens/VIPInfoOverlayScreen via VIPUtil.sh…
 - Styles: components/VIPOverlay.module.css, components/plans/plans.module.css, screens/PlanDetailsOverlayScreen.module.css
 - Data / helpers: components/maskSrc.ts, components/plans/useQuickPay.ts, data.plans.ts, data.ts, store.ts, tokens.ts
@@ -88,7 +88,7 @@
 
 ## `noonone/trialGuide`
 
-- Module `src/flows/noonone/screens/TrialGuideOverlayScreen.tsx` · 7 own files, 33 in the import closure
+- Module `src/flows/noonone/screens/TrialGuideOverlayScreen.tsx` · 7 own files, 34 in the import closure
 - Source: features/vip/screens/VIPTrialGuideOverlayScreen (opened by VIPPaymentV2Screen/VIPTrialGuideButton)
 - Styles: components/VIPOverlay.module.css, screens/TrialGuideOverlayScreen.module.css
 - Data / helpers: data.plans.ts, data.ts, tokens.ts
@@ -102,7 +102,7 @@
 
 ## `noonone/planOption`
 
-- Module `src/flows/noonone/screens/PlanOptionOverlayScreen.tsx` · 8 own files, 40 in the import closure
+- Module `src/flows/noonone/screens/PlanOptionOverlayScreen.tsx` · 8 own files, 41 in the import closure
 - Source: features/vip/screens/VIPPlanOptionOverlayScreen (VIPUtil.showPlanOptionOverlay)
 - Styles: components/VIPOverlay.module.css, screens/PlanOptionOverlayScreen.module.css
 - Data / helpers: data.plans.ts, data.ts, tokens.ts
@@ -116,7 +116,7 @@
 
 ## `noonone/familyPlans`
 
-- Module `src/flows/noonone/screens/FamilyPlansScreen.tsx` · 9 own files, 43 in the import closure
+- Module `src/flows/noonone/screens/FamilyPlansScreen.tsx` · 9 own files, 44 in the import closure
 - Source: features/vip/screens/VIPFamilyPlansScreen (+ components/VIPPlanMembers, VIPBenefitsModule hideModuleWrapper, VIPExpandableTextModule grouped, VIPScrollEnterView)
 - Styles: components/plans/plans.module.css, screens/FamilyPlansScreen.module.css
 - Data / helpers: data.plans.ts, data.ts, store.ts, tokens.ts
@@ -131,7 +131,7 @@
 
 ## `noonone/payment`
 
-- Module `src/flows/noonone/screens/PaymentScreen.tsx` · 8 own files, 42 in the import closure
+- Module `src/flows/noonone/screens/PaymentScreen.tsx` · 8 own files, 43 in the import closure
 - Source: features/vip/screens/VIPPaymentV2Screen (+ VIPPaymentCardSelect, VIPPaymentMobileSelect, VIPTrialGuideButton), components/VIPSubscriptionButtonV2, hooks/useVIPPaymentData
 - Styles: screens/PaymentScreen.module.css
 - Data / helpers: data.payment.ts, data.ts, store.ts, tokens.ts
@@ -146,7 +146,7 @@
 
 ## `noonone/addCard`
 
-- Module `src/flows/noonone/screens/AddCardOverlayScreen.tsx` · 9 own files, 37 in the import closure
+- Module `src/flows/noonone/screens/AddCardOverlayScreen.tsx` · 9 own files, 38 in the import closure
 - Source: features/vip/screens/VIPAddCardOverlayScreen (src/components/Overlay, FormikTextInput, FormikCheckbox, FormikSubmitButton → PrimaryButton)
 - Styles: components/payment/LegacyOverlay.module.css, screens/AddCardOverlayScreen.module.css
 - Data / helpers: data.payment.ts, data.ts, store.ts, tokens.ts
@@ -161,7 +161,7 @@
 
 ## `noonone/addCvv`
 
-- Module `src/flows/noonone/screens/AddCvvOverlayScreen.tsx` · 12 own files, 46 in the import closure
+- Module `src/flows/noonone/screens/AddCvvOverlayScreen.tsx` · 12 own files, 47 in the import closure
 - Source: features/vip/screens/VIPAddCvvOverlayScreen (src/components/Overlay)
 - Styles: components/payment/LegacyOverlay.module.css, screens/AddCvvOverlayScreen.module.css, screens/PaymentScreen.module.css
 - Data / helpers: data.payment.ts, data.ts, store.ts, tokens.ts
@@ -176,7 +176,7 @@
 
 ## `noonone/mobilePay`
 
-- Module `src/flows/noonone/screens/MobilePayOverlayScreen.tsx` · 9 own files, 37 in the import closure
+- Module `src/flows/noonone/screens/MobilePayOverlayScreen.tsx` · 9 own files, 38 in the import closure
 - Source: features/vip/screens/VIPMobilePayOverlayScreen (src/components/Overlay, PhoneInput, SegmentedTextInput), services/VIPBokuService
 - Styles: components/payment/LegacyOverlay.module.css, screens/MobilePayOverlayScreen.module.css
 - Data / helpers: data.payment.ts, data.ts, store.ts, tokens.ts
@@ -191,7 +191,7 @@
 
 ## `noonone/info`
 
-- Module `src/flows/noonone/screens/InfoOverlayScreen.tsx` · 7 own files, 36 in the import closure
+- Module `src/flows/noonone/screens/InfoOverlayScreen.tsx` · 7 own files, 37 in the import closure
 - Source: features/vip/screens/VIPInfoOverlayScreen (VIPUtil.showInfoOverlay / showWarningPopup, VIPSubscriptionButtonV2.showWarningPopup)
 - Styles: components/VIPOverlay.module.css, screens/InfoOverlayScreen.module.css
 - Data / helpers: data.payment.ts, data.ts, tokens.ts
@@ -206,7 +206,7 @@
 
 ## `noonone/generic`
 
-- Module `src/flows/noonone/screens/GenericOverlayScreen.tsx` · 8 own files, 39 in the import closure
+- Module `src/flows/noonone/screens/GenericOverlayScreen.tsx` · 8 own files, 40 in the import closure
 - Source: features/vip/screens/VIPGenericOverlayScreen + components/VIPPopups/VIPInfoPopup, VIPUpdatePopup (utils/VIPPopupUtil)
 - Styles: components/VIPOverlay.module.css, screens/InfoOverlayScreen.module.css
 - Data / helpers: data.payment.ts, data.ts, tokens.ts
@@ -220,7 +220,7 @@
 
 ## `noonone/offers`
 
-- Module `src/flows/noonone/screens/OffersOverlayScreen.tsx` · 14 own files, 46 in the import closure
+- Module `src/flows/noonone/screens/OffersOverlayScreen.tsx` · 14 own files, 47 in the import closure
 - Source: features/vip/screens/VIPOffersOverlayScreen (VIPUtil.showReferralsInputOverlay; components/VIPWave, VIPButton, VIPGenericOverlayScreen success popup)
 - Styles: components/VIPOverlay.module.css, components/offers/inlinePopup.module.css, components/offers/primitives.module.css, screens/OffersOverlayScreen.module.css
 - Data / helpers: components/maskSrc.ts, data.offers.ts, data.ts, store.ts, tokens.ts
@@ -235,7 +235,7 @@
 
 ## `noonone/partnerOffer`
 
-- Module `src/flows/noonone/screens/OffersV2Screen.tsx` · 12 own files, 46 in the import closure
+- Module `src/flows/noonone/screens/OffersV2Screen.tsx` · 12 own files, 47 in the import closure
 - Source: features/vip/screens/VIPOffersV2Screen (+ components/VIPModules/VIPPartnerOfferPlanModule, VIPSubscriptionButtonV2)
 - Styles: components/offers/primitives.module.css, components/offers/subscribe.module.css, screens/OffersV2Screen.module.css
 - Data / helpers: components/maskSrc.ts, data.offers.ts, data.ts, store.ts, tokens.ts
@@ -250,7 +250,7 @@
 
 ## `noonone/confirmOffer`
 
-- Module `src/flows/noonone/screens/ConfirmOfferPlanScreen.tsx` · 11 own files, 43 in the import closure
+- Module `src/flows/noonone/screens/ConfirmOfferPlanScreen.tsx` · 11 own files, 44 in the import closure
 - Source: features/vip/screens/VIPConfirmOfferPlanScreen
 - Styles: components/VIPOverlay.module.css, components/offers/subscribe.module.css, screens/ConfirmOfferPlanScreen.module.css
 - Data / helpers: data.offers.ts, data.ts, store.ts, tokens.ts
@@ -265,7 +265,7 @@
 
 ## `noonone/confirmVoucher`
 
-- Module `src/flows/noonone/screens/ConfirmVoucherPlanScreen.tsx` · 14 own files, 46 in the import closure
+- Module `src/flows/noonone/screens/ConfirmVoucherPlanScreen.tsx` · 14 own files, 47 in the import closure
 - Source: features/vip/screens/VIPConfirmVoucherPlanScreen
 - Styles: components/VIPOverlay.module.css, components/offers/primitives.module.css, components/offers/subscribe.module.css, screens/ConfirmVoucherPlanScreen.module.css
 - Data / helpers: components/maskSrc.ts, data.offers.ts, data.ts, store.ts, tokens.ts
@@ -280,7 +280,7 @@
 
 ## `noonone/bundle`
 
-- Module `src/flows/noonone/screens/BundleScreen.tsx` · 12 own files, 45 in the import closure
+- Module `src/flows/noonone/screens/BundleScreen.tsx` · 12 own files, 46 in the import closure
 - Source: features/vip/screens/VIPBundleV2Screen (live: VIPUtil.showBundleScreen always V2; /noon-one-bundle uses V1 VIPBundleScreen for non-yango codes — not ported)
 - Styles: components/offers/primitives.module.css, components/offers/subscribe.module.css, screens/BundleScreen.module.css
 - Data / helpers: components/maskSrc.ts, data.offers.ts, data.ts, store.ts, tokens.ts
@@ -295,7 +295,7 @@
 
 ## `noonone/acceptInvite`
 
-- Module `src/flows/noonone/screens/AcceptInviteOverlayScreen.tsx` · 12 own files, 47 in the import closure
+- Module `src/flows/noonone/screens/AcceptInviteOverlayScreen.tsx` · 12 own files, 48 in the import closure
 - Source: features/vip/screens/VIPAcceptPlanInviteOverlayScreen (+ VIPAcceptInviteOverlaySkeleton, components/VIPMemberInitialHexagon, VIPModules/VIPBenefitsModule hideModuleWrapper)
 - Styles: components/VIPOverlay.module.css, components/offers/primitives.module.css, screens/AcceptInviteOverlayScreen.module.css
 - Data / helpers: components/maskSrc.ts, data.offers.ts, data.ts, store.ts, tokens.ts
@@ -310,7 +310,7 @@
 
 ## `noonone/acceptInviteError`
 
-- Module `src/flows/noonone/screens/AcceptInviteErrorOverlayScreen.tsx` · 9 own files, 41 in the import closure
+- Module `src/flows/noonone/screens/AcceptInviteErrorOverlayScreen.tsx` · 9 own files, 42 in the import closure
 - Source: features/vip/screens/VIPAcceptInviteErrorOverlayScreen
 - Styles: components/VIPOverlay.module.css, screens/AcceptInviteErrorOverlayScreen.module.css
 - Data / helpers: data.offers.ts, data.ts, store.ts, tokens.ts
@@ -325,7 +325,7 @@
 
 ## `noonone/cartOverlay`
 
-- Module `src/flows/noonone/screens/CartOverlayScreen.tsx` · 8 own files, 39 in the import closure
+- Module `src/flows/noonone/screens/CartOverlayScreen.tsx` · 8 own files, 40 in the import closure
 - Source: features/vip/screens/VIPCartOverlayScreen (opened by marketplaces/noon/screens/NoonCartScreen showVipPush / showOnePush; chrome src/components/Overlay)
 - Styles: components/entry/LegacyOverlay.module.css, screens/CartOverlayScreen.module.css
 - Data / helpers: data.entry.ts, data.ts, store.ts, tokens.ts
@@ -340,7 +340,7 @@
 
 ## `noonone/ocOne`
 
-- Module `src/flows/noonone/screens/OCOneOverlayScreen.tsx` · 7 own files, 33 in the import closure
+- Module `src/flows/noonone/screens/OCOneOverlayScreen.tsx` · 7 own files, 34 in the import closure
 - Source: features/vip/screens/OCOneOverlayScreen (opened by marketplaces/noon/screens/NoonOrderConfirmationScreenV3 openOneSubscriptionOverlay)
 - Styles: components/entry/LegacyOverlay.module.css, screens/OCOneOverlayScreen.module.css
 - Data / helpers: data.entry.ts, data.ts, tokens.ts

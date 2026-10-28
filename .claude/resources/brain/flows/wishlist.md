@@ -23,7 +23,7 @@
 
 ## `wishlist/wishlist` · `wishlist/no-collections`
 
-- Module `src/flows/wishlist/WishlistScreen.tsx` (shared by 2 screens; params pick the state) · 11 own files, 58 in the import closure <!-- count-ok -->
+- Module `src/flows/wishlist/WishlistScreen.tsx` (shared by 2 screens; params pick the state) · 11 own files, 59 in the import closure <!-- count-ok -->
 - Source: marketplaces/noon/screens/NoonWishlistV2Screen, components/NoonWishlistV2{Header,CollectionTitle,CollectionTitleList,CollectionImageBackground,FloatingCartButton}, NoonProductBox/NoonProductBoxVertical (isWishlist), Noo…
 - Styles: wishlist.module.css
 - Data / helpers: data.ts, tokens.ts
@@ -37,7 +37,7 @@
 
 ## `wishlist/empty`
 
-- Module `src/flows/wishlist/EmptyWishlistScreen.tsx` · 7 own files, 36 in the import closure
+- Module `src/flows/wishlist/EmptyWishlistScreen.tsx` · 7 own files, 37 in the import closure
 - Source: marketplaces/noon/components/NoonWishlistV2Empty, screens/NoonWishlistV2Screen (isEmpty)
 - Styles: wishlist.module.css
 - Data / helpers: data.ts, tokens.ts
@@ -62,7 +62,7 @@
 
 ## `wishlist/options`
 
-- Module `src/flows/wishlist/OptionsSheet.tsx` · 3 own files, 29 in the import closure
+- Module `src/flows/wishlist/OptionsSheet.tsx` · 3 own files, 30 in the import closure
 - Source: marketplaces/noon/screens/NoonWishlistV2CollectionOptionScreen
 - Styles: wishlist.module.css
 - Data / helpers: data.ts

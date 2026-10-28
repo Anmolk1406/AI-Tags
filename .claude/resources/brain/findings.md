@@ -12,8 +12,8 @@
 | info · cross-flow-component | 3 |
 | info · nav-dynamic | 9 |
 | info · no-entry | 26 |
-| info · promotion-candidate | 61 |
-| info · untested | 141 |
+| info · promotion-candidate | 62 |
+| info · untested | 142 |
 | info · unused-component | 5 |
 
 ## warn · cross-flow-data
@@ -138,6 +138,7 @@
 - cmp:pdp/SfSellerCard is used by screens of pdp, search
 - cmp:pdp/SfSponsoredBrandCard is used by screens of pdp, search
 - cmp:pdp/SfSponsoredRow is used by screens of pdp, search
+- cmp:pdp/SfTopicPills is used by screens of pdp, search
 - cmp:pdp/SfTrustCard is used by screens of pdp, search
 - cmp:pdp/SfVariantsCard is used by screens of pdp, search
 - cmp:plp/CatalogListHeader is used by screens of plp, search
@@ -228,7 +229,7 @@
 - membership/confirmOffer: only `check:routes` covers it (no journey, no visual reference)
 - membership/familyPlans: only `check:routes` covers it (no journey, no visual reference)
 - membership/familyReview: only `check:routes` covers it (no journey, no visual reference)
-- … +61 more (graph.json → findings)
+- … +62 more (graph.json → findings)
 
 ## info · unused-component
 

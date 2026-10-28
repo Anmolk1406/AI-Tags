@@ -43,7 +43,7 @@
 
 ## `membership/manage`
 
-- Module `src/flows/membership/ManageMembershipScreen.tsx` · 15 own files, 139 in the import closure · **imports from other flows:** `src/flows/noonone/components/VIPButton.tsx`, `src/flows/noonone/components/VIPOverlay.module.css`, `src/flows/noonone/components/VIPOverlay.tsx`, `src/flows/noonone/components/entry/LegacyOverlay.module.css`, `src/flows/noonone/components/entry/LegacyOverlay.tsx`, `src/flows/noonone/components/landing/DashedLine.tsx` … +77
+- Module `src/flows/membership/ManageMembershipScreen.tsx` · 15 own files, 140 in the import closure · **imports from other flows:** `src/flows/noonone/components/VIPButton.tsx`, `src/flows/noonone/components/VIPOverlay.module.css`, `src/flows/noonone/components/VIPOverlay.tsx`, `src/flows/noonone/components/entry/LegacyOverlay.module.css`, `src/flows/noonone/components/entry/LegacyOverlay.tsx`, `src/flows/noonone/components/landing/DashedLine.tsx` … +77
 - Source: features/vip/screens/VIPManageMembershipV3Screen
 - Styles: components/FamilyMembersSection.module.css, components/ManagePlan.module.css, components/primitives.module.css, manage.module.css
 - Data / helpers: assets.ts, data.ts, links.ts, manageData.ts, store.ts, tokens.ts
@@ -59,7 +59,7 @@
 
 ## `membership/upgrade`
 
-- Module `src/flows/membership/plans/UpgradePlanScreen.tsx` · 13 own files, 48 in the import closure
+- Module `src/flows/membership/plans/UpgradePlanScreen.tsx` · 13 own files, 49 in the import closure
 - Source: features/vip/screens/VIPUpgradePlanV2Screen
 - Styles: components/primitives.module.css, plans/plans.module.css
 - Data / helpers: assets.ts, data.ts, manageData.ts, plans/plansData.ts, store.ts, tokens.ts
@@ -73,7 +73,7 @@
 
 ## `membership/reviewPlan`
 
-- Module `src/flows/membership/plans/ReviewPlanOverlay.tsx` · 15 own files, 139 in the import closure · **imports from other flows:** `src/flows/noonone/components/VIPButton.tsx`, `src/flows/noonone/components/VIPOverlay.module.css`, `src/flows/noonone/components/VIPOverlay.tsx`, `src/flows/noonone/components/entry/LegacyOverlay.module.css`, `src/flows/noonone/components/entry/LegacyOverlay.tsx`, `src/flows/noonone/components/landing/DashedLine.tsx` … +77
+- Module `src/flows/membership/plans/ReviewPlanOverlay.tsx` · 15 own files, 140 in the import closure · **imports from other flows:** `src/flows/noonone/components/VIPButton.tsx`, `src/flows/noonone/components/VIPOverlay.module.css`, `src/flows/noonone/components/VIPOverlay.tsx`, `src/flows/noonone/components/entry/LegacyOverlay.module.css`, `src/flows/noonone/components/entry/LegacyOverlay.tsx`, `src/flows/noonone/components/landing/DashedLine.tsx` … +77
 - Source: features/vip/screens/VIPCancelMembershipV2Screen/VIPReviewCancelUpgradeScreen (via VIPUpgradePlanV2Screen showReviewOverlay)
 - Styles: components/VipOverlay.module.css, components/primitives.module.css, plans/plans.module.css
 - Data / helpers: assets.ts, data.ts, links.ts, manageData.ts, plans/plansData.ts, store.ts, tokens.ts
@@ -89,7 +89,7 @@
 
 ## `membership/switchPlan`
 
-- Module `src/flows/membership/plans/SwitchPlanOverlay.tsx` · 13 own files, 44 in the import closure
+- Module `src/flows/membership/plans/SwitchPlanOverlay.tsx` · 13 own files, 45 in the import closure
 - Source: features/vip/screens/VIPSwitchPlanOverlayScreen
 - Styles: components/VipOverlay.module.css, components/primitives.module.css, plans/plans.module.css
 - Data / helpers: assets.ts, data.ts, manageData.ts, plans/plansData.ts, store.ts, tokens.ts
@@ -104,7 +104,7 @@
 
 ## `membership/info`
 
-- Module `src/flows/membership/plans/InfoOverlay.tsx` · 8 own files, 132 in the import closure · **imports from other flows:** `src/flows/noonone/components/VIPButton.tsx`, `src/flows/noonone/components/VIPOverlay.module.css`, `src/flows/noonone/components/VIPOverlay.tsx`, `src/flows/noonone/components/entry/LegacyOverlay.module.css`, `src/flows/noonone/components/entry/LegacyOverlay.tsx`, `src/flows/noonone/components/landing/DashedLine.tsx` … +77
+- Module `src/flows/membership/plans/InfoOverlay.tsx` · 8 own files, 133 in the import closure · **imports from other flows:** `src/flows/noonone/components/VIPButton.tsx`, `src/flows/noonone/components/VIPOverlay.module.css`, `src/flows/noonone/components/VIPOverlay.tsx`, `src/flows/noonone/components/entry/LegacyOverlay.module.css`, `src/flows/noonone/components/entry/LegacyOverlay.tsx`, `src/flows/noonone/components/landing/DashedLine.tsx` … +77
 - Source: features/vip/screens/VIPInfoOverlayScreen
 - Styles: components/VipOverlay.module.css, plans/plans.module.css
 - Data / helpers: assets.ts, data.ts, links.ts, tokens.ts
@@ -120,7 +120,7 @@
 
 ## `membership/changePlan`
 
-- Module `src/flows/membership/plans/ChangePlanScreen.tsx` · 12 own files, 136 in the import closure · **imports from other flows:** `src/flows/noonone/components/VIPButton.tsx`, `src/flows/noonone/components/VIPOverlay.module.css`, `src/flows/noonone/components/VIPOverlay.tsx`, `src/flows/noonone/components/entry/LegacyOverlay.module.css`, `src/flows/noonone/components/entry/LegacyOverlay.tsx`, `src/flows/noonone/components/landing/DashedLine.tsx` … +77
+- Module `src/flows/membership/plans/ChangePlanScreen.tsx` · 12 own files, 137 in the import closure · **imports from other flows:** `src/flows/noonone/components/VIPButton.tsx`, `src/flows/noonone/components/VIPOverlay.module.css`, `src/flows/noonone/components/VIPOverlay.tsx`, `src/flows/noonone/components/entry/LegacyOverlay.module.css`, `src/flows/noonone/components/entry/LegacyOverlay.tsx`, `src/flows/noonone/components/landing/DashedLine.tsx` … +77
 - Source: features/vip/screens/VIPChangePlanScreen
 - Styles: components/primitives.module.css, plans/plans.module.css
 - Data / helpers: assets.ts, data.ts, links.ts, manageData.ts, plans/plansData.ts, store.ts, tokens.ts
@@ -134,7 +134,7 @@
 
 ## `membership/invoice`
 
-- Module `src/flows/membership/plans/InvoiceScreen.tsx` · 11 own files, 45 in the import closure
+- Module `src/flows/membership/plans/InvoiceScreen.tsx` · 11 own files, 46 in the import closure
 - Source: features/vip/screens/VIPInvoiceScreen
 - Styles: components/primitives.module.css, plans/plans.module.css
 - Data / helpers: assets.ts, data.ts, manageData.ts, plans/plansData.ts, store.ts, tokens.ts
@@ -147,7 +147,7 @@
 
 ## `membership/cancel`
 
-- Module `src/flows/membership/cancel/CancelScreen.tsx` · 14 own files, 49 in the import closure
+- Module `src/flows/membership/cancel/CancelScreen.tsx` · 14 own files, 50 in the import closure
 - Source: features/vip/screens/VIPCancelMembershipV2Screen (BenefitsScreen, DiscountOfferScreen, SurveyScreen)
 - Styles: cancel/cancel.module.css, cancel/parts.module.css, components/primitives.module.css
 - Data / helpers: assets.ts, cancel/cancelData.ts, cancel/cancelNav.ts, data.ts, store.ts, tokens.ts
@@ -161,7 +161,7 @@
 
 ## `membership/cancelSheet` · `membership/unusedSeats` · `membership/planOptions` · `membership/groupSavings` · `membership/loseAccess` · `membership/leaveFamilyOverlay` · `membership/confirmOffer`
 
-- Module `src/flows/membership/cancel/overlays.tsx` (shared by 7 screens; params pick the state) · 18 own files, 53 in the import closure <!-- count-ok -->
+- Module `src/flows/membership/cancel/overlays.tsx` (shared by 7 screens; params pick the state) · 18 own files, 54 in the import closure <!-- count-ok -->
 - Source: features/vip/screens/VIPCancelMembershipV2Screen (ReminderScreen, VIPReviewCancelUpgradeScreen)
 - Styles: cancel/cancel.module.css, cancel/overlays.module.css, cancel/parts.module.css, components/VipOverlay.module.css, components/primitives.module.css
 - Data / helpers: assets.ts, cancel/cancelData.ts, cancel/cancelNav.ts, data.ts, store.ts, tokens.ts
@@ -182,7 +182,7 @@
 
 ## `membership/familyPlans`
 
-- Module `src/flows/membership/family/FamilyPlansScreen.tsx` · 11 own files, 47 in the import closure
+- Module `src/flows/membership/family/FamilyPlansScreen.tsx` · 11 own files, 48 in the import closure
 - Source: features/vip/screens/VIPFamilyPlansScreen
 - Styles: components/primitives.module.css, family/family.module.css
 - Data / helpers: assets.ts, data.ts, family/familyData.ts, store.ts, tokens.ts
@@ -196,7 +196,7 @@
 
 ## `membership/familyReview`
 
-- Module `src/flows/membership/family/FamilyReviewOverlay.tsx` · 14 own files, 138 in the import closure · **imports from other flows:** `src/flows/noonone/components/VIPButton.tsx`, `src/flows/noonone/components/VIPOverlay.module.css`, `src/flows/noonone/components/VIPOverlay.tsx`, `src/flows/noonone/components/entry/LegacyOverlay.module.css`, `src/flows/noonone/components/entry/LegacyOverlay.tsx`, `src/flows/noonone/components/landing/DashedLine.tsx` … +77
+- Module `src/flows/membership/family/FamilyReviewOverlay.tsx` · 14 own files, 139 in the import closure · **imports from other flows:** `src/flows/noonone/components/VIPButton.tsx`, `src/flows/noonone/components/VIPOverlay.module.css`, `src/flows/noonone/components/VIPOverlay.tsx`, `src/flows/noonone/components/entry/LegacyOverlay.module.css`, `src/flows/noonone/components/entry/LegacyOverlay.tsx`, `src/flows/noonone/components/landing/DashedLine.tsx` … +77
 - Source: features/vip/components/VIPPopups/VIPPlanDetailsPopup (VIPFamilyPlanDetailsPopup)
 - Styles: components/VipOverlay.module.css, components/primitives.module.css, family/family.module.css
 - Data / helpers: assets.ts, data.ts, family/familyData.ts, links.ts, store.ts, tokens.ts
@@ -212,7 +212,7 @@
 
 ## `membership/shareInvite`
 
-- Module `src/flows/membership/family/SharePlanInviteScreen.tsx` · 12 own files, 48 in the import closure
+- Module `src/flows/membership/family/SharePlanInviteScreen.tsx` · 12 own files, 49 in the import closure
 - Source: features/vip/screens/VIPSharePlanInviteScreen
 - Styles: components/primitives.module.css, family/family.module.css
 - Data / helpers: assets.ts, data.ts, family/familyData.ts, store.ts, tokens.ts
@@ -227,7 +227,7 @@
 
 ## `membership/removeMember`
 
-- Module `src/flows/membership/family/RemoveMemberOverlay.tsx` · 15 own files, 51 in the import closure
+- Module `src/flows/membership/family/RemoveMemberOverlay.tsx` · 15 own files, 52 in the import closure
 - Source: features/vip/screens/VIPRemoveFamilyMemberOverlayScreen
 - Styles: components/VipOverlay.module.css, components/primitives.module.css, family/family.module.css
 - Data / helpers: assets.ts, data.ts, family/familyData.ts, store.ts, tokens.ts
@@ -242,7 +242,7 @@
 
 ## `membership/leaveFamily`
 
-- Module `src/flows/membership/family/LeaveFamilyPlanScreen.tsx` · 9 own files, 42 in the import closure
+- Module `src/flows/membership/family/LeaveFamilyPlanScreen.tsx` · 9 own files, 43 in the import closure
 - Source: features/vip/screens/VIPLeaveFamilyPlanScreen
 - Styles: components/primitives.module.css, family/family.module.css
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ts
@@ -255,7 +255,7 @@
 
 ## `membership/referrals`
 
-- Module `src/flows/membership/perks/ReferralsScreen.tsx` · 7 own files, 37 in the import closure
+- Module `src/flows/membership/perks/ReferralsScreen.tsx` · 7 own files, 38 in the import closure
 - Source: features/vip/screens/VIPReferralsScreen
 - Styles: perks/perks.module.css
 - Data / helpers: assets.ts, data.ts, perks/perksData.ts, store.ts, tokens.ts
@@ -268,7 +268,7 @@
 
 ## `membership/referralsInput`
 
-- Module `src/flows/membership/perks/ReferralsInputOverlayScreen.tsx` · 9 own files, 133 in the import closure · **imports from other flows:** `src/flows/noonone/components/VIPButton.tsx`, `src/flows/noonone/components/VIPOverlay.module.css`, `src/flows/noonone/components/VIPOverlay.tsx`, `src/flows/noonone/components/entry/LegacyOverlay.module.css`, `src/flows/noonone/components/entry/LegacyOverlay.tsx`, `src/flows/noonone/components/landing/DashedLine.tsx` … +77
+- Module `src/flows/membership/perks/ReferralsInputOverlayScreen.tsx` · 9 own files, 134 in the import closure · **imports from other flows:** `src/flows/noonone/components/VIPButton.tsx`, `src/flows/noonone/components/VIPOverlay.module.css`, `src/flows/noonone/components/VIPOverlay.tsx`, `src/flows/noonone/components/entry/LegacyOverlay.module.css`, `src/flows/noonone/components/entry/LegacyOverlay.tsx`, `src/flows/noonone/components/landing/DashedLine.tsx` … +77
 - Source: features/vip/screens/VIPReferralsInputOverlayScreen
 - Styles: perks/perks.module.css
 - Data / helpers: assets.ts, data.ts, links.ts, perks/perksData.ts, store.ts, tokens.ts
@@ -284,7 +284,7 @@
 
 ## `membership/partner`
 
-- Module `src/flows/membership/perks/PartnerOverlayScreen.tsx` · 9 own files, 133 in the import closure · **imports from other flows:** `src/flows/noonone/components/VIPButton.tsx`, `src/flows/noonone/components/VIPOverlay.module.css`, `src/flows/noonone/components/VIPOverlay.tsx`, `src/flows/noonone/components/entry/LegacyOverlay.module.css`, `src/flows/noonone/components/entry/LegacyOverlay.tsx`, `src/flows/noonone/components/landing/DashedLine.tsx` … +77
+- Module `src/flows/membership/perks/PartnerOverlayScreen.tsx` · 9 own files, 134 in the import closure · **imports from other flows:** `src/flows/noonone/components/VIPButton.tsx`, `src/flows/noonone/components/VIPOverlay.module.css`, `src/flows/noonone/components/VIPOverlay.tsx`, `src/flows/noonone/components/entry/LegacyOverlay.module.css`, `src/flows/noonone/components/entry/LegacyOverlay.tsx`, `src/flows/noonone/components/landing/DashedLine.tsx` … +77
 - Source: features/vip/screens/VIPPartnerOverlayScreen
 - Styles: perks/perks.module.css
 - Data / helpers: assets.ts, data.ts, links.ts, perks/perksData.ts, store.ts, tokens.ts
@@ -299,7 +299,7 @@
 
 ## `membership/yangoCredits`
 
-- Module `src/flows/membership/perks/YangoCreditsOverlayScreen.tsx` · 10 own files, 41 in the import closure
+- Module `src/flows/membership/perks/YangoCreditsOverlayScreen.tsx` · 10 own files, 42 in the import closure
 - Source: features/vip/screens/VIPYangoCreditsOverlayScreen
 - Styles: components/primitives.module.css, perks/perks.module.css
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ts

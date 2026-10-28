@@ -22,7 +22,7 @@
 
 ## `plp/listing`
 
-- Module `src/flows/plp/ListingScreen.tsx` · 12 own files, 70 in the import closure
+- Module `src/flows/plp/ListingScreen.tsx` · 12 own files, 71 in the import closure
 - Source: src/screens/ListingScreen, marketplaces/noon/components/NoonCatalogList (renderHeader, renderFulfillmentTabs), NoonFulfillmentTabs, NoonCatalogListHeader, NoonCatalogListNavPill (+ NoonFilterPillAnimation), NoonProductB…
 - Styles: components/catalogNavPill.module.css, plp.module.css
 - Data / helpers: data.ts, scrollStates.ts, store.ts, tokens.ts
@@ -37,7 +37,7 @@
 
 ## `plp/filters`
 
-- Module `src/flows/plp/FiltersSheet.tsx` · 4 own files, 34 in the import closure
+- Module `src/flows/plp/FiltersSheet.tsx` · 4 own files, 35 in the import closure
 - Source: marketplaces/noon/screens/NoonFiltersScreenV2, components/NoonFiltersV2 (FilterHeader, FilterContainer, FilterFulfillmentCard, FilterNavPill, FilterCard, FilterSortSection, FilterRangeSlider); live app reference 2026-10…
 - Styles: filters.module.css
 - Data / helpers: data.ts, store.ts
@@ -51,7 +51,7 @@
 
 ## `plp/sort`
 
-- Module `src/flows/plp/SortSheet.tsx` · 3 own files, 30 in the import closure
+- Module `src/flows/plp/SortSheet.tsx` · 3 own files, 31 in the import closure
 - Source: marketplaces/noon/components/NoonFiltersV2/FilterSortSection
 - Data / helpers: data.ts, store.ts
 - Shared components: `Pressable`, `Text`

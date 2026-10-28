@@ -28,7 +28,7 @@
 
 ## `reviews/rate`
 
-- Module `src/flows/reviews/RateScreen.tsx` · 25 own files, 66 in the import closure
+- Module `src/flows/reviews/RateScreen.tsx` · 25 own files, 67 in the import closure
 - Source: Figma KzR8dy12uT8CtgBRHHY6Qx · 6042:140824; repo vbirla789/R-R-2.0-with-checkbox src/screens/ManualReviewScreen.tsx
 - Styles: components/AiToggle.module.css, components/MockKeyboard.module.css, components/RateChecklist.module.css, components/RateScreen.module.css, components/ReviewFooter.module.css, components/ReviewHeader.module.css, components/ReviewProductHeader.module.css, components/ReviewTextField.module.css, components/StarRatingInput.module.css
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ai.ts, tokens.keyboard.ts, tokens.motion.ts, tokens.ts
@@ -44,7 +44,7 @@
 
 ## `reviews/aiLoader`
 
-- Module `src/flows/reviews/AiLoaderScreen.tsx` · 9 own files, 39 in the import closure
+- Module `src/flows/reviews/AiLoaderScreen.tsx` · 9 own files, 40 in the import closure
 - Source: Figma KzR8dy12uT8CtgBRHHY6Qx · 6305:167731; repo vbirla789/R-R-2.0-with-checkbox src/screens/AILoaderScreen.tsx
 - Styles: components/AiLoaderScreen.module.css, components/ReviewHeader.module.css
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ai.ts, tokens.motion.ts
@@ -60,7 +60,7 @@
 
 ## `reviews/draft`
 
-- Module `src/flows/reviews/DraftScreen.tsx` · 29 own files, 65 in the import closure
+- Module `src/flows/reviews/DraftScreen.tsx` · 29 own files, 66 in the import closure
 - Source: Figma KzR8dy12uT8CtgBRHHY6Qx · 7116:43925; repo vbirla789/R-R-2.0-with-checkbox src/screens/ReviewDraftScreen.tsx
 - Styles: DraftScreen.module.css, components/AddPhotos.module.css, components/DraftCard.module.css, components/DraftProductTop.module.css, components/MockKeyboard.module.css, components/ReviewFooter.module.css, components/ReviewHeader.module.css, components/ReviewSheet.module.css, components/ReviewTextField.module.css, components/StarRatingInput.module.css
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ai.ts, tokens.draft.ts, tokens.keyboard.ts, tokens.motion.ts, tokens.ts
@@ -76,7 +76,7 @@
 
 ## `reviews/draftB`
 
-- Module `src/flows/reviews/DraftBScreen.tsx` · 27 own files, 63 in the import closure
+- Module `src/flows/reviews/DraftBScreen.tsx` · 27 own files, 64 in the import closure
 - Source: Figma KzR8dy12uT8CtgBRHHY6Qx · 7159:44106; repo vbirla789/R-R-2.0-with-checkbox src/screens/ReviewDraftScreenB.tsx
 - Styles: DraftBScreen.module.css, components/AddPhotos.module.css, components/DraftCard.module.css, components/MockKeyboard.module.css, components/ReviewFooter.module.css, components/ReviewHeader.module.css, components/ReviewProductHeader.module.css, components/ReviewTextField.module.css, components/StarRatingInput.module.css
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ai.ts, tokens.draft.ts, tokens.keyboard.ts, tokens.motion.ts, tokens.ts
@@ -92,7 +92,7 @@
 
 ## `reviews/new`
 
-- Module `src/flows/reviews/NewReviewScreen.tsx` · 35 own files, 72 in the import closure
+- Module `src/flows/reviews/NewReviewScreen.tsx` · 35 own files, 73 in the import closure
 - Source: Figma KzR8dy12uT8CtgBRHHY6Qx · 7629:275417; repo vbirla789/R-R-2.0-with-checkbox src/screens/NewReviewScreen.tsx
 - Styles: NewReviewScreen.module.css, components/AddPhotos.module.css, components/AiToggle.module.css, components/AttributeChips.module.css, components/DraftCard.module.css, components/MockKeyboard.module.css, components/NewReviewEditors.module.css, components/NewReviewMorphHeader.module.css, components/NewReviewPicks.module.css, components/ReviewFooter.module.css, components/ReviewSheet.module.css, components/ReviewTextField.module.css, components/StarRatingInput.module.css
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ai.ts, tokens.keyboard.ts, tokens.motion.ts, tokens.ts
@@ -108,7 +108,7 @@
 
 ## `reviews/pastOrders`
 
-- Module `src/flows/reviews/PastOrdersScreen.tsx` · 30 own files, 65 in the import closure
+- Module `src/flows/reviews/PastOrdersScreen.tsx` · 30 own files, 66 in the import closure
 - Source: Figma KzR8dy12uT8CtgBRHHY6Qx · 9129:106814; repo vbirla789/R-R-2.0-with-checkbox src/screens/RatePastOrdersScreen.tsx
 - Styles: PastOrdersScreen.module.css, components/AddPhotos.module.css, components/AttributeChips.module.css, components/DraftCard.module.css, components/MockKeyboard.module.css, components/ReviewFooter.module.css, components/ReviewHeader.module.css, components/ReviewProductHeader.module.css, components/ReviewSheet.module.css, components/ReviewTextField.module.css, components/StarRatingInput.module.css
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ai.ts, tokens.keyboard.ts, tokens.motion.ts, tokens.ts
@@ -124,7 +124,7 @@
 
 ## `reviews/submitted`
 
-- Module `src/flows/reviews/SubmittedScreen.tsx` · 13 own files, 43 in the import closure
+- Module `src/flows/reviews/SubmittedScreen.tsx` · 13 own files, 44 in the import closure
 - Source: Figma KzR8dy12uT8CtgBRHHY6Qx · 6042:141658; repo vbirla789/R-R-2.0-with-checkbox src/screens/SubmittedScreen.tsx
 - Styles: components/AddPhotos.module.css, components/StarRatingInput.module.css, components/SubmittedScreen.module.css
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ai.ts, tokens.keyboard.ts, tokens.motion.ts, tokens.ts
@@ -140,7 +140,7 @@
 
 ## `reviews/deck`
 
-- Module `src/flows/reviews/DeckScreen.tsx` · 21 own files, 55 in the import closure
+- Module `src/flows/reviews/DeckScreen.tsx` · 21 own files, 56 in the import closure
 - Source: Figma KzR8dy12uT8CtgBRHHY6Qx · 8842:127140; repo vbirla789/R-R-2.0-with-checkbox src/screens/PastOrderRatingScreen.tsx
 - Styles: DeckScreen.module.css, components/DeckScreenParts.module.css, components/MockKeyboard.module.css, components/PastOrderCard.module.css, components/ReviewFooter.module.css, components/ReviewHeader.module.css, components/StarRatingInput.module.css
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ai.ts, tokens.keyboard.ts, tokens.motion.ts, tokens.ts
@@ -156,7 +156,7 @@
 
 ## `reviews/slider`
 
-- Module `src/flows/reviews/SliderScreen.tsx` · 21 own files, 55 in the import closure
+- Module `src/flows/reviews/SliderScreen.tsx` · 21 own files, 56 in the import closure
 - Source: Figma KzR8dy12uT8CtgBRHHY6Qx · 8810:123358; repo vbirla789/R-R-2.0-with-checkbox src/screens/PastOrderRatingScreenB.tsx
 - Styles: SliderScreen.module.css, components/DeckScreenParts.module.css, components/MockKeyboard.module.css, components/PastOrderCard.module.css, components/ReviewFooter.module.css, components/ReviewHeader.module.css, components/StarRatingInput.module.css
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ai.ts, tokens.keyboard.ts, tokens.motion.ts, tokens.ts

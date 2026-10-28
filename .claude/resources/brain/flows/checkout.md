@@ -41,7 +41,7 @@
 
 ## `checkout/checkout`
 
-- Module `src/flows/checkout/CheckoutScreen.tsx` · 53 own files, 103 in the import closure · **imports from other flows:** `src/flows/address/data.ts`, `src/flows/address/store.ts`, `src/flows/noonone/components/entry/checkoutEnrollment.ts`, `src/flows/noonone/data.entry.ts`, `src/flows/noonone/data.ts`, `src/flows/noonone/tokens.ts`
+- Module `src/flows/checkout/CheckoutScreen.tsx` · 53 own files, 104 in the import closure · **imports from other flows:** `src/flows/address/data.ts`, `src/flows/address/store.ts`, `src/flows/noonone/components/entry/checkoutEnrollment.ts`, `src/flows/noonone/data.entry.ts`, `src/flows/noonone/data.ts`, `src/flows/noonone/tokens.ts`
 - Source: Figma Af34gfmhQ1D0wstXUEHSIF · 127:44077 (All flows Checkout); Figma zURu7GI7sq77fjdXKrouvo · 14288:183972 (Checkout 2.0, FIGMA_SECTIONS); marketplaces/noon/components/NoonCheckoutBurnSection, NoonCheckoutDonation, Noon…
 - Styles: checkout.module.css, components/AddressCard.module.css, components/BurnSection.module.css, components/CheckoutHeader.module.css, components/CheckoutShipment.module.css, components/CouponStatus.module.css, components/DetachedAddress.module.css, components/Donation.module.css, components/DynamicInvoice.module.css, components/EarnCallout.module.css, components/NoonOneCtaReveal.module.css, components/NoonOneSection.module.css, components/PaymentMethods.module.css, components/PaymentSummary.module.css, components/PointsVouchers.module.css, components/SlideButton.module.css, components/VoucherToast.module.css, components/delivery.module.css, components/rewards.module.css, components/section.module.css
 - Data / helpers: data.delivery.ts, data.payment.ts, data.rewards.ts, data.shipment.ts, data.ts, store.delivery.ts, store.rewards.ts, store.ts, tokens.ts, totals.ts, utils.ts
@@ -56,7 +56,7 @@
 
 ## `checkout/promise-info`
 
-- Module `src/flows/checkout/PromiseInfoScreen.tsx` · 1 own files, 28 in the import closure
+- Module `src/flows/checkout/PromiseInfoScreen.tsx` · 1 own files, 29 in the import closure
 - Source: src/screens/LearnMoreScreen
 - Shared components: `HtmlText`
 - Flow components: —
@@ -65,7 +65,7 @@
 
 ## `checkout/cards-select`
 
-- Module `src/flows/checkout/CardsSelectScreen.tsx` · 8 own files, 37 in the import closure
+- Module `src/flows/checkout/CardsSelectScreen.tsx` · 8 own files, 38 in the import closure
 - Source: marketplaces/noon/screens/NoonCheckoutCardsSelectScreen
 - Styles: components/PaymentCard.module.css, payment.module.css
 - Data / helpers: data.payment.ts, data.ts, store.ts, tokens.ts
@@ -80,7 +80,7 @@
 
 ## `checkout/add-card`
 
-- Module `src/flows/checkout/AddPaymentCardScreen.tsx` · 7 own files, 36 in the import closure
+- Module `src/flows/checkout/AddPaymentCardScreen.tsx` · 7 own files, 37 in the import closure
 - Source: marketplaces/noon/screens/NoonCheckoutAddPaymentCardScreen/{NoonCheckoutAddPaymentCardScreen,styles,validate}.ts(x) (payment_v3 off path of PaymentNavigation.goToCardAdditionScreen)
 - Styles: payment.module.css
 - Data / helpers: data.payment.ts, data.ts, store.ts, tokens.ts, validate.ts
@@ -94,7 +94,7 @@
 
 ## `checkout/special-emis`
 
-- Module `src/flows/checkout/SpecialEmisScreen.tsx` · 8 own files, 42 in the import closure
+- Module `src/flows/checkout/SpecialEmisScreen.tsx` · 8 own files, 43 in the import closure
 - Source: marketplaces/noon/screens/NoonCheckoutSpecialEMIsOverlayScreen
 - Styles: components/PaymentCard.module.css, payment.module.css
 - Data / helpers: data.payment.ts, data.ts, store.ts, tokens.ts
@@ -108,7 +108,7 @@
 
 ## `checkout/emi-plans`
 
-- Module `src/flows/checkout/EmiPlansScreen.tsx` · 10 own files, 44 in the import closure
+- Module `src/flows/checkout/EmiPlansScreen.tsx` · 10 own files, 45 in the import closure
 - Source: marketplaces/noon/screens/NoonSalesEMIPlansOverlayScreen
 - Styles: components/PaymentCard.module.css, emiPlans.module.css
 - Data / helpers: data.payment.ts, data.shipment.ts, data.ts, store.ts, tokens.ts, totals.ts
@@ -122,7 +122,7 @@
 
 ## `checkout/alternate-phone`
 
-- Module `src/flows/checkout/AlternatePhoneScreen.tsx` · 10 own files, 44 in the import closure · **imports from other flows:** `src/flows/address/data.ts`, `src/flows/address/store.ts`
+- Module `src/flows/checkout/AlternatePhoneScreen.tsx` · 10 own files, 45 in the import closure · **imports from other flows:** `src/flows/address/data.ts`, `src/flows/address/store.ts`
 - Source: marketplaces/noon/screens/NoonCheckoutAlternatePhoneScreen (+ SavedContact), marketplaces/noon/screens/NoonCheckoutScreen/ReceiverDetails
 - Styles: components/alternatePhone.module.css, components/delivery.module.css
 - Data / helpers: data.delivery.ts, data.ts, store.delivery.ts, store.ts, tokens.ts
@@ -137,7 +137,7 @@
 
 ## `checkout/alternate-phone-contacts`
 
-- Module `src/flows/checkout/AlternatePhoneContactsScreen.tsx` · 5 own files, 31 in the import closure
+- Module `src/flows/checkout/AlternatePhoneContactsScreen.tsx` · 5 own files, 32 in the import closure
 - Source: marketplaces/noon/screens/NoonCheckoutAlternatePhoneContactsScreen
 - Styles: components/alternatePhone.module.css
 - Data / helpers: data.delivery.ts, store.delivery.ts, tokens.ts
@@ -149,7 +149,7 @@
 
 ## `checkout/learn-more`
 
-- Module `src/flows/checkout/LearnMoreScreen.tsx` · 8 own files, 40 in the import closure
+- Module `src/flows/checkout/LearnMoreScreen.tsx` · 8 own files, 41 in the import closure
 - Source: marketplaces/noon/screens/NoonCheckoutLearnMoreScreen, marketplaces/noon/screens/NoonCheckoutScreen/DeliveryInstruction
 - Styles: components/alternatePhone.module.css, components/delivery.module.css
 - Data / helpers: data.delivery.ts, data.ts, store.ts, tokens.ts
@@ -163,7 +163,7 @@
 
 ## `checkout/burn-providers`
 
-- Module `src/flows/checkout/BurnProvidersScreen.tsx` · 12 own files, 40 in the import closure
+- Module `src/flows/checkout/BurnProvidersScreen.tsx` · 12 own files, 41 in the import closure
 - Source: marketplaces/noon/screens/NoonCheckoutBurnProvidersListOverlayScreen, marketplaces/noon/components/NoonCheckoutBurnSection
 - Styles: components/BurnSection.module.css, components/rewards.module.css, rewardsSheets.module.css
 - Data / helpers: data.payment.ts, data.rewards.ts, data.ts, store.rewards.ts, tokens.ts
@@ -177,7 +177,7 @@
 
 ## `checkout/provider-burn`
 
-- Module `src/flows/checkout/ProviderBurnScreen.tsx` · 8 own files, 40 in the import closure
+- Module `src/flows/checkout/ProviderBurnScreen.tsx` · 8 own files, 41 in the import closure
 - Source: marketplaces/noon/screens/NoonProviderBurnOverlayScreen, marketplaces/noon/components/NoonCheckoutProvider/{Header,FormTitle,FormFields,DialCodeSelector}, NoonCheckoutProviderCrescent
 - Styles: components/providerForm.module.css, components/rewards.module.css
 - Data / helpers: data.rewards.ts, tokens.ts
@@ -191,7 +191,7 @@
 
 ## `checkout/provider-burn-otp`
 
-- Module `src/flows/checkout/ProviderBurnOtpScreen.tsx` · 13 own files, 46 in the import closure
+- Module `src/flows/checkout/ProviderBurnOtpScreen.tsx` · 13 own files, 47 in the import closure
 - Source: marketplaces/noon/screens/NoonProviderBurnOtpOverlayScreen, marketplaces/noon/components/NoonCheckoutProvider/{AmountEntry,AmountTicket,AvailableBalance,VerifyOtp,InfoEditButton,OtpLoading}
 - Styles: components/providerForm.module.css, components/rewards.module.css
 - Data / helpers: data.rewards.ts, data.shipment.ts, data.ts, store.rewards.ts, store.ts, tokens.ts, totals.ts
@@ -204,7 +204,7 @@
 
 ## `checkout/donation-learn-more`
 
-- Module `src/flows/checkout/DonationLearnMoreScreen.tsx` · 3 own files, 37 in the import closure
+- Module `src/flows/checkout/DonationLearnMoreScreen.tsx` · 3 own files, 38 in the import closure
 - Source: marketplaces/noon/components/NoonCheckoutDonationLearnMoreOverlay/{NoonCheckoutDonationLearnMoreOverlay,styles}.ts(x)
 - Styles: donation.module.css
 - Data / helpers: data.ts
@@ -217,7 +217,7 @@
 
 ## `checkout/earn`
 
-- Module `src/flows/checkout/EarnOverlayScreen.tsx` · 7 own files, 34 in the import closure
+- Module `src/flows/checkout/EarnOverlayScreen.tsx` · 7 own files, 35 in the import closure
 - Source: marketplaces/noon/screens/NoonCheckoutEarnOverlayScreen, marketplaces/noon/components/NoonCheckoutEarnCallout
 - Styles: components/rewards.module.css, rewardsSheets.module.css
 - Data / helpers: data.rewards.ts, tokens.ts
@@ -231,7 +231,7 @@
 
 ## `checkout/provider-earn`
 
-- Module `src/flows/checkout/ProviderEarnScreen.tsx` · 11 own files, 44 in the import closure
+- Module `src/flows/checkout/ProviderEarnScreen.tsx` · 11 own files, 45 in the import closure
 - Source: marketplaces/noon/screens/NoonProviderEarnOverlayScreen
 - Styles: components/providerForm.module.css, components/rewards.module.css
 - Data / helpers: data.rewards.ts, data.ts, store.rewards.ts, store.ts, tokens.ts
@@ -245,7 +245,7 @@
 
 ## `checkout/provider-earn-help`
 
-- Module `src/flows/checkout/ProviderEarnHelpScreen.tsx` · 8 own files, 40 in the import closure
+- Module `src/flows/checkout/ProviderEarnHelpScreen.tsx` · 8 own files, 41 in the import closure
 - Source: marketplaces/noon/screens/NoonProviderEarnHelpOverlayScreen
 - Styles: components/providerForm.module.css, components/rewards.module.css
 - Data / helpers: data.rewards.ts, tokens.ts
@@ -258,7 +258,7 @@
 
 ## `checkout/installation`
 
-- Module `src/flows/checkout/InstallationOverlayScreen.tsx` · 11 own files, 46 in the import closure
+- Module `src/flows/checkout/InstallationOverlayScreen.tsx` · 11 own files, 47 in the import closure
 - Source: marketplaces/noon/screens/NoonCheckoutInstallationOverlayScreen
 - Styles: components/rewards.module.css, installation.module.css
 - Data / helpers: data.rewards.ts, data.shipment.ts, data.ts, store.ts, tokens.ts, totals.ts
@@ -271,7 +271,7 @@
 
 ## `checkout/placing`
 
-- Module `src/flows/checkout/PlacingScreen.tsx` · 6 own files, 34 in the import closure
+- Module `src/flows/checkout/PlacingScreen.tsx` · 6 own files, 35 in the import closure
 - Source: marketplaces/noon/components/NoonPostOrderLoader, marketplaces/noon/hooks/useNoonPostOrderMessage
 - Styles: placing.module.css
 - Data / helpers: data.postorder.ts, data.ts, store.ts, tokens.ts
@@ -286,7 +286,7 @@
 
 ## `checkout/confirmation`
 
-- Module `src/flows/checkout/ConfirmationScreen.tsx` · 7 own files, 44 in the import closure · **imports from other flows:** `src/flows/address/data.ts`, `src/flows/address/store.ts`, `src/flows/noonone/components/entry/checkoutEnrollment.ts`, `src/flows/noonone/components/entry/useOcOneOverlay.ts`, `src/flows/noonone/data.ts`
+- Module `src/flows/checkout/ConfirmationScreen.tsx` · 7 own files, 45 in the import closure · **imports from other flows:** `src/flows/address/data.ts`, `src/flows/address/store.ts`, `src/flows/noonone/components/entry/checkoutEnrollment.ts`, `src/flows/noonone/components/entry/useOcOneOverlay.ts`, `src/flows/noonone/data.ts`
 - Source: marketplaces/noon/screens/NoonOrderConfirmationV3Screen, marketplaces/noon/components/NoonShipmentV2, NoonOrderConfirmationAddress, NoonNotificationsBanner
 - Styles: confirmation.module.css
 - Data / helpers: data.postorder.ts, data.shipment.ts, data.ts, store.ts, tokens.ts
@@ -301,7 +301,7 @@
 
 ## `checkout/track-steps`
 
-- Module `src/flows/checkout/TrackStepsScreen.tsx` · 4 own files, 29 in the import closure
+- Module `src/flows/checkout/TrackStepsScreen.tsx` · 4 own files, 30 in the import closure
 - Source: marketplaces/noon/screens/NoonOrderConfirmationTrackStepsScreen
 - Styles: postorder.module.css
 - Data / helpers: data.postorder.ts, tokens.ts
@@ -313,7 +313,7 @@
 
 ## `checkout/payment-failure`
 
-- Module `src/flows/checkout/PaymentFailureScreen.tsx` · 4 own files, 34 in the import closure
+- Module `src/flows/checkout/PaymentFailureScreen.tsx` · 4 own files, 35 in the import closure
 - Source: marketplaces/noon/screens/NoonCheckoutPaymentFailureScreen
 - Styles: postorder.module.css
 - Data / helpers: data.postorder.ts, tokens.ts
@@ -326,7 +326,7 @@
 
 ## `checkout/payment-failure-help`
 
-- Module `src/flows/checkout/PaymentFailureHelpScreen.tsx` · 4 own files, 29 in the import closure
+- Module `src/flows/checkout/PaymentFailureHelpScreen.tsx` · 4 own files, 30 in the import closure
 - Source: marketplaces/noon/screens/NoonCheckoutPaymentFailureNeedHelpOverlayScreen
 - Styles: postorder.module.css
 - Data / helpers: data.postorder.ts, tokens.ts

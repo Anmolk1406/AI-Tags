@@ -2,8 +2,8 @@
   "generatedBy": ".claude/resources/scripts/build.mjs",
   "totals": {
     "flows": 20,
-    "screens": 179,
-    "routes": 179,
+    "screens": 180,
+    "routes": 180,
     "largestFlow": 24,
     "byCoverage": {
       "spec": 11,
@@ -11,7 +11,7 @@
       "none": 2
     },
     "byLabel": {
-      "reference-backed": 177,
+      "reference-backed": 178,
       "kit-backed": 2,
       "inferred": 0
     },
@@ -19,12 +19,12 @@
       "mixed": 6,
       "bappzaar": 152,
       "reference": 11,
-      "figma": 10
+      "figma": 11
     },
-    "truthExplicit": 25,
+    "truthExplicit": 26,
     "truthInferred": 154,
     "verified": 6,
-    "unverified": 173
+    "unverified": 174
   },
   "labelMapping": {
     "reference-backed": "truth bappzaar / figma / mixed / reference, explicit or inferred from a recognisable source (bappzaar master path, Figma <fileKey> · <node>, or reference: / link)",
@@ -347,7 +347,7 @@
       "title": "Product page (PDP)",
       "group": "Shopping",
       "initial": "pdp/detail",
-      "screenCount": 4,
+      "screenCount": 5,
       "coverage": "spec",
       "docs": {
         "mapping": [
@@ -427,6 +427,17 @@
           "label": "reference-backed",
           "verified": null,
           "source": "marketplaces/noon/screens/NoonQuickCartScreen"
+        },
+        {
+          "route": "pdp/reviewTopics",
+          "title": "Review topics",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "figma",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "Figma Or9RuyCtjXRPrnbUJFx7As · 1421:486 (first state 1421:629 / 676 / 724 → settled 1421:487 / 534 / 582)"
         }
       ]
     },

@@ -7180,9 +7180,38 @@
     },
     {
       "flow": "pdp",
+      "name": "SfTopicIcon",
+      "file": "src/flows/pdp/components/storefront/SfReviewTopics.tsx",
+      "line": 24,
+      "doc": "18px trend mark: arrow-up-right-bold (positive), the Figma \"Tilde\" (neutral, no Origin icon for it), arrow-down-right-bold (negative).",
+      "props": [
+        "sentiment",
+        "color"
+      ],
+      "variants": {
+        "sentiment": [
+          "negative",
+          "neutral",
+          "positive"
+        ]
+      }
+    },
+    {
+      "flow": "pdp",
+      "name": "SfTopicPills",
+      "file": "src/flows/pdp/components/storefront/SfReviewTopics.tsx",
+      "line": 47,
+      "doc": "Topic \"Pills\" under the AI summary bullets (Figma 1409:63882): wrap, 8 apart; white r8, p6, purple 8% drop shadow, trend icon + 14/20 600 Blue-Gray/900 + 14px c",
+      "props": [
+        "topics",
+        "onOpen"
+      ]
+    },
+    {
+      "flow": "pdp",
       "name": "SfStars",
       "file": "src/flows/pdp/components/storefront/SfReviewsCard.tsx",
-      "line": 17,
+      "line": 18,
       "doc": "Figma \"Stars\": 5 × `size` star-filled in Emerald/800, half star for a .5 remainder, empty in border grey.",
       "props": [
         "rating",
@@ -7193,7 +7222,7 @@
       "flow": "pdp",
       "name": "SfReviewsCard",
       "file": "src/flows/pdp/components/storefront/SfReviewsCard.tsx",
-      "line": 41,
+      "line": 42,
       "doc": "Storefront \"Product Review Card\" (3499:75703): white r16 card, p12, sections 24 apart — rating summary (15/700 title, 22/800 score + 22 stars, 12/18 note + info",
       "props": [
         "product",

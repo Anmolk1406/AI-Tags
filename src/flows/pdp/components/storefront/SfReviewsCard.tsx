@@ -6,7 +6,8 @@ import { spring } from '../../../../motion/presets';
 import { Asset } from '../Asset';
 import { Card } from '../Card';
 import styles from './SfReviewsCard.module.css';
-import { abbreviate, score, type Product } from '../../../../data';
+import { SfTopicPills } from './SfReviewTopics';
+import { abbreviate, score, type Product, type ReviewTopic } from '../../../../data';
 import { copy, npdCopy, sfCopy } from '../../../../data/copy/pdp';
 import type { PdpContent } from '../../../../data/views/pdp';
 
@@ -41,7 +42,9 @@ export function SfStars({ rating, size }: { rating: number; size: 16 | 20 | 22 }
 export function SfReviewsCard({ product, content }: { product: Product; content: PdpContent }) {
   const nav = useNav();
   const count = abbreviate(content.commentCount);
-  const photos = content.reviews.flatMap((r) => r.images ?? []);
+  const stats = content.reviewSummary;
+  const photos = stats?.photos ?? content.reviews.flatMap((r) => r.images ?? []);
+  const rating = stats?.rating ?? product.rating;
   return (
     <Card contentGap={24}>
       <div className={styles.group}>
@@ -49,21 +52,25 @@ export function SfReviewsCard({ product, content }: { product: Product; content:
           <h3 className={styles.title}>{copy.reviewsTitle}</h3>
           <div className={styles.overview}>
             <div className={styles.scoreRow}>
-              <span className={styles.score}>{score(product.rating)}</span>
-              <SfStars rating={Number(score(product.rating))} size={22} />
+              <span className={styles.score}>{score(rating)}</span>
+              <SfStars rating={Number(score(rating))} size={22} />
             </div>
             <span className={styles.note}>
-              {sfCopy.reviews.avgRating(abbreviate(product.ratingCount))}
+              {sfCopy.reviews.avgRating(abbreviate(stats?.reviewCount ?? product.ratingCount))}
               <OriginIcon name="info-circle" size={14} color="var(--nk-color-text-muted)" />
             </span>
           </div>
         </div>
-        {content.aiSummary && content.aiSummary.length > 0 && <SfAiSummary items={content.aiSummary} count={count} />}
+        {content.aiTopics && content.aiTopics.length > 0 ? (
+          <SfAiTopicSummary items={content.aiSummary ?? []} topics={content.aiTopics} count={count} onOpen={(topic) => nav.sheet('pdp/reviewTopics', { productId: product.id, topic })} />
+        ) : (
+          content.aiSummary && content.aiSummary.length > 0 && <SfAiSummary items={content.aiSummary} count={count} />
+        )}
       </div>
 
       {photos.length > 0 && (
         <div className={styles.section}>
-          <h3 className={styles.title}>{sfCopy.reviews.photoReviews(photos.length)}</h3>
+          <h3 className={styles.title}>{sfCopy.reviews.photoReviews(stats?.photoCount ?? photos.length)}</h3>
           <div className={styles.photoRail}>
             {photos.map((src, i) => (
               <span key={`${src}-${i}`} className={styles.photo}>
@@ -77,8 +84,8 @@ export function SfReviewsCard({ product, content }: { product: Product; content:
       {content.reviews.length > 0 && (
         <div className={styles.section}>
           <h3 className={styles.title}>{sfCopy.reviews.topReviews(count)}</h3>
-          {content.reviews.map((r) => (
-            <SfReviewItem key={r.name} review={r} fallbackChips={content.purchasedVariant} />
+          {content.reviews.map((r, i) => (
+            <SfReviewItem key={`${r.name}-${i}`} review={r} fallbackChips={content.purchasedVariant} />
           ))}
           {content.commentCount > 3 && (
             <div className={styles.allReviews}>
@@ -126,6 +133,41 @@ function SfAiSummary({ items, count }: { items: string[]; count: string }) {
         )}
       </AnimatePresence>
     </button>
+  );
+}
+
+/**
+ * Topic summary (Figma Or9RuyCtjXRPrnbUJFx7As · 1409:63840): the Highlights block with "{n} reviews," in solid ink, no
+ * collapse, and the topic pills under the bullets (details pt12 px12 pb14, 14 apart). Shown when the product has topics.
+ */
+function SfAiTopicSummary({ items, topics, count, onOpen }: { items: string[]; topics: ReviewTopic[]; count: string; onOpen: (index: number) => void }) {
+  return (
+    // data-landing-anchor: a `scrollTo=reviews` PDP opens with this block (summary + topic chips) under the header
+    <div className={styles.ai} data-landing-anchor>
+      <span className={styles.aiHead}>
+        <span className={styles.aiTitle}>
+          <span className={styles.aiCount}>{sfCopy.reviews.aiTitle(count)}</span>
+          <span className={styles.aiText}>
+            <span className={styles.aiBy}>{npdCopy.aiSummarisedBy}</span>
+            {npdCopy.aiNoonAi}
+          </span>
+          <Asset name="aiSummarySparkle" size={12} />
+        </span>
+      </span>
+      <span className={`${styles.aiBody} ${styles.aiTopicBody}`}>
+        {items.length > 0 && (
+          <span className={styles.aiItems}>
+            {items.map((t) => (
+              <span key={t} className={styles.aiItem}>
+                <span className={styles.aiBullet} aria-hidden />
+                <span>{t}</span>
+              </span>
+            ))}
+          </span>
+        )}
+        <SfTopicPills topics={topics} onOpen={onOpen} />
+      </span>
+    </div>
   );
 }
 

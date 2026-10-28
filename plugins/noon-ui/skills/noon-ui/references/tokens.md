@@ -246,8 +246,8 @@ Weights: Regular 400, Medium 500, Semibold 600, Bold 700. Lookup from a raw shor
 
 | Token | Value | Note |
 |---|---|---|
-| `deviceWidth` × `deviceHeight` | 390 × 844 | PhoneFrame viewport |
-| `screenRadius` | 52 | squircle screen corner |
+| `deviceWidth` × `deviceHeight` | 375 × 812 | PhoneFrame viewport (the Figma frame size) |
+| `screenRadius` | 0 | squircle screen corner |
 | `screenSmoothing` | 1 | corner smoothing (0–1); emitted as `1px` by the number rule, used from TS only |
 | `statusBar` | 54 | also `--nk-inset-top` |
 | `homeIndicator` | 34 | also `--nk-inset-bottom` |

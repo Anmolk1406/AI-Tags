@@ -5,9 +5,9 @@
 **flow:pdp** · group Shopping · initial `pdp/detail` · coverage spec
 
 - Docs: `../pdp/SKILL.md` · `../pdp/spec.md` · `resources/flows/pdp.md` · `src/flows/pdp/FIGMA-MAPPING.md` · `src/flows/pdp/MAPPING.md`
-- Folder: `src/flows/pdp/` · tokens `src/flows/pdp/tokens.ts` (245 flow vars) <!-- count-ok -->
-- Area data / token / helper files: tokens.npA.ts, tokens.npB.ts, tokens.npC.ts, tokens.npD.ts, tokens.npE.ts, tokens.sfA.ts, tokens.sfB.ts, tokens.sfC.ts, tokens.sfD.ts, tokens.sfE.ts
-- Enters from: `cart/cart` → detail · `cart/discount` → detail, variants · `cart/empty` → detail · `cart/loading` → detail · `deals/deals` → detail, variants · `fieldds/gallery` → detail, variants · `fieldds/glass` → detail, variants · `fieldds/sheet` → detail, variants · `fieldds/tabs` → detail, variants · `home/classic` → detail, variants · `home/home` → detail, variants · `plp/listing` → detail, variants · `returns/returnable` → detail · `search/search` → detail, variants, added · `search/suggestions` → detail, variants, added · `wishlist/no-collections` → detail, variants · `wishlist/wishlist` → detail, variants · `yellowFriday/landing` → detail · `yellowFriday/reveal` → detail
+- Folder: `src/flows/pdp/` · tokens `src/flows/pdp/tokens.ts` (252 flow vars) · store `src/flows/pdp/store.ts` <!-- count-ok -->
+- Area data / token / helper files: store.ts, tokens.npA.ts, tokens.npB.ts, tokens.npC.ts, tokens.npD.ts, tokens.npE.ts, tokens.sfA.ts, tokens.sfB.ts, tokens.sfC.ts, tokens.sfD.ts, tokens.sfE.ts
+- Enters from: `cart/cart` → detail · `cart/discount` → detail, variants · `cart/empty` → detail · `cart/loading` → detail · `deals/deals` → detail, variants · `fieldds/gallery` → detail, variants · `fieldds/glass` → detail, variants · `fieldds/sheet` → detail, variants · `fieldds/tabs` → detail, variants · `home/classic` → detail, variants · `home/home` → detail, variants · `plp/listing` → detail, variants · `returns/returnable` → detail · `search/search` → detail, variants, added, reviewTopics · `search/suggestions` → detail, variants, added, reviewTopics · `wishlist/no-collections` → detail, variants · `wishlist/wishlist` → detail, variants · `yellowFriday/landing` → detail · `yellowFriday/reveal` → detail
 - Exits to: `cart/cart` (from added) · `checkout/checkout` (from detail) · `noonone/landing` (from detail, deliveryVariants) · `plp/listing` (from detail) · `search/search` (from detail)
 
 ## Screens
@@ -18,27 +18,28 @@
 | `scr:pdp/deliveryVariants` Delivery information variants | screen | — | figma* · never | `DeliveryVariantsScreen.tsx` (productId) | 1 |
 | `scr:pdp/variants` Variants | sheet (classic) | — | bappzaar* · never | `VariantsSheet.tsx` (productId) | 3 |
 | `scr:pdp/added` Added to cart | sheet (classic) | — | bappzaar* · never | `AddedSheet.tsx` (productId) | 2 |
+| `scr:pdp/reviewTopics` Review topics | sheet (origin) | — | figma · never | `screens/ReviewTopicsSheet.tsx` (productId, topic) | 0 |
 
 `*` truth inferred from `source`. Tests = journeys + visual references (every screen also runs in `check:routes`). In nav lines, `~` = target resolved through a const / helper / ternary (reachable, runtime-dependent); no mark = a literal `nav.*('…')` call.
 
 ## `pdp/detail`
 
-- Module `src/flows/pdp/DetailScreen.tsx` · 59 own files, 107 in the import closure
+- Module `src/flows/pdp/DetailScreen.tsx` · 62 own files, 114 in the import closure
 - Source: Figma Af34gfmhQ1D0wstXUEHSIF · 64:5571 (All flows "New PDP"; earlier Storefront 2ldJbjmQq4RkhnrNFCfXQB · 3499:75115; see FIGMA-MAPPING.md) for the look, over marketplaces/noon/components/NoonProductDetails/NoonProductDe…
-- Styles: components/storefront/SfAdditionalInfo.module.css, components/storefront/SfAtcBar.module.css, components/storefront/SfBestsellerRow.module.css, components/storefront/SfBundleCard.module.css, components/storefront/SfDeliveryCard.module.css, components/storefront/SfExtendedWarranty.module.css, components/storefront/SfFbtCard.module.css, components/storefront/SfFreeGifts.module.css, components/storefront/SfGallery.module.css, components/storefront/SfHeader.module.css, components/storefront/SfMainInfo.module.css, components/storefront/SfNewerModelCard.module.css, components/storefront/SfPaymentOffers.module.css, components/storefront/SfProductDetails.module.css, components/storefront/SfProductFeatures.module.css, components/storefront/SfRecommendations.module.css, components/storefront/SfReviewsCard.module.css, components/storefront/SfSellerCard.module.css, components/storefront/SfSponsoredBrandCard.module.css, components/storefront/SfSponsoredRow.module.css, components/storefront/SfTrustCard.module.css, components/storefront/SfVariantsCard.module.css, pdp.module.css
-- Data / helpers: tokens.npA.ts, tokens.npB.ts, tokens.npC.ts, tokens.npD.ts, tokens.npE.ts, tokens.sfA.ts, tokens.sfB.ts, tokens.sfC.ts, tokens.sfD.ts, tokens.sfE.ts, tokens.ts
+- Styles: components/storefront/SfAdditionalInfo.module.css, components/storefront/SfAtcBar.module.css, components/storefront/SfBestsellerRow.module.css, components/storefront/SfBundleCard.module.css, components/storefront/SfDeliveryCard.module.css, components/storefront/SfExtendedWarranty.module.css, components/storefront/SfFbtCard.module.css, components/storefront/SfFreeGifts.module.css, components/storefront/SfGallery.module.css, components/storefront/SfHeader.module.css, components/storefront/SfMainInfo.module.css, components/storefront/SfNewerModelCard.module.css, components/storefront/SfPaymentOffers.module.css, components/storefront/SfProductDetails.module.css, components/storefront/SfProductFeatures.module.css, components/storefront/SfRecommendations.module.css, components/storefront/SfReviewTopics.module.css, components/storefront/SfReviewsCard.module.css, components/storefront/SfSellerCard.module.css, components/storefront/SfSponsoredBrandCard.module.css, components/storefront/SfSponsoredRow.module.css, components/storefront/SfTrustCard.module.css, components/storefront/SfVariantsCard.module.css, pdp.module.css
+- Data / helpers: store.ts, tokens.npA.ts, tokens.npB.ts, tokens.npC.ts, tokens.npD.ts, tokens.npE.ts, tokens.sfA.ts, tokens.sfB.ts, tokens.sfC.ts, tokens.sfD.ts, tokens.sfE.ts, tokens.ts
 - Shared components: `Badge`, `DashedDivider`, `Divider`, `ExpressBadge`, `GlassFade`, `HtmlText`, `Lottie`, `MarketplaceTag`, `MaskIcon`, `OriginIcon`, `Pressable`, `ProductImage`, `Screen`, `Spinner`, `TabBar`
-- Flow components: `Asset`, `Card`, `SfAdditionalInfo`, `SfAtcBar`, `SfBestsellerRow`, `SfBundleCard`, `SfDeliveryCard`, `SfExtendedWarranty`, `SfFbtCard`, `SfFreeGifts`, `SfGallery`, `SfHeader`, `SfMainInfo`, `SfNewerModelCard`, `SfPaymentOffers`, `SfProductDetails`, `SfProductFeatures`, `SfRecommendations`, `SfReviewsCard`, `SfSellerCard`, `SfSponsoredBrandCard`, `SfSponsoredRow`, `SfTrustCard`, `SfVariantsCard`
-- Tokens (312): colors 29 · flow:pdp 166 · fontWeight 3 · layout 3 · local 2 · palette 58 · radius 9 · spacing 11 · tabBar 5 · type 26
-- Motion: `preset/duration.fast`, `preset/easing.out`, `preset/spring.bouncy`, `preset/spring.gentle`, `preset/spring.press`, `preset/tween`, `reduced-motion`
-- Icons: `arrow-down-circle`, `cart-check-filled`, `check-circle`, `chevron-down`, `chevron-left`, `chevron-right`, `chevron-up`, `copy`, `cross`, `discount-star`, `heart`, `info-circle`, `payment-card-big`, `plus`, `search`, `star`, `star-filled`, `thumbs-up`, `thunder-square`, `upload` … +1 · assets 59
-- State / data: `store:demo`, `store:membership`, `data:abbreviate`, `data:copy`, `data:currency`, `data:deliveryVariants`, `data:discountPct`, `data:discountPercent`, `data:formatPrice`, `data:leafName`, `data:mainInfoView`, `data:money`, `data:npaCopy`, `data:npbCopy`, `data:npcCopy`, `data:npdCopy`, `data:pdpView`, `data:productById`, `data:railCopy`, `data:railNudges` … +3
-- Nav out: push `checkout/checkout` · push `noonone/landing` · sheet `pdp/added` · push `pdp/detail` · replace `pdp/detail` · push `plp/listing` · push `search/search`
+- Flow components: `Asset`, `Card`, `SfAdditionalInfo`, `SfAtcBar`, `SfBestsellerRow`, `SfBundleCard`, `SfDeliveryCard`, `SfExtendedWarranty`, `SfFbtCard`, `SfFreeGifts`, `SfGallery`, `SfHeader`, `SfMainInfo`, `SfNewerModelCard`, `SfPaymentOffers`, `SfProductDetails`, `SfProductFeatures`, `SfRecommendations`, `SfReviewsCard`, `SfSellerCard`, `SfSponsoredBrandCard`, `SfSponsoredRow`, `SfTopicPills`, `SfTrustCard`, `SfVariantsCard`
+- Tokens (316): colors 29 · flow:pdp 167 · fontWeight 3 · layout 3 · local 2 · palette 59 · radius 9 · shadow 1 · spacing 11 · tabBar 5 · type 27
+- Motion: `haptics`, `preset/duration.fast`, `preset/easing.out`, `preset/spring.bouncy`, `preset/spring.gentle`, `preset/spring.press`, `preset/tween`, `reduced-motion`
+- Icons: `arrow-down-circle`, `caret-down`, `cart-check-filled`, `check-circle`, `chevron-down`, `chevron-left`, `chevron-right`, `chevron-up`, `copy`, `cross`, `discount-star`, `heart`, `info-circle`, `payment-card-big`, `plus`, `search`, `star`, `star-filled`, `thumbs-up`, `thunder-square` … +2 · assets 60
+- State / data: `store:demo`, `store:membership`, `store:pdp`, `data:abbreviate`, `data:copy`, `data:currency`, `data:deliveryVariants`, `data:discountPct`, `data:discountPercent`, `data:formatPrice`, `data:leafName`, `data:mainInfoView`, `data:money`, `data:npaCopy`, `data:npbCopy`, `data:npcCopy`, `data:npdCopy`, `data:pdpView`, `data:productById`, `data:railCopy` … +4
+- Nav out: push `checkout/checkout` · push `noonone/landing` · sheet `pdp/added` · push `pdp/detail` · replace `pdp/detail` · sheet `pdp/reviewTopics` · push `plp/listing` · push `search/search`
 - `detail`: in ← `cart/cart`, `cart/discount`, `cart/empty`, `cart/loading`, `deals/deals`, `fieldds/gallery`, `fieldds/glass`, `fieldds/sheet`, `fieldds/tabs`, `home/classic`, `home/home`, `pdp/added`, `pdp/deliveryVariants`, `plp/listing`, `returns/returnable`, `search/search`, `search/search`, `search/suggestions`, `search/suggestions`, `wishlist/no-collections`, `wishlist/wishlist`, `yellowFriday/landing`, `yellowFriday/reveal` · tests `test:journey/back-direct-url`, `test:journey/back-from-pushed`, `test:journey/cart-add-from-pdp`, `test:journey/pdp-add-to-cart`, `test:journey/pdp-variant-in-place`, `test:journey/pdp-variants-size-warning` · docs `../home-page/spec.md:90-99`, `resources/flows/search.md:24-38`, `../search/spec.md:58-77`, `resources/flows/other-flows.md:5-17`, `resources/flows/pdp.md:5-16`, `../pdp/spec.md:7-16`, `../pdp/spec.md:21-51`, `../pdp/spec.md:52-73`, `../pdp/spec.md:74-85`, `../pdp/spec.md:136-147`, `src/flows/pdp/FIGMA-MAPPING.md:7-32`, `src/flows/pdp/FIGMA-MAPPING.md:62-74`, `src/flows/pdp/MAPPING.md:469-521`, `resources/flows/cart.md:29-54`
 
 ## `pdp/deliveryVariants`
 
-- Module `src/flows/pdp/DeliveryVariantsScreen.tsx` · 6 own files, 49 in the import closure
+- Module `src/flows/pdp/DeliveryVariantsScreen.tsx` · 6 own files, 51 in the import closure
 - Source: Figma xPr9Ln37JGSBGvNtrsyD0y · 3583:109620 (PDP Redesign, Delivery information component set)
 - Styles: components/storefront/SfDeliveryCard.module.css, pdp.module.css
 - Shared components: `Header`, `HtmlText`, `MarketplaceTag`, `OriginIcon`, `Pressable`, `Screen`, `Text`
@@ -52,7 +53,7 @@
 
 ## `pdp/variants`
 
-- Module `src/flows/pdp/VariantsSheet.tsx` · 3 own files, 37 in the import closure
+- Module `src/flows/pdp/VariantsSheet.tsx` · 3 own files, 39 in the import closure
 - Source: marketplaces/noon/screens/NoonVariantsOverlayScreen (+ NoonProductSizeVariantSelection, NoonProductCartSelectionItem, NoonOfferAddToCartQuantity)
 - Styles: pdp.module.css
 - Shared components: `Icon`, `ProductImage`
@@ -64,7 +65,7 @@
 
 ## `pdp/added`
 
-- Module `src/flows/pdp/AddedSheet.tsx` · 13 own files, 61 in the import closure
+- Module `src/flows/pdp/AddedSheet.tsx` · 13 own files, 63 in the import closure
 - Source: marketplaces/noon/screens/NoonQuickCartScreen
 - Styles: pdp.module.css
 - Data / helpers: tokens.npA.ts, tokens.npB.ts, tokens.npC.ts, tokens.npD.ts, tokens.npE.ts, tokens.sfA.ts, tokens.sfB.ts, tokens.sfC.ts, tokens.sfD.ts, tokens.sfE.ts, tokens.ts
@@ -74,3 +75,17 @@
 - State / data: `data:copy`, `data:pdpView`, `data:productById`
 - Nav out: push `cart/cart` · push `pdp/detail` (via ProductCard) · sheet `pdp/variants` (via ProductCard)
 - `added`: in ← `pdp/detail`, `search/search`, `search/suggestions` · tests `test:journey/cart-add-from-pdp`, `test:journey/pdp-add-to-cart` · docs `resources/flows/pdp.md:5-16`, `resources/flows/pdp.md:33-41`, `../pdp/spec.md:7-16`, `../pdp/spec.md:74-85`, `../pdp/spec.md:136-147`, `src/flows/pdp/FIGMA-MAPPING.md:7-32`, `resources/flows/cart.md:55-62`
+
+## `pdp/reviewTopics`
+
+- Module `src/flows/pdp/screens/ReviewTopicsSheet.tsx` · 5 own files, 53 in the import closure
+- Source: Figma Or9RuyCtjXRPrnbUJFx7As · 1421:486 (first state 1421:629 / 676 / 724 → settled 1421:487 / 534 / 582)
+- Styles: components/storefront/SfReviewTopics.module.css, screens/ReviewTopicsSheet.module.css
+- Data / helpers: store.ts
+- Shared components: `DashedDivider`, `MaskIcon`, `OriginIcon`, `SheetBody`, `Skeleton`
+- Flow components: `SfTopicIcon`
+- Tokens (46): colors 12 · flow:pdp 7 · local 2 · palette 3 · radius 4 · shadow 1 · spacing 11 · type 6
+- Motion: `haptics`, `reduced-motion`
+- Icons: `caret-down`, `star-filled`, `thumbs-up`, `verified` · assets 1
+- State / data: `store:pdp`, `data:copy`, `data:pdpView`, `data:productById`, `data:sfCopy`
+- `reviewTopics`: in ← `pdp/detail`, `search/search`, `search/suggestions`

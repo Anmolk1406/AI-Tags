@@ -4,7 +4,7 @@
 
 The source of truth for component **names, props, types, defaults and variants**. Hand-written guidance (when to use, gotchas, examples) is in `components.md`; when the two disagree, this file is right and `components.md` is stale.
 
-61 shared components exported from `src/components/index.ts` · 367 flow-local components in `src/flows/*/components/`. "—" = no static default; `?` = optional. Variants = props typed as a union of string literals.
+61 shared components exported from `src/components/index.ts` · 369 flow-local components in `src/flows/*/components/`. "—" = no static default; `?` = optional. Variants = props typed as a union of string literals.
 
 ## Shared components
 
@@ -1411,8 +1411,10 @@ Search these before you create a component (`components.md` → "Search before y
 | pdp | `SfProductFeatures` | `src/flows/pdp/components/storefront/SfProductFeatures.tsx:26` | `content` |
 | pdp | `SfRecommendations` | `src/flows/pdp/components/storefront/SfRecommendations.tsx:38` | `title` `items` `sponsored` `variant` |
 | pdp | `SfRecoCard` | `src/flows/pdp/components/storefront/SfRecommendations.tsx:60` | `product` `sponsored` |
-| pdp | `SfStars` | `src/flows/pdp/components/storefront/SfReviewsCard.tsx:17` | `rating` `size` |
-| pdp | `SfReviewsCard` | `src/flows/pdp/components/storefront/SfReviewsCard.tsx:41` | `product` `content` |
+| pdp | `SfTopicIcon` | `src/flows/pdp/components/storefront/SfReviewTopics.tsx:24` | `sentiment` `color` |
+| pdp | `SfTopicPills` | `src/flows/pdp/components/storefront/SfReviewTopics.tsx:47` | `topics` `onOpen` |
+| pdp | `SfStars` | `src/flows/pdp/components/storefront/SfReviewsCard.tsx:18` | `rating` `size` |
+| pdp | `SfReviewsCard` | `src/flows/pdp/components/storefront/SfReviewsCard.tsx:42` | `product` `content` |
 | pdp | `SfSellerCard` | `src/flows/pdp/components/storefront/SfSellerCard.tsx:46` | `content` `onOffers` |
 | pdp | `SfSponsoredBrandCard` | `src/flows/pdp/components/storefront/SfSponsoredBrandCard.tsx:14` | `brand` `items` |
 | pdp | `SfSponsoredRow` | `src/flows/pdp/components/storefront/SfSponsoredRow.tsx:13` | `item` |

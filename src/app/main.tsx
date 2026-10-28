@@ -11,7 +11,8 @@ import './preview.css';
 
 /**
  * Dev preview: the phone on its own. Every page is a URL — `/homepage`, `/plp?query=x`, `/orders` (see kit/routes.ts)
- * or the legacy `#/flow/screen`; `/` opens home. Not part of the package.
+ * or the legacy `#/flow/screen`; `/` opens home — or, when the build sets `VITE_LANDING` (a page URL such as
+ * `pdp?productId=N70211593V&scrollTo=reviews`; the Vercel deployment does), that page. Not part of the package.
  */
 const registry = createRegistry(allFlows);
 
@@ -22,8 +23,17 @@ setWasmUrl(new URL('../../node_modules/@lottiefiles/dotlottie-web/dist/dotlottie
 // used by scripts/check-routes.mjs
 (window as unknown as { __NK_ROUTES__: string[] }).__NK_ROUTES__ = registry.all().map((r) => r.route);
 
+/** the bare root URL's page on a deployment that sets one (VITE_LANDING); else home */
+const landing = (): { pathname: string; hash: string; search: string } | undefined => {
+  const to = import.meta.env.VITE_LANDING as string | undefined;
+  if (!to) return undefined;
+  const [path, query = ''] = to.replace(/^\/+/, '').split('?');
+  return { pathname: `/${path}`, hash: '', search: query ? `?${query}` : '' };
+};
+
 const readUrl = (): { route?: Route; params: Record<string, string> } => {
-  const { route, params } = parsePageUrl(window.location);
+  const here = parsePageUrl(window.location);
+  const { route, params } = here.route ? here : parsePageUrl(landing() ?? window.location);
   return { route: route ? registry.resolve(route)?.route : undefined, params };
 };
 

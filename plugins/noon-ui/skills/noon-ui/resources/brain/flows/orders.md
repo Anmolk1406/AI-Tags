@@ -23,7 +23,7 @@
 
 ## `orders/list`
 
-- Module `src/flows/orders/OrdersListScreen.tsx` · 11 own files, 54 in the import closure · **imports from other flows:** `src/flows/reviews/assets.ts`, `src/flows/reviews/data.ts`, `src/flows/reviews/store.ts`, `src/flows/reviews/tokens.motion.ts`
+- Module `src/flows/orders/OrdersListScreen.tsx` · 11 own files, 55 in the import closure · **imports from other flows:** `src/flows/reviews/assets.ts`, `src/flows/reviews/data.ts`, `src/flows/reviews/store.ts`, `src/flows/reviews/tokens.motion.ts`
 - Source: reference: pds-noon-as.vercel.app/one-flows?screen=orderlisting (My Orders); bappzaar features/o2d/screens/O2DOrdersV2Screen
 - Styles: orders.module.css
 - Data / helpers: assets.ts, data.ts, motion.ts, tokens.ts
@@ -39,7 +39,7 @@
 
 ## `orders/tracking`
 
-- Module `src/flows/orders/OrderTrackingScreen.tsx` · 12 own files, 54 in the import closure
+- Module `src/flows/orders/OrderTrackingScreen.tsx` · 12 own files, 55 in the import closure
 - Source: reference: pds-noon-as.vercel.app/one-flows (My Orders → Arriving today, tabs V1–V4); bappzaar features/o2d/screens/O2DOrderTrackingScreen
 - Styles: orders.module.css
 - Data / helpers: assets.ts, data.ts, motion.ts, tokens.ts
@@ -68,7 +68,7 @@
 
 ## `orders/cancel`
 
-- Module `src/flows/orders/OrderCancelScreen.tsx` · 4 own files, 41 in the import closure
+- Module `src/flows/orders/OrderCancelScreen.tsx` · 4 own files, 42 in the import closure
 - Source: features/o2d/screens/O2DOrderCancelItemsScreen
 - Styles: orders.module.css
 - Data / helpers: assets.ts, data.ts

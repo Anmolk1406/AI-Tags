@@ -36,7 +36,7 @@
 
 ## `account/account`
 
-- Module `src/flows/account/AccountScreen.tsx` · 13 own files, 52 in the import closure · **imports from other flows:** `src/flows/orders/assets.ts`, `src/flows/orders/data.ts`
+- Module `src/flows/account/AccountScreen.tsx` · 13 own files, 53 in the import closure · **imports from other flows:** `src/flows/orders/assets.ts`, `src/flows/orders/data.ts`
 - Source: bappzaar master ba159e20381: marketplaces/noon/screens/NoonAccountScreen, marketplaces/noon/components/NoonAccount/NoonAccountSignedInState, marketplaces/noon/components/NoonAccount/NoonAccountProfileHeader, marketplace…
 - Styles: account.module.css, inner.module.css
 - Data / helpers: data.ts, store.ts, tokens.ts
@@ -52,7 +52,7 @@
 
 ## `account/signedOut`
 
-- Module `src/flows/account/SignedOutScreen.tsx` · 10 own files, 44 in the import closure
+- Module `src/flows/account/SignedOutScreen.tsx` · 10 own files, 45 in the import closure
 - Source: marketplaces/noon/components/NoonAccount/NoonAccountSignedOutState
 - Styles: account.module.css, inner.module.css
 - Data / helpers: data.ts, store.ts, tokens.ts
@@ -68,7 +68,7 @@
 
 ## `account/editProfile`
 
-- Module `src/flows/account/EditProfileScreen.tsx` · 5 own files, 35 in the import closure
+- Module `src/flows/account/EditProfileScreen.tsx` · 5 own files, 36 in the import closure
 - Source: marketplaces/noon/screens/NoonAccountScreen/NoonAccountEditProfileScreen, marketplaces/noon/components/NoonAccount/NoonAccountEditProfile/*
 - Styles: inner.module.css
 - Data / helpers: data.ts, store.ts
@@ -83,7 +83,7 @@
 
 ## `account/birthday`
 
-- Module `src/flows/account/BirthdayPickerSheet.tsx` · 5 own files, 31 in the import closure
+- Module `src/flows/account/BirthdayPickerSheet.tsx` · 5 own files, 32 in the import closure
 - Source: src/screens/DatePickerScreen + marketplaces/noon/components/NoonAccount/NoonAccountEditProfile/NoonAccountBirthdayPickerContent
 - Styles: inner.module.css
 - Data / helpers: data.ts, store.ts
@@ -97,7 +97,7 @@
 
 ## `account/nationality` · `account/deletionReason`
 
-- Module `src/flows/account/ListSheets.tsx` (shared by 2 screens; params pick the state) · 6 own files, 35 in the import closure <!-- count-ok -->
+- Module `src/flows/account/ListSheets.tsx` (shared by 2 screens; params pick the state) · 6 own files, 36 in the import closure <!-- count-ok -->
 - Source: stand-in for noon.PersonalizedExperienceNationalityListingScreen
 - Styles: inner.module.css
 - Data / helpers: data.ts, store.ts
@@ -112,7 +112,7 @@
 
 ## `account/security`
 
-- Module `src/flows/account/SecuritySheet.tsx` · 5 own files, 34 in the import closure
+- Module `src/flows/account/SecuritySheet.tsx` · 5 own files, 35 in the import closure
 - Source: marketplaces/noon/components/NoonAccount/NoonAccountInnerScreenContent/NoonAccountSecuritySettings (+ Loader) in noon.NoonAccountBottomSheetScreen (AddressV2FloatingOverlay)
 - Styles: inner.module.css
 - Data / helpers: data.ts
@@ -126,7 +126,7 @@
 
 ## `account/manageDevices`
 
-- Module `src/flows/account/ManageDevicesScreen.tsx` · 5 own files, 36 in the import closure
+- Module `src/flows/account/ManageDevicesScreen.tsx` · 5 own files, 37 in the import closure
 - Source: marketplaces/noon/screens/NoonAccountScreen/NoonAccountSecuritySettingsManageAllDevicesScreen, marketplaces/noon/components/NoonAccount/NoonAccountInnerScreenContent/NoonAccountSecuritySettings/{NoonSecurityScreenHeader…
 - Styles: inner.module.css
 - Data / helpers: data.ts, store.ts
@@ -141,7 +141,7 @@
 
 ## `account/changePassword`
 
-- Module `src/flows/account/ChangePasswordScreen.tsx` · 3 own files, 35 in the import closure
+- Module `src/flows/account/ChangePasswordScreen.tsx` · 3 own files, 36 in the import closure
 - Source: features/auth/login/screens/PasswordEditScreen (noon.PasswordEditScreen)
 - Styles: inner.module.css
 - Data / helpers: data.ts
@@ -155,7 +155,7 @@
 
 ## `account/deletion`
 
-- Module `src/flows/account/DeletionScreen.tsx` · 5 own files, 38 in the import closure
+- Module `src/flows/account/DeletionScreen.tsx` · 5 own files, 39 in the import closure
 - Source: marketplaces/noon/screens/NoonAccountDeletionScreen
 - Styles: inner.module.css
 - Data / helpers: data.ts, store.ts
@@ -170,7 +170,7 @@
 
 ## `account/notifications`
 
-- Module `src/flows/account/NotificationsSheet.tsx` · 6 own files, 37 in the import closure
+- Module `src/flows/account/NotificationsSheet.tsx` · 6 own files, 38 in the import closure
 - Source: marketplaces/noon/components/NoonAccount/NoonAccountInnerScreenContent/NoonAccountNotificationsSettings in noon.NoonAccountBottomSheetScreen (AddressV2FloatingOverlay)
 - Styles: inner.module.css
 - Data / helpers: data.ts, store.ts
@@ -185,7 +185,7 @@
 
 ## `account/preferences`
 
-- Module `src/flows/account/PreferencesSheet.tsx` · 6 own files, 37 in the import closure
+- Module `src/flows/account/PreferencesSheet.tsx` · 6 own files, 38 in the import closure
 - Source: marketplaces/noon/components/NoonAccount/NoonAccountInnerScreenContent/NoonAccountPreferences (+ NoonAccountClearCacheConfirmation) in noon.NoonAccountBottomSheetScreen (AddressV2FloatingOverlay)
 - Styles: inner.module.css
 - Data / helpers: data.ts, store.ts
@@ -199,7 +199,7 @@
 
 ## `account/policies`
 
-- Module `src/flows/account/PoliciesSheet.tsx` · 6 own files, 35 in the import closure
+- Module `src/flows/account/PoliciesSheet.tsx` · 6 own files, 36 in the import closure
 - Source: marketplaces/noon/components/NoonAccount/NoonAccountInnerScreenContent/NoonAccountPolicies in noon.NoonAccountBottomSheetScreen (AddressV2FloatingOverlay)
 - Styles: inner.module.css
 - Data / helpers: data.ts, store.ts
@@ -213,7 +213,7 @@
 
 ## `account/country`
 
-- Module `src/flows/account/CountrySheet.tsx` · 6 own files, 35 in the import closure
+- Module `src/flows/account/CountrySheet.tsx` · 6 own files, 36 in the import closure
 - Source: marketplaces/noon/components/NoonAccount/NoonAccountInnerScreenContent/NoonAccountCountrySelector in noon.NoonAccountBottomSheetScreen (AddressV2FloatingOverlay)
 - Styles: inner.module.css
 - Data / helpers: data.ts, store.ts
@@ -229,7 +229,7 @@
 
 ## `account/changeCountry` · `account/changeLanguage`
 
-- Module `src/flows/account/ChangeLocaleScreen.tsx` (shared by 2 screens; params pick the state) · 4 own files, 31 in the import closure <!-- count-ok -->
+- Module `src/flows/account/ChangeLocaleScreen.tsx` (shared by 2 screens; params pick the state) · 4 own files, 32 in the import closure <!-- count-ok -->
 - Source: marketplaces/noon/screens/NoonAccountScreen/NoonAccountChangeCountryAnimationScreen
 - Styles: inner.module.css
 - Data / helpers: data.ts, store.ts
@@ -245,7 +245,7 @@
 
 ## `account/signOut`
 
-- Module `src/flows/account/SignOutSheet.tsx` · 6 own files, 35 in the import closure
+- Module `src/flows/account/SignOutSheet.tsx` · 6 own files, 36 in the import closure
 - Source: marketplaces/noon/components/NoonAccount/NoonAccountInnerScreenContent/NoonAccountSignOutConfirmation in noon.NoonAccountBottomSheetScreen (AddressV2FloatingOverlay)
 - Styles: inner.module.css
 - Data / helpers: data.ts, store.ts

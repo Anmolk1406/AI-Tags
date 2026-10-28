@@ -25,7 +25,7 @@
 
 ## `yellowFriday/landing`
 
-- Module `src/flows/yellowFriday/screens/LandingScreen.tsx` · 8 own files, 54 in the import closure
+- Module `src/flows/yellowFriday/screens/LandingScreen.tsx` · 8 own files, 55 in the import closure
 - Source: reference: Yellow Friday personalized shopping brief (yellow_friday_personalized_shopping.md) + Mobbin research in DESIGN.md
 - Styles: components/Countdown.module.css, screens/yellowFriday.module.css
 - Data / helpers: data.ts, store.ts, tokens.ts
@@ -38,7 +38,7 @@
 
 ## `yellowFriday/interests`
 
-- Module `src/flows/yellowFriday/screens/InterestsSheet.tsx` · 5 own files, 41 in the import closure
+- Module `src/flows/yellowFriday/screens/InterestsSheet.tsx` · 5 own files, 42 in the import closure
 - Source: reference: Yellow Friday personalized shopping brief (yellow_friday_personalized_shopping.md) + Mobbin research in DESIGN.md
 - Styles: screens/yellowFriday.module.css
 - Data / helpers: data.ts, store.ts
@@ -52,7 +52,7 @@
 
 ## `yellowFriday/reveal`
 
-- Module `src/flows/yellowFriday/screens/RevealScreen.tsx` · 6 own files, 49 in the import closure
+- Module `src/flows/yellowFriday/screens/RevealScreen.tsx` · 6 own files, 50 in the import closure
 - Source: reference: Yellow Friday personalized shopping brief (yellow_friday_personalized_shopping.md) + Mobbin research in DESIGN.md
 - Styles: screens/yellowFriday.module.css
 - Data / helpers: data.ts, store.ts, tokens.ts
@@ -66,7 +66,7 @@
 
 ## `yellowFriday/build` · `yellowFriday/swap`
 
-- Module `src/flows/yellowFriday/screens/BuildScreen.tsx` (shared by 2 screens; params pick the state) · 6 own files, 53 in the import closure <!-- count-ok -->
+- Module `src/flows/yellowFriday/screens/BuildScreen.tsx` (shared by 2 screens; params pick the state) · 6 own files, 54 in the import closure <!-- count-ok -->
 - Source: reference: Yellow Friday personalized shopping brief (yellow_friday_personalized_shopping.md) + Mobbin research in DESIGN.md
 - Styles: screens/yellowFriday.module.css
 - Data / helpers: data.ts, store.ts, tokens.ts
@@ -81,7 +81,7 @@
 
 ## `yellowFriday/payoff`
 
-- Module `src/flows/yellowFriday/screens/PayoffScreen.tsx` · 6 own files, 45 in the import closure
+- Module `src/flows/yellowFriday/screens/PayoffScreen.tsx` · 6 own files, 46 in the import closure
 - Source: reference: Yellow Friday personalized shopping brief (yellow_friday_personalized_shopping.md) + Mobbin research in DESIGN.md
 - Styles: screens/yellowFriday.module.css
 - Data / helpers: data.ts, store.ts, tokens.ts

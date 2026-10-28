@@ -71,7 +71,7 @@ Use this for every screen you build or restyle from a Figma frame or a real-app 
 
 **Coverage.** `PORT=<port> npm run visual:ref -- --coverage` writes `test-results/visual-ref/coverage.md` from the registry and the manifest: the screens with references, the Figma/mixed-truth screens without one (add those first), and per-flow counts.
 
-As of 2026-10-17: **179 registered screens, 2 with an external reference, 163 rendered, not visually verified** (the 17 noon Credits routes are rendered and journey-tested, not compared with an app reference).
+As of 2026-10-17: **180 registered screens, 2 with an external reference, 163 rendered, not visually verified** (the 17 noon Credits routes are rendered and journey-tested, not compared with an app reference).
 
 | Screen skill | Routes with a reference (what it covers) | Status 2026-10-13 | Reference next |
 |---|---|---|---|

@@ -27,7 +27,7 @@
 
 ## `cards/cards` · `cards/actions` · `cards/delete` · `cards/empty` · `cards/many`
 
-- Module `src/flows/cards/CardsScreen.tsx` (shared by 5 screens; params pick the state) · 14 own files, 44 in the import closure <!-- count-ok -->
+- Module `src/flows/cards/CardsScreen.tsx` (shared by 5 screens; params pick the state) · 14 own files, 45 in the import closure <!-- count-ok -->
 - Source: features/payment/screens/PaymentCardsV2Screen (+ components/PaymentScrollableHeader, PaymentAnimatedListCard, PaymentCard, PaymentCardShimmer, PaymentCardsSectionTitle, screens/PaymentCardActionsScreen, hooks/usePayment…
 - Styles: cards.module.css, components/components.module.css
 - Data / helpers: data.ts, store.ts, tokens.ts, utils.ts
@@ -45,7 +45,7 @@
 
 ## `cards/add` · `cards/form`
 
-- Module `src/flows/cards/AddCardScreen.tsx` (shared by 2 screens; params pick the state) · 11 own files, 43 in the import closure <!-- count-ok -->
+- Module `src/flows/cards/AddCardScreen.tsx` (shared by 2 screens; params pick the state) · 11 own files, 44 in the import closure <!-- count-ok -->
 - Source: features/payment/screens/PaymentCardManualAdditionScreen (+ components/PaymentCardAdditionOptions, PaymentCardAdditionOption, PaymentScanOptions, PaymentCardFormV2, PaymentTextInputV2, PaymentSwitchV2, PaymentCardTypeLo…
 - Styles: addCard.module.css, components/components.module.css
 - Data / helpers: data.ts, store.ts, tokens.ts, utils.ts
@@ -61,7 +61,7 @@
 
 ## `cards/success`
 
-- Module `src/flows/cards/AddCardSuccessScreen.tsx` · 9 own files, 40 in the import closure
+- Module `src/flows/cards/AddCardSuccessScreen.tsx` · 9 own files, 41 in the import closure
 - Source: features/payment/screens/PaymentCardAdditionSuccessScreen (lottie save_card/v4/en/reveal)
 - Styles: components/components.module.css, success.module.css
 - Data / helpers: data.ts, store.ts, tokens.ts, utils.ts

@@ -4,6 +4,7 @@ Changes to the noon-ui skill and its screen skills. Add a line whenever a refere
 
 ## Unreleased
 
+- flows.md: `pdp/reviewTopics` row (review-topic sheet: pills → sentiment → review cards, first state → settled morph); screen counts 179 → 180 (README, motion-guidelines.md, verify.md).
 - SKILL.md "Outside the kit repo: install `noon-kit`": in another project the kit comes from npm (`npm i noon-kit`), imports switch to `noon-kit/*`, house rules unchanged. README "Build with noon-kit in any project" carries the worked example and the rules for agents.
 - icons.md (and its generator header), design-rules.md system-icon row, CLAUDE.md: every icon need is met from the Origin catalogue with the closest existing icon, swapped only when asked; never a hand-drawn inline SVG glyph.
 - Data layer rule ("pages are templates"): SKILL.md folder contract + house rule, CLAUDE.md, `src/data/README.md`; the PDP docs (pdp SKILL.md / spec.md, resources/flows/pdp.md, MAPPING.md, FIGMA-MAPPING.md, flows.md, components.md, screen-recipes.md, noon-one spec) point at `src/data/views/pdp.ts`, `src/data/copy/pdp.ts` and `content.ts` instead of the removed `src/flows/pdp/data*.ts` and pre-storefront components.

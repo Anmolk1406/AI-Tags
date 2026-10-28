@@ -82,6 +82,12 @@
 }
 
 /* Origin M-BottomSheet (default sheet layout) — Figma wFRKiKskxZ4vjIHbDVvngJ · 3207:15 */
+/* Field sheet motion: wraps the scrim so a grabber pull-down can fade it on top of its entry / exit fade */
+.fieldScrimFade {
+  position: absolute;
+  inset: 0;
+}
+
 .originScrim {
   position: absolute;
   inset: 0;

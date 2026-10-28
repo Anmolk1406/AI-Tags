@@ -41,6 +41,13 @@ export interface SheetOptions {
   bottomGap?: number;
   /** gorhom only: top corner radius in px (default `--nk-sheet-gorhom-radius`, 16) */
   radius?: number;
+  /**
+   * `field`: Field Design System M-BottomSheet motion (src/motion/fieldMotion.ts) — the sheet rises from below the
+   * screen and the scrim fades in on one springLight spring, both reversed on close; a grabber drag follows the finger
+   * 1:1 and fades the scrim over 200px, past 60px it closes, otherwise it springs back; reduced motion snaps.
+   * Default: the kit's sheet motion.
+   */
+  motion?: 'kit' | 'field';
   /** gorhom only: fixed sheet height (a single gorhom snap point), px or a CSS length such as `'60%'`; unset = content height */
   height?: number | string;
 }

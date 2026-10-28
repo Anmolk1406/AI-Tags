@@ -1,0 +1,16 @@
+/* Review topic pills (Figma Or9RuyCtjXRPrnbUJFx7As · 1409:63882) */
+.pills { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--nk-space-s8); width: 100%; }
+.pill { appearance: none; border: 0; margin: 0; cursor: pointer; display: inline-flex; align-items: center; gap: var(--nk-space-s2); padding: var(--nk-space-s6); border-radius: var(--nk-radius-r8); background: var(--nk-color-bg-surface); filter: drop-shadow(0 1px 2px var(--nk-color-pdp-sfe-topic-pill-shadow)); }
+.pillLabel { display: inline-flex; align-items: center; gap: var(--nk-space-s2); font: var(--nk-type-text14-semibold-lh20); letter-spacing: -0.1px; color: var(--nk-color-text-primary); white-space: nowrap; }
+.pill { transform-origin: center; }
+
+/* Chip-hint test control: prototype-only, fixed above the page (outside the phone UI), top-left */
+.switcher { position: fixed; top: var(--nk-space-s12); left: var(--nk-space-s12); z-index: 2147483000; display: flex; flex-wrap: wrap; align-items: center; max-width: calc(100vw - 2 * var(--nk-space-s12)); box-sizing: border-box; gap: var(--nk-space-s8); padding: var(--nk-space-s6) var(--nk-space-s6) var(--nk-space-s6) var(--nk-space-s12); border-radius: var(--nk-radius-r16); background: var(--nk-color-bg-surface); box-shadow: var(--nk-shadow-card); font: var(--nk-type-text12-semibold-lh16); color: var(--nk-color-text-primary); }
+.switcherLabel { white-space: nowrap; color: var(--nk-color-text-secondary); }
+.switcherOptions { display: flex; flex-wrap: wrap; gap: var(--nk-space-s2); padding: var(--nk-space-s2); border-radius: var(--nk-radius-full); background: var(--nk-color-bg-page); }
+.switcherOption,
+.switcherReplay { appearance: none; border: 0; margin: 0; cursor: pointer; padding: var(--nk-space-s6) var(--nk-space-s10); border-radius: var(--nk-radius-full); background: none; font: inherit; color: var(--nk-color-text-muted); white-space: nowrap; }
+.switcherOption[aria-pressed='true'] { background: var(--nk-color-bg-surface); color: var(--nk-color-text-strong); box-shadow: var(--nk-shadow-card); }
+.switcherReplay { color: var(--nk-color-brand-blue); }
+.switcherReplay:disabled { cursor: default; color: var(--nk-color-text-tertiary); }
+.caret { display: inline-flex; }

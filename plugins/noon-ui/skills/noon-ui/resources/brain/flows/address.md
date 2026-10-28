@@ -30,7 +30,7 @@
 
 ## `address/select` · `address/selectSheet` · `address/locationOff` · `address/toast`
 
-- Module `src/flows/address/SelectScreen.tsx` (shared by 4 screens; params pick the state) · 12 own files, 46 in the import closure <!-- count-ok -->
+- Module `src/flows/address/SelectScreen.tsx` (shared by 4 screens; params pick the state) · 12 own files, 47 in the import closure <!-- count-ok -->
 - Source: src/screens/AddressV2/SelectScreen/{SelectScreen,Wrapper,styles}.ts(x), components/AddressV2/Select/**, components/AddressV2/Buttons/{AddAddress,LocationNudge}, components/AddressV2/Search/Input, components/TabSwitcher,…
 - Styles: address.module.css, components/map.module.css, components/primitives.module.css, components/select.module.css
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ts
@@ -46,7 +46,7 @@
 
 ## `address/map` · `address/create` · `address/update`
 
-- Module `src/flows/address/MapScreen.tsx` (shared by 3 screens; params pick the state) · 13 own files, 46 in the import closure <!-- count-ok -->
+- Module `src/flows/address/MapScreen.tsx` (shared by 3 screens; params pick the state) · 13 own files, 47 in the import closure <!-- count-ok -->
 - Source: src/screens/AddressV2/LatLngMapScreen/LatLngMapScreen.tsx, components/MapV2/{Map,MapCover,MapPinTooltip,MapSearchButton,MapScreenUnServiceableView,MapKMLPolygons}, MapV2/MapFooter/LatLng/*, components/AddressV2/{Address…
 - Styles: components/form.module.css, components/map.module.css, components/primitives.module.css
 - Data / helpers: assets.ts, components/mapWorld.ts, data.ts, store.ts, tokens.ts
@@ -63,7 +63,7 @@
 
 ## `address/success`
 
-- Module `src/flows/address/SuccessScreen.tsx` · 5 own files, 34 in the import closure
+- Module `src/flows/address/SuccessScreen.tsx` · 5 own files, 35 in the import closure
 - Source: src/screens/AddressV2/LatLngCreateSuccessScreen/{LatLngCreateSuccessScreen,styles}.ts(x)
 - Styles: address.module.css
 - Data / helpers: assets.ts, data.ts, store.ts
@@ -77,7 +77,7 @@
 
 ## `address/controls`
 
-- Module `src/flows/address/ControlsSheet.tsx` · 7 own files, 37 in the import closure
+- Module `src/flows/address/ControlsSheet.tsx` · 7 own files, 38 in the import closure
 - Source: src/screens/AddressV2/AddressControlsScreen/*, components/AddressV2/Screens/AddressControls/{Buttons/ActionControls,DeleteAddress}
 - Styles: address.module.css, components/primitives.module.css
 - Data / helpers: assets.ts, data.ts, store.ts
@@ -91,7 +91,7 @@
 
 ## `address/search`
 
-- Module `src/flows/address/SearchScreen.tsx` · 13 own files, 47 in the import closure
+- Module `src/flows/address/SearchScreen.tsx` · 13 own files, 48 in the import closure
 - Source: src/screens/AddressV2/SearchScreen/{SearchScreen,styles}.ts(x), components/AddressV2/Search/Result/**, components/AddressV2/Buttons/{CurrentLocation,LocateOnMap}
 - Styles: address.module.css, components/map.module.css, components/primitives.module.css, components/select.module.css
 - Data / helpers: assets.ts, components/mapWorld.ts, data.ts, store.ts, tokens.ts
@@ -106,7 +106,7 @@
 
 ## `address/locationAccess`
 
-- Module `src/flows/address/LocationAccessSheet.tsx` · 5 own files, 32 in the import closure
+- Module `src/flows/address/LocationAccessSheet.tsx` · 5 own files, 33 in the import closure
 - Source: src/screens/AddressV2/LocationAccessScreen/{LocationAccessScreen,styles}.ts(x)
 - Styles: address.module.css
 - Data / helpers: assets.ts, data.ts, store.ts

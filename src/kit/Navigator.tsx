@@ -1,7 +1,9 @@
-import { AnimatePresence, motion, useDragControls, type PanInfo } from 'motion/react';
+import { AnimatePresence, motion, useDragControls, useMotionValue, useTransform, type PanInfo } from 'motion/react';
 import { createContext, memo, Suspense, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type ComponentType, type CSSProperties, type ReactNode } from 'react';
 import { getTransition as getTransitionRaw, reducedTransition, type TransitionName } from '../motion/transitions';
 import { duration, easing, spring } from '../motion/presets';
+import { fieldSheet, fieldSpring } from '../motion/fieldMotion';
+import { layout as deviceLayout } from '../foundations/tokens';
 import { useReduceMotion } from '../motion/reducedMotion';
 import { TokenScope } from '../foundations/ThemeProvider';
 import { TabBar } from '../components/TabBar/TabBar';
@@ -457,9 +459,13 @@ const ScreenHost = memo(function ScreenHost({ entry, Screen, tokens, onMount }: 
 
 function SheetLayer({ children, options, onDismiss, isTop, zIndex, reduce }: { children: ReactNode; options: ReturnType<typeof resolveSheet>; onDismiss: () => void; isTop: boolean; zIndex: number; reduce: boolean }) {
   const drag = useDragControls();
+  const field = options.motion === 'field';
   const onDragEnd = (_: unknown, info: PanInfo) => {
-    if (info.offset.y > 120 || info.velocity.y > 600) onDismiss();
+    if (field ? info.offset.y > fieldSheet.closeDragThreshold : info.offset.y > 120 || info.velocity.y > 600) onDismiss();
   };
+  // Field: the scrim fades with the pull-down (drag offset / 200), on top of its entry / exit fade
+  const sheetY = useMotionValue(0);
+  const dragFade = useTransform(sheetY, [0, fieldSheet.scrimFadeDistance], [1, 0], { clamp: true });
   const { layout } = options;
   const ctx = useMemo(() => ({ layout, grabber: options.grabber, dismiss: onDismiss }), [layout, options.grabber, onDismiss]);
   const cls = {
@@ -477,27 +483,51 @@ function SheetLayer({ children, options, onDismiss, isTop, zIndex, reduce }: { c
   return (
     // a covered sheet is out of the tab order and the accessibility tree, like a covered screen
     <motion.div className={styles.sheetLayer} style={{ pointerEvents: isTop ? 'auto' : 'none', zIndex }} inert={!isTop} initial="hidden" animate="shown" exit="hidden">
-      <motion.div
-        className={cls.scrim}
-        variants={{ hidden: { opacity: 0 }, shown: { opacity: 1 } }}
-        transition={{ duration: layout === 'floating' ? 0.35 : 0.25 }}
-        onClick={options.dismissible ? onDismiss : undefined}
-      />
+      {field ? (
+        // Field M-BottomSheet: scrim on the same springLight driver as the sheet (reduced motion snaps)
+        <motion.div className={styles.fieldScrimFade} style={{ opacity: dragFade }}>
+          <motion.div
+            className={cls.scrim}
+            variants={{ hidden: { opacity: 0 }, shown: { opacity: 1 } }}
+            transition={reduce ? { duration: 0 } : fieldSpring.light}
+            onClick={options.dismissible ? onDismiss : undefined}
+          />
+        </motion.div>
+      ) : (
+        <motion.div
+          className={cls.scrim}
+          variants={{ hidden: { opacity: 0 }, shown: { opacity: 1 } }}
+          transition={{ duration: layout === 'floating' ? 0.35 : 0.25 }}
+          onClick={options.dismissible ? onDismiss : undefined}
+        />
+      )}
       <motion.div
         className={cls.column}
-        // reduced motion: the sheet fades in place with its scrim instead of rising (dragging still works)
-        variants={reduce ? { hidden: { opacity: 0 }, shown: { opacity: 1 } } : { hidden: { y: '100%' }, shown: { y: 0 } }}
-        transition={reduce ? { duration: duration.base, ease: easing.standard } : spring.sheet}
+        {...(field
+          ? {
+              // Field M-BottomSheet: rises the full screen height on springLight and back down on close; the drag follows
+              // the finger 1:1 downward (no upward travel) and springs back on springLight; reduced motion snaps
+              variants: { hidden: { y: deviceLayout.deviceHeight }, shown: { y: 0 } },
+              transition: reduce ? { duration: 0 } : fieldSpring.light,
+              dragElastic: { top: 0, bottom: 1 },
+              dragTransition: { bounceStiffness: fieldSpring.light.stiffness, bounceDamping: fieldSpring.light.damping },
+            }
+          : {
+              // reduced motion: the sheet fades in place with its scrim instead of rising (dragging still works)
+              variants: reduce ? { hidden: { opacity: 0 }, shown: { opacity: 1 } } : { hidden: { y: '100%' }, shown: { y: 0 } },
+              transition: reduce ? { duration: duration.base, ease: easing.standard } : spring.sheet,
+              dragElastic: { top: 0.05, bottom: 0.8 },
+            })}
         drag={options.grabber ? 'y' : false}
         dragControls={drag}
         dragListener={false}
         dragConstraints={{ top: 0, bottom: 0 }}
-        dragElastic={{ top: 0.05, bottom: 0.8 }}
         onDragEnd={onDragEnd}
         data-sheet={layout}
         // classic: the column is the sheet, so `surface` fills it (grabber zone included)
-        style={
-          layout === 'classic' && options.surface
+        style={{
+          ...(field && { y: sheetY }),
+          ...(layout === 'classic' && options.surface
             ? { background: options.surface }
             : layout === 'floating'
               ? // per-screen floating geometry (e.g. a gorhom `detached` sheet: inset 8, bottom 36)
@@ -505,8 +535,8 @@ function SheetLayer({ children, options, onDismiss, isTop, zIndex, reduce }: { c
               : layout === 'gorhom' && options.height != null
                 ? // a fixed gorhom snap point (px, or % of the screen like gorhom's '60%')
                   { height: typeof options.height === 'number' ? `${options.height}px` : options.height }
-                : undefined
-        }
+                : undefined),
+        }}
       >
         <SheetCtx.Provider value={ctx}>
           {layout === 'origin' ? (

@@ -19,7 +19,7 @@
 
 ## `deals/deals`
 
-- Module `src/flows/deals/DealsScreen.tsx` · 4 own files, 53 in the import closure · **imports from other flows:** `src/flows/home/data.ts`, `src/flows/home/home.module.css`
+- Module `src/flows/deals/DealsScreen.tsx` · 4 own files, 54 in the import closure · **imports from other flows:** `src/flows/home/data.ts`, `src/flows/home/home.module.css`
 - Source: marketplaces/noon/NoonApp.ts (getTabScreens, getDynamicTabInfo), screens/NoonDynamicTabScreen
 - Styles: deals.module.css
 - Data / helpers: data.ts, tokens.ts

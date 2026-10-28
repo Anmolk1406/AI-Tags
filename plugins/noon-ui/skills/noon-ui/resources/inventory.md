@@ -4,7 +4,7 @@
 
 Quote counts from here instead of typing them: `scripts/check-inventory.mjs` fails when a doc states a flow / screen / route count the registry disagrees with.
 
-**20 flows · 179 screens (routes).** Coverage: 11 spec · 7 brief · 2 none. Provenance: 177 reference-backed · 2 kit-backed · 0 inferred. Truth: 6 mixed · 152 bappzaar · 11 reference · 10 figma (25 explicit, 154 inferred from `source`). Verified side by side: 6 of 179.
+**20 flows · 180 screens (routes).** Coverage: 11 spec · 7 brief · 2 none. Provenance: 178 reference-backed · 2 kit-backed · 0 inferred. Truth: 6 mixed · 152 bappzaar · 11 reference · 11 figma (26 explicit, 154 inferred from `source`). Verified side by side: 6 of 180.
 
 ## Labels
 
@@ -27,7 +27,7 @@ Coverage: `spec` = a screen skill with `spec.md` covers the flow · `brief` = a 
 | `categories` Categories | 4 | brief | — | `resources/flows/categories.md` | `MAPPING.md` | 0/4 | 4 reference-backed |
 | `deals` Deals | 1 | brief | — | `resources/flows/other-flows.md#deals` | — | 0/1 | 1 reference-backed |
 | `plp` Product listing (PLP) | 3 | spec | `../search/spec.md` | `resources/flows/plp.md` | `MAPPING.md` | 1/3 | 3 reference-backed |
-| `pdp` Product page (PDP) | 4 | spec | `../pdp/spec.md` | `resources/flows/pdp.md` | `FIGMA-MAPPING.md`, `MAPPING.md` | 1/4 | 4 reference-backed |
+| `pdp` Product page (PDP) | 5 | spec | `../pdp/spec.md` | `resources/flows/pdp.md` | `FIGMA-MAPPING.md`, `MAPPING.md` | 1/5 | 5 reference-backed |
 | `cart` Cart | 9 | spec | `../cart/spec.md` | `resources/flows/cart.md` | `FIGMA-MAPPING.md`, `components/couponTray/MAPPING.md` | 1/9 | 9 reference-backed |
 | `checkout` Checkout | 22 | spec | `../checkout/spec.md` | `resources/flows/checkout.md` | `FIGMA-MAPPING.md`, `MAPPING.md` | 1/22 | 22 reference-backed |
 | `orders` Orders | 4 | spec | `../orders/spec.md` | `resources/flows/orders.md` | `MAPPING.md` | 0/4 | 4 reference-backed |
@@ -70,7 +70,7 @@ Documented = the word appears in the flow's spec or brief. Registered = a screen
 | `fieldds` | — | — | — |
 | `yellowFriday` | — | — | — |
 
-## Screens with no `verified` date (173)
+## Screens with no `verified` date (174)
 
 Never compared side by side with their reference, as far as the registry records. Only set `verified` after a real comparison.
 
@@ -79,7 +79,7 @@ Never compared side by side with their reference, as far as the registry records
 - `categories` (4): `categories`, `expanded`, `loading`, `error`
 - `deals` (1): `deals`
 - `plp` (2): `filters`, `sort`
-- `pdp` (3): `deliveryVariants`, `variants`, `added`
+- `pdp` (4): `deliveryVariants`, `variants`, `added`, `reviewTopics`
 - `cart` (8): `empty`, `loading`, `variants`, `customize`, `couponTray`, `discount`, `bundles`, `updates`
 - `checkout` (21): `checkout`, `promise-info`, `cards-select`, `add-card`, `special-emis`, `emi-plans`, `alternate-phone`, `alternate-phone-contacts`, `learn-more`, `burn-providers`, `provider-burn`, `provider-burn-otp`, `donation-learn-more`, `earn`, `provider-earn`, `provider-earn-help`, `installation`, `placing`, `track-steps`, `payment-failure`, `payment-failure-help`
 - `orders` (4): `list`, `tracking`, `updates`, `cancel`

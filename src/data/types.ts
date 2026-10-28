@@ -92,6 +92,17 @@ export type ProductInput = Omit<Product, 'image' | 'images' | 'categoryPath'> &
 
 /* ── Product page content ─────────────────────────────────────────────────────────────────────────────────────────── */
 
+/** A topic customers frequently talk about (noon AI review summary): the overall sentiment, a one-line summary
+ *  and the short reviews that mention it. */
+export interface ReviewTopic {
+  label: string;
+  sentiment: 'positive' | 'neutral' | 'negative';
+  /** the AI's one-line summary of what customers say about it */
+  quote: string;
+  /** `photos`: the customer's photos (the first review of each topic carries the Figma AI-Tags set) */
+  reviews: { name: string; helpful: number; rating: number; ago: string; title: string; body: string; photos?: string[] }[];
+}
+
 /** One customer review (mp-trust-api product-reviews). */
 export interface ProductReview {
   name: string;
@@ -180,6 +191,10 @@ export interface ProductContent {
   aiOverview?: { title: string; description: string }[];
   /** review summary bullets (mp-trust-api ai-summary) */
   aiSummary?: string[];
+  /** the reviews card's own numbers when they differ from the product card (score, review count, photo rail) */
+  reviewSummary?: { rating: number; reviewCount: number; photoCount: number; photos: string[] };
+  /** topics customers talk about, under the AI summary; each opens its reviews */
+  aiTopics?: ReviewTopic[];
   reviews?: ProductReview[];
   /** written reviews count when it differs from ratingCount */
   commentCount?: number;

@@ -10,13 +10,13 @@
 | Presentation | Screens |
 |---|---|
 | `push (screen)` | 82 |
-| `sheet` | 52 |
+| `sheet` | 53 |
 | `modal` | 45 |
 
 | Effective transition | Screens | Flows |
 |---|---|---|
 | `push (default)` | 70 | 19 of 20 |
-| `sheet (default)` | 52 | 11 of 20 |
+| `sheet (default)` | 53 | 11 of 20 |
 | `mb-overlay` | 15 | membership |
 | `noonone-overlay` | 15 | noonone |
 | `modal (default)` | 7 | account, address, checkout, credits |
@@ -49,19 +49,19 @@ Occurrences in flow code (JSX elements, props or calls).
 |---|---|---|
 | press · Pressable | 240 | 17 of 20 |
 | enter · initial→animate | 164 | 18 of 20 |
+| loading · Skeleton | 117 | 11 of 20 |
 | scroll-linked · useScroll / useTransform | 116 | 13 of 20 |
-| loading · Skeleton | 112 | 10 of 20 |
 | enter/exit · AnimatePresence | 99 | 17 of 20 |
-| imperative · animate() / useAnimate | 93 | 11 of 20 |
-| press · whileTap | 72 | 11 of 20 |
+| imperative · animate() / useAnimate | 97 | 11 of 20 |
+| press · whileTap | 74 | 11 of 20 |
+| haptics | 38 | orders, pdp, plp, reviews |
 | loading · Spinner | 36 | 10 of 20 |
-| haptics | 35 | orders, plp, reviews |
 | celebration · Lottie | 26 | 11 of 20 |
-| layout · layout / layoutId | 21 | 11 of 20 |
+| layout · layout / layoutId | 25 | 12 of 20 |
 | drag · drag= / useDragControls | 13 | 10 of 20 |
 | recipe · FadeIn | 9 | reviews, yellowFriday |
+| rAF loop | 8 | checkout, home, pdp, plp, returns |
 | autoplay · setInterval | 7 | account, checkout, membership, noonone, returns |
-| rAF loop | 7 | checkout, home, plp, returns |
 | recipe · Stagger | 6 | home, noonone, yellowFriday |
 | loading · Button loading | 3 | checkout, fieldds |
 | recipe · SkeletonReveal | 1 | plp |
@@ -94,7 +94,7 @@ Shared components that move on their own (counted under `(components)`, not abov
 
 ## 4. Where timing comes from
 
-Preset references in flow code: **250**. Raw timing literals (duration / spring / ease / stagger written inline): **285**. CSS: 32 `transition`, 2 `animation`, 2 `@keyframes`.
+Preset references in flow code: **250**. Raw timing literals (duration / spring / ease / stagger written inline): **297**. CSS: 33 `transition`, 2 `animation`, 2 `@keyframes`.
 
 | Flow | Preset refs | Raw literals | CSS transition / animation / keyframes |
 |---|---|---|---|
@@ -111,7 +111,7 @@ Preset references in flow code: **250**. Raw timing literals (duration / spring 
 | membership | 2 | 36 | 3 / 0 / 0 |
 | noonone | 3 | 29 | 0 / 0 / 0 |
 | orders | 33 | 2 | 1 / 0 / 0 |
-| pdp | 15 | 11 | 2 / 2 / 1 |
+| pdp | 15 | 23 | 3 / 2 / 1 |
 | plp | 38 | 12 | 0 / 0 / 0 |
 | returns | 12 | 8 | 0 / 0 / 0 |
 | reviews | 67 | 11 | 0 / 0 / 0 |
@@ -161,11 +161,11 @@ Preset references in flow code: **250**. Raw timing literals (duration / spring 
 | Duration | Uses | Equals |
 |---|---|---|
 | 0.3s | 40 | `duration.medium` |
+| 0.2s | 22 |  |
 | 0.25s | 21 | `duration.base` |
-| 0.2s | 21 |  |
 | 0.15s (css) | 21 | `duration.fast` |
+| 0s | 19 |  |
 | 0.15s | 15 | `duration.fast` |
-| 0s | 12 |  |
 | 0.2s (css) | 11 |  |
 | 0.35s | 10 |  |
 | 0.5s | 9 |  |
@@ -195,8 +195,8 @@ Preset references in flow code: **250**. Raw timing literals (duration / spring 
 | 230/22/1 | 1 | membership |  |
 | 110/15 | 1 | membership |  |
 | 80/10 | 1 | noonone |  |
+| 365/30.95/1 | 1 | pdp |  |
 | 300/34 | 1 | pdp |  |
-| 280.6/27.14/1 | 1 | search | `handoff.spring` |
 
 | Ease | Uses | Equals |
 |---|---|---|

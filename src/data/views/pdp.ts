@@ -4,8 +4,9 @@ import { productById, products } from '../catalog';
 import { bankOffers } from '../promotions';
 import { categoryPath, isInCategory, leafName } from '../categories';
 import { familyContent, fbtFor, productContent } from '../content';
+import { defaultAiSummary, defaultReviewTopics } from '../reviewTopics';
 import { sfCopy } from '../copy/pdp';
-import type { DeliveryLane, Product, ProductAttributes, ProductContent, ProductFreebie, ProductReview, SellerInfo } from '../types';
+import type { DeliveryLane, Product, ProductAttributes, ProductContent, ProductFreebie, ProductReview, ReviewTopic, SellerInfo } from '../types';
 import { variantFamilies } from '../variants';
 
 /**
@@ -82,6 +83,10 @@ export interface PdpContent {
   fbt?: string[];
   /** mp-trust-api product-reviews/ai-summary */
   aiSummary?: string[];
+  /** reviews card numbers + photo rail when the product has its own (else product rating / ratingCount / review photos) */
+  reviewSummary?: ProductContent['reviewSummary'];
+  /** topic pills under the AI summary (each opens pdp/reviewTopics); defaultReviewTopics when the product has none */
+  aiTopics?: ReviewTopic[];
   /** SD was_price_source → info icon */
   wasPriceSource: boolean;
   delivery: string;
@@ -226,7 +231,10 @@ function baseView(p: Product, c: ProductContent | undefined): Base {
     bestSellerCta: leaf && leafName(leaf) ? { html: `Explore other <b>bestsellers</b> in <a>${leafName(leaf)}</a>`, categoryId: leaf } : undefined,
     buyingOptions: c?.buyingOptions,
     fbt: c?.fbt,
-    aiSummary: c?.aiSummary,
+    // every PDP gets the review-topics section: a product's own summary / topics, else the written defaults
+    aiSummary: c?.aiSummary ?? defaultAiSummary,
+    aiTopics: c?.aiTopics ?? defaultReviewTopics,
+    reviewSummary: c?.reviewSummary,
     wasPriceSource: c?.wasPriceSource ?? false,
     delivery: c?.delivery ?? p.delivery,
     deliveryLogo: /GET IN/i.test(p.delivery) ? 'rocket' : 'express',

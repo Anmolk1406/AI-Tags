@@ -1,0 +1,76 @@
+/* "Customers frequently talked about" sheet (Figma Or9RuyCtjXRPrnbUJFx7As · 1421:487 settled / 1421:629 first state): 351 × 625, white → Blue-Gray/200 */
+.sheet { position: relative; display: flex; flex-direction: column; height: 625px; overflow: hidden; background: linear-gradient(180deg, var(--nk-color-bg-surface) 5.678%, var(--nk-color-bg-page) 34.739%); }
+
+/* sentiment wash (up with each topic for a beat): tint → Blue-Gray/200 over the white top; faded by motion (a gradient itself can't transition) */
+.tint { --tint: var(--nk-color-pdp-sfe-topic-tint-positive); position: absolute; inset: 0; background: linear-gradient(180deg, var(--tint) 5.678%, var(--nk-color-bg-page) 34.739%); pointer-events: none; }
+.tint[data-sentiment='neutral'] { --tint: var(--nk-color-bg-page); }
+.tint[data-sentiment='negative'] { --tint: var(--nk-color-pdp-sfe-topic-tint-negative); }
+
+/* pill row: pt16 pb12 px16, 6 apart, scrolls; pill white r-full, 1px Blue-Gray/200 border, pl10 pr14 py8; open one outlined Blue-Gray/300, bold */
+.pills { position: relative; flex-shrink: 0; display: flex; gap: var(--nk-space-s6); padding: var(--nk-space-s16) var(--nk-space-s16) var(--nk-space-s12); overflow-x: auto; scrollbar-width: none; }
+.pills::-webkit-scrollbar { display: none; }
+.pill { appearance: none; margin: 0; cursor: pointer; position: relative; flex-shrink: 0; display: inline-flex; align-items: center; gap: var(--nk-space-s2); padding: var(--nk-space-s8) var(--nk-space-s14) var(--nk-space-s8) var(--nk-space-s10); border: 1px solid var(--nk-color-border-subtle); border-radius: var(--nk-radius-full); background: var(--nk-color-bg-surface); font: var(--nk-type-pdp-sfe-topic-pill); letter-spacing: -0.1px; color: var(--nk-color-text-secondary); white-space: nowrap; transition: color var(--nk-motion-fade-ms) var(--nk-motion-fade-out); }
+.pill[data-active] { font-weight: 700; color: var(--nk-color-text-primary); }
+/* the selected outline (Blue-Gray/300) sits on each pill's border; only the selected pill's is visible (faded in) */
+.pillOutline { position: absolute; inset: -1px; border: 1px solid var(--nk-color-border-strong); border-radius: inherit; pointer-events: none; }
+/* label sized by an invisible bold copy, so the width stays put when the weight changes */
+.pillLabel { display: inline-grid; }
+.pillLabel::after { content: attr(data-label); grid-area: 1 / 1; font-weight: 700; visibility: hidden; height: 0; overflow: hidden; }
+
+/* the selected topic fills the rest of the sheet; it swaps in place (fade out → hold → fade in) */
+.stage { position: relative; flex: 1; min-height: 0; display: flex; }
+.topic { flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
+.topic::-webkit-scrollbar { display: none; }
+
+/* sentiment block: pt12, 293 wide centred, 8 apart (Figma 9) */
+.topicHead { flex-shrink: 0; align-self: center; width: 293px; display: flex; flex-direction: column; align-items: center; gap: var(--nk-space-s8); padding-top: var(--nk-space-s12); text-align: center; }
+/* the 20 px icon inline before the B16 Bold label, no gap (AI-Tags 74N3uH2E094EX3hWw7FDVd · 1573:20243) */
+.sentiment { display: flex; align-items: center; font: var(--nk-type-pdp-sfe-topic-sentiment); letter-spacing: -0.15px; }
+/* the mark's 20 px slot (MARK_PX); the intro pops it in at the line's centre and slides it here (script) */
+.mark { position: relative; display: grid; place-items: center; width: 20px; height: 20px; }
+/* the wrapper the slide is applied to, and the stroked SVG inside it (arrow shaft + head arms / tilde, drawn on by trim path) */
+.markSlide { position: absolute; left: 0; top: 0; width: 20px; height: 20px; }
+.markIcon { position: absolute; left: 0; top: 0; display: grid; place-items: center; width: 20px; height: 20px; }
+/* the box round the title (the intro's mask is on it) */
+.titleBox { display: inline-block; }
+
+/* the quote: SemiBold 14/22, 293 wide (1573:20246) */
+.quote { width: 293px; margin: 0; font: var(--nk-type-pdp-sfe-topic-quote); letter-spacing: -0.15px; color: var(--nk-color-text-primary); }
+
+/* review cards: 24 below the quote, px12, 12 apart; they scroll with the sentiment and quote above them (the whole topic scrolls) */
+.reviews { flex-shrink: 0; display: flex; flex-direction: column; gap: var(--nk-space-s12); margin-top: var(--nk-space-s24); padding: 0 var(--nk-space-s12) var(--nk-space-s12); }
+
+/* Review card (1421:463): white r16; p12 gap12 body · dashed divider · author row pt8 pb8 px12 */
+.review { flex-shrink: 0; display: flex; flex-direction: column; border-radius: var(--nk-radius-r16); background: var(--nk-color-bg-surface); overflow: hidden; }
+.reviewMain { display: flex; flex-direction: column; gap: var(--nk-space-s12); padding: var(--nk-space-s12); }
+.review[data-expandable] { cursor: pointer; }
+/* skeleton: the two body lines 6 apart, like 14/20 text */
+.skeletonBody { display: flex; flex-direction: column; gap: var(--nk-space-s6); }
+.rating { display: flex; align-items: center; gap: var(--nk-space-s4); }
+.stars { display: inline-flex; }
+.ago { flex: 1; min-width: 0; font: var(--nk-type-text12-regular-lh14); letter-spacing: -0.12px; color: var(--nk-color-text-secondary); white-space: nowrap; }
+/* Verified Tag: p4 gap2, left-rounded, Blue-Gray/200 → white */
+.verified { flex-shrink: 0; display: inline-flex; align-items: center; gap: var(--nk-space-s2); padding: var(--nk-space-s4); border-radius: var(--nk-radius-full) 0 0 var(--nk-radius-full); background: linear-gradient(90deg, var(--nk-color-bg-page) 0%, var(--nk-color-bg-surface) 121.71%); font: var(--nk-type-text11-semibold-lh14); letter-spacing: -0.1px; color: var(--nk-palette-dark-gray); white-space: nowrap; }
+.reviewText { display: flex; flex-direction: column; gap: var(--nk-space-s4); overflow: hidden; }
+/* the box's height is animated while it opens / closes: its lines keep their size (they're overflow-hidden, so flexbox would
+   otherwise squeeze them and cut the title) and the box clips at its bottom instead */
+.reviewText > * { flex-shrink: 0; }
+.reviewTitle { font: var(--nk-type-text14-bold-lh20); letter-spacing: -0.1px; color: var(--nk-color-text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.reviewText[data-open] .reviewTitle { white-space: normal; }
+.reviewBody { position: relative; margin: 0; font: var(--nk-type-text14-regular-lh20); letter-spacing: -0.1px; color: var(--nk-color-text-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.reviewText[data-open] .reviewBody { display: block; -webkit-line-clamp: unset; }
+/* "…more" on the clamped line's end (Figma AI-Tags 1572:109682), over a short white fade so the cut letters never show */
+.more { position: absolute; right: 0; bottom: 0; padding-left: var(--nk-space-s8); background: linear-gradient(90deg, transparent, var(--nk-color-bg-surface) var(--nk-space-s8)); color: var(--nk-color-brand-blue); }
+.more::before { content: '… '; color: var(--nk-color-text-muted); }
+/* "less" at the end of an opened review (Figma AI-Tags 1566:109616) */
+.less { color: var(--nk-color-brand-blue); }
+/* review photos (Figma AI-Tags 1566:109573 small / 1566:109617 large): sizes, corners, edge and overlap are animated by
+   script; the large row scrolls out to the card's edge (past the p12) */
+.photos { display: flex; align-items: center; isolation: isolate; margin-right: calc(-1 * var(--nk-space-s12)); padding-right: var(--nk-space-s12); overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; }
+.photos::-webkit-scrollbar { display: none; }
+.photo { position: relative; flex-shrink: 0; box-sizing: border-box; overflow: hidden; border: 0 solid var(--nk-color-bg-surface); }
+.photo > img { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.reviewFoot { display: flex; align-items: center; justify-content: space-between; gap: var(--nk-space-s8); padding: var(--nk-space-s8) var(--nk-space-s12); }
+.author { flex: 1; min-width: 0; font: var(--nk-type-pdp-sfe-topic-author); letter-spacing: -0.1px; color: var(--nk-color-text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* Like Button: 1px Blue-Gray/100 border, r-full, pl8 pr10 py4, 3 apart */
+.like { appearance: none; margin: 0; cursor: pointer; flex-shrink: 0; display: inline-flex; align-items: center; gap: 3px; padding: var(--nk-space-s4) var(--nk-space-s10) var(--nk-space-s4) var(--nk-space-s8); border: 1px solid var(--nk-color-bg-subtle); border-radius: var(--nk-radius-full); background: transparent; font: var(--nk-type-pdp-sfe-topic-author); letter-spacing: -0.1px; color: var(--nk-color-text-primary); }

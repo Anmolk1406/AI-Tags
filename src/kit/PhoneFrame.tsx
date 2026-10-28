@@ -3,11 +3,12 @@ import { layout } from '../foundations/tokens';
 import { squirclePath } from './squircle';
 import styles from './PhoneFrame.module.css';
 
-const screenClip = `path('${squirclePath(layout.deviceWidth, layout.deviceHeight, layout.screenRadius, layout.screenSmoothing)}')`;
+// square corners (screenRadius 0): no clip at all
+const screenClip = layout.screenRadius > 0 ? `path('${squirclePath(layout.deviceWidth, layout.deviceHeight, layout.screenRadius, layout.screenSmoothing)}')` : undefined;
 
 /**
- * iPhone-style screen (390×844) with status bar + home indicator: no bezel, no island, corners clipped to a
- * smoothed squircle (layout.screenRadius, layout.screenSmoothing). `frameless` renders the bare viewport.
+ * iPhone-style screen (375×812, layout.deviceWidth × deviceHeight) with status bar + home indicator: no bezel, no island; corners clipped to a
+ * smoothed squircle when layout.screenRadius > 0 (now 0: square, unclipped). `frameless` renders the bare viewport.
  */
 export function PhoneFrame({ children, statusBar = 'dark', frameless, scale = 1, time = '9:41' }: { children: ReactNode; statusBar?: 'dark' | 'light'; frameless?: boolean; scale?: number; time?: string }) {
   const vars = {

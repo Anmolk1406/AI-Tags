@@ -6,6 +6,7 @@ import { lazyScreen } from '../../kit/lazyScreen';
 const AddedSheet = lazyScreen(() => import('./AddedSheet'), 'AddedSheet');
 const DeliveryVariantsScreen = lazyScreen(() => import('./DeliveryVariantsScreen'), 'DeliveryVariantsScreen');
 const DetailScreen = lazyScreen(() => import('./DetailScreen'), 'DetailScreen');
+const ReviewTopicsSheet = lazyScreen(() => import('./screens/ReviewTopicsSheet'), 'ReviewTopicsSheet');
 const VariantsSheet = lazyScreen(() => import('./VariantsSheet'), 'VariantsSheet');
 
 export const pdpFlow = defineFlow({
@@ -54,6 +55,18 @@ export const pdpFlow = defineFlow({
       defaultParams: { productId: IPHONE_17_PRO_ID },
       notes: 'Post-ATC quick cart: atc-check Lottie over the product, row slides in from the right and the text fades in, then CONTINUE SHOPPING / VIEW CART. Recommendations are off by default (FeatureFlags.getPDPATCPopupRecommendationsVariant = 0); pass recsVariant: 1 to show them.',
       source: 'marketplaces/noon/screens/NoonQuickCartScreen',
+    },
+    {
+      id: 'reviewTopics',
+      title: 'Review topics',
+      component: ReviewTopicsSheet,
+      presentation: 'sheet',
+      sheet: { motion: 'field' }, // Field DS M-BottomSheet motion (github.com/ayaneshu/field-design-system)
+      parent: 'pdp/detail',
+      defaultParams: { productId: IPHONE_17_PRO_ID, topic: 1 },
+      notes: 'Opened from a topic pill under the AI review summary (every product: its own aiTopics, else defaultReviewTopics in src/data/reviewTopics.ts). Opens on the pill row (staggered in), then the topic: the sentiment line ("Great value for money" · "Average durability" · "Poor size") over the quote and review cards, all scrolling together. On open the mark plays the Reveal intro: it pops in at the line\'s centre while it draws on (trim path), then slides left to its slot and the title is uncovered behind it through a feathered mask; the sentiment wash fades after a beat. Tap a pill: its outline fades in on its own border, the row re-centres, and the topic swaps in place (fade out 150 ms → blank 420 ms → fade in 400 ms rising 16 px). A topic seen for the first time shows a 1–1.5 s skeleton before its reviews rise in. The first review of each topic is written about that topic and carries photos: a tap anywhere on it springs the small stack into a large row and opens the text. Sheet motion follows the Field Design System M-BottomSheet. topic = index into aiTopics (1 Value for money · 3 Durability · 5 Size).',
+      source: 'Figma Or9RuyCtjXRPrnbUJFx7As · 1421:486 (first state 1421:629 / 676 / 724 → settled 1421:487 / 534 / 582)',
+      truth: 'figma',
     },
   ],
 });

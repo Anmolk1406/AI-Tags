@@ -36,7 +36,7 @@
 
 ## `credits/credits` · `credits/negative` · `credits/empty` · `credits/error`
 
-- Module `src/flows/credits/CreditsScreen.tsx` (shared by 4 screens; params pick the state) · 8 own files, 40 in the import closure <!-- count-ok -->
+- Module `src/flows/credits/CreditsScreen.tsx` (shared by 4 screens; params pick the state) · 8 own files, 41 in the import closure <!-- count-ok -->
 - Source: features/wallet/screens/WalletScreen (+ components/WalletScreenHeader, WalletTotalBalance, Screens/WalletLanding/**, WalletTransaction/**)
 - Styles: components/wallet.module.css, credits.module.css
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ts
@@ -53,7 +53,7 @@
 
 ## `credits/details`
 
-- Module `src/flows/credits/DetailsSheet.tsx` · 7 own files, 36 in the import closure
+- Module `src/flows/credits/DetailsSheet.tsx` · 7 own files, 37 in the import closure
 - Source: features/wallet/screens/WalletTransactionDetailsScreen, components/Screens/WalletTransactionDetails/**
 - Styles: components/wallet.module.css, sheets.module.css
 - Data / helpers: assets.ts, data.ts, tokens.ts
@@ -67,7 +67,7 @@
 
 ## `credits/pending` · `credits/expiring`
 
-- Module `src/flows/credits/ListSheet.tsx` (shared by 2 screens; params pick the state) · 8 own files, 38 in the import closure <!-- count-ok -->
+- Module `src/flows/credits/ListSheet.tsx` (shared by 2 screens; params pick the state) · 8 own files, 39 in the import closure <!-- count-ok -->
 - Source: features/wallet/screens/WalletPendingOrExpiringTransactionsScreen (type PENDING)
 - Styles: components/wallet.module.css, sheets.module.css
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ts
@@ -82,7 +82,7 @@
 
 ## `credits/negative-sheet`
 
-- Module `src/flows/credits/NegativeSheet.tsx` · 6 own files, 35 in the import closure
+- Module `src/flows/credits/NegativeSheet.tsx` · 6 own files, 36 in the import closure
 - Source: features/wallet/screens/WalletNegativeBalanceScreen
 - Styles: components/wallet.module.css, sheets.module.css
 - Data / helpers: assets.ts, data.ts
@@ -96,7 +96,7 @@
 
 ## `credits/filters`
 
-- Module `src/flows/credits/FiltersSheet.tsx` · 8 own files, 40 in the import closure
+- Module `src/flows/credits/FiltersSheet.tsx` · 8 own files, 41 in the import closure
 - Source: features/wallet/screens/WalletFiltersScreen, components/Screens/WalletFilter/**
 - Styles: components/wallet.module.css, sheets.module.css
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ts
@@ -109,7 +109,7 @@
 
 ## `credits/sort`
 
-- Module `src/flows/credits/SortSheet.tsx` · 7 own files, 37 in the import closure
+- Module `src/flows/credits/SortSheet.tsx` · 7 own files, 38 in the import closure
 - Source: features/wallet/screens/WalletSortScreen
 - Styles: components/wallet.module.css, sheets.module.css
 - Data / helpers: assets.ts, data.ts, store.ts
@@ -122,7 +122,7 @@
 
 ## `credits/topup`
 
-- Module `src/flows/credits/TopupSheet.tsx` · 7 own files, 36 in the import closure
+- Module `src/flows/credits/TopupSheet.tsx` · 7 own files, 37 in the import closure
 - Source: features/wallet/screens/WalletTopupScreen, components/Screens/WalletTopup/**
 - Styles: components/wallet.module.css, sheets.module.css
 - Data / helpers: assets.ts, data.ts, tokens.ts
@@ -136,7 +136,7 @@
 
 ## `credits/giftcard`
 
-- Module `src/flows/credits/GiftCardScreen.tsx` · 7 own files, 36 in the import closure
+- Module `src/flows/credits/GiftCardScreen.tsx` · 7 own files, 37 in the import closure
 - Source: features/giftcards/screens/GiftCardRedeemSceen/GiftCardRedeemScreen (+ src/components/Tabs, FormikTextInput)
 - Styles: bank.module.css, components/alert.module.css
 - Data / helpers: assets.ts, data.ts, store.ts
@@ -150,7 +150,7 @@
 
 ## `credits/bank` · `credits/bank-form` · `credits/bank-confirm` · `credits/bank-otp` · `credits/bank-requested`
 
-- Module `src/flows/credits/BankScreens.tsx` (shared by 5 screens; params pick the state) · 7 own files, 38 in the import closure <!-- count-ok -->
+- Module `src/flows/credits/BankScreens.tsx` (shared by 5 screens; params pick the state) · 7 own files, 39 in the import closure <!-- count-ok -->
 - Source: features/wallet/screens/WalletBankTransferScreen, components/WalletBankAccountCard, hooks/useWalletBankTransfer
 - Styles: bank.module.css, components/alert.module.css
 - Data / helpers: assets.ts, data.ts, store.ts

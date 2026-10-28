@@ -24,7 +24,7 @@
 
 ## `returns/history`
 
-- Module `src/flows/returns/ReturnsHistoryScreen.tsx` · 11 own files, 44 in the import closure
+- Module `src/flows/returns/ReturnsHistoryScreen.tsx` · 11 own files, 45 in the import closure
 - Source: features/afs/returns/legacy/screens/AFSReturnsHistoryListScreen
 - Styles: components/afs.module.css, components/overlays/overlays.module.css, history.module.css
 - Data / helpers: assets.ts, data.ts, nav.ts, store.ts, tokens.ts
@@ -39,7 +39,7 @@
 
 ## `returns/returnable`
 
-- Module `src/flows/returns/ReturnableListScreen.tsx` · 9 own files, 43 in the import closure
+- Module `src/flows/returns/ReturnableListScreen.tsx` · 9 own files, 44 in the import closure
 - Source: features/afs/returns/legacy/screens/AFSReturnsReturnableListScreen
 - Styles: components/afs.module.css, history.module.css
 - Data / helpers: assets.ts, data.ts, tokens.ts
@@ -54,7 +54,7 @@
 
 ## `returns/submit`
 
-- Module `src/flows/returns/ReturnSubmitScreen.tsx` · 20 own files, 55 in the import closure
+- Module `src/flows/returns/ReturnSubmitScreen.tsx` · 20 own files, 56 in the import closure
 - Source: features/afs/returns/screens/AFSReturnsReturnSubmissionScreen
 - Styles: components/afs.module.css, components/overlays/overlays.module.css, details.module.css, submit.module.css
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ts
@@ -69,7 +69,7 @@
 
 ## `returns/summary`
 
-- Module `src/flows/returns/ReturnSummaryScreen.tsx` · 10 own files, 43 in the import closure
+- Module `src/flows/returns/ReturnSummaryScreen.tsx` · 10 own files, 44 in the import closure
 - Source: features/afs/returns/screens/AFSReturnsRequestSummaryScreen
 - Styles: components/afs.module.css, summary.module.css
 - Data / helpers: assets.ts, data.ts, store.ts, tokens.ts
@@ -84,7 +84,7 @@
 
 ## `returns/details`
 
-- Module `src/flows/returns/ReturnDetailsScreen.tsx` · 18 own files, 54 in the import closure
+- Module `src/flows/returns/ReturnDetailsScreen.tsx` · 18 own files, 55 in the import closure
 - Source: features/afs/returns/screens/AFSReturnsDetailsScreen
 - Styles: components/afs.module.css, components/overlays/overlays.module.css, details.module.css
 - Data / helpers: assets.ts, data.ts, nav.ts, store.ts, tokens.ts

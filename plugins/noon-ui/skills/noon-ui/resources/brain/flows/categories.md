@@ -23,7 +23,7 @@
 
 ## `categories/categories` · `categories/expanded` · `categories/loading` · `categories/error`
 
-- Module `src/flows/categories/CategoriesScreen.tsx` (shared by 4 screens; params pick the state) · 9 own files, 39 in the import closure <!-- count-ok -->
+- Module `src/flows/categories/CategoriesScreen.tsx` (shared by 4 screens; params pick the state) · 9 own files, 40 in the import closure <!-- count-ok -->
 - Source: marketplaces/noon/screens/NoonCategoriesScreen → src/screens/DynamicLoaderScreen (unstructured "/categories") → src/components/StaticPage, src/components/Module/AdBannerModuleV2 + BannerModule, src/components/Module/Col…
 - Styles: categories.module.css
 - Data / helpers: data.live.ts, data.ts, tokens.ts
