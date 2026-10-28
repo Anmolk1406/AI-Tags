@@ -36,8 +36,8 @@
 /* a neutral title is in the primary text colour (its tilde keeps Blue-Gray/600) — AI-Tags 1632:27203 */
 .sentiment[data-sentiment='neutral'] .titleBox { color: var(--nk-color-text-primary); }
 
-/* the quote: SemiBold 14/22, 293 wide (1573:20246), in text-n-icon/secondary #475067 (AI-Tags 1632:27204) */
-.quote { width: 293px; margin: 0; font: var(--nk-type-pdp-sfe-topic-quote); letter-spacing: -0.15px; color: var(--nk-color-text-muted); }
+/* the quote: B14/Medium 14/20, 293 wide, in text-n-icon/secondary #475067 (AI-Tags 1632:27204) */
+.quote { width: 293px; margin: 0; font: var(--nk-type-pdp-sfe-topic-quote); letter-spacing: -0.1px; color: var(--nk-color-text-muted); }
 
 /* review cards: 32 below the quote (AI-Tags 1632:27199), px12, 12 apart; they scroll with the sentiment and quote above them (the whole topic scrolls) */
 .reviews { flex-shrink: 0; display: flex; flex-direction: column; gap: var(--nk-space-s12); margin-top: var(--nk-space-s32); padding: 0 var(--nk-space-s12) var(--nk-space-s12); }

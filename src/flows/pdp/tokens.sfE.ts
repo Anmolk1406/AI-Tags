@@ -24,7 +24,7 @@ export const pdpSfEFlowTokens: TokenOverrides = {
     // review topics (Figma Or9RuyCtjXRPrnbUJFx7As · 1409:63152)
     pdpSfeTopicPill: { size: 14, line: 20, weight: 500 }, // B14/Medium: unselected sheet pill
     pdpSfeTopicSentiment: { size: 16, line: 22, weight: 700 }, // B16/Bold: sheet sentiment line "Great value for money" (AI-Tags 1573:20245)
-    pdpSfeTopicQuote: { size: 14, line: 22, weight: 600 }, // sentiment quote (1421:521)
+    pdpSfeTopicQuote: { size: 14, line: 20, weight: 500 }, // B14/Medium: sentiment quote (AI-Tags 1632:27204)
     pdpSfeTopicAuthor: { size: 13, line: 20, weight: 600 }, // B13/SemiBold: review card author + like count
   },
 };
